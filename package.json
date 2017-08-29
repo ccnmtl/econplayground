@@ -1,0 +1,16 @@
+{
+  "name": "econplayground",
+  "version": "0.1.0",
+  "description": "econplayground",
+  "license": "GPL-2.0+",
+  "scripts": {
+    "test": "mocha"
+  },
+  "devDependencies": {
+    "jscs": "~3.0.7",
+    "jshint": "~2.9.4",
+    "mocha": "~3.1.2",
+    "requirejs": "~2.3.2",
+    "sinon": "~1.17.6"
+  }
+}
