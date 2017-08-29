@@ -1,0 +1,11 @@
+language: python
+python:
+  - "2.7"
+install:
+  - pip install -U pip wheel
+  - pip install -U setuptools
+  - pip install -r requirements.txt
+script:
+  - make
+notifications:
+  slack: ccnmtl:GizSNscLWJLldjQrffB8mwgm
