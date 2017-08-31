@@ -6,9 +6,6 @@ from django.contrib.auth.views import logout
 from django.conf import settings
 from django.views.generic import TemplateView
 from django.views.static import serve
-from wagtail.wagtailadmin import urls as wagtailadmin_urls
-from wagtail.wagtaildocs import urls as wagtaildocs_urls
-from wagtail.wagtailcore import urls as wagtail_urls
 from econplayground.main import views
 
 
@@ -33,9 +30,11 @@ urlpatterns = [
     logout_page,
     url(r'^registration/', include('registration.backends.default.urls')),
     url(r'^$', views.IndexView.as_view()),
-    url(r'^cms/', include(wagtailadmin_urls)),
-    url(r'^documents/', include(wagtaildocs_urls)),
-    url(r'^pages/', include(wagtail_urls)),
+    url(r'^playgroundgraph/(?P<pk>\d+)/$',
+        views.PlaygroundGraphDetailView.as_view()),
+    url(r'^playgroundgraph/create/',
+        views.PlaygroundGraphCreateView.as_view(),
+        name='playgroundgraph_create'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^_impersonate/', include('impersonate.urls')),
     url(r'^stats/$', TemplateView.as_view(template_name="stats.html")),
