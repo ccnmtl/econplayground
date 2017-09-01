@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Graph: {{object.title}}{% endblock %}
+
+{% block content %}
+    <p>
+        Title: {{object.title}}
+    </p>
+    <p>
+        Description: {{object.description}}
+    </p>
+    <p>
+        Created at: {{object.created_at}}
+    </p>
+    <p>
+        Data: {{object.data}}
+    </p>
+{% endblock %}

@@ -1,50 +1,45 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.contrib.postgres.fields import JSONField
 from django.db import models
 
 
-GRAPH_CHOICES = (
-    (0, 'Demand-Supply Graph'),
-    (1, 'Labor Market'),
-    (2, 'Labor Market (perfectly inelastic)'),
-    (3, 'Cobb-Douglas'),
-    (4, 'Labor Supply'),
-    (5, 'Consumption - Saving'),
-    (6, 'Saving - Investment'),
-    (7, 'Money Market'),
-)
+# GRAPH_CHOICES = (
+#     (0, 'Demand-Supply Graph'),
+#     (1, 'Labor Market'),
+#     (2, 'Labor Market (perfectly inelastic)'),
+#     (3, 'Cobb-Douglas'),
+#     (4, 'Labor Supply'),
+#     (5, 'Consumption - Saving'),
+#     (6, 'Saving - Investment'),
+#     (7, 'Money Market'),
+# )
 
 
-class Graph(models.Model):
+class PlaygroundGraph(models.Model):
     title = models.TextField()
     description = models.TextField()
-    graph_type = models.PositiveSmallIntegerField(
-        choices=GRAPH_CHOICES, default=0)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+    data = JSONField(default={})
+
+    def __unicode__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return '/playgroundgraph/{}/'.format(self.pk)
 
 
-class Curve(models.Model):
-    # A graph has any number of curves. Most have 2.
-    graph = models.ForeignKey(Graph)
+class ProblemGraph(models.Model):
+    title = models.TextField()
+    description = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+    data = JSONField(default={})
 
-    # Each Curve has a default position on its Graph. These x and
-    # y values are the offset.
-    x = models.DecimalField(max_digits=12, decimal_places=5, default=0)
-    y = models.DecimalField(max_digits=12, decimal_places=5, default=0)
+    def __unicode__(self):
+        return self.title
 
-    label = models.TextField()
-    is_draggable = models.BooleanField(
-        default=False, help_text='Can a user drag this?')
-
-
-class Point(models.Model):
-    # Each point is connected to a Curve.
-    curve = models.ForeignKey(Curve)
-
-    # pos is the offset of this point along the single dimension of
-    # its Curve.
-    pos = models.DecimalField(max_digits=12, decimal_places=5, default=0)
-
-    label = models.TextField()
-    is_draggable = models.BooleanField(
-        default=False, help_text='Can a user drag this?')
+    def get_absolute_url(self):
+        return '/problemgraph/{}/'.format(self.pk)

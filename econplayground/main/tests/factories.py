@@ -1,25 +1,21 @@
 import factory
 from factory import fuzzy
-from econplayground.main.models import Graph, Curve, Point
+from econplayground.main.models import PlaygroundGraph, ProblemGraph
 
 
-class GraphFactory(factory.DjangoModelFactory):
+class PlaygroundGraphFactory(factory.DjangoModelFactory):
     class Meta:
-        model = Graph
+        model = PlaygroundGraph
 
     title = fuzzy.FuzzyText()
     description = fuzzy.FuzzyText()
+    data = {'a': 'b'}
 
 
-class CurveFactory(factory.DjangoModelFactory):
+class ProblemGraphFactory(factory.DjangoModelFactory):
     class Meta:
-        model = Curve
+        model = ProblemGraph
 
-    label = fuzzy.FuzzyText()
-
-
-class PointFactory(factory.DjangoModelFactory):
-    class Meta:
-        model = Point
-
-    label = fuzzy.FuzzyText()
+    title = fuzzy.FuzzyText()
+    description = fuzzy.FuzzyText()
+    data = {'a': 'b'}
