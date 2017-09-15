@@ -2,17 +2,17 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
-from econplayground.main.models import PlaygroundGraph
+from econplayground.main.models import Graph
 
 
 class IndexView(TemplateView):
     template_name = "main/index.html"
 
 
-class PlaygroundGraphCreateView(LoginRequiredMixin, CreateView):
-    model = PlaygroundGraph
-    fields = ['title', 'description', 'data']
+class GraphCreateView(LoginRequiredMixin, CreateView):
+    model = Graph
+    fields = ['title', 'description', 'graph_type']
 
 
-class PlaygroundGraphDetailView(LoginRequiredMixin, DetailView):
-    model = PlaygroundGraph
+class GraphDetailView(LoginRequiredMixin, DetailView):
+    model = Graph
