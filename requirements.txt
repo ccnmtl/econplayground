@@ -1,4 +1,4 @@
-Django==1.11.4
+Django==1.11.5
 pytz==2017.2
 httplib2==0.10.3
 feedparser==5.2.1
@@ -17,7 +17,7 @@ flake8==3.4.1
 tornado==4.5.2
 beautifulsoup4==4.6.0
 cssselect==1.0.1
-lxml==3.8.0
+lxml==4.0.0
 fuzzywuzzy==0.15.1
 sure==1.4.6
 traitlets==4.3.2  # ipython
@@ -34,22 +34,22 @@ wcwidth==0.1.7  # ipython
 prompt_toolkit==1.0.15  # ipython
 pygments==2.2.0  # ipython
 scandir==1.5  # ipython
-ipython==5.4.1
+ipython==5.5.0  # pyup: <6.0.0
 ipdb==0.10.3
 rdflib==4.2.2
 selenium==3.5.0
 coverage==4.4.1
-pyasn1==0.3.3
-pyOpenSSL==17.2.0
-ndg-httpsclient==0.4.2
+pyasn1==0.3.5
+pyOpenSSL==17.3.0
+ndg-httpsclient==0.4.3
 requests==2.18.4
 logilab-common==1.4.1
 logilab-astng==0.24.3
 astroid==1.5.3
 pylint==1.7.2
-six==1.10.0
-ipaddress==1.0.13  # faker
-faker==0.8.0  # factory_boy
+six==1.11.0
+ipaddress==1.0.18  # faker
+faker==0.8.3  # factory_boy
 factory_boy==2.9.2
 ldap3==2.3
 sqlparse==0.2.3
@@ -65,14 +65,14 @@ django-appconf==1.0.2
 rcssmin==1.0.6  # django-compressor
 rjsmin==1.0.12  # django-compressor
 django-compressor==2.2
-django-statsd-mozilla==0.3.16
+django-statsd-mozilla==0.4.0
 raven==6.1.0
 django-bootstrap3==9.0.0
 django-debug-toolbar==1.8
 django-waffle==0.12.0
 django-jenkins==0.110.0
 django-smoketest==1.1.0
-django-extensions==1.9.0
+django-extensions==1.9.1
 django-stagingcontext==0.1.0
 django-ga-context==0.1.0
 django-impersonate==1.1
