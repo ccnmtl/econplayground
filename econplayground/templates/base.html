@@ -9,12 +9,6 @@
   <meta name="description" content="econplayground">
   <meta name="author" content="CCNMTL">
 
-<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!--[if lt IE 9]>
-  <script src="../assets/js/html5shiv.js"></script>
-  <script src="../assets/js/respond.min.js"></script>
-<![endif]-->
-
     <link href="{% bootstrap_css_url %}" rel="stylesheet">
 {% compress css %}
     <link href="{{STATIC_URL}}css/main.css" rel="stylesheet">
@@ -186,10 +180,6 @@
      {% endif %}
     </script>
 {% endif %}
-
-<script
-     data-main="{{STATIC_URL}}js/src/main.js"
-     src="{{STATIC_URL}}js/lib/require/require.js"></script>
 
 {% block js %}{% endblock %}
 

@@ -1,11 +1,18 @@
 {% extends 'base.html' %}
 {% load bootstrap3 %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'js/lib/econplayground.js/main.a2073799.css' %}">
+{% endblock %}
+
+{% block js %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/0.99.6/jsxgraphcore.js"></script>
+    <script src="{% static 'js/lib/econplayground.js/main.dcbfb04e.js' %}"></script>
+{% endblock %}
 
 {% block title %}Create Graph{% endblock %}
 
 {% block content %}
-<form action="" method="post">{% csrf_token %}
-    {% bootstrap_form form %}
-    <input type="submit" value="Save" />
-</form>
+    <div id="root"></div>
 {% endblock %}
