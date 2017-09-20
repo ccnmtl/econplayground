@@ -30,6 +30,7 @@ class Graph(models.Model):
     graph_type = models.PositiveSmallIntegerField(
         choices=GRAPH_TYPES,
         default=0)
+    show_intersection = models.BooleanField(default=True)
     line_1_slope = models.DecimalField(max_digits=12, decimal_places=2)
     line_2_slope = models.DecimalField(max_digits=12, decimal_places=2)
     line_1_label = models.TextField(blank=True, null=True)
