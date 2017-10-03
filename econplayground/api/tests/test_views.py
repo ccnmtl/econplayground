@@ -103,6 +103,10 @@ class GraphViewSetTest(LoggedInTestMixin, APITestCase):
                 'author': self.u.pk,
                 'line_1_slope': 1,
                 'line_2_slope': -1,
+                'line_1_feedback_increase': 'Line 1 moved up',
+                'line_1_feedback_decrease': 'Line 1 moved down',
+                'line_2_feedback_increase': 'Line 2 moved up',
+                'line_2_feedback_decrease': 'Line 2 moved down',
             })
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data.get('title'), 'New title')
@@ -111,6 +115,19 @@ class GraphViewSetTest(LoggedInTestMixin, APITestCase):
             Decimal(response.data.get('line_1_slope')), Decimal(1))
         self.assertEqual(
             Decimal(response.data.get('line_2_slope')), Decimal(-1))
+
+        self.assertEqual(
+            response.data.get('line_1_feedback_increase'),
+            'Line 1 moved up')
+        self.assertEqual(
+            response.data.get('line_1_feedback_decrease'),
+            'Line 1 moved down')
+        self.assertEqual(
+            response.data.get('line_2_feedback_increase'),
+            'Line 2 moved up')
+        self.assertEqual(
+            response.data.get('line_2_feedback_decrease'),
+            'Line 2 moved down')
 
     def test_delete(self):
         g = GraphFactory(author=self.u)
