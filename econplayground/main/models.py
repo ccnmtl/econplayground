@@ -31,12 +31,25 @@ class Graph(models.Model):
         choices=GRAPH_TYPES,
         default=0)
     show_intersection = models.BooleanField(default=True)
-    line_1_slope = models.DecimalField(max_digits=12, decimal_places=2)
-    line_2_slope = models.DecimalField(max_digits=12, decimal_places=2)
-    line_1_label = models.TextField(blank=True, null=True)
-    line_2_label = models.TextField(blank=True, null=True)
+
     x_axis_label = models.TextField(blank=True, null=True)
     y_axis_label = models.TextField(blank=True, null=True)
+
+    line_1_slope = models.DecimalField(max_digits=12, decimal_places=2)
+    line_1_label = models.TextField(blank=True, null=True)
+
+    # The following are what the user is shown when line 1 is moved up
+    # and down.
+    line_1_feedback_increase = models.TextField(blank=True, null=True)
+    line_1_feedback_decrease = models.TextField(blank=True, null=True)
+
+    line_2_slope = models.DecimalField(max_digits=12, decimal_places=2)
+    line_2_label = models.TextField(blank=True, null=True)
+
+    # The following are what the user is shown when line 2 is moved up
+    # and down.
+    line_2_feedback_increase = models.TextField(blank=True, null=True)
+    line_2_feedback_decrease = models.TextField(blank=True, null=True)
 
     def __unicode__(self):
         return self.title
