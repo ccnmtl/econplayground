@@ -8,6 +8,12 @@
 {% endblock %}
 
 {% block content %}
+    <h1>
+        Graph Viewer
+        {% if request.user.is_staff %}
+            (edit mode)
+        {% endif %}
+    </h1>
     <p>
         Title: {{object.title}}
     </p>

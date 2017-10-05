@@ -160,7 +160,8 @@
 <script>
 var EconPlayground = {
 {% if request.user %}
-    'user': {{request.user.id}}
+    'user': {{ request.user.id }},
+    'is_staff': {{ request.user.is_staff|yesno:"true,false,undefined"}}
 {% endif %}
 };
 </script>
