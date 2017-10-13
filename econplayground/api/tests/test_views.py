@@ -13,6 +13,7 @@ class AnonymousGraphViewSetTest(APITestCase):
         response = self.client.post('/api/graphs/', {
             'title': 'Graph title',
             'description': 'Graph description',
+            'instructor_notes': 'notes',
             'author': user.pk,
             'graph_type': 0,
             'line_1_slope': 0,
@@ -69,6 +70,7 @@ class GraphViewSetTest(LoggedInTestMixin, APITestCase):
         response = self.client.post('/api/graphs/', {
             'title': 'Graph title',
             'description': 'Graph description',
+            'instructor_notes': 'notes',
             'author': self.u.pk,
             'graph_type': 0,
             'line_1_slope': 0,
@@ -80,6 +82,7 @@ class GraphViewSetTest(LoggedInTestMixin, APITestCase):
         g = Graph.objects.first()
         self.assertEqual(g.title, 'Graph title')
         self.assertEqual(g.description, 'Graph description')
+        self.assertEqual(g.instructor_notes, 'notes')
         self.assertEqual(g.author, self.u)
 
     def test_get_empty(self):
