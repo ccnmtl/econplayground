@@ -1,0 +1,14 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Graph: {{object.title}}</title>
+    </head>
+    <body>
+        <div id="root"></div>
+        <script>
+        window.EconPlayground = {};
+        </script>
+        <script src="{% static 'econplayground.js/viewer.js' %}"></script>
+    </body>
+</html>
