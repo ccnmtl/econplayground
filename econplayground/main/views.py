@@ -1,6 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic.base import TemplateView
-from django.views.generic.detail import DetailView
+from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -19,10 +18,6 @@ class EnsureCsrfCookieMixin(object):
         return super(EnsureCsrfCookieMixin, self).dispatch(*args, **kwargs)
 
 
-class IndexView(TemplateView):
-    template_name = "main/index.html"
-
-
 class GraphCreateView(EnsureCsrfCookieMixin, LoginRequiredMixin, CreateView):
     model = Graph
     fields = ['title', 'description', 'graph_type']
@@ -35,3 +30,7 @@ class GraphDetailView(LoginRequiredMixin, DetailView):
 class GraphEmbedView(LoginRequiredMixin, DetailView):
     model = Graph
     template_name = 'main/graph_embed.html'
+
+
+class GraphListView(LoginRequiredMixin, ListView):
+    model = Graph

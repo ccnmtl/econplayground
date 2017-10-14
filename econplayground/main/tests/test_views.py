@@ -1,19 +1,15 @@
 from django.test import TestCase
-from django.test.client import Client
 from econplayground.main.tests.factories import GraphFactory
 from econplayground.main.tests.mixins import LoggedInTestMixin
 
 
 class BasicTest(TestCase):
-    def setUp(self):
-        self.c = Client()
-
     def test_root(self):
-        response = self.c.get("/")
-        self.assertEqual(response.status_code, 200)
+        response = self.client.get("/")
+        self.assertEqual(response.status_code, 302)
 
     def test_smoketest(self):
-        response = self.c.get("/smoketest/")
+        response = self.client.get("/smoketest/")
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "PASS")
 
@@ -24,3 +20,18 @@ class EmbedViewTest(LoggedInTestMixin, TestCase):
         r = self.client.get('/graph/{}/embed/'.format(g.pk))
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, g.title)
+
+
+class GraphListViewTest(LoggedInTestMixin, TestCase):
+    def setUp(self):
+        super(GraphListViewTest, self).setUp()
+        GraphFactory(title='Graph 1')
+        GraphFactory(title='Demand-Supply')
+        GraphFactory(title='abc')
+
+    def test_get(self):
+        r = self.client.get('/')
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, 'Graph 1')
+        self.assertContains(r, 'Demand-Supply')
+        self.assertContains(r, 'abc')

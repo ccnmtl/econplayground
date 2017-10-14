@@ -1,10 +1,11 @@
+from django.test import TestCase
 from econplayground.main.tests.factories import UserFactory
 
 
-class LoggedInTestMixin(object):
-        def setUp(self):
-            self.u = UserFactory(username='test_user')
-            self.u.set_password('test')
-            self.u.save()
-            login = self.client.login(username='test_user', password='test')
-            assert(login is True)
+class LoggedInTestMixin(TestCase):
+    def setUp(self):
+        self.u = UserFactory(username='testuser')
+        self.u.set_password('test')
+        self.u.save()
+        login = self.client.login(username='testuser', password='test')
+        assert(login is True)
