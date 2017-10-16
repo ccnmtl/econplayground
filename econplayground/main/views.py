@@ -30,3 +30,8 @@ class GraphCreateView(EnsureCsrfCookieMixin, LoginRequiredMixin, CreateView):
 
 class GraphDetailView(LoginRequiredMixin, DetailView):
     model = Graph
+
+
+class GraphEmbedView(LoginRequiredMixin, DetailView):
+    model = Graph
+    template_name = 'main/graph_embed.html'
