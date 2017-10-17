@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block js %}
+    <script src="{% static 'econplayground.js/viewer.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <h1>
+        Graphs
+    </h1>
+
+    <ul>
+    {% for graph in object_list %}
+        <li>
+            <a href="{% url 'graph_detail' graph.id %}">{{ graph.title }}</a>
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock %}
