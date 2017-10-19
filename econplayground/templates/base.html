@@ -1,4 +1,4 @@
-{% load bootstrap3 %}
+{% load bootstrap4 %}
 {% load compress %}
 {% load static %}
 <!DOCTYPE html>
@@ -10,13 +10,17 @@
   <meta name="description" content="econplayground">
   <meta name="author" content="Columbia University CTL">
 
-    <link href="{% bootstrap_css_url %}" rel="stylesheet">
-{% compress css %}
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    {% compress css %}
     <link href="{{STATIC_URL}}css/main.css" rel="stylesheet">
 {% endcompress %}
 	<link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon" />
 	{% block css %}{% endblock %}
-  <script src="{% static 'js/lib/jquery-3.2.1.min.js' %}"></script>
+
+    <script src="{% static 'js/lib/jquery-3.2.1.min.js' %}"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 
 	{% block feeds %}{% endblock %}
 </head>
@@ -24,62 +28,55 @@
 <a class="sr-only" href="#content">Skip navigation</a>
 
 {% block topnavbar %}
-<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <!-- Brand and toggle get grouped for better mobile display -->
-  <div class="container">
-  <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-      <span class="sr-only">Toggle navigation</span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-	<a class="navbar-brand" href="/"><span class="glyphicon glyphicon-home"></span></a>
-  </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">
+            econplayground
+        </a>
 
-  <!-- Collect the nav links, forms, and other content for toggling -->
-  <div class="collapse navbar-collapse navbar-ex1-collapse">
-      <ul class="nav navbar-nav">
-          {% if request.user.is_staff %}
-              <li><a href="{% url 'graph_create' %}">Create Graph</a></li>
-          {% endif %}
-      </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-<!-- 
-    <form class="navbar-form navbar-left" role="search">
-      <div class="form-group">
-        <input type="text" class="form-control" placeholder="Search">
-      </div>
-      <button type="submit" class="btn btn-default">Submit</button>
-    </form>
--->
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                {% if request.user.is_staff %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'graph_create' %}">Create Graph</a>
+                    </li>
+                {% endif %}
+            </ul>
 
-    <ul class="nav navbar-nav navbar-right">
-      {% block topnavbarrightitems %}{% endblock %}
-        <p class="navbar-text">
 
-{% block usernav %}
-          {% if request.user.is_anonymous %}
-          {% else %}
-          logged in as 
-            {% if request.user.last_name %}
-              {{request.user.first_name}} {{request.user.last_name}}
-            {% else %}
-              <b>{{ request.user.username }}</b>
-            {% endif %}
-{% if request.user.is_superuser %}
-          <a href="{% url 'impersonate-list' %}" class="btn btn-default">impersonate</a>
-{% endif %}
-          <a href="/accounts/logout/" class="btn btn-default">logout</a>
-          {% endif %}
-{% endblock %}
-       </p>
-
-    </ul>
-  </div>
-  </div>
-</nav>
-
+            {% block topnavbarrightitems %}{% endblock %}
+            {% block usernav %}
+                {% if request.user.is_anonymous %}
+                {% else %}
+                    <span class="navbar-text mr-sm-2">
+                        logged in as
+                        {% if request.user.last_name %}
+                            <strong>{{request.user.first_name}} {{request.user.last_name}}</strong>
+                        {% else %}
+                            <strong>{{ request.user.username }}</strong>
+                        {% endif %}
+                    </span>
+                    <ul class="navbar-nav mr-auto">
+                        {% if request.user.is_superuser %}
+                            <li class="nav-item">
+                                <a class="nav-link btn btn-secondary mr-sm-2"
+                                   role="button"
+                                   href="{% url 'impersonate-list' %}">impersonate</a>
+                            </li>
+                        {% endif %}
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-secondary my-2 my-sm-0"
+                               role="button"
+                               href="/accounts/logout/">logout</a>
+                        </li>
+                    </ul>
+                {% endif %}
+            {% endblock %}
+        </div>
+    </nav>
 {% endblock %}
 
   <div class="container" id="outer-container">
@@ -170,8 +167,6 @@ var EconPlayground = {
 </script>
 
 <script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
-
-<script src="{% bootstrap_javascript_url %}"></script>
 
 {% if SENTRY_PUBLIC_DSN %}
     <script src="//cdn.ravenjs.com/1.1.18/jquery,native/raven.min.js"></script>
