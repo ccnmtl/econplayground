@@ -1,5 +1,6 @@
 {% load bootstrap3 %}
 {% load compress %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,15 +8,15 @@
 	<title>econplayground: {% block title %}{% endblock %}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="econplayground">
-  <meta name="author" content="CCNMTL">
+  <meta name="author" content="Columbia University CTL">
 
     <link href="{% bootstrap_css_url %}" rel="stylesheet">
 {% compress css %}
-    <link href="{{STATIC_URL}}css/main.css" rel="stylesheet">
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
 {% endcompress %}
-	<link rel="shortcut icon" href="{{STATIC_URL}}img/favicon.ico" type="image/x-icon" />
+	<link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon" />
 	{% block css %}{% endblock %}
-  <script src="{{STATIC_URL}}js/lib/jquery-3.2.1.min.js"></script>
+  <script src="{% static 'js/lib/jquery-3.2.1.min.js' %}"></script>
 
 	{% block feeds %}{% endblock %}
 </head>
