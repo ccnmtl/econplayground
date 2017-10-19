@@ -34,7 +34,7 @@ urlpatterns = [
     url(r'^graph/(?P<pk>\d+)/$',
         views.GraphDetailView.as_view(), name='graph_detail'),
     url(r'^graph/(?P<pk>\d+)/embed/$',
-        views.GraphEmbedView.as_view()),
+        views.GraphEmbedView.as_view(), name='graph_embed'),
     url(r'^graph/create/',
         views.GraphCreateView.as_view(),
         name='graph_create'),

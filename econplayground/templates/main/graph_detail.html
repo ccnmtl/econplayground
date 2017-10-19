@@ -16,4 +16,9 @@
     </h1>
 
     <div id="root"></div>
+
+    <form>
+        <h3>Embed Graph</h3>
+        <textarea class="form-control" placeholder rows="1" autocomplete="off" style="resize: none;"><iframe width="560" height="400" src="{{ request.scheme }}://{{ request.get_host }}{% url 'graph_embed' object.pk %}"></iframe></textarea>
+    </form>
 {% endblock %}
