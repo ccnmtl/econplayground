@@ -17,6 +17,11 @@ body > .container {
     min-height: 100%;
 }
 
+footer.site {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
 /* LOGIN PAGE */
 .login-description {
     margin: 30px 30px 15px 30px;
