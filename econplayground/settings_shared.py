@@ -33,6 +33,7 @@ INSTALLED_APPS += [  # noqa
     'django_extensions',
     'registration',
     'rest_framework',
+    'lti_provider',
     'econplayground.main',
 ]
 
