@@ -43,4 +43,15 @@ LOGIN_REDIRECT_URL = "/"
 
 ACCOUNT_ACTIVATION_DAYS = 7
 
-WAGTAIL_SITE_NAME = 'econplayground'
+LTI_TOOL_CONFIGURATION = {
+    'title': 'econplayground',
+    'description': 'Interactive economics graphs',
+    'launch_url': 'lti/',
+    'embed_url': '',
+    'embed_icon_url': '',
+    'embed_tool_id': 'econplayground',
+    'navigation': True,
+    'new_tab': True,
+    'course_aware': False,
+    'landing_url': '/',
+}
