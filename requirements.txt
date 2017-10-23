@@ -95,3 +95,8 @@ text-unidecode==1.0  # for faker
 html5lib==0.999999999
 
 ccnmtlsettings==1.3.0
+
+oauthlib==2.0.6
+oauth2==1.9.0.post1
+requirements/PyLTI-0.5.0-py2.py3-none-any.whl
+django-lti-provider==0.2.0
