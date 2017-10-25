@@ -23,8 +23,17 @@ REST_FRAMEWORK = {
     )
 }
 
-MIDDLEWARE_CLASSES += [  # noqa
-    'django.middleware.csrf.CsrfViewMiddleware',
+MIDDLEWARE = [
+    'django_statsd.middleware.GraphiteRequestTimingMiddleware',
+    'django_statsd.middleware.GraphiteMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'waffle.middleware.WaffleMiddleware',
+    'impersonate.middleware.ImpersonateMiddleware',
 ]
 
 INSTALLED_APPS += [  # noqa
