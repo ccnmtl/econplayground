@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, DeleteView
 from django.views.generic.edit import CreateView
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -30,6 +30,11 @@ class GraphDetailView(LoginRequiredMixin, DetailView):
 class GraphEmbedView(LoginRequiredMixin, DetailView):
     model = Graph
     template_name = 'main/graph_embed.html'
+
+
+class GraphDeleteView(LoginRequiredMixin, DeleteView):
+    model = Graph
+    success_url = '/'
 
 
 class GraphListView(LoginRequiredMixin, ListView):

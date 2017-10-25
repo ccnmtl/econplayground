@@ -17,8 +17,17 @@
 
     <div id="root"></div>
 
-    <form>
-        <h3>Embed Graph</h3>
-        <textarea class="form-control" placeholder rows="1" autocomplete="off" style="resize: none;"><iframe width="560" height="400" src="{{ request.scheme }}://{{ request.get_host }}{% url 'graph_embed' object.pk %}"></iframe></textarea>
-    </form>
+    {% if request.user.is_staff %}
+        <a role="button" class="btn btn-danger float-md-right"
+           href="{% url 'graph_delete' object.pk %}">Delete Graph</a>
+
+        <div class="clearfix"></div>
+
+        <hr />
+
+        <div>
+            <h3>Embed Graph</h3>
+            <textarea class="form-control" placeholder rows="1" autocomplete="off" style="resize: none;"><iframe width="560" height="400" src="{{ request.scheme }}://{{ request.get_host }}{% url 'graph_embed' object.pk %}"></iframe></textarea>
+        </div>
+    {% endif %}
 {% endblock %}
