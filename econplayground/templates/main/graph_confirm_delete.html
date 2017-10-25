@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Graph: {{object.title}}{% endblock %}
+
+{% block content %}
+    <p>
+        Removing <strong>{{object.title}}</strong>  &mdash; Are you sure?
+    </p>
+    <form action="." method="post">{% csrf_token %}
+        <input class="btn btn-danger" type="submit"
+               value="Yes, delete this graph">
+    </form>
+{% endblock %}
