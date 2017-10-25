@@ -52,6 +52,12 @@ LOGIN_REDIRECT_URL = "/"
 
 ACCOUNT_ACTIVATION_DAYS = 7
 
+AUTHENTICATION_BACKENDS = [
+    'djangowind.auth.SAMLAuthBackend',
+    'django.contrib.auth.backends.ModelBackend',
+    'lti_provider.auth.LTIBackend',
+]
+
 LTI_TOOL_CONFIGURATION = {
     'title': 'econplayground',
     'description': 'Interactive economics graphs',
