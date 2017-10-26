@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, DeleteView
 from django.views.generic.edit import CreateView
 from django.utils.decorators import method_decorator
@@ -18,9 +18,12 @@ class EnsureCsrfCookieMixin(object):
         return super(EnsureCsrfCookieMixin, self).dispatch(*args, **kwargs)
 
 
-class GraphCreateView(EnsureCsrfCookieMixin, LoginRequiredMixin, CreateView):
+class GraphCreateView(EnsureCsrfCookieMixin, UserPassesTestMixin, CreateView):
     model = Graph
     fields = ['title', 'description', 'graph_type']
+
+    def test_func(self):
+        return self.request.user.is_staff
 
 
 class GraphDetailView(LoginRequiredMixin, DetailView):
@@ -32,9 +35,12 @@ class GraphEmbedView(LoginRequiredMixin, DetailView):
     template_name = 'main/graph_embed.html'
 
 
-class GraphDeleteView(LoginRequiredMixin, DeleteView):
+class GraphDeleteView(UserPassesTestMixin, DeleteView):
     model = Graph
     success_url = '/'
+
+    def test_func(self):
+        return self.request.user.is_staff
 
 
 class GraphListView(LoginRequiredMixin, ListView):
