@@ -152,3 +152,11 @@ footer.site {
     -webkit-border-radius: 3px;
     line-height: 140%;
 }
+
+#editing-graph {
+    margin: 0 auto;
+}
+
+#outer-container {
+    padding-bottom: 2em;
+}

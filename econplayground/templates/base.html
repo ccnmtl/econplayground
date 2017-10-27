@@ -140,17 +140,11 @@
 {% endblock %}
 
 
-<div class="row">
-<div class="col-md-2">
-{% block sidenav %}{% endblock %}
-</div>
-<div class="col-md-10">
-    {% bootstrap_messages %}
+{% bootstrap_messages %}
 {% block pagetitle %}{% endblock %}
 {% block content %}{% endblock %}
-</div>
-</div>
-</div>
+
+  </div>
 
 {% block footer %}
     <footer class="site">
