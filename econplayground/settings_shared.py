@@ -64,7 +64,8 @@ LTI_TOOL_CONFIGURATION = {
     'description': 'Interactive economics graphs',
     'launch_url': 'lti/',
     'embed_url': '',
-    'embed_icon_url': '',
+    'embed_icon_url': 'https://ccnmtl-econplayground-static-prod'
+    '.s3.amazonaws.com/media/img/icon-16.png',
     'embed_tool_id': 'econplayground',
     'navigation': True,
     'new_tab': True,
