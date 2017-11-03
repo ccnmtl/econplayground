@@ -1,4 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
 from django.views.generic import ListView, DetailView, DeleteView
 from django.views.generic.edit import CreateView
 from django.utils.decorators import method_decorator
@@ -28,6 +30,17 @@ class GraphCreateView(EnsureCsrfCookieMixin, UserPassesTestMixin, CreateView):
 
 class GraphDetailView(LoginRequiredMixin, DetailView):
     model = Graph
+
+    def post(self, request, pk):
+        return_url = request.POST.get('return_url', '')
+
+        path = reverse('graph_embed', kwargs={'pk': pk})
+        iframe_url = '{}://{}{}'.format(
+            self.request.scheme, self.request.get_host(), path)
+
+        url = '{}?return_type=iframe&width={}&height={}&url={}'.format(
+            return_url, 635, 450, iframe_url)
+        return HttpResponseRedirect(url)
 
 
 class GraphEmbedView(EnsureCsrfCookieMixin, LoginRequiredMixin, DetailView):
