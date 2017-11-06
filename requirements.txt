@@ -89,7 +89,7 @@ django-flatblocks==0.9.4
 django-storages-redux==1.3.3
 django-cacheds3storage==0.1.2
 
-djangorestframework==3.7.2
+djangorestframework==3.7.3
 Willow==1.0
 text-unidecode==1.0  # for faker
 html5lib==0.999999999
