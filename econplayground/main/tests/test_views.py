@@ -18,8 +18,7 @@ class EmbedViewTest(LoggedInTestMixin, TestCase):
     def test_get(self):
         g = GraphFactory()
         r = self.client.get('/graph/{}/embed/'.format(g.pk))
-        self.assertEqual(r.status_code, 200)
-        self.assertContains(r, g.title)
+        self.assertEqual(r.status_code, 302)
 
 
 class GraphListViewTest(LoggedInTestMixin, TestCase):
