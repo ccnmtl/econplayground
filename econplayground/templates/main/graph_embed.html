@@ -9,10 +9,12 @@
     <body>
         <div id="root"></div>
         <script>
-        window.EconPlayground = {
-            'LTIPostGrade': '{% url 'lti-post-grade' %}',
-            'EmbedSuccess': '{% url 'graph_embed_success' %}'
-        };
+        if (!window.EconPlayground) {
+            window.EconPlayground = {};
+        }
+
+        window.EconPlayground['LTIPostGrade'] = '{% url 'lti-post-grade' %}';
+        window.EconPlayground['EmbedSuccess'] = '{% url 'graph_embed_success' %}';
         </script>
         <script src="{% static 'econplayground.js/viewer.js' %}"></script>
     </body>
