@@ -56,7 +56,7 @@ six==1.11.0
 ipaddress==1.0.18  # faker
 faker==0.8.7  # factory_boy
 factory_boy==2.9.2
-ldap3==2.3
+ldap3==2.4
 sqlparse==0.2.4
 boto==2.48.0
 python-dateutil==2.6.1
