@@ -33,12 +33,6 @@
         <hr />
 
         <div>
-            <!--
-            TODO: display this outside of canvas
-            <h3>Embed Graph</h3>
-            <textarea class="form-control" placeholder rows="1" autocomplete="off" style="resize: none;"><iframe width="560" height="600" src="{{ request.scheme }}://{{ request.get_host }}{% url 'graph_embed' object.pk %}"></iframe></textarea>
-            -->
-
             <form id="asset-embed-form" action="." method="post">{% csrf_token %}
                 <input type="hidden" name="return_url"
                        value="https://courseworks2.columbia.edu/courses/54465/external_content/success/external_tool_dialog">
