@@ -5,6 +5,7 @@ from django.views.generic import ListView, DetailView, DeleteView
 from django.views.generic.edit import CreateView
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
+from lti_provider.mixins import LTIAuthMixin
 from econplayground.main.models import Graph
 
 
@@ -43,7 +44,7 @@ class GraphDetailView(LoginRequiredMixin, DetailView):
         return HttpResponseRedirect(url)
 
 
-class GraphEmbedView(EnsureCsrfCookieMixin, LoginRequiredMixin, DetailView):
+class GraphEmbedView(EnsureCsrfCookieMixin, LTIAuthMixin, DetailView):
     model = Graph
     template_name = 'main/graph_embed.html'
 
