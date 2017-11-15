@@ -4,7 +4,7 @@
 #
 
 DEST_DIR="media/econplayground.js/"
-ORIG_DIR="$HOME/public_html/econplayground.js/build/static/js/"
+ORIG_DIR="$HOME/public_html/econplayground.js/build/"
 
 rm $DEST_DIR/*.js
 
