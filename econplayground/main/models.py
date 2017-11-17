@@ -38,6 +38,8 @@ class Graph(models.Model):
     y_axis_label = models.TextField(blank=True, null=True)
 
     line_1_slope = models.DecimalField(max_digits=12, decimal_places=2)
+    line_1_offset = models.DecimalField(
+        max_digits=12, decimal_places=2, default=0)
     line_1_label = models.TextField(blank=True, null=True)
 
     # The following are what the user is shown when line 1 is moved up
@@ -46,6 +48,8 @@ class Graph(models.Model):
     line_1_feedback_decrease = models.TextField(blank=True, null=True)
 
     line_2_slope = models.DecimalField(max_digits=12, decimal_places=2)
+    line_2_offset = models.DecimalField(
+        max_digits=12, decimal_places=2, default=0)
     line_2_label = models.TextField(blank=True, null=True)
 
     # The following are what the user is shown when line 2 is moved up
@@ -68,8 +72,11 @@ class Submission(models.Model):
     graph = models.ForeignKey(Graph)
     user = models.ForeignKey(User)
 
+    # The selection that the user made, encoded as a number.
+    choice = models.PositiveSmallIntegerField(default=0)
+
     # Most likely just a number between 0 and 1.
-    score = models.DecimalField(max_digits=6, decimal_places=2)
+    score = models.DecimalField(max_digits=6, decimal_places=2, default=1)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

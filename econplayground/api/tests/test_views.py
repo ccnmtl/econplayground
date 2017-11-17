@@ -1,9 +1,11 @@
 from decimal import Decimal
 from rest_framework.test import APITestCase
-from econplayground.main.models import Graph
-from econplayground.main.tests.mixins import LoggedInTestMixin
+from econplayground.main.models import Graph, Submission
+from econplayground.main.tests.mixins import (
+    LoggedInTestMixin, LoggedInTestStudentMixin
+)
 from econplayground.main.tests.factories import (
-    GraphFactory, UserFactory
+    GraphFactory, SubmissionFactory, UserFactory
 )
 
 
@@ -75,6 +77,8 @@ class GraphViewSetTest(LoggedInTestMixin, APITestCase):
             'graph_type': 0,
             'line_1_slope': 0,
             'line_2_slope': 0,
+            'line_1_offset': 0.5,
+            'line_2_offset': 0.7,
         })
         self.assertEqual(response.status_code, 201)
         self.assertEqual(Graph.objects.count(), 1)
@@ -139,3 +143,32 @@ class GraphViewSetTest(LoggedInTestMixin, APITestCase):
 
         self.assertEqual(response.status_code, 204)
         self.assertEqual(Graph.objects.count(), 0)
+
+
+class SubmissionSetTest(LoggedInTestStudentMixin, APITestCase):
+    """Test the submission API as a student.
+
+    Instructors have access to all students' submissions.
+    """
+    def setUp(self):
+        super(SubmissionSetTest, self).setUp()
+        self.g = GraphFactory()
+
+    def test_create(self):
+        response = self.client.post('/api/submissions/', {
+            'graph': self.g.pk,
+            'choice': 3,
+        })
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(Submission.objects.count(), 1)
+
+    def test_get(self):
+        SubmissionFactory()
+        SubmissionFactory()
+        SubmissionFactory()
+        SubmissionFactory(user=self.u)
+        response = self.client.get('/api/submissions/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            len(response.data), 1,
+            'Students can\'t see other students\' submissions')
