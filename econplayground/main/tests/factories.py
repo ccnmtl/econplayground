@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 import factory
 from factory import fuzzy
-from econplayground.main.models import Graph
+from econplayground.main.models import Graph, Submission
 
 
 class UserFactory(factory.DjangoModelFactory):
@@ -32,3 +32,12 @@ class GraphFactory(factory.DjangoModelFactory):
     line_2_label = fuzzy.FuzzyText()
     line_2_feedback_increase = fuzzy.FuzzyText()
     line_2_feedback_decrease = fuzzy.FuzzyText()
+
+
+class SubmissionFactory(factory.DjangoModelFactory):
+    class Meta:
+        model = Submission
+
+    graph = factory.SubFactory(GraphFactory)
+    user = factory.SubFactory(UserFactory)
+    score = fuzzy.FuzzyDecimal(0.0, 1.0)

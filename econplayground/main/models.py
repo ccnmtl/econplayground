@@ -27,6 +27,7 @@ class Graph(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User)
+    needs_submit = models.BooleanField(default=False)
 
     graph_type = models.PositiveSmallIntegerField(
         choices=GRAPH_TYPES,
@@ -57,3 +58,18 @@ class Graph(models.Model):
 
     def get_absolute_url(self):
         return '/graph/{}/'.format(self.pk)
+
+
+class Submission(models.Model):
+    class Meta:
+        # A user can only have one submission per graph.
+        unique_together = ('user', 'graph')
+
+    graph = models.ForeignKey(Graph)
+    user = models.ForeignKey(User)
+
+    # Most likely just a number between 0 and 1.
+    score = models.DecimalField(max_digits=6, decimal_places=2)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
