@@ -8,7 +8,7 @@ class GraphSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'title', 'author',
             'description', 'graph_type',
-            'instructor_notes',
+            'instructor_notes', 'needs_submit',
 
             'line_1_slope', 'line_1_label',
             'line_1_feedback_increase', 'line_1_feedback_decrease',
