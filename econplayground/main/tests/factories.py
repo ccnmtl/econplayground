@@ -11,6 +11,22 @@ class UserFactory(factory.DjangoModelFactory):
     username = fuzzy.FuzzyText(prefix='user_')
 
 
+class InstructorFactory(factory.DjangoModelFactory):
+    class Meta:
+        model = User
+
+    is_staff = True
+    username = fuzzy.FuzzyText(prefix='instructor_')
+
+
+class StudentFactory(factory.DjangoModelFactory):
+    class Meta:
+        model = User
+
+    is_staff = False
+    username = fuzzy.FuzzyText(prefix='student_')
+
+
 class GraphFactory(factory.DjangoModelFactory):
     class Meta:
         model = Graph
@@ -40,4 +56,5 @@ class SubmissionFactory(factory.DjangoModelFactory):
 
     graph = factory.SubFactory(GraphFactory)
     user = factory.SubFactory(UserFactory)
+    choice = fuzzy.FuzzyInteger(0, 100)
     score = fuzzy.FuzzyDecimal(0.0, 1.0)
