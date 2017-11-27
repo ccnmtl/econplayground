@@ -57,7 +57,7 @@ class Graph(models.Model):
     line_2_feedback_increase = models.TextField(blank=True, null=True)
     line_2_feedback_decrease = models.TextField(blank=True, null=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     def get_absolute_url(self):
