@@ -27,6 +27,7 @@ class Graph(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User)
+    is_published = models.BooleanField(default=False)
     needs_submit = models.BooleanField(default=False)
 
     graph_type = models.PositiveSmallIntegerField(
@@ -45,7 +46,11 @@ class Graph(models.Model):
     # The following are what the user is shown when line 1 is moved up
     # and down.
     line_1_feedback_increase = models.TextField(blank=True, null=True)
+    line_1_increase_score = models.DecimalField(
+        max_digits=6, decimal_places=2, default=0)
     line_1_feedback_decrease = models.TextField(blank=True, null=True)
+    line_1_decrease_score = models.DecimalField(
+        max_digits=6, decimal_places=2, default=0)
 
     line_2_slope = models.DecimalField(max_digits=12, decimal_places=2)
     line_2_offset = models.DecimalField(
@@ -55,7 +60,11 @@ class Graph(models.Model):
     # The following are what the user is shown when line 2 is moved up
     # and down.
     line_2_feedback_increase = models.TextField(blank=True, null=True)
+    line_2_increase_score = models.DecimalField(
+        max_digits=6, decimal_places=2, default=0)
     line_2_feedback_decrease = models.TextField(blank=True, null=True)
+    line_2_decrease_score = models.DecimalField(
+        max_digits=6, decimal_places=2, default=0)
 
     def __str__(self):
         return self.title
@@ -75,8 +84,8 @@ class Submission(models.Model):
     # The selection that the user made, encoded as a number.
     choice = models.PositiveSmallIntegerField(default=0)
 
-    # Most likely just a number between 0 and 1.
-    score = models.DecimalField(max_digits=6, decimal_places=2, default=1)
+    # Corresponds to the line_x_x_score
+    score = models.DecimalField(max_digits=6, decimal_places=2, default=0)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
