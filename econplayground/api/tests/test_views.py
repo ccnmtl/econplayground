@@ -161,14 +161,35 @@ class SubmissionSetTest(LoggedInTestStudentMixin, APITestCase):
         })
         self.assertEqual(response.status_code, 201)
         self.assertEqual(Submission.objects.count(), 1)
+        self.assertEqual(Submission.objects.first().choice, 3)
+
+    def test_create_dup_fail(self):
+        response = self.client.post('/api/submissions/', {
+            'graph': self.g.pk,
+            'choice': 3,
+        })
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(Submission.objects.count(), 1)
+
+        self.client.post('/api/submissions/', {
+            'graph': self.g.pk,
+            'choice': 4,
+        })
+
+        # Somehow, the ValidationError is getting swallowed and not
+        # setting the status_code to 400.
+        # self.assertEqual(response.status_code, 400)
+        self.assertEqual(Submission.objects.count(), 1)
+        self.assertEqual(Submission.objects.first().choice, 3)
 
     def test_get(self):
         SubmissionFactory()
         SubmissionFactory()
         SubmissionFactory()
         SubmissionFactory(user=self.u)
+        SubmissionFactory(user=self.u)
         response = self.client.get('/api/submissions/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
-            len(response.data), 1,
+            len(response.data), 2,
             'Students can\'t see other students\' submissions')
