@@ -9,7 +9,7 @@
     <ul>
     {% for graph in object_list %}
         <li>
-            <a href="{% url 'graph_detail' graph.id %}">{{ graph.title }}</a>
+            <a href="{% url 'graph_detail' graph.id %}">{{ graph.title }}</a> {% if graph.needs_submit %}<small>LTI</small>{% endif %}
             {% if graph.instructor_notes %}
                 <p>{{ graph.instructor_notes }}</p>
             {% endif %}

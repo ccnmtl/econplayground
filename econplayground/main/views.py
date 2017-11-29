@@ -64,3 +64,8 @@ class GraphDeleteView(UserPassesTestMixin, DeleteView):
 
 class GraphListView(LoginRequiredMixin, ListView):
     model = Graph
+
+    def get_queryset(self):
+        if self.request.user.is_staff:
+            return Graph.objects.all()
+        return Graph.objects.filter(needs_submit=False)

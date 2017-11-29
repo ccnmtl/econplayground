@@ -27,6 +27,7 @@ class GraphListViewTest(LoggedInTestMixin, TestCase):
         GraphFactory(title='Graph 1')
         GraphFactory(title='Demand-Supply')
         GraphFactory(title='abc')
+        GraphFactory(title='Quiz graph', needs_submit=True)
 
     def test_get(self):
         r = self.client.get('/')
@@ -34,3 +35,4 @@ class GraphListViewTest(LoggedInTestMixin, TestCase):
         self.assertContains(r, 'Graph 1')
         self.assertContains(r, 'Demand-Supply')
         self.assertContains(r, 'abc')
+        self.assertNotContains(r, 'Quiz graph')
