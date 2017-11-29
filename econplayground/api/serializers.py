@@ -6,17 +6,24 @@ class GraphSerializer(serializers.ModelSerializer):
     class Meta:
         model = Graph
         fields = (
-            'id', 'title', 'author',
-            'description', 'graph_type',
-            'instructor_notes', 'needs_submit',
+            'id', 'title',
+            'description', 'instructor_notes',
+            'graph_type', 'author',
+            'is_published', 'needs_submit',
 
             'line_1_slope', 'line_1_label',
             'line_1_offset',
-            'line_1_feedback_increase', 'line_1_feedback_decrease',
+            'line_1_feedback_increase',
+            'line_1_increase_score',
+            'line_1_feedback_decrease',
+            'line_1_decrease_score',
 
             'line_2_slope', 'line_2_label',
             'line_2_offset',
-            'line_2_feedback_increase', 'line_2_feedback_decrease',
+            'line_2_feedback_increase',
+            'line_2_increase_score',
+            'line_2_feedback_decrease',
+            'line_2_decrease_score',
 
             'x_axis_label', 'y_axis_label'
         )
@@ -26,5 +33,5 @@ class SubmissionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Submission
         fields = (
-            'graph', 'choice',
+            'graph', 'choice', 'score'
         )
