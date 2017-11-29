@@ -21,23 +21,21 @@ class AnonymousGraphViewSetTest(APITestCase):
             'line_1_slope': 0,
             'line_2_slope': 0,
         })
-        self.assertNotEqual(
-            response.status_code, 201,
+        self.assertEqual(
+            response.status_code, 403,
             'Anonymous users shouldn\'t create graphs.')
         self.assertEqual(Graph.objects.count(), 0)
 
     def test_get_empty(self):
         response = self.client.get('/api/graphs/')
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.data), 0)
+        self.assertEqual(response.status_code, 403)
 
     def test_get(self):
         GraphFactory()
         GraphFactory()
         GraphFactory()
         response = self.client.get('/api/graphs/')
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.data), 3)
+        self.assertEqual(response.status_code, 403)
 
     def test_update(self):
         u = UserFactory()
@@ -51,8 +49,8 @@ class AnonymousGraphViewSetTest(APITestCase):
                 'line_1_slope': 1,
                 'line_2_slope': -1,
             })
-        self.assertNotEqual(
-            response.status_code, 200,
+        self.assertEqual(
+            response.status_code, 403,
             'Anonymous users shouldn\'t update graphs.')
         self.assertEqual(g.title, title)
 
