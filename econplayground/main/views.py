@@ -41,7 +41,7 @@ class GraphDetailView(LoginRequiredMixin, DetailView):
             self.request.scheme, self.request.get_host(), path)
 
         url = '{}?return_type=iframe&width={}&height={}&url={}'.format(
-            return_url, 640, 530, iframe_url)
+            return_url, 640, 600, iframe_url)
         return HttpResponseRedirect(url)
 
 
