@@ -180,7 +180,7 @@ class SubmissionSetTest(LoggedInTestStudentMixin, APITestCase):
         self.assertEqual(Submission.objects.count(), 1)
         self.assertEqual(Submission.objects.first().choice, 3)
 
-    def test_get(self):
+    def test_list(self):
         SubmissionFactory()
         SubmissionFactory()
         SubmissionFactory()
@@ -190,4 +190,19 @@ class SubmissionSetTest(LoggedInTestStudentMixin, APITestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
             len(response.data), 2,
+            'Students can\'t see other students\' submissions')
+
+    def test_retrieve(self):
+        SubmissionFactory()
+        SubmissionFactory()
+        s = SubmissionFactory(user=self.u, score=Decimal('0.5'))
+        s2 = SubmissionFactory()
+        SubmissionFactory(user=self.u)
+        response = self.client.get('/api/submissions/{}/'.format(s.graph.pk))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data.get('score'), '0.50')
+
+        response = self.client.get('/api/submissions/{}/'.format(s2.graph.pk))
+        self.assertEqual(
+            response.status_code, 404,
             'Students can\'t see other students\' submissions')
