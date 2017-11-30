@@ -7,6 +7,9 @@
         <link href="{% static 'css/embed.css' %}" rel="stylesheet">
     </head>
     <body>
+        {% if DEBUG %}
+            Current user: {{request.user}}
+        {% endif %}
         <div id="root"></div>
         <script>
         if (!window.EconPlayground) {
