@@ -33,6 +33,20 @@ class GraphCreateView(EnsureCsrfCookieMixin, UserPassesTestMixin, CreateView):
 class GraphDetailView(LoginRequiredMixin, DetailView):
     model = Graph
 
+    def embed_url(self):
+        path = reverse('graph_embed', kwargs={'pk': self.object.pk})
+        iframe_url = '{}://{}{}'.format(
+            self.request.scheme, self.request.get_host(), path)
+        return iframe_url
+
+    def get_context_data(self, *args, **kwargs):
+        ctx = super(GraphDetailView, self).get_context_data(*args, **kwargs)
+
+        ctx.update({
+            'embed_url': self.embed_url()
+        })
+        return ctx
+
     def post(self, request, pk):
         return_url = request.POST.get('return_url', '')
 
