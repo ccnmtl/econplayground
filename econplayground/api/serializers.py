@@ -10,6 +10,7 @@ class GraphSerializer(serializers.ModelSerializer):
             'description', 'instructor_notes',
             'graph_type', 'author',
             'is_published', 'needs_submit',
+            'show_intersection',
 
             'line_1_slope', 'line_1_label',
             'line_1_offset',
