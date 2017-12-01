@@ -32,12 +32,12 @@
 
         <hr />
 
-        <div>
-            <form id="asset-embed-form" action="." method="post">{% csrf_token %}
-                <input type="hidden" name="return_url"
-                       value="https://courseworks2.columbia.edu/courses/54465/external_content/success/external_tool_dialog">
-                <button type="submit" class="btn btn-primary btn-sm">Embed</button>
-            </form>
+        <div class="form-group row">
+            <label for="embed-url" class="col-sm-2 col-form-label">Embed URL:</label>
+            <div class="col-sm-10">
+                <input id="embed-url" class="form-control" type="text"
+                       value="{{embed_url}}" readonly>
+            </div>
         </div>
     {% endif %}
 {% endblock %}
