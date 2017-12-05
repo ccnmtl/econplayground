@@ -37,12 +37,16 @@ class Graph(models.Model):
     show_intersection = models.BooleanField(default=True)
 
     x_axis_label = models.TextField(blank=True, null=True)
+    x_axis_label_editable = models.BooleanField(default=True)
     y_axis_label = models.TextField(blank=True, null=True)
+    y_axis_label_editable = models.BooleanField(default=True)
 
     line_1_slope = models.DecimalField(max_digits=12, decimal_places=2)
+    line_1_slope_editable = models.BooleanField(default=True)
     line_1_offset = models.DecimalField(
         max_digits=12, decimal_places=2, default=0)
     line_1_label = models.TextField(blank=True, null=True)
+    line_1_label_editable = models.BooleanField(default=True)
 
     # The following are what the user is shown when line 1 is moved up
     # and down.
@@ -54,9 +58,11 @@ class Graph(models.Model):
         max_digits=6, decimal_places=2, default=0)
 
     line_2_slope = models.DecimalField(max_digits=12, decimal_places=2)
+    line_2_slope_editable = models.BooleanField(default=True)
     line_2_offset = models.DecimalField(
         max_digits=12, decimal_places=2, default=0)
     line_2_label = models.TextField(blank=True, null=True)
+    line_2_label_editable = models.BooleanField(default=True)
 
     # The following are what the user is shown when line 2 is moved up
     # and down.
