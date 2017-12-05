@@ -11,6 +11,7 @@ class GraphSerializer(serializers.ModelSerializer):
             'graph_type', 'author',
             'is_published', 'needs_submit',
             'display_feedback',
+            'show_intersection',
 
             'line_1_slope', 'line_1_label',
             'line_1_offset',
