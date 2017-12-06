@@ -16,6 +16,7 @@
             window.EconPlayground = {};
         }
 
+        window.EconPlayground['isStaff'] = '{{request.user.is_staff}}';
         window.EconPlayground['LTIPostGrade'] = '{% url 'lti-post-grade' %}';
         window.EconPlayground['EmbedSuccess'] = '{% url 'graph_embed' object.pk %}?submitted=1';
         </script>
