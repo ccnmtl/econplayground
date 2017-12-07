@@ -47,7 +47,9 @@ urlpatterns = [
     url(r'infranil/', include('infranil.urls')),
     url(r'^uploads/(?P<path>.*)$',
         serve, {'document_root': settings.MEDIA_ROOT}),
+    url(r'lti/landing/', views.MyLTILandingPage.as_view()),
     url(r'lti/', include('lti_provider.urls')),
+
 ]
 
 if settings.DEBUG:

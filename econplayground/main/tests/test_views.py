@@ -1,5 +1,8 @@
-from django.test import TestCase
-from econplayground.main.tests.factories import GraphFactory
+from django.test import TestCase, RequestFactory
+from econplayground.main.views import MyLTILandingPage
+from econplayground.main.tests.factories import (
+    GraphFactory, SubmissionFactory
+)
 from econplayground.main.tests.mixins import LoggedInTestMixin
 
 
@@ -36,3 +39,38 @@ class GraphListViewTest(LoggedInTestMixin, TestCase):
         self.assertContains(r, 'Demand-Supply')
         self.assertContains(r, 'abc')
         self.assertNotContains(r, 'Quiz graph')
+
+
+class MockLTI(object):
+    def course_context(self, request):
+        return None
+
+
+class MyLTILandingPageTest(LoggedInTestMixin, TestCase):
+    def setUp(self):
+        super(MyLTILandingPageTest, self).setUp()
+        self.factory = RequestFactory()
+        g1 = GraphFactory(title='Graph 1')
+        g2 = GraphFactory(title='Demand-Supply')
+        g3 = GraphFactory(title='abc')
+        self.g = GraphFactory(title='Quiz graph', needs_submit=True)
+        SubmissionFactory(graph=g1)
+        SubmissionFactory(graph=g2)
+        SubmissionFactory(graph=g2)
+        SubmissionFactory(graph=g3)
+        SubmissionFactory(graph=self.g)
+        self.submission = SubmissionFactory(
+            graph=self.g, user=self.u, choice=3)
+
+    def test_get(self):
+        request = self.factory.get('/lti/landing/')
+        request.user = self.u
+        view = MyLTILandingPage()
+        view.lti = MockLTI()
+        view.request = request
+
+        ctx = view.get_context_data()
+        self.assertEqual(ctx.get('submissions').count(), 1)
+        submission = ctx.get('submissions').first()
+        self.assertEqual(submission.user, self.u)
+        self.assertEqual(submission.choice, 3)
