@@ -60,13 +60,6 @@
                         {% endif %}
                     </span>
                     <ul class="navbar-nav mr-auto">
-                        {% if request.user.is_superuser %}
-                            <li class="nav-item">
-                                <a class="nav-link btn btn-secondary mr-sm-2"
-                                   role="button"
-                                   href="{% url 'impersonate-list' %}">impersonate</a>
-                            </li>
-                        {% endif %}
                         <li class="nav-item">
                             <a class="nav-link btn btn-secondary my-2 my-sm-0"
                                role="button"
@@ -196,14 +189,6 @@ var EconPlayground = {
 <h4>Warning: Staging Site</h4>
 <p>You are viewing a staging version of this site, not the production site.</p>
 <p>This site was last updated on: <b>{{STAGING_DEPLOY_TIME}}</b></p>
-</div>
-{% endif %}
-
-{% if request.user.is_impersonate %}
-<div class="alert alert-danger alert-dismissable" style="position: fixed; left: 0px; top: 75px">
-<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-You are impersonating.<br />
-<a class="btn" href="{% url 'impersonate-stop' %}">stop</a>
 </div>
 {% endif %}
 
