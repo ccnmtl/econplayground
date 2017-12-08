@@ -6,8 +6,9 @@ from django.views.generic.edit import CreateView
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
 from lti_provider.mixins import LTIAuthMixin
+from lti_provider.views import LTILandingPage
 from braces.views import CsrfExemptMixin
-from econplayground.main.models import Graph
+from econplayground.main.models import Graph, Submission
 
 
 class EnsureCsrfCookieMixin(object):
@@ -83,3 +84,16 @@ class GraphListView(LoginRequiredMixin, ListView):
         if self.request.user.is_staff:
             return Graph.objects.all()
         return Graph.objects.filter(needs_submit=False)
+
+
+class MyLTILandingPage(LTILandingPage):
+    def get_context_data(self, *args, **kwargs):
+        ctx = super(MyLTILandingPage, self).get_context_data(*args, **kwargs)
+
+        submissions = Submission.objects.filter(
+            user=self.request.user).order_by('-created_at')
+        ctx.update({
+            'submissions': submissions,
+        })
+
+        return ctx

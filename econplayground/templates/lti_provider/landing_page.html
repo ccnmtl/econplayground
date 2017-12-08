@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <h2>My Submitted Graphs</h2>
+    {% for s in submissions %}
+        <div class="graph-submission card mb-3" style="width: 20rem;">
+            <div class="card-body">
+                <h4 class="card-title">
+                    <a href="{% url 'graph_detail' s.graph.pk %}" target="_blank">{{ s.graph }}</a>
+                </h4>
+                <p class="card-text">
+                    <small>Submitted at: {{ s.created_at }}</small>
+                </p>
+
+                <a href="{% url 'graph_detail' s.graph.pk %}"
+                   target="_blank"
+                   class="btn btn-primary">View in econplayground</a>
+            </div>
+        </div>
+    {% empty %}
+            <p>You haven't submitted any graphs yet.</p>
+    {% endfor %}
+{% endblock %}
