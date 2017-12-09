@@ -16,8 +16,6 @@ SYS_PYTHON ?= python
 PIP ?= $(VE)/bin/pip
 PY_SENTINAL ?= $(VE)/sentinal
 WHEEL_VERSION ?= 0.30.0
-VIRTUALENV ?= virtualenv.py
-SUPPORT_DIR ?= requirements/virtualenv_support/
 MAX_COMPLEXITY ?= 10
 INTERFACE ?= localhost
 RUNSERVER_PORT ?= 8000
@@ -25,12 +23,11 @@ PY_DIRS ?= $(APP)
 
 jenkins: check flake8 test eslint
 
-$(PY_SENTINAL): $(REQUIREMENTS) $(VIRTUALENV) $(SUPPORT_DIR)*
+$(PY_SENTINAL): $(REQUIREMENTS)
 	rm -rf $(VE)
-	$(SYS_PYTHON) $(VIRTUALENV) --extra-search-dir=$(SUPPORT_DIR) --never-download $(VE)
+	$(SYS_PYTHON) -m venv $(VE)
 	$(PIP) install wheel==$(WHEEL_VERSION)
 	$(PIP) install --use-wheel --no-deps --requirement $(REQUIREMENTS) --no-binary cryptography
-	$(SYS_PYTHON) $(VIRTUALENV) --relocatable $(VE)
 	touch $@
 
 test: $(PY_SENTINAL)
