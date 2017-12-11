@@ -26,7 +26,7 @@ class Graph(models.Model):
     instructor_notes = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    author = models.ForeignKey(User)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     is_published = models.BooleanField(default=False)
     needs_submit = models.BooleanField(default=False)
     display_feedback = models.BooleanField(default=True)
@@ -85,8 +85,8 @@ class Submission(models.Model):
         # A user can only have one submission per graph.
         unique_together = ('user', 'graph')
 
-    graph = models.ForeignKey(Graph)
-    user = models.ForeignKey(User)
+    graph = models.ForeignKey(Graph, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     # The selection that the user made, encoded as a number.
     choice = models.PositiveSmallIntegerField(default=0)

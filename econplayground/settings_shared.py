@@ -34,10 +34,27 @@ MIDDLEWARE = [
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'waffle.middleware.WaffleMiddleware',
-    'impersonate.middleware.ImpersonateMiddleware',
 ]
 
-INSTALLED_APPS += [  # noqa
+INSTALLED_APPS = [  # noqa
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.flatpages',
+    'django.contrib.staticfiles',
+    'django.contrib.messages',
+    'django.contrib.admin',
+    'django_statsd',
+    'smoketest',
+    'django_jenkins',
+    'gunicorn',
+    'compressor',
+    'djangowind',
+    'waffle',
+    'django_markwhat',
+
+    'debug_toolbar',
     'bootstrap4',
     'infranil',
     'django_extensions',
