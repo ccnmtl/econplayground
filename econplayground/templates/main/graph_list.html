@@ -14,6 +14,8 @@
                 <p>{{ graph.instructor_notes }}</p>
             {% endif %}
         </li>
+    {% empty %}
+        No graphs here.
     {% endfor %}
     </ul>
 {% endblock %}
