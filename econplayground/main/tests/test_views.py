@@ -27,10 +27,11 @@ class EmbedViewTest(LoggedInTestMixin, TestCase):
 class GraphListViewTest(LoggedInTestMixin, TestCase):
     def setUp(self):
         super(GraphListViewTest, self).setUp()
-        GraphFactory(title='Graph 1')
-        GraphFactory(title='Demand-Supply')
-        GraphFactory(title='abc')
-        GraphFactory(title='Quiz graph', needs_submit=True)
+        GraphFactory(title='Graph 1', is_published=True)
+        GraphFactory(title='Demand-Supply', is_published=True)
+        GraphFactory(title='abc', is_published=True)
+        GraphFactory(title='Quiz graph', needs_submit=True, is_published=True)
+        GraphFactory(title='Draft graph', is_published=False)
 
     def test_get(self):
         r = self.client.get('/')
@@ -39,6 +40,7 @@ class GraphListViewTest(LoggedInTestMixin, TestCase):
         self.assertContains(r, 'Demand-Supply')
         self.assertContains(r, 'abc')
         self.assertNotContains(r, 'Quiz graph')
+        self.assertNotContains(r, 'Draft graph')
 
 
 class MockLTI(object):

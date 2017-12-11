@@ -83,7 +83,8 @@ class GraphListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         if self.request.user.is_staff:
             return Graph.objects.all()
-        return Graph.objects.filter(needs_submit=False)
+
+        return Graph.objects.filter(needs_submit=False, is_published=True)
 
 
 class MyLTILandingPage(LTILandingPage):
