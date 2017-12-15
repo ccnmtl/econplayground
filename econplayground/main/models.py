@@ -16,6 +16,11 @@ GRAPH_TYPES = (
     (7, 'Money Market'),
 )
 
+INTERACTION_TYPES = (
+    (0, 'Draggable lines'),
+    (1, 'Area selection'),
+)
+
 
 class Graph(models.Model):
     class Meta:
@@ -33,6 +38,9 @@ class Graph(models.Model):
 
     graph_type = models.PositiveSmallIntegerField(
         choices=GRAPH_TYPES,
+        default=0)
+    interaction_type = models.PositiveSmallIntegerField(
+        choices=INTERACTION_TYPES,
         default=0)
     show_intersection = models.BooleanField(default=True)
 
