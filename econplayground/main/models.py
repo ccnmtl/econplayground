@@ -42,7 +42,14 @@ class Graph(models.Model):
     interaction_type = models.PositiveSmallIntegerField(
         choices=INTERACTION_TYPES,
         default=0)
+
     show_intersection = models.BooleanField(default=True)
+    intersection_label = models.TextField(blank=True, null=True)
+    intersection_label_editable = models.BooleanField(default=True)
+    intersection_horiz_line_label = models.TextField(blank=True, null=True)
+    intersection_horiz_line_label_editable = models.BooleanField(default=True)
+    intersection_vert_line_label = models.TextField(blank=True, null=True)
+    intersection_vert_line_label_editable = models.BooleanField(default=True)
 
     x_axis_label = models.TextField(blank=True, null=True)
     x_axis_label_editable = models.BooleanField(default=True)

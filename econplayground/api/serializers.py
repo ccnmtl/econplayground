@@ -13,7 +13,14 @@ class GraphSerializer(serializers.ModelSerializer):
             'author',
             'is_published', 'needs_submit',
             'display_feedback',
+
             'show_intersection',
+            'intersection_label',
+            'intersection_label_editable',
+            'intersection_horiz_line_label',
+            'intersection_horiz_line_label_editable',
+            'intersection_vert_line_label',
+            'intersection_vert_line_label_editable',
 
             'line_1_slope',
             'line_1_slope_editable',
