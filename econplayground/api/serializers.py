@@ -47,7 +47,10 @@ class GraphSerializer(serializers.ModelSerializer):
             'x_axis_label',
             'x_axis_label_editable',
             'y_axis_label',
-            'y_axis_label_editable'
+            'y_axis_label_editable',
+
+            'cobb_douglas_a', 'cobb_douglas_l',
+            'cobb_douglas_k', 'cobb_douglas_alpha',
         )
 
 

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from decimal import Decimal
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -56,10 +57,10 @@ class Graph(models.Model):
     y_axis_label = models.TextField(blank=True, null=True)
     y_axis_label_editable = models.BooleanField(default=True)
 
-    line_1_slope = models.DecimalField(max_digits=12, decimal_places=2)
+    line_1_slope = models.DecimalField(max_digits=12, decimal_places=4)
     line_1_slope_editable = models.BooleanField(default=True)
     line_1_offset = models.DecimalField(
-        max_digits=12, decimal_places=2, default=0)
+        max_digits=12, decimal_places=4, default=0)
     line_1_label = models.TextField(blank=True, null=True)
     line_1_label_editable = models.BooleanField(default=True)
 
@@ -72,10 +73,10 @@ class Graph(models.Model):
     line_1_decrease_score = models.DecimalField(
         max_digits=6, decimal_places=2, default=0)
 
-    line_2_slope = models.DecimalField(max_digits=12, decimal_places=2)
+    line_2_slope = models.DecimalField(max_digits=12, decimal_places=4)
     line_2_slope_editable = models.BooleanField(default=True)
     line_2_offset = models.DecimalField(
-        max_digits=12, decimal_places=2, default=0)
+        max_digits=12, decimal_places=4, default=0)
     line_2_label = models.TextField(blank=True, null=True)
     line_2_label_editable = models.BooleanField(default=True)
 
@@ -87,6 +88,21 @@ class Graph(models.Model):
     line_2_feedback_decrease = models.TextField(blank=True, null=True)
     line_2_decrease_score = models.DecimalField(
         max_digits=6, decimal_places=2, default=0)
+
+    # The following are input values for the Cobb-Douglas function,
+    # only used if this is a Cobb-Douglass graph.
+    cobb_douglas_a = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('2'),
+        help_text='A = Total factor productivity')
+    cobb_douglas_l = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0'),
+        help_text='L = Labor input')
+    cobb_douglas_k = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('1'),
+        help_text='K = Capital input')
+    cobb_douglas_alpha = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0.65'),
+        help_text='α = output elasticity of capital')
 
     def __str__(self):
         return self.title
