@@ -49,6 +49,8 @@ class GraphFactory(factory.DjangoModelFactory):
     line_2_feedback_increase = fuzzy.FuzzyText()
     line_2_feedback_decrease = fuzzy.FuzzyText()
 
+    cobb_douglas_alpha = fuzzy.FuzzyDecimal(0.0, 1.0)
+
 
 class SubmissionFactory(factory.DjangoModelFactory):
     class Meta:
