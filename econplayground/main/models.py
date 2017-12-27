@@ -93,16 +93,16 @@ class Graph(models.Model):
     # only used if this is a Cobb-Douglass graph.
     cobb_douglas_a = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('2'),
-        help_text='A = Total factor productivity')
+        null=True, help_text='A = Total factor productivity')
     cobb_douglas_l = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('0'),
-        help_text='L = Labor input')
+        null=True, help_text='L = Labor input')
     cobb_douglas_k = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('1'),
-        help_text='K = Capital input')
+        null=True, help_text='K = Capital input')
     cobb_douglas_alpha = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('0.65'),
-        help_text='α = output elasticity of capital')
+        null=True, help_text='α = output elasticity of capital')
 
     def __str__(self):
         return self.title
