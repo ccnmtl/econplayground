@@ -99,3 +99,8 @@ ENV/
 
 reports/
 node_modules/
+
+# Eclipse dev
+.project
+.pydevproject
+.settings/
