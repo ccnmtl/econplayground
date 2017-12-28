@@ -1,13 +1,21 @@
+from braces.views import CsrfExemptMixin
+from braces.views._ajax import JSONResponseMixin
+from django.conf import settings
+from django.contrib.auth import login
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.urls import reverse
+from django.contrib.auth.views import logout as auth_logout_view, LoginView
 from django.http import HttpResponseRedirect
-from django.views.generic import ListView, DetailView, DeleteView
-from django.views.generic.edit import CreateView
+from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.generic import ListView, DetailView, DeleteView
+from django.views.generic.base import View
+from django.views.generic.edit import CreateView
+from djangowind.views import logout as wind_logout_view
 from lti_provider.mixins import LTIAuthMixin
 from lti_provider.views import LTILandingPage
-from braces.views import CsrfExemptMixin
+
 from econplayground.main.models import Graph, Submission
 
 
@@ -98,3 +106,26 @@ class MyLTILandingPage(LTILandingPage):
         })
 
         return ctx
+
+
+class LoginView(JSONResponseMixin, LoginView):
+
+    def post(self, request):
+        request.session.set_test_cookie()
+        login_form = AuthenticationForm(request, request.POST)
+        if login_form.is_valid():
+            login(request, login_form.get_user())
+            if request.user is not None:
+                next_url = request.POST.get('next', '/')
+                return self.render_json_response({'next': next_url})
+
+        return self.render_json_response({'error': True})
+
+
+class LogoutView(LoginRequiredMixin, View):
+
+    def get(self, request):
+        if hasattr(settings, 'CAS_BASE'):
+            return wind_logout_view(request, next_page="/")
+        else:
+            return auth_logout_view(request, "/")

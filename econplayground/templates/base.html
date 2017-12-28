@@ -1,209 +1,198 @@
-{% load bootstrap4 %}
-{% load compress %}
-{% load static %}
+{% load compress static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <title>econplayground: {% block title %}{% endblock %}</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="econplayground">
-  <meta name="author" content="Columbia University CTL">
+    <title>Econ Playground: {% block title %}{% endblock %}</title>
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+    <meta charset="utf-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- The above 2 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="generator" content="Hugo 0.31.1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Econ Playground: Economic principles for the rest of us">
+    <meta name="keywords" content="teaching, learning, education, economics, graphs" />
+    <meta name="author" content="Columbia University Center for Teaching & Learning">
+
+    <meta name="DC.Title" content="Econ Playground" />
+    <meta name="DC.Description" content="Econ Playground: Economic principles for the rest of us" />
+
+    <meta property="og:image" content="https://econplayground.ctl.columbia.edu/img/og-image.png" />
+
+    <script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "WebSite",
+        "url": "https://econplayground.ctl.columbia.edu/",
+        "name": "Econ Playground",
+        "about": "Econ Playground: Economic principles for the rest of us.",
+        "keywords": "teaching, learning, education, economics, graphs"
+    }
+    </script>
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="{{STATIC_URL}}img/apple-touch-icon.png">
+    <link rel="shortcut icon" href="{{STATIC_URL}}img/favicon.ico">
+    <link rel="icon" href="{{STATIC_URL}}img/favicon.ico">
+    <link rel="icon" type="image/png" href="{{STATIC_URL}}img/favicon.png">
+
+    <link rel="canonical" href="https://econplayground.ctl.columbia.edu/" />
+
+    <link rel="shortcut icon" href="{{STATIC_URL}}img/favicon.ico" type="image/x-icon" />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
 
     {% compress css %}
-    <link href="{{STATIC_URL}}css/main.css" rel="stylesheet">
-{% endcompress %}
-    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon" />
+        <link href="{{STATIC_URL}}css/main.css" rel="stylesheet">
+    {% endcompress %}
     {% block css %}{% endblock %}
 
-    <script src="{% static 'js/lib/jquery-3.2.1.min.js' %}"></script>
-
+    <script src="{{STATIC_URL}}js/lib/jquery-3.2.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
-
-
-    {% block feeds %}{% endblock %}
 </head>
+
 <body class="{% block bodyclass %}{% endblock %}" id="{% block bodyid %}{% endblock %}">
-<a class="sr-only" href="#content">Skip navigation</a>
-
-{% block topnavbar %}
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/">
-            econplayground
-        </a>
-
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav mr-auto">
-                {% if request.user.is_staff %}
+    {% block content-container %}
+    <main role="main" class="container">
+        {% block navbar %}
+        <header>
+            <!-- Fixed navbar -->
+            <nav class="navbar navbar-expand-md navbar-dark bg-bright-blue">
+                <a class="navbar-brand" href="/">
+                    <img src="{% static 'img/sm_logo_project.png' %}" alt="project logo" />
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarCollapse" aria-controls="navbarCollapse"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'graph_create' %}">Create Graph</a>
+                        <a class="nav-link {% if request.path == '/' %}active{% endif %}"
+                            href="/">
+                            Home
+                        </a>
+                    </li>
+                    {% if request.user.is_staff %}
+                        <li class="nav-item">
+                            {% url 'graph_create' as the_url %}
+                            <a class="nav-link {% if request.path == the_url %}active{% endif %}"
+                                href="{{the_url}}"
+                            >Create Graph</a>
+                        </li>
+                    {% endif %}
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">About</a>
+                    </li>
+                    <li class="nav-item">
+                        {% if request.user.is_anonymous %}
+                            <a class="nav-link" href="/accounts/login/?next=/"><span title="Log In">Log In</span></a>
+                        {% else %}
+                            <a class="nav-link" href="/accounts/logout/?next=/"><span title="Log Out">Log Out</span></a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+          </nav>
+        </header>
+        {% endblock %}
+
+        <!-- Begin page content -->
+        {% block content %}
+        {% endblock %}
+    
+        <footer class="base-footer">
+            <ul class="footer-navigation">
+                <li class="float-left">
+                    Built by <a
+                        href="https://search.sites.columbia.edu/people/tg2451">Thomas
+                        Groll</a> and the <a href="http://ctl.columbia.edu">CTL</a>.
+                </li>
+                {% if user.has_usable_password %}
+                    <li>
+                        <a href="/accounts/password_change/">Change Password</a>
                     </li>
                 {% endif %}
+                <li><a href="/credits/">Credits</a></li>
+                <li><a href="/contact/">Contact</a></li>
+            </ul>
+            <div class="clearfix"></div>
+            <ul class="footer-logos" role="presentation">
+                <li itemscope="" itemtype="http://schema.org/EducationalOrganization">
+                    <a href="https://sipa.columbia.edu/" target="_blank" itemprop="url">
+                        <img src="{% static 'img/logo-sipa.png' %}" alt="" itemprop="logo">
+                        <span class="sr-only" itemprop="name">School of International and Public Affairs</span>
+                    </a>
+                </li>
+                <li itemscope="" itemtype="http://schema.org/EducationalOrganization">
+                    <a href="https://ctl.columbia.edu" target="_blank" itemprop="url">
+                    <img src="{% static 'img/logo-ctl.png' %}" alt="" itemprop="logo">
+                    <span class="sr-only" itemprop="name">Center for Teaching and Learning at Columbia University</span></a></li>
             </ul>
 
+        </footer>
+    </main>
+    {% endblock %}
 
-            {% block topnavbarrightitems %}{% endblock %}
-            {% block usernav %}
-                {% if request.user.is_anonymous %}
-                {% else %}
-                    <span class="navbar-text mr-sm-2">
-                        logged in as
-                        {% if request.user.last_name %}
-                            <strong>{{request.user.first_name}} {{request.user.last_name}}</strong>
-                        {% else %}
-                            <strong>{{ request.user.username }}</strong>
-                        {% endif %}
-                    </span>
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link btn btn-secondary my-2 my-sm-0"
-                               role="button"
-                               href="/accounts/logout/">logout</a>
-                        </li>
-                    </ul>
-                {% endif %}
-            {% endblock %}
-        </div>
-    </nav>
-{% endblock %}
-
-  <div class="container" id="outer-container">
-{% block masthead %}
-  {% block primarynav %}{% endblock %}
-{% endblock %}
-
-{% block loginbox %}
-{% if request.user.is_anonymous %}
-<div class="loginbox-container columbia">
-    <div class="loginbox">
-        <h2>Choose a login option...</h2>
-        <div class="content">
-            {% if CAS_BASE %}
-                <form method="get" action="{{ CAS_BASE }}cas/login">
-                    {% csrf_token %}
-                    <input type="hidden" name="destination" value="https://{{ request.get_host }}/accounts/caslogin/?next={{ request.get_full_path|urlencode }}" />
-                    <p>If you have a Columbia University Network ID (UNI)...</p>
-                    <input class="regbutton" type="submit" value="Columbia Log In" />
-                </form>
-            {% endif %}
-
-            <p class="smalltxt"><a href="http://cuit.columbia.edu/cuit/manage-my-uni" title="Learn more about UNI" target="_blank">What is a UNI?</a></p>
-            <!-- End UNI LOG IN -->
-
-            <hr class="seperator" />
-
-        {% if login_form.errors %}
-            <p class="errornote">
-                <span>
-                    <b>ERROR:</b> Invalid username or password.
-                </span>
-                Please try again. Note that both username and password are case-sensitive.
-            </p>
-        {% endif %}
-
-            <p>If you have a guest account...</p>
-            <form id="login-local" name="login_local" method="post" action="/accounts/login/">
-                {% csrf_token %}
-                <div class="login-local-form" {% if not login_form.errors %}style="display: none"{% endif %}>
-                    <div class="fieldwrapper">
-                        <label for="id_username">Username:</label>
-                        {{ login_form.username }}
-                    </div><!-- fieldwrapper -->
-
-                    <div class="fieldwrapper">
-                        <label for="id_password">Password:</label>
-                        {{ login_form.password }}
-                    </div><!-- fieldwrapper -->
-                </div>
-                <input class="regbutton" type="button" value="Guest Log In" {% if login_form.errors %}style="display: none"{% endif %}
-                    onclick="jQuery('.login-local-form').show(); jQuery(this).hide(); return false;"/>
-                <input class="regbutton login-local-form" type="submit" value="Log In" {% if not login_form.errors %}style="display: none;"{% endif %} />
-                <input type="hidden" name="next" value="{{ request.get_full_path }}" />
-            </form>
-            <p class="smalltxt"><a href="/registration/register/" title="Create your new project account">Need a new account?</a></p>
-        </div>
-    </div>
-</div>
-{% endif %}
-{% endblock %}
-
-
-{% bootstrap_messages %}
-{% block pagetitle %}{% endblock %}
-{% block content %}{% endblock %}
-
-  </div>
-
-{% block footer %}
-    <footer class="site">
-        <div class="container">
-            <a href="https://ctl.columbia.edu/" target="_blank">
-                <img width="200"
-                     alt="Columbia University's Center for Teaching and Learning"
-                     src="{% static 'img/logo-ctl-black.png' %}">
-            </a>
-        </div>
-    </footer>
-{% endblock %}
-
-<script>
-var EconPlayground = {
-{% if request.user %}
-    'user': {{ request.user.id }},
-    'is_staff': {{ request.user.is_staff|yesno:"true,false,undefined"}}
-{% endif %}
-};
-</script>
-
-<script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
-
-{% if SENTRY_PUBLIC_DSN %}
-    <script src="https://cdn.ravenjs.com/3.21.0/raven.min.js"></script>
     <script>
-     Raven.config('{{ SENTRY_PUBLIC_DSN }}').install();
-
-     {% if user.is_anonymous %}
-     Raven.setUserContext({
-         email: 'none',
-         id: 'anonymous'
-     });
-     {% else %}
-     Raven.setUserContext({
-         email: '{{ user.email }}',
-         id: '{{ user.username }}'
-     });
-     {% endif %}
+        var EconPlayground = {
+            {% if not request.user.is_anonymous %}
+                'user': {{ request.user.id }},
+                'is_staff': {{ request.user.is_staff|yesno:"true,false,undefined"}}
+            {% endif %}
+        };
     </script>
-{% endif %}
 
-{% block js %}{% endblock %}
+    <script type="text/javascript"
+        src="//platform.twitter.com/widgets.js"></script>
 
-{% if STAGING_ENV %}
-<div class="alert alert-danger alert-dismissable" style="position: fixed; bottom: 0px;">
-<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-<h4>Warning: Staging Site</h4>
-<p>You are viewing a staging version of this site, not the production site.</p>
-<p>This site was last updated on: <b>{{STAGING_DEPLOY_TIME}}</b></p>
-</div>
-{% endif %}
+    {% if SENTRY_PUBLIC_DSN %}
+        <script src="https://cdn.ravenjs.com/3.21.0/raven.min.js"></script>
+        <script>
+         Raven.config('{{ SENTRY_PUBLIC_DSN }}').install();
 
-{% if GA_CODE %}
-<script type="text/javascript">
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+         {% if user.is_anonymous %}
+         Raven.setUserContext({
+             email: 'none',
+             id: 'anonymous'
+         });
+         {% else %}
+         Raven.setUserContext({
+             email: '{{ user.email }}',
+             id: '{{ user.username }}'
+         });
+         {% endif %}
+        </script>
+    {% endif %}
 
-  ga('create', '{{GA_CODE}}', 'columbia.edu');
-  ga('send', 'pageview');
-</script>
-{% endif %}
+    {% block js %}{% endblock %}
+
+    {% if STAGING_ENV %}
+        <div class="alert alert-danger alert-dismissable" style="position: fixed; bottom: 0px;">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <h4>Warning: Staging Site</h4>
+        <p>You are viewing a staging version of this site, not the production site.</p>
+        <p>This site was last updated on: <b>{{STAGING_DEPLOY_TIME}}</b></p>
+        </div>
+    {% endif %}
+
+    {% if GA_CODE %}
+        <script type="text/javascript">
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', '{{GA_CODE}}', 'columbia.edu');
+          ga('send', 'pageview');
+        </script>
+    {% endif %}
 </body>
 </html>

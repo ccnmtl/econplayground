@@ -1,33 +1,50 @@
 import os.path
 
-from django.urls import include, path
-from django.contrib import admin
-from django.contrib.auth.views import logout
 from django.conf import settings
+from django.contrib import admin
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import (
+    password_change, password_change_done,
+    password_reset, password_reset_done, password_reset_confirm,
+    password_reset_complete)
+from django.urls import include, path
 from django.views.generic import TemplateView
 from django.views.static import serve
+
 from econplayground.main import views
 
 
 site_media_root = os.path.join(os.path.dirname(__file__), "../media")
 
-redirect_after_logout = getattr(settings, 'LOGOUT_REDIRECT_URL', None)
-auth_urls = path('accounts/', include('django.contrib.auth.urls'))
-logout_page = path(
-    'accounts/logout/',
-    logout,
-    {'next_page': redirect_after_logout})
+auth_urls = path(r'accounts/', include('django.contrib.auth.urls'))
 if hasattr(settings, 'CAS_BASE'):
-    from djangowind.views import logout as windlogout
-    auth_urls = path('accounts/', include('djangowind.urls'))
-    logout_page = path(
-        'accounts/logout/',
-        windlogout,
-        {'next_page': redirect_after_logout})
+    auth_urls = path(r'accounts/', include('djangowind.urls'))
 
 urlpatterns = [
+
+    path(r'accounts/login/', views.LoginView.as_view()),
+    path(r'accounts/logout/', views.LogoutView.as_view()),
+
+    # password change & reset. overriding to gate them.
+    path(r'accounts/password_change/',
+         login_required(password_change),
+         name='password_change'),
+    path(r'accounts/password_change/done/',
+         login_required(password_change_done),
+         name='password_change_done'),
+    path(r'password/reset/',
+         password_reset,
+         name='password_reset'),
+    path(r'password/reset/done/', password_reset_done,
+         name='password_reset_done'),
+    path(r'password/reset/confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/',
+         password_reset_confirm,
+         name='password_reset_confirm'),
+    path(r'password/reset/complete/',
+         password_reset_complete, name='password_reset_complete'),
+
     auth_urls,
-    logout_page,
+
     path('api/', include('econplayground.api.urls')),
     path('registration/', include('registration.backends.default.urls')),
     path('', views.GraphListView.as_view()),
