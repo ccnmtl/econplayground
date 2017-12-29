@@ -102,3 +102,4 @@ nameparser==0.5.4
 django-lti-provider==0.3.0
 
 django-braces==1.12.0
+django-contact-us==0.4.0

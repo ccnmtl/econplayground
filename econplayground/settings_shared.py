@@ -62,8 +62,11 @@ INSTALLED_APPS = [  # noqa
     'rest_framework',
     'lti_provider',
     'econplayground.main',
+    'contactus'
 ]
 
+CONTACT_US_EMAIL = 'ccnmtl-dev@columbia.edu'
+# @todo Update to ctl-econ-playground@columbia.edu
 
 THUMBNAIL_SUBDIR = "thumbs"
 LOGIN_REDIRECT_URL = "/"
