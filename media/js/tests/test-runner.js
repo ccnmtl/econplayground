@@ -1,4 +1,5 @@
 /* eslint-env node */
+/* eslint-disable security/detect-non-literal-fs-filename */
 
 var requirejs = require('requirejs');
 requirejs.config({

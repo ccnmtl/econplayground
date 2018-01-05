@@ -7,20 +7,24 @@
         <link href="{% static 'css/embed.css' %}" rel="stylesheet">
     </head>
     <body>
-        {% if debug %}
-            <small>Current user: {{request.user}}</small>
-        {% endif %}
-        <div id="root"></div>
-        <script>
-        if (!window.EconPlayground) {
-            window.EconPlayground = {};
-        }
+        <div class="container-fluid">
+            <div class="row">
+                {% if debug %}
+                    <small>Current user: {{request.user}}</small>
+                {% endif %}
+                <div id="root"></div>
+                <script>
+                if (!window.EconPlayground) {
+                    window.EconPlayground = {};
+                }
 
-        window.EconPlayground['isStaff'] = '{{request.user.is_staff}}';
-        window.EconPlayground['LTIPostGrade'] = '{% url 'lti-post-grade' %}';
-        window.EconPlayground['EmbedSuccess'] = '{% url 'graph_embed' object.pk %}?submitted=1';
-        window.EconPlayground['EmbedLaunchUrl'] = '{% url 'graph_embed' object.pk %}?submitted=1';
-        </script>
-        <script src="{% static 'econplayground.js/viewer-a.js' %}"></script>
+                window.EconPlayground['isStaff'] = '{{request.user.is_staff}}';
+                window.EconPlayground['LTIPostGrade'] = '{% url 'lti-post-grade' %}';
+                window.EconPlayground['EmbedSuccess'] = '{% url 'graph_embed' object.pk %}?submitted=1';
+                window.EconPlayground['EmbedLaunchUrl'] = '{% url 'graph_embed' object.pk %}?submitted=1';
+                </script>
+                <script src="{% static 'econplayground.js/viewer-a.js' %}"></script>
+            </div>
+        </div>
     </body>
 </html>

@@ -1,63 +1,128 @@
 {% extends "base.html" %}
+{% load compress static %}
+
 {% block title %}
    Please Login
 {% endblock %}
 
-{% block usernav %}{% endblock %}
+{% block css %}
+    {% compress css %}
+        <link href="{{STATIC_URL}}css/splash.css" rel="stylesheet">
+    {% endcompress %}
+{% endblock %}
 
-{% block content %}
+{% block bodyclass %}splash{% endblock %}
+{% block main-class %}{% endblock %}
 
-<div class="loginbox-container columbia">
-    <div class="loginbox">
-        <h2>Choose a login option...</h2>
-        <div class="content">
-            {% if CAS_BASE %}
+{% block navbar %}{% endblock %}
+
+{% block js %}
+    <script data-main="{{STATIC_URL}}js/src/login.js"
+        src="{{STATIC_URL}}js/lib/require.js"></script>
+{% endblock %}
+
+{% block content-container %}
+<div class="site-wrapper">
+    <div class="site-wrapper-inner">
+        <div class="cover-container">
+            <main role="main" class="inner cover"> <img
+                src="{% static 'img/logo_project.png'%}" class="img-fluid"
+                alt="EconPlayground">
+
+                <h2 class="cover-heading display-3">Economic Principles for the
+                    Rest of Us.</h2>
+
+                <p class="lead">BETA VERSION</p>
+
+                <a class="btn btn-lg btn-secondary" id="login-link" href="#" data-toggle="modal" data-target="#login-modal">Log In</a>
+            </main>
+
+            <footer class="mastfoot">
+                <div class="inner">
+                    <p>
+                        Built by <a
+                            href="https://search.sites.columbia.edu/people/tg2451">Thomas
+                            Groll</a> and the <a href="http://ctl.columbia.edu">CTL</a>.
+                    </p>
+                </div>
+            </footer>
+
+        </div>
+    </div>
+</div>
+
+<div id="login-modal" class="modal fade" id="loginmodal" tabindex="-1" role="dialog"
+    aria-labelledby="LoginModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="LoginModalLabel">Choose a log in option</h5>
+                <button type="button" class="close" data-dismiss="modal"
+                    aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                {% if CAS_BASE %}
                 <form method="get" action="{{ CAS_BASE }}cas/login">
-                    {% csrf_token %}
                     <input type="hidden" name="destination"
-                           value="https://{{ request.get_host }}/accounts/caslogin/?next={{ next|urlencode }}" />
-                    <p>If you have a Columbia University Network ID (UNI)...</p>
-                    <input class="regbutton" type="submit" value="Columbia Log In" />
+                        value="https://{{ request.get_host }}/accounts/caslogin/?next=/" />
+                    <h6>If you have a Columbia University Network ID
+                        (UNI)...</h6>
+                    <input class="btn btn-primary" type="submit"
+                        value="Columbia Log In" />
                 </form>
-            {% endif %}
-            
-            <p class="smalltxt"><a href="http://cuit.columbia.edu/cuit/manage-my-uni" title="Learn more about UNI" target="_blank">What is a UNI?</a></p>
-            <!-- End UNI LOG IN -->
-            
-            <hr class="seperator" />
-        
-        {% if form.errors %}
-            <p class="errornote">
-                <span>
-                    <b>ERROR:</b> Invalid username or password.
-                </span>
-                Please try again. Note that both username and password are case-sensitive.
-            </p>
-        {% endif %}
-        
-            <p>If you have a guest account...</p>
-            <form id="login-local" name="login_local" method="post" action=".">
-                {% csrf_token %}
-                <div class="login-local-form" {% if not form.errors %}style="display: none"{% endif %}>
-                    <div class="fieldwrapper">
-                        <label for="id_username">Username:</label>
-                        {{ form.username }}
-                    </div><!-- fieldwrapper -->
-                
-                    <div class="fieldwrapper">
-                        <label for="id_password">Password:</label>
-                        {{ form.password }}
-                    </div><!-- fieldwrapper -->
-                </div>      
-                <input class="regbutton" type="button" value="Guest Log In" {% if form.errors %}style="display: none"{% endif %}
-                    onclick="jQuery('.login-local-form').show(); jQuery(this).hide(); return false;"/>
-                <input class="regbutton login-local-form" type="submit" value="Log In" {% if not form.errors %}style="display: none;"{% endif %} />                        
-                <input type="hidden" name="next" value="{{ next|urlencode }}" />
-            </form>
-            <p class="smalltxt"><a href="/registration/register/" title="Create your new project account">Need a new account?</a></p>
+                {% endif %}
+                <p class="mt-2">
+                    <a href="http://cuit.columbia.edu/cuit/manage-my-uni"
+                        title="Learn more about UNI" target="_blank">What is a UNI?</a>
+                </p>
+                <!-- End UNI LOG IN -->
+                {% if login_form.errors %}
+                <p class="text-danger">
+                    <span> <b>ERROR:</b> Invalid username or password. </span>
+                    Please try again. Note that both username and password are case-sensitive.
+                </p>
+                {% endif %}
+                <hr />
+                <h6>If you have a guest account...</h6>
+                <form id="login-local" name="login_local" method="post" action="/accounts/login/">
+                    <p class="local-login-errors text-danger" style="display: none;">
+                        <span><b>Invalid username or password.</b></span>
+                        Please try again. Note that both username and password are case-sensitive.
+                    </p>
+
+                    {% csrf_token %}
+                    <div class="login-local-form"
+                        {% if not login_form.errors %}style="display: none"{% endif %}>
+                        <div class="form-group">
+                            <label for="id_username">Username:</label> {{login_form.username }}
+                        </div>
+                        <!-- form-group -->
+                        <div class="form-group">
+                            <label for="id_password">Password:</label> {{login_form.password }}
+                        </div>
+                        <!-- form-group -->
+                    </div>
+                    <input class="btn btn-primary" type="button"
+                        value="Guest Log In"
+                        {% if login_form.errors %}style="display: none" {% endif %}
+                            onclick="jQuery('.login-local-form').show(); jQuery(this).hide(); return false;" />
+                    <input class="btn btn-primary login-local-form"
+                        type="submit" value="Log In"
+                        {% if not login_form.errors %}style="display: none;" {% endif %} />
+                    <input type="hidden" name="next" value="/" />
+                    <div style="margin-top: 5px;">
+                        <a href="/accounts/password_reset/">Forgot Password?</a>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"
+                    data-dismiss="modal">Cancel</button>
+            </div>
         </div>
     </div>
 </div>
 
 {% endblock %}
-{% block loginbox %}{% endblock %}

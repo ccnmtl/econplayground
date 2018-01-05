@@ -1,0 +1,99 @@
+/* General markup and styles for table-esque vertical and horizontal centering */
+.site-wrapper {
+    display: table;
+    width: 100%;
+    height: 100%;
+    /* For at least Firefox */
+    min-height: 100%;
+    box-shadow: inset 0 0 5rem rgba(0,0,0,.5);
+}
+
+.site-wrapper-inner {
+    display: table-cell;
+    vertical-align: top;
+}
+
+.cover-container {
+    margin-right: auto;
+    margin-left: auto;
+}
+
+/* Padding for spacing */
+.inner { padding: 2rem; }
+
+
+/* Splash Page */
+.splash .site-wrapper {
+    color: #fff;
+    text-align: center;
+    text-shadow: 0 0.05rem 0.1rem rgba(0,0,0,.5);
+    background-color: #1b75bc;
+}
+
+.splash .cover-container .btn-secondary,
+.splash .cover-container .btn-secondary:hover,
+.splash .cover-container .btn-secondary:focus {
+    color: #333;
+    text-shadow: none;
+    /* Prevent inheritance from `body` */
+    background-color: #fff;
+    border: .05rem solid #fff;
+}
+
+.splash .cover { padding: 0 1.5rem; }
+
+.splash .cover .btn-lg {
+    padding: .75rem 1.25rem;
+    font-weight: 700;
+}
+
+.splash .mastfoot {
+    color: rgba(255,255,255,.5);
+}
+
+.splash .mastfoot a,
+.splash .mastfoot a:focus,
+.splash .mastfoot a:hover { color: #fff; }
+
+@media (min-width: 40em)
+{
+    .splash .mastfoot {
+        position: fixed;
+        bottom: 0;
+    }
+
+    /* Start the vertical centering */
+    .splash .site-wrapper-inner { vertical-align: middle; }
+
+    /* Handle the widths */
+    .splash .mastfoot,
+    .splash .cover-container {
+        width: 100%;
+        /* Must be percentage or pixels for horizontal alignment */
+    }
+}
+
+/* LTI Splash Page */
+@media (min-width: 62em) {
+    .splash .mastfoot,
+    .splash .cover-container { width: 50rem; }
+}
+
+
+.bg-bright-blue {
+    background-color: #1b75bc !important;
+}
+
+.jumbotron {
+    color: white;
+}
+
+.jumbotron img {
+    width: 300px;
+}
+
+nav {
+    margin-left: -15px;
+    margin-right: -15px;
+    margin-bottom: 20px;
+}
