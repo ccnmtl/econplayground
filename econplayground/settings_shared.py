@@ -88,7 +88,7 @@ LTI_TOOL_CONFIGURATION = {
     'navigation': True,
     'new_tab': True,
     'course_aware': False,
-    'frame_width': 600,
-    'frame_height': 620,
+    'frame_width': 1024,
+    'frame_height': 1024,
     'landing_url': '/',
 }
