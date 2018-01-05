@@ -16,31 +16,31 @@ from econplayground.main import views
 
 site_media_root = os.path.join(os.path.dirname(__file__), "../media")
 
-auth_urls = path(r'accounts/', include('django.contrib.auth.urls'))
+auth_urls = path('accounts/', include('django.contrib.auth.urls'))
 if hasattr(settings, 'CAS_BASE'):
-    auth_urls = path(r'accounts/', include('djangowind.urls'))
+    auth_urls = path('accounts/', include('djangowind.urls'))
 
 urlpatterns = [
 
-    path(r'accounts/login/', views.LoginView.as_view()),
-    path(r'accounts/logout/', views.LogoutView.as_view()),
+    path('accounts/login/', views.LoginView.as_view()),
+    path('accounts/logout/', views.LogoutView.as_view()),
 
     # password change & reset. overriding to gate them.
-    path(r'accounts/password_change/',
+    path('accounts/password_change/',
          login_required(password_change),
          name='password_change'),
-    path(r'accounts/password_change/done/',
+    path('accounts/password_change/done/',
          login_required(password_change_done),
          name='password_change_done'),
-    path(r'password/reset/',
+    path('password/reset/',
          password_reset,
          name='password_reset'),
-    path(r'password/reset/done/', password_reset_done,
+    path('password/reset/done/', password_reset_done,
          name='password_reset_done'),
-    path(r'password/reset/confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/',
+    path('password/reset/confirm/<uuid:uidb64>-<slug:token>/',
          password_reset_confirm,
          name='password_reset_confirm'),
-    path(r'password/reset/complete/',
+    path('password/reset/complete/',
          password_reset_complete, name='password_reset_complete'),
 
     auth_urls,
