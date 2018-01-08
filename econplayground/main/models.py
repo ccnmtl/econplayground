@@ -22,6 +22,17 @@ INTERACTION_TYPES = (
     (1, 'Area selection'),
 )
 
+COBB_DOUGLAS_SCENARIOS = (
+    (0, 'Param 1 (A) increased'),
+    (1, 'Param 1 (A) decreased'),
+    (2, 'Param 2 (K) increased'),
+    (3, 'Param 2 (K) decreased'),
+    (4, 'Param 3 (α) increased'),
+    (5, 'Param 3 (α) decreased'),
+    (6, 'Param 4 (L) increased'),
+    (7, 'Param 4 (L) decreased'),
+)
+
 
 class Graph(models.Model):
     class Meta:
@@ -90,19 +101,37 @@ class Graph(models.Model):
         max_digits=6, decimal_places=2, default=0)
 
     # The following are input values for the Cobb-Douglas function,
-    # only used if this is a Cobb-Douglass graph.
+    # only used if this is a Cobb-Douglas graph.
     cobb_douglas_a = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('2'),
         null=True, help_text='A = Total factor productivity')
+    cobb_douglas_a_name = models.TextField(default='A')
+    cobb_douglas_a_editable = models.BooleanField(default=True)
     cobb_douglas_l = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('0'),
         null=True, help_text='L = Labor input')
+    cobb_douglas_l_name = models.TextField(default='L')
+    cobb_douglas_l_editable = models.BooleanField(default=True)
     cobb_douglas_k = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('1'),
         null=True, help_text='K = Capital input')
+    cobb_douglas_k_name = models.TextField(default='K')
+    cobb_douglas_k_editable = models.BooleanField(default=True)
     cobb_douglas_alpha = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('0.65'),
         null=True, help_text='α = output elasticity of capital')
+    cobb_douglas_alpha_name = models.TextField(default='α')
+    cobb_douglas_alpha_editable = models.BooleanField(default=True)
+
+    cobb_douglas_plot_on_k = models.BooleanField(
+        default=False,
+        help_text='If enabled, plot the function along param 2 (K) as the '
+        'X-axis. Otherwise, uses param 4 (L).')
+
+    cobb_douglas_correct_scenario = models.PositiveSmallIntegerField(
+        choices=COBB_DOUGLAS_SCENARIOS,
+        default=0,
+        help_text='Define the correct scenario for this quiz')
 
     def __str__(self):
         return self.title
