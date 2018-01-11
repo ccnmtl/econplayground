@@ -1,4 +1,4 @@
-{% load compress static %}
+{% load compress static econ_auth %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -55,6 +55,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
 </head>
 
+{% user_is_instructor request.user as i_am_instructor %}
 <body class="{% block bodyclass %}{% endblock %}" id="{% block bodyid %}{% endblock %}">
     {% block content-container %}
     <main role="main" class="container">
@@ -78,7 +79,7 @@
                             Home
                         </a>
                     </li>
-                    {% if request.user.is_staff %}
+                    {% if i_am_instructor %}
                         <li class="nav-item">
                             {% url 'graph_create' as the_url %}
                             <a class="nav-link {% if request.path == the_url %}active{% endif %}"
@@ -144,8 +145,14 @@
     <script>
         var EconPlayground = {
             {% if not request.user.is_anonymous %}
-                'user': {{ request.user.id }},
-                'is_staff': {{ request.user.is_staff|yesno:"true,false,undefined"}}
+            'user': {{ request.user.id }},
+            {% if i_am_instructor %}
+                'is_instructor': true,
+                'is_staff': true
+            {% else %}
+                'is_instructor': false,
+                'is_staff': false
+            {% endif %}
             {% endif %}
         };
     </script>

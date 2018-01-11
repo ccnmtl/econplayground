@@ -17,6 +17,7 @@ from lti_provider.mixins import LTIAuthMixin
 from lti_provider.views import LTILandingPage
 
 from econplayground.main.models import Graph, Submission
+from econplayground.main.utils import user_is_instructor
 
 
 class EnsureCsrfCookieMixin(object):
@@ -36,7 +37,7 @@ class GraphCreateView(EnsureCsrfCookieMixin, UserPassesTestMixin, CreateView):
     fields = ['title', 'description', 'graph_type']
 
     def test_func(self):
-        return self.request.user.is_staff
+        return user_is_instructor(self.request.user)
 
 
 class GraphDetailView(LoginRequiredMixin, DetailView):
@@ -82,14 +83,14 @@ class GraphDeleteView(UserPassesTestMixin, DeleteView):
     success_url = '/'
 
     def test_func(self):
-        return self.request.user.is_staff
+        return user_is_instructor(self.request.user)
 
 
 class GraphListView(LoginRequiredMixin, ListView):
     model = Graph
 
     def get_queryset(self):
-        if self.request.user.is_staff:
+        if user_is_instructor(self.request.user):
             return Graph.objects.all()
 
         return Graph.objects.filter(needs_submit=False, is_published=True)

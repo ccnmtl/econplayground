@@ -1,4 +1,4 @@
-{% load static %}
+{% load static econ_auth %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -18,7 +18,8 @@
                     window.EconPlayground = {};
                 }
 
-                window.EconPlayground['isStaff'] = '{{request.user.is_staff}}';
+                window.EconPlayground['isStaff'] = '{% user_is_instructor request.user %}';
+                window.EconPlayground['isInstructor] = '{% user_is_instructor request.user %}';
                 window.EconPlayground['LTIPostGrade'] = '{% url 'lti-post-grade' %}';
                 window.EconPlayground['EmbedSuccess'] = '{% url 'graph_embed' object.pk %}?submitted=1';
                 window.EconPlayground['EmbedLaunchUrl'] = '{% url 'graph_embed' object.pk %}?submitted=1';
