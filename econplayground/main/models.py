@@ -57,23 +57,23 @@ class Graph(models.Model):
 
     show_intersection = models.BooleanField(default=True)
     intersection_label = models.TextField(blank=True, null=True)
-    intersection_label_editable = models.BooleanField(default=True)
+    intersection_label_editable = models.BooleanField(default=False)
     intersection_horiz_line_label = models.TextField(blank=True, null=True)
-    intersection_horiz_line_label_editable = models.BooleanField(default=True)
+    intersection_horiz_line_label_editable = models.BooleanField(default=False)
     intersection_vert_line_label = models.TextField(blank=True, null=True)
-    intersection_vert_line_label_editable = models.BooleanField(default=True)
+    intersection_vert_line_label_editable = models.BooleanField(default=False)
 
     x_axis_label = models.TextField(blank=True, null=True)
-    x_axis_label_editable = models.BooleanField(default=True)
+    x_axis_label_editable = models.BooleanField(default=False)
     y_axis_label = models.TextField(blank=True, null=True)
-    y_axis_label_editable = models.BooleanField(default=True)
+    y_axis_label_editable = models.BooleanField(default=False)
 
     line_1_slope = models.DecimalField(max_digits=12, decimal_places=4)
-    line_1_slope_editable = models.BooleanField(default=True)
+    line_1_slope_editable = models.BooleanField(default=False)
     line_1_offset = models.DecimalField(
         max_digits=12, decimal_places=4, default=0)
     line_1_label = models.TextField(blank=True, null=True)
-    line_1_label_editable = models.BooleanField(default=True)
+    line_1_label_editable = models.BooleanField(default=False)
 
     # The following are what the user is shown when line 1 is moved up
     # and down.
@@ -85,11 +85,11 @@ class Graph(models.Model):
         max_digits=6, decimal_places=2, default=0)
 
     line_2_slope = models.DecimalField(max_digits=12, decimal_places=4)
-    line_2_slope_editable = models.BooleanField(default=True)
+    line_2_slope_editable = models.BooleanField(default=False)
     line_2_offset = models.DecimalField(
         max_digits=12, decimal_places=4, default=0)
     line_2_label = models.TextField(blank=True, null=True)
-    line_2_label_editable = models.BooleanField(default=True)
+    line_2_label_editable = models.BooleanField(default=False)
 
     # The following are what the user is shown when line 2 is moved up
     # and down.
@@ -106,22 +106,22 @@ class Graph(models.Model):
         max_digits=12, decimal_places=4, default=Decimal('2'),
         null=True, help_text='A = Total factor productivity')
     cobb_douglas_a_name = models.TextField(default='A')
-    cobb_douglas_a_editable = models.BooleanField(default=True)
+    cobb_douglas_a_editable = models.BooleanField(default=False)
     cobb_douglas_l = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('0'),
         null=True, help_text='L = Labor input')
     cobb_douglas_l_name = models.TextField(default='L')
-    cobb_douglas_l_editable = models.BooleanField(default=True)
+    cobb_douglas_l_editable = models.BooleanField(default=False)
     cobb_douglas_k = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('1'),
         null=True, help_text='K = Capital input')
     cobb_douglas_k_name = models.TextField(default='K')
-    cobb_douglas_k_editable = models.BooleanField(default=True)
+    cobb_douglas_k_editable = models.BooleanField(default=False)
     cobb_douglas_alpha = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('0.65'),
         null=True, help_text='α = output elasticity of capital')
     cobb_douglas_alpha_name = models.TextField(default='α')
-    cobb_douglas_alpha_editable = models.BooleanField(default=True)
+    cobb_douglas_alpha_editable = models.BooleanField(default=False)
 
     cobb_douglas_plot_on_k = models.BooleanField(
         default=False,
