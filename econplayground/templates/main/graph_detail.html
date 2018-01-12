@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static econ_auth %}
 
 {% block title %}Graph: {{object.title}}{% endblock %}
 
@@ -14,17 +14,18 @@
     <script src="{% static 'econplayground.js/viewer-a.js' %}"></script>
 {% endblock %}
 
+{% user_is_instructor request.user as i_am_instructor %}
 {% block content %}
     <h1>
         Graph Viewer
-        {% if request.user.is_staff %}
+        {% if i_am_instructor %}
             (edit mode)
         {% endif %}
     </h1>
 
     <div id="root"></div>
 
-    {% if request.user.is_staff %}
+    {% if i_am_instructor %}
         <a role="button" class="btn btn-danger btn-sm float-md-right"
            href="{% url 'graph_delete' object.pk %}">Delete Graph</a>
 

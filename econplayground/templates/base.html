@@ -146,11 +146,11 @@
             {% if not request.user.is_anonymous %}
             'user': {{ request.user.id }},
             {% if i_am_instructor %}
-                'is_instructor': true,
-                'is_staff': true
+                'isInstructor': true,
+                'isStaff': true
             {% else %}
-                'is_instructor': false,
-                'is_staff': false
+                'isInstructor': false,
+                'isStaff': false
             {% endif %}
             {% endif %}
         };
