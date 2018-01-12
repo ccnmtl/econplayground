@@ -11,7 +11,7 @@
         {% if submissions.count < 1 %}
             <div class="jumbotron bg-bright-blue splash" style="margin-top: 20px">
                     <p class="text-center"><img src="{% static 'img/logo-econpractice.svg' %}" alt="project logo" /></p>
-                    <p class="lead text-center">Econ Playground is an open-source platform for exploring economic principles.</p>
+                    <p class="lead text-center">EconPractice is an open-source platform for exploring economic principles.</p>
 
                     <p class="lead text-center cover-container">
                         <a class="btn btn-secondary btn-lg" href="{{landing_url}}" target="_blank">Launch</a>
@@ -47,7 +47,7 @@
 
                         <a href="{% url 'graph_detail' s.graph.pk %}"
                            target="_blank"
-                           class="btn btn-primary">View in econplayground</a>
+                           class="btn btn-primary">View in econpractice</a>
                     </div>
                 </div>
             {% empty %}
