@@ -3,7 +3,7 @@ html {
 }
 
 body {
-    background-color: #8dbadd;
+    background-color: #1e429b;
     height: 100%;
 }
 
@@ -23,7 +23,11 @@ header {
 }
 
 .bg-bright-blue {
-    background-color: #1b75bc !important;
+    background-color: #263778;
+}
+
+nav.navbar-dark .navbar-nav .nav-link {
+    color: #73a9db;
 }
 
 .errornote {
