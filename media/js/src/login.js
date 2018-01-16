@@ -1,7 +1,7 @@
 /* global requirejs: true */
 
 requirejs.config({
-    baseUrl: '../../media/js/',
+    baseUrl: window.STATIC_URL + 'js/',
     paths: {
         'jquery': 'lib/jquery-3.2.1.min',
         'domReady': 'lib/require/domReady'
