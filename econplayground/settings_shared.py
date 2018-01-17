@@ -79,12 +79,12 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 LTI_TOOL_CONFIGURATION = {
-    'title': 'econplayground',
+    'title': 'EconPractice',
     'description': 'Interactive economics graphs',
     'launch_url': 'lti/',
     'embed_url': '',
     'embed_icon_url': 'img/icons/icon-16.png',
-    'embed_tool_id': 'econplayground',
+    'embed_tool_id': 'econpractice',
     'navigation': True,
     'new_tab': True,
     'course_aware': False,
