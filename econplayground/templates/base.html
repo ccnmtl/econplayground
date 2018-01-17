@@ -83,7 +83,7 @@
                     {% if i_am_instructor %}
                         <li class="nav-item">
                             {% url 'graph_create' as the_url %}
-                            <a class="nav-link {% if request.path == the_url %}active{% endif %}"
+                            <a class="btn btn-light {% if request.path == the_url %}active{% endif %}"
                                 href="{{the_url}}"
                             >Create Graph</a>
                         </li>
