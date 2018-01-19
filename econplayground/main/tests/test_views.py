@@ -47,6 +47,12 @@ class MockLTI(object):
     def course_context(self, request):
         return None
 
+    def is_administrator(self, request):
+        return False
+
+    def is_instructor(self, request):
+        return False
+
 
 class MyLTILandingPageTest(LoggedInTestMixin, TestCase):
     def setUp(self):
