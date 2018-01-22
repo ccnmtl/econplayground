@@ -36,7 +36,7 @@ COBB_DOUGLAS_SCENARIOS = (
 
 class Graph(models.Model):
     class Meta:
-        ordering = ('created_at',)
+        ordering = ('-created_at',)
 
     title = models.TextField()
     description = models.TextField(blank=True, null=True)
