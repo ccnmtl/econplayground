@@ -61,6 +61,7 @@ class GraphSerializer(serializers.ModelSerializer):
             'cobb_douglas_alpha',
             'cobb_douglas_alpha_name',
             'cobb_douglas_alpha_editable',
+            'cobb_douglas_correct_scenario',
         )
 
 
