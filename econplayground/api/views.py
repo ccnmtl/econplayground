@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -14,6 +15,15 @@ from econplayground.api.serializers import (
 class GraphViewSet(viewsets.ModelViewSet):
     queryset = Graph.objects.all()
     serializer_class = GraphSerializer
+
+    def create(self, request):
+        r = super(GraphViewSet, self).create(request)
+        if r:
+            messages.success(
+                request,
+                'Graph "{}" created.'.format(r.data.get('title')))
+
+        return r
 
 
 class SubmissionViewSet(viewsets.ModelViewSet):

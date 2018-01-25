@@ -120,6 +120,12 @@
         {% endblock %}
 
         <!-- Begin page content -->
+        {% for message in messages %}
+        <div class="messages alert alert-primary {% if message.tags %}{{ message.tags }}{% endif %}" role="alert">
+            {{ message }}
+        </div>
+        {% endfor %}
+
         {% block content %}
         {% endblock %}
 
