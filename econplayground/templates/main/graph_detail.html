@@ -3,6 +3,10 @@
 
 {% block title %}Graph: {{object.title}}{% endblock %}
 
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/loaders.min.css' %}">
+{% endblock %}
+
 {% block js %}
     <script>
     if (!window.EconPlayground) {
@@ -23,7 +27,13 @@
         {% endif %}
     </h1>
 
-    <div id="root"></div>
+    <div id="root">
+        <div class="loader-inner ball-pulse">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
 
     {% if i_am_instructor %}
         <a role="button" class="btn btn-danger btn-sm float-md-right"
