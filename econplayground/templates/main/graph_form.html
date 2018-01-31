@@ -3,7 +3,8 @@
 {% load static %}
 
 {% block css %}
-    <link rel="stylesheet" href="{% static 'econplayground.js/main.css' %}">
+<link rel="stylesheet" href="{% static 'css/loaders.min.css' %}">
+<link rel="stylesheet" href="{% static 'econplayground.js/main.css' %}">
 {% endblock %}
 
 {% block js %}
@@ -13,5 +14,11 @@
 {% block title %}Create Graph{% endblock %}
 
 {% block content %}
-    <div id="root"></div>
+    <div id="root">
+        <div class="loader-inner ball-pulse">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
 {% endblock %}

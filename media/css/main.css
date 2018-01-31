@@ -97,3 +97,11 @@ nav.navbar-dark .navbar-nav .nav-link {
 .base-footer .footer-logos img {
     height: 50px;
 }
+
+.loader-inner.ball-pulse {
+    margin-top: 3em;
+    text-align: center;
+}
+.loader-inner.ball-pulse > div {
+    background-color: #1e429b;
+}
