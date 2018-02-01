@@ -3,7 +3,7 @@
 requirejs.config({
     baseUrl: window.STATIC_URL + 'js/',
     paths: {
-        'jquery': 'lib/jquery-3.2.1.min',
+        'jquery': 'lib/jquery-3.3.1.min',
         'domReady': 'lib/require/domReady'
     },
     urlArgs: 'bust=' + (new Date()).getTime()
