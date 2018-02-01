@@ -47,6 +47,8 @@ class Graph(models.Model):
     is_published = models.BooleanField(default=False)
     needs_submit = models.BooleanField(default=False)
     display_feedback = models.BooleanField(default=True)
+    correct_feedback = models.TextField(blank=True, null=True)
+    incorrect_feedback = models.TextField(blank=True, null=True)
 
     graph_type = models.PositiveSmallIntegerField(
         choices=GRAPH_TYPES,
