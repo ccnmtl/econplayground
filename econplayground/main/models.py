@@ -131,7 +131,7 @@ class Graph(models.Model):
     cobb_douglas_correct_scenario = models.PositiveSmallIntegerField(
         choices=COBB_DOUGLAS_SCENARIOS,
         default=0,
-        help_text='Define the correct scenario for this quiz')
+        help_text='Define the correct scenario for this submittable graph.')
 
     def __str__(self):
         return self.title

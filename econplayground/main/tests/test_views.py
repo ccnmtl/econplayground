@@ -30,7 +30,8 @@ class GraphListViewTest(LoggedInTestMixin, TestCase):
         GraphFactory(title='Graph 1', is_published=True)
         GraphFactory(title='Demand-Supply', is_published=True)
         GraphFactory(title='abc', is_published=True)
-        GraphFactory(title='Quiz graph', needs_submit=True, is_published=True)
+        GraphFactory(title='Submittable graph', needs_submit=True,
+                     is_published=True)
         GraphFactory(title='Draft graph', is_published=False)
 
     def test_get(self):
@@ -39,7 +40,7 @@ class GraphListViewTest(LoggedInTestMixin, TestCase):
         self.assertContains(r, 'Graph 1')
         self.assertContains(r, 'Demand-Supply')
         self.assertContains(r, 'abc')
-        self.assertNotContains(r, 'Quiz graph')
+        self.assertNotContains(r, 'Submittable graph')
         self.assertNotContains(r, 'Draft graph')
 
 
@@ -61,7 +62,7 @@ class MyLTILandingPageTest(LoggedInTestMixin, TestCase):
         g1 = GraphFactory(title='Graph 1')
         g2 = GraphFactory(title='Demand-Supply')
         g3 = GraphFactory(title='abc')
-        self.g = GraphFactory(title='Quiz graph', needs_submit=True)
+        self.g = GraphFactory(title='Submittable graph', needs_submit=True)
         SubmissionFactory(graph=g1)
         SubmissionFactory(graph=g2)
         SubmissionFactory(graph=g2)
