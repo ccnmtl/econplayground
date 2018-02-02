@@ -20,13 +20,6 @@
 
 {% user_is_instructor request.user as i_am_instructor %}
 {% block content %}
-    <h1>
-        Graph Viewer
-        {% if i_am_instructor %}
-            (edit mode)
-        {% endif %}
-    </h1>
-
     <div id="root">
         <div class="loader-inner ball-pulse">
             <div></div>
