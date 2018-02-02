@@ -125,10 +125,7 @@ class Graph(models.Model):
     cobb_douglas_alpha_name = models.TextField(default='α')
     cobb_douglas_alpha_editable = models.BooleanField(default=False)
 
-    cobb_douglas_plot_on_k = models.BooleanField(
-        default=False,
-        help_text='If enabled, plot the function along param 2 (K) as the '
-        'X-axis. Otherwise, uses param 4 (L).')
+    cobb_douglas_y_name = models.TextField(default='Y')
 
     cobb_douglas_correct_scenario = models.PositiveSmallIntegerField(
         choices=COBB_DOUGLAS_SCENARIOS,
