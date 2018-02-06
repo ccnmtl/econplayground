@@ -39,16 +39,16 @@ class Graph(models.Model):
         ordering = ('-created_at',)
 
     title = models.TextField()
-    description = models.TextField(blank=True, null=True)
-    instructor_notes = models.TextField(blank=True, null=True)
+    description = models.TextField(blank=True, null=True, default='')
+    instructor_notes = models.TextField(blank=True, null=True, default='')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     is_published = models.BooleanField(default=False)
     needs_submit = models.BooleanField(default=False)
     display_feedback = models.BooleanField(default=True)
-    correct_feedback = models.TextField(blank=True, null=True)
-    incorrect_feedback = models.TextField(blank=True, null=True)
+    correct_feedback = models.TextField(blank=True, null=True, default='')
+    incorrect_feedback = models.TextField(blank=True, null=True, default='')
 
     graph_type = models.PositiveSmallIntegerField(
         choices=GRAPH_TYPES,
@@ -58,31 +58,35 @@ class Graph(models.Model):
         default=0)
 
     show_intersection = models.BooleanField(default=True)
-    intersection_label = models.TextField(blank=True, null=True)
+    intersection_label = models.TextField(blank=True, null=True, default='')
     intersection_label_editable = models.BooleanField(default=False)
-    intersection_horiz_line_label = models.TextField(blank=True, null=True)
+    intersection_horiz_line_label = models.TextField(blank=True, null=True,
+                                                     default='')
     intersection_horiz_line_label_editable = models.BooleanField(default=False)
-    intersection_vert_line_label = models.TextField(blank=True, null=True)
+    intersection_vert_line_label = models.TextField(blank=True, null=True,
+                                                    default='')
     intersection_vert_line_label_editable = models.BooleanField(default=False)
 
-    x_axis_label = models.TextField(blank=True, null=True)
+    x_axis_label = models.TextField(blank=True, null=True, default='')
     x_axis_label_editable = models.BooleanField(default=False)
-    y_axis_label = models.TextField(blank=True, null=True)
+    y_axis_label = models.TextField(blank=True, null=True, default='')
     y_axis_label_editable = models.BooleanField(default=False)
 
     line_1_slope = models.DecimalField(max_digits=12, decimal_places=4)
     line_1_slope_editable = models.BooleanField(default=False)
     line_1_offset = models.DecimalField(
         max_digits=12, decimal_places=4, default=0)
-    line_1_label = models.TextField(blank=True, null=True)
+    line_1_label = models.TextField(blank=True, null=True, default='')
     line_1_label_editable = models.BooleanField(default=False)
 
     # The following are what the user is shown when line 1 is moved up
     # and down.
-    line_1_feedback_increase = models.TextField(blank=True, null=True)
+    line_1_feedback_increase = models.TextField(blank=True, null=True,
+                                                default='')
     line_1_increase_score = models.DecimalField(
         max_digits=6, decimal_places=2, default=0)
-    line_1_feedback_decrease = models.TextField(blank=True, null=True)
+    line_1_feedback_decrease = models.TextField(blank=True, null=True,
+                                                default='')
     line_1_decrease_score = models.DecimalField(
         max_digits=6, decimal_places=2, default=0)
 
@@ -90,15 +94,17 @@ class Graph(models.Model):
     line_2_slope_editable = models.BooleanField(default=False)
     line_2_offset = models.DecimalField(
         max_digits=12, decimal_places=4, default=0)
-    line_2_label = models.TextField(blank=True, null=True)
+    line_2_label = models.TextField(blank=True, null=True, default='')
     line_2_label_editable = models.BooleanField(default=False)
 
     # The following are what the user is shown when line 2 is moved up
     # and down.
-    line_2_feedback_increase = models.TextField(blank=True, null=True)
+    line_2_feedback_increase = models.TextField(blank=True, null=True,
+                                                default='')
     line_2_increase_score = models.DecimalField(
         max_digits=6, decimal_places=2, default=0)
-    line_2_feedback_decrease = models.TextField(blank=True, null=True)
+    line_2_feedback_decrease = models.TextField(blank=True, null=True,
+                                                default='')
     line_2_decrease_score = models.DecimalField(
         max_digits=6, decimal_places=2, default=0)
 
