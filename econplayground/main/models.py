@@ -102,6 +102,9 @@ class Graph(models.Model):
     line_2_decrease_score = models.DecimalField(
         max_digits=6, decimal_places=2, default=0)
 
+    alpha = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0.3'))
+
     # The following are input values for the Cobb-Douglas function,
     # only used if this is a Cobb-Douglas graph.
     cobb_douglas_a = models.DecimalField(

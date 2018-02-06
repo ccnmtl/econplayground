@@ -46,6 +46,8 @@ class GraphSerializer(serializers.ModelSerializer):
             'line_2_feedback_decrease',
             'line_2_decrease_score',
 
+            'alpha',
+
             'x_axis_label',
             'x_axis_label_editable',
             'y_axis_label',
