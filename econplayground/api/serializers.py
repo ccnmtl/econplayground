@@ -29,6 +29,8 @@ class GraphSerializer(serializers.ModelSerializer):
             'line_1_label',
             'line_1_label_editable',
             'line_1_offset',
+            'line_1_offset_x',
+            'line_1_offset_y',
 
             'line_1_feedback_increase',
             'line_1_increase_score',
@@ -40,6 +42,8 @@ class GraphSerializer(serializers.ModelSerializer):
             'line_2_label',
             'line_2_label_editable',
             'line_2_offset',
+            'line_2_offset_x',
+            'line_2_offset_y',
 
             'line_2_feedback_increase',
             'line_2_increase_score',

@@ -75,8 +75,8 @@ class GraphViewSetTest(LoggedInTestMixin, APITestCase):
             'graph_type': 0,
             'line_1_slope': 0,
             'line_2_slope': 0,
-            'line_1_offset': 0.5,
-            'line_2_offset': 0.7,
+            'line_1_offset_y': 0.5,
+            'line_2_offset_y': 0.7,
         })
         self.assertEqual(response.status_code, 201)
         self.assertEqual(Graph.objects.count(), 1)
