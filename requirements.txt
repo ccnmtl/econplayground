@@ -36,7 +36,6 @@ scandir==1.6  # ipython
 ipython==6.2.1
 ipdb==0.10.3
 rdflib==4.2.2
-coverage==4.5
 pyasn1==0.4.2
 cryptography==2.1.4  # pyOpenSSL
 pyOpenSSL==17.5.0
@@ -73,7 +72,6 @@ raven==6.5.0
 django-bootstrap4==0.0.5
 django-debug-toolbar==1.9.1
 django-waffle==0.13.0
-django-jenkins==0.110.0
 django-smoketest==1.1.0
 typing==3.6.4  # For django-extensions
 django-extensions==1.9.9
