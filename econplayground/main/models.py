@@ -47,6 +47,7 @@ class Graph(models.Model):
     is_published = models.BooleanField(default=False)
     needs_submit = models.BooleanField(default=False)
     display_feedback = models.BooleanField(default=True)
+    display_shadow = models.BooleanField(default=True)
     correct_feedback = models.TextField(blank=True, null=True, default='')
     incorrect_feedback = models.TextField(blank=True, null=True, default='')
 

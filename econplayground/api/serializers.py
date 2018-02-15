@@ -13,6 +13,7 @@ class GraphSerializer(serializers.ModelSerializer):
             'author',
             'is_published', 'needs_submit',
             'display_feedback',
+            'display_shadow',
             'correct_feedback',
             'incorrect_feedback',
 
