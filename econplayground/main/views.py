@@ -43,17 +43,24 @@ class GraphCreateView(EnsureCsrfCookieMixin, UserPassesTestMixin, CreateView):
 class GraphDetailView(LoginRequiredMixin, DetailView):
     model = Graph
 
-    def embed_url(self):
-        path = reverse('graph_embed', kwargs={'pk': self.object.pk})
+    def embed_url(self, name='graph_embed'):
+        path = reverse(name, kwargs={'pk': self.object.pk})
         iframe_url = '{}://{}{}'.format(
             self.request.scheme, self.request.get_host(), path)
         return iframe_url
+
+    @staticmethod
+    def embed_code(embed_url):
+        return '<iframe width="600" height="600" src="{}"></iframe>'.format(
+            embed_url)
 
     def get_context_data(self, *args, **kwargs):
         ctx = super(GraphDetailView, self).get_context_data(*args, **kwargs)
 
         ctx.update({
-            'embed_url': self.embed_url()
+            'embed_url': self.embed_url('graph_embed'),
+            'embed_public_code': self.embed_code(
+                self.embed_url('graph_embed_public')),
         })
         return ctx
 
@@ -76,6 +83,11 @@ class GraphEmbedView(CsrfExemptMixin, LTIAuthMixin, DetailView):
     def post(self, request, pk=None):
         url = reverse('graph_embed', kwargs={'pk': pk})
         return HttpResponseRedirect(url)
+
+
+class GraphEmbedPublicView(DetailView):
+    model = Graph
+    template_name = 'main/graph_embed_public.html'
 
 
 class GraphDeleteView(UserPassesTestMixin, DeleteView):

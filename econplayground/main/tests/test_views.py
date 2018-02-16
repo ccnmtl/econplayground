@@ -24,6 +24,22 @@ class EmbedViewTest(LoggedInTestMixin, TestCase):
         self.assertEqual(r.status_code, 302)
 
 
+class EmbedViewPublicTest(LoggedInTestMixin, TestCase):
+    def test_get(self):
+        g = GraphFactory()
+        r = self.client.get('/graph/{}/public/'.format(g.pk))
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, g.title)
+
+
+class EmbedViewPublicAnonTest(TestCase):
+    def test_get(self):
+        g = GraphFactory()
+        r = self.client.get('/graph/{}/public/'.format(g.pk))
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, g.title)
+
+
 class GraphListViewTest(LoggedInTestMixin, TestCase):
     def setUp(self):
         super(GraphListViewTest, self).setUp()

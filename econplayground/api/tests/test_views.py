@@ -28,14 +28,14 @@ class AnonymousGraphViewSetTest(APITestCase):
 
     def test_get_empty(self):
         response = self.client.get('/api/graphs/')
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 200)
 
     def test_get(self):
         GraphFactory()
         GraphFactory()
         GraphFactory()
         response = self.client.get('/api/graphs/')
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 200)
 
     def test_update(self):
         u = UserFactory()
