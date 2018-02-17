@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from econplayground.main.models import Graph, Submission
 from econplayground.api.serializers import (
     GraphSerializer, SubmissionSerializer
@@ -13,6 +14,7 @@ from econplayground.api.serializers import (
 
 
 class GraphViewSet(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = Graph.objects.all()
     serializer_class = GraphSerializer
 
