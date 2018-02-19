@@ -7,12 +7,12 @@ from django.db import models
 
 
 GRAPH_TYPES = (
-    (0, 'Demand-Supply Graph'),
-    (1, 'Labor Market'),
+    (0, 'Linear Demand and Supply'),
+    (1, 'Non-Linear Demand and Supply'),
     (2, 'Labor Market (perfectly inelastic)'),
     (3, 'Cobb-Douglas'),
     (4, 'Labor Supply'),
-    (5, 'Consumption - Saving'),
+    (5, 'Consumption - Leisure'),
     (6, 'Saving - Investment'),
     (7, 'Money Market'),
 )
@@ -121,6 +121,19 @@ class Graph(models.Model):
 
     alpha = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('0.3'))
+    omega = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0'))
+
+    a = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('3'))
+    k = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('2'))
+    r = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0'))
+    y1 = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0'))
+    y2 = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0'))
 
     # The following are input values for the Cobb-Douglas function,
     # only used if this is a Cobb-Douglas graph.
