@@ -14,7 +14,7 @@ GRAPH_TYPES = (
     (4, 'Labor Supply'),
     (5, 'Consumption - Leisure'),
     (6, 'Saving - Investment'),
-    (7, 'Money Market'),
+    (7, 'Consumption - Saving'),
 )
 
 INTERACTION_TYPES = (
@@ -119,11 +119,31 @@ class Graph(models.Model):
     line_2_decrease_score = models.DecimalField(
         max_digits=6, decimal_places=2, default=0)
 
+    # TODO: migrate these to a1, a2, etc.
     alpha = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('0.3'))
     omega = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('0'))
 
+    # Arbitrary float storage to be used as needed for the altering
+    # functions of the various graph types.
+    a1 = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0'))
+    a1_editable = models.BooleanField(default=True)
+    a2 = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0'))
+    a2_editable = models.BooleanField(default=True)
+    a3 = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0'))
+    a3_editable = models.BooleanField(default=True)
+    a4 = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0'))
+    a4_editable = models.BooleanField(default=True)
+    a5 = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0'))
+    a5_editable = models.BooleanField(default=True)
+
+    # TODO: migrate these to a1, a2, etc.
     a = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('3'))
     k = models.DecimalField(
@@ -137,6 +157,7 @@ class Graph(models.Model):
 
     # The following are input values for the Cobb-Douglas function,
     # only used if this is a Cobb-Douglas graph.
+    # TODO: migrate these to a1, a2, etc.
     cobb_douglas_a = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('2'),
         null=True, help_text='A = Total factor productivity')

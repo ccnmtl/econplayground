@@ -54,6 +54,12 @@ class GraphSerializer(serializers.ModelSerializer):
             'alpha',
             'omega',
 
+            'a1', 'a1_editable',
+            'a2', 'a2_editable',
+            'a3', 'a3_editable',
+            'a4', 'a4_editable',
+            'a5', 'a5_editable',
+
             'a',
             'k',
             'r',
