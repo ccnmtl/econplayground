@@ -75,10 +75,6 @@ class Graph(models.Model):
 
     line_1_slope = models.DecimalField(max_digits=12, decimal_places=4)
     line_1_slope_editable = models.BooleanField(default=False)
-    # TODO: remove line_1_offset and line_2_offset - use the x/y
-    # fields instead.
-    line_1_offset = models.DecimalField(
-        max_digits=12, decimal_places=4, default=0)
     line_1_offset_x = models.DecimalField(
         max_digits=12, decimal_places=4, default=0)
     line_1_offset_y = models.DecimalField(
@@ -99,8 +95,6 @@ class Graph(models.Model):
 
     line_2_slope = models.DecimalField(max_digits=12, decimal_places=4)
     line_2_slope_editable = models.BooleanField(default=False)
-    line_2_offset = models.DecimalField(
-        max_digits=12, decimal_places=4, default=0)
     line_2_offset_x = models.DecimalField(
         max_digits=12, decimal_places=4, default=0)
     line_2_offset_y = models.DecimalField(

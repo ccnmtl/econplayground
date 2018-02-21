@@ -29,7 +29,6 @@ class GraphSerializer(serializers.ModelSerializer):
             'line_1_slope_editable',
             'line_1_label',
             'line_1_label_editable',
-            'line_1_offset',
             'line_1_offset_x',
             'line_1_offset_y',
 
@@ -42,7 +41,6 @@ class GraphSerializer(serializers.ModelSerializer):
             'line_2_slope_editable',
             'line_2_label',
             'line_2_label_editable',
-            'line_2_offset',
             'line_2_offset_x',
             'line_2_offset_y',
 
