@@ -58,10 +58,17 @@ class JXGLineFactory(factory.DjangoModelFactory):
     class Meta:
         model = JXGLine
 
+    graph = factory.SubFactory(GraphFactory)
+
 
 class JXGLineTransformationFactory(factory.DjangoModelFactory):
     class Meta:
         model = JXGLineTransformation
+
+    line = factory.SubFactory(JXGLineFactory)
+    z = fuzzy.FuzzyDecimal(-5.1234, 5.1234)
+    x = fuzzy.FuzzyDecimal(-5.1234, 5.1234)
+    y = fuzzy.FuzzyDecimal(-5.1234, 5.1234)
 
 
 class SubmissionFactory(factory.DjangoModelFactory):

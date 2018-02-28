@@ -5,7 +5,8 @@ from econplayground.main.tests.mixins import (
     LoggedInTestMixin, LoggedInTestStudentMixin
 )
 from econplayground.main.tests.factories import (
-    GraphFactory, SubmissionFactory, UserFactory
+    GraphFactory, JXGLineFactory, JXGLineTransformationFactory,
+    SubmissionFactory, UserFactory
 )
 
 
@@ -87,6 +88,8 @@ class GraphViewSetTest(LoggedInTestMixin, APITestCase):
         self.assertEqual(g.instructor_notes, 'notes')
         self.assertEqual(g.author, self.u)
 
+        self.assertEqual(g.jxgline_set.count(), 2)
+
         self.assertEqual(
             g.jxgline_set.count(), 2,
             'Creating a graph also creates its two JXGLines.')
@@ -111,6 +114,19 @@ class GraphViewSetTest(LoggedInTestMixin, APITestCase):
         response = self.client.get('/api/graphs/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data), 3)
+
+    def test_get_detail(self):
+        GraphFactory(author=self.u)
+        g = GraphFactory(author=self.u)
+        l = JXGLineFactory(graph=g)
+        JXGLineFactory(graph=g, number=2)
+        t1 = JXGLineTransformationFactory(line=l)
+        t2 = JXGLineTransformationFactory(line=l)
+        GraphFactory(author=self.u)
+        response = self.client.get('/api/graphs/{}/'.format(g.pk))
+        self.assertEqual(response.status_code, 200)
+        data = response.data
+        self.assertEqual(len(data['jxgline_set']), 2)
 
     def test_update(self):
         g = GraphFactory(author=self.u)
