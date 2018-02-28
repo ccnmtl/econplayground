@@ -17,7 +17,7 @@ class JXGLineSerializer(serializers.ModelSerializer):
     class Meta:
         model = JXGLine
         fields = (
-            'transformations',
+            'number', 'transformations',
         )
 
     def create(self, validated_data):
