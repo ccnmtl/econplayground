@@ -87,6 +87,18 @@ class GraphViewSetTest(LoggedInTestMixin, APITestCase):
         self.assertEqual(g.instructor_notes, 'notes')
         self.assertEqual(g.author, self.u)
 
+        self.assertEqual(
+            g.jxgline_set.count(), 2,
+            'Creating a graph also creates its two JXGLines.')
+        line1 = g.jxgline_set.first()
+        line2 = g.jxgline_set.last()
+        self.assertEqual(
+            line1.jxglinetransformation_set.count(), 2,
+            'Each line should be created with two transformations.')
+        self.assertEqual(
+            line2.jxglinetransformation_set.count(), 2,
+            'Each line should be created with two transformations.')
+
     def test_get_empty(self):
         response = self.client.get('/api/graphs/')
         self.assertEqual(response.status_code, 200)

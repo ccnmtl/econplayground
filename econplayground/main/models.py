@@ -187,6 +187,36 @@ class Graph(models.Model):
         return '/graph/{}/'.format(self.pk)
 
 
+class JXGLine(models.Model):
+    class Meta:
+        unique_together = ('graph', 'number')
+    graph = models.ForeignKey(Graph, on_delete=models.CASCADE)
+    number = models.PositiveSmallIntegerField(
+        default=1,
+        help_text='Is this line one or two on the graph?')
+
+
+class JXGLineTransformation(models.Model):
+    """
+    This model stores a JSXGraph transformation.
+
+    https://jsxgraph.org/docs/symbols/JXG.Transformation.html
+
+    A transformation can be applied to any geometry object in
+    JSXGraph. Here, I'm using it on lines. This is a more robust way
+    of saving position in JSXGraph than my cobbled together method of
+    offsets and slopes. This allows the rotation transformation to
+    work correctly, which is needed for some things in EconPractice.
+    """
+    line = models.ForeignKey(JXGLine, on_delete=models.CASCADE)
+    z = models.DecimalField(max_digits=12, decimal_places=6,
+                            default=Decimal('0'))
+    x = models.DecimalField(max_digits=12, decimal_places=6,
+                            default=Decimal('0'))
+    y = models.DecimalField(max_digits=12, decimal_places=6,
+                            default=Decimal('0'))
+
+
 class Submission(models.Model):
     class Meta:
         # A user can only have one submission per graph.
