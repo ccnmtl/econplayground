@@ -31,7 +31,7 @@ class JXGLineSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         transformations = JXGLineTransformation.objects.filter(line=instance)
         for transformation in transformations:
-            transformation.destroy()
+            transformation.delete()
 
         transformations_data = validated_data.pop('transformations')
         for transformation_data in transformations_data:
@@ -142,7 +142,7 @@ class GraphSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         lines = JXGLine.objects.filter(graph=instance)
         for line in lines:
-            line.destroy()
+            line.delete()
 
         lines_data = []
         if 'lines' in validated_data:
