@@ -190,7 +190,8 @@ class Graph(models.Model):
 class JXGLine(models.Model):
     class Meta:
         unique_together = ('graph', 'number')
-    graph = models.ForeignKey(Graph, on_delete=models.CASCADE)
+    graph = models.ForeignKey(Graph, on_delete=models.CASCADE,
+                              related_name='lines')
     number = models.PositiveSmallIntegerField(
         default=1,
         help_text='Is this line one or two on the graph?')
@@ -208,7 +209,8 @@ class JXGLineTransformation(models.Model):
     offsets and slopes. This allows the rotation transformation to
     work correctly, which is needed for some things in EconPractice.
     """
-    line = models.ForeignKey(JXGLine, on_delete=models.CASCADE)
+    line = models.ForeignKey(JXGLine, on_delete=models.CASCADE,
+                             related_name='transformations')
     z = models.DecimalField(max_digits=12, decimal_places=6,
                             default=Decimal('0'))
     x = models.DecimalField(max_digits=12, decimal_places=6,

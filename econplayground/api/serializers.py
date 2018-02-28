@@ -11,23 +11,23 @@ class JXGLineTransformationSerializer(serializers.ModelSerializer):
 
 
 class JXGLineSerializer(serializers.ModelSerializer):
-    jxglinetransformation_set = JXGLineTransformationSerializer(
+    transformations = JXGLineTransformationSerializer(
         many=True, read_only=True)
 
     class Meta:
         model = JXGLine
         fields = (
-            'jxglinetransformation_set',
+            'transformations',
         )
 
 
 class GraphSerializer(serializers.ModelSerializer):
-    jxgline_set = JXGLineSerializer(many=True, read_only=True)
+    lines = JXGLineSerializer(many=True, read_only=True)
 
     class Meta:
         model = Graph
         fields = (
-            'jxgline_set',
+            'lines',
             'id', 'title',
             'description', 'instructor_notes',
             'graph_type',
