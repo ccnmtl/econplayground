@@ -212,7 +212,7 @@ class SubmissionSetTest(LoggedInTestStudentMixin, APITestCase):
         SubmissionFactory(user=self.u)
         response = self.client.get('/api/submissions/{}/'.format(s.graph.pk))
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data.get('score'), '0.50')
+        self.assertEqual(response.data.get('score'), '0.5000')
 
         response = self.client.get('/api/submissions/{}/'.format(s2.graph.pk))
         self.assertEqual(

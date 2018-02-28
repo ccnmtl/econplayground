@@ -87,11 +87,11 @@ class Graph(models.Model):
     line_1_feedback_increase = models.TextField(blank=True, null=True,
                                                 default='')
     line_1_increase_score = models.DecimalField(
-        max_digits=6, decimal_places=2, default=0)
+        max_digits=8, decimal_places=4, default=0)
     line_1_feedback_decrease = models.TextField(blank=True, null=True,
                                                 default='')
     line_1_decrease_score = models.DecimalField(
-        max_digits=6, decimal_places=2, default=0)
+        max_digits=8, decimal_places=4, default=0)
 
     line_2_slope = models.DecimalField(max_digits=12, decimal_places=4)
     line_2_slope_editable = models.BooleanField(default=False)
@@ -107,11 +107,11 @@ class Graph(models.Model):
     line_2_feedback_increase = models.TextField(blank=True, null=True,
                                                 default='')
     line_2_increase_score = models.DecimalField(
-        max_digits=6, decimal_places=2, default=0)
+        max_digits=8, decimal_places=4, default=0)
     line_2_feedback_decrease = models.TextField(blank=True, null=True,
                                                 default='')
     line_2_decrease_score = models.DecimalField(
-        max_digits=6, decimal_places=2, default=0)
+        max_digits=8, decimal_places=4, default=0)
 
     # TODO: migrate these to a1, a2, etc.
     alpha = models.DecimalField(
@@ -229,7 +229,7 @@ class Submission(models.Model):
     choice = models.PositiveSmallIntegerField(default=0)
 
     # Corresponds to the line_x_x_score
-    score = models.DecimalField(max_digits=6, decimal_places=2, default=0)
+    score = models.DecimalField(max_digits=8, decimal_places=4, default=0)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
