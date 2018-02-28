@@ -140,12 +140,12 @@ class GraphSerializer(serializers.ModelSerializer):
         return graph
 
     def update(self, instance, validated_data):
-        lines = JXGLine.objects.filter(graph=instance)
-        for line in lines:
-            line.delete()
-
         lines_data = []
         if 'lines' in validated_data:
+            lines = JXGLine.objects.filter(graph=instance)
+            for line in lines:
+                line.delete()
+
             lines_data = validated_data.pop('lines')
 
         for field in validated_data:
