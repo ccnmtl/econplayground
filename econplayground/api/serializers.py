@@ -12,7 +12,7 @@ class JXGLineTransformationSerializer(serializers.ModelSerializer):
 
 class JXGLineSerializer(serializers.ModelSerializer):
     transformations = JXGLineTransformationSerializer(
-        many=True, read_only=True)
+        many=True)
 
     class Meta:
         model = JXGLine
@@ -20,9 +20,29 @@ class JXGLineSerializer(serializers.ModelSerializer):
             'transformations',
         )
 
+    def create(self, validated_data):
+        transformations_data = validated_data.pop('transformations')
+        line = JXGLine.objects.create(**validated_data)
+        for transformation_data in transformations_data:
+            JXGLineTransformation.objects.create(
+                line=line, **transformation_data)
+        return line
+
+    def update(self, instance, validated_data):
+        transformations = JXGLineTransformation.objects.filter(line=instance)
+        for transformation in transformations:
+            transformation.destroy()
+
+        transformations_data = validated_data.pop('transformations')
+        for transformation_data in transformations_data:
+            JXGLineTransformation.objects.create(
+                line=instance, **transformation_data)
+
+        return instance
+
 
 class GraphSerializer(serializers.ModelSerializer):
-    lines = JXGLineSerializer(many=True, read_only=True)
+    lines = JXGLineSerializer(many=True, required=False)
 
     class Meta:
         model = Graph
@@ -106,6 +126,37 @@ class GraphSerializer(serializers.ModelSerializer):
             'cobb_douglas_y_name',
             'cobb_douglas_correct_scenario',
         )
+
+    def create(self, validated_data):
+        lines_data = []
+        if 'lines' in validated_data:
+            lines_data = validated_data.pop('lines')
+
+        graph = Graph.objects.create(**validated_data)
+
+        for line_data in lines_data:
+            JXGLine.objects.create(graph=graph, **line_data)
+
+        return graph
+
+    def update(self, instance, validated_data):
+        lines = JXGLine.objects.filter(graph=instance)
+        for line in lines:
+            line.destroy()
+
+        lines_data = []
+        if 'lines' in validated_data:
+            lines_data = validated_data.pop('lines')
+
+        for field in validated_data:
+            newval = validated_data.get(field, getattr(instance, field))
+            setattr(instance, field, newval)
+        instance.save()
+
+        for line_data in lines_data:
+            JXGLine.objects.create(graph=instance, **line_data)
+
+        return instance
 
 
 class SubmissionSerializer(serializers.ModelSerializer):
