@@ -1,11 +1,33 @@
 from rest_framework import serializers
-from econplayground.main.models import Graph, Submission
+from econplayground.main.models import (
+    Graph, JXGLine, JXGLineTransformation, Submission
+)
+
+
+class JXGLineTransformationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JXGLineTransformation
+        fields = ('z', 'x', 'y')
+
+
+class JXGLineSerializer(serializers.ModelSerializer):
+    jxglinetransformation_set = JXGLineTransformationSerializer(
+        many=True, read_only=True)
+
+    class Meta:
+        model = JXGLine
+        fields = (
+            'jxglinetransformation_set',
+        )
 
 
 class GraphSerializer(serializers.ModelSerializer):
+    jxgline_set = JXGLineSerializer(many=True, read_only=True)
+
     class Meta:
         model = Graph
         fields = (
+            'jxgline_set',
             'id', 'title',
             'description', 'instructor_notes',
             'graph_type',
