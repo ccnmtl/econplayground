@@ -11,7 +11,8 @@ class JXGLineTransformationSerializer(serializers.ModelSerializer):
 
 
 class JXGLineSerializer(serializers.ModelSerializer):
-    transformations = JXGLineTransformationSerializer(many=True)
+    transformations = JXGLineTransformationSerializer(
+        many=True, required=False)
 
     class Meta:
         model = JXGLine
@@ -20,19 +21,28 @@ class JXGLineSerializer(serializers.ModelSerializer):
         )
 
     def create(self, validated_data):
-        transformations_data = validated_data.pop('transformations')
+        transformations_data = []
+        if 'transformations' in validated_data:
+            transformations_data = validated_data.pop('transformations')
+
         line = JXGLine.objects.create(**validated_data)
+
         for transformation_data in transformations_data:
             JXGLineTransformation.objects.create(
                 line=line, **transformation_data)
+
         return line
 
     def update(self, instance, validated_data):
         transformations = JXGLineTransformation.objects.filter(line=instance)
+
         for transformation in transformations:
             transformation.delete()
 
-        transformations_data = validated_data.pop('transformations')
+        transformations_data = []
+        if 'transformations' in validated_data:
+            transformations_data = validated_data.pop('transformations')
+
         for transformation_data in transformations_data:
             JXGLineTransformation.objects.create(
                 line=instance, **transformation_data)
@@ -134,7 +144,10 @@ class GraphSerializer(serializers.ModelSerializer):
         graph = Graph.objects.create(**validated_data)
 
         for line_data in lines_data:
-            JXGLine.objects.create(graph=graph, **line_data)
+            line_data.update({'graph': graph})
+            s = JXGLineSerializer(data=line_data)
+            if s.is_valid():
+                s.create(line_data)
 
         return graph
 
@@ -153,7 +166,10 @@ class GraphSerializer(serializers.ModelSerializer):
         instance.save()
 
         for line_data in lines_data:
-            JXGLine.objects.create(graph=instance, **line_data)
+            line_data.update({'graph': instance})
+            s = JXGLineSerializer(data=line_data)
+            if s.is_valid():
+                s.create(line_data)
 
         return instance
 
