@@ -87,11 +87,11 @@ class Graph(models.Model):
     line_1_feedback_increase = models.TextField(blank=True, null=True,
                                                 default='')
     line_1_increase_score = models.DecimalField(
-        max_digits=6, decimal_places=2, default=0)
+        max_digits=8, decimal_places=4, default=0)
     line_1_feedback_decrease = models.TextField(blank=True, null=True,
                                                 default='')
     line_1_decrease_score = models.DecimalField(
-        max_digits=6, decimal_places=2, default=0)
+        max_digits=8, decimal_places=4, default=0)
 
     line_2_slope = models.DecimalField(max_digits=12, decimal_places=4)
     line_2_slope_editable = models.BooleanField(default=False)
@@ -107,11 +107,11 @@ class Graph(models.Model):
     line_2_feedback_increase = models.TextField(blank=True, null=True,
                                                 default='')
     line_2_increase_score = models.DecimalField(
-        max_digits=6, decimal_places=2, default=0)
+        max_digits=8, decimal_places=4, default=0)
     line_2_feedback_decrease = models.TextField(blank=True, null=True,
                                                 default='')
     line_2_decrease_score = models.DecimalField(
-        max_digits=6, decimal_places=2, default=0)
+        max_digits=8, decimal_places=4, default=0)
 
     # TODO: migrate these to a1, a2, etc.
     alpha = models.DecimalField(
@@ -187,6 +187,38 @@ class Graph(models.Model):
         return '/graph/{}/'.format(self.pk)
 
 
+class JXGLine(models.Model):
+    class Meta:
+        unique_together = ('graph', 'number')
+    graph = models.ForeignKey(Graph, on_delete=models.CASCADE,
+                              related_name='lines')
+    number = models.PositiveSmallIntegerField(
+        default=1,
+        help_text='Is this line one or two on the graph?')
+
+
+class JXGLineTransformation(models.Model):
+    """
+    This model stores a JSXGraph transformation.
+
+    https://jsxgraph.org/docs/symbols/JXG.Transformation.html
+
+    A transformation can be applied to any geometry object in
+    JSXGraph. Here, I'm using it on lines. This is a more robust way
+    of saving position in JSXGraph than my cobbled together method of
+    offsets and slopes. This allows the rotation transformation to
+    work correctly, which is needed for some things in EconPractice.
+    """
+    line = models.ForeignKey(JXGLine, on_delete=models.CASCADE,
+                             related_name='transformations')
+    z = models.DecimalField(max_digits=12, decimal_places=6,
+                            default=Decimal('0'))
+    x = models.DecimalField(max_digits=12, decimal_places=6,
+                            default=Decimal('0'))
+    y = models.DecimalField(max_digits=12, decimal_places=6,
+                            default=Decimal('0'))
+
+
 class Submission(models.Model):
     class Meta:
         # A user can only have one submission per graph.
@@ -199,7 +231,7 @@ class Submission(models.Model):
     choice = models.PositiveSmallIntegerField(default=0)
 
     # Corresponds to the line_x_x_score
-    score = models.DecimalField(max_digits=6, decimal_places=2, default=0)
+    score = models.DecimalField(max_digits=8, decimal_places=4, default=0)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

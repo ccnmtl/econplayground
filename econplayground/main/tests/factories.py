@@ -1,7 +1,9 @@
 from django.contrib.auth.models import User
 import factory
 from factory import fuzzy
-from econplayground.main.models import Graph, Submission
+from econplayground.main.models import (
+    Graph, JXGLine, JXGLineTransformation, Submission
+)
 
 
 class UserFactory(factory.DjangoModelFactory):
@@ -50,6 +52,23 @@ class GraphFactory(factory.DjangoModelFactory):
     line_2_feedback_decrease = fuzzy.FuzzyText()
 
     cobb_douglas_alpha = fuzzy.FuzzyDecimal(0.0, 1.0)
+
+
+class JXGLineFactory(factory.DjangoModelFactory):
+    class Meta:
+        model = JXGLine
+
+    graph = factory.SubFactory(GraphFactory)
+
+
+class JXGLineTransformationFactory(factory.DjangoModelFactory):
+    class Meta:
+        model = JXGLineTransformation
+
+    line = factory.SubFactory(JXGLineFactory)
+    z = fuzzy.FuzzyDecimal(-5.1234, 5.1234)
+    x = fuzzy.FuzzyDecimal(-5.1234, 5.1234)
+    y = fuzzy.FuzzyDecimal(-5.1234, 5.1234)
 
 
 class SubmissionFactory(factory.DjangoModelFactory):

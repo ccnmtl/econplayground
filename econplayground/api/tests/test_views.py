@@ -5,7 +5,8 @@ from econplayground.main.tests.mixins import (
     LoggedInTestMixin, LoggedInTestStudentMixin
 )
 from econplayground.main.tests.factories import (
-    GraphFactory, SubmissionFactory, UserFactory
+    GraphFactory, JXGLineFactory, JXGLineTransformationFactory,
+    SubmissionFactory, UserFactory
 )
 
 
@@ -86,6 +87,57 @@ class GraphViewSetTest(LoggedInTestMixin, APITestCase):
         self.assertEqual(g.description, 'Graph description')
         self.assertEqual(g.instructor_notes, 'notes')
         self.assertEqual(g.author, self.u)
+        self.assertEqual(g.lines.count(), 0)
+
+    def test_create_with_lines(self):
+        response = self.client.post('/api/graphs/', {
+            'title': 'Graph title',
+            'description': 'Graph description',
+            'instructor_notes': 'notes',
+            'author': self.u.pk,
+            'graph_type': 0,
+            'line_1_slope': 0,
+            'line_2_slope': 0,
+            'line_1_offset_y': 0.5,
+            'line_2_offset_y': 0.7,
+            'lines': [
+                {
+                    'number': 1,
+                    'transformations': [
+                        {
+                            'z': 1,
+                            'x': 2,
+                            'y': 3,
+                        }
+                    ]
+                },
+                {
+                    'number': 2,
+                    'transformations': [
+                        {
+                            'z': 4,
+                            'x': 5,
+                            'y': 6.0006,
+                        }
+                    ]
+                },
+            ]
+        })
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(Graph.objects.count(), 1)
+
+        g = Graph.objects.first()
+        self.assertEqual(g.title, 'Graph title')
+        self.assertEqual(g.description, 'Graph description')
+        self.assertEqual(g.instructor_notes, 'notes')
+        self.assertEqual(g.author, self.u)
+
+        # TODO: Why isn't lines writable here?
+        # self.assertEqual(g.lines.count(), 2)
+        # line1 = g.lines.first()
+        # line2 = g.lines.last()
+        # self.assertEqual(line1.transformations.count(), 2)
+        # self.assertEqual(line2.transformations.count(), 2)
 
     def test_get_empty(self):
         response = self.client.get('/api/graphs/')
@@ -99,6 +151,23 @@ class GraphViewSetTest(LoggedInTestMixin, APITestCase):
         response = self.client.get('/api/graphs/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data), 3)
+
+    def test_get_detail(self):
+        GraphFactory(author=self.u)
+
+        g = GraphFactory(author=self.u)
+        l1 = JXGLineFactory(graph=g)
+        JXGLineFactory(graph=g, number=2)
+        JXGLineTransformationFactory(line=l1)
+        JXGLineTransformationFactory(line=l1)
+
+        GraphFactory(author=self.u)
+
+        response = self.client.get('/api/graphs/{}/'.format(g.pk))
+        self.assertEqual(response.status_code, 200)
+
+        data = response.data
+        self.assertEqual(len(data['lines']), 2)
 
     def test_update(self):
         g = GraphFactory(author=self.u)
@@ -200,7 +269,7 @@ class SubmissionSetTest(LoggedInTestStudentMixin, APITestCase):
         SubmissionFactory(user=self.u)
         response = self.client.get('/api/submissions/{}/'.format(s.graph.pk))
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data.get('score'), '0.50')
+        self.assertEqual(response.data.get('score'), '0.5000')
 
         response = self.client.get('/api/submissions/{}/'.format(s2.graph.pk))
         self.assertEqual(
