@@ -11,8 +11,7 @@ class JXGLineTransformationSerializer(serializers.ModelSerializer):
 
 
 class JXGLineSerializer(serializers.ModelSerializer):
-    transformations = JXGLineTransformationSerializer(
-        many=True)
+    transformations = JXGLineTransformationSerializer(many=True)
 
     class Meta:
         model = JXGLine

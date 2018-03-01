@@ -7,9 +7,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from econplayground.main.models import (
-    Graph, JXGLine, JXGLineTransformation, Submission
-)
+from econplayground.main.models import Graph, Submission
 from econplayground.api.serializers import (
     GraphSerializer, SubmissionSerializer
 )
@@ -19,15 +17,6 @@ class GraphViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = Graph.objects.all()
     serializer_class = GraphSerializer
-
-    def perform_create(self, serializer):
-        instance = serializer.save()
-        l1 = JXGLine.objects.create(graph=instance, number=1)
-        JXGLineTransformation.objects.create(line=l1)
-        JXGLineTransformation.objects.create(line=l1)
-        l2 = JXGLine.objects.create(graph=instance, number=2)
-        JXGLineTransformation.objects.create(line=l2)
-        JXGLineTransformation.objects.create(line=l2)
 
     def create(self, request):
         r = super(GraphViewSet, self).create(request)
