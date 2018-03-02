@@ -1,6 +1,8 @@
 from decimal import Decimal
 from rest_framework.test import APITestCase
-from econplayground.main.models import Graph, Submission
+from econplayground.main.models import (
+    Graph, JXGLine, JXGLineTransformation, Submission
+)
 from econplayground.main.tests.mixins import (
     LoggedInTestMixin, LoggedInTestStudentMixin
 )
@@ -91,7 +93,51 @@ class GraphViewSetTest(LoggedInTestMixin, APITestCase):
 
     def test_create_with_lines(self):
         response = self.client.post('/api/graphs/', {
-            'title': 'Graph title',
+            'title': 'Graph with lines',
+            'description': 'Graph description',
+            'instructor_notes': 'notes',
+            'author': self.u.pk,
+            'graph_type': 0,
+            'line_1_slope': 0,
+            'line_2_slope': 0,
+            'line_1_offset_y': 0.5,
+            'line_2_offset_y': 0.7,
+            'lines': [
+                {
+                    'number': 1,
+                    'transformations': [
+                    ]
+                },
+                {
+                    'number': 2,
+                },
+            ]
+            # DRF needs format='json' here, because nesting doesn't
+            # work with the default renderer used in testing:
+            # MultiPartRenderer
+            # http://www.django-rest-framework.org/api-guide/renderers/#multipartrenderer
+        }, format='json')
+
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(Graph.objects.count(), 1)
+        self.assertEqual(JXGLine.objects.count(), 2)
+        self.assertEqual(JXGLineTransformation.objects.count(), 0)
+
+        g = Graph.objects.first()
+        self.assertEqual(g.title, 'Graph with lines')
+        self.assertEqual(g.description, 'Graph description')
+        self.assertEqual(g.instructor_notes, 'notes')
+        self.assertEqual(g.author, self.u)
+
+        self.assertEqual(g.lines.count(), 2)
+        line1 = g.lines.first()
+        line2 = g.lines.last()
+        self.assertEqual(line1.transformations.count(), 0)
+        self.assertEqual(line2.transformations.count(), 0)
+
+    def test_create_with_lines_and_transformations(self):
+        response = self.client.post('/api/graphs/', {
+            'title': 'Graph with lines',
             'description': 'Graph description',
             'instructor_notes': 'notes',
             'author': self.u.pk,
@@ -108,6 +154,11 @@ class GraphViewSetTest(LoggedInTestMixin, APITestCase):
                             'z': 1,
                             'x': 2,
                             'y': 3,
+                        },
+                        {
+                            'z': -1,
+                            'x': -2,
+                            'y': -3,
                         }
                     ]
                 },
@@ -118,26 +169,93 @@ class GraphViewSetTest(LoggedInTestMixin, APITestCase):
                             'z': 4,
                             'x': 5,
                             'y': 6.0006,
+                        },
+                        {
+                            'z': -4,
+                            'x': -5,
+                            'y': -6.0006,
                         }
                     ]
                 },
             ]
-        })
+            # DRF needs format='json' here, because nesting doesn't
+            # work with the default renderer used in testing:
+            # MultiPartRenderer
+            # http://www.django-rest-framework.org/api-guide/renderers/#multipartrenderer
+        }, format='json')
+
         self.assertEqual(response.status_code, 201)
         self.assertEqual(Graph.objects.count(), 1)
+        self.assertEqual(JXGLine.objects.count(), 2)
+        self.assertEqual(JXGLineTransformation.objects.count(), 4)
 
         g = Graph.objects.first()
-        self.assertEqual(g.title, 'Graph title')
+        self.assertEqual(g.title, 'Graph with lines')
         self.assertEqual(g.description, 'Graph description')
         self.assertEqual(g.instructor_notes, 'notes')
         self.assertEqual(g.author, self.u)
 
-        # TODO: Why isn't lines writable here?
-        # self.assertEqual(g.lines.count(), 2)
-        # line1 = g.lines.first()
-        # line2 = g.lines.last()
-        # self.assertEqual(line1.transformations.count(), 2)
-        # self.assertEqual(line2.transformations.count(), 2)
+        self.assertEqual(g.lines.count(), 2)
+        line1 = g.lines.get(number=1)
+        line2 = g.lines.get(number=2)
+        self.assertEqual(line1.transformations.count(), 2)
+        self.assertEqual(line2.transformations.count(), 2)
+
+    def test_create_with_lines_and_transformations_invalid(self):
+        response = self.client.post('/api/graphs/', {
+            'title': 'Graph with lines',
+            'description': 'Graph description',
+            'instructor_notes': 'notes',
+            'author': self.u.pk,
+            'graph_type': 0,
+            'line_1_slope': 0,
+            'line_2_slope': 0,
+            'line_1_offset_y': 0.5,
+            'line_2_offset_y': 0.7,
+            'lines': [
+                {
+                    'number': 1,
+                    'transformations': [
+                        {
+                            # Assert that this can be broken with one
+                            # type error.
+                            'z': 'a',
+                            'x': 2,
+                            'y': 3,
+                        },
+                        {
+                            'z': -1,
+                            'x': -2,
+                            'y': -3,
+                        }
+                    ]
+                },
+                {
+                    'number': 2,
+                    'transformations': [
+                        {
+                            'z': 4,
+                            'x': 5,
+                            'y': 6.0006,
+                        },
+                        {
+                            'z': -4,
+                            'x': -5,
+                            'y': -6.0006,
+                        }
+                    ]
+                },
+            ]
+            # DRF needs format='json' here, because nesting doesn't
+            # work with the default renderer used in testing:
+            # MultiPartRenderer
+            # http://www.django-rest-framework.org/api-guide/renderers/#multipartrenderer
+        }, format='json')
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(Graph.objects.count(), 0)
+        self.assertEqual(JXGLine.objects.count(), 0)
+        self.assertEqual(JXGLineTransformation.objects.count(), 0)
 
     def test_get_empty(self):
         response = self.client.get('/api/graphs/')
@@ -156,10 +274,10 @@ class GraphViewSetTest(LoggedInTestMixin, APITestCase):
         GraphFactory(author=self.u)
 
         g = GraphFactory(author=self.u)
-        l1 = JXGLineFactory(graph=g)
+        line = JXGLineFactory(graph=g)
         JXGLineFactory(graph=g, number=2)
-        JXGLineTransformationFactory(line=l1)
-        JXGLineTransformationFactory(line=l1)
+        JXGLineTransformationFactory(line=line)
+        JXGLineTransformationFactory(line=line)
 
         GraphFactory(author=self.u)
 
@@ -168,6 +286,157 @@ class GraphViewSetTest(LoggedInTestMixin, APITestCase):
 
         data = response.data
         self.assertEqual(len(data['lines']), 2)
+
+    def test_update_with_lines(self):
+        g = GraphFactory(author=self.u)
+        line = JXGLineFactory(graph=g)
+        JXGLineTransformationFactory(line=line)
+
+        response = self.client.put('/api/graphs/{}/'.format(g.pk), {
+            'title': 'New title',
+            'author': self.u.pk,
+            'line_1_slope': 1,
+            'line_2_slope': -1,
+            'line_1_feedback_increase': 'Line 1 moved up',
+            'line_1_feedback_decrease': 'Line 1 moved down',
+            'line_2_feedback_increase': 'Line 2 moved up',
+            'line_2_feedback_decrease': 'Line 2 moved down',
+            'lines': [
+                {
+                    'number': 1,
+                    'transformations': [
+                        {
+                            'z': 1,
+                            'x': 2,
+                            'y': 3,
+                        },
+                        {
+                            'z': -1,
+                            'x': -2,
+                            'y': -3,
+                        }
+                    ]
+                },
+                {
+                    'number': 2,
+                    'transformations': [
+                        {
+                            'z': 4,
+                            'x': 5,
+                            'y': 6.0006,
+                        },
+                        {
+                            'z': -4,
+                            'x': -5,
+                            'y': -6.0006,
+                        }
+                    ]
+                },
+            ]
+        }, format='json')
+        self.assertEqual(response.status_code, 200)
+
+        self.assertEqual(JXGLine.objects.count(), 2)
+        self.assertEqual(JXGLineTransformation.objects.count(), 4)
+
+        self.assertEqual(response.data.get('title'), 'New title')
+        self.assertEqual(response.data.get('author'), self.u.pk)
+        self.assertEqual(
+            Decimal(response.data.get('line_1_slope')), Decimal(1))
+        self.assertEqual(
+            Decimal(response.data.get('line_2_slope')), Decimal(-1))
+
+        self.assertEqual(
+            response.data.get('line_1_feedback_increase'),
+            'Line 1 moved up')
+        self.assertEqual(
+            response.data.get('line_1_feedback_decrease'),
+            'Line 1 moved down')
+        self.assertEqual(
+            response.data.get('line_2_feedback_increase'),
+            'Line 2 moved up')
+        self.assertEqual(
+            response.data.get('line_2_feedback_decrease'),
+            'Line 2 moved down')
+
+    def test_update_with_lines_invalid_nested(self):
+        g = GraphFactory(author=self.u)
+        line = JXGLineFactory(graph=g, number=5)
+        JXGLineTransformationFactory(line=line)
+
+        response = self.client.put('/api/graphs/{}/'.format(g.pk), {
+            'title': 'New title',
+            'author': self.u.pk,
+            'line_1_slope': 1,
+            'line_2_slope': -1,
+            'line_1_feedback_increase': 'Line 1 moved up',
+            'line_1_feedback_decrease': 'Line 1 moved down',
+            'line_2_feedback_increase': 'Line 2 moved up',
+            'line_2_feedback_decrease': 'Line 2 moved down',
+            'abc': 'abc',
+            'lines': [
+                {
+                    'abc': 7,
+                    'whatever': [
+                        {
+                            'uuu': 1,
+                            'x': 2,
+                            'y': 3,
+                        },
+                        {
+                            'z': -1,
+                            'x': -2,
+                            'y': -3,
+                        }
+                    ]
+                },
+                {
+                    'number': 2,
+                    'transformations': [
+                        {
+                            'z': 4,
+                            'x': 5,
+                            'y': 6.0006,
+                        },
+                        {
+                            'z': -4,
+                            'x': -5,
+                            'y': -6.0006,
+                        }
+                    ]
+                },
+            ]
+        }, format='json')
+        self.assertEqual(response.status_code, 200)
+
+        self.assertEqual(JXGLine.objects.count(), 2)
+
+        self.assertFalse(JXGLine.objects.filter(number=5).exists())
+        self.assertFalse(JXGLine.objects.filter(number=7).exists())
+        self.assertTrue(JXGLine.objects.filter(number=1).exists())
+        self.assertTrue(JXGLine.objects.filter(number=2).exists())
+
+        self.assertEqual(JXGLineTransformation.objects.count(), 2)
+
+        self.assertEqual(response.data.get('title'), 'New title')
+        self.assertEqual(response.data.get('author'), self.u.pk)
+        self.assertEqual(
+            Decimal(response.data.get('line_1_slope')), Decimal(1))
+        self.assertEqual(
+            Decimal(response.data.get('line_2_slope')), Decimal(-1))
+
+        self.assertEqual(
+            response.data.get('line_1_feedback_increase'),
+            'Line 1 moved up')
+        self.assertEqual(
+            response.data.get('line_1_feedback_decrease'),
+            'Line 1 moved down')
+        self.assertEqual(
+            response.data.get('line_2_feedback_increase'),
+            'Line 2 moved up')
+        self.assertEqual(
+            response.data.get('line_2_feedback_decrease'),
+            'Line 2 moved down')
 
     def test_update(self):
         g = GraphFactory(author=self.u)
