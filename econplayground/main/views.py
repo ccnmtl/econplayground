@@ -60,7 +60,7 @@ class GraphDetailView(LoginRequiredMixin, DetailView):
         ctx.update({
             'embed_url': self.embed_url('graph_embed'),
             'embed_public_code': self.embed_code(
-                self.embed_url('graph_embed_public')),
+                self.embed_url('graph_embed_public_minimal')),
         })
         return ctx
 
@@ -88,6 +88,11 @@ class GraphEmbedView(CsrfExemptMixin, LTIAuthMixin, DetailView):
 class GraphEmbedPublicView(DetailView):
     model = Graph
     template_name = 'main/graph_embed_public.html'
+
+
+class GraphEmbedPublicMinimalView(DetailView):
+    model = Graph
+    template_name = 'main/graph_embed_public_minimal.html'
 
 
 class GraphDeleteView(UserPassesTestMixin, DeleteView):
