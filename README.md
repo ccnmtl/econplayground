@@ -6,4 +6,4 @@ We've developed this tool with macroeconomics as the initial focus, with possibi
 
 EconPractice integrates with learning management systems such as Canvas, allowing for assessment to happen using our tool.
 
-EconPractice is developed and maintained as an open source tool called EconPlayground. Our source code is released with the [GNU GPL3](https://www.gnu.org/licenses/gpl-3.0.txt) license. 
+EconPractice is developed and maintained as an open source tool called EconPlayground. Our source code is released with the [GNU GPL3](https://www.gnu.org/licenses/gpl-3.0.txt) license. We have a separate repository for the JavaScript application [here](https://github.com/ccnmtl/econplayground.js).
