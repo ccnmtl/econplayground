@@ -7,7 +7,9 @@ from econplayground.main.models import (
 class JXGLineTransformationSerializer(serializers.ModelSerializer):
     class Meta:
         model = JXGLineTransformation
-        fields = ('z', 'x', 'y')
+        fields = ('z1', 'x1', 'y1',
+                  'z2', 'x2', 'y2',
+                  'z3', 'x3', 'y3')
 
 
 class JXGLineSerializer(serializers.ModelSerializer):

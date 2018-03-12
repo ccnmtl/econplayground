@@ -151,14 +151,14 @@ class GraphViewSetTest(LoggedInTestMixin, APITestCase):
                     'number': 1,
                     'transformations': [
                         {
-                            'z': 1,
-                            'x': 2,
-                            'y': 3,
+                            'z2': 1,
+                            'x2': 2,
+                            'y2': 3,
                         },
                         {
-                            'z': -1,
-                            'x': -2,
-                            'y': -3,
+                            'z3': -1,
+                            'x3': -2,
+                            'y3': -3,
                         }
                     ]
                 },
@@ -166,14 +166,14 @@ class GraphViewSetTest(LoggedInTestMixin, APITestCase):
                     'number': 2,
                     'transformations': [
                         {
-                            'z': 4,
-                            'x': 5,
-                            'y': 6.0006,
+                            'z2': 4,
+                            'x2': 5,
+                            'y2': 6.0006,
                         },
                         {
-                            'z': -4,
-                            'x': -5,
-                            'y': -6.0006,
+                            'z3': -4,
+                            'x3': -5,
+                            'y3': -6.0006,
                         }
                     ]
                 },
@@ -219,14 +219,14 @@ class GraphViewSetTest(LoggedInTestMixin, APITestCase):
                         {
                             # Assert that this can be broken with one
                             # type error.
-                            'z': 'a',
-                            'x': 2,
-                            'y': 3,
+                            'z2': 'a',
+                            'x2': 2,
+                            'y2': 3,
                         },
                         {
-                            'z': -1,
-                            'x': -2,
-                            'y': -3,
+                            'z3': -1,
+                            'x3': -2,
+                            'y3': -3,
                         }
                     ]
                 },
@@ -234,14 +234,14 @@ class GraphViewSetTest(LoggedInTestMixin, APITestCase):
                     'number': 2,
                     'transformations': [
                         {
-                            'z': 4,
-                            'x': 5,
-                            'y': 6.0006,
+                            'z2': 4,
+                            'x2': 5,
+                            'y2': 6.0006,
                         },
                         {
-                            'z': -4,
-                            'x': -5,
-                            'y': -6.0006,
+                            'z3': -4,
+                            'x3': -5,
+                            'y3': -6.0006,
                         }
                     ]
                 },
@@ -306,14 +306,14 @@ class GraphViewSetTest(LoggedInTestMixin, APITestCase):
                     'number': 1,
                     'transformations': [
                         {
-                            'z': 1,
-                            'x': 2,
-                            'y': 3,
+                            'z2': 1,
+                            'x2': 2,
+                            'y2': 3,
                         },
                         {
-                            'z': -1,
-                            'x': -2,
-                            'y': -3,
+                            'z3': -1,
+                            'x3': -2,
+                            'y3': -3,
                         }
                     ]
                 },
@@ -321,14 +321,14 @@ class GraphViewSetTest(LoggedInTestMixin, APITestCase):
                     'number': 2,
                     'transformations': [
                         {
-                            'z': 4,
-                            'x': 5,
-                            'y': 6.0006,
+                            'z2': 4,
+                            'x2': 5,
+                            'y2': 6.0006,
                         },
                         {
-                            'z': -4,
-                            'x': -5,
-                            'y': -6.0006,
+                            'z3': -4,
+                            'x3': -5,
+                            'y3': -6.0006,
                         }
                     ]
                 },
