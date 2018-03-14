@@ -66,9 +66,15 @@ class JXGLineTransformationFactory(factory.DjangoModelFactory):
         model = JXGLineTransformation
 
     line = factory.SubFactory(JXGLineFactory)
-    z = fuzzy.FuzzyDecimal(-5.1234, 5.1234)
-    x = fuzzy.FuzzyDecimal(-5.1234, 5.1234)
-    y = fuzzy.FuzzyDecimal(-5.1234, 5.1234)
+    z1 = fuzzy.FuzzyDecimal(-5.1234, 5.1234)
+    x1 = fuzzy.FuzzyDecimal(-5.1234, 5.1234)
+    y1 = fuzzy.FuzzyDecimal(-5.1234, 5.1234)
+    z2 = fuzzy.FuzzyDecimal(-5.1234, 5.1234)
+    x2 = fuzzy.FuzzyDecimal(-5.1234, 5.1234)
+    y2 = fuzzy.FuzzyDecimal(-5.1234, 5.1234)
+    z3 = fuzzy.FuzzyDecimal(-5.1234, 5.1234)
+    x3 = fuzzy.FuzzyDecimal(-5.1234, 5.1234)
+    y3 = fuzzy.FuzzyDecimal(-5.1234, 5.1234)
 
 
 class SubmissionFactory(factory.DjangoModelFactory):

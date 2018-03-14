@@ -211,12 +211,24 @@ class JXGLineTransformation(models.Model):
     """
     line = models.ForeignKey(JXGLine, on_delete=models.CASCADE,
                              related_name='transformations')
-    z = models.DecimalField(max_digits=12, decimal_places=6,
-                            default=Decimal('0'))
-    x = models.DecimalField(max_digits=12, decimal_places=6,
-                            default=Decimal('0'))
-    y = models.DecimalField(max_digits=12, decimal_places=6,
-                            default=Decimal('0'))
+    z1 = models.DecimalField(max_digits=12, decimal_places=6,
+                             default=Decimal('0'))
+    x1 = models.DecimalField(max_digits=12, decimal_places=6,
+                             default=Decimal('0'))
+    y1 = models.DecimalField(max_digits=12, decimal_places=6,
+                             default=Decimal('0'))
+    z2 = models.DecimalField(max_digits=12, decimal_places=6,
+                             default=Decimal('0'))
+    x2 = models.DecimalField(max_digits=12, decimal_places=6,
+                             default=Decimal('0'))
+    y2 = models.DecimalField(max_digits=12, decimal_places=6,
+                             default=Decimal('0'))
+    z3 = models.DecimalField(max_digits=12, decimal_places=6,
+                             default=Decimal('0'))
+    x3 = models.DecimalField(max_digits=12, decimal_places=6,
+                             default=Decimal('0'))
+    y3 = models.DecimalField(max_digits=12, decimal_places=6,
+                             default=Decimal('0'))
 
 
 class Submission(models.Model):
