@@ -124,15 +124,19 @@ class Graph(models.Model):
     a1 = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('0'))
     a1_editable = models.BooleanField(default=True)
+    a1_name = models.TextField(default='', blank=True,)
     a2 = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('0'))
     a2_editable = models.BooleanField(default=True)
+    a2_name = models.TextField(default='', blank=True)
     a3 = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('0'))
     a3_editable = models.BooleanField(default=True)
+    a3_name = models.TextField(default='', blank=True)
     a4 = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('0'))
     a4_editable = models.BooleanField(default=True)
+    a4_name = models.TextField(default='', blank=True)
     a5 = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('0'))
     a5_editable = models.BooleanField(default=True)
