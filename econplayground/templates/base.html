@@ -64,7 +64,7 @@
 {% user_is_instructor request.user as i_am_instructor %}
 <body class="{% block bodyclass %}{% endblock %}" id="{% block bodyid %}{% endblock %}">
     {% block content-container %}
-    <main role="main" class="container">
+    <main role="main" class="container content-container">
         {% block navbar %}
         <header>
             <!-- Fixed navbar -->

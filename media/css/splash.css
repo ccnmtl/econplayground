@@ -1,16 +1,19 @@
 /* General markup and styles for table-esque vertical and horizontal centering */
 .site-wrapper {
-    display: table;
+    position: relative;
     width: 100%;
     height: 100%;
     /* For at least Firefox */
     min-height: 100%;
     box-shadow: inset 0 0 5rem rgba(0,0,0,.5);
+
 }
 
 .site-wrapper-inner {
-    display: table-cell;
-    vertical-align: top;
+    /*vertical-align: top;*/
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .cover-container {
@@ -48,6 +51,7 @@
 }
 
 .splash .mastfoot {
+    width: 100%;
     color: rgba(255,255,255,.5);
 }
 
@@ -66,7 +70,6 @@
     .splash .site-wrapper-inner { vertical-align: middle; }
 
     /* Handle the widths */
-    .splash .mastfoot,
     .splash .cover-container {
         width: 100%;
         /* Must be percentage or pixels for horizontal alignment */
@@ -75,13 +78,7 @@
 
 /* LTI Splash Page */
 @media (min-width: 62em) {
-    .splash .mastfoot,
     .splash .cover-container { width: 50rem; }
-}
-
-
-.bg-bright-blue {
-    background-color: #1b75bc !important;
 }
 
 .jumbotron {
@@ -92,8 +89,6 @@
     width: 300px;
 }
 
-nav {
-    margin-left: -15px;
-    margin-right: -15px;
-    margin-bottom: 20px;
+.bg-light-blue {
+    background-color: #1b75bc;
 }
