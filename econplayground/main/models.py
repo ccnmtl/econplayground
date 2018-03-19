@@ -113,6 +113,16 @@ class Graph(models.Model):
     line_2_decrease_score = models.DecimalField(
         max_digits=8, decimal_places=4, default=0)
 
+    line_3_slope = models.DecimalField(max_digits=12, decimal_places=4,
+                                       default=Decimal('1'))
+    line_3_slope_editable = models.BooleanField(default=False)
+    line_3_offset_x = models.DecimalField(
+        max_digits=12, decimal_places=4, default=0)
+    line_3_offset_y = models.DecimalField(
+        max_digits=12, decimal_places=4, default=0)
+    line_3_label = models.TextField(blank=True, null=True, default='')
+    line_3_label_editable = models.BooleanField(default=False)
+
     # TODO: migrate these to a1, a2, etc.
     alpha = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('0.3'))
