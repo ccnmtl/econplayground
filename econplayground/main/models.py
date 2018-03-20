@@ -15,6 +15,7 @@ GRAPH_TYPES = (
     (5, 'Consumption - Leisure'),
     (6, 'Saving - Investment'),
     (7, 'Consumption - Saving'),
+    (8, 'Aggregate Demand - Aggregate Supply'),
 )
 
 INTERACTION_TYPES = (
