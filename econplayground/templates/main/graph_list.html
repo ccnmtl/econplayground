@@ -1,15 +1,18 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static econ_auth %}
 
 {% block content %}
     <h1>
         Graphs
     </h1>
 
+    {% user_is_instructor request.user as i_am_instructor %}
     <ul>
     {% for graph in object_list %}
         <li>
-            <a href="{% url 'graph_detail' graph.id %}">{{ graph.title }}</a> {% if graph.needs_submit %}<small>LTI</small>{% endif %}
+            <a href="{% url 'graph_detail' graph.id %}">{{ graph.title }}</a>
+            {% if i_am_instructor and graph.is_published %}<span class="badge badge-pill badge-primary">Published</span>{% endif %}
+            {% if i_am_instructor and graph.needs_submit %}<span class="badge badge-pill badge-secondary">LTI</span>{% endif %}
             {% if graph.instructor_notes %}
                 <p>{{ graph.instructor_notes }}</p>
             {% endif %}
