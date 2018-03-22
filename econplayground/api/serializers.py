@@ -102,6 +102,13 @@ class GraphSerializer(serializers.ModelSerializer):
             'line_2_feedback_decrease',
             'line_2_decrease_score',
 
+            'line_3_slope',
+            'line_3_slope_editable',
+            'line_3_label',
+            'line_3_label_editable',
+            'line_3_offset_x',
+            'line_3_offset_y',
+
             'alpha',
             'omega',
 
