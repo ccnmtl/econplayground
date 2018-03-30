@@ -60,8 +60,17 @@ class Graph(models.Model):
         default=0)
 
     show_intersection = models.BooleanField(default=True)
+    display_intersection_1 = models.BooleanField(default=False)
+    display_intersection_2 = models.BooleanField(default=False)
+    display_intersection_3 = models.BooleanField(default=False)
+
     intersection_label = models.TextField(blank=True, null=True, default='')
     intersection_label_editable = models.BooleanField(default=False)
+    intersection_2_label = models.TextField(blank=True, null=True, default='')
+    intersection_2_label_editable = models.BooleanField(default=False)
+    intersection_3_label = models.TextField(blank=True, null=True, default='')
+    intersection_3_label_editable = models.BooleanField(default=False)
+
     intersection_horiz_line_label = models.TextField(blank=True, null=True,
                                                      default='')
     intersection_horiz_line_label_editable = models.BooleanField(default=False)
@@ -82,6 +91,8 @@ class Graph(models.Model):
         max_digits=12, decimal_places=4, default=0)
     line_1_label = models.TextField(blank=True, null=True, default='')
     line_1_label_editable = models.BooleanField(default=False)
+    line_1_dashed = models.BooleanField(default=False)
+    line_1_dashed_editable = models.BooleanField(default=False)
 
     # The following are what the user is shown when line 1 is moved up
     # and down.
@@ -102,6 +113,8 @@ class Graph(models.Model):
         max_digits=12, decimal_places=4, default=0)
     line_2_label = models.TextField(blank=True, null=True, default='')
     line_2_label_editable = models.BooleanField(default=False)
+    line_2_dashed = models.BooleanField(default=False)
+    line_2_dashed_editable = models.BooleanField(default=False)
 
     # The following are what the user is shown when line 2 is moved up
     # and down.
@@ -123,6 +136,8 @@ class Graph(models.Model):
         max_digits=12, decimal_places=4, default=0)
     line_3_label = models.TextField(blank=True, null=True, default='')
     line_3_label_editable = models.BooleanField(default=False)
+    line_3_dashed = models.BooleanField(default=False)
+    line_3_dashed_editable = models.BooleanField(default=False)
 
     # TODO: migrate these to a1, a2, etc.
     alpha = models.DecimalField(
