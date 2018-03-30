@@ -71,6 +71,10 @@ class GraphSerializer(serializers.ModelSerializer):
             'incorrect_feedback',
 
             'show_intersection',
+            'display_intersection_1',
+            'display_intersection_2',
+            'display_intersection_3',
+
             'intersection_label',
             'intersection_label_editable',
             'intersection_horiz_line_label',
@@ -78,12 +82,18 @@ class GraphSerializer(serializers.ModelSerializer):
             'intersection_vert_line_label',
             'intersection_vert_line_label_editable',
 
+            'intersection_2_label',
+            'intersection_2_label_editable',
+            'intersection_3_label',
+            'intersection_3_label_editable',
+
             'line_1_slope',
             'line_1_slope_editable',
             'line_1_label',
             'line_1_label_editable',
             'line_1_offset_x',
             'line_1_offset_y',
+            'line_1_dashed', 'line_1_dashed_editable',
 
             'line_1_feedback_increase',
             'line_1_increase_score',
@@ -96,6 +106,7 @@ class GraphSerializer(serializers.ModelSerializer):
             'line_2_label_editable',
             'line_2_offset_x',
             'line_2_offset_y',
+            'line_2_dashed', 'line_2_dashed_editable',
 
             'line_2_feedback_increase',
             'line_2_increase_score',
@@ -108,6 +119,7 @@ class GraphSerializer(serializers.ModelSerializer):
             'line_3_label_editable',
             'line_3_offset_x',
             'line_3_offset_y',
+            'line_3_dashed', 'line_3_dashed_editable',
 
             'alpha',
             'omega',
