@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load compress static %}
+{% load compress static bootstrap4 %}
 
 {% block title %}
    Please Login
@@ -135,15 +135,8 @@
 
                     {% csrf_token %}
                     <div class="login-local-form"
-                        {% if not login_form.errors %}style="display: none"{% endif %}>
-                        <div class="form-group">
-                            <label for="id_username">Username:</label> {{login_form.username }}
-                        </div>
-                        <!-- form-group -->
-                        <div class="form-group">
-                            <label for="id_password">Password:</label> {{login_form.password }}
-                        </div>
-                        <!-- form-group -->
+                         {% if not login_form.errors %}style="display: none"{% endif %}>
+                        {% bootstrap_form login_form layout='inline' %}
                     </div>
                     <input class="btn btn-primary" type="button"
                         value="Guest Log In"
