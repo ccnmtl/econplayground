@@ -180,24 +180,22 @@
         };
     </script>
 
-    {% if SENTRY_PUBLIC_DSN %}
-        <script src="https://cdn.ravenjs.com/3.21.0/raven.min.js"></script>
-        <script>
-         Raven.config('{{ SENTRY_PUBLIC_DSN }}').install();
+    <script src="https://cdn.ravenjs.com/3.24.0/raven.min.js"></script>
+    <script>
+    Raven.config('https://228b00835993445782defce7ab192600@sentry.io/230935').install();
 
-         {% if user.is_anonymous %}
-         Raven.setUserContext({
-             email: 'none',
-             id: 'anonymous'
-         });
-         {% else %}
-         Raven.setUserContext({
-             email: '{{ user.email }}',
-             id: '{{ user.username }}'
-         });
-         {% endif %}
-        </script>
+    {% if request.user.is_anonymous %}
+    Raven.setUserContext({
+        email: 'none',
+        id: 'anonymous'
+    });
+    {% else %}
+    Raven.setUserContext({
+        email: '{{ user.email }}',
+        id: '{{ user.username }}'
+    });
     {% endif %}
+    </script>
 
     {% block js %}{% endblock %}
 
