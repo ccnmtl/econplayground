@@ -128,7 +128,7 @@ class Graph(models.Model):
         max_digits=8, decimal_places=4, default=0)
 
     line_3_slope = models.DecimalField(max_digits=12, decimal_places=4,
-                                       default=Decimal('1'))
+                                       default=Decimal('999'))
     line_3_slope_editable = models.BooleanField(default=False)
     line_3_offset_x = models.DecimalField(
         max_digits=12, decimal_places=4, default=0)
