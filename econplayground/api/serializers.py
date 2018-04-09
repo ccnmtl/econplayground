@@ -77,10 +77,21 @@ class GraphSerializer(serializers.ModelSerializer):
 
             'intersection_label',
             'intersection_label_editable',
+
             'intersection_horiz_line_label',
             'intersection_horiz_line_label_editable',
             'intersection_vert_line_label',
             'intersection_vert_line_label_editable',
+
+            'intersection_2_horiz_line_label',
+            'intersection_2_horiz_line_label_editable',
+            'intersection_2_vert_line_label',
+            'intersection_2_vert_line_label_editable',
+
+            'intersection_3_horiz_line_label',
+            'intersection_3_horiz_line_label_editable',
+            'intersection_3_vert_line_label',
+            'intersection_3_vert_line_label_editable',
 
             'intersection_2_label',
             'intersection_2_label_editable',

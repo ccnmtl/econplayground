@@ -78,6 +78,24 @@ class Graph(models.Model):
                                                     default='')
     intersection_vert_line_label_editable = models.BooleanField(default=False)
 
+    intersection_2_horiz_line_label = models.TextField(blank=True, null=True,
+                                                       default='')
+    intersection_2_horiz_line_label_editable = models.BooleanField(
+        default=False)
+    intersection_2_vert_line_label = models.TextField(blank=True, null=True,
+                                                      default='')
+    intersection_2_vert_line_label_editable = models.BooleanField(
+        default=False)
+
+    intersection_3_horiz_line_label = models.TextField(blank=True, null=True,
+                                                       default='')
+    intersection_3_horiz_line_label_editable = models.BooleanField(
+        default=False)
+    intersection_3_vert_line_label = models.TextField(blank=True, null=True,
+                                                      default='')
+    intersection_3_vert_line_label_editable = models.BooleanField(
+        default=False)
+
     x_axis_label = models.TextField(blank=True, null=True, default='')
     x_axis_label_editable = models.BooleanField(default=False)
     y_axis_label = models.TextField(blank=True, null=True, default='')
