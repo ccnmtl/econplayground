@@ -96,7 +96,7 @@ ccnmtlsettings==1.4.0
 
 oauthlib==2.0.7
 oauth2==1.9.0.post1
-pylti==0.6.0
+pylti==0.5.1  # pyup: <0.6.0
 nameparser==0.5.6
 django-lti-provider==0.3.3
 
