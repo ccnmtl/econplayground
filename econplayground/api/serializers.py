@@ -76,35 +76,24 @@ class GraphSerializer(serializers.ModelSerializer):
             'display_intersection_3',
 
             'intersection_label',
-            'intersection_label_editable',
 
             'intersection_horiz_line_label',
-            'intersection_horiz_line_label_editable',
             'intersection_vert_line_label',
-            'intersection_vert_line_label_editable',
 
             'intersection_2_horiz_line_label',
-            'intersection_2_horiz_line_label_editable',
             'intersection_2_vert_line_label',
-            'intersection_2_vert_line_label_editable',
 
             'intersection_3_horiz_line_label',
-            'intersection_3_horiz_line_label_editable',
             'intersection_3_vert_line_label',
-            'intersection_3_vert_line_label_editable',
 
             'intersection_2_label',
-            'intersection_2_label_editable',
             'intersection_3_label',
-            'intersection_3_label_editable',
 
             'line_1_slope',
-            'line_1_slope_editable',
             'line_1_label',
-            'line_1_label_editable',
             'line_1_offset_x',
             'line_1_offset_y',
-            'line_1_dashed', 'line_1_dashed_editable',
+            'line_1_dashed',
 
             'line_1_feedback_increase',
             'line_1_increase_score',
@@ -112,12 +101,10 @@ class GraphSerializer(serializers.ModelSerializer):
             'line_1_decrease_score',
 
             'line_2_slope',
-            'line_2_slope_editable',
             'line_2_label',
-            'line_2_label_editable',
             'line_2_offset_x',
             'line_2_offset_y',
-            'line_2_dashed', 'line_2_dashed_editable',
+            'line_2_dashed',
 
             'line_2_feedback_increase',
             'line_2_increase_score',
@@ -125,21 +112,19 @@ class GraphSerializer(serializers.ModelSerializer):
             'line_2_decrease_score',
 
             'line_3_slope',
-            'line_3_slope_editable',
             'line_3_label',
-            'line_3_label_editable',
             'line_3_offset_x',
             'line_3_offset_y',
-            'line_3_dashed', 'line_3_dashed_editable',
+            'line_3_dashed',
 
             'alpha',
             'omega',
 
-            'a1', 'a1_editable', 'a1_name',
-            'a2', 'a2_editable', 'a2_name',
-            'a3', 'a3_editable', 'a3_name',
-            'a4', 'a4_editable', 'a4_name',
-            'a5', 'a5_editable',
+            'a1', 'a1_name',
+            'a2', 'a2_name',
+            'a3', 'a3_name',
+            'a4', 'a4_name',
+            'a5',
 
             'a',
             'k',
@@ -148,22 +133,16 @@ class GraphSerializer(serializers.ModelSerializer):
             'y2',
 
             'x_axis_label',
-            'x_axis_label_editable',
             'y_axis_label',
-            'y_axis_label_editable',
 
             'cobb_douglas_a',
             'cobb_douglas_a_name',
-            'cobb_douglas_a_editable',
             'cobb_douglas_l',
             'cobb_douglas_l_name',
-            'cobb_douglas_l_editable',
             'cobb_douglas_k',
             'cobb_douglas_k_name',
-            'cobb_douglas_k_editable',
             'cobb_douglas_alpha',
             'cobb_douglas_alpha_name',
-            'cobb_douglas_alpha_editable',
             'cobb_douglas_y_name',
             'cobb_douglas_correct_scenario',
         )
