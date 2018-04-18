@@ -18,11 +18,6 @@ GRAPH_TYPES = (
     (8, 'Aggregate Demand - Aggregate Supply'),
 )
 
-INTERACTION_TYPES = (
-    (0, 'Draggable lines'),
-    (1, 'Area selection'),
-)
-
 COBB_DOUGLAS_SCENARIOS = (
     (0, 'Param 1 (A) increased'),
     (1, 'Param 1 (A) decreased'),
@@ -54,9 +49,6 @@ class Graph(models.Model):
 
     graph_type = models.PositiveSmallIntegerField(
         choices=GRAPH_TYPES,
-        default=0)
-    interaction_type = models.PositiveSmallIntegerField(
-        choices=INTERACTION_TYPES,
         default=0)
 
     show_intersection = models.BooleanField(default=True)

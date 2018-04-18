@@ -62,7 +62,6 @@ class GraphSerializer(serializers.ModelSerializer):
             'id', 'title',
             'description', 'instructor_notes',
             'graph_type',
-            'interaction_type',
             'author',
             'is_published', 'needs_submit',
             'display_feedback',
