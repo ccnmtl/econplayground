@@ -18,6 +18,12 @@ GRAPH_TYPES = (
     (8, 'Aggregate Demand - Aggregate Supply'),
 )
 
+ASSIGNMENT_TYPES = (
+    (0, 'Template graph'),
+    (1, 'Labeling'),
+    (2, 'Modification'),
+)
+
 COBB_DOUGLAS_SCENARIOS = (
     (0, 'Param 1 (A) increased'),
     (1, 'Param 1 (A) decreased'),
@@ -49,6 +55,9 @@ class Graph(models.Model):
 
     graph_type = models.PositiveSmallIntegerField(
         choices=GRAPH_TYPES,
+        default=0)
+    assignment_type = models.PositiveSmallIntegerField(
+        choices=ASSIGNMENT_TYPES,
         default=0)
 
     show_intersection = models.BooleanField(default=True)
