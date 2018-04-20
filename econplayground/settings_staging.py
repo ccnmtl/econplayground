@@ -18,3 +18,5 @@ try:
     from econplayground.local_settings import *
 except ImportError:
     pass
+
+SENTRY_DSN = 'https://228b00835993445782defce7ab192600@sentry.io/230935'

@@ -181,9 +181,10 @@
         };
     </script>
 
+    {% if SENTRY_DSN %}
     <script src="https://cdn.ravenjs.com/3.24.0/raven.min.js"></script>
     <script>
-    Raven.config('https://228b00835993445782defce7ab192600@sentry.io/230935').install();
+    Raven.config('{{SENTRY_DSN}}').install();
 
     {% if request.user.is_anonymous %}
     Raven.setUserContext({
@@ -197,6 +198,7 @@
     });
     {% endif %}
     </script>
+    {% endif %}
 
     {% block js %}{% endblock %}
 
