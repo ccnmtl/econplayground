@@ -12,17 +12,26 @@
 
 VE ?= ./ve
 MANAGE ?= ./manage.py
-FLAKE8 ?= $(VE)/bin/flake8
-BANDIT ?= $(VE)/bin/bandit
 REQUIREMENTS ?= requirements.txt
 SYS_PYTHON ?= python3
-PIP ?= $(VE)/bin/pip
 PY_SENTINAL ?= $(VE)/sentinal
 WHEEL_VERSION ?= 0.31.0
 MAX_COMPLEXITY ?= 10
 INTERFACE ?= localhost
 RUNSERVER_PORT ?= 8000
 PY_DIRS ?= $(APP)
+
+# Travis has issues here. See:
+# https://github.com/travis-ci/travis-ci/issues/9524
+ifeq ($(TRAVIS),true)
+	BANDIT ?= bandit
+	FLAKE8 ?= flake8
+	PIP ?= pip
+else
+	BANDIT ?= $(VE)/bin/bandit
+	FLAKE8 ?= $(VE)/bin/flake8
+	PIP ?= $(VE)/bin/pip
+endif
 
 jenkins: check flake8 test eslint bandit
 
