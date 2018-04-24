@@ -16,6 +16,7 @@ REQUIREMENTS ?= requirements.txt
 SYS_PYTHON ?= python3
 PY_SENTINAL ?= $(VE)/sentinal
 WHEEL_VERSION ?= 0.31.0
+PIP_VERSION ?= 9.0.3
 MAX_COMPLEXITY ?= 10
 INTERFACE ?= localhost
 RUNSERVER_PORT ?= 8000
@@ -38,6 +39,8 @@ jenkins: check flake8 test eslint bandit
 $(PY_SENTINAL): $(REQUIREMENTS) $(VIRTUALENV)
 	rm -rf $(VE)
 	$(SYS_PYTHON) -m venv $(VE)
+	$(PIP) install pip==$(PIP_VERSION)
+	$(PIP) install --upgrade setuptools
 	$(PIP) install wheel==$(WHEEL_VERSION)
 	$(PIP) install --no-deps --requirement $(REQUIREMENTS) --no-binary cryptography
 	touch $@
