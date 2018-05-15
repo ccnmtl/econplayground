@@ -105,7 +105,7 @@ django-braces==1.13.0
 django-smtp-ssl==1.0
 django-contact-us==0.4.1
 
-pbr==4.0.2  # bandit
+pbr==4.0.3  # bandit
 PyYAML==3.12  # bandit
 stevedore==1.28.0  # bandit
 bandit==1.4.0
