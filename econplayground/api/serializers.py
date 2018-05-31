@@ -95,21 +95,11 @@ class GraphSerializer(serializers.ModelSerializer):
             'line_1_offset_y',
             'line_1_dashed',
 
-            'line_1_feedback_increase',
-            'line_1_increase_score',
-            'line_1_feedback_decrease',
-            'line_1_decrease_score',
-
             'line_2_slope',
             'line_2_label',
             'line_2_offset_x',
             'line_2_offset_y',
             'line_2_dashed',
-
-            'line_2_feedback_increase',
-            'line_2_increase_score',
-            'line_2_feedback_decrease',
-            'line_2_decrease_score',
 
             'line_3_slope',
             'line_3_label',
@@ -144,7 +134,6 @@ class GraphSerializer(serializers.ModelSerializer):
             'cobb_douglas_alpha',
             'cobb_douglas_alpha_name',
             'cobb_douglas_y_name',
-            'cobb_douglas_correct_scenario',
         )
 
     def create(self, validated_data):

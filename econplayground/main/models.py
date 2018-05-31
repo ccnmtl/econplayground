@@ -24,17 +24,6 @@ ASSIGNMENT_TYPES = (
     (2, 'Modification'),
 )
 
-COBB_DOUGLAS_SCENARIOS = (
-    (0, 'Param 1 (A) increased'),
-    (1, 'Param 1 (A) decreased'),
-    (2, 'Param 2 (K) increased'),
-    (3, 'Param 2 (K) decreased'),
-    (4, 'Param 3 (α) increased'),
-    (5, 'Param 3 (α) decreased'),
-    (6, 'Param 4 (L) increased'),
-    (7, 'Param 4 (L) decreased'),
-)
-
 
 class Graph(models.Model):
     class Meta:
@@ -95,17 +84,6 @@ class Graph(models.Model):
     line_1_label = models.TextField(blank=True, null=True, default='')
     line_1_dashed = models.BooleanField(default=False)
 
-    # The following are what the user is shown when line 1 is moved up
-    # and down.
-    line_1_feedback_increase = models.TextField(blank=True, null=True,
-                                                default='')
-    line_1_increase_score = models.DecimalField(
-        max_digits=8, decimal_places=4, default=0)
-    line_1_feedback_decrease = models.TextField(blank=True, null=True,
-                                                default='')
-    line_1_decrease_score = models.DecimalField(
-        max_digits=8, decimal_places=4, default=0)
-
     line_2_slope = models.DecimalField(max_digits=12, decimal_places=4)
     line_2_offset_x = models.DecimalField(
         max_digits=12, decimal_places=4, default=0)
@@ -113,17 +91,6 @@ class Graph(models.Model):
         max_digits=12, decimal_places=4, default=0)
     line_2_label = models.TextField(blank=True, null=True, default='')
     line_2_dashed = models.BooleanField(default=False)
-
-    # The following are what the user is shown when line 2 is moved up
-    # and down.
-    line_2_feedback_increase = models.TextField(blank=True, null=True,
-                                                default='')
-    line_2_increase_score = models.DecimalField(
-        max_digits=8, decimal_places=4, default=0)
-    line_2_feedback_decrease = models.TextField(blank=True, null=True,
-                                                default='')
-    line_2_decrease_score = models.DecimalField(
-        max_digits=8, decimal_places=4, default=0)
 
     line_3_slope = models.DecimalField(max_digits=12, decimal_places=4,
                                        default=Decimal('999'))
@@ -190,11 +157,6 @@ class Graph(models.Model):
     cobb_douglas_alpha_name = models.TextField(default='α')
 
     cobb_douglas_y_name = models.TextField(default='Y')
-
-    cobb_douglas_correct_scenario = models.PositiveSmallIntegerField(
-        choices=COBB_DOUGLAS_SCENARIOS,
-        default=0,
-        help_text='Define the correct scenario for this submittable graph.')
 
     def __str__(self):
         return self.title

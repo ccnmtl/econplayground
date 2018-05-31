@@ -43,13 +43,9 @@ class GraphFactory(factory.DjangoModelFactory):
 
     line_1_slope = fuzzy.FuzzyDecimal(-3.0, 0.0)
     line_1_label = fuzzy.FuzzyText()
-    line_1_feedback_increase = fuzzy.FuzzyText()
-    line_1_feedback_decrease = fuzzy.FuzzyText()
 
     line_2_slope = fuzzy.FuzzyDecimal(3.01, 6.0)
     line_2_label = fuzzy.FuzzyText()
-    line_2_feedback_increase = fuzzy.FuzzyText()
-    line_2_feedback_decrease = fuzzy.FuzzyText()
 
     cobb_douglas_alpha = fuzzy.FuzzyDecimal(0.0, 1.0)
 
