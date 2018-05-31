@@ -1,7 +1,8 @@
 from django.test import TestCase
 from econplayground.main.tests.factories import (
     GraphFactory, JXGLineFactory, JXGLineTransformationFactory,
-    SubmissionFactory
+    SubmissionFactory,
+    AssessmentFactory, AssessmentRuleFactory,
 )
 
 
@@ -32,6 +33,22 @@ class JXGLineTransformationTest(TestCase):
 class SubmissionTest(TestCase):
     def setUp(self):
         self.x = SubmissionFactory()
+
+    def test_is_valid_from_factory(self):
+        self.x.full_clean()
+
+
+class AssessmentTest(TestCase):
+    def setUp(self):
+        self.x = AssessmentFactory()
+
+    def test_is_valid_from_factory(self):
+        self.x.full_clean()
+
+
+class AssessmentRuleTest(TestCase):
+    def setUp(self):
+        self.x = AssessmentRuleFactory()
 
     def test_is_valid_from_factory(self):
         self.x.full_clean()

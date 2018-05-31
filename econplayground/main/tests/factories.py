@@ -2,7 +2,8 @@ from django.contrib.auth.models import User
 import factory
 from factory import fuzzy
 from econplayground.main.models import (
-    Graph, JXGLine, JXGLineTransformation, Submission
+    Graph, JXGLine, JXGLineTransformation, Submission,
+    Assessment, AssessmentRule,
 )
 
 
@@ -81,3 +82,22 @@ class SubmissionFactory(factory.DjangoModelFactory):
     user = factory.SubFactory(UserFactory)
     choice = fuzzy.FuzzyInteger(0, 100)
     score = fuzzy.FuzzyDecimal(0.0, 1.0)
+
+
+class AssessmentFactory(factory.DjangoModelFactory):
+    class Meta:
+        model = Assessment
+
+    graph = factory.SubFactory(GraphFactory)
+
+
+class AssessmentRuleFactory(factory.DjangoModelFactory):
+    class Meta:
+        model = AssessmentRule
+
+    assessment = factory.SubFactory(AssessmentFactory)
+    name = fuzzy.FuzzyText()
+    value = fuzzy.FuzzyText()
+    feedback_fulfilled = fuzzy.FuzzyText()
+    feedback_unfulfilled = fuzzy.FuzzyText()
+    score = fuzzy.FuzzyDecimal(0, 1)
