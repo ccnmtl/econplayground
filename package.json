@@ -4,7 +4,9 @@
   "description": "econplayground",
   "license": "GPL-2.0+",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "build-scss": "node-sass --output media/css media/scss/main.scss --output-style compressed --source-map true",
+    "watch-scss": "nodemon --watch media/scss --verbose -e scss -x 'npm run build-scss'"
   },
   "devDependencies": {
     "eslint": "~4.17.0",
@@ -13,6 +15,10 @@
     "eslint-plugin-security": "~1.4.0",
     "mocha": "~5.0.0",
     "requirejs": "~2.3.2",
-    "sinon": "~4.2.0"
+    "sinon": "~4.2.0",
+    "autoprefixer": "^8.0.0",
+    "node-sass": "^4.7.2",
+    "nodemon": "^1.12.5",
+    "postcss-cli": "^5.0.0"
   }
 }
