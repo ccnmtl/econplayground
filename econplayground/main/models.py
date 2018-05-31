@@ -232,7 +232,7 @@ class AssessmentRule(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return 'AssessmentRule: ({}, {})'.format(self.name, self.value)
+        return 'AssessmentRule: {}, {}'.format(self.name, self.value)
 
     class Meta:
         ordering = ('name',)

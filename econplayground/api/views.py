@@ -7,10 +7,24 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from econplayground.main.models import Graph, Submission
+from econplayground.main.models import Assessment, Graph, Submission
 from econplayground.api.serializers import (
-    GraphSerializer, SubmissionSerializer
+    AssessmentSerializer, GraphSerializer, SubmissionSerializer
 )
+
+
+class AssessmentViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Assessment.objects.all()
+    serializer_class = AssessmentSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        # When querying for a single assessment, interpret the
+        # id as the graph id, not the assessment id. This makes the
+        # /api/assessments/x/ route more useful.
+        graph_pk = request.parser_context.get('kwargs').get('pk')
+        instance = get_object_or_404(Assessment, graph=graph_pk)
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
 
 class GraphViewSet(viewsets.ModelViewSet):
