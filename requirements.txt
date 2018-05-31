@@ -24,15 +24,14 @@ ipython_genutils==0.2.0  # ipython
 decorator==4.2.1  # ipython
 ptyprocess==0.5.2  # ipython
 pexpect==4.6.0  # ipython
-pathlib2==2.3.2  # ipython
 pickleshare==0.7.4  # ipython
 simplegeneric==0.8.1  # ipython
 path.py==11.0.1  # ipython
-backports.shutil_get_terminal_size==1.0.0  # ipython
 wcwidth==0.1.7  # ipython
 prompt_toolkit==1.0.15  # ipython
 pygments==2.2.0  # ipython
 scandir==1.7  # ipython
+backcall==0.1.0  # ipython
 ipython==6.4.0
 ipdb==0.11
 rdflib==4.2.2
