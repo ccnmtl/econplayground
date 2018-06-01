@@ -2,28 +2,14 @@
 .site-wrapper {
     position: relative;
     width: 100%;
-    height: 100%;
-    /* For at least Firefox */
-    min-height: 100%;
+    height: 100vh;
     box-shadow: inset 0 0 5rem rgba(0,0,0,.5);
 
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: space-between;
 }
-
-.site-wrapper-inner {
-    /*vertical-align: top;*/
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.cover-container {
-    margin-right: auto;
-    margin-left: auto;
-}
-
-/* Padding for spacing */
-.inner { padding: 2rem; }
-
 
 /* Splash Page */
 .splash .site-wrapper {
@@ -59,26 +45,9 @@
 .splash .mastfoot a:focus,
 .splash .mastfoot a:hover { color: #fff; }
 
-@media (min-width: 40em)
-{
-    .splash .mastfoot {
-        position: fixed;
-        bottom: 0;
-    }
-
-    /* Start the vertical centering */
-    .splash .site-wrapper-inner { vertical-align: middle; }
-
-    /* Handle the widths */
-    .splash .cover-container {
-        width: 100%;
-        /* Must be percentage or pixels for horizontal alignment */
-    }
-}
-
 /* LTI Splash Page */
 @media (min-width: 62em) {
-    .splash .cover-container { width: 50rem; }
+    .site-wrapper-inner {width: 65%;}
 }
 
 .jumbotron {

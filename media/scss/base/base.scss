@@ -1,0 +1,31 @@
+.btn-primary { background-color: #0e48a1; }
+
+.card a img  {border: 2px solid #ccc;}
+.card a:hover img  {border: 2px solid #0e48a1;}
+
+#outer-container {
+    padding-bottom: 2em;
+}
+
+.errornote {
+    background: url("/media/img/icon_alert.png") no-repeat 5px 5px #FFEBE8;
+    border: 1px solid #c00 !important;
+    display: block;
+    font-size: 11px !important;
+    margin: 0 0 10px 0;
+    padding: 5px 5px 5px 10px !important;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    line-height: 140%;
+}
+
+#editing-graph {
+    margin: 0 auto;
+}
+
+// Select box appearance reset
+select {
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    appearance:none;
+}
