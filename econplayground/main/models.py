@@ -209,6 +209,35 @@ class JXGLineTransformation(models.Model):
                              default=Decimal('0'))
 
 
+class Assessment(models.Model):
+    graph = models.ForeignKey(Graph, on_delete=models.CASCADE)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return 'Assessment for: {}'.format(self.graph.title)
+
+
+class AssessmentRule(models.Model):
+    assessment = models.ForeignKey(Assessment, on_delete=models.CASCADE)
+    name = models.TextField()
+    value = models.TextField()
+    feedback_fulfilled = models.TextField(blank=True, default='')
+    feedback_unfulfilled = models.TextField(blank=True, default='')
+    score = models.DecimalField(
+        max_digits=6, decimal_places=2, default=Decimal('0'))
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return 'AssessmentRule: {}, {}'.format(self.name, self.value)
+
+    class Meta:
+        ordering = ('name',)
+
+
 class Submission(models.Model):
     class Meta:
         # A user can only have one submission per graph.

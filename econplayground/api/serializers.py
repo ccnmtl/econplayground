@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from econplayground.main.models import (
-    Graph, JXGLine, JXGLineTransformation, Submission
+    Graph, JXGLine, JXGLineTransformation, Submission,
+    Assessment, AssessmentRule,
 )
 
 
@@ -172,6 +173,25 @@ class GraphSerializer(serializers.ModelSerializer):
                 s.create(line_data)
 
         return instance
+
+
+class AssessmentRulesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AssessmentRule
+        fields = ('name', 'value',
+                  'feedback_fulfilled', 'feedback_unfulfilled',
+                  'score')
+
+
+class AssessmentSerializer(serializers.ModelSerializer):
+    assessmentrule_set = AssessmentRulesSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Assessment
+        fields = (
+            'graph',
+            'assessmentrule_set',
+        )
 
 
 class SubmissionSerializer(serializers.ModelSerializer):
