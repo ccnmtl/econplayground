@@ -68,8 +68,6 @@ class GraphSerializer(serializers.ModelSerializer):
             'is_published', 'needs_submit',
             'display_feedback',
             'display_shadow',
-            'correct_feedback',
-            'incorrect_feedback',
 
             'show_intersection',
             'display_intersection_1',
