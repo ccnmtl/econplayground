@@ -81,42 +81,29 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.path == '/' %}active{% endif %}"
-                            href="/">
-                            Home
-                        </a>
-                    </li>
+                <ul class="navbar-nav ml-auto">
                     {% if i_am_instructor %}
                         <li class="nav-item">
                             {% url 'graph_create' as the_url %}
-                            <a class="btn btn-light {% if request.path == the_url %}active{% endif %}"
+                            <a class="nav-link {% if request.path == the_url %}active{% endif %}"
                                 href="{{the_url}}"
                             >Create Graph</a>
                         </li>
-                    {% endif %}
-                </ul>
-                <ul class="navbar-nav">
-                    {% if not request.user.is_anonymous %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">Hi,
-                            {% if user.first_name %}
-                            {{user.first_name}}!
-                            {% else %}
-                            {{user.username}}!
-                            {% endif %}                            
-                        </a>
-                    </li>
                     {% endif %}
                     <li class="nav-item">
                         <a class="nav-link" href="/about/">About</a>
                     </li>
                     <li class="nav-item">
                         {% if request.user.is_anonymous %}
-                            <a class="nav-link" href="/accounts/login/?next=/"><span title="Log In">Log In</span></a>
+                        <a class="nav-link" href="/accounts/login/?next=/"><span title="Log In">Log In</span></a>
                         {% else %}
-                            <a class="nav-link" href="/accounts/logout/?next=/"><span title="Log Out">Log Out</span></a>
+                        <a class="nav-link" href="/accounts/logout/?next=/"><span title="Log Out">
+                                {% if user.first_name %}
+                                {{user.first_name}}
+                                {% else %}
+                                {{user.username}}
+                                {% endif %}
+                                | Log Out</span></a>
                         {% endif %}
                     </li>
                 </ul>
