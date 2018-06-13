@@ -1,17 +1,16 @@
+{% extends 'base.html' %}
 {% load static econ_auth %}
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Graph: {{object.title}}</title>
-        <link href="{% static 'css/main.css' %}" rel="stylesheet">
-        <link href="{% static 'css/embed.css' %}" rel="stylesheet">
-        <link href="{% static 'css/octicons.css' %}" rel="stylesheet">
-        <link rel="stylesheet" href="{% static 'css/epjs.css' %}">
-    </head>
-    <body>
-        <div class="container-fluid">
-            <div class="row">
-                <div id="root"></div>
+
+{% block title %}Graph: {{object.title}}{% endblock %}
+
+{% block css %}
+   <link href="{% static 'css/main.css' %}" rel="stylesheet">
+   <link href="{% static 'css/embed.css' %}" rel="stylesheet">
+   <link href="{% static 'css/octicons.css' %}" rel="stylesheet">
+   <link rel="stylesheet" href="{% static 'css/epjs.css' %}">
+{% endblock %}
+
+{% block js %}
                 <script>
                 if (!window.EconPlayground) {
                     window.EconPlayground = {};
@@ -20,8 +19,16 @@
                 window.EconPlayground['isInstructor'] = false;
                 window.EconPlayground['hideTitleAndDescription'] = false;
                 </script>
-                <script src="{% static 'econplayground.js/viewer.js' %}"></script>
-            </div>
+    <script src="{% static 'econplayground.js/viewer.js' %}"></script>
+{% endblock %}
+
+{% user_is_instructor request.user as i_am_instructor %}
+{% block content %}
+    <div id="root">
+        <div class="loader-inner ball-pulse">
+            <div></div>
+            <div></div>
+            <div></div>
         </div>
-    </body>
-</html>
+    </div>
+{% endblock %}
