@@ -234,6 +234,7 @@ class AssessmentRule(models.Model):
 
     class Meta:
         ordering = ('name',)
+        unique_together = ('assessment', 'name', 'value',)
 
 
 class Submission(models.Model):

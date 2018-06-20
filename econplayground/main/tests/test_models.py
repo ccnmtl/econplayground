@@ -59,3 +59,19 @@ class AssessmentRuleTest(TestCase):
 
     def test_is_valid_from_factory(self):
         self.x.full_clean()
+
+    def test_multiple_rules(self):
+        AssessmentRuleFactory(assessment=self.x.assessment)
+        AssessmentRuleFactory(assessment=self.x.assessment)
+        AssessmentRuleFactory(assessment=self.x.assessment)
+        AssessmentRuleFactory(assessment=self.x.assessment)
+
+        AssessmentRuleFactory(
+            name=self.x.name,
+            value=self.x.value)
+
+        with self.assertRaises(IntegrityError):
+            AssessmentRuleFactory(
+                assessment=self.x.assessment,
+                name=self.x.name,
+                value=self.x.value)
