@@ -32,6 +32,10 @@ class Graph(models.Model):
     title = models.TextField()
     description = models.TextField(blank=True, null=True, default='')
     instructor_notes = models.TextField(blank=True, null=True, default='')
+    topic = models.ForeignKey('Topic',
+                              on_delete=models.PROTECT,
+                              null=True,
+                              blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -285,3 +289,10 @@ class Submission(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+
+class Topic(models.Model):
+    topic = models.CharField(max_length=256,
+                             null=False,
+                             blank=False,
+                             unique=True)
