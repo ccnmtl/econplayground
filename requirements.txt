@@ -102,6 +102,7 @@ django-lti-provider==0.3.3
 django-braces==1.13.0
 django-smtp-ssl==1.0
 django-contact-us==0.4.1
+docutils==0.14  # Django's admindocs
 
 pbr==4.0.4  # bandit
 PyYAML==3.12  # bandit

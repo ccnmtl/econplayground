@@ -45,6 +45,7 @@ INSTALLED_APPS = [  # noqa
     'django.contrib.staticfiles',
     'django.contrib.messages',
     'django.contrib.admin',
+    'django.contrib.admindocs',
     'django_statsd',
     'smoketest',
     'django_jenkins',
