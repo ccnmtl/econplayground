@@ -3,7 +3,7 @@ import factory
 from factory import fuzzy
 from econplayground.main.models import (
     Graph, JXGLine, JXGLineTransformation, Submission,
-    Assessment, AssessmentRule,
+    Assessment, AssessmentRule, Topic
 )
 
 
@@ -101,3 +101,10 @@ class AssessmentRuleFactory(factory.DjangoModelFactory):
     feedback_fulfilled = fuzzy.FuzzyText()
     feedback_unfulfilled = fuzzy.FuzzyText()
     score = fuzzy.FuzzyDecimal(0, 1)
+
+
+class TopicFactory(factory.DjangoModelFactory):
+    class Meta:
+        model = Topic
+
+    name = fuzzy.FuzzyText()

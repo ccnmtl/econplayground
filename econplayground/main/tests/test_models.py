@@ -3,7 +3,7 @@ from django.db.utils import IntegrityError
 from econplayground.main.models import Assessment
 from econplayground.main.tests.factories import (
     GraphFactory, JXGLineFactory, JXGLineTransformationFactory,
-    SubmissionFactory,
+    SubmissionFactory, TopicFactory,
     AssessmentFactory, AssessmentRuleFactory,
 )
 
@@ -75,3 +75,11 @@ class AssessmentRuleTest(TestCase):
                 assessment=self.x.assessment,
                 name=self.x.name,
                 value=self.x.value)
+
+
+class TopicTest(TestCase):
+    def setUp(self):
+        self.x = TopicFactory()
+
+    def test_is_valid_from_factory(self):
+        self.x.full_clean()
