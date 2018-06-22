@@ -21,7 +21,6 @@ if hasattr(settings, 'CAS_BASE'):
     auth_urls = path('accounts/', include('djangowind.urls'))
 
 urlpatterns = [
-
     path('accounts/login/', views.LoginView.as_view()),
     path('accounts/logout/', views.LogoutView.as_view()),
 
@@ -62,6 +61,7 @@ urlpatterns = [
     path('graph/create/',
          views.GraphCreateView.as_view(),
          name='graph_create'),
+    path('admin/doc/', include('django.contrib.admindocs.urls')),
     path('admin/', admin.site.urls),
     path('stats/', TemplateView.as_view(template_name="stats.html")),
     path('smoketest/', include('smoketest.urls')),
@@ -70,7 +70,7 @@ urlpatterns = [
          serve, {'document_root': settings.MEDIA_ROOT}),
     path('lti/landing/', views.MyLTILandingPage.as_view()),
     path('lti/', include('lti_provider.urls')),
-    path('contact/', include('contactus.urls'))
+    path('contact/', include('contactus.urls')),
 ]
 
 if settings.DEBUG:
