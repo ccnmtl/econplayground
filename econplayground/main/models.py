@@ -208,7 +208,7 @@ class JXGLineTransformation(models.Model):
 
 
 class Assessment(models.Model):
-    graph = models.ForeignKey(Graph, unique=True, on_delete=models.CASCADE)
+    graph = models.OneToOneField(Graph, on_delete=models.CASCADE)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
