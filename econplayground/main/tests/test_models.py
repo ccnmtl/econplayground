@@ -1,4 +1,6 @@
 from django.test import TestCase
+from django.db.utils import IntegrityError
+from econplayground.main.models import Assessment
 from econplayground.main.tests.factories import (
     GraphFactory, JXGLineFactory, JXGLineTransformationFactory,
     SubmissionFactory,
@@ -45,6 +47,11 @@ class AssessmentTest(TestCase):
     def test_is_valid_from_factory(self):
         self.x.full_clean()
 
+    def test_only_one_assessment_per_graph(self):
+        self.assertEqual(Assessment.objects.count(), 1)
+        with self.assertRaises(IntegrityError):
+            AssessmentFactory(graph=self.x.graph)
+
 
 class AssessmentRuleTest(TestCase):
     def setUp(self):
@@ -52,3 +59,19 @@ class AssessmentRuleTest(TestCase):
 
     def test_is_valid_from_factory(self):
         self.x.full_clean()
+
+    def test_multiple_rules(self):
+        AssessmentRuleFactory(assessment=self.x.assessment)
+        AssessmentRuleFactory(assessment=self.x.assessment)
+        AssessmentRuleFactory(assessment=self.x.assessment)
+        AssessmentRuleFactory(assessment=self.x.assessment)
+
+        AssessmentRuleFactory(
+            name=self.x.name,
+            value=self.x.value)
+
+        with self.assertRaises(IntegrityError):
+            AssessmentRuleFactory(
+                assessment=self.x.assessment,
+                name=self.x.name,
+                value=self.x.value)
