@@ -1,4 +1,4 @@
-{% load static econ_auth %}
+{% load static %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -19,14 +19,7 @@
                     window.EconPlayground = {};
                 }
 
-                {% user_is_instructor request.user as i_am_instructor %}
-                {% if i_am_instructor %}
-                window.EconPlayground['isStaff'] = true;
-                window.EconPlayground['isInstructor'] = true;
-                {% else %}
-                window.EconPlayground['isStaff'] = false;
                 window.EconPlayground['isInstructor'] = false;
-                {% endif %}
                 window.EconPlayground['LTIPostGrade'] = '{% url 'lti-post-grade' %}';
                 window.EconPlayground['EmbedSuccess'] = '{% url 'graph_embed' object.pk %}?submitted=1';
                 window.EconPlayground['EmbedLaunchUrl'] = '{% url 'graph_embed' object.pk %}?submitted=1';
