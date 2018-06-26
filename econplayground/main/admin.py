@@ -12,6 +12,7 @@ class AssessmentRuleInline(admin.TabularInline):
 
 
 class AssessmentAdmin(admin.ModelAdmin):
+    list_filter = ('graph__assignment_type', 'graph__title')
     inlines = [
         AssessmentRuleInline,
     ]
