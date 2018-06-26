@@ -1,7 +1,10 @@
 from django import forms
 from django.contrib import admin
 from django.db import models
-from econplayground.main.models import Graph, Assessment, AssessmentRule
+from ordered_model.admin import OrderedModelAdmin
+from econplayground.main.models import (
+    Graph, Assessment, AssessmentRule, Topic
+)
 
 
 class AssessmentRuleInline(admin.TabularInline):
@@ -18,5 +21,10 @@ class AssessmentAdmin(admin.ModelAdmin):
     ]
 
 
+class TopicAdmin(OrderedModelAdmin):
+    list_display = ('name', 'move_up_down_links')
+
+
 admin.site.register(Graph)
 admin.site.register(Assessment, AssessmentAdmin)
+admin.site.register(Topic, TopicAdmin)
