@@ -27,13 +27,15 @@ ASSIGNMENT_TYPES = (
 
 
 class Topic(OrderedModel):
-    class meta(OrderedModel.Meta):
+    class Meta(OrderedModel.Meta):
         pass
 
-    name = models.TextField(max_length=256,
-                            unique=True)
+    name = models.TextField(max_length=256, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Graph(models.Model):
@@ -43,11 +45,10 @@ class Graph(models.Model):
     title = models.TextField()
     description = models.TextField(blank=True, null=True, default='')
     instructor_notes = models.TextField(blank=True, null=True, default='')
-    topic = models.ForeignKey(Topic,
-                              on_delete=models.PROTECT,
-                              null=True,
-                              blank=True,
-                              default=None)
+    topic = models.ForeignKey(
+        Topic,
+        on_delete=models.PROTECT,
+        null=True, blank=True)
     featured = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

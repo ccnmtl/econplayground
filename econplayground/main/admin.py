@@ -2,8 +2,9 @@ from django import forms
 from django.contrib import admin
 from django.db import models
 from ordered_model.admin import OrderedModelAdmin
-from econplayground.main.models import Graph, Assessment, AssessmentRule, \
-    Topic
+from econplayground.main.models import (
+    Graph, Assessment, AssessmentRule, Topic
+)
 
 
 class AssessmentRuleInline(admin.TabularInline):
