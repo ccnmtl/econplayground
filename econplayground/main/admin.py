@@ -7,6 +7,12 @@ from econplayground.main.models import (
 )
 
 
+class GraphAdmin(admin.ModelAdmin):
+    model = Graph
+    list_display = ('title', 'topic')
+    list_filter = ('topic',)
+
+
 class AssessmentRuleInline(admin.TabularInline):
     model = AssessmentRule
     formfield_overrides = {
@@ -25,6 +31,6 @@ class TopicAdmin(OrderedModelAdmin):
     list_display = ('name', 'move_up_down_links')
 
 
-admin.site.register(Graph)
+admin.site.register(Graph, GraphAdmin)
 admin.site.register(Assessment, AssessmentAdmin)
 admin.site.register(Topic, TopicAdmin)
