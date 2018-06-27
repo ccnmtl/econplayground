@@ -84,8 +84,7 @@ class MyLTILandingPageTest(LoggedInTestMixin, TestCase):
         SubmissionFactory(graph=g2)
         SubmissionFactory(graph=g3)
         SubmissionFactory(graph=self.g)
-        self.submission = SubmissionFactory(
-            graph=self.g, user=self.u, choice=3)
+        self.submission = SubmissionFactory(graph=self.g, user=self.u)
 
     def test_get(self):
         request = self.factory.get('/lti/landing/')
@@ -98,4 +97,3 @@ class MyLTILandingPageTest(LoggedInTestMixin, TestCase):
         self.assertEqual(ctx.get('submissions').count(), 1)
         submission = ctx.get('submissions').first()
         self.assertEqual(submission.user, self.u)
-        self.assertEqual(submission.choice, 3)

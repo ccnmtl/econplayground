@@ -196,5 +196,5 @@ class SubmissionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Submission
         fields = (
-            'graph', 'choice', 'score'
+            'graph', 'score'
         )

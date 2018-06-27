@@ -80,7 +80,6 @@ class SubmissionFactory(factory.DjangoModelFactory):
 
     graph = factory.SubFactory(GraphFactory)
     user = factory.SubFactory(UserFactory)
-    choice = fuzzy.FuzzyInteger(0, 100)
     score = fuzzy.FuzzyDecimal(0.0, 1.0)
 
 
