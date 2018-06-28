@@ -53,9 +53,8 @@ class GraphListViewTest(LoggedInTestMixin, TestCase):
     def test_get(self):
         r = self.client.get('/')
         self.assertEqual(r.status_code, 200)
-        self.assertContains(r, 'Graph 1')
-        self.assertContains(r, 'Demand-Supply')
-        self.assertContains(r, 'abc')
+        self.assertContains(r, 'Featured Graphs')
+        self.assertContains(r, 'All Graphs')
         self.assertNotContains(r, 'Submittable graph')
         self.assertNotContains(r, 'Draft graph')
 
