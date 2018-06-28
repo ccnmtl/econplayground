@@ -7,9 +7,10 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from econplayground.main.models import Assessment, Graph, Submission
+from econplayground.main.models import Assessment, Graph, Submission, Topic
 from econplayground.api.serializers import (
-    AssessmentSerializer, GraphSerializer, SubmissionSerializer
+    AssessmentSerializer, GraphSerializer, SubmissionSerializer,
+    TopicSerializer,
 )
 
 
@@ -68,3 +69,8 @@ class SubmissionViewSet(viewsets.ModelViewSet):
             raise ValidationError('Submission exists')
 
         serializer.save(user=self.request.user)
+
+
+class TopicViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Topic.objects.all()
+    serializer_class = TopicSerializer
