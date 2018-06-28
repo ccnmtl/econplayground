@@ -298,9 +298,6 @@ class Submission(models.Model):
     graph = models.ForeignKey(Graph, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    # The selection that the user made, encoded as a number.
-    choice = models.PositiveSmallIntegerField(default=0)
-
     # Corresponds to the line_x_x_score
     score = models.DecimalField(max_digits=8, decimal_places=4, default=0)
 
