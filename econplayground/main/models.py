@@ -30,7 +30,7 @@ class Topic(OrderedModel):
     class Meta(OrderedModel.Meta):
         pass
 
-    name = models.TextField(max_length=256, unique=True)
+    name = models.CharField(max_length=256, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
