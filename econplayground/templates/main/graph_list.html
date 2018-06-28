@@ -2,23 +2,83 @@
 {% load static econ_auth %}
 
 {% block content %}
-    <h1>
-        Graphs
-    </h1>
-
-    {% user_is_instructor request.user as i_am_instructor %}
-    <ul>
-    {% for graph in object_list %}
-        <li>
-            <a href="{% url 'graph_detail' graph.id %}">{{ graph.title }}</a>
-            {% if i_am_instructor and graph.is_published %}<span class="badge badge-pill badge-primary">Published</span>{% endif %}
-            {% if i_am_instructor and graph.needs_submit %}<span class="badge badge-pill badge-secondary">LTI</span>{% endif %}
-            {% if graph.instructor_notes %}
-                <p>{{ graph.instructor_notes }}</p>
+    <div id="graph-listing" class="row">
+        <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
+            <h1>Explore Graphs</h1>    
+            <p class="lead text-secondary">Browse and experience our collection of graphs.</p>
+            <hr/>
+            {% if featured %}
+            <h2>Feaured Graphs</h2>
+            {% elif not active_topic %}
+            <h2>All Graphs</h2>
+            {% else %}
+                {% for topic in topic_list %}
+                {% if topic.id == active_topic %}<h2>{{ topic.name }}</h2>{% endif %}
+                {% endfor %}
             {% endif %}
-        </li>
-    {% empty %}
-        No graphs here.
-    {% endfor %}
-    </ul>
+            <div class="row">
+                {% if featured %} {# Renders the featured graphs #}
+                    {% for graph in graph_list %}
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                        <div class="card">
+                            <div class="card-header"><a href="{% url 'graph_detail' graph.id %}">{{ graph.title }}</a></div>
+                            <div class="card-body">
+                                {% if graph.description %}
+                                <p>{{ graph.description }}</p>
+                                {% endif %}
+                                {% if i_am_instructor and graph.is_published %}<span class="badge badge-pill badge-primary">Published</span>{% endif %}
+                                {% if i_am_instructor and graph.needs_submit %}<span class="badge badge-pill badge-secondary">LTI</span>{% endif %}
+                            </div>
+                            <div class="card-footer"><small><a href="?topic={{ graph.topic }}">{{ graph.topic }}</a></small></div>
+                        </div> 
+                    </div> 
+                    {% empty %}
+                    No graphs here.
+                    {% endfor %}
+                {% elif not active_topic %} {# Renders all graphs #}
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    {# First render graphs not assigned to a topic #}
+                    {% for graph in graph_list%}
+                        {% if not graph.topic %}
+                            <a href="{% url 'graph_detail' graph.id %}">{{ graph.title }}</a><br/>
+                            <p>{{ graph.description }}</p><br/>
+                        {% endif %}
+                    {% endfor %}
+                    {% for topic in topic_list %}
+                        {# Then render those with a topic #}
+                        <h3>{{ topic.name }}</h3>
+                        {% for graph in graph_list%}
+                            {% if topic.id == graph.topic.id %}
+                                <a href="{% url 'graph_detail' graph.id %}">{{ graph.title }}</a><br/>
+                                <p>{{ graph.description }}</p><br/>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+                {% else %} {# Renders graphs when a specific topic is selected #}
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    {% for graph in graph_list %}
+                        <a href="{% url 'graph_detail' graph.id %}">{{ graph.title }}</a><br/>
+                        <p>{{ graph.description }}</p><br/>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12">
+            <ul class="list-group">
+                <li class="list-group-item {% if featured %}active{% endif %}">
+                    <a href="/">Featured Graphs</a><span class="badge badge-secondary float-right">{{ featured_count }}</span>
+                </li>
+                <li class="list-group-item {% if not featured and not active_topic %}active{% endif %}">
+                    <a href="?all=true">All Graphs</a><span class="badge badge-secondary float-right">{{ all_count }}</span>
+                </li>
+                {% for topic in topic_list %}
+                <li class="list-group-item {% if active_topic == topic.id %}active{% endif %}">
+                    <a href="?topic={{ topic.id }}">{{ topic.name }}</a><span class="badge badge-secondary float-right">{{ topic.graph_count }}</span>
+                </li>
+                {% endfor %}
+            </ul>            
+        </div>
+    </div>
 {% endblock %}

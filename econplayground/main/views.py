@@ -16,7 +16,7 @@ from djangowind.views import logout as wind_logout_view
 from lti_provider.mixins import LTIAuthMixin
 from lti_provider.views import LTILandingPage
 
-from econplayground.main.models import Graph, Submission
+from econplayground.main.models import Graph, Submission, Topic
 from econplayground.main.utils import user_is_instructor
 
 
@@ -107,10 +107,45 @@ class GraphListView(LoginRequiredMixin, ListView):
     model = Graph
 
     def get_queryset(self):
+        # First, set up graphs based on a users role
+        params = self.request.GET
         if user_is_instructor(self.request.user):
-            return Graph.objects.all()
+            graphs = Graph.objects.all()
+        else:
+            graphs = Graph.objects.filter(needs_submit=False,
+                                          is_published=True)
 
-        return Graph.objects.filter(needs_submit=False, is_published=True)
+        # Then apply filtering based on query string params
+        if len(params) == 0:
+            return graphs.filter(featured=True)
+        elif 'topic' in params:
+            tid = params.get('topic', '')
+            if tid:
+                return graphs.filter(topic=tid)
+            else:
+                return graphs
+        else:
+            return graphs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['topic_list'] = Topic.objects.all()
+
+        # If there are no query string params, then set featured to true.
+        # Set active_topic guard condition, and assign to an id if present in
+        # the query string.
+        params = self.request.GET
+        context['featured'] = False
+        context['featured_count'] = len(Graph.objects.filter(featured=True))
+        context['all_count'] = len(Graph.objects.all())
+        context['active_topic'] = ''
+        if len(params) == 0:
+            context['featured'] = True
+        elif 'topic' in params:
+            tid = params.get('topic', '')
+            context['active_topic'] = int(tid)
+
+        return context
 
 
 class MyLTILandingPage(LTILandingPage):
