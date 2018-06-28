@@ -35,7 +35,7 @@ class Topic(OrderedModel):
     updated_at = models.DateTimeField(auto_now=True)
 
     def graph_count(self):
-        return Graph.objects.filter(topic=self.id).count()
+        return Graph.objects.filter(topic=self).count()
 
     def __str__(self):
         return self.name
