@@ -1,7 +1,9 @@
-# VERSION=1.6.0
+# VERSION=1.7.0
 
 # CHANGES:
-# 1.7.0 - TBA        - Now using python 3 by default
+# 1.7.0 - 2018-05-31 - Now using python 3 by default
+#                    - Removed virtualenv.py in favor of python 3's
+#                      builtin venv capability.
 # 1.6.0 - 2017-09-05 - add bandit secure analysis configuration
 # 1.5.0 - 2017-08-24 - remove jshint/jscs in favor of eslint
 # 1.4.0 - 2017-06-06 - backout the switch to eslint. that's not really ready yet.
