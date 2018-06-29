@@ -112,8 +112,8 @@ class GraphListView(LoginRequiredMixin, ListView):
         if user_is_instructor(self.request.user):
             graphs = Graph.objects.all()
         else:
-            graphs = Graph.objects.filter(needs_submit=False,
-                                          is_published=True)
+            graphs = Graph.objects.filter(
+                needs_submit=False, is_published=True)
 
         # Then apply filtering based on query string params
         if len(params) == 0:
@@ -131,14 +131,27 @@ class GraphListView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['topic_list'] = Topic.objects.all()
 
+        if user_is_instructor(self.request.user):
+            context['all_count'] = Graph.objects.count()
+            context['featured_count'] = Graph.objects.filter(
+                featured=True).count()
+            context['graphs_without_topics'] = Graph.objects.filter(
+                topic=None)
+        else:
+            context['all_count'] = Graph.objects.filter(
+                is_published=True).count()
+            context['featured_count'] = Graph.objects.filter(
+                featured=True, is_published=True).count()
+            context['graphs_without_topics'] = Graph.objects.filter(
+                is_published=True, topic=None)
+
         # If there are no query string params, then set featured to true.
         # Set active_topic guard condition, and assign to an id if present in
         # the query string.
         params = self.request.GET
         context['featured'] = False
-        context['featured_count'] = len(Graph.objects.filter(featured=True))
-        context['all_count'] = len(Graph.objects.all())
         context['active_topic'] = ''
+
         if len(params) == 0:
             context['featured'] = True
         elif 'topic' in params:
