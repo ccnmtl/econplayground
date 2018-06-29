@@ -3,7 +3,9 @@ from econplayground.main.views import MyLTILandingPage
 from econplayground.main.tests.factories import (
     GraphFactory, SubmissionFactory
 )
-from econplayground.main.tests.mixins import LoggedInTestMixin
+from econplayground.main.tests.mixins import (
+    LoggedInTestMixin, LoggedInTestInstructorMixin, LoggedInTestStudentMixin
+)
 
 
 class BasicTest(TestCase):
@@ -40,18 +42,37 @@ class EmbedViewPublicAnonTest(TestCase):
         self.assertContains(r, g.title)
 
 
-class GraphListViewTest(LoggedInTestMixin, TestCase):
+class GraphListInstructorViewTest(LoggedInTestInstructorMixin, TestCase):
     def setUp(self):
-        super(GraphListViewTest, self).setUp()
+        super(GraphListInstructorViewTest, self).setUp()
         GraphFactory(title='Graph 1', is_published=True)
         GraphFactory(title='Demand-Supply', is_published=True)
+        GraphFactory(title='abc', is_published=True)
+        GraphFactory(title='Submittable graph',
+                     needs_submit=True, is_published=True)
+        GraphFactory(title='Draft graph', is_published=False)
+
+    def test_get(self):
+        r = self.client.get('/?all=true')
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, 'Featured Graphs')
+        self.assertContains(r, 'All Graphs')
+        self.assertContains(r, 'Submittable graph')
+        self.assertContains(r, 'Draft graph')
+
+
+class GraphListStudentViewTest(LoggedInTestStudentMixin, TestCase):
+    def setUp(self):
+        super(GraphListStudentViewTest, self).setUp()
+        GraphFactory(title='Graph 1', is_published=True)
+        GraphFactory(title='Demand-Supply', is_published=False)
         GraphFactory(title='abc', is_published=True)
         GraphFactory(title='Submittable graph', needs_submit=True,
                      is_published=True)
         GraphFactory(title='Draft graph', is_published=False)
 
     def test_get(self):
-        r = self.client.get('/')
+        r = self.client.get('/?all=true')
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, 'Featured Graphs')
         self.assertContains(r, 'All Graphs')

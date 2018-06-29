@@ -1,6 +1,6 @@
 from django.test import TestCase
 from econplayground.main.tests.factories import (
-    UserFactory, StudentFactory
+    InstructorFactory, UserFactory, StudentFactory
 )
 
 
@@ -10,6 +10,15 @@ class LoggedInTestMixin(TestCase):
         self.u.set_password('test')
         self.u.save()
         login = self.client.login(username='testuser', password='test')
+        assert(login is True)
+
+
+class LoggedInTestInstructorMixin(TestCase):
+    def setUp(self):
+        self.u = InstructorFactory()
+        self.u.set_password('test')
+        self.u.save()
+        login = self.client.login(username=self.u.username, password='test')
         assert(login is True)
 
 

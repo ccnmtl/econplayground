@@ -131,19 +131,16 @@ class GraphListView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['topic_list'] = Topic.objects.all()
 
+        # TODO: this should really look at self.queryset or whatever
         if user_is_instructor(self.request.user):
-            context['all_count'] = Graph.objects.count()
-            context['featured_count'] = Graph.objects.filter(
-                featured=True).count()
-            context['graphs_without_topics'] = Graph.objects.filter(
-                topic=None)
+            graph_set = Graph.objects.all()
         else:
-            context['all_count'] = Graph.objects.filter(
-                is_published=True).count()
-            context['featured_count'] = Graph.objects.filter(
-                featured=True, is_published=True).count()
-            context['graphs_without_topics'] = Graph.objects.filter(
-                is_published=True, topic=None)
+            graph_set = Graph.objects.filter(
+                is_published=True, needs_submit=False)
+
+        context['all_count'] = graph_set.count()
+        context['featured_count'] = graph_set.filter(featured=True).count()
+        context['graphs_without_topics'] = graph_set.filter(topic=None)
 
         # If there are no query string params, then set featured to true.
         # Set active_topic guard condition, and assign to an id if present in
