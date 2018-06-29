@@ -49,7 +49,9 @@ class Graph(models.Model):
         ordering = ('-created_at',)
 
     title = models.TextField()
-    description = models.TextField(blank=True, null=True, default='')
+    instructions = models.TextField(blank=True, null=True, default='')
+    summary = models.TextField(
+        blank=True, null=True, default='', max_length=250)
     instructor_notes = models.TextField(blank=True, null=True, default='')
     topic = models.ForeignKey(
         Topic,

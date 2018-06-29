@@ -34,7 +34,7 @@ class EnsureCsrfCookieMixin(object):
 
 class GraphCreateView(EnsureCsrfCookieMixin, UserPassesTestMixin, CreateView):
     model = Graph
-    fields = ['title', 'description', 'graph_type']
+    fields = ['title', 'instructions', 'graph_type']
 
     def test_func(self):
         return user_is_instructor(self.request.user)
