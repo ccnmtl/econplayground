@@ -117,15 +117,13 @@ class GraphListView(LoginRequiredMixin, ListView):
 
         # Then apply filtering based on query string params
         if len(params) == 0:
-            return graphs.filter(featured=True)
+            graphs = graphs.filter(featured=True)
         elif 'topic' in params:
             tid = params.get('topic', '')
             if tid:
-                return graphs.filter(topic=tid)
-            else:
-                return graphs
-        else:
-            return graphs
+                graphs = graphs.filter(topic=tid)
+
+        return graphs.order_by('title')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -133,10 +131,10 @@ class GraphListView(LoginRequiredMixin, ListView):
 
         # TODO: this should really look at self.queryset or whatever
         if user_is_instructor(self.request.user):
-            graph_set = Graph.objects.all()
+            graph_set = Graph.objects.all().order_by('title')
         else:
             graph_set = Graph.objects.filter(
-                is_published=True, needs_submit=False)
+                is_published=True, needs_submit=False).order_by('title')
 
         context['all_count'] = graph_set.count()
         context['featured_count'] = graph_set.filter(featured=True).count()
