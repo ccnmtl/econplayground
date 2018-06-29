@@ -127,15 +127,9 @@ class GraphListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        graph_set = self.get_queryset()
         context['topic_list'] = Topic.objects.all()
-
-        # TODO: this should really look at self.queryset or whatever
-        if user_is_instructor(self.request.user):
-            graph_set = Graph.objects.all().order_by('title')
-        else:
-            graph_set = Graph.objects.filter(
-                is_published=True, needs_submit=False).order_by('title')
-
         context['all_count'] = graph_set.count()
         context['featured_count'] = graph_set.filter(featured=True).count()
         context['graphs_without_topics'] = graph_set.filter(topic=None)
