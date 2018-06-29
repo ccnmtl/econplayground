@@ -117,15 +117,13 @@ class GraphListView(LoginRequiredMixin, ListView):
 
         # Then apply filtering based on query string params
         if len(params) == 0:
-            return graphs.filter(featured=True)
+            graphs = graphs.filter(featured=True)
         elif 'topic' in params:
             tid = params.get('topic', '')
             if tid:
-                return graphs.filter(topic=tid)
-            else:
-                return graphs
-        else:
-            return graphs
+                graphs = graphs.filter(topic=tid)
+
+        return graphs.order_by('title')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -136,14 +134,14 @@ class GraphListView(LoginRequiredMixin, ListView):
             context['featured_count'] = Graph.objects.filter(
                 featured=True).count()
             context['graphs_without_topics'] = Graph.objects.filter(
-                topic=None)
+                topic=None).order_by('title')
         else:
             context['all_count'] = Graph.objects.filter(
                 is_published=True).count()
             context['featured_count'] = Graph.objects.filter(
                 featured=True, is_published=True).count()
             context['graphs_without_topics'] = Graph.objects.filter(
-                is_published=True, topic=None)
+                is_published=True, topic=None).order_by('title')
 
         # If there are no query string params, then set featured to true.
         # Set active_topic guard condition, and assign to an id if present in
