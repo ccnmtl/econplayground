@@ -60,7 +60,7 @@ class GraphSerializer(serializers.ModelSerializer):
         model = Graph
         fields = (
             'lines',
-            'id', 'title',
+            'id', 'title', 'summary',
             'instructions', 'instructor_notes',
             'graph_type',
             'assignment_type',
