@@ -186,6 +186,9 @@ class Graph(models.Model):
     def get_absolute_url(self):
         return '/graph/{}/'.format(self.pk)
 
+    def is_visible_to_students(self):
+        return self.is_published and not self.needs_submit
+
 
 class JXGLine(models.Model):
     class Meta:

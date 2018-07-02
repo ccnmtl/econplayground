@@ -50,7 +50,7 @@
                         {# Then render those with a topic #}
                         <h3>{{ topic.name }}</h3>
                         {% for graph in topic.graph_set.all %}
-                            {% if i_am_instructor or graph.is_published %}
+                            {% if i_am_instructor or graph.is_visible_to_students %}
                                 <a href="{% url 'graph_detail' graph.id %}">{{ graph.title }}</a>
                                 <p>{{ graph.description }}</p>
                             {% endif %}
