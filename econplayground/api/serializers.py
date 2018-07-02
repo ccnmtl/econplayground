@@ -61,7 +61,7 @@ class GraphSerializer(serializers.ModelSerializer):
         fields = (
             'lines',
             'id', 'title',
-            'description', 'instructor_notes',
+            'instructions', 'instructor_notes',
             'graph_type',
             'assignment_type',
             'author',

@@ -23,8 +23,8 @@
                         <div class="card">
                             <div class="card-header"><a href="{% url 'graph_detail' graph.id %}">{{ graph.title }}</a></div>
                             <div class="card-body">
-                                {% if graph.description %}
-                                <p>{{ graph.description }}</p>
+                                {% if graph.summary %}
+                                <p>{{ graph.summary }}</p>
                                 {% endif %}
                                 {% if i_am_instructor and graph.is_published %}
                                     <span class="badge badge-pill badge-primary">Published</span>
@@ -44,7 +44,7 @@
                     {# First render graphs not assigned to a topic #}
                     {% for graph in graphs_without_topics %}
                         <a href="{% url 'graph_detail' graph.id %}">{{ graph.title }}</a>
-                        <p>{{ graph.description }}</p>
+                        <p>{{ graph.summary }}</p>
                     {% endfor %}
                     {% for topic in topic_list %}
                         {# Then render those with a topic #}
@@ -52,7 +52,7 @@
                         {% for graph in topic.graph_set.all %}
                             {% if i_am_instructor or graph.is_visible_to_students %}
                                 <a href="{% url 'graph_detail' graph.id %}">{{ graph.title }}</a>
-                                <p>{{ graph.description }}</p>
+                                <p>{{ graph.summary }}</p>
                             {% endif %}
                         {% endfor %}
                     {% endfor %}
@@ -61,7 +61,7 @@
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     {% for graph in graph_list %}
                         <a href="{% url 'graph_detail' graph.id %}">{{ graph.title }}</a>
-                        <p>{{ graph.description }}</p>
+                        <p>{{ graph.summary }}</p>
                     {% endfor %}
                 </div>
                 {% endif %}

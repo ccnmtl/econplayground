@@ -17,7 +17,7 @@ class AnonymousGraphViewSetTest(APITestCase):
         user = UserFactory()
         response = self.client.post('/api/graphs/', {
             'title': 'Graph title',
-            'description': 'Graph description',
+            'instructions': 'Graph instructions',
             'instructor_notes': 'notes',
             'author': user.pk,
             'graph_type': 0,
@@ -72,7 +72,7 @@ class GraphViewSetTest(LoggedInTestMixin, APITestCase):
     def test_create(self):
         response = self.client.post('/api/graphs/', {
             'title': 'Graph title',
-            'description': 'Graph description',
+            'instructions': 'Graph instructions',
             'instructor_notes': 'notes',
             'author': self.u.pk,
             'graph_type': 0,
@@ -86,7 +86,7 @@ class GraphViewSetTest(LoggedInTestMixin, APITestCase):
 
         g = Graph.objects.first()
         self.assertEqual(g.title, 'Graph title')
-        self.assertEqual(g.description, 'Graph description')
+        self.assertEqual(g.instructions, 'Graph instructions')
         self.assertEqual(g.instructor_notes, 'notes')
         self.assertEqual(g.author, self.u)
         self.assertEqual(g.lines.count(), 0)
@@ -94,7 +94,7 @@ class GraphViewSetTest(LoggedInTestMixin, APITestCase):
     def test_create_with_lines(self):
         response = self.client.post('/api/graphs/', {
             'title': 'Graph with lines',
-            'description': 'Graph description',
+            'instructions': 'Graph instructions',
             'instructor_notes': 'notes',
             'author': self.u.pk,
             'graph_type': 0,
@@ -125,7 +125,7 @@ class GraphViewSetTest(LoggedInTestMixin, APITestCase):
 
         g = Graph.objects.first()
         self.assertEqual(g.title, 'Graph with lines')
-        self.assertEqual(g.description, 'Graph description')
+        self.assertEqual(g.instructions, 'Graph instructions')
         self.assertEqual(g.instructor_notes, 'notes')
         self.assertEqual(g.author, self.u)
 
@@ -138,7 +138,7 @@ class GraphViewSetTest(LoggedInTestMixin, APITestCase):
     def test_create_with_lines_and_transformations(self):
         response = self.client.post('/api/graphs/', {
             'title': 'Graph with lines',
-            'description': 'Graph description',
+            'instructions': 'Graph instructions',
             'instructor_notes': 'notes',
             'author': self.u.pk,
             'graph_type': 0,
@@ -191,7 +191,7 @@ class GraphViewSetTest(LoggedInTestMixin, APITestCase):
 
         g = Graph.objects.first()
         self.assertEqual(g.title, 'Graph with lines')
-        self.assertEqual(g.description, 'Graph description')
+        self.assertEqual(g.instructions, 'Graph instructions')
         self.assertEqual(g.instructor_notes, 'notes')
         self.assertEqual(g.author, self.u)
 
@@ -204,7 +204,7 @@ class GraphViewSetTest(LoggedInTestMixin, APITestCase):
     def test_create_with_lines_and_transformations_invalid(self):
         response = self.client.post('/api/graphs/', {
             'title': 'Graph with lines',
-            'description': 'Graph description',
+            'instructions': 'Graph instructions',
             'instructor_notes': 'notes',
             'author': self.u.pk,
             'graph_type': 0,

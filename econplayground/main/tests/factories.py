@@ -35,7 +35,7 @@ class GraphFactory(factory.DjangoModelFactory):
         model = Graph
 
     title = fuzzy.FuzzyText()
-    description = fuzzy.FuzzyText()
+    instructions = fuzzy.FuzzyText()
     instructor_notes = fuzzy.FuzzyText()
     author = factory.SubFactory(UserFactory)
 
