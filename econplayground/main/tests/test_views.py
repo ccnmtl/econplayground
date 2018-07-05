@@ -1,7 +1,7 @@
 from django.test import TestCase, RequestFactory
 from econplayground.main.views import MyLTILandingPage
 from econplayground.main.tests.factories import (
-    GraphFactory, SubmissionFactory
+    GraphFactory, SubmissionFactory, TopicFactory
 )
 from econplayground.main.tests.mixins import (
     LoggedInTestMixin, LoggedInTestInstructorMixin, LoggedInTestStudentMixin
@@ -45,39 +45,194 @@ class EmbedViewPublicAnonTest(TestCase):
 class GraphListInstructorViewTest(LoggedInTestInstructorMixin, TestCase):
     def setUp(self):
         super(GraphListInstructorViewTest, self).setUp()
-        GraphFactory(title='Graph 1', is_published=True)
-        GraphFactory(title='Demand-Supply', is_published=True)
-        GraphFactory(title='abc', is_published=True)
+        self.t1 = TopicFactory(name='Topic A')
+        self.t2 = TopicFactory(name='Topic B')
+        GraphFactory(title='Graph 1', is_published=True, featured=True)
+        GraphFactory(title='Demand-Supply',
+                     is_published=True, topic=self.t1, featured=True)
+        GraphFactory(title='abc', is_published=True, topic=self.t1)
         GraphFactory(title='Submittable graph',
-                     needs_submit=True, is_published=True)
-        GraphFactory(title='Draft graph', is_published=False)
+                     needs_submit=True, is_published=True, topic=self.t2)
+        GraphFactory(title='Draft graph', is_published=False, topic=self.t2)
 
     def test_get(self):
+        # Test four cases: '/', '/?all=true', '/?topic=1', /?topic=2'
+        # Each case test: All expected graphs are present, the expected
+        # are in the context
+        r = self.client.get('/')
+        self.assertEqual(r.status_code, 200)
+        # Graphs
+        self.assertContains(r, 'Graph 1')
+        self.assertContains(r, 'Demand-Supply')
+        self.assertNotContains(r, 'abc')
+        self.assertNotContains(r, 'Submittable graph')
+        self.assertNotContains(r, 'Draft graph')
+        # Context Data
+        self.assertEqual(r.context['featured'], True)
+        self.assertEqual(r.context['active_topic'], '')
+        self.assertEqual(r.context['topic_list'].count(), 2)
+        self.assertContains(r, 'Topic A')
+        self.assertContains(r, 'Topic B')
+        self.assertEqual(r.context['all_count'], 5)
+        self.assertEqual(r.context['featured_count'], 2)
+        self.assertEqual(r.context['graphs_without_topics'].count(), 1)
+        self.assertEqual(r.context['topic_list'][0].graph_count(), 2)
+        self.assertEqual(r.context['topic_list'][1].graph_count(), 2)
+
         r = self.client.get('/?all=true')
         self.assertEqual(r.status_code, 200)
-        self.assertContains(r, 'Featured Graphs')
-        self.assertContains(r, 'All Graphs')
+        # Graphs
+        self.assertContains(r, 'Graph 1')
+        self.assertContains(r, 'Demand-Supply')
+        self.assertContains(r, 'abc')
         self.assertContains(r, 'Submittable graph')
         self.assertContains(r, 'Draft graph')
+        # Context Data
+        self.assertEqual(r.context['featured'], False)
+        self.assertEqual(r.context['active_topic'], '')
+        self.assertEqual(r.context['topic_list'].count(), 2)
+        self.assertContains(r, 'Topic A')
+        self.assertContains(r, 'Topic B')
+        self.assertEqual(r.context['all_count'], 5)
+        self.assertEqual(r.context['featured_count'], 2)
+        self.assertEqual(r.context['graphs_without_topics'].count(), 1)
+        self.assertEqual(r.context['topic_list'][0].graph_count(), 2)
+        self.assertEqual(r.context['topic_list'][1].graph_count(), 2)
+
+        r = self.client.get('/?topic=1')
+        self.assertEqual(r.status_code, 200)
+        # Graphs
+        self.assertNotContains(r, 'Graph 1')
+        self.assertContains(r, 'Demand-Supply')
+        self.assertContains(r, 'abc')
+        self.assertNotContains(r, 'Submittable graph')
+        self.assertNotContains(r, 'Draft graph')
+        # Context Data
+        self.assertEqual(r.context['featured'], False)
+        self.assertEqual(r.context['active_topic'], 1)
+        self.assertEqual(r.context['topic_list'].count(), 2)
+        self.assertContains(r, 'Topic A')
+        self.assertContains(r, 'Topic B')
+        self.assertEqual(r.context['all_count'], 5)
+        self.assertEqual(r.context['featured_count'], 2)
+        self.assertEqual(r.context['graphs_without_topics'].count(), 1)
+        self.assertEqual(r.context['topic_list'][0].graph_count(), 2)
+        self.assertEqual(r.context['topic_list'][1].graph_count(), 2)
+
+        r = self.client.get('/?topic=2')
+        self.assertEqual(r.status_code, 200)
+        # Graphs
+        self.assertNotContains(r, 'Graph 1')
+        self.assertNotContains(r, 'Demand-Supply')
+        self.assertNotContains(r, 'abc')
+        self.assertContains(r, 'Submittable graph')
+        self.assertContains(r, 'Draft graph')
+        # Context Data
+        self.assertEqual(r.context['featured'], False)
+        self.assertEqual(r.context['active_topic'], 2)
+        self.assertEqual(r.context['topic_list'].count(), 2)
+        self.assertContains(r, 'Topic A')
+        self.assertContains(r, 'Topic B')
+        self.assertEqual(r.context['all_count'], 5)
+        self.assertEqual(r.context['featured_count'], 2)
+        self.assertEqual(r.context['graphs_without_topics'].count(), 1)
+        self.assertEqual(r.context['topic_list'][0].graph_count(), 2)
+        self.assertEqual(r.context['topic_list'][1].graph_count(), 2)
 
 
 class GraphListStudentViewTest(LoggedInTestStudentMixin, TestCase):
     def setUp(self):
         super(GraphListStudentViewTest, self).setUp()
-        GraphFactory(title='Graph 1', is_published=True)
-        GraphFactory(title='Demand-Supply', is_published=False)
-        GraphFactory(title='abc', is_published=True)
-        GraphFactory(title='Submittable graph', needs_submit=True,
-                     is_published=True)
-        GraphFactory(title='Draft graph', is_published=False)
+        self.t1 = TopicFactory(name='Topic A')
+        self.t2 = TopicFactory(name='Topic B')
+        GraphFactory(title='Graph 1', is_published=True, featured=True)
+        GraphFactory(title='Demand-Supply',
+                     is_published=True, topic=self.t1, featured=True)
+        GraphFactory(title='abc', is_published=True, topic=self.t2)
+        GraphFactory(title='Submittable graph',
+                     needs_submit=True, is_published=True, topic=self.t1)
+        GraphFactory(title='Draft graph', is_published=False, topic=self.t2)
 
     def test_get(self):
-        r = self.client.get('/?all=true')
+        r = self.client.get('/')
         self.assertEqual(r.status_code, 200)
-        self.assertContains(r, 'Featured Graphs')
-        self.assertContains(r, 'All Graphs')
+        # Graphs
+        self.assertContains(r, 'Graph 1')
+        self.assertContains(r, 'Demand-Supply')
+        self.assertNotContains(r, 'abc')
         self.assertNotContains(r, 'Submittable graph')
         self.assertNotContains(r, 'Draft graph')
+        # Context Data
+        self.assertEqual(r.context['featured'], True)
+        self.assertEqual(r.context['active_topic'], '')
+        self.assertEqual(r.context['topic_list'].count(), 2)
+        self.assertContains(r, 'Topic A')
+        self.assertContains(r, 'Topic B')
+        self.assertEqual(r.context['all_count'], 3)
+        self.assertEqual(r.context['featured_count'], 2)
+        self.assertEqual(r.context['graphs_without_topics'].count(), 1)
+        self.assertEqual(r.context['topic_list'][0].published_graph_count(), 1)
+        self.assertEqual(r.context['topic_list'][1].published_graph_count(), 1)
+
+        r = self.client.get('/?all=true')
+        self.assertEqual(r.status_code, 200)
+        # Graphs
+        self.assertContains(r, 'Graph 1')
+        self.assertContains(r, 'Demand-Supply')
+        self.assertContains(r, 'abc')
+        self.assertNotContains(r, 'Submittable graph')
+        self.assertNotContains(r, 'Draft graph')
+        # Context Data
+        self.assertEqual(r.context['featured'], False)
+        self.assertEqual(r.context['active_topic'], '')
+        self.assertEqual(r.context['topic_list'].count(), 2)
+        self.assertContains(r, 'Topic A')
+        self.assertContains(r, 'Topic B')
+        self.assertEqual(r.context['all_count'], 3)
+        self.assertEqual(r.context['featured_count'], 2)
+        self.assertEqual(r.context['graphs_without_topics'].count(), 1)
+        self.assertEqual(r.context['topic_list'][0].published_graph_count(), 1)
+        self.assertEqual(r.context['topic_list'][1].published_graph_count(), 1)
+
+        r = self.client.get('/?topic=1')
+        self.assertEqual(r.status_code, 200)
+        # Graphs
+        self.assertNotContains(r, 'Graph 1')
+        self.assertContains(r, 'Demand-Supply')
+        self.assertNotContains(r, 'abc')
+        self.assertNotContains(r, 'Submittable graph')
+        self.assertNotContains(r, 'Draft graph')
+        # Context Data
+        self.assertEqual(r.context['featured'], False)
+        self.assertEqual(r.context['active_topic'], 1)
+        self.assertEqual(r.context['topic_list'].count(), 2)
+        self.assertContains(r, 'Topic A')
+        self.assertContains(r, 'Topic B')
+        self.assertEqual(r.context['all_count'], 3)
+        self.assertEqual(r.context['featured_count'], 2)
+        self.assertEqual(r.context['graphs_without_topics'].count(), 1)
+        self.assertEqual(r.context['topic_list'][0].published_graph_count(), 1)
+        self.assertEqual(r.context['topic_list'][1].published_graph_count(), 1)
+
+        r = self.client.get('/?topic=2')
+        self.assertEqual(r.status_code, 200)
+        # Graphs
+        self.assertNotContains(r, 'Graph 1')
+        self.assertNotContains(r, 'Demand-Supply')
+        self.assertContains(r, 'abc')
+        self.assertNotContains(r, 'Submittable graph')
+        self.assertNotContains(r, 'Draft graph')
+        # Context Data
+        self.assertEqual(r.context['featured'], False)
+        self.assertEqual(r.context['active_topic'], 2)
+        self.assertEqual(r.context['topic_list'].count(), 2)
+        self.assertContains(r, 'Topic A')
+        self.assertContains(r, 'Topic B')
+        self.assertEqual(r.context['all_count'], 3)
+        self.assertEqual(r.context['featured_count'], 2)
+        self.assertEqual(r.context['graphs_without_topics'].count(), 1)
+        self.assertEqual(r.context['topic_list'][0].published_graph_count(), 1)
+        self.assertEqual(r.context['topic_list'][1].published_graph_count(), 1)
 
 
 class MockLTI(object):

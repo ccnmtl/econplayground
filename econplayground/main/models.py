@@ -38,7 +38,9 @@ class Topic(OrderedModel):
         return Graph.objects.filter(topic=self).count()
 
     def published_graph_count(self):
-        return Graph.objects.filter(topic=self, is_published=True).count()
+        return Graph.objects.filter(topic=self,
+                                    needs_submit=False,
+                                    is_published=True).count()
 
     def __str__(self):
         return self.name
