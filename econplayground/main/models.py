@@ -44,9 +44,9 @@ class Topic(OrderedModel):
         return self.name
 
 
-class Graph(models.Model):
-    class Meta:
-        ordering = ('-created_at',)
+class Graph(OrderedModel):
+    class Meta(OrderedModel.Meta):
+        pass
 
     title = models.TextField()
     instructions = models.TextField(blank=True, null=True, default='')
