@@ -9,7 +9,7 @@ from econplayground.main.models import (
 
 class GraphAdmin(OrderedModelAdmin):
     model = Graph
-    list_display = ('title', 'topic', 'order', 'move_up_down_links')
+    list_display = ('title', 'move_up_down_links')
     list_filter = ('featured',)
 
 
@@ -28,7 +28,7 @@ class AssessmentAdmin(admin.ModelAdmin):
 
 
 class TopicAdmin(OrderedModelAdmin):
-    list_display = ('name', 'order', 'move_up_down_links')
+    list_display = ('name', 'move_up_down_links')
 
 
 admin.site.register(Graph, GraphAdmin)
