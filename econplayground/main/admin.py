@@ -7,10 +7,10 @@ from econplayground.main.models import (
 )
 
 
-class GraphAdmin(admin.ModelAdmin):
+class GraphAdmin(OrderedModelAdmin):
     model = Graph
-    list_display = ('title', 'topic')
-    list_filter = ('topic',)
+    list_display = ('title', 'move_up_down_links')
+    list_filter = ('featured',)
 
 
 class AssessmentRuleInline(admin.TabularInline):

@@ -38,15 +38,17 @@ class Topic(OrderedModel):
         return Graph.objects.filter(topic=self).count()
 
     def published_graph_count(self):
-        return Graph.objects.filter(topic=self, is_published=True).count()
+        return Graph.objects.filter(topic=self,
+                                    needs_submit=False,
+                                    is_published=True).count()
 
     def __str__(self):
         return self.name
 
 
-class Graph(models.Model):
-    class Meta:
-        ordering = ('-created_at',)
+class Graph(OrderedModel):
+    class Meta(OrderedModel.Meta):
+        pass
 
     title = models.TextField()
     instructions = models.TextField(blank=True, null=True, default='')
@@ -58,6 +60,7 @@ class Graph(models.Model):
         on_delete=models.PROTECT,
         null=True, blank=True)
     featured = models.BooleanField(default=False)
+    order_with_respect_to = ('featured')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -190,6 +193,44 @@ class Graph(models.Model):
 
     def is_visible_to_students(self):
         return self.is_published and not self.needs_submit
+
+    # Overriding the two methods below was largely lifted from:
+    # https://github.com/bfirsh/django-ordered-model/issues/85
+    def bottom(self):
+        # Looks for the max for 'order' in a given subset,
+        # or 0 if the subset it empty
+        last = (
+            self.get_ordering_queryset()
+            .exclude(id=self.id)
+            .aggregate(models.Max('order'))
+            .get('order__max')
+        ) or 0
+
+        self.to(last + 1)
+
+    def save(self, *args, **kwargs):
+        # If this instance is being created for the first time, old instance
+        # won't exist
+        try:
+            old_graph = Graph.objects.get(id=self.id)
+        except (Graph.DoesNotExist):
+            old_graph = None
+
+        super().save(*args, **kwargs)
+
+        if old_graph is not None and self.featured is not old_graph.featured:
+            # If featured is toggled, place it at the bottom of the new subset
+            self.bottom()
+
+            # If a graph's feature is toggled, condense the ordering for all
+            # graphs
+            for idx, graph in enumerate(Graph.objects.filter(featured=True)):
+                if graph.order is not idx:
+                    graph.to(idx)
+
+            for idx, graph in enumerate(Graph.objects.filter(featured=False)):
+                if graph.order is not idx:
+                    graph.to(idx)
 
 
 class JXGLine(models.Model):
