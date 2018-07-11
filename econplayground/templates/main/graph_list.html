@@ -18,51 +18,80 @@
             {% endif %}
             <div class="row">
                 {% if featured %} {# Renders the featured graphs #}
+                <div class="card-deck">
                     {% for graph in graph_list %}
-                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12">
-                        <div class="card">
-                            <div class="card-header"><a href="{% url 'graph_detail' graph.id %}">{{ graph.title }}</a></div>
-                            <div class="card-body">
-                                {% if graph.summary %}
-                                <p>{{ graph.summary }}</p>
-                                {% endif %}
-                                {% if i_am_instructor and graph.is_published %}
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="{% url 'graph_detail' graph.id %}">{{ graph.title }}</a>
+                            </h5>
+                            {% if graph.summary %}
+                            <p class="card-text">{{ graph.summary }}</p>
+                            {% endif %}
+                            <p>
+                                <small>See also: <a href="?topic={{ graph.topic }}">{{ graph.topic }}</a></small>
+                            </p>
+                        </div>
+                        {% if i_am_instructor %}
+                        {% if graph.is_published or graph.needs_submit %}
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                {% if graph.is_published %}
                                     <span class="badge badge-pill badge-primary">Published</span>
                                 {% endif %}
-                                {% if i_am_instructor and graph.needs_submit %}
+                                {% if graph.needs_submit %}
                                     <span class="badge badge-pill badge-secondary">LTI</span>
                                 {% endif %}
-                            </div>
-                            <div class="card-footer"><small><a href="?topic={{ graph.topic }}">{{ graph.topic }}</a></small></div>
-                        </div>
+                            </li>
+                        </ul>
+                        {% endif %}
+                        {% endif %}
                     </div>
                     {% empty %}
                     No graphs here.
                     {% endfor %}
+                </div>
                 {% elif not active_topic %} {# Renders all graphs #}
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    {# First render graphs not assigned to a topic #}
-                    {% for graph in graphs_without_topics %}
-                        <a href="{% url 'graph_detail' graph.id %}">{{ graph.title }}</a>
-                        <p>{{ graph.summary }}</p>
-                    {% endfor %}
                     {% for topic in topic_list %}
                         {# Then render those with a topic #}
-                        <h3>{{ topic.name }}</h3>
-                        {% for graph in topic.graph_set.all %}
-                            {% if i_am_instructor or graph.is_visible_to_students %}
-                                <a href="{% url 'graph_detail' graph.id %}">{{ graph.title }}</a>
-                                <p>{{ graph.summary }}</p>
-                            {% endif %}
-                        {% endfor %}
+                        {% if topic.graph_set.all %}
+                            <h3>{{ topic.name }}</h3>
+                            {% for graph in topic.graph_set.all %}
+                                {% if i_am_instructor or graph.is_visible_to_students %}
+                                    <h5><a href="{% url 'graph_detail' graph.id %}">{{ graph.title }}</a></h5>
+                                    <p>{{ graph.summary }}</p>
+                                    {% if graph.is_published %}
+                                        <span class="badge badge-pill badge-primary">Published</span>
+                                    {% endif %}
+                                    {% if graph.needs_submit %}
+                                        <span class="badge badge-pill badge-secondary">LTI</span>
+                                    {% endif %}
+                                    <hr />
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
                     {% endfor %}
                 </div>
                 {% else %} {# Renders graphs when a specific topic is selected #}
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    {% for graph in graph_list %}
-                        <a href="{% url 'graph_detail' graph.id %}">{{ graph.title }}</a>
-                        <p>{{ graph.summary }}</p>
-                    {% endfor %}
+                    {% if graph_list %}
+                        {% for graph in graph_list %}
+                            {% if i_am_instructor or graph.is_visible_to_students %}
+                                <h5><a href="{% url 'graph_detail' graph.id %}">{{ graph.title }}</a></h5>
+                                <p>{{ graph.summary }}</p>
+                                {% if graph.is_published %}
+                                    <span class="badge badge-pill badge-primary">Published</span>
+                                {% endif %}
+                                {% if graph.needs_submit %}
+                                    <span class="badge badge-pill badge-secondary">LTI</span>
+                                {% endif %}
+                                <hr />
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <p>There are no graphs in this topic.</p>
+                    {% endif %}
                 </div>
                 {% endif %}
             </div>

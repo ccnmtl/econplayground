@@ -47,7 +47,8 @@ class GraphListInstructorViewTest(LoggedInTestInstructorMixin, TestCase):
         super(GraphListInstructorViewTest, self).setUp()
         self.t1 = TopicFactory(name='Topic A')
         self.t2 = TopicFactory(name='Topic B')
-        GraphFactory(title='Graph 1', is_published=True, featured=True)
+        GraphFactory(title='Graph 1', is_published=True,
+                     topic=self.t1, featured=True)
         GraphFactory(title='Demand-Supply',
                      is_published=True, topic=self.t1, featured=True)
         GraphFactory(title='abc', is_published=True, topic=self.t1)
@@ -75,6 +76,7 @@ class GraphListInstructorViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertContains(r, 'Topic B')
         self.assertEqual(r.context['all_count'], 5)
         self.assertEqual(r.context['featured_count'], 2)
+        self.assertEqual(r.context['topic_list'][0].graph_count(), 3)
         self.assertEqual(r.context['topic_list'][1].graph_count(), 2)
         self.assertEqual(r.context['topic_list'][2].graph_count(), 2)
 
@@ -94,13 +96,14 @@ class GraphListInstructorViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertContains(r, 'Topic B')
         self.assertEqual(r.context['all_count'], 5)
         self.assertEqual(r.context['featured_count'], 2)
+        self.assertEqual(r.context['topic_list'][0].graph_count(), 3)
         self.assertEqual(r.context['topic_list'][1].graph_count(), 2)
         self.assertEqual(r.context['topic_list'][2].graph_count(), 2)
 
         r = self.client.get('/?topic=2')
         self.assertEqual(r.status_code, 200)
         # Graphs
-        self.assertNotContains(r, 'Graph 1')
+        self.assertContains(r, 'Graph 1')
         self.assertContains(r, 'Demand-Supply')
         self.assertContains(r, 'abc')
         self.assertNotContains(r, 'Submittable graph')
@@ -113,6 +116,7 @@ class GraphListInstructorViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertContains(r, 'Topic B')
         self.assertEqual(r.context['all_count'], 5)
         self.assertEqual(r.context['featured_count'], 2)
+        self.assertEqual(r.context['topic_list'][0].graph_count(), 3)
         self.assertEqual(r.context['topic_list'][1].graph_count(), 2)
         self.assertEqual(r.context['topic_list'][2].graph_count(), 2)
 
@@ -132,6 +136,7 @@ class GraphListInstructorViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertContains(r, 'Topic B')
         self.assertEqual(r.context['all_count'], 5)
         self.assertEqual(r.context['featured_count'], 2)
+        self.assertEqual(r.context['topic_list'][0].graph_count(), 3)
         self.assertEqual(r.context['topic_list'][1].graph_count(), 2)
         self.assertEqual(r.context['topic_list'][2].graph_count(), 2)
 
@@ -141,7 +146,8 @@ class GraphListStudentViewTest(LoggedInTestStudentMixin, TestCase):
         super(GraphListStudentViewTest, self).setUp()
         self.t1 = TopicFactory(name='Topic A')
         self.t2 = TopicFactory(name='Topic B')
-        GraphFactory(title='Graph 1', is_published=True, featured=True)
+        GraphFactory(title='Graph 1', is_published=True,
+                     topic=self.t1, featured=True)
         GraphFactory(title='Demand-Supply',
                      is_published=True, topic=self.t1, featured=True)
         GraphFactory(title='abc', is_published=True, topic=self.t2)
@@ -166,6 +172,7 @@ class GraphListStudentViewTest(LoggedInTestStudentMixin, TestCase):
         self.assertContains(r, 'Topic B')
         self.assertEqual(r.context['all_count'], 3)
         self.assertEqual(r.context['featured_count'], 2)
+        self.assertEqual(r.context['topic_list'][0].published_graph_count(), 2)
         self.assertEqual(r.context['topic_list'][1].published_graph_count(), 1)
         self.assertEqual(r.context['topic_list'][2].published_graph_count(), 1)
 
@@ -185,13 +192,14 @@ class GraphListStudentViewTest(LoggedInTestStudentMixin, TestCase):
         self.assertContains(r, 'Topic B')
         self.assertEqual(r.context['all_count'], 3)
         self.assertEqual(r.context['featured_count'], 2)
+        self.assertEqual(r.context['topic_list'][0].published_graph_count(), 2)
         self.assertEqual(r.context['topic_list'][1].published_graph_count(), 1)
         self.assertEqual(r.context['topic_list'][2].published_graph_count(), 1)
 
         r = self.client.get('/?topic=2')
         self.assertEqual(r.status_code, 200)
         # Graphs
-        self.assertNotContains(r, 'Graph 1')
+        self.assertContains(r, 'Graph 1')
         self.assertContains(r, 'Demand-Supply')
         self.assertNotContains(r, 'abc')
         self.assertNotContains(r, 'Submittable graph')
@@ -204,6 +212,7 @@ class GraphListStudentViewTest(LoggedInTestStudentMixin, TestCase):
         self.assertContains(r, 'Topic B')
         self.assertEqual(r.context['all_count'], 3)
         self.assertEqual(r.context['featured_count'], 2)
+        self.assertEqual(r.context['topic_list'][0].published_graph_count(), 2)
         self.assertEqual(r.context['topic_list'][1].published_graph_count(), 1)
         self.assertEqual(r.context['topic_list'][2].published_graph_count(), 1)
 
@@ -223,6 +232,7 @@ class GraphListStudentViewTest(LoggedInTestStudentMixin, TestCase):
         self.assertContains(r, 'Topic B')
         self.assertEqual(r.context['all_count'], 3)
         self.assertEqual(r.context['featured_count'], 2)
+        self.assertEqual(r.context['topic_list'][0].published_graph_count(), 2)
         self.assertEqual(r.context['topic_list'][1].published_graph_count(), 1)
         self.assertEqual(r.context['topic_list'][2].published_graph_count(), 1)
 
