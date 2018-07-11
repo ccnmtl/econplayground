@@ -139,7 +139,6 @@ class GraphListView(LoginRequiredMixin, ListView):
         context['topic_list'] = Topic.objects.all()
         context['all_count'] = graphs.count()
         context['featured_count'] = graphs.filter(featured=True).count()
-        context['graphs_without_topics'] = graphs.filter(topic=None)
 
         # If there are no query string params, then set featured to true.
         # Set active_topic guard condition, and assign to an id if present in
