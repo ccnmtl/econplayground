@@ -2,7 +2,7 @@
 
 h1
 {
-	color: #0e48a1;
+	color: $blue;
 	font-weight: 900;
 }
 
@@ -21,8 +21,12 @@ h3 { margin-top: 1em; }
 .lead { margin-bottom: 3em; }
 
 
-p a, li a, h3 a { color: #0e48a1; }
+p a, li a, h3 a { color: $blue; }
 
 input.monospace {
     font-family: monospace;
+}
+
+span.MJXc-display {
+    padding-left: 15px;
 }

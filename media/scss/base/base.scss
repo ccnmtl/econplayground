@@ -1,7 +1,7 @@
-.btn-primary { background-color: #0e48a1; }
+.btn-primary { background-color: $blue; }
 
 .card a img  {border: 2px solid #ccc;}
-.card a:hover img  {border: 2px solid #0e48a1;}
+.card a:hover img  {border: 2px solid $blue;}
 
 #outer-container {
     padding-bottom: 2em;

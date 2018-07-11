@@ -1,5 +1,9 @@
 nav.navbar {
-    background-color: #0e48a1;
+    background-color: $blue;
+
+    &.hp-nav {
+        background-color: transparent;
+    }
 }
 
 nav.navbar-dark .navbar-nav .nav-link {
