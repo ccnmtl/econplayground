@@ -9,6 +9,9 @@
             <hr/>
             {% if featured %}
             <h2>Featured Graphs</h2>
+                    {% if i_am_instructor %}
+                    <small class="form-text text-muted"><a href="/admin/main/featuredgraph/" target="_blank">Manage featured graphs</a></small>
+                    {% endif %}
             {% elif not active_topic %}
             <h2>All Graphs</h2>
             {% else %}
@@ -99,6 +102,9 @@
             </div>
         </div>
         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12">
+            {% if i_am_instructor %}
+            <small class="form-text text-muted"><a href="/admin/main/topic/" target="_blank">Manage topics</a></small>
+            {% endif %}
             <ul class="list-group">
                 <li class="list-group-item {% if featured %}active{% endif %}">
                     <a href="/">Featured Graphs</a>

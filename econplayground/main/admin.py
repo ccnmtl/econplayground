@@ -16,6 +16,23 @@ class GraphAdmin(OrderedModelAdmin):
     list_filter = ('featured',)
 
 
+class FeaturedGraph(Graph):
+    class Meta:
+        proxy = True
+
+
+class FeaturedGraphAdmin(OrderedModelAdmin):
+    model = FeaturedGraph
+    list_display = ('title', 'move_up_down_links')
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.filter(featured=True)
+
+    def has_add_permission(self, request):
+        return False
+
+
 class AssessmentRuleInline(admin.TabularInline):
     model = AssessmentRule
     formfield_overrides = {
@@ -72,5 +89,6 @@ class TopicAdmin(OrderedModelAdmin):
 
 
 admin.site.register(Graph, GraphAdmin)
+admin.site.register(FeaturedGraph, FeaturedGraphAdmin)
 admin.site.register(Assessment, AssessmentAdmin)
 admin.site.register(Topic, TopicAdmin)
