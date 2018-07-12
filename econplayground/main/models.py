@@ -5,6 +5,9 @@ from decimal import Decimal
 from django.contrib.auth.models import User
 from django.db import models
 from ordered_model.models import OrderedModel
+from django.dispatch import receiver
+from django.db.models.signals import pre_delete
+from django.db.models import ProtectedError
 
 
 GRAPH_TYPES = (
@@ -46,6 +49,12 @@ class Topic(OrderedModel):
         return self.name
 
 
+@receiver(pre_delete, sender=Topic)
+def default_topic_handler(sender, instance, **kwargs):
+    if instance.id is 1:
+        raise ProtectedError('The General topic can not be deleted', instance)
+
+
 class Graph(OrderedModel):
     class Meta(OrderedModel.Meta):
         pass
@@ -58,7 +67,7 @@ class Graph(OrderedModel):
     topic = models.ForeignKey(
         Topic,
         on_delete=models.PROTECT,
-        null=True, blank=True)
+        null=False, blank=False, default=1)
     featured = models.BooleanField(default=False)
     order_with_respect_to = ('featured')
     created_at = models.DateTimeField(auto_now_add=True)
