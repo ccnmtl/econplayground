@@ -1,3 +1,5 @@
+// To override Bootstrap's color values, you have to declare them before Bootstrap does.
+@import 'base/color-variables';
 // The line below includes Bootstrap source scss files, which are built
 // with tooling in the Makefile. If this needs to be updated the directory
 // named 'bootstrap-4.0.0-beta.3' is equivalent to 'bootstrap-4.0.0-beta.3/scss'
