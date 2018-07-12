@@ -75,6 +75,7 @@ class GraphListInstructorViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertContains(r, 'Topic B')
         self.assertEqual(r.context['all_count'], 5)
         self.assertEqual(r.context['featured_count'], 2)
+        self.assertEqual(r.context['topic_list'][0].graph_count(), 1)
         self.assertEqual(r.context['topic_list'][1].graph_count(), 2)
         self.assertEqual(r.context['topic_list'][2].graph_count(), 2)
 
@@ -94,6 +95,7 @@ class GraphListInstructorViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertContains(r, 'Topic B')
         self.assertEqual(r.context['all_count'], 5)
         self.assertEqual(r.context['featured_count'], 2)
+        self.assertEqual(r.context['topic_list'][0].graph_count(), 1)
         self.assertEqual(r.context['topic_list'][1].graph_count(), 2)
         self.assertEqual(r.context['topic_list'][2].graph_count(), 2)
 
@@ -113,6 +115,7 @@ class GraphListInstructorViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertContains(r, 'Topic B')
         self.assertEqual(r.context['all_count'], 5)
         self.assertEqual(r.context['featured_count'], 2)
+        self.assertEqual(r.context['topic_list'][0].graph_count(), 1)
         self.assertEqual(r.context['topic_list'][1].graph_count(), 2)
         self.assertEqual(r.context['topic_list'][2].graph_count(), 2)
 
@@ -132,6 +135,7 @@ class GraphListInstructorViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertContains(r, 'Topic B')
         self.assertEqual(r.context['all_count'], 5)
         self.assertEqual(r.context['featured_count'], 2)
+        self.assertEqual(r.context['topic_list'][0].graph_count(), 1)
         self.assertEqual(r.context['topic_list'][1].graph_count(), 2)
         self.assertEqual(r.context['topic_list'][2].graph_count(), 2)
 
@@ -166,6 +170,7 @@ class GraphListStudentViewTest(LoggedInTestStudentMixin, TestCase):
         self.assertContains(r, 'Topic B')
         self.assertEqual(r.context['all_count'], 3)
         self.assertEqual(r.context['featured_count'], 2)
+        self.assertEqual(r.context['topic_list'][0].published_graph_count(), 1)
         self.assertEqual(r.context['topic_list'][1].published_graph_count(), 1)
         self.assertEqual(r.context['topic_list'][2].published_graph_count(), 1)
 
@@ -185,6 +190,7 @@ class GraphListStudentViewTest(LoggedInTestStudentMixin, TestCase):
         self.assertContains(r, 'Topic B')
         self.assertEqual(r.context['all_count'], 3)
         self.assertEqual(r.context['featured_count'], 2)
+        self.assertEqual(r.context['topic_list'][0].published_graph_count(), 1)
         self.assertEqual(r.context['topic_list'][1].published_graph_count(), 1)
         self.assertEqual(r.context['topic_list'][2].published_graph_count(), 1)
 
@@ -204,6 +210,7 @@ class GraphListStudentViewTest(LoggedInTestStudentMixin, TestCase):
         self.assertContains(r, 'Topic B')
         self.assertEqual(r.context['all_count'], 3)
         self.assertEqual(r.context['featured_count'], 2)
+        self.assertEqual(r.context['topic_list'][0].published_graph_count(), 1)
         self.assertEqual(r.context['topic_list'][1].published_graph_count(), 1)
         self.assertEqual(r.context['topic_list'][2].published_graph_count(), 1)
 
@@ -223,6 +230,7 @@ class GraphListStudentViewTest(LoggedInTestStudentMixin, TestCase):
         self.assertContains(r, 'Topic B')
         self.assertEqual(r.context['all_count'], 3)
         self.assertEqual(r.context['featured_count'], 2)
+        self.assertEqual(r.context['topic_list'][0].published_graph_count(), 1)
         self.assertEqual(r.context['topic_list'][1].published_graph_count(), 1)
         self.assertEqual(r.context['topic_list'][2].published_graph_count(), 1)
 

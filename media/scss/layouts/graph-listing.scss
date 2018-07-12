@@ -1,6 +1,14 @@
 #graph-listing {
     .card {
-        margin-bottom: 0.75rem;
+        max-width: calc(31% - 15px);
+        min-width: calc(31% - 15px);
+        margin-bottom: 2rem;
+
+        .card-body {
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: space-between;
+        }
     }
     li.active a {
         color: white;
