@@ -22,15 +22,17 @@
                     {% for graph in graph_list %}
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">
-                                <a href="{% url 'graph_detail' graph.id %}">{{ graph.title }}</a>
-                            </h5>
-                            {% if graph.summary %}
-                            <p class="card-text">{{ graph.summary }}</p>
-                            {% endif %}
-                            <p>
+                            <div class="card-inner-container">
+                                <h5 class="card-title">
+                                    <a href="{% url 'graph_detail' graph.id %}">{{ graph.title }}</a>
+                                </h5>
+                                {% if graph.summary %}
+                                <p class="card-text">{{ graph.summary }}</p>
+                                {% endif %}
+                            </div>
+                            <div class="card-inner-container">
                                 <small>See also: <a href="?topic={{ graph.topic }}">{{ graph.topic }}</a></small>
-                            </p>
+                            </div>
                         </div>
                         {% if i_am_instructor %}
                         {% if graph.is_published or graph.needs_submit %}
