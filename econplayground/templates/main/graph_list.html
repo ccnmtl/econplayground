@@ -9,9 +9,6 @@
             <hr/>
             {% if featured %}
             <h2>Featured Graphs</h2>
-                    {% if i_am_instructor %}
-                    <small class="form-text text-muted"><a href="/admin/main/featuredgraph/" target="_blank">Manage featured graphs</a></small>
-                    {% endif %}
             {% elif not active_topic %}
             <h2>All Graphs</h2>
             {% else %}
@@ -102,9 +99,6 @@
             </div>
         </div>
         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12">
-            {% if i_am_instructor %}
-            <small class="form-text text-muted"><a href="/admin/main/topic/" target="_blank">Manage topics</a></small>
-            {% endif %}
             <ul class="list-group">
                 <li class="list-group-item {% if featured %}active{% endif %}">
                     <a href="/">Featured Graphs</a>
@@ -118,17 +112,29 @@
                         {{ all_count }}
                     </span>
                 </li>
+            </ul>
+            {% if i_am_instructor %}
+            <small class="form-text text-muted"><a href="/admin/main/featuredgraph/" target="_blank">Manage featured graphs</a></small>
+            <small class="form-text text-muted"><a href="/admin/main/topic/" target="_blank">Manage topics</a></small>
+            {% endif %}
+            <h2>Topics</h2>
+            <ul class="list-group">
                 {% for topic in topic_list %}
+                {% if i_am_instructor %}
                 <li class="list-group-item {% if active_topic == topic.id %}active{% endif %}">
                     <a href="?topic={{ topic.id }}">{{ topic.name }}</a>
                     <span class="badge badge-secondary float-right">
-                        {% if i_am_instructor %}
-                            {{ topic.graph_count }}
-                        {% else %}
-                            {{ topic.published_graph_count }}
-                        {% endif %}
+                        {{ topic.graph_count }}
                     </span>
                 </li>
+                {% elif topic.published_graph_count > 0 %}
+                <li class="list-group-item {% if active_topic == topic.id %}active{% endif %}">
+                    <a href="?topic={{ topic.id }}">{{ topic.name }}</a>
+                    <span class="badge badge-secondary float-right">
+                        {{ topic.published_graph_count }}
+                    </span>
+                </li>
+                {% endif %}
                 {% endfor %}
             </ul>
         </div>

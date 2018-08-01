@@ -1,4 +1,7 @@
 #graph-listing, .GraphPicker {
+    .card-deck {
+        width: 100%;
+    }
     .card {
         max-width: calc(31% - 15px);
         min-width: calc(31% - 15px);
