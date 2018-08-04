@@ -29,8 +29,8 @@
                                 <p class="card-text">{{ graph.summary }}</p>
                                 {% endif %}
                             </div>
-                            <div class="card-inner-container">
-                                <small>See also: <a href="?topic={{ graph.topic }}">{{ graph.topic }}</a></small>
+                            <div class="card-inner-container topic-tag">
+                                <a href="?topic={{ graph.topic }}">{{ graph.topic }}</a>
                             </div>
                         </div>
                         {% if i_am_instructor %}
