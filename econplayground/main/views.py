@@ -3,8 +3,10 @@ from braces.views._ajax import JSONResponseMixin
 from django.conf import settings
 from django.contrib.auth import login
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.contrib.auth.views import logout as auth_logout_view, LoginView
+from django.contrib.auth.mixins import (
+    LoginRequiredMixin, UserPassesTestMixin)
+from django.contrib.auth.views import (
+    LogoutView as DjangoLogoutView, LoginView)
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.decorators import method_decorator
@@ -189,4 +191,4 @@ class LogoutView(LoginRequiredMixin, View):
         if hasattr(settings, 'CAS_BASE'):
             return wind_logout_view(request, next_page="/")
         else:
-            return auth_logout_view(request, "/")
+            return DjangoLogoutView.as_view()(request, "/")
