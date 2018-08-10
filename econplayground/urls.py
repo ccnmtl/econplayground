@@ -2,11 +2,6 @@ import os.path
 
 from django.conf import settings
 from django.contrib import admin
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import (
-    password_change, password_change_done,
-    password_reset, password_reset_done, password_reset_confirm,
-    password_reset_complete)
 from django.urls import include, path
 from django.views.generic import TemplateView
 from django.views.static import serve
@@ -23,24 +18,6 @@ if hasattr(settings, 'CAS_BASE'):
 urlpatterns = [
     path('accounts/login/', views.LoginView.as_view()),
     path('accounts/logout/', views.LogoutView.as_view()),
-
-    # password change & reset. overriding to gate them.
-    path('accounts/password_change/',
-         login_required(password_change),
-         name='password_change'),
-    path('accounts/password_change/done/',
-         login_required(password_change_done),
-         name='password_change_done'),
-    path('password/reset/',
-         password_reset,
-         name='password_reset'),
-    path('password/reset/done/', password_reset_done,
-         name='password_reset_done'),
-    path('password/reset/confirm/<uuid:uidb64>-<slug:token>/',
-         password_reset_confirm,
-         name='password_reset_confirm'),
-    path('password/reset/complete/',
-         password_reset_complete, name='password_reset_complete'),
 
     auth_urls,
 
