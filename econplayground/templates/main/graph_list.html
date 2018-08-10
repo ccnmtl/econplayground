@@ -6,12 +6,8 @@
         <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
             <h1>Explore Graphs</h1>
             <p class="lead text-secondary">Browse and experience our collection of graphs.</p>
-            <hr/>
             {% if featured %}
             <h2>Featured Graphs</h2>
-                    {% if i_am_instructor %}
-                    <small class="form-text text-muted"><a href="/admin/main/featuredgraph/" target="_blank">Manage featured graphs</a></small>
-                    {% endif %}
             {% elif not active_topic %}
             <h2>All Graphs</h2>
             {% else %}
@@ -33,8 +29,8 @@
                                 <p class="card-text">{{ graph.summary }}</p>
                                 {% endif %}
                             </div>
-                            <div class="card-inner-container">
-                                <small>See also: <a href="?topic={{ graph.topic }}">{{ graph.topic }}</a></small>
+                            <div class="card-inner-container topic-tag">
+                                <a href="?topic={{ graph.topic }}">{{ graph.topic }}</a>
                             </div>
                         </div>
                         {% if i_am_instructor %}
@@ -64,15 +60,18 @@
                             <h3>{{ topic.name }}</h3>
                             {% for graph in topic.graph_set.all %}
                                 {% if i_am_instructor or graph.is_visible_to_students %}
+                                <div class="graph-listing-item">
                                     <h5><a href="{% url 'graph_detail' graph.id %}">{{ graph.title }}</a></h5>
                                     <p>{{ graph.summary }}</p>
+                                    {% if i_am_instructor %}
                                     {% if graph.is_published %}
-                                        <span class="badge badge-pill badge-primary">Published</span>
+                                    <span class="badge badge-pill badge-primary">Published</span>
                                     {% endif %}
                                     {% if graph.needs_submit %}
-                                        <span class="badge badge-pill badge-secondary">LTI</span>
+                                    <span class="badge badge-pill badge-secondary">LTI</span>
                                     {% endif %}
-                                    <hr />
+                                    {% endif %}
+                                </div>
                                 {% endif %}
                             {% endfor %}
                         {% endif %}
@@ -83,15 +82,18 @@
                     {% if graph_list %}
                         {% for graph in graph_list %}
                             {% if i_am_instructor or graph.is_visible_to_students %}
-                                <h5><a href="{% url 'graph_detail' graph.id %}">{{ graph.title }}</a></h5>
-                                <p>{{ graph.summary }}</p>
-                                {% if graph.is_published %}
+                                <div class="graph-listing-item">
+                                    <h5><a href="{% url 'graph_detail' graph.id %}">{{ graph.title }}</a></h5>
+                                    <p>{{ graph.summary }}</p>
+                                    {% if i_am_instructor %}
+                                    {% if graph.is_published %}
                                     <span class="badge badge-pill badge-primary">Published</span>
-                                {% endif %}
-                                {% if graph.needs_submit %}
+                                    {% endif %}
+                                    {% if graph.needs_submit %}
                                     <span class="badge badge-pill badge-secondary">LTI</span>
-                                {% endif %}
-                                <hr />
+                                    {% endif %}
+                                    {% endif %}
+                                </div>
                             {% endif %}
                         {% endfor %}
                     {% else %}
@@ -102,9 +104,6 @@
             </div>
         </div>
         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12">
-            {% if i_am_instructor %}
-            <small class="form-text text-muted"><a href="/admin/main/topic/" target="_blank">Manage topics</a></small>
-            {% endif %}
             <ul class="list-group">
                 <li class="list-group-item {% if featured %}active{% endif %}">
                     <a href="/">Featured Graphs</a>
@@ -118,17 +117,29 @@
                         {{ all_count }}
                     </span>
                 </li>
+            </ul>
+            {% if i_am_instructor %}
+            <small class="form-text text-muted"><a href="/admin/main/featuredgraph/" target="_blank">Manage featured graphs</a></small>
+            <small class="form-text text-muted"><a href="/admin/main/topic/" target="_blank">Manage topics</a></small>
+            {% endif %}
+            <h2>Topics</h2>
+            <ul class="list-group">
                 {% for topic in topic_list %}
+                {% if i_am_instructor %}
                 <li class="list-group-item {% if active_topic == topic.id %}active{% endif %}">
                     <a href="?topic={{ topic.id }}">{{ topic.name }}</a>
                     <span class="badge badge-secondary float-right">
-                        {% if i_am_instructor %}
-                            {{ topic.graph_count }}
-                        {% else %}
-                            {{ topic.published_graph_count }}
-                        {% endif %}
+                        {{ topic.graph_count }}
                     </span>
                 </li>
+                {% elif topic.published_graph_count > 0 %}
+                <li class="list-group-item {% if active_topic == topic.id %}active{% endif %}">
+                    <a href="?topic={{ topic.id }}">{{ topic.name }}</a>
+                    <span class="badge badge-secondary float-right">
+                        {{ topic.published_graph_count }}
+                    </span>
+                </li>
+                {% endif %}
                 {% endfor %}
             </ul>
         </div>

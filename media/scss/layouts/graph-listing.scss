@@ -1,4 +1,7 @@
-#graph-listing {
+#graph-listing, .GraphPicker {
+    .card-deck {
+        width: 100%;
+    }
     .card {
         max-width: calc(31% - 15px);
         min-width: calc(31% - 15px);
@@ -12,5 +15,21 @@
     }
     li.active a {
         color: white;
+    }
+    h3 {
+        border-bottom: rgba(0,0,0,0.25) solid 1px;
+        margin-bottom: 1rem;
+    }
+    .graph-listing-item {
+        margin-bottom: 2.5rem;
+        h5 {
+            text-transformation: allcaps;
+        }
+        p {
+            margin-bottom: 0px;
+        }
+    }
+    .topic-tag {
+        margin-top: 1em;
     }
 }

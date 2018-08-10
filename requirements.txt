@@ -16,7 +16,7 @@ flake8==3.5.0
 tornado==5.1
 beautifulsoup4==4.6.1
 cssselect==1.0.3
-lxml==4.2.3
+lxml==4.2.4
 fuzzywuzzy==0.16.0
 sure==1.4.11
 traitlets==4.3.2  # ipython
@@ -30,9 +30,9 @@ path.py==11.0.1  # ipython
 wcwidth==0.1.7  # ipython
 prompt_toolkit==1.0.15  # pyup: <2.0.0
 pygments==2.2.0  # ipython
-scandir==1.7  # ipython
+scandir==1.8  # ipython
 backcall==0.1.0  # ipython
-ipython==6.4.0
+ipython==6.5.0
 ipdb==0.11
 rdflib==4.2.2
 coverage==4.5.1
@@ -45,19 +45,19 @@ certifi==2018.4.16  # requests
 requests==2.19.1
 logilab-common==1.4.2
 logilab-astng==0.24.3
-astroid==2.0.1
-pylint==2.0.1
+astroid==2.0.3
+pylint==2.1.1
 six==1.11.0
 ipaddress==1.0.21  # faker
 faker==0.8.17  # factory_boy
 factory_boy==2.11.1
-ldap3==2.5
+ldap3==2.5.1
 sqlparse==0.2.4
 boto==2.49.0
 python-dateutil==2.7.3
 
 # django libraries
-djangowind==1.1.0
+djangowind==1.2.1
 django-indexer==0.3.0
 django-templatetag-sugar==1.0
 django-paging==0.2.5
@@ -95,7 +95,7 @@ ccnmtlsettings==1.4.0
 
 oauthlib==2.1.0
 oauth2==1.9.0.post1
-pylti==0.6.0
+pylti==0.7.0
 nameparser==0.5.7
 django-lti-provider==0.3.3
 
@@ -104,7 +104,7 @@ django-smtp-ssl==1.0
 django-contact-us==0.4.1
 docutils==0.14  # Django's admindocs
 
-pbr==4.1.1  # bandit
+pbr==4.2.0  # bandit
 PyYAML==3.13  # bandit
 stevedore==1.29.0  # bandit
 bandit==1.4.0
