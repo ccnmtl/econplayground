@@ -359,5 +359,8 @@ class Submission(models.Model):
     # Corresponds to the line_x_x_score
     score = models.DecimalField(max_digits=8, decimal_places=4, default=0)
 
+    feedback_fulfilled = models.TextField(blank=True, default='')
+    feedback_unfulfilled = models.TextField(blank=True, default='')
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
