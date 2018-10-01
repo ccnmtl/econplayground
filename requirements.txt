@@ -26,7 +26,7 @@ ptyprocess==0.6.0  # ipython
 pexpect==4.6.0  # ipython
 pickleshare==0.7.5  # ipython
 simplegeneric==0.8.1  # ipython
-path.py==11.3.0  # ipython
+path.py==11.4.1  # ipython
 wcwidth==0.1.7  # ipython
 prompt_toolkit==1.0.15  # pyup: <2.0.0
 pygments==2.2.0  # ipython
