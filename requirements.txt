@@ -108,4 +108,4 @@ pbr==5.1.1  # bandit
 PyYAML==3.13  # bandit
 stevedore==1.30.0  # bandit
 bandit==1.5.1
-django-ordered-model==3.0.0
+django-ordered-model==3.1.0
