@@ -29,7 +29,7 @@ simplegeneric==0.8.1  # ipython
 path.py==11.5.0  # ipython
 wcwidth==0.1.7  # ipython
 prompt_toolkit==1.0.15  # pyup: <2.0.0
-pygments==2.3.0  # ipython
+pygments==2.3.1  # ipython
 scandir==1.9.0  # ipython
 backcall==0.1.0  # ipython
 ipython==7.2.0
