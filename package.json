@@ -19,6 +19,6 @@
     "autoprefixer": "~9.4.0",
     "node-sass": "~4.11.0",
     "nodemon": "~1.18.0",
-    "postcss-cli": "~6.0.0"
+    "postcss-cli": "~6.1.0"
   }
 }
