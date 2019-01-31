@@ -91,7 +91,7 @@ Willow==1.1
 text-unidecode==1.2  # for faker
 html5lib==1.0.1
 
-ccnmtlsettings==1.4.0
+ccnmtlsettings==1.5.0
 
 oauthlib==3.0.1
 oauth2==1.9.0.post1
