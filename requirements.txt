@@ -10,7 +10,7 @@ statsd==3.3.0
 pep8==1.7.1
 pyflakes==1.6.0  # pyup: <1.7.0
 mccabe==0.6.1
-configparser==3.5.0
+configparser==3.7.1
 pycodestyle==2.5.0
 flake8==3.6.0
 tornado==5.1.1
@@ -21,7 +21,7 @@ fuzzywuzzy==0.17.0
 sure==1.4.11
 traitlets==4.3.2  # ipython
 ipython_genutils==0.2.0  # ipython
-decorator==4.3.0  # ipython
+decorator==4.3.2  # ipython
 ptyprocess==0.6.0  # ipython
 pexpect==4.6.0  # ipython
 pickleshare==0.7.5  # ipython
@@ -74,7 +74,7 @@ django-waffle==0.15.1
 django-jenkins==0.110.0
 django-smoketest==1.1.0
 typing==3.6.6  # For django-extensions
-django-extensions==2.1.4
+django-extensions==2.1.5
 django-stagingcontext==0.1.0
 django-ga-context==0.1.0
 django-global-context==0.1.1
@@ -104,7 +104,7 @@ django-smtp-ssl==1.0
 django-contact-us==0.4.1
 docutils==0.14  # Django's admindocs
 
-pbr==5.1.1  # bandit
+pbr==5.1.2  # bandit
 pyyaml==4.2b4  # bandit
 stevedore==1.30.0  # bandit
 bandit==1.5.1
