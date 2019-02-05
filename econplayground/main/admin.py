@@ -84,7 +84,7 @@ class TopicAdmin(OrderedModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         return super().has_delete_permission(request, obj) and (
-            not obj or obj.id is not 1
+            not obj or obj.id != 1
         )
 
 

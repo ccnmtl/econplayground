@@ -51,7 +51,7 @@ class Topic(OrderedModel):
 
 @receiver(pre_delete, sender=Topic)
 def default_topic_handler(sender, instance, **kwargs):
-    if instance.id is 1:
+    if instance.id == 1:
         raise ProtectedError('The General topic can not be deleted', instance)
 
 
