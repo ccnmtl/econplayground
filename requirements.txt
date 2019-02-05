@@ -109,3 +109,5 @@ pyyaml==4.2b4  # bandit
 stevedore==1.30.0  # bandit
 bandit==1.5.1
 django-ordered-model==3.1.1
+
+entrypoints==0.3
