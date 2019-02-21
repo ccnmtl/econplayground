@@ -194,6 +194,10 @@ class Graph(OrderedModel):
 
     cobb_douglas_y_name = models.TextField(default='Y')
 
+    # A graph may contain a few different functions that
+    # can be toggled.
+    function_choice = models.PositiveSmallIntegerField(default=0)
+
     def __str__(self):
         return self.title
 
