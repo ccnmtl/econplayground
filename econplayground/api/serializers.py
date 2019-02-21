@@ -134,6 +134,8 @@ class GraphSerializer(serializers.ModelSerializer):
             'cobb_douglas_alpha',
             'cobb_douglas_alpha_name',
             'cobb_douglas_y_name',
+
+            'function_choice',
         )
 
     def create(self, validated_data):
