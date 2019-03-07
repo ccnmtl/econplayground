@@ -309,6 +309,15 @@ class Assessment(models.Model):
     Line 1 refers to the orange line, line 2 is the blue line, and
     line 3 is the red line.
 
+    For intersection labels, use "intersectionLabel" as the
+    Assessment's name to assess the main intersection label. If the
+    graph has more than two lines, these names correspond to these
+    intersection labels:
+
+    - intersectionLabel: Orange-Blue intersection
+    - intersection2Label: Blue-Red intersection
+    - intersection3Label: Orange-Red intersection
+
     The Value column is how you expect the user to modify this
     field. If it's a label field, just type in the correct label,
     e.g. "Demand". Spaces uppercase will be ignored during assessment.
