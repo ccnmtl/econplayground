@@ -318,6 +318,15 @@ class Assessment(models.Model):
     - intersection2Label: Blue-Red intersection
     - intersection3Label: Orange-Red intersection
 
+    Here's how the dotted line labels correspond:
+
+    - intersectionHorizLineLabel: Orange-Blue intersection horizontal
+    - intersectionVertLineLabel: Orange-Blue intersection vertical
+    - intersection2HorizLineLabel: Blue-Red intersection horizontal
+    - intersection2VertLineLabel: Blue-Red intersection vertical
+    - intersection3HorizLineLabel: Orange-Red intersection horizontal
+    - intersection3VertLineLabel: Orange-Red intersection vertical
+
     The Value column is how you expect the user to modify this
     field. If it's a label field, just type in the correct label,
     e.g. "Demand". Spaces uppercase will be ignored during assessment.
