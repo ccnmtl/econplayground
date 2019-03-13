@@ -35,7 +35,7 @@ backcall==0.1.0  # ipython
 ipython==7.3.0
 ipdb==0.11
 rdflib==4.2.2
-coverage==4.5.2
+coverage==4.5.3
 asn1crypto==0.24.0  # cryptography
 cryptography==2.6.1
 urllib3==1.24.1  # requests
