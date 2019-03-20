@@ -16,7 +16,7 @@
     "mocha": "~6.0.0",
     "requirejs": "~2.3.2",
     "sinon": "~7.2.4",
-    "autoprefixer": "~9.4.0",
+    "autoprefixer": "~9.5.0",
     "node-sass": "~4.11.0",
     "nodemon": "~1.18.0",
     "postcss-cli": "~6.1.0"
