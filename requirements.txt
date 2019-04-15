@@ -28,7 +28,7 @@ pickleshare==0.7.5  # ipython
 simplegeneric==0.8.1  # ipython
 path.py==12.0.1  # ipython
 wcwidth==0.1.7  # ipython
-prompt_toolkit==1.0.15  # pyup: <2.0.0
+prompt_toolkit==1.0.16  # pyup: <2.0.0
 pygments==2.3.1  # ipython
 scandir==1.10.0  # ipython
 backcall==0.1.0  # ipython
