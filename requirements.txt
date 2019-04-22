@@ -95,7 +95,7 @@ ccnmtlsettings==1.5.0
 oauthlib==3.0.1
 oauth2==1.9.0.post1
 pylti==0.7.0
-nameparser==1.0.2
+nameparser==1.0.3
 django-lti-provider==0.3.3
 
 django-braces==1.13.0
