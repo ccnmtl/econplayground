@@ -1,4 +1,4 @@
-Django==2.2
+Django==2.2.1
 pytz==2019.1
 httplib2==0.12.3
 feedparser==5.2.1
