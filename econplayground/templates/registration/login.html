@@ -119,7 +119,7 @@
                         title="Learn more about UNI" target="_blank">What is a UNI?</a>
                 </p>
                 <!-- End UNI LOG IN -->
-                {% if login_form.errors %}
+                {% if form.errors %}
                 <p class="text-danger">
                     <span> <b>ERROR:</b> Invalid username or password. </span>
                     Please try again. Note that both username and password are case-sensitive.
@@ -135,16 +135,16 @@
 
                     {% csrf_token %}
                     <div class="login-local-form"
-                         {% if not login_form.errors %}style="display: none"{% endif %}>
-                        {% bootstrap_form login_form layout='inline' %}
+                         {% if not form.errors %}style="display: none"{% endif %}>
+                        {% bootstrap_form form layout='inline' %}
                     </div>
                     <input class="btn btn-primary" type="button"
                         value="Guest Log In"
-                        {% if login_form.errors %}style="display: none" {% endif %}
+                        {% if form.errors %}style="display: none" {% endif %}
                             onclick="jQuery('.login-local-form').show(); jQuery(this).hide(); return false;" />
                     <input class="btn btn-primary login-local-form"
                         type="submit" value="Log In"
-                        {% if not login_form.errors %}style="display: none;" {% endif %} />
+                        {% if not form.errors %}style="display: none;" {% endif %} />
                     <input type="hidden" name="next" value="/" />
                     <div style="margin-top: 5px;">
                         <a href="/accounts/password_reset/">Forgot Password?</a>
