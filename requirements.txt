@@ -37,7 +37,7 @@ ipdb==0.12
 coverage==4.5.3
 asn1crypto==0.24.0  # cryptography
 cryptography==2.6.1
-urllib3==1.25.2  # requests
+urllib3==1.25.3  # requests
 chardet==3.0.4  # requests
 idna==2.8  # requests
 certifi==2019.3.9  # requests
