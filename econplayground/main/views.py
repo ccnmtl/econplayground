@@ -7,6 +7,7 @@ from django.contrib.auth.mixins import (
     LoginRequiredMixin, UserPassesTestMixin)
 from django.contrib.auth.views import (
     LogoutView as DjangoLogoutView, LoginView)
+from django.db.models import Count, Q
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.decorators import method_decorator
@@ -134,11 +135,16 @@ class GraphListView(LoginRequiredMixin, ListView):
 
         if user_is_instructor(self.request.user):
             graphs = Graph.objects.all()
+            topics = Topic.objects.all()
         else:
             graphs = Graph.objects.filter(
                 needs_submit=False, is_published=True)
+            topics = Topic.objects.annotate(
+                num_graphs=Count('graph', filter=Q(
+                    graph__is_published=True)
+                )).filter(num_graphs__gt=0)
 
-        context['topic_list'] = Topic.objects.all()
+        context['topic_list'] = topics
         context['all_count'] = graphs.count()
         context['featured_count'] = graphs.filter(featured=True).count()
 
