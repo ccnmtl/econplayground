@@ -3,9 +3,10 @@ from django.db.utils import IntegrityError
 from econplayground.main.models import Assessment, Graph, Topic
 from django.db.models import ProtectedError
 from econplayground.main.tests.factories import (
+    InstructorFactory,
     GraphFactory, JXGLineFactory, JXGLineTransformationFactory,
     SubmissionFactory, TopicFactory,
-    AssessmentFactory, AssessmentRuleFactory,
+    AssessmentFactory, AssessmentRuleFactory, CohortFactory
 )
 
 
@@ -171,3 +172,12 @@ class GraphOrderTest(TestCase):
         # Check order of featured = False
         self.assertEqual(g4.order, 0)
         self.assertEqual(g2.order, 1)
+
+
+class CohortTest(TestCase):
+    def setUp(self):
+        self.instructor = InstructorFactory()
+        self.x = CohortFactory(instructors=(self.instructor,))
+
+    def test_is_valid_from_factory(self):
+        self.x.full_clean()
