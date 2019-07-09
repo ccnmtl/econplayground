@@ -1,12 +1,16 @@
 from braces.views import CsrfExemptMixin
 from braces.views._ajax import JSONResponseMixin
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import (
-    LoginRequiredMixin, UserPassesTestMixin)
+    LoginRequiredMixin, UserPassesTestMixin
+)
 from django.contrib.auth.views import (
-    LogoutView as DjangoLogoutView, LoginView)
+    LogoutView as DjangoLogoutView, LoginView
+)
+from django.core.exceptions import PermissionDenied
 from django.db.models import Count, Q
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -19,7 +23,7 @@ from djangowind.views import logout as wind_logout_view
 from lti_provider.mixins import LTIAuthMixin
 from lti_provider.views import LTILandingPage
 
-from econplayground.main.models import Graph, Submission, Topic
+from econplayground.main.models import Cohort, Graph, Submission, Topic
 from econplayground.main.utils import user_is_instructor
 
 
@@ -198,3 +202,52 @@ class LogoutView(LoginRequiredMixin, View):
             return wind_logout_view(request, next_page="/")
         else:
             return DjangoLogoutView.as_view()(request, "/")
+
+
+class CohortCreateView(EnsureCsrfCookieMixin, UserPassesTestMixin, CreateView):
+    model = Cohort
+    fields = ['title', 'description']
+
+    def test_func(self):
+        return user_is_instructor(self.request.user)
+
+    def get_success_url(self):
+        return '/'
+
+    def form_valid(self, form):
+        title = form.cleaned_data.get('title')
+        instructor = self.request.user
+
+        result = CreateView.form_valid(self, form)
+
+        form.instance.instructors.add(instructor)
+
+        messages.add_message(
+            self.request, messages.SUCCESS,
+            '<strong>{}</strong> cohort created.'.format(title),
+            extra_tags='safe'
+        )
+
+        return result
+
+
+class CohortListView(LoginRequiredMixin, ListView):
+    model = Cohort
+
+    def dispatch(self, request, *args, **kwargs):
+        if not user_is_instructor(request.user):
+            if not Cohort.objects.exists():
+                raise PermissionDenied
+
+            # Redirect students to Tom's Course for now.
+            url = reverse(
+                'graph_list', kwargs={'pk': Cohort.objects.first().pk})
+            return HttpResponseRedirect(url)
+
+        return super(CohortListView, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(CohortListView, self).get_context_data(**kwargs)
+        context['cohorts'] = Cohort.objects.filter(
+            instructors__in=(self.request.user,))
+        return context

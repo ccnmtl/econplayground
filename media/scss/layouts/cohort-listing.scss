@@ -1,0 +1,15 @@
+#cohort-listing {
+    .card {
+        cursor: pointer;
+        max-width: calc(31% - 15px);
+        min-width: calc(31% - 15px);
+        margin-bottom: 2rem;
+        margin-right: 1rem;
+
+        .card-body {
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: space-between;
+        }
+    }
+}

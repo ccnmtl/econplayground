@@ -6,8 +6,12 @@ from django.db.models import ProtectedError
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from econplayground.main.models import (
-    Graph, Assessment, AssessmentRule, Topic
+    Cohort, Graph, Assessment, AssessmentRule, Topic
 )
+
+
+class CohortAdmin(admin.ModelAdmin):
+    pass
 
 
 class GraphAdmin(OrderedModelAdmin):
@@ -88,6 +92,7 @@ class TopicAdmin(OrderedModelAdmin):
         )
 
 
+admin.site.register(Cohort, CohortAdmin)
 admin.site.register(Graph, GraphAdmin)
 admin.site.register(FeaturedGraph, FeaturedGraphAdmin)
 admin.site.register(Assessment, AssessmentAdmin)

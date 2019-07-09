@@ -30,7 +30,12 @@ ASSIGNMENT_TYPES = (
 
 
 class Cohort(models.Model):
-    title = models.CharField(max_length=256)
+    """A Cohort is a grouping of instructors and students.
+
+    Generally referred to as a "Course" in the UI. That may change as
+    we iron things out.
+    """
+    title = models.CharField(max_length=256, verbose_name='Course Title')
     description = models.TextField(null=True, blank=True)
 
     instructors = models.ManyToManyField(User)
@@ -39,7 +44,7 @@ class Cohort(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.title
+        return '{} (id:{})'.format(self.title, self.pk)
 
 
 class Topic(OrderedModel):

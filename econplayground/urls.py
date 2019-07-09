@@ -23,7 +23,14 @@ urlpatterns = [
 
     path('api/', include('econplayground.api.urls')),
     path('registration/', include('registration.backends.default.urls')),
-    path('', views.GraphListView.as_view()),
+
+    path('', views.CohortListView.as_view(), name='cohort_list'),
+    path('add/cohort/', views.CohortCreateView.as_view(),
+         name='cohort_create'),
+
+    path('course/<int:pk>/', views.GraphListView.as_view(),
+         name='graph_list'),
+
     path('graph/<int:pk>/',
          views.GraphDetailView.as_view(), name='graph_detail'),
     path('graph/<int:pk>/embed/',
@@ -38,6 +45,7 @@ urlpatterns = [
     path('graph/create/',
          views.GraphCreateView.as_view(),
          name='graph_create'),
+
     path('admin/doc/', include('django.contrib.admindocs.urls')),
     path('admin/', admin.site.urls),
     path('stats/', TemplateView.as_view(template_name="stats.html")),
