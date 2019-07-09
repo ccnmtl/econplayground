@@ -3,7 +3,7 @@ import factory
 from factory import fuzzy
 from econplayground.main.models import (
     Graph, JXGLine, JXGLineTransformation, Submission,
-    Assessment, AssessmentRule, Topic
+    Assessment, AssessmentRule, Topic, Cohort
 )
 
 
@@ -104,8 +104,26 @@ class AssessmentRuleFactory(factory.DjangoModelFactory):
     score = fuzzy.FuzzyDecimal(0, 1)
 
 
+class CohortFactory(factory.DjangoModelFactory):
+    class Meta:
+        model = Cohort
+
+    title = fuzzy.FuzzyText()
+    description = fuzzy.FuzzyText()
+
+    @factory.post_generation
+    def instructors(self, create, extracted, **kwargs):
+        if not create:
+            return
+
+        if extracted:
+            for instructor in extracted:
+                self.instructors.add(instructor)
+
+
 class TopicFactory(factory.DjangoModelFactory):
     class Meta:
         model = Topic
 
     name = fuzzy.FuzzyText()
+    cohort = factory.SubFactory(CohortFactory)

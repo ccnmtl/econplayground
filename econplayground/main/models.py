@@ -29,11 +29,25 @@ ASSIGNMENT_TYPES = (
 )
 
 
+class Cohort(models.Model):
+    title = models.CharField(max_length=256)
+    description = models.TextField(null=True, blank=True)
+
+    instructors = models.ManyToManyField(User)
+
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+
+    def __str__(self):
+        return self.title
+
+
 class Topic(OrderedModel):
     class Meta(OrderedModel.Meta):
         pass
 
     name = models.CharField(max_length=256, unique=True)
+    cohort = models.ForeignKey(Cohort, null=True, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
