@@ -23,5 +23,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(make_first_cohort),
+        migrations.RunPython(make_first_cohort,
+                             reverse_code=migrations.RunPython.noop),
     ]
