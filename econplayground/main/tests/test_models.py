@@ -97,7 +97,8 @@ class TopicTest(TestCase):
 
     def test_can_delete_other_topics(self):
         # Verify that Topic.delete() still works
-        t = Topic.objects.create(name='Topic', order=2)
+        cohort = CohortFactory()
+        t = Topic.objects.create(name='Topic', order=2, cohort=cohort)
         try:
             t.delete()
         except ProtectedError:
@@ -105,8 +106,9 @@ class TopicTest(TestCase):
 
     def test_can_delete_other_topics_qs(self):
         # Verify that the QuerySet delete method still works
-        Topic.objects.create(name='topic 1', order=2)
-        Topic.objects.create(name='Topic 2', order=3)
+        cohort = CohortFactory()
+        Topic.objects.create(name='topic 1', order=2, cohort=cohort)
+        Topic.objects.create(name='Topic 2', order=3, cohort=cohort)
         try:
             Topic.objects.exclude(pk=1).delete()
         except ProtectedError:
