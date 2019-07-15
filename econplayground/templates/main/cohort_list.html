@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static econ_auth %}
+
+{% block title %}My Courses{% endblock %}
+
+{% block content %}
+    <div id="cohort-listing" class="row">
+        <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
+            <h1>My Courses</h1>
+
+            <div class="d-flex align-content-stretch flex-wrap">
+                {% if perms.main.abc %}
+
+                    <div class="card darkslate card-shadow">
+                        <a href="{% url 'cohort_create' %}">
+                            <div class="card-body">
+                                <h2 class="card-title">
+                                    New Course
+                                </h2>
+                                <p class="card-text">
+                                    Create a new course.
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                {% endif %}
+
+                {% for cohort in request.user.cohort_set.all %}
+                    <div class="card lightslate card-shadow">
+                        <a href="{% url 'graph_list' cohort.pk %}">
+                            <div class="card-body">
+                                <h2 class="card-title">{{cohort.title}}</h2>
+                                <p class="card-text">
+                                    {{cohort.description}}
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
