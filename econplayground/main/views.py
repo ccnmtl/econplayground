@@ -10,7 +10,6 @@ from django.contrib.auth.mixins import (
 from django.contrib.auth.views import (
     LogoutView as DjangoLogoutView, LoginView
 )
-from django.core.exceptions import PermissionDenied
 from django.db.models import Count, Q
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -23,7 +22,7 @@ from djangowind.views import logout as wind_logout_view
 from lti_provider.mixins import LTIAuthMixin
 from lti_provider.views import LTILandingPage
 
-from econplayground.main.models import Cohort, Graph, Submission, Topic
+from econplayground.main.models import Cohort, Graph, Submission
 from econplayground.main.utils import user_is_instructor
 
 
@@ -110,45 +109,60 @@ class GraphDeleteView(UserPassesTestMixin, DeleteView):
         return user_is_instructor(self.request.user)
 
 
-class GraphListView(LoginRequiredMixin, ListView):
-    model = Graph
+class MyLTILandingPage(LTILandingPage):
+    def get_context_data(self, *args, **kwargs):
+        ctx = super(MyLTILandingPage, self).get_context_data(*args, **kwargs)
 
-    def get_queryset(self):
+        submissions = Submission.objects.filter(
+            user=self.request.user).order_by('-created_at')
+        ctx.update({
+            'submissions': submissions,
+        })
+
+        return ctx
+
+
+class CohortDetailView(LoginRequiredMixin, DetailView):
+    model = Cohort
+
+    def get_graph_queryset(self):
         # First, set up graphs based on a users role
-        params = self.request.GET
-        if user_is_instructor(self.request.user):
-            graphs = Graph.objects.all()
-        else:
-            graphs = Graph.objects.filter(
-                needs_submit=False, is_published=True)
+        graphs = Graph.objects.filter(
+            topic__in=self.object.topic_set.all())
+
+        if not user_is_instructor(self.request.user):
+            graphs = graphs.filter(needs_submit=False, is_published=True)
 
         # Then apply filtering based on query string params
+        params = self.request.GET
         if len(params) == 0:
             graphs = graphs.filter(featured=True)
         elif 'topic' in params:
             tid = params.get('topic', '')
             if tid:
-                graphs = graphs.filter(topic=tid).order_by('title')
-        else:
-            graphs = graphs.order_by('title')
+                graphs = graphs.filter(topic=tid)
 
-        return graphs
+        return graphs.order_by('title')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        graph_list = self.get_graph_queryset()
+
         if user_is_instructor(self.request.user):
-            graphs = Graph.objects.all()
-            topics = Topic.objects.all()
+            topics = self.object.topic_set.all()
+            graphs = Graph.objects.filter(topic__in=topics)
         else:
-            graphs = Graph.objects.filter(
-                needs_submit=False, is_published=True)
-            topics = Topic.objects.annotate(
+            topics = self.object.topic_set.annotate(
                 num_graphs=Count('graph', filter=Q(
                     graph__is_published=True)
                 )).filter(num_graphs__gt=0)
+            graphs = Graph.objects.filter(
+                topic__in=topics,
+                needs_submit=False, is_published=True)
 
         context['topic_list'] = topics
+        context['graph_list'] = graph_list
         context['all_count'] = graphs.count()
         context['featured_count'] = graphs.filter(featured=True).count()
 
@@ -166,42 +180,6 @@ class GraphListView(LoginRequiredMixin, ListView):
             context['active_topic'] = int(tid)
 
         return context
-
-
-class MyLTILandingPage(LTILandingPage):
-    def get_context_data(self, *args, **kwargs):
-        ctx = super(MyLTILandingPage, self).get_context_data(*args, **kwargs)
-
-        submissions = Submission.objects.filter(
-            user=self.request.user).order_by('-created_at')
-        ctx.update({
-            'submissions': submissions,
-        })
-
-        return ctx
-
-
-class LoginView(JSONResponseMixin, LoginView):
-
-    def post(self, request):
-        request.session.set_test_cookie()
-        login_form = AuthenticationForm(request, request.POST)
-        if login_form.is_valid():
-            login(request, login_form.get_user())
-            if request.user is not None:
-                next_url = request.POST.get('next', '/')
-                return self.render_json_response({'next': next_url})
-
-        return self.render_json_response({'error': True})
-
-
-class LogoutView(LoginRequiredMixin, View):
-
-    def get(self, request):
-        if hasattr(settings, 'CAS_BASE'):
-            return wind_logout_view(request, next_page="/")
-        else:
-            return DjangoLogoutView.as_view()(request, "/")
 
 
 class CohortCreateView(EnsureCsrfCookieMixin, UserPassesTestMixin, CreateView):
@@ -236,12 +214,12 @@ class CohortListView(LoginRequiredMixin, ListView):
 
     def dispatch(self, request, *args, **kwargs):
         if not user_is_instructor(request.user):
-            if not Cohort.objects.exists():
-                raise PermissionDenied
-
             # Redirect students to Tom's Course for now.
             url = reverse(
-                'graph_list', kwargs={'pk': Cohort.objects.first().pk})
+                'cohort_detail',
+                kwargs={
+                    'pk': Cohort.objects.order_by('created_at').first().pk
+                })
             return HttpResponseRedirect(url)
 
         return super(CohortListView, self).dispatch(request, *args, **kwargs)
@@ -251,3 +229,26 @@ class CohortListView(LoginRequiredMixin, ListView):
         context['cohorts'] = Cohort.objects.filter(
             instructors__in=(self.request.user,))
         return context
+
+
+class LoginView(JSONResponseMixin, LoginView):
+
+    def post(self, request):
+        request.session.set_test_cookie()
+        login_form = AuthenticationForm(request, request.POST)
+        if login_form.is_valid():
+            login(request, login_form.get_user())
+            if request.user is not None:
+                next_url = request.POST.get('next', '/')
+                return self.render_json_response({'next': next_url})
+
+        return self.render_json_response({'error': True})
+
+
+class LogoutView(LoginRequiredMixin, View):
+
+    def get(self, request):
+        if hasattr(settings, 'CAS_BASE'):
+            return wind_logout_view(request, next_page="/")
+        else:
+            return DjangoLogoutView.as_view()(request, "/")

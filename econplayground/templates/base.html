@@ -70,49 +70,51 @@
     {% block content-container %}
     <main role="main" class="container content-container">
         {% block navbar %}
-        <header>
-            <!-- Fixed navbar -->
-            <nav class="navbar navbar-expand-lg navbar-dark">
-                <a class="navbar-brand" href="/">
-                    <img src="{% static 'img/logo-econpractice.svg' %}" width="200" height="39.78" alt="project logo" />
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse"
-                    data-target="#navbarCollapse" aria-controls="navbarCollapse"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="navbar-nav ml-auto">
-                    {% if i_am_instructor %}
-                        <li class="nav-item">
-                            {% url 'graph_create' as the_url %}
-                            <a class="nav-link {% if request.path == the_url %}active{% endif %}"
-                                href="{{the_url}}"
-                            >Create Graph</a>
-                        </li>
-                    {% endif %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/help/">Help</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about/">About</a>
-                    </li>
-                    <li class="nav-item">
-                        {% if request.user.is_anonymous %}
-                        <a class="nav-link" href="/accounts/login/?next=/"><span title="Log In">Log In</span></a>
-                        {% else %}
-                        <a class="nav-link" href="/accounts/logout/?next=/"><span title="Log Out">
-                                {% if user.first_name %}
-                                {{user.first_name}}
+            <header>
+                <!-- Fixed navbar -->
+                <nav class="navbar navbar-expand-lg navbar-dark">
+                    <a class="navbar-brand" href="/">
+                        <img src="{% static 'img/logo-econpractice.svg' %}" width="200" height="39.78" alt="project logo" />
+                    </a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                            data-target="#navbarCollapse" aria-controls="navbarCollapse"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <ul class="navbar-nav ml-auto">
+                            {% if i_am_instructor %}
+                                <li class="nav-item">
+                                    {% url 'graph_create' as the_url %}
+                                    <a class="nav-link {% if request.path == the_url %}active{% endif %}"
+                                       href="{{the_url}}"
+                                    >Create Graph</a>
+                                </li>
+                            {% endif %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/help/">Help</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/about/">About</a>
+                            </li>
+                            <li class="nav-item">
+                                {% if request.user.is_anonymous %}
+                                    <a class="nav-link" href="/accounts/login/?next=/"><span title="Log In">Log In</span></a>
                                 {% else %}
-                                {{user.username}}
+                                    <a class="nav-link" href="/accounts/logout/?next=/"><span title="Log Out">
+                                        {% if user.first_name %}
+                                            {{user.first_name}}
+                                        {% else %}
+                                            {{user.username}}
+                                        {% endif %}
+                                        | Log Out</span></a>
                                 {% endif %}
-                                | Log Out</span></a>
-                        {% endif %}
-                    </li>
-                </ul>
-            </div>
-          </nav>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+
+            {% block breadcrumb %}{% endblock %}
         </header>
         {% endblock %}
 
