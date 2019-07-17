@@ -6,8 +6,8 @@ from django.contrib.auth.models import User
 from django.db import models
 from ordered_model.models import OrderedModel
 from django.dispatch import receiver
-from django.db.models.signals import pre_delete
 from django.db.models import ProtectedError
+from django.db.models.signals import pre_delete, post_save
 
 
 GRAPH_TYPES = (
@@ -49,9 +49,9 @@ class Cohort(models.Model):
 
 class Topic(OrderedModel):
     class Meta(OrderedModel.Meta):
-        pass
+        unique_together = ('name', 'cohort')
 
-    name = models.CharField(max_length=256, unique=True)
+    name = models.CharField(max_length=256)
     cohort = models.ForeignKey(Cohort, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -66,6 +66,12 @@ class Topic(OrderedModel):
 
     def __str__(self):
         return self.name
+
+
+@receiver(post_save, sender=Cohort)
+def create_general_topic(sender, instance, created, **kwargs):
+    if created:
+        Topic.objects.create(name='General', cohort=instance)
 
 
 @receiver(pre_delete, sender=Topic)
