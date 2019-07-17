@@ -17,7 +17,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic import ListView, DetailView, DeleteView
 from django.views.generic.base import View
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from djangowind.views import logout as wind_logout_view
 from lti_provider.mixins import LTIAuthMixin
 from lti_provider.views import LTILandingPage
@@ -207,6 +207,17 @@ class CohortCreateView(EnsureCsrfCookieMixin, UserPassesTestMixin, CreateView):
         )
 
         return result
+
+
+class CohortUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Cohort
+    fields = ['title',  'description']
+
+    def test_func(self):
+        return user_is_instructor(self.request.user)
+
+    def get_success_url(self):
+        return reverse('cohort_detail', kwargs={'pk': self.object.pk})
 
 
 class CohortListView(LoginRequiredMixin, ListView):

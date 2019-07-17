@@ -7,7 +7,7 @@ from econplayground.main.tests.factories import (
 from econplayground.main.tests.mixins import (
     LoggedInTestMixin, LoggedInTestInstructorMixin, LoggedInTestStudentMixin
 )
-from econplayground.main.models import Cohort
+from econplayground.main.models import Cohort, Topic
 
 
 class BasicTest(TestCase):
@@ -97,6 +97,12 @@ class CohortCreateViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertEqual(instructor.cohort_set.count(), 1)
         cohort = instructor.cohort_set.first()
         self.assertEqual(cohort.title, 'Lorem Ipsum')
+        self.assertEqual(
+            cohort.instructors.filter(username=self.u.username).count(),
+            1)
+        self.assertEqual(Topic.objects.filter(cohort=cohort).count(), 1)
+        self.assertEqual(
+            Topic.objects.filter(cohort=cohort).first().name, 'General')
 
         self.assertTrue('<strong>Lorem Ipsum</strong> cohort created'
                         in response.cookies['messages'].value)
@@ -112,6 +118,55 @@ class CohortCreateStudentViewTest(LoggedInTestStudentMixin, TestCase):
         response = self.client.get(url)
         self.assertEqual(
             response.status_code, 403, 'Students can\'t create cohorts.')
+
+        response = self.client.post(url, {'title': 'Lorem Ipsum'})
+
+        self.assertEqual(self.u.cohort_set.count(), 0)
+        self.assertFalse('messages' in response.cookies)
+
+
+class CohortUpdateViewTest(LoggedInTestInstructorMixin, TestCase):
+    def setUp(self):
+        super(CohortUpdateViewTest, self).setUp()
+        self.cohort = CohortFactory()
+        self.cohort.instructors.add(self.u)
+
+    def test_edit_cohort(self):
+        url = reverse('cohort_edit', kwargs={'pk': self.cohort.pk})
+
+        instructor = self.u
+
+        self.client.login(username=instructor.username, password='test')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+        response = self.client.post(url, {'title': 'Lorem Ipsum'})
+
+        self.assertEqual(instructor.cohort_set.count(), 1)
+        cohort = instructor.cohort_set.first()
+        self.assertEqual(cohort.title, 'Lorem Ipsum')
+        self.assertEqual(Topic.objects.filter(cohort=cohort).count(), 1)
+        self.assertEqual(
+            cohort.instructors.filter(username=self.u.username).count(),
+            1)
+        self.assertEqual(
+            Topic.objects.filter(cohort=cohort).first().name, 'General')
+
+
+class CohortUpdateStudentViewTest(LoggedInTestStudentMixin, TestCase):
+    def setUp(self):
+        super(CohortUpdateStudentViewTest, self).setUp()
+        self.cohort = CohortFactory()
+
+    def test_edit_cohort(self):
+        CohortFactory()
+
+        url = reverse('cohort_edit', kwargs={'pk': self.cohort.pk})
+
+        self.client.login(username=self.u.username, password='test')
+        response = self.client.get(url)
+        self.assertEqual(
+            response.status_code, 403, 'Students can\'t edit cohorts.')
 
         response = self.client.post(url, {'title': 'Lorem Ipsum'})
 
@@ -153,20 +208,22 @@ class CohortDetailInstructorViewTest(LoggedInTestInstructorMixin, TestCase):
         # Context Data
         self.assertEqual(r.context['featured'], True)
         self.assertEqual(r.context['active_topic'], '')
-        self.assertEqual(r.context['topic_list'].count(), 4)
+        self.assertEqual(r.context['topic_list'].count(), 5)
         self.assertContains(r, 'Topic A')
         self.assertContains(r, 'Topic B')
         self.assertEqual(r.context['all_count'], 6)
         self.assertEqual(r.context['featured_count'], 2)
-        self.assertEqual(r.context['topic_list'][0].name, 'Topic A')
-        self.assertEqual(r.context['topic_list'][0].graph_count(), 3)
-        self.assertEqual(r.context['topic_list'][1].name, 'Topic B')
-        self.assertEqual(r.context['topic_list'][1].graph_count(), 2)
-        self.assertEqual(r.context['topic_list'][2].name, 'Empty Topic')
-        self.assertEqual(r.context['topic_list'][2].graph_count(), 0)
-        self.assertEqual(r.context['topic_list'][3].name,
+        self.assertEqual(r.context['topic_list'][0].name, 'General')
+        self.assertEqual(r.context['topic_list'][0].graph_count(), 0)
+        self.assertEqual(r.context['topic_list'][1].name, 'Topic A')
+        self.assertEqual(r.context['topic_list'][1].graph_count(), 3)
+        self.assertEqual(r.context['topic_list'][2].name, 'Topic B')
+        self.assertEqual(r.context['topic_list'][2].graph_count(), 2)
+        self.assertEqual(r.context['topic_list'][3].name, 'Empty Topic')
+        self.assertEqual(r.context['topic_list'][3].graph_count(), 0)
+        self.assertEqual(r.context['topic_list'][4].name,
                          'Topic with unpublished graph')
-        self.assertEqual(r.context['topic_list'][3].graph_count(), 1)
+        self.assertEqual(r.context['topic_list'][4].graph_count(), 1)
 
         r = self.client.get(
             '{}?all=true'.format(
@@ -181,15 +238,17 @@ class CohortDetailInstructorViewTest(LoggedInTestInstructorMixin, TestCase):
         # Context Data
         self.assertEqual(r.context['featured'], False)
         self.assertEqual(r.context['active_topic'], '')
-        self.assertEqual(r.context['topic_list'].count(), 4)
+        self.assertEqual(r.context['topic_list'].count(), 5)
         self.assertContains(r, 'Topic A')
         self.assertContains(r, 'Topic B')
         self.assertEqual(r.context['all_count'], 6)
         self.assertEqual(r.context['featured_count'], 2)
-        self.assertEqual(r.context['topic_list'][0].graph_count(), 3)
-        self.assertEqual(r.context['topic_list'][1].graph_count(), 2)
-        self.assertEqual(r.context['topic_list'][2].graph_count(), 0)
-        self.assertEqual(r.context['topic_list'][3].graph_count(), 1)
+        self.assertEqual(r.context['topic_list'][0].name, 'General')
+        self.assertEqual(r.context['topic_list'][0].graph_count(), 0)
+        self.assertEqual(r.context['topic_list'][1].graph_count(), 3)
+        self.assertEqual(r.context['topic_list'][2].graph_count(), 2)
+        self.assertEqual(r.context['topic_list'][3].graph_count(), 0)
+        self.assertEqual(r.context['topic_list'][4].graph_count(), 1)
 
         r = self.client.get(
             '{}?topic={}'.format(
@@ -205,16 +264,18 @@ class CohortDetailInstructorViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertNotContains(r, 'Draft graph')
         # Context Data
         self.assertEqual(r.context['featured'], False)
-        self.assertEqual(r.context['active_topic'], 2)
-        self.assertEqual(r.context['topic_list'].count(), 4)
+        self.assertEqual(r.context['active_topic'], 3)
+        self.assertEqual(r.context['topic_list'].count(), 5)
         self.assertContains(r, 'Topic A')
         self.assertContains(r, 'Topic B')
         self.assertEqual(r.context['all_count'], 6)
         self.assertEqual(r.context['featured_count'], 2)
-        self.assertEqual(r.context['topic_list'][0].graph_count(), 3)
-        self.assertEqual(r.context['topic_list'][1].graph_count(), 2)
-        self.assertEqual(r.context['topic_list'][2].graph_count(), 0)
-        self.assertEqual(r.context['topic_list'][3].graph_count(), 1)
+        self.assertEqual(r.context['topic_list'][0].name, 'General')
+        self.assertEqual(r.context['topic_list'][0].graph_count(), 0)
+        self.assertEqual(r.context['topic_list'][1].graph_count(), 3)
+        self.assertEqual(r.context['topic_list'][2].graph_count(), 2)
+        self.assertEqual(r.context['topic_list'][3].graph_count(), 0)
+        self.assertEqual(r.context['topic_list'][4].graph_count(), 1)
 
         r = self.client.get(
             '{}?topic={}'.format(
@@ -229,16 +290,18 @@ class CohortDetailInstructorViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertContains(r, 'Draft graph')
         # Context Data
         self.assertEqual(r.context['featured'], False)
-        self.assertEqual(r.context['active_topic'], 3)
-        self.assertEqual(r.context['topic_list'].count(), 4)
+        self.assertEqual(r.context['active_topic'], 4)
+        self.assertEqual(r.context['topic_list'].count(), 5)
         self.assertContains(r, 'Topic A')
         self.assertContains(r, 'Topic B')
         self.assertEqual(r.context['all_count'], 6)
         self.assertEqual(r.context['featured_count'], 2)
-        self.assertEqual(r.context['topic_list'][0].graph_count(), 3)
-        self.assertEqual(r.context['topic_list'][1].graph_count(), 2)
-        self.assertEqual(r.context['topic_list'][2].graph_count(), 0)
-        self.assertEqual(r.context['topic_list'][3].graph_count(), 1)
+        self.assertEqual(r.context['topic_list'][0].name, 'General')
+        self.assertEqual(r.context['topic_list'][0].graph_count(), 0)
+        self.assertEqual(r.context['topic_list'][1].graph_count(), 3)
+        self.assertEqual(r.context['topic_list'][2].graph_count(), 2)
+        self.assertEqual(r.context['topic_list'][3].graph_count(), 0)
+        self.assertEqual(r.context['topic_list'][4].graph_count(), 1)
 
         r = self.client.get(
             '{}?topic={}'.format(
@@ -253,16 +316,18 @@ class CohortDetailInstructorViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertNotContains(r, 'Draft graph')
         # Context Data
         self.assertEqual(r.context['featured'], False)
-        self.assertEqual(r.context['active_topic'], 4)
-        self.assertEqual(r.context['topic_list'].count(), 4)
+        self.assertEqual(r.context['active_topic'], 5)
+        self.assertEqual(r.context['topic_list'].count(), 5)
         self.assertContains(r, 'Topic A')
         self.assertContains(r, 'Topic B')
         self.assertEqual(r.context['all_count'], 6)
         self.assertEqual(r.context['featured_count'], 2)
-        self.assertEqual(r.context['topic_list'][0].graph_count(), 3)
-        self.assertEqual(r.context['topic_list'][1].graph_count(), 2)
-        self.assertEqual(r.context['topic_list'][2].graph_count(), 0)
-        self.assertEqual(r.context['topic_list'][3].graph_count(), 1)
+        self.assertEqual(r.context['topic_list'][0].name, 'General')
+        self.assertEqual(r.context['topic_list'][0].graph_count(), 0)
+        self.assertEqual(r.context['topic_list'][1].graph_count(), 3)
+        self.assertEqual(r.context['topic_list'][2].graph_count(), 2)
+        self.assertEqual(r.context['topic_list'][3].graph_count(), 0)
+        self.assertEqual(r.context['topic_list'][4].graph_count(), 1)
 
 
 class CohortDetailStudentViewTest(LoggedInTestStudentMixin, TestCase):
@@ -340,7 +405,7 @@ class CohortDetailStudentViewTest(LoggedInTestStudentMixin, TestCase):
         self.assertNotContains(r, 'Draft graph')
         # Context Data
         self.assertEqual(r.context['featured'], False)
-        self.assertEqual(r.context['active_topic'], 2)
+        self.assertEqual(r.context['active_topic'], 3)
         self.assertEqual(r.context['topic_list'].count(), 2)
         self.assertContains(r, 'Topic A')
         self.assertContains(r, 'Topic B')
@@ -363,7 +428,7 @@ class CohortDetailStudentViewTest(LoggedInTestStudentMixin, TestCase):
         self.assertNotContains(r, 'Draft graph')
         # Context Data
         self.assertEqual(r.context['featured'], False)
-        self.assertEqual(r.context['active_topic'], 3)
+        self.assertEqual(r.context['active_topic'], 4)
         self.assertEqual(r.context['topic_list'].count(), 2)
         self.assertContains(r, 'Topic A')
         self.assertContains(r, 'Topic B')

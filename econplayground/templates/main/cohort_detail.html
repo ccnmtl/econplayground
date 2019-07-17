@@ -121,6 +121,24 @@
             </div>
         </div>
         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12">
+            {% if i_am_instructor %}
+                <div class="form-group">
+                    <a class="btn btn-secondary btn-sm btn-block"
+                       href="{% url 'cohort_edit' object.pk %}"
+                       role="button">Edit Course</a>
+
+                    <a class="btn btn-secondary btn-sm btn-block"
+                       target="_blank"
+                       href="/admin/main/featuredgraph/"
+                       role="button">Manage Featured Graphs</a>
+
+                    <a class="btn btn-secondary btn-sm btn-block"
+                       target="_blank"
+                       href="/admin/main/topic/"
+                       role="button">Manage Topics</a>
+                </div>
+            {% endif %}
+
             <ul class="list-group">
                 <li class="list-group-item {% if featured %}active{% endif %}">
                     <a href="{% url 'cohort_detail' object.pk %}">Featured Graphs</a>
@@ -135,10 +153,7 @@
                     </span>
                 </li>
             </ul>
-            {% if i_am_instructor %}
-            <small class="form-text text-muted"><a href="/admin/main/featuredgraph/" target="_blank">Manage featured graphs</a></small>
-            <small class="form-text text-muted"><a href="/admin/main/topic/" target="_blank">Manage topics</a></small>
-            {% endif %}
+
             <h2>Topics</h2>
             <ul class="list-group">
                 {% for topic in topic_list %}
