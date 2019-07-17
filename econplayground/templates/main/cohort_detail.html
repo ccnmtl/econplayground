@@ -1,10 +1,27 @@
 {% extends 'base.html' %}
 {% load static econ_auth %}
 
+{% block breadcrumb %}
+    {% if i_am_instructor %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{% url 'cohort_list' %}#cohorts">
+                    {% include 'main/your_cohorts_snippet.html' %}
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                {{ object.title|truncatewords:5 }}
+            </li>
+        </ol>
+    </nav>
+    {% endif %}
+{% endblock %}
+
 {% block content %}
     <div id="graph-listing" class="row">
         <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
-            <h1>Explore Graphs</h1>
+            <h1>{{ object.title }}</h1>
             <p class="lead text-secondary">Browse and experience our collection of graphs.</p>
             {% if featured %}
             <h2>Featured Graphs</h2>
@@ -106,13 +123,13 @@
         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12">
             <ul class="list-group">
                 <li class="list-group-item {% if featured %}active{% endif %}">
-                    <a href="/">Featured Graphs</a>
+                    <a href="{% url 'cohort_detail' object.pk %}">Featured Graphs</a>
                     <span class="badge badge-secondary float-right">
                         {{ featured_count }}
                     </span>
                 </li>
                 <li class="list-group-item {% if not featured and not active_topic %}active{% endif %}">
-                    <a href="?all=true">All Graphs</a>
+                    <a href="{% url 'cohort_detail' object.pk %}?all=true">All Graphs</a>
                     <span class="badge badge-secondary float-right">
                         {{ all_count }}
                     </span>

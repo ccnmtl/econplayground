@@ -25,11 +25,10 @@ urlpatterns = [
     path('registration/', include('registration.backends.default.urls')),
 
     path('', views.CohortListView.as_view(), name='cohort_list'),
-    path('add/cohort/', views.CohortCreateView.as_view(),
+    path('add/course/', views.CohortCreateView.as_view(),
          name='cohort_create'),
-
-    path('course/<int:pk>/', views.GraphListView.as_view(),
-         name='graph_list'),
+    path('course/<int:pk>/', views.CohortDetailView.as_view(),
+         name='cohort_detail'),
 
     path('graph/<int:pk>/',
          views.GraphDetailView.as_view(), name='graph_detail'),

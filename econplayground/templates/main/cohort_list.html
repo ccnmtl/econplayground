@@ -10,7 +10,6 @@
 
             <div class="d-flex align-content-stretch flex-wrap">
                 {% if perms.main.abc %}
-
                     <div class="card darkslate card-shadow">
                         <a href="{% url 'cohort_create' %}">
                             <div class="card-body">
@@ -27,7 +26,7 @@
 
                 {% for cohort in request.user.cohort_set.all %}
                     <div class="card lightslate card-shadow">
-                        <a href="{% url 'graph_list' cohort.pk %}">
+                        <a href="{% url 'cohort_detail' cohort.pk %}">
                             <div class="card-body">
                                 <h2 class="card-title">{{cohort.title}}</h2>
                                 <p class="card-text">
