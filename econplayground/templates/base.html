@@ -121,7 +121,7 @@
         <!-- Begin page content -->
         {% for message in messages %}
         <div class="messages alert alert-primary {% if message.tags %}{{ message.tags }}{% endif %}" role="alert">
-            {{ message }}
+            {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
         </div>
         {% endfor %}
 

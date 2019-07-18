@@ -15,13 +15,15 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
-from django.views.generic import ListView, DetailView, DeleteView
+from django.views.generic import ListView, DetailView
 from django.views.generic.base import View
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.shortcuts import get_object_or_404
 from djangowind.views import logout as wind_logout_view
 from lti_provider.mixins import LTIAuthMixin
 from lti_provider.views import LTILandingPage
 
+from econplayground.main.mixins import CohortInstructorMixin
 from econplayground.main.models import Cohort, Graph, Submission
 from econplayground.main.utils import user_is_instructor
 
@@ -209,15 +211,37 @@ class CohortCreateView(EnsureCsrfCookieMixin, UserPassesTestMixin, CreateView):
         return result
 
 
-class CohortUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class CohortUpdateView(LoginRequiredMixin, CohortInstructorMixin, UpdateView):
     model = Cohort
     fields = ['title',  'description']
 
-    def test_func(self):
-        return user_is_instructor(self.request.user)
-
     def get_success_url(self):
         return reverse('cohort_detail', kwargs={'pk': self.object.pk})
+
+
+class CohortDeleteView(LoginRequiredMixin, CohortInstructorMixin, DeleteView):
+    model = Cohort
+
+    def delete(self, request, *args, **kwargs):
+        pk = kwargs.get('pk', None)
+        cohort = get_object_or_404(Cohort, pk=pk)
+        if (cohort == Cohort.objects.order_by('created_at').first()) or (
+                cohort.title == 'Tom\'s Course'):
+            messages.add_message(
+                request, messages.INFO,
+                '<strong>{}</strong> can\'t be deleted.'.format(cohort.title),
+                extra_tags='safe')
+            return HttpResponseRedirect(reverse('cohort_list'))
+
+        return super(CohortDeleteView, self).delete(request, *args, **kwargs)
+
+    def get_success_url(self):
+        messages.add_message(
+            self.request, messages.SUCCESS,
+            '<strong>{}</strong> has been deleted.'.format(self.object.title),
+            extra_tags='safe')
+
+        return reverse('cohort_list')
 
 
 class CohortListView(LoginRequiredMixin, ListView):

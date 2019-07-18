@@ -91,8 +91,8 @@ class Graph(OrderedModel):
     instructor_notes = models.TextField(blank=True, null=True, default='')
     topic = models.ForeignKey(
         Topic,
-        on_delete=models.PROTECT,
-        null=False, blank=False, default=1)
+        on_delete=models.SET_NULL,
+        null=True, blank=True, default=1)
     featured = models.BooleanField(default=False)
     order_with_respect_to = ('featured')
     created_at = models.DateTimeField(auto_now_add=True)
