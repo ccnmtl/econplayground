@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Cohort{% endblock %}
+
+{% block breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{% url 'cohort_list' %}">
+                    {% include 'main/your_cohorts_snippet.html' %}
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{% url 'cohort_detail' object.pk %}">
+                    {{ object.title|truncatewords:5 }}
+                </a>
+            </li>
+            <li class="breadcrumb-item">Delete Cohort</li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block pagetitle %}
+    Delete Cohort
+{% endblock %}
+
+{% block content %}
+    {% if not readonly %}
+        <p>
+            Are you sure you want to delete the <span class="font-weight-bold">{{object.title}}</span> course?
+        </p>
+    {% endif %}
+
+    <form action="." method="post">{% csrf_token %}
+        <div class="row">
+            <div class="col-md-2 mb-1 pr-0">
+                <button type="submit" class="btn btn-block btn-primary">Delete</button>
+            </div>
+            <div class="col-md-2 mb-1 pr-0">
+                <a class="btn btn-block btn-secondary" href="{% url 'cohort_detail' object.pk %}">Cancel</a>
+            </div>
+        </div>
+    </form>
+{% endblock %}

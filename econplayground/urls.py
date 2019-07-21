@@ -31,6 +31,8 @@ urlpatterns = [
          name='cohort_detail'),
     path('course/<int:pk>/edit/', views.CohortUpdateView.as_view(),
          name='cohort_edit'),
+    path('course/<int:pk>/delete/', views.CohortDeleteView.as_view(),
+         name='cohort_delete'),
 
     path('graph/<int:pk>/',
          views.GraphDetailView.as_view(), name='graph_detail'),
