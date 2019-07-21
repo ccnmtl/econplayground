@@ -42,7 +42,7 @@ python-dateutil==2.8.0
 # boto3 deps
 s3transfer==0.2.1
 jmespath==0.9.4
-botocore==1.12.190
+botocore==1.12.192
 boto3==1.9.191
 
 # django libraries
