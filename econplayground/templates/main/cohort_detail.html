@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static econ_auth %}
+{% load static econ_auth markup %}
 
 {% block breadcrumb %}
     {% if i_am_instructor %}
@@ -43,7 +43,7 @@
                                     <a href="{% url 'graph_detail' graph.id %}">{{ graph.title }}</a>
                                 </h5>
                                 {% if graph.summary %}
-                                <p class="card-text">{{ graph.summary }}</p>
+                                <p class="card-text">{{ graph.summary | commonmark }}</p>
                                 {% endif %}
                             </div>
                             <div class="card-inner-container topic-tag">
