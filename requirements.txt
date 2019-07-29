@@ -28,7 +28,7 @@ chardet==3.0.4  # requests
 idna==2.8  # requests
 certifi==2019.6.16  # requests
 requests==2.22.0
-logilab-common==1.4.2
+logilab-common==1.4.3
 logilab-astng==0.24.3
 astroid==2.2.5
 pylint==2.3.1
