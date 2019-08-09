@@ -40,9 +40,21 @@ class EnsureCsrfCookieMixin(object):
         return super(EnsureCsrfCookieMixin, self).dispatch(*args, **kwargs)
 
 
-class GraphCreateView(EnsureCsrfCookieMixin, UserPassesTestMixin, CreateView):
+class CohortGraphCreateView(
+        EnsureCsrfCookieMixin, UserPassesTestMixin, CreateView):
     model = Graph
     fields = ['title', 'summary', 'instructions', 'graph_type']
+
+    def get(self, request, *args, **kwargs):
+        pk = kwargs.get('pk')
+        self.cohort = get_object_or_404(Cohort, pk=pk)
+        return super(CohortGraphCreateView, self).get(request, *args, **kwargs)
+
+    def get_context_data(self, *args, **kwargs):
+        ctx = super(CohortGraphCreateView, self).get_context_data(
+            *args, **kwargs)
+        ctx.update({'cohort': self.cohort})
+        return ctx
 
     def test_func(self):
         return user_is_instructor(self.request.user)

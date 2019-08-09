@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from econplayground.main.models import (
-    Graph, JXGLine, JXGLineTransformation, Submission,
+    Graph, Cohort, JXGLine, JXGLineTransformation, Submission,
     Assessment, AssessmentRule, Topic,
 )
 
@@ -209,3 +209,13 @@ class TopicSerializer(serializers.ModelSerializer):
     class Meta:
         model = Topic
         fields = ('pk', 'name',)
+
+
+class CohortSerializer(serializers.ModelSerializer):
+    topic_set = TopicSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Cohort
+        fields = (
+            'pk', 'title', 'topic_set',
+        )

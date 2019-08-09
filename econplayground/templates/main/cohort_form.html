@@ -3,6 +3,28 @@
 
 {% block title %}{% if object %}Edit {% else %}New {% endif %} Cohort{% endblock %}
 
+{% block breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{% url 'cohort_list' %}">
+                    {% include 'main/your_cohorts_snippet.html' %}
+                </a>
+            </li>
+            {% if cohort %}
+                <li class="breadcrumb-item">
+                    <a href="{% url 'cohort_detail' object.pk %}">
+                        {{ object.title|truncatewords:5 }}
+                    </a>
+                </li>
+                <li class="breadcrumb-item">Edit Course</li>
+            {% else %}
+                <li class="breadcrumb-item">Create Course</li>
+            {% endif %}
+        </ol>
+    </nav>
+{% endblock %}
+
 {% block pagetitle %}
     {% if object %}Edit {% else %}New {% endif %} Cohort
 {% endblock %}

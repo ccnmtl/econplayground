@@ -33,6 +33,9 @@ urlpatterns = [
          name='cohort_edit'),
     path('course/<int:pk>/delete/', views.CohortDeleteView.as_view(),
          name='cohort_delete'),
+    path('course/<int:pk>/graph/create/',
+         views.CohortGraphCreateView.as_view(),
+         name='graph_create'),
 
     path('graph/<int:pk>/',
          views.GraphDetailView.as_view(), name='graph_detail'),
@@ -45,9 +48,6 @@ urlpatterns = [
          name='graph_embed_public_minimal'),
     path('graph/<int:pk>/delete/',
          views.GraphDeleteView.as_view(), name='graph_delete'),
-    path('graph/create/',
-         views.GraphCreateView.as_view(),
-         name='graph_create'),
 
     path('admin/doc/', include('django.contrib.admindocs.urls')),
     path('admin/', admin.site.urls),
