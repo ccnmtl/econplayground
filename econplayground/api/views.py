@@ -7,10 +7,12 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from econplayground.main.models import Assessment, Graph, Submission, Topic
+from econplayground.main.models import (
+    Assessment, Cohort, Graph, Submission, Topic
+)
 from econplayground.api.serializers import (
-    AssessmentSerializer, GraphSerializer, SubmissionSerializer,
-    TopicSerializer,
+    AssessmentSerializer, CohortSerializer, GraphSerializer,
+    SubmissionSerializer, TopicSerializer,
 )
 
 
@@ -74,3 +76,12 @@ class SubmissionViewSet(viewsets.ModelViewSet):
 class TopicViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Topic.objects.all()
     serializer_class = TopicSerializer
+
+
+class CohortViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Cohort.objects.all()
+    serializer_class = CohortSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return Cohort.objects.filter(instructors__in=(user,))

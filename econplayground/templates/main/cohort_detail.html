@@ -11,7 +11,9 @@
                 </a>
             </li>
             <li class="breadcrumb-item">
-                {{ object.title|truncatewords:5 }}
+                <a href="{% url 'cohort_detail' object.pk %}">
+                    {{ object.title|truncatewords:5 }}
+                </a>
             </li>
         </ol>
     </nav>

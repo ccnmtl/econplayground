@@ -83,9 +83,9 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <ul class="navbar-nav ml-auto">
-                            {% if i_am_instructor %}
+                            {% if i_am_instructor and cohort %}
                                 <li class="nav-item">
-                                    {% url 'graph_create' as the_url %}
+                                    {% url 'graph_create' cohort.pk as the_url %}
                                     <a class="nav-link {% if request.path == the_url %}active{% endif %}"
                                        href="{{the_url}}"
                                     >Create Graph</a>
