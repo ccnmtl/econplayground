@@ -23,7 +23,7 @@ from djangowind.views import logout as wind_logout_view
 from lti_provider.mixins import LTIAuthMixin
 from lti_provider.views import LTILandingPage
 
-from econplayground.main.mixins import CohortInstructorMixin
+from econplayground.main.mixins import CohortMixin, CohortInstructorMixin
 from econplayground.main.models import Cohort, Graph, Submission
 from econplayground.main.utils import user_is_instructor
 
@@ -60,7 +60,7 @@ class CohortGraphCreateView(
         return user_is_instructor(self.request.user)
 
 
-class GraphDetailView(LoginRequiredMixin, DetailView):
+class GraphDetailView(LoginRequiredMixin, CohortMixin, DetailView):
     model = Graph
 
     def embed_url(self, name='graph_embed'):
@@ -78,6 +78,7 @@ class GraphDetailView(LoginRequiredMixin, DetailView):
         ctx = super(GraphDetailView, self).get_context_data(*args, **kwargs)
 
         ctx.update({
+            'cohort': self.cohort,
             'embed_url': self.embed_url('graph_embed'),
             'embed_public_code': self.embed_code(
                 self.embed_url('graph_embed_public_minimal')),

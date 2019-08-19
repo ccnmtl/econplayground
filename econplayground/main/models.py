@@ -228,7 +228,10 @@ class Graph(OrderedModel):
         return self.title
 
     def get_absolute_url(self):
-        return '/graph/{}/'.format(self.pk)
+        if not self.topic:
+            return '/graph/{}/'.format(self.pk)
+
+        return '/course/{}/graph/{}/'.format(self.topic.cohort.pk, self.pk)
 
     def is_visible_to_students(self):
         return self.is_published and not self.needs_submit

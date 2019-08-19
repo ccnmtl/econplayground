@@ -20,6 +20,31 @@
 {% endblock %}
 
 {% user_is_instructor request.user as i_am_instructor %}
+
+{% block breadcrumb %}
+    {% if i_am_instructor %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{% url 'cohort_list' %}">
+                    {% include 'main/your_cohorts_snippet.html' %}
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{% url 'cohort_detail' cohort.pk %}">
+                    {{ cohort.title|truncatewords:5 }}
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{% url 'cohort_graph_detail' cohort.pk object.pk %}">
+                    {{ object.title|truncatewords:5 }}
+                </a>
+            </li>
+        </ol>
+    </nav>
+    {% endif %}
+{% endblock %}
+
 {% block content %}
     <div id="root">
         <div class="loader-inner ball-pulse">

@@ -37,16 +37,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="navbar-nav mr-auto">
-                    {% if i_am_instructor %}
-                        <li class="nav-item">
-                            {% url 'graph_create' as the_url %}
-                            <a class="btn btn-light {% if request.path == the_url %}active{% endif %}"
-                                href="{{the_url}}"
-                            >Create Graph</a>
-                        </li>
-                    {% endif %}
-                </ul>
+                    <ul class="navbar-nav mr-auto"></ul>
                 <ul class="navbar-nav">
                     {% if not request.user.is_anonymous %}
                     <li class="nav-item">
