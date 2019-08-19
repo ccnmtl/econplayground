@@ -17,6 +17,27 @@ class GraphTest(TestCase):
     def test_is_valid_from_factory(self):
         self.x.full_clean()
 
+    def test_clone(self):
+        original = GraphFactory(title='cloned graph')
+        cloned = original.clone()
+
+        self.assertNotEqual(original.pk, cloned.pk)
+        self.assertEqual(original.title, 'cloned graph')
+        self.assertEqual(cloned.title, 'cloned graph')
+
+        cloned.title = 'new title'
+        original.save()
+        cloned.save()
+
+        self.assertNotEqual(original.pk, cloned.pk)
+        self.assertEqual(original.title, 'cloned graph')
+        self.assertEqual(cloned.title, 'new title')
+        self.assertEqual(original.graph_type, cloned.graph_type)
+        self.assertEqual(original.author, cloned.author)
+        self.assertEqual(original.topic, cloned.topic)
+        self.assertEqual(original.a1, cloned.a1)
+        self.assertEqual(original.a1_name, cloned.a1_name)
+
 
 class JXGLineTest(TestCase):
     def setUp(self):

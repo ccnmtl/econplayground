@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import copy
 from decimal import Decimal
 from django.contrib.auth.models import User
 from django.db import models
@@ -269,6 +270,12 @@ class Graph(OrderedModel):
             for idx, graph in enumerate(Graph.objects.filter(featured=False)):
                 if graph.order is not idx:
                     graph.to(idx)
+
+    def clone(self):
+        g = copy.copy(self)
+        g.pk = None
+        g.save()
+        return g
 
 
 class JXGLine(models.Model):
