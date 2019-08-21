@@ -21,17 +21,47 @@ class BasicTest(TestCase):
         self.assertContains(response, "PASS")
 
 
+class GraphDetailViewTest(LoggedInTestMixin, TestCase):
+    def test_get(self):
+        g = GraphFactory()
+        r = self.client.get(reverse('graph_detail', kwargs={'pk': g.pk}))
+        self.assertEqual(r.status_code, 200)
+
+        r = self.client.get(
+            reverse('cohort_graph_detail', kwargs={
+                'cohort_pk': g.topic.cohort.pk,
+                'pk': g.pk,
+            }))
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, g.title)
+
+
 class EmbedViewTest(LoggedInTestMixin, TestCase):
     def test_get(self):
         g = GraphFactory()
-        r = self.client.get('/graph/{}/embed/'.format(g.pk))
+        r = self.client.get(reverse('graph_embed', kwargs={'pk': g.pk}))
+        self.assertEqual(r.status_code, 302)
+
+        r = self.client.get(
+            reverse('cohort_graph_embed', kwargs={
+                'cohort_pk': g.topic.cohort.pk,
+                'pk': g.pk,
+            }))
         self.assertEqual(r.status_code, 302)
 
 
 class EmbedViewPublicTest(LoggedInTestMixin, TestCase):
     def test_get(self):
         g = GraphFactory()
-        r = self.client.get('/graph/{}/public/'.format(g.pk))
+        r = self.client.get(reverse('graph_embed_public', kwargs={'pk': g.pk}))
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, g.title)
+
+        r = self.client.get(
+            reverse('cohort_graph_embed_public', kwargs={
+                'cohort_pk': g.topic.cohort.pk,
+                'pk': g.pk,
+            }))
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, g.title)
 
@@ -39,7 +69,15 @@ class EmbedViewPublicTest(LoggedInTestMixin, TestCase):
 class EmbedViewPublicAnonTest(TestCase):
     def test_get(self):
         g = GraphFactory()
-        r = self.client.get('/graph/{}/public/'.format(g.pk))
+        r = self.client.get(reverse('graph_embed_public', kwargs={'pk': g.pk}))
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, g.title)
+
+        r = self.client.get(
+            reverse('cohort_graph_embed_public', kwargs={
+                'cohort_pk': g.topic.cohort.pk,
+                'pk': g.pk,
+            }))
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, g.title)
 
