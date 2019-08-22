@@ -1,7 +1,6 @@
 from django.test import TestCase
 from django.db.utils import IntegrityError
 from econplayground.main.models import Assessment, Graph, Topic
-from django.db.models import ProtectedError
 from econplayground.main.tests.factories import (
     InstructorFactory,
     GraphFactory, JXGLineFactory, JXGLineTransformationFactory,
@@ -107,33 +106,18 @@ class TopicTest(TestCase):
     def test_is_valid_from_factory(self):
         self.x.full_clean()
 
-    def test_cant_delete_general(self):
-        # Verify that Topic.delete() won't work
-        t = Topic.objects.get(id=1)
-        self.assertRaises(ProtectedError, t.delete)
-
-    def test_cant_delete_general_qs(self):
-        # Verify that the QuerySet delete won't work
-        self.assertRaises(ProtectedError, Topic.objects.all().delete)
-
-    def test_can_delete_other_topics(self):
+    def test_can_delete_topics(self):
         # Verify that Topic.delete() still works
         cohort = CohortFactory()
         t = Topic.objects.create(name='Topic', order=2, cohort=cohort)
-        try:
-            t.delete()
-        except ProtectedError:
-            self.fail('Topics with pk > 1 should be able to be deleted')
+        t.delete()
 
-    def test_can_delete_other_topics_qs(self):
+    def test_can_delete_topics_qs(self):
         # Verify that the QuerySet delete method still works
         cohort = CohortFactory()
         Topic.objects.create(name='topic 1', order=2, cohort=cohort)
         Topic.objects.create(name='Topic 2', order=3, cohort=cohort)
-        try:
-            Topic.objects.exclude(pk=1).delete()
-        except ProtectedError:
-            self.fail('Topics with pk > 1 should be able to be deleted')
+        Topic.objects.all().delete()
 
 
 class GraphOrderTest(TestCase):

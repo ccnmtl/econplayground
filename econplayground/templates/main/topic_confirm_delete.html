@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Delete Cohort{% endblock %}
+{% block title %}Delete Topic{% endblock %}
 
 {% block breadcrumb %}
     <nav aria-label="breadcrumb">
@@ -11,28 +11,23 @@
                 </a>
             </li>
             <li class="breadcrumb-item">
-                <a href="{% url 'cohort_detail' object.pk %}">
+                <a href="{% url 'cohort_detail' cohort.pk %}">
                     {{ object.title|truncatewords:5 }}
                 </a>
             </li>
-            <li class="breadcrumb-item">Delete Cohort</li>
+            <li class="breadcrumb-item">Delete Topic</li>
         </ol>
     </nav>
 {% endblock %}
 
 {% block pagetitle %}
-    Delete Cohort
+    Delete Topic
 {% endblock %}
 
 {% block content %}
     {% if not readonly %}
         <p>
-            Are you sure you want to delete the
-            <span class="font-weight-bold">{{object.title}}</span> course?
-
-            This course's {{object.graph_count}}
-            graph{{object.graph_count|pluralize}} will remain, orphaned, in
-            the EconPractice system.
+            Are you sure you want to delete the <span class="font-weight-bold">{{object.name}}</span> topic?
         </p>
     {% endif %}
 

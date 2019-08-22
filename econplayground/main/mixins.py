@@ -6,6 +6,14 @@ from econplayground.main.utils import user_is_instructor
 
 
 class CohortMixin(object):
+    """Find the cohort and attach it to self.cohort.
+
+    First, look for the cohort id in the URL, i.e. at
+    /course/<id>/etc..
+
+    Otherwise, look for a graph id, and find the cohort based on
+    that.
+    """
     def dispatch(self, *args, **kwargs):
         cohort_pk = kwargs.get('cohort_pk', None)
         graph_pk = kwargs.get('pk', None)
@@ -22,14 +30,23 @@ class CohortMixin(object):
 
 
 class CohortInstructorMixin(object):
+    """Find the cohort and attach it to self.cohort.
+
+    Additionally, return a Forbidden error if the current user isn't
+    an instructor of this cohort.
+    """
     def dispatch(self, *args, **kwargs):
         if not user_is_instructor(self.request.user):
             return HttpResponseForbidden()
 
+        cohort_pk = kwargs.get('cohort_pk', None)
         pk = kwargs.get('pk', None)
-        cohort = get_object_or_404(Cohort, pk=pk)
+        if cohort_pk:
+            self.cohort = get_object_or_404(Cohort, pk=cohort_pk)
+        elif pk:
+            self.cohort = get_object_or_404(Cohort, pk=pk)
 
-        if self.request.user not in cohort.instructors.all():
+        if self.request.user not in self.cohort.instructors.all():
             return HttpResponseForbidden()
 
         return super(CohortInstructorMixin, self).dispatch(
