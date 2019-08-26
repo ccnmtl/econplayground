@@ -609,3 +609,94 @@ class MyLTILandingPageTest(LoggedInTestMixin, TestCase):
         self.assertEqual(ctx.get('submissions').count(), 1)
         submission = ctx.get('submissions').first()
         self.assertEqual(submission.user, self.u)
+
+
+class TopicListAnonViewTest(TestCase):
+    def setUp(self):
+        super(TopicListAnonViewTest, self).setUp()
+        self.cohort = CohortFactory()
+
+    def test_get(self):
+        r = self.client.get(
+            reverse('topic_list', kwargs={'cohort_pk': self.cohort.pk}))
+        self.assertEqual(r.status_code, 302)
+
+
+class TopicListStudentViewTest(LoggedInTestStudentMixin, TestCase):
+    def setUp(self):
+        super(TopicListStudentViewTest, self).setUp()
+        self.cohort = CohortFactory()
+
+    def test_get(self):
+        r = self.client.get(
+            reverse('topic_list', kwargs={'cohort_pk': self.cohort.pk}))
+        self.assertEqual(r.status_code, 403)
+
+
+class TopicListViewTest(LoggedInTestInstructorMixin, TestCase):
+    def setUp(self):
+        super(TopicListViewTest, self).setUp()
+        self.cohort = CohortFactory()
+        self.cohort.instructors.add(self.u)
+
+    def test_get(self):
+        r = self.client.get(
+            reverse('topic_list', kwargs={'cohort_pk': self.cohort.pk}))
+
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, 'Manage Topics: {}'.format(self.cohort.title))
+        self.assertContains(r, 'General')
+
+
+class TopicCreateViewTest(LoggedInTestInstructorMixin, TestCase):
+    def setUp(self):
+        super(TopicCreateViewTest, self).setUp()
+        self.cohort = CohortFactory()
+        self.cohort.instructors.add(self.u)
+
+    def test_get(self):
+        r = self.client.get(
+            reverse('topic_list', kwargs={'cohort_pk': self.cohort.pk}))
+
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, 'Manage Topics: {}'.format(self.cohort.title))
+        self.assertContains(r, 'General')
+
+
+class TopicUpdateViewTest(LoggedInTestInstructorMixin, TestCase):
+    def setUp(self):
+        super(TopicUpdateViewTest, self).setUp()
+        self.cohort = CohortFactory()
+        self.cohort.instructors.add(self.u)
+
+    def test_get(self):
+        r = self.client.get(
+            reverse('topic_list', kwargs={'cohort_pk': self.cohort.pk}))
+
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, 'Manage Topics: {}'.format(self.cohort.title))
+        self.assertContains(r, 'General')
+
+
+class TopicDeleteViewTest(LoggedInTestInstructorMixin, TestCase):
+    def setUp(self):
+        super(TopicDeleteViewTest, self).setUp()
+        self.cohort = CohortFactory()
+        self.cohort.instructors.add(self.u)
+        self.topic = TopicFactory(cohort=self.cohort)
+
+    def test_get(self):
+        r = self.client.get(
+            reverse('topic_delete', kwargs={
+                'cohort_pk': self.cohort.pk,
+                'pk': self.topic.pk,
+            }))
+
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, 'Delete')
+        self.assertContains(r, 'Cancel')
+        self.assertContains(r, self.topic.name)
+        # TODO:
+        # self.assertContains(
+        #     r, 'Are you sure you want to delete the {} topic?'.format(
+        #         self.topic.name))

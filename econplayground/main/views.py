@@ -279,6 +279,31 @@ class CohortListView(LoginRequiredMixin, ListView):
         return context
 
 
+class TopicCreateView(LoginRequiredMixin, CohortInstructorMixin, CreateView):
+    model = Topic
+    fields = ['cohort', 'name']
+
+    def get_context_data(self, **kwargs):
+        ctx = super(TopicCreateView, self).get_context_data(**kwargs)
+        ctx.update({
+            'cohort': self.cohort,
+        })
+        return ctx
+
+    def form_valid(self, form):
+        name = form.cleaned_data.get('name')
+
+        messages.add_message(
+            self.request, messages.SUCCESS,
+            '<strong>{}</strong> created.'.format(name),
+            extra_tags='safe')
+
+        return super(TopicCreateView, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse('topic_list', kwargs={'cohort_pk': self.cohort.pk})
+
+
 class TopicListView(LoginRequiredMixin, CohortInstructorMixin, ListView):
     model = Topic
 
@@ -297,12 +322,26 @@ class TopicUpdateView(LoginRequiredMixin, CohortInstructorMixin, UpdateView):
     model = Topic
     fields = ['name']
 
+    def get_context_data(self, **kwargs):
+        ctx = super(TopicUpdateView, self).get_context_data(**kwargs)
+        ctx.update({
+            'cohort': self.cohort,
+        })
+        return ctx
+
     def get_success_url(self):
         return reverse('topic_list', kwargs={'cohort_pk': self.cohort.pk})
 
 
 class TopicDeleteView(LoginRequiredMixin, CohortInstructorMixin, DeleteView):
     model = Topic
+
+    def get_context_data(self, **kwargs):
+        ctx = super(TopicDeleteView, self).get_context_data(**kwargs)
+        ctx.update({
+            'cohort': self.cohort,
+        })
+        return ctx
 
     def get_success_url(self):
         messages.add_message(
