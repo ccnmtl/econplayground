@@ -85,6 +85,9 @@ class EmbedViewPublicAnonTest(TestCase):
 class CohortListInstructorViewTest(LoggedInTestInstructorMixin, TestCase):
     def test_get(self):
         cohort = CohortFactory()
+        my_cohort = CohortFactory()
+        my_cohort.instructors.add(self.u)
+
         r = self.client.get(reverse('cohort_list'))
 
         self.assertEqual(r.status_code, 200)
@@ -93,11 +96,10 @@ class CohortListInstructorViewTest(LoggedInTestInstructorMixin, TestCase):
         # Hide cohorts this instructor isn't a part of.
         self.assertNotContains(r, cohort.title)
 
-        # TODO: fix this assertion
-        # self.assertContains(r, 'New Course')
+        self.assertContains(r, 'Create a new course.')
 
-        # self.assertContains(r, cohort.title)
-        # self.assertContains(r, cohort.description)
+        self.assertContains(r, my_cohort.title)
+        self.assertContains(r, my_cohort.description)
 
 
 class CohortListStudentViewTest(LoggedInTestStudentMixin, TestCase):
