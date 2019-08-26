@@ -24,7 +24,7 @@ from lti_provider.mixins import LTIAuthMixin
 from lti_provider.views import LTILandingPage
 
 from econplayground.main.mixins import CohortMixin, CohortInstructorMixin
-from econplayground.main.models import Cohort, Graph, Submission
+from econplayground.main.models import Cohort, Graph, Submission, Topic
 from econplayground.main.utils import user_is_instructor
 
 
@@ -277,6 +277,40 @@ class CohortListView(LoginRequiredMixin, ListView):
         context['cohorts'] = Cohort.objects.filter(
             instructors__in=(self.request.user,))
         return context
+
+
+class TopicListView(LoginRequiredMixin, CohortInstructorMixin, ListView):
+    model = Topic
+
+    def get_queryset(self):
+        return Topic.objects.filter(cohort=self.cohort).order_by('order')
+
+    def get_context_data(self, **kwargs):
+        ctx = super(TopicListView, self).get_context_data(**kwargs)
+        ctx.update({
+            'cohort': self.cohort,
+        })
+        return ctx
+
+
+class TopicUpdateView(LoginRequiredMixin, CohortInstructorMixin, UpdateView):
+    model = Topic
+    fields = ['name']
+
+    def get_success_url(self):
+        return reverse('topic_list', kwargs={'cohort_pk': self.cohort.pk})
+
+
+class TopicDeleteView(LoginRequiredMixin, CohortInstructorMixin, DeleteView):
+    model = Topic
+
+    def get_success_url(self):
+        messages.add_message(
+            self.request, messages.SUCCESS,
+            '<strong>{}</strong> has been deleted.'.format(self.object.name),
+            extra_tags='safe')
+
+        return reverse('topic_list', kwargs={'cohort_pk': self.cohort.pk})
 
 
 class LoginView(JSONResponseMixin, LoginView):
