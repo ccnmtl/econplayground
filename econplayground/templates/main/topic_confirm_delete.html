@@ -12,7 +12,12 @@
             </li>
             <li class="breadcrumb-item">
                 <a href="{% url 'cohort_detail' cohort.pk %}">
-                    {{ object.title|truncatewords:5 }}
+                    {{ cohort.title|truncatewords:5 }}
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{% url 'topic_list' cohort.pk %}">
+                    Manage Topics
                 </a>
             </li>
             <li class="breadcrumb-item">Delete Topic</li>

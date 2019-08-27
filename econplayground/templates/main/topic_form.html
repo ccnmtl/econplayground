@@ -23,7 +23,11 @@
                 </a>
             </li>
             <li class="breadcrumb-item">
-                Create Topic
+                {% if object %}
+                    Update Topic
+                {% else %}
+                    Create Topic
+                {% endif %}
             </li>
         </ol>
     </nav>
@@ -39,7 +43,11 @@
         <div class="row">
             <div class="col-md-2 mb-1 pr-0">
                 <button type="submit" class="btn btn-block btn-primary">
-                    Create
+                    {% if object %}
+                        Save
+                    {% else %}
+                        Create
+                    {% endif %}
                 </button>
             </div>
 
