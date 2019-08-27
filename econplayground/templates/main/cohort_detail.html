@@ -139,8 +139,7 @@
                        role="button">Manage Featured Graphs</a>
 
                     <a class="btn btn-secondary btn-sm btn-block"
-                       target="_blank"
-                       href="/admin/main/topic/"
+                       href="{% url 'topic_list' object.pk %}"
                        role="button">Manage Topics</a>
                 </div>
             {% endif %}

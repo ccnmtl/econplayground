@@ -322,6 +322,19 @@ class TopicUpdateView(LoginRequiredMixin, CohortInstructorMixin, UpdateView):
     model = Topic
     fields = ['name']
 
+    def get(self, request, *args, **kwargs):
+        if request.GET.get('move') == 'down' or \
+           request.GET.get('move') == 'up':
+            topic = self.get_object()
+            if request.GET.get('move') == 'down':
+                topic.down()
+            else:
+                topic.up()
+
+            return HttpResponseRedirect(self.get_success_url())
+
+        return super(TopicUpdateView, self).get(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         ctx = super(TopicUpdateView, self).get_context_data(**kwargs)
         ctx.update({

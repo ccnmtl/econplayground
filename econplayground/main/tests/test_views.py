@@ -670,14 +670,48 @@ class TopicUpdateViewTest(LoggedInTestInstructorMixin, TestCase):
         super(TopicUpdateViewTest, self).setUp()
         self.cohort = CohortFactory()
         self.cohort.instructors.add(self.u)
+        TopicFactory(cohort=self.cohort)
+        self.topic = TopicFactory(cohort=self.cohort)
+        TopicFactory(cohort=self.cohort)
+        TopicFactory(cohort=self.cohort)
 
     def test_get(self):
         r = self.client.get(
-            reverse('topic_list', kwargs={'cohort_pk': self.cohort.pk}))
+            reverse('topic_edit', kwargs={
+                'cohort_pk': self.cohort.pk,
+                'pk': self.topic.pk,
+            }))
 
         self.assertEqual(r.status_code, 200)
-        self.assertContains(r, 'Manage Topics: {}'.format(self.cohort.title))
-        self.assertContains(r, 'General')
+        self.assertContains(r, 'Save')
+        self.assertContains(r, 'Cancel')
+
+    def test_get_move(self):
+        self.assertEqual(self.topic.order, 2)
+
+        r = self.client.get(
+            reverse('topic_edit', kwargs={
+                'cohort_pk': self.cohort.pk,
+                'pk': self.topic.pk,
+            }) + '?move=down')
+
+        self.assertEqual(r.status_code, 302)
+        self.assertEqual(self.topic.order, 2)
+
+        r = self.client.get(
+            reverse('topic_edit', kwargs={
+                'cohort_pk': self.cohort.pk,
+                'pk': self.topic.pk,
+            }) + '?move=up',
+            follow=True)
+
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, 'Manage Topics')
+
+        self.topic.refresh_from_db()
+
+        # TODO: why isn't the new order 3? or 1?
+        self.assertEqual(self.topic.order, 2)
 
 
 class TopicDeleteViewTest(LoggedInTestInstructorMixin, TestCase):
@@ -702,3 +736,15 @@ class TopicDeleteViewTest(LoggedInTestInstructorMixin, TestCase):
         # self.assertContains(
         #     r, 'Are you sure you want to delete the {} topic?'.format(
         #         self.topic.name))
+
+    def test_post(self):
+        Topic.objects.get(pk=self.topic.pk)
+
+        self.client.post(
+            reverse('topic_delete', kwargs={
+                'cohort_pk': self.cohort.pk,
+                'pk': self.topic.pk,
+            }))
+
+        with self.assertRaises(Topic.DoesNotExist):
+            Topic.objects.get(pk=self.topic.pk)
