@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static bootstrap4 econ_auth %}
+
+{% block title %}Create Topic{% endblock %}
+
+{% block breadcrumb %}
+    {% if i_am_instructor %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{% url 'cohort_list' %}">
+                    {% include 'main/your_cohorts_snippet.html' %}
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{% url 'cohort_detail' cohort.pk %}">
+                    {{ cohort.title|truncatewords:5 }}
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{% url 'topic_list' cohort.pk %}">
+                    Manage Topics
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                Create Topic
+            </li>
+        </ol>
+    </nav>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <form action="." method="post">{% csrf_token %}
+        {% bootstrap_field form.name %}
+
+        <input type="hidden" name="cohort" value="{{cohort.pk}}" />
+
+        <div class="row">
+            <div class="col-md-2 mb-1 pr-0">
+                <button type="submit" class="btn btn-block btn-primary">
+                    Create
+                </button>
+            </div>
+
+            <div class="col-md-2 mb-1 pr-0">
+                <a class="btn btn-block btn-secondary" href="{% url 'topic_list' cohort.pk %}">
+                    Cancel
+                </a>
+            </div>
+        </div>
+    </form>
+{% endblock %}

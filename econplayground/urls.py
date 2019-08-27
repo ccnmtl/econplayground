@@ -52,8 +52,8 @@ urlpatterns = [
 
     path('course/<int:cohort_pk>/topics/',
          views.TopicListView.as_view(), name='topic_list'),
-    # path('course/<int:cohort_pk>/topic/add/',
-    #      views.TopicCreateView.as_view(), name='topic_create'),
+    path('course/<int:cohort_pk>/topic/add/',
+         views.TopicCreateView.as_view(), name='topic_create'),
     path('course/<int:cohort_pk>/topic/<int:pk>/edit/',
          views.TopicUpdateView.as_view(), name='topic_edit'),
     path('course/<int:cohort_pk>/topic/<int:pk>/delete/',
