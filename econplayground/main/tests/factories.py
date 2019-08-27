@@ -30,6 +30,31 @@ class StudentFactory(factory.DjangoModelFactory):
     username = fuzzy.FuzzyText(prefix='student_')
 
 
+class CohortFactory(factory.DjangoModelFactory):
+    class Meta:
+        model = Cohort
+
+    title = fuzzy.FuzzyText()
+    description = fuzzy.FuzzyText()
+
+    @factory.post_generation
+    def instructors(self, create, extracted, **kwargs):
+        if not create:
+            return
+
+        if extracted:
+            for instructor in extracted:
+                self.instructors.add(instructor)
+
+
+class TopicFactory(factory.DjangoModelFactory):
+    class Meta:
+        model = Topic
+
+    name = fuzzy.FuzzyText()
+    cohort = factory.SubFactory(CohortFactory)
+
+
 class GraphFactory(factory.DjangoModelFactory):
     class Meta:
         model = Graph
@@ -49,6 +74,8 @@ class GraphFactory(factory.DjangoModelFactory):
     line_2_label = fuzzy.FuzzyText()
 
     cobb_douglas_alpha = fuzzy.FuzzyDecimal(0.0, 1.0)
+
+    topic = factory.SubFactory(TopicFactory)
 
 
 class JXGLineFactory(factory.DjangoModelFactory):
@@ -102,28 +129,3 @@ class AssessmentRuleFactory(factory.DjangoModelFactory):
     feedback_fulfilled = fuzzy.FuzzyText()
     feedback_unfulfilled = fuzzy.FuzzyText()
     score = fuzzy.FuzzyDecimal(0, 1)
-
-
-class CohortFactory(factory.DjangoModelFactory):
-    class Meta:
-        model = Cohort
-
-    title = fuzzy.FuzzyText()
-    description = fuzzy.FuzzyText()
-
-    @factory.post_generation
-    def instructors(self, create, extracted, **kwargs):
-        if not create:
-            return
-
-        if extracted:
-            for instructor in extracted:
-                self.instructors.add(instructor)
-
-
-class TopicFactory(factory.DjangoModelFactory):
-    class Meta:
-        model = Topic
-
-    name = fuzzy.FuzzyText()
-    cohort = factory.SubFactory(CohortFactory)

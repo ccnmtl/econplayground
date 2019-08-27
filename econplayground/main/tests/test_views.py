@@ -738,13 +738,26 @@ class TopicDeleteViewTest(LoggedInTestInstructorMixin, TestCase):
         #         self.topic.name))
 
     def test_post(self):
-        Topic.objects.get(pk=self.topic.pk)
+        self.assertEqual(
+            Topic.objects.filter(cohort=self.cohort).count(), 2,
+            'Topics are: General, and a custom topic.')
 
-        self.client.post(
+        cohort = self.topic.cohort
+        graph = GraphFactory(topic=self.topic)
+        self.assertEqual(graph.topic, self.topic)
+
+        r = self.client.post(
             reverse('topic_delete', kwargs={
-                'cohort_pk': self.cohort.pk,
+                'cohort_pk': cohort.pk,
                 'pk': self.topic.pk,
-            }))
+            }),
+            follow=True)
+
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, 'deleted')
 
         with self.assertRaises(Topic.DoesNotExist):
             Topic.objects.get(pk=self.topic.pk)
+
+        graph.refresh_from_db()
+        self.assertEqual(graph.topic, cohort.get_general_topic())
