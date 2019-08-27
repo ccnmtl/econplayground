@@ -9,7 +9,8 @@
             <h1>My Courses</h1>
 
             <div class="d-flex align-content-stretch flex-wrap">
-                {% if perms.main.abc %}
+                {% user_is_instructor request.user as i_am_instructor %}
+                {% if i_am_instructor %}
                     <div class="card darkslate card-shadow">
                         <a href="{% url 'cohort_create' %}">
                             <div class="card-body">
