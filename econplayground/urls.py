@@ -39,6 +39,8 @@ urlpatterns = [
 
     path('course/<int:cohort_pk>/graph/<int:pk>/',
          views.GraphDetailView.as_view(), name='cohort_graph_detail'),
+    path('course/<int:cohort_pk>/graph/<int:pk>/edit/',
+         views.FeaturedGraphUpdateView.as_view(), name='cohort_graph_edit'),
     path('course/<int:cohort_pk>/graph/<int:pk>/embed/',
          views.GraphEmbedView.as_view(), name='cohort_graph_embed'),
     path('course/<int:cohort_pk>/graph/<int:pk>/public/',
@@ -58,6 +60,9 @@ urlpatterns = [
          views.TopicUpdateView.as_view(), name='topic_edit'),
     path('course/<int:cohort_pk>/topic/<int:pk>/delete/',
          views.TopicDeleteView.as_view(), name='topic_delete'),
+
+    path('course/<int:cohort_pk>/featuredgraphs/',
+         views.FeaturedGraphListView.as_view(), name='featuredgraph_list'),
 
     path('graph/<int:pk>/',
          views.GraphDetailView.as_view(), name='graph_detail'),

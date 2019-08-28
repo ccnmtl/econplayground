@@ -36,6 +36,58 @@ class GraphDetailViewTest(LoggedInTestMixin, TestCase):
         self.assertContains(r, g.title)
 
 
+class FeaturedGraphUpdateViewTest(LoggedInTestInstructorMixin, TestCase):
+    def setUp(self):
+        super(FeaturedGraphUpdateViewTest, self).setUp()
+        self.cohort = CohortFactory()
+        self.cohort.instructors.add(self.u)
+        TopicFactory(cohort=self.cohort)
+        self.topic = TopicFactory(cohort=self.cohort)
+        TopicFactory(cohort=self.cohort)
+        TopicFactory(cohort=self.cohort)
+        self.graph = GraphFactory(topic=self.topic, featured=True)
+        GraphFactory(topic=self.topic, featured=True)
+        GraphFactory(topic=self.topic, featured=True)
+        GraphFactory(topic=self.topic, featured=False)
+        GraphFactory(topic=self.topic, featured=False)
+
+    def test_get(self):
+        r = self.client.get(
+            reverse('cohort_graph_edit', kwargs={
+                'cohort_pk': self.cohort.pk,
+                'pk': self.topic.pk,
+            }))
+
+        self.assertEqual(r.status_code, 403)
+
+    def test_get_move(self):
+        self.assertEqual(self.graph.order, 0)
+
+        r = self.client.get(
+            reverse('cohort_graph_edit', kwargs={
+                'cohort_pk': self.cohort.pk,
+                'pk': self.graph.pk,
+            }) + '?move=down')
+
+        self.assertEqual(r.status_code, 302)
+        self.assertEqual(self.graph.order, 0)
+
+        r = self.client.get(
+            reverse('cohort_graph_edit', kwargs={
+                'cohort_pk': self.cohort.pk,
+                'pk': self.graph.pk,
+            }) + '?move=up',
+            follow=True)
+
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, 'Manage Featured Graphs')
+
+        self.graph.refresh_from_db()
+
+        # TODO:
+        self.assertEqual(self.graph.order, 0)
+
+
 class EmbedViewTest(LoggedInTestMixin, TestCase):
     def test_get(self):
         g = GraphFactory()
