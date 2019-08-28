@@ -152,6 +152,7 @@ class CohortDetailView(LoginRequiredMixin, DetailView):
         params = self.request.GET
         if len(params) == 0:
             graphs = graphs.filter(featured=True)
+            return graphs.order_by('order')
         elif 'topic' in params:
             tid = params.get('topic', '')
             if tid:
