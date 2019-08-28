@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from ordered_model.models import OrderedModel
 from django.dispatch import receiver
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_delete
 
 
 GRAPH_TYPES = (
@@ -43,9 +43,15 @@ class Cohort(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def graph_count(self):
+    def get_graphs(self):
         return Graph.objects.filter(
-            topic__in=Topic.objects.filter(cohort=self)).count()
+            topic__in=Topic.objects.filter(cohort=self))
+
+    def graph_count(self):
+        return self.get_graphs().count()
+
+    def get_general_topic(self):
+        return Topic.objects.get(cohort=self, name='General')
 
     def __str__(self):
         return '{} (id:{})'.format(self.title, self.pk)
@@ -80,6 +86,23 @@ def create_general_topic(sender, instance, created, **kwargs):
         Topic.objects.create(name='General', cohort=instance)
 
 
+@receiver(pre_delete, sender=Topic)
+def move_graphs_to_general_topic(sender, instance, **kwargs):
+    cohort = instance.cohort
+    g_topic = cohort.get_general_topic()
+    for graph in Graph.objects.filter(topic=instance):
+        graph.topic = g_topic
+        graph.save()
+
+
+@receiver(pre_delete, sender=Cohort)
+def orphan_remaining_graphs(sender, instance, **kwargs):
+    """If the Cohort is deleted, just leave the graphs hidden in the system."""
+    for graph in instance.get_graphs():
+        graph.topic = None
+        graph.save()
+
+
 class Graph(OrderedModel):
     class Meta(OrderedModel.Meta):
         pass
@@ -91,8 +114,9 @@ class Graph(OrderedModel):
     instructor_notes = models.TextField(blank=True, null=True, default='')
     topic = models.ForeignKey(
         Topic,
-        on_delete=models.SET_NULL,
-        null=True, blank=True, default=1)
+        # Handle this in the Topic pre_delete signal.
+        on_delete=models.DO_NOTHING,
+        null=True, blank=True)
     featured = models.BooleanField(default=False)
     order_with_respect_to = ('featured')
     created_at = models.DateTimeField(auto_now_add=True)
