@@ -121,9 +121,13 @@ class TopicTest(TestCase):
 
 
 class GraphOrderTest(TestCase):
+    def setUp(self):
+        super(GraphOrderTest, self).setUp()
+        self.topic = TopicFactory()
+
     def test_bottom(self):
-        g1 = GraphFactory(featured=True)
-        g2 = GraphFactory(featured=True)
+        g1 = GraphFactory(featured=True, topic=self.topic)
+        g2 = GraphFactory(featured=True, topic=self.topic)
         self.assertEqual(g1.order, 0)
         self.assertEqual(g2.order, 1)
 
@@ -131,7 +135,7 @@ class GraphOrderTest(TestCase):
         self.assertTrue(g1.order > g2.order)
 
         # Assert that new item is correctly ordered
-        g3 = GraphFactory(featured=False)
+        g3 = GraphFactory(featured=False, topic=self.topic)
         self.assertEqual(g3.order, 0)
         # Verify that the other items are still correctly ordered
         self.assertEqual(g1.order, 2)
@@ -140,15 +144,15 @@ class GraphOrderTest(TestCase):
     def test_save_ordering(self):
         # Assert that newly created items are placed in the
         # expected order
-        g1 = GraphFactory(title="g1", featured=True)
-        g2 = GraphFactory(title="g2", featured=True)
+        g1 = GraphFactory(title="g1", featured=True, topic=self.topic)
+        g2 = GraphFactory(title="g2", featured=True, topic=self.topic)
         self.assertEqual(g1.order, 0)
         self.assertEqual(g2.order, 1)
 
         # Assert that an existing item is ordered correctly
         # when featured is toggled
-        g3 = GraphFactory(title="g3", featured=False)
-        g4 = GraphFactory(title="g4", featured=False)
+        g3 = GraphFactory(title="g3", featured=False, topic=self.topic)
+        g4 = GraphFactory(title="g4", featured=False, topic=self.topic)
         self.assertEqual(g3.order, 0)
         self.assertEqual(g4.order, 1)
         # Verify that the other items are still correctly ordered
