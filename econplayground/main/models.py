@@ -68,8 +68,11 @@ class Topic(OrderedModel):
     updated_at = models.DateTimeField(auto_now=True)
     order_with_respect_to = 'cohort'
 
+    def get_graphs(self):
+        return Graph.objects.filter(topic=self)
+
     def graph_count(self):
-        return Graph.objects.filter(topic=self).count()
+        return self.get_graphs().count()
 
     def published_graph_count(self):
         return Graph.objects.filter(topic=self,

@@ -32,8 +32,24 @@
 {% block content %}
     {% if not readonly %}
         <p>
-            Are you sure you want to delete the <span class="font-weight-bold">{{object.name}}</span> topic?
+            Are you sure you want to delete the
+            <strong>{{object.name}}</strong> topic?
         </p>
+        {% if object.graph_count > 0 %}
+            <p>
+                The following graphs will be moved to the
+                <strong>General</strong> topic:
+            </p>
+            <ul>
+                {% for graph in object.get_graphs %}
+                    <li>
+                        <a href="{% url 'cohort_graph_detail' cohort.pk graph.pk %}">
+                            {{graph.title}}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
     {% endif %}
 
     <form action="." method="post">{% csrf_token %}
