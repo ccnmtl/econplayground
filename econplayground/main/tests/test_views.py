@@ -87,6 +87,35 @@ class FeaturedGraphUpdateViewTest(LoggedInTestInstructorMixin, TestCase):
         # TODO:
         self.assertEqual(self.graph.order, 0)
 
+    def test_get_move_unassociated(self):
+        cohort = CohortFactory()
+        topic = TopicFactory(cohort=cohort)
+        graph = GraphFactory(topic=topic, featured=True)
+
+        self.assertEqual(graph.order, 3)
+
+        r = self.client.get(
+            reverse('cohort_graph_edit', kwargs={
+                'cohort_pk': cohort.pk,
+                'pk': graph.pk,
+            }) + '?move=down')
+
+        self.assertEqual(r.status_code, 403)
+        self.assertEqual(graph.order, 3)
+
+        r = self.client.get(
+            reverse('cohort_graph_edit', kwargs={
+                'cohort_pk': cohort.pk,
+                'pk': graph.pk,
+            }) + '?move=up',
+            follow=True)
+
+        self.assertEqual(r.status_code, 403)
+
+        graph.refresh_from_db()
+
+        self.assertEqual(graph.order, 3)
+
 
 class EmbedViewTest(LoggedInTestMixin, TestCase):
     def test_get(self):
@@ -738,6 +767,40 @@ class TopicUpdateViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertContains(r, 'Save')
         self.assertContains(r, 'Cancel')
 
+    def test_post(self):
+        r = self.client.post(
+            reverse('topic_edit', kwargs={
+                'cohort_pk': self.cohort.pk,
+                'pk': self.topic.pk,
+            }), {
+                'name': 'New Topic Name'
+            }, follow=True)
+
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, 'Manage Topics: {}'.format(self.cohort.title))
+        self.assertContains(r, 'New Topic Name')
+        self.topic.refresh_from_db()
+        self.assertEqual(self.topic.name, 'New Topic Name')
+
+    def test_post_unassociated(self):
+        cohort = CohortFactory()
+        topic = TopicFactory(cohort=cohort)
+        original_topic_name = topic.name
+        r = self.client.post(
+            reverse('topic_edit', kwargs={
+                'cohort_pk': cohort.pk,
+                'pk': topic.pk,
+            }), {
+                'name': 'New Topic Name'
+            }, follow=True)
+
+        self.assertEqual(
+            r.status_code, 403,
+            "Can't update a topic of a cohort I'm not an instructor of.")
+
+        topic.refresh_from_db()
+        self.assertEqual(topic.name, original_topic_name)
+
     def test_get_move(self):
         self.assertEqual(self.topic.order, 2)
 
@@ -765,6 +828,34 @@ class TopicUpdateViewTest(LoggedInTestInstructorMixin, TestCase):
         # TODO: why isn't the new order 3? or 1?
         self.assertEqual(self.topic.order, 2)
 
+    def test_get_move_unassociated(self):
+        cohort = CohortFactory()
+        topic = TopicFactory(cohort=cohort)
+
+        self.assertEqual(topic.order, 1)
+
+        r = self.client.get(
+            reverse('topic_edit', kwargs={
+                'cohort_pk': cohort.pk,
+                'pk': topic.pk,
+            }) + '?move=down')
+
+        self.assertEqual(r.status_code, 403)
+        self.assertEqual(topic.order, 1)
+
+        r = self.client.get(
+            reverse('topic_edit', kwargs={
+                'cohort_pk': cohort.pk,
+                'pk': topic.pk,
+            }) + '?move=up',
+            follow=True)
+
+        self.assertEqual(r.status_code, 403)
+
+        topic.refresh_from_db()
+
+        self.assertEqual(topic.order, 1)
+
 
 class TopicDeleteViewTest(LoggedInTestInstructorMixin, TestCase):
     def setUp(self):
@@ -788,6 +879,19 @@ class TopicDeleteViewTest(LoggedInTestInstructorMixin, TestCase):
         # self.assertContains(
         #     r, 'Are you sure you want to delete the {} topic?'.format(
         #         self.topic.name))
+
+    def test_get_unassociated(self):
+        cohort = CohortFactory()
+        topic = TopicFactory(cohort=cohort)
+        r = self.client.get(
+            reverse('topic_delete', kwargs={
+                'cohort_pk': cohort.pk,
+                'pk': topic.pk,
+            }))
+
+        self.assertEqual(
+            r.status_code, 403,
+            "Can't delete a topic of a cohort I'm not an instructor of.")
 
     def test_post(self):
         self.assertEqual(
