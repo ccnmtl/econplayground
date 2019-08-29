@@ -11,7 +11,7 @@ from django.contrib.auth.views import (
     LogoutView as DjangoLogoutView, LoginView
 )
 from django.db.models import Count, Q
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseForbidden, HttpResponseRedirect
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -58,6 +58,29 @@ class CohortGraphCreateView(
 
     def test_func(self):
         return user_is_instructor(self.request.user)
+
+
+class FeaturedGraphUpdateView(
+        LoginRequiredMixin, CohortInstructorMixin, UpdateView):
+    model = Graph
+
+    def get(self, request, *args, **kwargs):
+        if request.GET.get('move') == 'down' or \
+           request.GET.get('move') == 'up':
+            graph = self.get_object()
+            if request.GET.get('move') == 'down':
+                graph.down()
+            else:
+                graph.up()
+
+            return HttpResponseRedirect(self.get_success_url())
+
+        return HttpResponseForbidden()
+
+    def get_success_url(self):
+        return reverse('featuredgraph_list', kwargs={
+            'cohort_pk': self.cohort.pk
+        })
 
 
 class GraphDetailView(LoginRequiredMixin, CohortMixin, DetailView):
@@ -313,6 +336,22 @@ class TopicListView(LoginRequiredMixin, CohortInstructorMixin, ListView):
 
     def get_context_data(self, **kwargs):
         ctx = super(TopicListView, self).get_context_data(**kwargs)
+        ctx.update({
+            'cohort': self.cohort,
+        })
+        return ctx
+
+
+class FeaturedGraphListView(
+        LoginRequiredMixin, CohortInstructorMixin, ListView):
+    model = Graph
+    template_name = 'main/featuredgraph_list.html'
+
+    def get_queryset(self):
+        return self.cohort.get_graphs().filter(featured=True).order_by('order')
+
+    def get_context_data(self, **kwargs):
+        ctx = super(FeaturedGraphListView, self).get_context_data(**kwargs)
         ctx.update({
             'cohort': self.cohort,
         })
