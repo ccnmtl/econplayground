@@ -45,13 +45,13 @@
                             <a href="{% url 'cohort_graph_edit' cohort.pk graph.pk %}?move=up"
                                role="button"
                                title="Move up"
-                               class="btn btn-sm btn-secondary mr-1">
+                               class="btn btn-sm btn-secondary mr-1 {% if forloop.counter == 1 %}disabled{% endif %}">
                                 <svg height="32" class="octicon octicon-arrow-up" viewBox="0 0 10 16" version="1.1" width="20" aria-hidden="true"><path fill-rule="evenodd" d="M5 3L0 9h3v4h4V9h3L5 3z"></path></svg>
                             </a>
                             <a href="{% url 'cohort_graph_edit' cohort.pk graph.pk %}?move=down"
                                role="button"
                                title="Move down"
-                               class="btn btn-sm btn-secondary mr-1">
+                               class="btn btn-sm btn-secondary mr-1 {% if forloop.revcounter == 1 %}disabled{% endif %}">
                                 <svg height="32" class="octicon octicon-arrow-down" viewBox="0 0 10 16" version="1.1" width="20" aria-hidden="true"><path fill-rule="evenodd" d="M7 7V3H3v4H0l5 6 5-6H7z"></path></svg>
                             </a>
 
