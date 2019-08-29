@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block title %}Clone Graph{% endblock %}
+
+{% block breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{% url 'cohort_list' %}">
+                    {% include 'main/your_cohorts_snippet.html' %}
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{% url 'cohort_detail' cohort.pk %}">
+                    {{ cohort.title|truncatewords:5 }}
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{% url 'cohort_graph_detail' cohort.pk object.pk %}">
+                    {{ object.title|truncatewords:5 }}
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                Clone
+            </li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block pagetitle %}
+    Clone Graph: {{ object.title|truncatewords:5 }}
+{% endblock %}
+
+{% block pagedescription %}
+{% endblock %}
+
+{% block content %}
+    <h4>Cloning <strong>{{object.title}}</strong></h4>
+
+    <p>
+        Where do you want to clone this graph to?
+        Cloning to <strong>General</strong> topic in:
+    </p>
+
+<div class="row">
+    <div class="col-md-12 order-md-1">
+
+        <form action="." method="post">{% csrf_token %}
+
+			{% bootstrap_form form %}
+
+            <div class="row mt-2">
+                <div class="col-md-2 mb-1 pr-0">
+                    <button type="submit" class="btn btn-block btn-primary">Clone</button>
+                </div>
+                <div class="col-md-2 mb-1 pr-0">
+                    <a class="btn btn-block btn-secondary"
+                       href="{% url 'cohort_graph_detail' cohort.pk object.pk %}">
+                        Cancel
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

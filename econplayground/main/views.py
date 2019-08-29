@@ -17,12 +17,16 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic import ListView, DetailView
 from django.views.generic.base import View
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import (
+    CreateView, FormView, UpdateView, DeleteView
+)
+from django.views.generic.detail import SingleObjectMixin
 from django.shortcuts import get_object_or_404
 from djangowind.views import logout as wind_logout_view
 from lti_provider.mixins import LTIAuthMixin
 from lti_provider.views import LTILandingPage
 
+from econplayground.main.forms import GraphCloneForm
 from econplayground.main.mixins import CohortMixin, CohortInstructorMixin
 from econplayground.main.models import Cohort, Graph, Submission, Topic
 from econplayground.main.utils import user_is_instructor
@@ -58,6 +62,79 @@ class CohortGraphCreateView(
 
     def test_func(self):
         return user_is_instructor(self.request.user)
+
+
+class GraphCloneDisplay(LoginRequiredMixin, CohortInstructorMixin, DetailView):
+    model = Graph
+    template_name = 'main/graph_clone_form.html'
+
+    def get_context_data(self, *args, **kwargs):
+        ctx = super().get_context_data(*args, **kwargs)
+        ctx.update({
+            'cohort': self.cohort,
+            'form': GraphCloneForm(user=self.request.user),
+        })
+        return ctx
+
+
+class GraphCloneFormView(LoginRequiredMixin, CohortInstructorMixin,
+                         SingleObjectMixin, FormView):
+    template_name = 'main/graph_clone_form.html'
+    form_class = GraphCloneForm
+    model = Graph
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def get_context_data(self, *args, **kwargs):
+        ctx = super().get_context_data(*args, **kwargs)
+        ctx.update({
+            'cohort': self.cohort,
+            'form': GraphCloneForm(user=self.request.user),
+        })
+        return ctx
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().post(request, *args, **kwargs)
+
+    def get_success_url(self):
+        return reverse('cohort_detail', kwargs={'pk': self.cohort.pk})
+
+    def form_valid(self, form):
+        cohort_pk = int(form.data.get('course'))
+        cohort = Cohort.objects.get(pk=cohort_pk)
+        g_topic = cohort.get_general_topic()
+
+        cloned = self.object.clone()
+        cloned.title = '{} (clone)'.format(self.object.title)
+        cloned.author = self.request.user
+        cloned.topic = g_topic
+        cloned.is_published = False
+        cloned.save()
+
+        messages.add_message(
+            self.request, messages.SUCCESS,
+            '<strong>{}</strong> copied to <strong>{}</strong>.'.format(
+                cloned.title, cohort.title),
+            extra_tags='safe'
+        )
+
+        return super().form_valid(form)
+
+
+# Following the pattern here:
+# https://docs.djangoproject.com/en/2.2/topics/class-based-views/mixins/#an-alternative-better-solution
+class GraphCloneView(LoginRequiredMixin, CohortInstructorMixin, View):
+    def get(self, request, *args, **kwargs):
+        view = GraphCloneDisplay.as_view()
+        return view(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        view = GraphCloneFormView.as_view()
+        return view(request, *args, **kwargs)
 
 
 class FeaturedGraphUpdateView(
