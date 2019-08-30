@@ -41,6 +41,8 @@ urlpatterns = [
          views.GraphDetailView.as_view(), name='cohort_graph_detail'),
     path('course/<int:cohort_pk>/graph/<int:pk>/edit/',
          views.FeaturedGraphUpdateView.as_view(), name='cohort_graph_edit'),
+    path('course/<int:cohort_pk>/graph/<int:pk>/clone/',
+         views.GraphCloneView.as_view(), name='cohort_graph_clone'),
     path('course/<int:cohort_pk>/graph/<int:pk>/embed/',
          views.GraphEmbedView.as_view(), name='cohort_graph_embed'),
     path('course/<int:cohort_pk>/graph/<int:pk>/public/',
