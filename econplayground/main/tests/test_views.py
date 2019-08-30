@@ -7,7 +7,7 @@ from econplayground.main.tests.factories import (
 from econplayground.main.tests.mixins import (
     LoggedInTestMixin, LoggedInTestInstructorMixin, LoggedInTestStudentMixin
 )
-from econplayground.main.models import Cohort, Topic
+from econplayground.main.models import Cohort, Graph, Topic
 
 
 class BasicTest(TestCase):
@@ -34,6 +34,100 @@ class GraphDetailViewTest(LoggedInTestMixin, TestCase):
             }))
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, g.title)
+
+
+class CloneGraphUnauthorizedViewTest(LoggedInTestMixin, TestCase):
+    def test_get(self):
+        g = GraphFactory()
+
+        self.assertEqual(Graph.objects.count(), 1)
+
+        r = self.client.get(
+            reverse('cohort_graph_clone', kwargs={
+                'cohort_pk': g.topic.cohort.pk,
+                'pk': g.pk
+            }))
+        self.assertEqual(r.status_code, 403)
+
+        r = self.client.post(
+            reverse('cohort_graph_clone', kwargs={
+                'cohort_pk': g.topic.cohort.pk,
+                'pk': g.pk,
+            }))
+        self.assertEqual(r.status_code, 403)
+
+        self.assertEqual(Graph.objects.count(), 1)
+
+
+class CloneGraphViewTest(LoggedInTestInstructorMixin, TestCase):
+    def setUp(self):
+        super().setUp()
+        self.cohort = CohortFactory()
+        self.cohort.instructors.add(self.u)
+        TopicFactory(cohort=self.cohort)
+        TopicFactory(cohort=self.cohort)
+        self.topic = self.cohort.get_general_topic()
+
+    def test_clone(self):
+        g = GraphFactory(topic=self.topic)
+
+        self.assertEqual(Graph.objects.count(), 1)
+
+        r = self.client.get(
+            reverse('cohort_graph_clone', kwargs={
+                'cohort_pk': self.cohort.pk,
+                'pk': g.pk
+            }))
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, 'Cloning <strong>{}</strong>'.format(g.title))
+
+        # Clone it to this cohort.
+        r = self.client.post(
+            reverse('cohort_graph_clone', kwargs={
+                'cohort_pk': self.cohort.pk,
+                'pk': g.pk,
+            }), {
+                'course': self.cohort.pk
+            }, follow=True)
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, g.title)
+        self.assertContains(r, 'copied to')
+        self.assertContains(r, self.cohort.title)
+
+        new_graph = Graph.objects.filter(
+            topic=self.topic,
+            title='{} (clone)'.format(g.title)).first()
+
+        self.assertEqual(new_graph.topic, self.topic)
+        self.assertEqual(new_graph.author, self.u)
+
+        self.assertEqual(Graph.objects.count(), 2)
+
+        # Clone it to a new cohort.
+        new_cohort = CohortFactory()
+        new_cohort.instructors.add(self.u)
+        new_topic = new_cohort.get_general_topic()
+
+        r = self.client.post(
+            reverse('cohort_graph_clone', kwargs={
+                'cohort_pk': new_cohort.pk,
+                'pk': g.pk,
+            }), {
+                'course': new_cohort.pk
+            }, follow=True)
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, g.title)
+        self.assertContains(r, 'copied to')
+        self.assertContains(r, new_cohort.title)
+
+        self.assertEqual(Graph.objects.count(), 3)
+
+        new_graph = Graph.objects.filter(
+            topic=new_topic,
+            title='{} (clone)'.format(g.title)).first()
+
+        self.assertEqual(new_graph.topic, new_topic)
+        self.assertEqual(new_graph.author, self.u)
 
 
 class FeaturedGraphUpdateViewTest(LoggedInTestInstructorMixin, TestCase):
