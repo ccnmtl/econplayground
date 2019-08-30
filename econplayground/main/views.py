@@ -254,7 +254,13 @@ class CohortDetailView(LoginRequiredMixin, DetailView):
             graphs = graphs.filter(featured=True)
             return graphs.order_by('order')
         elif 'topic' in params:
-            tid = params.get('topic', '')
+            tid = None
+
+            try:
+                tid = int(params.get('topic', ''))
+            except ValueError:
+                return graphs.order_by('title')
+
             if tid:
                 graphs = graphs.filter(topic=tid)
 
@@ -293,7 +299,10 @@ class CohortDetailView(LoginRequiredMixin, DetailView):
             context['featured'] = True
         elif 'topic' in params:
             tid = params.get('topic', '')
-            context['active_topic'] = int(tid)
+            try:
+                context['active_topic'] = int(tid)
+            except ValueError:
+                pass
 
         return context
 

@@ -546,6 +546,12 @@ class CohortDetailInstructorViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertEqual(r.context['topic_list'][3].graph_count(), 0)
         self.assertEqual(r.context['topic_list'][4].graph_count(), 1)
 
+    def test_get_bad_topic(self):
+        r = self.client.get(
+            reverse('cohort_detail', kwargs={'pk': self.cohort.pk}) +
+            '?topic=abc')
+        self.assertEqual(r.status_code, 200)
+
 
 class CohortDetailStudentViewTest(LoggedInTestStudentMixin, TestCase):
     def setUp(self):
