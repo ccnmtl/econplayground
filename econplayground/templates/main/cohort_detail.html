@@ -68,7 +68,11 @@
                         {% endif %}
                     </div>
                     {% empty %}
-                    No graphs here.
+                    <div class="card-body">
+                        <p class="ml-4">
+                            No graphs here.
+                        </p>
+                    </div>
                     {% endfor %}
                 </div>
                 {% elif not active_topic %} {# Renders all graphs #}
