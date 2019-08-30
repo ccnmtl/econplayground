@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
 {% load static bootstrap4 econ_auth %}
 
-{% block title %}Create Topic{% endblock %}
+{% block title %}
+    {% if object %}
+        Update Topic
+    {% else %}
+        Create Topic
+    {% endif %}
+{% endblock %}
 
 {% block breadcrumb %}
     {% if i_am_instructor %}
