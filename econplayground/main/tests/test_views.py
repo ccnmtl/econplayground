@@ -303,7 +303,6 @@ class CohortCreateViewTest(LoggedInTestInstructorMixin, TestCase):
 
         instructor = self.u
 
-        self.client.login(username=instructor.username, password='test')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
@@ -322,6 +321,21 @@ class CohortCreateViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertTrue('<strong>Lorem Ipsum</strong> cohort created'
                         in response.cookies['messages'].value)
 
+        response = self.client.post(url, {'title': 'Course 2'})
+
+        self.assertEqual(instructor.cohort_set.count(), 2)
+        cohort = instructor.cohort_set.filter(title='Course 2').first()
+        self.assertEqual(cohort.title, 'Course 2')
+        self.assertEqual(
+            cohort.instructors.filter(username=self.u.username).count(),
+            1)
+        self.assertEqual(Topic.objects.filter(cohort=cohort).count(), 1)
+        self.assertEqual(
+            Topic.objects.filter(cohort=cohort).first().name, 'General')
+
+        self.assertTrue('<strong>Course 2</strong> cohort created'
+                        in response.cookies['messages'].value)
+
 
 class CohortCreateStudentViewTest(LoggedInTestStudentMixin, TestCase):
     def test_create_cohort(self):
@@ -329,7 +343,6 @@ class CohortCreateStudentViewTest(LoggedInTestStudentMixin, TestCase):
 
         url = reverse('cohort_create')
 
-        self.client.login(username=self.u.username, password='test')
         response = self.client.get(url)
         self.assertEqual(
             response.status_code, 403, 'Students can\'t create cohorts.')
@@ -351,7 +364,6 @@ class CohortUpdateViewTest(LoggedInTestInstructorMixin, TestCase):
 
         instructor = self.u
 
-        self.client.login(username=instructor.username, password='test')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
@@ -367,6 +379,27 @@ class CohortUpdateViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertEqual(
             Topic.objects.filter(cohort=cohort).first().name, 'General')
 
+    def test_edit_wrong_cohort(self):
+        cohort = CohortFactory()
+        title = cohort.title
+        url = reverse('cohort_edit', kwargs={'pk': cohort.pk})
+
+        instructor = self.u
+
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 403)
+
+        response = self.client.post(url, {'title': 'Lorem Ipsum'})
+
+        self.assertEqual(instructor.cohort_set.count(), 1)
+        self.assertEqual(cohort.title, title)
+        self.assertEqual(Topic.objects.filter(cohort=cohort).count(), 1)
+        self.assertEqual(
+            cohort.instructors.filter(username=self.u.username).count(),
+            0)
+        self.assertEqual(
+            Topic.objects.filter(cohort=cohort).first().name, 'General')
+
 
 class CohortUpdateStudentViewTest(LoggedInTestStudentMixin, TestCase):
     def setUp(self):
@@ -378,7 +411,6 @@ class CohortUpdateStudentViewTest(LoggedInTestStudentMixin, TestCase):
 
         url = reverse('cohort_edit', kwargs={'pk': self.cohort.pk})
 
-        self.client.login(username=self.u.username, password='test')
         response = self.client.get(url)
         self.assertEqual(
             response.status_code, 403, 'Students can\'t edit cohorts.')
@@ -404,7 +436,6 @@ class CohortDeleteViewTest(LoggedInTestInstructorMixin, TestCase):
 
         self.assertEqual(instructor.cohort_set.count(), 1)
 
-        self.client.login(username=instructor.username, password='test')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
@@ -429,7 +460,6 @@ class CohortDeleteViewTest(LoggedInTestInstructorMixin, TestCase):
 
         self.assertEqual(instructor.cohort_set.count(), 1)
 
-        self.client.login(username=instructor.username, password='test')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
@@ -448,7 +478,6 @@ class CohortDeleteViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertEqual(instructor.cohort_set.count(), 1)
         self.assertEqual(Cohort.objects.count(), 5)
 
-        self.client.login(username=instructor.username, password='test')
         response = self.client.get(url)
         self.assertEqual(
             response.status_code, 403,
@@ -473,7 +502,6 @@ class CohortDeleteStudentViewTest(LoggedInTestStudentMixin, TestCase):
         self.assertEqual(self.u.cohort_set.count(), 0)
         self.assertEqual(Cohort.objects.count(), 3)
 
-        self.client.login(username=self.u.username, password='test')
         response = self.client.get(url)
         self.assertEqual(
             response.status_code, 403, 'Students can\'t delete cohorts.')
@@ -975,10 +1003,6 @@ class TopicDeleteViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertContains(r, 'Delete')
         self.assertContains(r, 'Cancel')
         self.assertContains(r, self.topic.name)
-        # TODO:
-        # self.assertContains(
-        #     r, 'Are you sure you want to delete the {} topic?'.format(
-        #         self.topic.name))
 
     def test_get_unassociated(self):
         cohort = CohortFactory()
