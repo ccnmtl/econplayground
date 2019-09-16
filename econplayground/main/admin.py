@@ -18,6 +18,7 @@ class GraphAdmin(OrderedModelAdmin):
     model = Graph
     list_display = ('title', 'move_up_down_links')
     list_filter = ('featured',)
+    ordering = ('title',)
 
 
 class FeaturedGraph(Graph):
