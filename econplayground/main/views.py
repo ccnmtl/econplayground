@@ -342,31 +342,6 @@ class CohortUpdateView(LoginRequiredMixin, CohortInstructorMixin, UpdateView):
         return reverse('cohort_detail', kwargs={'pk': self.object.pk})
 
 
-class CohortDeleteView(LoginRequiredMixin, CohortInstructorMixin, DeleteView):
-    model = Cohort
-
-    def delete(self, request, *args, **kwargs):
-        pk = kwargs.get('pk', None)
-        cohort = get_object_or_404(Cohort, pk=pk)
-        if (cohort == Cohort.objects.order_by('created_at').first()) or (
-                cohort.title == 'Tom\'s Course'):
-            messages.add_message(
-                request, messages.INFO,
-                '<strong>{}</strong> can\'t be deleted.'.format(cohort.title),
-                extra_tags='safe')
-            return HttpResponseRedirect(reverse('cohort_list'))
-
-        return super(CohortDeleteView, self).delete(request, *args, **kwargs)
-
-    def get_success_url(self):
-        messages.add_message(
-            self.request, messages.SUCCESS,
-            '<strong>{}</strong> has been deleted.'.format(self.object.title),
-            extra_tags='safe')
-
-        return reverse('cohort_list')
-
-
 class CohortListView(LoginRequiredMixin, ListView):
     model = Cohort
 
