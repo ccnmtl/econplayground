@@ -109,7 +109,13 @@ class GraphCloneFormView(LoginRequiredMixin, CohortInstructorMixin,
         g_topic = cohort.get_general_topic()
 
         cloned = self.object.clone()
-        cloned.title = '{} (clone)'.format(self.object.title)
+
+        cloned.title = self.object.title
+        if cohort == self.object.topic.cohort:
+            # If this graph got cloned to the same course,
+            # differentiate it in the title.
+            cloned.title = cloned.title + ' (clone)'
+
         cloned.author = self.request.user
         cloned.topic = g_topic
         cloned.is_published = False

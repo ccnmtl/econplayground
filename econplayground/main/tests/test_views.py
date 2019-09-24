@@ -98,6 +98,7 @@ class CloneGraphViewTest(LoggedInTestInstructorMixin, TestCase):
             topic=self.topic,
             title='{} (clone)'.format(g.title)).first()
 
+        self.assertEqual(new_graph.title, g.title + ' (clone)')
         self.assertEqual(new_graph.topic, self.topic)
         self.assertEqual(new_graph.author, self.u)
 
@@ -124,8 +125,9 @@ class CloneGraphViewTest(LoggedInTestInstructorMixin, TestCase):
 
         new_graph = Graph.objects.filter(
             topic=new_topic,
-            title='{} (clone)'.format(g.title)).first()
+            title=g.title).first()
 
+        self.assertEqual(new_graph.title, g.title)
         self.assertEqual(new_graph.topic, new_topic)
         self.assertEqual(new_graph.author, self.u)
 
