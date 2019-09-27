@@ -37,6 +37,7 @@ class Cohort(models.Model):
     """
     title = models.CharField(max_length=256, verbose_name='Course Title')
     description = models.TextField(null=True, blank=True)
+    password = models.CharField(max_length=256, null=True, blank=True)
 
     instructors = models.ManyToManyField(User)
 

@@ -315,7 +315,7 @@ class CohortDetailView(LoginRequiredMixin, DetailView):
 
 class CohortCreateView(EnsureCsrfCookieMixin, UserPassesTestMixin, CreateView):
     model = Cohort
-    fields = ['title', 'description']
+    fields = ['title', 'description', 'password']
 
     def test_func(self):
         return user_is_instructor(self.request.user)
@@ -342,7 +342,7 @@ class CohortCreateView(EnsureCsrfCookieMixin, UserPassesTestMixin, CreateView):
 
 class CohortUpdateView(LoginRequiredMixin, CohortInstructorMixin, UpdateView):
     model = Cohort
-    fields = ['title',  'description']
+    fields = ['title',  'description', 'password']
 
     def get_success_url(self):
         return reverse('cohort_detail', kwargs={'pk': self.object.pk})
