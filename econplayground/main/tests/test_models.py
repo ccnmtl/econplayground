@@ -15,10 +15,13 @@ class GraphTest(TestCase):
 
     def test_is_valid_from_factory(self):
         self.x.full_clean()
+        self.assertIsInstance(self.x.assessment, Assessment)
 
     def test_clone(self):
         original = GraphFactory(title='cloned graph')
-        cloned = original.clone()
+
+        cloned_pk = original.clone().pk
+        cloned = Graph.objects.get(pk=cloned_pk)
 
         self.assertNotEqual(original.pk, cloned.pk)
         self.assertEqual(original.title, 'cloned graph')
@@ -28,7 +31,16 @@ class GraphTest(TestCase):
         original.save()
         cloned.save()
 
+        original.refresh_from_db()
+        cloned.refresh_from_db()
+        original.full_clean()
+        cloned.full_clean()
+
         self.assertNotEqual(original.pk, cloned.pk)
+        self.assertNotEqual(
+            cloned.assessment.pk, original.assessment.pk,
+            'The clone operation clones the assessment as well.')
+        self.assertIsInstance(cloned.assessment, Assessment)
         self.assertEqual(original.title, 'cloned graph')
         self.assertEqual(cloned.title, 'new title')
         self.assertEqual(original.graph_type, cloned.graph_type)

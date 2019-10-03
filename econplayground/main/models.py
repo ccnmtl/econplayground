@@ -412,6 +412,12 @@ class Assessment(models.Model):
         return 'Assessment for: {}'.format(self.graph.title)
 
 
+@receiver(post_save, sender=Graph)
+def create_assessment(sender, instance, created, **kwargs):
+    if created:
+        Assessment.objects.create(graph=instance)
+
+
 class AssessmentRule(models.Model):
     assessment = models.ForeignKey(Assessment, on_delete=models.CASCADE)
     name = models.TextField()
