@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
 import factory
 from factory import fuzzy
 from econplayground.main.models import (
@@ -112,6 +113,7 @@ class SubmissionFactory(factory.DjangoModelFactory):
     score = fuzzy.FuzzyDecimal(0.0, 1.0)
 
 
+@factory.django.mute_signals(post_save)
 class AssessmentFactory(factory.DjangoModelFactory):
     class Meta:
         model = Assessment
@@ -119,6 +121,7 @@ class AssessmentFactory(factory.DjangoModelFactory):
     graph = factory.SubFactory(GraphFactory)
 
 
+@factory.django.mute_signals(post_save)
 class AssessmentRuleFactory(factory.DjangoModelFactory):
     class Meta:
         model = AssessmentRule
