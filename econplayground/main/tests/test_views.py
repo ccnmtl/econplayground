@@ -951,3 +951,51 @@ class TopicDeleteViewTest(LoggedInTestInstructorMixin, TestCase):
 
         graph.refresh_from_db()
         self.assertEqual(graph.topic, cohort.get_general_topic())
+
+
+class CohortPasswordViewTest(LoggedInTestMixin, TestCase):
+    def setUp(self):
+        super(CohortPasswordViewTest, self).setUp()
+        cohort = CohortFactory(password='course password')
+        topic = TopicFactory(cohort=cohort)
+        self.g = GraphFactory(topic=topic)
+
+    def test_get(self):
+        r = self.client.get(
+            reverse('cohort_password', kwargs={
+                'pk': self.g.topic.cohort.pk,
+            }))
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, 'Password Required')
+
+        r = self.client.post(
+            reverse('cohort_password', kwargs={
+                'pk': self.g.topic.cohort.pk,
+            }), {
+                'password': self.g.topic.cohort.password
+            }, follow=True)
+
+        self.assertEqual(r.status_code, 200)
+        self.assertNotContains(r, 'Password Required')
+        self.assertContains(r, self.g.topic.cohort.title)
+
+
+class CohortPasswordGraphDetailViewTest(LoggedInTestMixin, TestCase):
+    def setUp(self):
+        super(CohortPasswordGraphDetailViewTest, self).setUp()
+        cohort = CohortFactory(password='course password')
+        topic = TopicFactory(cohort=cohort)
+        self.g = GraphFactory(topic=topic)
+
+    def test_get(self):
+        r = self.client.get(reverse('graph_detail', kwargs={'pk': self.g.pk}))
+        self.assertEqual(r.status_code, 302)
+
+        r = self.client.get(
+            reverse('cohort_graph_detail', kwargs={
+                'cohort_pk': self.g.topic.cohort.pk,
+                'pk': self.g.pk,
+            }), follow=True)
+        self.assertEqual(r.status_code, 200)
+        self.assertNotContains(r, self.g.title)
+        self.assertContains(r, 'Password Required')

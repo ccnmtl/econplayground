@@ -1,3 +1,4 @@
+import hashlib
 from braces.views import CsrfExemptMixin
 from braces.views._ajax import JSONResponseMixin
 from django.conf import settings
@@ -27,7 +28,10 @@ from lti_provider.mixins import LTIAuthMixin
 from lti_provider.views import LTILandingPage
 
 from econplayground.main.forms import GraphCloneForm
-from econplayground.main.mixins import CohortMixin, CohortInstructorMixin
+from econplayground.main.mixins import (
+    CohortGraphMixin, CohortPasswordMixin,
+    CohortInstructorMixin
+)
 from econplayground.main.models import Cohort, Graph, Submission, Topic
 from econplayground.main.utils import user_is_instructor
 
@@ -166,7 +170,7 @@ class FeaturedGraphUpdateView(
         })
 
 
-class GraphDetailView(LoginRequiredMixin, CohortMixin, DetailView):
+class GraphDetailView(CohortGraphMixin, CohortPasswordMixin, DetailView):
     model = Graph
 
     def embed_url(self, name='graph_embed'):
@@ -212,12 +216,13 @@ class GraphEmbedView(CsrfExemptMixin, LTIAuthMixin, DetailView):
         return HttpResponseRedirect(url)
 
 
-class GraphEmbedPublicView(DetailView):
+class GraphEmbedPublicView(CohortGraphMixin, CohortPasswordMixin, DetailView):
     model = Graph
     template_name = 'main/graph_embed_public.html'
 
 
-class GraphEmbedPublicMinimalView(DetailView):
+class GraphEmbedPublicMinimalView(
+        CohortGraphMixin, CohortPasswordMixin, DetailView):
     model = Graph
     template_name = 'main/graph_embed_public_minimal.html'
 
@@ -243,7 +248,7 @@ class MyLTILandingPage(LTILandingPage):
         return ctx
 
 
-class CohortDetailView(LoginRequiredMixin, DetailView):
+class CohortDetailView(CohortPasswordMixin, DetailView):
     model = Cohort
 
     def get_graph_queryset(self):
@@ -311,6 +316,27 @@ class CohortDetailView(LoginRequiredMixin, DetailView):
                 pass
 
         return context
+
+
+class CohortPasswordView(DetailView):
+    model = Cohort
+    template_name = 'main/cohort_password_form.html'
+
+    def post(self, request, pk):
+        cohort = self.get_object()
+        user_pass = request.POST.get('password')
+
+        if cohort.password.strip() == user_pass.strip():
+            hashed_pass = hashlib.sha224(
+               cohort.password.strip().encode('utf-8')).hexdigest()
+            request.session['cohort_{}'.format(cohort.pk)] = hashed_pass
+            url = reverse('cohort_detail', kwargs={'pk': cohort.pk})
+        else:
+            messages.error(
+                self.request, 'Incorrect Password')
+            url = reverse('cohort_password', kwargs={'pk': cohort.pk})
+
+        return HttpResponseRedirect(url)
 
 
 class CohortCreateView(EnsureCsrfCookieMixin, UserPassesTestMixin, CreateView):
