@@ -379,12 +379,7 @@ class CohortListView(LoginRequiredMixin, ListView):
 
     def dispatch(self, request, *args, **kwargs):
         if not user_is_instructor(request.user):
-            # Redirect students to Tom's Course for now.
-            url = reverse(
-                'cohort_detail',
-                kwargs={
-                    'pk': Cohort.objects.order_by('created_at').first().pk
-                })
+            url = '/accounts/login/'
             return HttpResponseRedirect(url)
 
         return super(CohortListView, self).dispatch(request, *args, **kwargs)
