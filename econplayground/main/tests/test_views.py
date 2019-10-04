@@ -7,7 +7,7 @@ from econplayground.main.tests.factories import (
 from econplayground.main.tests.mixins import (
     LoggedInTestMixin, LoggedInTestInstructorMixin, LoggedInTestStudentMixin
 )
-from econplayground.main.models import Cohort, Graph, Topic
+from econplayground.main.models import Graph, Topic
 
 
 class BasicTest(TestCase):
@@ -285,14 +285,12 @@ class CohortListStudentViewTest(LoggedInTestStudentMixin, TestCase):
         r = self.client.get(reverse('cohort_list'), follow=True)
         self.assertEqual(r.status_code, 200)
 
-        first_course = Cohort.objects.order_by('created_at').first()
         self.assertEqual(
             r.request.get('PATH_INFO'),
-            reverse('cohort_detail', kwargs={'pk': first_course.pk}),
-            'Accessing cohort list page as a student '
-            'redirects to first course.')
+            '/accounts/login/',
+            'Accessing course list page as a student redirects to login page.')
 
-        self.assertContains(r, 'Tom&#39;s Course')
+        self.assertContains(r, 'Log In')
 
 
 class CohortCreateViewTest(LoggedInTestInstructorMixin, TestCase):
