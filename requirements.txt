@@ -80,7 +80,7 @@ django-storages==1.7.2
 django-cacheds3storage==0.2.1
 
 djangorestframework==3.10.2
-Willow==1.2
+Willow==1.3
 text-unidecode==1.3  # for faker
 html5lib==1.0.1
 
