@@ -67,7 +67,7 @@ INSTALLED_APPS = [  # noqa
     'ordered_model',
 ]
 
-CONTACT_US_EMAIL = 'ctl-econ-playground@columbia.edu'
+CONTACT_US_EMAIL = 'econpractice@columbia.edu'
 
 THUMBNAIL_SUBDIR = "thumbs"
 LOGIN_REDIRECT_URL = "/"
