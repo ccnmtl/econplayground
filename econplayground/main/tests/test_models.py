@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.db.utils import IntegrityError
-from econplayground.main.models import Assessment, Graph, Topic
+from econplayground.main.models import Assessment, Cohort, Graph, Topic
 from econplayground.main.tests.factories import (
     InstructorFactory,
     GraphFactory, JXGLineFactory, JXGLineTransformationFactory,
@@ -204,3 +204,18 @@ class CohortTest(TestCase):
 
     def test_is_valid_from_factory(self):
         self.x.full_clean()
+
+    def test_clone(self):
+        GraphFactory(topic=self.x.get_general_topic())
+        GraphFactory(topic=self.x.get_general_topic())
+
+        self.assertEqual(Graph.objects.count(), 2)
+        self.assertEqual(Topic.objects.count(), 2)
+        self.assertEqual(Cohort.objects.count(), 2)
+        self.assertEqual(self.x.graph_count(), 2)
+        cloned = self.x.clone()
+        self.assertNotEqual(cloned.pk, self.x.pk)
+        self.assertEqual(cloned.graph_count(), 2)
+        self.assertEqual(Graph.objects.count(), 4)
+        self.assertEqual(Topic.objects.count(), 3)
+        self.assertEqual(Cohort.objects.count(), 3)

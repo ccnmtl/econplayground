@@ -40,6 +40,7 @@ class Cohort(models.Model):
     password = models.CharField(max_length=256, null=True, blank=True)
 
     instructors = models.ManyToManyField(User)
+    is_sample = models.BooleanField(null=True, blank=True, unique=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -56,6 +57,27 @@ class Cohort(models.Model):
 
     def __str__(self):
         return '{} (id:{})'.format(self.title, self.pk)
+
+    def clone(self):
+        c = copy.copy(self)
+        c.pk = None
+        c.save()
+
+        # Clone the topics.
+        for topic in self.topic_set.all():
+            if topic.name == 'General':
+                # The General topic is created automatically in the
+                # post_save hook.
+                cloned_topic = c.get_general_topic()
+            else:
+                cloned_topic = Topic.objects.create(cohort=c, name=topic.name)
+
+            for graph in topic.graph_set.all():
+                cloned_graph = graph.clone()
+                cloned_graph.topic = cloned_topic
+                cloned_graph.save()
+
+        return c
 
 
 class Topic(OrderedModel):
