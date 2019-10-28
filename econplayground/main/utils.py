@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib.auth.models import Group
 
 INSTRUCTOR_LIST = ['tg2451']
 
@@ -10,4 +11,12 @@ def user_is_instructor(user):
     except AttributeError:
         instructor_list = INSTRUCTOR_LIST
 
-    return (user.username in instructor_list) or user.is_staff
+    try:
+        instructors_group = Group.objects.get(name='instructors')
+    except Group.DoesNotExist:
+        instructors_group = None
+
+    return (instructors_group and
+            (instructors_group in user.groups.all())) or \
+        (user.username in instructor_list) or \
+        user.is_staff
