@@ -386,8 +386,29 @@ class CohortListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(CohortListView, self).get_context_data(**kwargs)
+
+        # This area should never be reached if this user isn't an instructor,
+        # but just in case.
+        if not user_is_instructor(self.request.user):
+            return context
+
+        # Create a clone of the sample course if this user has no
+        # courses.
+        if Cohort.objects.filter(
+                instructors__in=(self.request.user,)).count() == 0:
+            try:
+                sample_course = Cohort.objects.get(is_sample=True)
+            except Cohort.DoesNotExist:
+                sample_course = None
+
+            if sample_course:
+                cloned_sample = sample_course.clone()
+                cloned_sample.instructors.clear()
+                cloned_sample.instructors.add(self.request.user)
+
         context['cohorts'] = Cohort.objects.filter(
             instructors__in=(self.request.user,))
+
         return context
 
 

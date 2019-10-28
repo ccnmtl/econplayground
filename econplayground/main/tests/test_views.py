@@ -278,6 +278,27 @@ class CohortListInstructorViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertContains(r, my_cohort.title)
         self.assertContains(r, my_cohort.description)
 
+    def test_get_sample_course_creation(self):
+        cohort = CohortFactory()
+        sample_cohort = CohortFactory(title='Sample Course', is_sample=True)
+
+        self.assertEqual(self.u.cohort_set.count(), 0)
+
+        r = self.client.get(reverse('cohort_list'))
+
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, 'My Courses')
+
+        self.assertEqual(self.u.cohort_set.count(), 1)
+
+        # Hide cohorts this instructor isn't a part of.
+        self.assertNotContains(r, cohort.title)
+
+        self.assertContains(r, 'Create a new course.')
+
+        self.assertContains(r, sample_cohort.title)
+        self.assertContains(r, sample_cohort.description)
+
 
 class CohortListStudentViewTest(LoggedInTestStudentMixin, TestCase):
     def test_get(self):

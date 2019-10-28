@@ -219,3 +219,13 @@ class CohortTest(TestCase):
         self.assertEqual(Graph.objects.count(), 4)
         self.assertEqual(Topic.objects.count(), 3)
         self.assertEqual(Cohort.objects.count(), 3)
+
+        # Test that cloning the sample course works too.
+        sample = CohortFactory(is_sample=True)
+        cloned = sample.clone()
+        self.assertNotEqual(cloned.pk, sample.pk)
+        self.assertFalse(cloned.is_sample)
+        self.assertEqual(cloned.graph_count(), 0)
+        self.assertEqual(Graph.objects.count(), 4)
+        self.assertEqual(Topic.objects.count(), 5)
+        self.assertEqual(Cohort.objects.count(), 5)
