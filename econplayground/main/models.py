@@ -61,6 +61,7 @@ class Cohort(models.Model):
     def clone(self):
         c = copy.copy(self)
         c.pk = None
+        c.is_sample = None
         c.save()
 
         # Clone the topics.
