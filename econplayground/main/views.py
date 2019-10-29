@@ -394,8 +394,8 @@ class CohortListView(LoginRequiredMixin, ListView):
 
         # Create a clone of the sample course if this user has no
         # courses.
-        if Cohort.objects.filter(
-                instructors__in=(self.request.user,)).count() == 0:
+        if not Cohort.objects.filter(
+                instructors__in=(self.request.user,)).exists():
             try:
                 sample_course = Cohort.objects.get(is_sample=True)
             except Cohort.DoesNotExist:
