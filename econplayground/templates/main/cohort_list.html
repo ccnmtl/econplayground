@@ -8,7 +8,7 @@
         <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
             <h1>My Courses</h1>
 
-            <div class="d-flex align-content-stretch flex-wrap">
+            <div class="card-columns">
                 {% user_is_instructor request.user as i_am_instructor %}
                 {% if i_am_instructor %}
                     <div class="card darkslate card-shadow">
