@@ -7,13 +7,13 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="{% url 'cohort_list' %}">
+                <a href="{% url 'cohort_list' %}" title="Course List">
                     {% include 'main/your_cohorts_snippet.html' %}
                 </a>
             </li>
             {% if cohort %}
                 <li class="breadcrumb-item">
-                    <a href="{% url 'cohort_detail' object.pk %}">
+                    <a href="{% url 'cohort_detail' object.pk %}" title="{{object.title}}">
                         {{ object.title|truncatewords:5 }}
                     </a>
                 </li>

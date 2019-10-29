@@ -8,12 +8,12 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="{% url 'cohort_list' %}">
+                <a href="{% url 'cohort_list' %}" title="Course List">
                     {% include 'main/your_cohorts_snippet.html' %}
                 </a>
             </li>
             <li class="breadcrumb-item">
-                <a href="{% url 'cohort_detail' cohort.pk %}">
+                <a href="{% url 'cohort_detail' cohort.pk %}" title="{{cohort.title}}">
                     {{ cohort.title|truncatewords:5 }}
                 </a>
             </li>
@@ -37,7 +37,7 @@
                     {% for graph in object_list %}
                         <li class="list-group-item d-flex flex-row align-items-center">
                             <div class="graph-title mr-auto">
-                                <a href="{% url 'cohort_graph_detail' cohort.pk graph.pk %}">
+                                <a href="{% url 'cohort_graph_detail' cohort.pk graph.pk %}" title="{{graph.title}}">
                                     {{graph.title}}
                                 </a>
                             </div>

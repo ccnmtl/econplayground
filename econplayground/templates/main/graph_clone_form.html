@@ -7,17 +7,17 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="{% url 'cohort_list' %}">
+                <a href="{% url 'cohort_list' %}" title="Course List">
                     {% include 'main/your_cohorts_snippet.html' %}
                 </a>
             </li>
             <li class="breadcrumb-item">
-                <a href="{% url 'cohort_detail' cohort.pk %}">
+                <a href="{% url 'cohort_detail' cohort.pk %}" title="{{cohort.title}}">
                     {{ cohort.title|truncatewords:5 }}
                 </a>
             </li>
             <li class="breadcrumb-item">
-                <a href="{% url 'cohort_graph_detail' cohort.pk object.pk %}">
+                <a href="{% url 'cohort_graph_detail' cohort.pk object.pk %}" title="{{object.title}}">
                     {{ object.title|truncatewords:5 }}
                 </a>
             </li>
