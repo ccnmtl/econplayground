@@ -1,10 +1,9 @@
 #cohort-listing {
     .card {
         cursor: pointer;
-        max-width: calc(31% - 15px);
-        min-width: calc(31% - 15px);
-        margin-bottom: 2rem;
-        margin-right: 1rem;
+
+        // https://getbootstrap.com/docs/4.3/components/card/#card-columns
+        display: inline-block;
 
         .card-body {
             display: flex;
