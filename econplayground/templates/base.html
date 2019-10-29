@@ -67,8 +67,12 @@
 
 {% user_is_instructor request.user as i_am_instructor %}
 <body class="{% block bodyclass %}{% endblock %}" id="{% block bodyid %}{% endblock %}">
+    <div id="skip">
+        <a href="#maincontent">Skip to main content</a>
+    </div>
+
     {% block content-container %}
-    <main role="main" class="container content-container">
+    <div class="container content-container">
         {% block navbar %}
             <header>
                 <!-- Fixed navbar -->
@@ -125,8 +129,10 @@
         </div>
         {% endfor %}
 
+        <main role="main" id="maincontent">
         {% block content %}
         {% endblock %}
+        </main>
 
         <footer class="base-footer">
             <ul class="footer-navigation">
@@ -153,7 +159,7 @@
             </ul>
 
         </footer>
-    </main>
+    </div><!-- end .content-container -->
     {% endblock %}
 
     <script>
