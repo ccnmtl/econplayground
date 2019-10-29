@@ -14,17 +14,17 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="{% url 'cohort_list' %}">
+                <a href="{% url 'cohort_list' %}" title="Course List">
                     {% include 'main/your_cohorts_snippet.html' %}
                 </a>
             </li>
             <li class="breadcrumb-item">
-                <a href="{% url 'cohort_detail' cohort.pk %}">
+                <a href="{% url 'cohort_detail' cohort.pk %}" title="{{cohort.title}}">
                     {{ cohort.title|truncatewords:5 }}
                 </a>
             </li>
             <li class="breadcrumb-item">
-                <a href="{% url 'topic_list' cohort.pk %}">
+                <a href="{% url 'topic_list' cohort.pk %}" title="Manage Topics">
                     Manage Topics
                 </a>
             </li>

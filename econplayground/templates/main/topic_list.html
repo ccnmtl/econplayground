@@ -8,12 +8,12 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="{% url 'cohort_list' %}">
+                <a href="{% url 'cohort_list' %}" title="Course List">
                     {% include 'main/your_cohorts_snippet.html' %}
                 </a>
             </li>
             <li class="breadcrumb-item">
-                <a href="{% url 'cohort_detail' cohort.pk %}">
+                <a href="{% url 'cohort_detail' cohort.pk %}" title="{{cohort.title}}">
                     {{ cohort.title|truncatewords:5 }}
                 </a>
             </li>
@@ -46,7 +46,9 @@
                                 {% if topic.name == 'General' %}
                                     <strong>{{topic.name}}</strong>
                                 {% else %}
-                                    <a href="{% url 'topic_edit' cohort.pk topic.pk %}">{{topic.name}}</a>
+                                    <a href="{% url 'topic_edit' cohort.pk topic.pk %}" title="Edit {{topic.name}}">
+                                        {{topic.name}}
+                                    </a>
                                 {% endif %}
                             </div>
 

@@ -12,7 +12,7 @@
                 {% user_is_instructor request.user as i_am_instructor %}
                 {% if i_am_instructor %}
                     <div class="card darkslate card-shadow">
-                        <a href="{% url 'cohort_create' %}">
+                        <a href="{% url 'cohort_create' %}" title="Create Course">
                             <div class="card-body">
                                 <h2 class="card-title">
                                     New Course
@@ -27,7 +27,7 @@
 
                 {% for cohort in request.user.cohort_set.all %}
                     <div class="card lightslate card-shadow">
-                        <a href="{% url 'cohort_detail' cohort.pk %}">
+                        <a href="{% url 'cohort_detail' cohort.pk %}" title="{{cohort.title}}">
                             <div class="card-body">
                                 <h2 class="card-title">{{cohort.title}}</h2>
                                 <p class="card-text">
