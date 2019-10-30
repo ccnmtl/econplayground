@@ -15,6 +15,14 @@ auth_urls = path('accounts/', include('django.contrib.auth.urls'))
 if hasattr(settings, 'CAS_BASE'):
     auth_urls = path('accounts/', include('djangowind.urls'))
 
+
+# A route for triggering a sentry error.
+# https://docs.sentry.io/platforms/python/django/
+def trigger_error(request):
+    division_by_zero = 1 / 0
+    print(division_by_zero)
+
+
 urlpatterns = [
     path('accounts/login/', views.LoginView.as_view()),
     path('accounts/logout/', views.LogoutView.as_view()),
@@ -88,6 +96,8 @@ urlpatterns = [
     path('lti/landing/', views.MyLTILandingPage.as_view()),
     path('lti/', include('lti_provider.urls')),
     path('contact/', include('contactus.urls')),
+
+    path('sentry-debug/', trigger_error),
 ]
 
 if settings.DEBUG:

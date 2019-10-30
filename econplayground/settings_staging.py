@@ -1,6 +1,9 @@
 # flake8: noqa
 from econplayground.settings_shared import *
 from ccnmtlsettings.staging import common
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
 
 locals().update(
     common(
@@ -20,3 +23,8 @@ except ImportError:
     pass
 
 SENTRY_DSN = 'https://228b00835993445782defce7ab192600@sentry.io/230935'
+
+sentry_sdk.init(
+    dsn=SENTRY_DSN,
+    integrations=[DjangoIntegration()]
+)
