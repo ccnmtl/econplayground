@@ -28,7 +28,7 @@
         <header>
             <!-- Fixed navbar -->
             <nav class="navbar navbar-expand-md navbar-dark bg-bright-blue hp-nav">
-                <a class="navbar-brand" href="/">
+                <a class="navbar-brand" href="/" title="EconPractice Home">
                     <img src="{% static 'img/logo-econpractice.svg' %}" width="200" height="39.78" alt="EconPractice logo" />
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -41,7 +41,7 @@
                 <ul class="navbar-nav">
                     {% if not request.user.is_anonymous %}
                     <li class="nav-item">
-                        <a class="nav-link" href="/">Hi,
+                        <a class="nav-link" href="/" title="EconPractice Home">Hi,
                             {% if user.first_name %}
                             {{user.first_name}}!
                             {% else %}
@@ -51,10 +51,10 @@
                     </li>
                     {% endif %}
                     <li class="nav-item">
-                        <a class="nav-link" href="/about/">About</a>
+                        <a class="nav-link" title="About" href="/about/">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/contact/">Contact</a>
+                        <a class="nav-link" title="Contact" href="/contact/">Contact</a>
                     </li>
                 </ul>
             </div>
@@ -70,7 +70,7 @@
 
                 <p class="lead">BETA VERSION</p>
 
-                <a class="btn btn-lg btn-secondary" id="login-link" href="#" data-toggle="modal" data-target="#login-modal">Log In</a>
+                <a class="btn btn-lg btn-secondary" id="login-link" href="#" title="Log In" data-toggle="modal" data-target="#login-modal">Log In</a>
             </main>
         </div>
     </div>
