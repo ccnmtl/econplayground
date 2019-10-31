@@ -77,7 +77,7 @@
             <header>
                 <!-- Fixed navbar -->
                 <nav class="navbar navbar-expand-lg navbar-dark">
-                    <a class="navbar-brand" href="/">
+                    <a class="navbar-brand" href="/" title="EconPractice Home">
                         <img src="{% static 'img/logo-econpractice.svg' %}" width="200" height="39.78" alt="EconPractice logo" />
                     </a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -91,21 +91,22 @@
                                 <li class="nav-item">
                                     {% url 'cohort_graph_create' cohort.pk as the_url %}
                                     <a class="nav-link {% if request.path == the_url %}active{% endif %}"
+                                       title="Create Graph"
                                        href="{{the_url}}"
                                     >Create Graph</a>
                                 </li>
                             {% endif %}
                             <li class="nav-item">
-                                <a class="nav-link" href="/help/">Help</a>
+                                <a class="nav-link" title="Help" href="/help/">Help</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/about/">About</a>
+                                <a class="nav-link" title="About" href="/about/">About</a>
                             </li>
                             <li class="nav-item">
                                 {% if request.user.is_anonymous %}
-                                    <a class="nav-link" href="/accounts/login/?next=/"><span title="Log In">Log In</span></a>
+                                    <a class="nav-link" title="Log In" href="/accounts/login/?next=/"><span title="Log In">Log In</span></a>
                                 {% else %}
-                                    <a class="nav-link" href="/accounts/logout/?next=/"><span title="Log Out">
+                                    <a class="nav-link" title="Log Out" href="/accounts/logout/?next=/"><span title="Log Out">
                                         {% if user.first_name %}
                                             {{user.first_name}}
                                         {% else %}
