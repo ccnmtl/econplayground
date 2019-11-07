@@ -4,26 +4,30 @@
 {% block title %}Graph: {{object.title}}{% endblock %}
 
 {% block css %}
-   <link href="{% static 'css/main.css' %}" rel="stylesheet">
-   <link href="{% static 'css/embed.css' %}" rel="stylesheet">
-   <link href="{% static 'css/octicons.css' %}" rel="stylesheet">
-   <link rel="stylesheet" href="{% static 'css/epjs.css' %}">
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    <link href="{% static 'css/embed.css' %}" rel="stylesheet">
+    <link href="{% static 'css/octicons.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/epjs.css' %}">
 {% endblock %}
 
 {% block js %}
-                <script>
-                if (!window.EconPlayground) {
-                    window.EconPlayground = {};
-                }
+    <script>
+    if (!window.EconPlayground) {
+        window.EconPlayground = {};
+    }
 
-                window.EconPlayground['isInstructor'] = false;
-                window.EconPlayground['hideTitleAndInstructions'] = false;
-                </script>
+    window.EconPlayground['isInstructor'] = false;
+    window.EconPlayground['hideTitleAndInstructions'] = false;
+    </script>
     <script src="{% static 'econplayground.js/viewer.js' %}"></script>
 {% endblock %}
 
 {% user_is_instructor request.user as i_am_instructor %}
 {% block content %}
+    <p class="accessibility-note">
+        This is an interactive line graph. Please ask your instructor
+        for an alternative format for this exercise if necessary.
+    </p>
     <div id="root">
         <div class="loader-inner ball-pulse">
             <div></div>

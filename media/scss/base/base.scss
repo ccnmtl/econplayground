@@ -42,7 +42,7 @@ select {
     }
 }
 
-#skip a {
+#skip a, .accessibility-note {
     position: absolute;
     left: -10000px;
     top: auto;
