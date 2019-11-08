@@ -1,4 +1,5 @@
 # flake8: noqa
+from django.conf import settings
 from econplayground.settings_shared import *
 from ccnmtlsettings.production import common
 import sentry_sdk
@@ -21,7 +22,8 @@ try:
 except ImportError:
     pass
 
-sentry_sdk.init(
-    dsn=SENTRY_DSN,
-    integrations=[DjangoIntegration()]
-)
+if hasattr(settings, 'SENTRY_DSN'):
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[DjangoIntegration()]
+    )
