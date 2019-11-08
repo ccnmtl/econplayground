@@ -22,8 +22,6 @@ try:
 except ImportError:
     pass
 
-SENTRY_DSN = 'https://228b00835993445782defce7ab192600@sentry.io/230935'
-
 sentry_sdk.init(
     dsn=SENTRY_DSN,
     integrations=[DjangoIntegration()],
