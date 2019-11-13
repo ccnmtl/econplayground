@@ -1,6 +1,7 @@
-# VERSION=1.7.0
+# VERSION=1.8.0
 
 # CHANGES:
+# 1.8.0 - 2019-10-21 - Don't run flake8 on local_settings.py
 # 1.7.0 - 2018-05-31 - Now using python 3 by default
 #                    - Removed virtualenv.py in favor of python 3's
 #                      builtin venv capability.
@@ -17,8 +18,8 @@ MANAGE ?= ./manage.py
 REQUIREMENTS ?= requirements.txt
 SYS_PYTHON ?= python3
 PY_SENTINAL ?= $(VE)/sentinal
-WHEEL_VERSION ?= 0.33.4
-PIP_VERSION ?= 19.1.1
+WHEEL_VERSION ?= 0.33.6
+PIP_VERSION ?= 19.3
 MAX_COMPLEXITY ?= 10
 INTERFACE ?= localhost
 RUNSERVER_PORT ?= 8000
@@ -57,7 +58,7 @@ bandit: $(PY_SENTINAL)
 	$(BANDIT) --ini ./.bandit -r $(PY_DIRS)
 
 flake8: $(PY_SENTINAL)
-	$(FLAKE8) $(PY_DIRS) --max-complexity=$(MAX_COMPLEXITY) --exclude=*/migrations/*.py --extend-ignore=$(FLAKE8_IGNORE)
+	$(FLAKE8) $(PY_DIRS) --max-complexity=$(MAX_COMPLEXITY) --exclude=*/local_settings.py,*/migrations/*.py --extend-ignore=$(FLAKE8_IGNORE)
 
 runserver: check
 	$(MANAGE) runserver $(INTERFACE):$(RUNSERVER_PORT)
