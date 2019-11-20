@@ -69,6 +69,14 @@ INSTALLED_APPS = [  # noqa
 
 CONTACT_US_EMAIL = 'econpractice@columbia.edu'
 
+CONTACTUS_SUBJECT_CHOICES = (
+    ('-----', '-----'),
+    ('info', 'Request more information'),
+    ('requestaccount', 'Request instructor account'),
+    ('bug', 'Correction or bug report'),
+    ('other', 'Other (please specify)'),
+)
+
 THUMBNAIL_SUBDIR = "thumbs"
 LOGIN_REDIRECT_URL = "/"
 
