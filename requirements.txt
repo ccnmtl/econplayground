@@ -1,4 +1,4 @@
-Django==2.2.4
+Django==2.2.7
 pytz==2019.3
 httplib2==0.14.0
 feedparser==5.2.1
@@ -63,9 +63,6 @@ django-debug-toolbar==2.0
 django-waffle==0.18.0
 django-jenkins==0.110.0
 django-smoketest==1.1.0
-
-# For django-extensions
-typing==3.7.4; python_version < '3.5'
 
 django-extensions==2.2.5
 django-stagingcontext==0.1.0
