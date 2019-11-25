@@ -94,7 +94,7 @@ django-smtp-ssl==1.0
 django-contact-us==0.4.3
 docutils==0.15.2  # Django's admindocs
 
-pbr==5.4.3  # bandit
+pbr==5.4.4  # bandit
 pyyaml==5.1.2  # bandit
 stevedore==1.31.0  # bandit
 bandit==1.6.2
