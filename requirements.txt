@@ -70,7 +70,7 @@ django-ga-context==0.1.0
 django-global-context==0.1.1
 django-registration-redux==2.6
 django-markwhat==1.6.2
-gunicorn==20.0.2
+gunicorn==20.0.3
 django-infranil==1.1.0
 django-flatblocks==0.9.4
 django-storages==1.8
