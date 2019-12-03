@@ -27,7 +27,9 @@ from djangowind.views import logout as wind_logout_view
 from lti_provider.mixins import LTIAuthMixin
 from lti_provider.views import LTILandingPage
 
-from econplayground.main.forms import GraphCloneForm
+from econplayground.main.forms import (
+    CohortCloneForm, GraphCloneForm
+)
 from econplayground.main.mixins import (
     CohortGraphMixin, CohortPasswordMixin,
     CohortInstructorMixin
@@ -372,6 +374,78 @@ class CohortUpdateView(LoginRequiredMixin, CohortInstructorMixin, UpdateView):
 
     def get_success_url(self):
         return reverse('cohort_detail', kwargs={'pk': self.object.pk})
+
+
+class CohortCloneDisplay(LoginRequiredMixin, CohortInstructorMixin,
+                         DetailView):
+    model = Cohort
+    template_name = 'main/cohort_clone_form.html'
+
+    def get_context_data(self, *args, **kwargs):
+        ctx = super().get_context_data(*args, **kwargs)
+        ctx.update({
+            'form': CohortCloneForm(user=self.request.user),
+        })
+        return ctx
+
+
+class CohortCloneFormView(LoginRequiredMixin, CohortInstructorMixin,
+                          SingleObjectMixin, FormView):
+    template_name = 'main/cohort_clone_form.html'
+    form_class = CohortCloneForm
+    model = Cohort
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def get_context_data(self, *args, **kwargs):
+        ctx = super().get_context_data(*args, **kwargs)
+        ctx.update({
+            'cohort': self.object,
+            'form': CohortCloneForm(user=self.request.user),
+        })
+        return ctx
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().post(request, *args, **kwargs)
+
+    def get_success_url(self):
+        return reverse('cohort_detail', kwargs={'pk': self.object.pk})
+
+    def form_valid(self, form):
+        cloned = self.object.clone()
+
+        cloned.title = form.data.get('title')
+        cloned.instructors.add(self.request.user)
+        cloned.save()
+
+        url = reverse('cohort_detail', kwargs={'pk': cloned.pk})
+        messages.add_message(
+            self.request, messages.SUCCESS,
+            'Course <strong><a href="{}">{}</a></strong> created.'.format(
+                url, cloned.title),
+            extra_tags='safe'
+        )
+
+        return super().form_valid(form)
+
+
+# Following the pattern here:
+# https://docs.djangoproject.com/en/2.2/topics/class-based-views/mixins/#an-alternative-better-solution
+class CohortCloneView(LoginRequiredMixin, CohortInstructorMixin,
+                      SingleObjectMixin, View):
+    model = Cohort
+
+    def get(self, request, *args, **kwargs):
+        view = CohortCloneDisplay.as_view()
+        return view(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        view = CohortCloneFormView.as_view()
+        return view(request, *args, **kwargs)
 
 
 class CohortListView(LoginRequiredMixin, ListView):

@@ -7,7 +7,7 @@ from econplayground.main.tests.factories import (
 from econplayground.main.tests.mixins import (
     LoggedInTestMixin, LoggedInTestInstructorMixin, LoggedInTestStudentMixin
 )
-from econplayground.main.models import Graph, Topic
+from econplayground.main.models import Cohort, Graph, Topic
 
 
 class BasicTest(TestCase):
@@ -130,6 +130,34 @@ class CloneGraphViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertEqual(new_graph.title, g.title)
         self.assertEqual(new_graph.topic, new_topic)
         self.assertEqual(new_graph.author, self.u)
+
+
+class CloneCohortViewTest(LoggedInTestInstructorMixin, TestCase):
+    def setUp(self):
+        super().setUp()
+        self.cohort = CohortFactory()
+        self.cohort.instructors.add(self.u)
+
+    def test_clone(self):
+        self.assertEqual(Cohort.objects.count(), 2)
+
+        r = self.client.get(
+            reverse('cohort_clone', kwargs={
+                'pk': self.cohort.pk,
+            }))
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, 'Cloning <strong>{}</strong>'.format(
+            self.cohort.title))
+
+        r = self.client.post(
+            reverse('cohort_clone', kwargs={
+                'pk': self.cohort.pk,
+            }), {
+                'title': 'Cloned Title',
+            }, follow=True)
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, 'Cloned Title')
+        self.assertContains(r, 'created')
 
 
 class FeaturedGraphUpdateViewTest(LoggedInTestInstructorMixin, TestCase):
