@@ -146,6 +146,10 @@
                        role="button">Edit Course</a>
 
                     <a class="btn btn-secondary btn-sm btn-block"
+                       href="{% url 'cohort_clone' object.pk %}"
+                       role="button">Clone Course</a>
+
+                    <a class="btn btn-secondary btn-sm btn-block"
                        href="{% url 'featuredgraph_list' object.pk %}"
                        role="button">Manage Featured Graphs</a>
 

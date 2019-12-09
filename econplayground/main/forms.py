@@ -2,6 +2,15 @@ from django import forms
 from econplayground.main.models import Cohort
 
 
+class CohortCloneForm(forms.Form):
+    title = forms.CharField()
+
+    def __init__(self, user, *args, **kwargs):
+        r = super(CohortCloneForm, self).__init__(*args, **kwargs)
+
+        return r
+
+
 class GraphCloneForm(forms.Form):
     course = forms.ModelChoiceField(Cohort.objects.none())
 
