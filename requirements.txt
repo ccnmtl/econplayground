@@ -89,7 +89,7 @@ pylti==0.7.0
 nameparser==1.0.5
 django-lti-provider==0.3.4
 
-django-braces==1.13.0
+django-braces==1.14.0
 django-smtp-ssl==1.0
 django-contact-us==0.4.3
 docutils==0.15.2  # Django's admindocs
