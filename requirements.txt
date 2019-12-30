@@ -55,7 +55,7 @@ django-annoying==0.10.6
 django-appconf==1.0.3
 rcssmin==1.0.6  # django-compressor
 rjsmin==1.1.0  # django-compressor
-django-compressor==2.3
+django-compressor==2.4
 django-statsd-mozilla==0.4.0
 sentry-sdk==0.13.5
 django-bootstrap4==1.1.1
