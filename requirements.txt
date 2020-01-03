@@ -47,7 +47,7 @@ botocore>=1.12.198,<1.14.0
 boto3>=1.9.198,<1.11.0
 
 # django libraries
-djangowind==1.2.2
+djangowind==1.2.3
 django-indexer==0.3.0
 django-templatetag-sugar==1.0
 django-paging==0.2.5
