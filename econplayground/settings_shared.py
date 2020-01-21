@@ -48,7 +48,6 @@ INSTALLED_APPS = [  # noqa
     'django.contrib.admindocs',
     'django_statsd',
     'smoketest',
-    'django_jenkins',
     'gunicorn',
     'compressor',
     'djangowind',
