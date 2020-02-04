@@ -49,6 +49,7 @@
     {% endcompress %}
     <link href="{% static 'css/epjs.css' %}" rel="stylesheet">
     {% block css %}{% endblock %}
+    {% block extrahead %}{% endblock %}
 
     <script>
         var STATIC_URL = '{{STATIC_URL}}';
