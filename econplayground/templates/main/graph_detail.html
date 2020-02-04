@@ -8,6 +8,10 @@
 <link rel="stylesheet" href="{% static 'css/epjs.css' %}">
 {% endblock %}
 
+{% block extrahead %}
+<meta id="csrf-token" name="csrf-token" content="{{csrf_token}}">
+{% endblock %}
+
 {% user_is_instructor request.user as i_am_instructor %}
 
 {% block js %}
