@@ -34,6 +34,7 @@ class GraphDetailViewTest(LoggedInTestMixin, TestCase):
             }))
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, g.title)
+        self.assertContains(r, g.topic.cohort.title)
 
 
 class CloneGraphUnauthorizedViewTest(LoggedInTestMixin, TestCase):
