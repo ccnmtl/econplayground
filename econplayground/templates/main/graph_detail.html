@@ -49,6 +49,21 @@
             </li>
         </ol>
     </nav>
+    {% else %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{% url 'cohort_detail' cohort.pk %}">
+                    {{ cohort.title|truncatewords:5 }}
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{% url 'cohort_graph_detail' cohort.pk object.pk %}">
+                    {{ object.title|truncatewords:5 }}
+                </a>
+            </li>
+        </ol>
+    </nav>
     {% endif %}
 {% endblock %}
 
