@@ -132,7 +132,7 @@ def orphan_remaining_graphs(sender, instance, **kwargs):
 
 class Graph(OrderedModel):
     class Meta(OrderedModel.Meta):
-        ordering = ('topic__cohort', 'order')
+        ordering = ('order',)
 
     title = models.TextField()
     instructions = models.TextField(blank=True, null=True, default='')
