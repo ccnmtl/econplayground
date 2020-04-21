@@ -8,7 +8,7 @@ from econplayground.main.tests.mixins import (
 )
 from econplayground.main.tests.factories import (
     GraphFactory, JXGLineFactory, JXGLineTransformationFactory,
-    SubmissionFactory, UserFactory
+    SubmissionFactory, UserFactory, TopicFactory
 )
 
 
@@ -70,12 +70,14 @@ class AnonymousGraphViewSetTest(APITestCase):
 
 class GraphViewSetTest(LoggedInTestMixin, APITestCase):
     def test_create(self):
+        topic = TopicFactory()
         response = self.client.post('/api/graphs/', {
             'title': 'Graph title',
             'instructions': 'Graph instructions',
             'instructor_notes': 'notes',
             'author': self.u.pk,
             'graph_type': 0,
+            'topic': topic.pk,
             'line_1_slope': 0,
             'line_2_slope': 0,
             'line_1_offset_y': 0.5,
@@ -92,12 +94,14 @@ class GraphViewSetTest(LoggedInTestMixin, APITestCase):
         self.assertEqual(g.lines.count(), 0)
 
     def test_create_with_lines(self):
+        topic = TopicFactory()
         response = self.client.post('/api/graphs/', {
             'title': 'Graph with lines',
             'instructions': 'Graph instructions',
             'instructor_notes': 'notes',
             'author': self.u.pk,
             'graph_type': 0,
+            'topic': topic.pk,
             'line_1_slope': 0,
             'line_2_slope': 0,
             'line_1_offset_y': 0.5,
@@ -136,12 +140,14 @@ class GraphViewSetTest(LoggedInTestMixin, APITestCase):
         self.assertEqual(line2.transformations.count(), 0)
 
     def test_create_with_lines_and_transformations(self):
+        topic = TopicFactory()
         response = self.client.post('/api/graphs/', {
             'title': 'Graph with lines',
             'instructions': 'Graph instructions',
             'instructor_notes': 'notes',
             'author': self.u.pk,
             'graph_type': 0,
+            'topic': topic.pk,
             'line_1_slope': 0,
             'line_2_slope': 0,
             'line_1_offset_y': 0.5,
@@ -202,11 +208,13 @@ class GraphViewSetTest(LoggedInTestMixin, APITestCase):
         self.assertEqual(line2.transformations.count(), 2)
 
     def test_create_with_lines_and_transformations_invalid(self):
+        topic = TopicFactory()
         response = self.client.post('/api/graphs/', {
             'title': 'Graph with lines',
             'instructions': 'Graph instructions',
             'instructor_notes': 'notes',
             'author': self.u.pk,
+            'topic': topic.pk,
             'graph_type': 0,
             'line_1_slope': 0,
             'line_2_slope': 0,

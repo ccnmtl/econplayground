@@ -217,7 +217,7 @@ class FeaturedGraphUpdateViewTest(LoggedInTestInstructorMixin, TestCase):
         topic = TopicFactory(cohort=cohort)
         graph = GraphFactory(topic=topic, featured=True)
 
-        self.assertEqual(graph.order, 3)
+        self.assertEqual(graph.order, 0)
 
         r = self.client.get(
             reverse('cohort_graph_edit', kwargs={
@@ -226,7 +226,7 @@ class FeaturedGraphUpdateViewTest(LoggedInTestInstructorMixin, TestCase):
             }) + '?move=down')
 
         self.assertEqual(r.status_code, 403)
-        self.assertEqual(graph.order, 3)
+        self.assertEqual(graph.order, 0)
 
         r = self.client.get(
             reverse('cohort_graph_edit', kwargs={
@@ -239,7 +239,7 @@ class FeaturedGraphUpdateViewTest(LoggedInTestInstructorMixin, TestCase):
 
         graph.refresh_from_db()
 
-        self.assertEqual(graph.order, 3)
+        self.assertEqual(graph.order, 0)
 
 
 class EmbedViewTest(LoggedInTestMixin, TestCase):
