@@ -17,7 +17,7 @@
     "requirejs": "~2.3.6",
     "sinon": "~9.0.2",
     "autoprefixer": "~9.7.6",
-    "node-sass": "~4.13.1",
+    "node-sass": "~4.14.0",
     "nodemon": "~2.0.3",
     "postcss-cli": "~7.1.0"
   }
