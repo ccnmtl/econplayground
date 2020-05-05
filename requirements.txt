@@ -31,7 +31,7 @@ requests==2.23.0
 logilab-common==1.5.2
 logilab-astng==0.24.3
 astroid==2.4.0
-pylint==2.5.0
+pylint==2.5.1
 six==1.14.0
 ipaddress==1.0.23  # faker
 faker==4.0.3  # factory_boy
