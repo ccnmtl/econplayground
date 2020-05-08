@@ -2,7 +2,7 @@ Django==2.2.12
 pytz==2020.1
 httplib2==0.17.3
 feedparser==5.2.1
-Markdown==3.2.1
+Markdown==3.2.2
 commonmark==0.9.1
 psycopg2==2.8.5
 Pillow==7.1.2
