@@ -2,7 +2,7 @@ Django==2.2.12
 pytz==2020.1
 httplib2==0.17.3
 feedparser==5.2.1
-Markdown==3.2.1
+Markdown==3.2.2
 commonmark==0.9.1
 psycopg2==2.8.5
 Pillow==7.1.2
@@ -28,10 +28,10 @@ chardet==3.0.4  # requests
 idna==2.9  # requests
 certifi==2020.4.5.1  # requests, sentry-sdk
 requests==2.23.0
-logilab-common==1.5.2
+logilab-common==1.6.1
 logilab-astng==0.24.3
-astroid==2.4.0
-pylint==2.5.0
+astroid==2.4.1
+pylint==2.5.2
 six==1.14.0
 ipaddress==1.0.23  # faker
 faker==4.0.3  # factory_boy
@@ -43,8 +43,9 @@ python-dateutil==2.8.1
 # boto3 deps
 s3transfer==0.3.3
 jmespath==0.9.5
+
 botocore>=1.12.198,<1.17.0
-boto3>=1.9.198,<1.13.0
+boto3>=1.9.198,<1.14.0
 
 # django libraries
 djangowind==1.2.3
@@ -67,7 +68,7 @@ django-extensions==2.2.9
 django-stagingcontext==0.1.0
 django-ga-context==0.1.0
 django-global-context==0.1.1
-django-registration-redux==2.7
+django-registration-redux==2.8
 django-markwhat==1.6.2
 gunicorn==20.0.4
 django-infranil==1.1.0
