@@ -98,6 +98,6 @@ pbr==5.4.5  # bandit
 pyyaml==5.3.1  # bandit
 stevedore==1.32.0  # bandit
 bandit==1.6.2
-django-ordered-model==3.4.0
+django-ordered-model==3.4.1
 
 entrypoints==0.3
