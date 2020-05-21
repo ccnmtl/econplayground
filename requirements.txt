@@ -1,6 +1,6 @@
 Django==2.2.12
 pytz==2020.1
-httplib2==0.18.0
+httplib2==0.18.1
 feedparser==5.2.1
 Markdown==3.2.2
 commonmark==0.9.1
