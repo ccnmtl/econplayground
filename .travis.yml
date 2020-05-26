@@ -1,5 +1,5 @@
 language: python
-dist: xenial  # ubuntu 16 needed for logilab/2to3
+dist: bionic
 python:
   - "3.6"
 script:
