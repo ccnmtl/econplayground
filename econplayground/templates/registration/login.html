@@ -102,7 +102,7 @@
                 {% if CAS_BASE %}
                 <form method="get" action="{{ CAS_BASE }}cas/login">
                     <input type="hidden" name="destination"
-                        value="https://{{ request.get_host }}/accounts/caslogin/?next=/" />
+                        value="https://{{ request.get_host }}/accounts/caslogin/?next=" />
                     <h6>If you have a Columbia University Network ID
                         (UNI)...</h6>
                     <input class="btn btn-primary" type="submit"
