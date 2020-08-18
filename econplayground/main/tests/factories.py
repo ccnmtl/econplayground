@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 import factory
+from factory.django import DjangoModelFactory
 from factory import fuzzy
 from econplayground.main.models import (
     Graph, JXGLine, JXGLineTransformation, Submission,
@@ -8,14 +9,14 @@ from econplayground.main.models import (
 )
 
 
-class UserFactory(factory.DjangoModelFactory):
+class UserFactory(DjangoModelFactory):
     class Meta:
         model = User
 
     username = fuzzy.FuzzyText(prefix='user_')
 
 
-class InstructorFactory(factory.DjangoModelFactory):
+class InstructorFactory(DjangoModelFactory):
     class Meta:
         model = User
 
@@ -23,7 +24,7 @@ class InstructorFactory(factory.DjangoModelFactory):
     username = fuzzy.FuzzyText(prefix='instructor_')
 
 
-class StudentFactory(factory.DjangoModelFactory):
+class StudentFactory(DjangoModelFactory):
     class Meta:
         model = User
 
@@ -31,7 +32,7 @@ class StudentFactory(factory.DjangoModelFactory):
     username = fuzzy.FuzzyText(prefix='student_')
 
 
-class CohortFactory(factory.DjangoModelFactory):
+class CohortFactory(DjangoModelFactory):
     class Meta:
         model = Cohort
 
@@ -48,7 +49,7 @@ class CohortFactory(factory.DjangoModelFactory):
                 self.instructors.add(instructor)
 
 
-class TopicFactory(factory.DjangoModelFactory):
+class TopicFactory(DjangoModelFactory):
     class Meta:
         model = Topic
 
@@ -56,7 +57,7 @@ class TopicFactory(factory.DjangoModelFactory):
     cohort = factory.SubFactory(CohortFactory)
 
 
-class GraphFactory(factory.DjangoModelFactory):
+class GraphFactory(DjangoModelFactory):
     class Meta:
         model = Graph
 
@@ -79,14 +80,14 @@ class GraphFactory(factory.DjangoModelFactory):
     topic = factory.SubFactory(TopicFactory)
 
 
-class JXGLineFactory(factory.DjangoModelFactory):
+class JXGLineFactory(DjangoModelFactory):
     class Meta:
         model = JXGLine
 
     graph = factory.SubFactory(GraphFactory)
 
 
-class JXGLineTransformationFactory(factory.DjangoModelFactory):
+class JXGLineTransformationFactory(DjangoModelFactory):
     class Meta:
         model = JXGLineTransformation
 
@@ -102,7 +103,7 @@ class JXGLineTransformationFactory(factory.DjangoModelFactory):
     y3 = fuzzy.FuzzyDecimal(-5.1234, 5.1234)
 
 
-class SubmissionFactory(factory.DjangoModelFactory):
+class SubmissionFactory(DjangoModelFactory):
     class Meta:
         model = Submission
 
@@ -114,7 +115,7 @@ class SubmissionFactory(factory.DjangoModelFactory):
 
 
 @factory.django.mute_signals(post_save)
-class AssessmentFactory(factory.DjangoModelFactory):
+class AssessmentFactory(DjangoModelFactory):
     class Meta:
         model = Assessment
 
@@ -122,7 +123,7 @@ class AssessmentFactory(factory.DjangoModelFactory):
 
 
 @factory.django.mute_signals(post_save)
-class AssessmentRuleFactory(factory.DjangoModelFactory):
+class AssessmentRuleFactory(DjangoModelFactory):
     class Meta:
         model = AssessmentRule
 
