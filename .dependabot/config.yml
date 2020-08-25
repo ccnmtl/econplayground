@@ -6,7 +6,7 @@ update_configs:
     automerged_updates:
       - match:
           dependency_type: "development"
-          update_type: "minor"
+          update_type: "in_range"
   - package_manager: "javascript"
     directory: "/"
     update_schedule: "live"
