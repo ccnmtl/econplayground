@@ -184,22 +184,26 @@
     </script>
 
     {% if SENTRY_DSN %}
-    <script src="https://browser.sentry-cdn.com/5.6.1/bundle.min.js" integrity="sha384-pGTFmbQfua2KiaV2+ZLlfowPdd5VMT2xU4zCBcuJr7TVQozMO+I1FmPuVHY3u8KB" crossorigin="anonymous"></script>
-    <script>
-    Sentry.init({dsn: '{{SENTRY_DSN}}'});
+        <script
+            src="https://browser.sentry-cdn.com/5.24.2/bundle.min.js"
+            integrity="sha384-8x1Z8KjWCA4KJ7mh5cTEtm1Jngg4yEZDYTAU3A4HfHdtaiCYba4cCuJDHQ3zc2Qe"
+            crossorigin="anonymous"></script>
 
-    {% if request.user.is_anonymous %}
-    Sentry.setUser({
-        email: 'none',
-        id: 'anonymous'
-    });
-    {% else %}
-    Sentry.setUser({
-        email: '{{ user.email }}',
-        id: '{{ user.username }}'
-    });
-    {% endif %}
-    </script>
+        <script>
+        Sentry.init({dsn: '{{SENTRY_DSN}}'});
+
+        {% if request.user.is_anonymous %}
+        Sentry.setUser({
+            email: 'none',
+            id: 'anonymous'
+        });
+        {% else %}
+        Sentry.setUser({
+            email: '{{ user.email }}',
+            id: '{{ user.username }}'
+        });
+        {% endif %}
+        </script>
     {% endif %}
 
     {% block js %}{% endblock %}
