@@ -14,7 +14,7 @@ mccabe==0.6.1
 configparser==5.0.0
 pycodestyle==2.6.0
 importlib-metadata==2.0.0  # for flake8
-zipp==3.2.0  # for flake8
+zipp==3.3.0  # for flake8
 flake8==3.8.4
 tornado==6.0.4
 beautifulsoup4==4.9.3
