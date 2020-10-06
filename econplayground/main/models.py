@@ -13,13 +13,16 @@ from django.db.models.signals import post_save, pre_delete
 GRAPH_TYPES = (
     (0, 'Linear Demand and Supply'),
     (1, 'Non-Linear Demand and Supply'),
-    (2, 'Labor Market (perfectly inelastic)'),
-    (3, 'Cobb-Douglas'),
-    (4, 'Labor Supply'),
-    (5, 'Consumption - Leisure'),
-    (6, 'Saving - Investment'),
-    (7, 'Consumption - Saving'),
-    (8, 'Aggregate Demand - Aggregate Supply'),
+    (2, 'Labor Market (perfectly inelastic)'),  # Unused
+    (3, 'Cobb-Douglas Production Function'),
+    (4, 'Labor Supply'),  # Unused
+    (5, 'Consumption-Leisure: Constraint'),
+    (6, 'Saving - Investment'),  # Unused
+    (7, 'Consumption-Saving: Constraint'),
+    (8, 'Linear Demand and Supply: 3 Functions'),
+    (9, 'Linear Demand and Supply: AUC'),
+    (10, 'Non-Linear Demand and Supply: AUC'),
+    (11, 'Consumption-Saving: AUC'),
 )
 
 ASSIGNMENT_TYPES = (
