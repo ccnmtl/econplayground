@@ -35,7 +35,7 @@ astroid==2.4.2
 pylint==2.6.0
 six==1.15.0
 ipaddress==1.0.23  # faker
-faker==4.5.0  # factory_boy
+faker==4.9.0  # factory_boy
 factory_boy==3.1.0
 ldap3==2.8.1
 sqlparse==0.4.0
