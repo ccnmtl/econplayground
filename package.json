@@ -13,7 +13,7 @@
     "eslint-plugin-no-unsafe-innerhtml": "~1.0.16",
     "eslint-plugin-scanjs-rules": "~0.2.1",
     "eslint-plugin-security": "~1.4.0",
-    "mocha": "~8.1.1",
+    "mocha": "~8.2.0",
     "requirejs": "~2.3.6",
     "sinon": "~9.2.0",
     "autoprefixer": "~9.8.6",
