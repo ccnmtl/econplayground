@@ -19,7 +19,7 @@ flake8==3.8.4
 tornado==6.0.4
 beautifulsoup4==4.9.3
 cssselect==1.1.0
-lxml==4.5.2
+lxml==4.6.1
 fuzzywuzzy==0.18.0
 sure==1.4.11
 coverage==5.3
