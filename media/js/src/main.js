@@ -13,7 +13,6 @@ requirejs.config({
 define([
     'jquery',
     'domReady',
-    'src/utils'
 ], function($, domReady, utils) {
     domReady(function() {
     });

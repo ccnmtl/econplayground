@@ -16,11 +16,6 @@
 
 {% block navbar %}{% endblock %}
 
-{% block js %}
-    <script data-main="{{STATIC_URL}}js/src/login.js"
-        src="{{STATIC_URL}}js/lib/require.js"></script>
-{% endblock %}
-
 {% block content-container %}
 
     <div class="site-wrapper">
@@ -70,7 +65,51 @@
 
                 <p class="lead">BETA VERSION</p>
 
-                <a class="btn btn-lg btn-secondary" id="login-link" href="#" title="Log In" data-toggle="modal" data-target="#login-modal">Log In</a>
+                <div class="loginbox">
+                    <p>
+                        If you have a Columbia University Network ID
+                        (UNI)
+                    </p>
+                    <form class="text-center" method="get" action="/cas/login">
+                        <input type="hidden" name="next" value="/" />
+
+                        <input class="btn btn-secondary" type="submit"
+                               value="Columbia Log In" />
+
+                        <p class="small pt-2">
+                            <a href="https://cuit.columbia.edu/cuit/manage-my-uni"
+                               title="Learn more about UNI" target="_blank">What is a UNI?</a>
+                        </p>
+                    </form>
+
+                    <hr class="separator" />
+
+                    <p>If you have a guest account</p>
+                    <form id="login-local" class="text-center"
+                          name="login_local" method="post" action="/accounts/login/">
+                        <p class="local-login-errors text-danger" style="display: none;">
+                            <span><strong>Invalid username or password.</strong></span>
+                            Please try again. Note that both username and password are case-sensitive.
+                        </p>
+
+                        {% csrf_token %}
+                        <div class="login-local-form"
+                             {% if not form.errors %}style="display: none"{% endif %}>
+                            {% bootstrap_form form layout='inline' %}
+                        </div>
+                        <input class="btn btn-secondary" type="button"
+                               value="Guest Log In"
+                               {% if form.errors %}style="display: none" {% endif %}
+                               onclick="jQuery('.login-local-form').show(); jQuery(this).hide(); return false;" />
+                        <input class="btn btn-secondary login-local-form"
+                               type="submit" value="Log In"
+                               {% if not form.errors %}style="display: none;" {% endif %} />
+                        <input type="hidden" name="next" value="/" />
+                        <div class="small pt-2">
+                            <a href="/accounts/password_reset/" title="Reset Password">Forgot Password?</a>
+                        </div>
+                    </form>
+                </div>
             </main>
         </div>
     </div>
@@ -87,71 +126,5 @@
     </footer>
 </div>
 
-<div id="login-modal" class="modal fade" id="loginmodal" tabindex="-1" role="dialog"
-    aria-labelledby="LoginModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="LoginModalLabel">Choose a log in option</h5>
-                <button type="button" class="close" data-dismiss="modal"
-                    aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body text-center">
-                {% if CAS_BASE %}
-                <form method="get" action="{{ CAS_BASE }}cas/login">
-                    <input type="hidden" name="destination"
-                        value="https://{{ request.get_host }}/accounts/caslogin/?next=" />
-                    <h6>If you have a Columbia University Network ID
-                        (UNI)...</h6>
-                    <input class="btn btn-primary" type="submit"
-                        value="Columbia Log In" />
-                </form>
-                {% endif %}
-                <p class="mt-2">
-                    <a href="http://cuit.columbia.edu/cuit/manage-my-uni"
-                        title="Learn more about UNI" target="_blank">What is a UNI?</a>
-                </p>
-                <!-- End UNI LOG IN -->
-                {% if form.errors %}
-                <p class="text-danger">
-                    <span> <b>ERROR:</b> Invalid username or password. </span>
-                    Please try again. Note that both username and password are case-sensitive.
-                </p>
-                {% endif %}
-                <hr />
-                <h6>If you have a guest account...</h6>
-                <form id="login-local" name="login_local" method="post" action="/accounts/login/">
-                    <p class="local-login-errors text-danger" style="display: none;">
-                        <span><b>Invalid username or password.</b></span>
-                        Please try again. Note that both username and password are case-sensitive.
-                    </p>
-
-                    {% csrf_token %}
-                    <div class="login-local-form"
-                         {% if not form.errors %}style="display: none"{% endif %}>
-                        {% bootstrap_form form layout='inline' %}
-                    </div>
-                    <input class="btn btn-primary" type="button"
-                        value="Guest Log In"
-                        {% if form.errors %}style="display: none" {% endif %}
-                            onclick="jQuery('.login-local-form').show(); jQuery(this).hide(); return false;" />
-                    <input class="btn btn-primary login-local-form"
-                        type="submit" value="Log In"
-                        {% if not form.errors %}style="display: none;" {% endif %} />
-                    <input type="hidden" name="next" value="/" />
-                    <div style="margin-top: 5px;">
-                        <a href="/accounts/password_reset/" title="Reset Password">Forgot Password?</a>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary"
-                    data-dismiss="modal">Cancel</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 {% endblock %}

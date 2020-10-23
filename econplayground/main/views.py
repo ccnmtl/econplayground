@@ -1,15 +1,8 @@
 import hashlib
 from braces.views import CsrfExemptMixin
-from braces.views._ajax import JSONResponseMixin
-from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth import login
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import (
     LoginRequiredMixin, UserPassesTestMixin
-)
-from django.contrib.auth.views import (
-    LogoutView as DjangoLogoutView, LoginView
 )
 from django.db.models import Count, Q
 from django.http import HttpResponseForbidden, HttpResponseRedirect
@@ -23,7 +16,6 @@ from django.views.generic.edit import (
 )
 from django.views.generic.detail import SingleObjectMixin
 from django.shortcuts import get_object_or_404
-from djangowind.views import logout as wind_logout_view
 from lti_provider.mixins import LTIAuthMixin
 from lti_provider.views import LTILandingPage
 
@@ -586,26 +578,3 @@ class TopicDeleteView(LoginRequiredMixin, CohortInstructorMixin, DeleteView):
             extra_tags='safe')
 
         return reverse('topic_list', kwargs={'cohort_pk': self.cohort.pk})
-
-
-class LoginView(JSONResponseMixin, LoginView):
-
-    def post(self, request):
-        request.session.set_test_cookie()
-        login_form = AuthenticationForm(request, request.POST)
-        if login_form.is_valid():
-            login(request, login_form.get_user())
-            if request.user is not None:
-                next_url = request.POST.get('next', '/')
-                return self.render_json_response({'next': next_url})
-
-        return self.render_json_response({'error': True})
-
-
-class LogoutView(LoginRequiredMixin, View):
-
-    def get(self, request):
-        if hasattr(settings, 'CAS_BASE'):
-            return wind_logout_view(request, next_page="/")
-        else:
-            return DjangoLogoutView.as_view()(request, "/")

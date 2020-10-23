@@ -7,13 +7,10 @@ from django.views.generic import TemplateView
 from django.views.static import serve
 
 from econplayground.main import views
+from django_cas_ng import views as cas_views
 
 
 site_media_root = os.path.join(os.path.dirname(__file__), "../media")
-
-auth_urls = path('accounts/', include('django.contrib.auth.urls'))
-if hasattr(settings, 'CAS_BASE'):
-    auth_urls = path('accounts/', include('djangowind.urls'))
 
 
 # A route for triggering a sentry error.
@@ -24,15 +21,20 @@ def trigger_error(request):
 
 
 urlpatterns = [
-    path('accounts/login/', views.LoginView.as_view()),
-    path('accounts/logout/', views.LogoutView.as_view()),
+    path('', views.CohortListView.as_view(), name='cohort_list'),
 
-    auth_urls,
+    path('admin/doc/', include('django.contrib.admindocs.urls')),
+    path('admin/', admin.site.urls),
+
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('cas/login', cas_views.LoginView.as_view(),
+         name='cas_ng_login'),
+    path('cas/logout', cas_views.LogoutView.as_view(),
+         name='cas_ng_logout'),
 
     path('api/', include('econplayground.api.urls')),
     path('registration/', include('registration.backends.default.urls')),
 
-    path('', views.CohortListView.as_view(), name='cohort_list'),
     path('add/course/', views.CohortCreateView.as_view(),
          name='cohort_create'),
     path('course/<int:pk>/', views.CohortDetailView.as_view(),
@@ -88,8 +90,6 @@ urlpatterns = [
     path('graph/<int:pk>/delete/',
          views.GraphDeleteView.as_view(), name='graph_delete'),
 
-    path('admin/doc/', include('django.contrib.admindocs.urls')),
-    path('admin/', admin.site.urls),
     path('stats/', TemplateView.as_view(template_name="stats.html")),
     path('smoketest/', include('smoketest.urls')),
     path('infranil/', include('infranil.urls')),
