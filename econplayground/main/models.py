@@ -22,7 +22,7 @@ GRAPH_TYPES = (
     (8, 'Linear Demand and Supply: 3 Functions'),
     (9, 'Linear Demand and Supply: AUC'),
     (10, 'Non-Linear Demand and Supply: AUC'),
-    (11, 'Consumption-Saving: AUC'),
+    (11, 'Optimal Choice and Budget Constraints'),
 )
 
 ASSIGNMENT_TYPES = (
