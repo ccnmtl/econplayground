@@ -20,9 +20,15 @@ GRAPH_TYPES = (
     (6, 'Saving - Investment'),  # Unused
     (7, 'Consumption-Saving: Constraint'),
     (8, 'Linear Demand and Supply: 3 Functions'),
+
+    # Area Under Curve graphs
     (9, 'Linear Demand and Supply: AUC'),
     (10, 'Non-Linear Demand and Supply: AUC'),
+
     (11, 'Optimal Choice and Budget Constraints'),
+
+    # Joint Graphs
+    (12, 'Cobb-Douglas NLDS'),
 )
 
 ASSIGNMENT_TYPES = (
