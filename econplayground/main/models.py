@@ -283,6 +283,11 @@ class Graph(OrderedModel):
     # can be toggled.
     function_choice = models.PositiveSmallIntegerField(default=0)
 
+    # An Area under Curve (AUC) graph has different cases handling
+    # which areas are displayed.
+    area_configuration = models.PositiveSmallIntegerField(default=0)
+    is_area_displayed = models.BooleanField(default=True)
+
     def __str__(self):
         return self.title
 
