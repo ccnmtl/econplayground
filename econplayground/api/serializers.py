@@ -136,6 +136,9 @@ class GraphSerializer(serializers.ModelSerializer):
             'cobb_douglas_y_name',
 
             'function_choice',
+
+            'area_configuration',
+            'is_area_displayed',
         )
 
     def create(self, validated_data):
