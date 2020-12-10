@@ -7,6 +7,9 @@ base = os.path.dirname(__file__)
 
 locals().update(common(project=project, base=base))
 
+CAS_SERVER_URL = 'https://cas.columbia.edu/cas/'
+CAS_VERSION = '3'
+CAS_ADMIN_REDIRECT = False
 
 PROJECT_APPS = [
     'econplayground.main',
@@ -34,6 +37,7 @@ MIDDLEWARE = [
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'waffle.middleware.WaffleMiddleware',
+    'django_cas_ng.middleware.CASMiddleware',
 ]
 
 INSTALLED_APPS = [  # noqa
@@ -44,13 +48,14 @@ INSTALLED_APPS = [  # noqa
     'django.contrib.flatpages',
     'django.contrib.staticfiles',
     'django.contrib.messages',
+    'registration',
     'django.contrib.admin',
     'django.contrib.admindocs',
     'django_statsd',
     'smoketest',
     'gunicorn',
     'compressor',
-    'djangowind',
+    'django_cas_ng',
     'waffle',
     'django_markwhat',
 
@@ -58,7 +63,7 @@ INSTALLED_APPS = [  # noqa
     'bootstrap4',
     'infranil',
     'django_extensions',
-    'registration',
+
     'rest_framework',
     'lti_provider',
     'econplayground.main',
@@ -82,8 +87,8 @@ LOGIN_REDIRECT_URL = "/"
 ACCOUNT_ACTIVATION_DAYS = 7
 
 AUTHENTICATION_BACKENDS = [
-    'djangowind.auth.SAMLAuthBackend',
     'django.contrib.auth.backends.ModelBackend',
+    'django_cas_ng.backends.CASBackend',
     'lti_provider.auth.LTIBackend',
 ]
 
@@ -120,7 +125,6 @@ TEMPLATES = [
                 'django.template.context_processors.tz',
                 'django.template.context_processors.request',
                 'django.contrib.messages.context_processors.messages',
-                'djangowind.context.context_processor',
                 'stagingcontext.staging_processor',
                 'gacontext.ga_processor',
                 'globalcontext.globalcontext_processor',
