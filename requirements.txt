@@ -103,3 +103,4 @@ bandit==1.6.3
 django-ordered-model==3.4.1
 
 entrypoints==0.3
+typing_extensions==3.7.4.3
