@@ -139,6 +139,10 @@ class GraphSerializer(serializers.ModelSerializer):
 
             'area_configuration',
             'is_area_displayed',
+
+            'area_a_name',
+            'area_b_name',
+            'area_c_name',
         )
 
     def create(self, validated_data):
