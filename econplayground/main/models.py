@@ -287,6 +287,9 @@ class Graph(OrderedModel):
     # which areas are displayed.
     area_configuration = models.PositiveSmallIntegerField(default=0)
     is_area_displayed = models.BooleanField(default=True)
+    area_a_name = models.TextField(default='A', blank=True,)
+    area_b_name = models.TextField(default='B', blank=True,)
+    area_c_name = models.TextField(default='C', blank=True,)
 
     def __str__(self):
         return self.title
