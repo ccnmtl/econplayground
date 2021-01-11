@@ -1,4 +1,4 @@
-# EconPlayground [![Build Status](https://travis-ci.org/ccnmtl/econplayground.svg?branch=master)](https://travis-ci.org/ccnmtl/econplayground)
+# EconPlayground [![Actions Status](https://github.com/ccnmtl/econplayground/workflows/build-and-test/badge.svg)](https://github.com/ccnmtl/econplayground/actions)
 
 EconPractice is an environment for authoring and interacting with economics concepts. Our practice modules allow instructors to set up an economics scenario with an accompanying graph. Students can then interact with that graph, moving curves and changing values. Students can receive immediate feedback for these movements, based on expertise provided by the instructor.
 
