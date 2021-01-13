@@ -29,6 +29,7 @@ GRAPH_TYPES = (
 
     # Joint Graphs
     (12, 'Cobb-Douglas NLDS'),
+    (13, 'Linear Demand-Supply x2'),
 )
 
 ASSIGNMENT_TYPES = (
