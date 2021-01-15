@@ -9,7 +9,7 @@
     "watch-scss": "nodemon --watch media/scss --verbose -e scss -x 'npm run build-scss'"
   },
   "devDependencies": {
-    "eslint": "~7.17.0",
+    "eslint": "~7.18.0",
     "eslint-plugin-no-unsafe-innerhtml": "~1.0.16",
     "eslint-plugin-scanjs-rules": "~0.2.1",
     "eslint-plugin-security": "~1.4.0",
