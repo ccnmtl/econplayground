@@ -97,7 +97,7 @@ django-contact-us==0.4.4
 docutils==0.16  # Django's admindocs
 
 pbr==5.5.1  # bandit
-pyyaml==5.3.1  # bandit
+pyyaml==5.4  # bandit
 stevedore==3.3.0  # bandit
 bandit==1.7.0
 django-ordered-model==3.4.1
