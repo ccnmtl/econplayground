@@ -35,7 +35,7 @@ astroid==2.4.2
 pylint==2.6.0
 six==1.15.0
 ipaddress==1.0.23  # faker
-faker==5.8.0  # factory_boy
+faker==6.0.0  # factory_boy
 factory_boy==3.2.0
 ldap3==2.9
 sqlparse==0.4.1
@@ -46,7 +46,7 @@ s3transfer==0.3.4
 jmespath==0.10.0
 
 botocore>=1.12.198,<1.21.0
-boto3>=1.9.198,<1.17.0
+boto3>=1.9.198,<1.18.0
 
 # django libraries
 python-cas==1.5.0
