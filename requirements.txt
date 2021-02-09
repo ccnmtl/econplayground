@@ -24,7 +24,7 @@ fuzzywuzzy==0.18.0
 sure==1.4.11
 coverage==5.4
 asn1crypto==1.4.0  # cryptography
-cryptography==3.4.3
+cryptography==3.3.2
 urllib3==1.26.3  # requests, sentry-sdk
 chardet==4.0.0  # requests
 idna==3.1  # requests
