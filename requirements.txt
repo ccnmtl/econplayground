@@ -1,6 +1,6 @@
 Django>=2.2.13,<3
 pytz==2021.1
-httplib2==0.18.1
+httplib2==0.19.0
 feedparser==6.0.2
 Markdown==3.3.3
 commonmark==0.9.1
@@ -104,3 +104,4 @@ django-ordered-model==3.4.1
 
 entrypoints==0.3
 typing_extensions==3.7.4.3
+pyparsing==2.4.7
