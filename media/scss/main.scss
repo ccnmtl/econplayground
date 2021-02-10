@@ -17,3 +17,7 @@
 @import 'layouts/graphwidget';
 @import 'layouts/graph-listing';
 @import 'layouts/cohort-listing';
+
+mjx-container.MathJax {
+    margin: 0 !important;
+}

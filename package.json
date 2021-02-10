@@ -5,7 +5,7 @@
   "license": "GPL-2.0+",
   "scripts": {
     "test": "mocha",
-    "build-scss": "node-sass --output media/css media/scss/main.scss --output-style compressed --source-map true",
+    "build-scss": "node-sass --output media/css media/scss/main.scss --output-style compressed",
     "watch-scss": "nodemon --watch media/scss --verbose -e scss -x 'npm run build-scss'"
   },
   "devDependencies": {
