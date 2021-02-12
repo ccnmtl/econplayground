@@ -50,7 +50,7 @@ $(PY_SENTINAL): $(REQUIREMENTS)
 	$(PIP) install pip==$(PIP_VERSION)
 	$(PIP) install --upgrade setuptools
 	$(PIP) install wheel==$(WHEEL_VERSION)
-	$(PIP) install --no-deps --requirement $(REQUIREMENTS) --no-binary cryptography
+	$(PIP) install --no-deps --requirement $(REQUIREMENTS)
 	touch $@
 
 test: $(PY_SENTINAL)
