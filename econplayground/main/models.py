@@ -25,7 +25,8 @@ GRAPH_TYPES = (
     (9, 'Linear Demand and Supply: AUC'),
     (10, 'Non-Linear Demand and Supply: AUC'),
 
-    (11, 'Optimal Choice and Budget Constraints'),
+    (11, 'Consumption-Saving: Optimal Choice'),
+    (15, 'Consumption-Leisure: Optimal Choice'),
 
     # Joint Graphs
     (12, 'Cobb-Douglas NLDS'),
