@@ -135,6 +135,8 @@ class GraphSerializer(serializers.ModelSerializer):
             'cobb_douglas_alpha_name',
             'cobb_douglas_y_name',
 
+            'n_name',
+
             'function_choice',
 
             'area_configuration',
