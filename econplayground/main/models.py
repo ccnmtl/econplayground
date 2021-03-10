@@ -282,6 +282,9 @@ class Graph(OrderedModel):
 
     cobb_douglas_y_name = models.TextField(default='Y')
 
+    # Text field for an arbitrary N value used in NLDS.
+    n_name = models.TextField(default='N')
+
     # A graph may contain a few different functions that
     # can be toggled.
     function_choice = models.PositiveSmallIntegerField(default=0)
