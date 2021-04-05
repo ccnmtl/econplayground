@@ -107,6 +107,12 @@ class GraphSerializer(serializers.ModelSerializer):
             'line_3_offset_y',
             'line_3_dashed',
 
+            'line_4_slope',
+            'line_4_label',
+            'line_4_offset_x',
+            'line_4_offset_y',
+            'line_4_dashed',
+
             'alpha',
             'omega',
 
