@@ -200,6 +200,9 @@ class Graph(OrderedModel):
     x_axis_label = models.TextField(blank=True, null=True, default='')
     y_axis_label = models.TextField(blank=True, null=True, default='')
 
+    x_axis_2_label = models.TextField(blank=True, null=True, default='')
+    y_axis_2_label = models.TextField(blank=True, null=True, default='')
+
     line_1_slope = models.DecimalField(max_digits=12, decimal_places=4)
     line_1_offset_x = models.DecimalField(
         max_digits=12, decimal_places=4, default=0)

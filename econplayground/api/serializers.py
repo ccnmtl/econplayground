@@ -131,6 +131,9 @@ class GraphSerializer(serializers.ModelSerializer):
             'x_axis_label',
             'y_axis_label',
 
+            'x_axis_2_label',
+            'y_axis_2_label',
+
             'cobb_douglas_a',
             'cobb_douglas_a_name',
             'cobb_douglas_l',
