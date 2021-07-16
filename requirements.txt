@@ -46,7 +46,7 @@ s3transfer==0.4.2
 jmespath==0.10.0
 
 botocore>=1.12.198,<1.22.0
-boto3>=1.9.198,<1.18.0
+boto3>=1.9.198,<1.19.0
 
 # django libraries
 python-cas==1.5.0
