@@ -14,7 +14,7 @@
     "eslint-plugin-no-unsafe-innerhtml": "~1.0.16",
     "eslint-plugin-scanjs-rules": "~0.2.1",
     "eslint-plugin-security": "~1.4.0",
-    "mocha": "~9.0.0",
+    "mocha": "~9.1.0",
     "node-sass": "~6.0.0",
     "nodemon": "~2.0.4",
     "postcss-cli": "~8.3.1",
