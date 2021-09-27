@@ -55,7 +55,7 @@ django-indexer==0.3.0
 django-templatetag-sugar==1.0
 django-paging==0.2.5
 django-annoying==0.10.6
-django-appconf==1.0.4
+django-appconf==1.0.5
 rcssmin==1.0.6  # django-compressor
 rjsmin==1.1.0  # django-compressor
 django-compressor==2.4.1
