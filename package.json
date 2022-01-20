@@ -11,8 +11,6 @@
   "devDependencies": {
     "autoprefixer": "~10.4.0",
     "eslint": "~8.7.0",
-    "eslint-plugin-no-unsafe-innerhtml": "~1.0.16",
-    "eslint-plugin-scanjs-rules": "~0.2.1",
     "eslint-plugin-security": "~1.4.0",
     "mocha": "~9.1.0",
     "node-sass": "~7.0.1",
