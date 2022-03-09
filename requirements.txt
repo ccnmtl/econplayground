@@ -22,7 +22,7 @@ lxml==4.8.0
 fuzzywuzzy==0.18.0
 sure==2.0.0
 coverage==6.2
-asn1crypto==1.4.0  # cryptography
+asn1crypto==1.5.0  # cryptography
 cryptography==36.0.1
 urllib3==1.26.8  # requests, sentry-sdk
 chardet==4.0.0  # requests
