@@ -8,6 +8,7 @@ from econplayground.main.tests.mixins import (
     LoggedInTestMixin, LoggedInTestInstructorMixin, LoggedInTestStudentMixin
 )
 from econplayground.main.models import Cohort, Graph, Topic
+from django.contrib.messages import get_messages
 
 
 class BasicTest(TestCase):
@@ -367,9 +368,9 @@ class CohortCreateViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertEqual(Topic.objects.filter(cohort=cohort).count(), 1)
         self.assertEqual(
             Topic.objects.filter(cohort=cohort).first().name, 'General')
-
-        self.assertTrue('<strong>Lorem Ipsum</strong> cohort created'
-                        in response.cookies['messages'].value)
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertIn('<strong>Lorem Ipsum</strong> cohort created',
+                      messages[0])
 
         response = self.client.post(url, {'title': 'Course 2'})
 
@@ -382,9 +383,8 @@ class CohortCreateViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertEqual(Topic.objects.filter(cohort=cohort).count(), 1)
         self.assertEqual(
             Topic.objects.filter(cohort=cohort).first().name, 'General')
-
-        self.assertTrue('<strong>Course 2</strong> cohort created'
-                        in response.cookies['messages'].value)
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertIn('<strong>Course 2</strong> cohort created', messages[1])
 
 
 class CohortCreateStudentViewTest(LoggedInTestStudentMixin, TestCase):
@@ -400,7 +400,8 @@ class CohortCreateStudentViewTest(LoggedInTestStudentMixin, TestCase):
         response = self.client.post(url, {'title': 'Lorem Ipsum'})
 
         self.assertEqual(self.u.cohort_set.count(), 0)
-        self.assertFalse('messages' in response.cookies)
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertFalse('messages' in messages)
 
 
 class CohortUpdateViewTest(LoggedInTestInstructorMixin, TestCase):
@@ -468,7 +469,8 @@ class CohortUpdateStudentViewTest(LoggedInTestStudentMixin, TestCase):
         response = self.client.post(url, {'title': 'Lorem Ipsum'})
 
         self.assertEqual(self.u.cohort_set.count(), 0)
-        self.assertFalse('messages' in response.cookies)
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+        self.assertFalse('messages' in messages)
 
 
 class CohortDetailInstructorViewTest(LoggedInTestInstructorMixin, TestCase):
