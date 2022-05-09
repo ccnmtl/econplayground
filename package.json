@@ -17,6 +17,6 @@
     "nodemon": "~2.0.4",
     "postcss-cli": "~9.1.0",
     "requirejs": "~2.3.6",
-    "sinon": "~13.0.0"
+    "sinon": "~14.0.0"
   }
 }
