@@ -3,7 +3,7 @@ asgiref==3.5.0
 pytz==2022.1
 httplib2==0.20.2
 feedparser==6.0.8
-Markdown==3.3.6
+Markdown==3.4.1
 commonmark==0.9.1
 psycopg2<2.9
 versiontools==1.9.1
