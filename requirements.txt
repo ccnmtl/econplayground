@@ -15,7 +15,7 @@ configparser==5.2.0
 pycodestyle==2.8.0
 importlib_metadata<4.13
 zipp==3.8.0  # for flake8
-flake8==4.0.1
+flake8==5.0.1
 tornado==6.2
 beautifulsoup4==4.11.0
 cssselect==1.1.0
