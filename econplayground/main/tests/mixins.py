@@ -10,7 +10,7 @@ class LoggedInTestMixin(TestCase):
         self.u.set_password('test')
         self.u.save()
         login = self.client.login(username='testuser', password='test')
-        assert(login is True)
+        assert (login is True)
 
 
 class LoggedInTestInstructorMixin(TestCase):
@@ -19,7 +19,7 @@ class LoggedInTestInstructorMixin(TestCase):
         self.u.set_password('test')
         self.u.save()
         login = self.client.login(username=self.u.username, password='test')
-        assert(login is True)
+        assert (login is True)
 
 
 class LoggedInTestStudentMixin(TestCase):
@@ -28,4 +28,4 @@ class LoggedInTestStudentMixin(TestCase):
         self.u.set_password('test')
         self.u.save()
         login = self.client.login(username='teststudent', password='test')
-        assert(login is True)
+        assert (login is True)
