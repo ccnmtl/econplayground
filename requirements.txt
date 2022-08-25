@@ -93,7 +93,7 @@ django-lti-provider==1.0.0
 
 django-braces==1.15.0
 django-smtp-ssl==1.0
-django-contact-us==1.0.0
+django-contact-us==1.1.0
 docutils==0.19  # Django's admindocs
 
 pbr==5.10.0  # bandit
