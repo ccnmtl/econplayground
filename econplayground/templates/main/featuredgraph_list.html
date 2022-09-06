@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static econ_auth %}
 
-{% block title %}Manage Featured Graphs{% endblock %}
+{% block title %}Manage Featured Graphs | {% endblock %}
 
 {% block breadcrumb %}
     {% if i_am_instructor %}
@@ -25,13 +25,11 @@
     {% endif %}
 {% endblock %}
 
+{% block pagetitle %}<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">Manage Featured Graphs: {{ cohort.title|truncatewords:5 }}</div>{% endblock %}
+
 {% block content %}
     <div class="row">
         <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
-            <h1>
-                Manage Featured Graphs: {{ cohort.title|truncatewords:5 }}
-            </h1>
-
             <form class="form featuredgraphs-form">
                 <ul class="list-group featuredgraphs-list">
                     {% for graph in object_list %}
@@ -44,21 +42,21 @@
 
                             <a href="{% url 'cohort_graph_edit' cohort.pk graph.pk %}?move=up"
                                role="button"
-                               title="Move up"
+                               title="Move graph up the list"
                                class="btn btn-sm btn-secondary mr-1 {% if forloop.counter == 1 %}disabled{% endif %}">
                                 <svg height="32" class="octicon octicon-arrow-up" viewBox="0 0 10 16" version="1.1" width="20" aria-hidden="true"><path fill-rule="evenodd" d="M5 3L0 9h3v4h4V9h3L5 3z"></path></svg>
                             </a>
                             <a href="{% url 'cohort_graph_edit' cohort.pk graph.pk %}?move=down"
                                role="button"
-                               title="Move down"
+                               title="Move graph down the list"
                                class="btn btn-sm btn-secondary mr-1 {% if forloop.revcounter == 1 %}disabled{% endif %}">
                                 <svg height="32" class="octicon octicon-arrow-down" viewBox="0 0 10 16" version="1.1" width="20" aria-hidden="true"><path fill-rule="evenodd" d="M7 7V3H3v4H0l5 6 5-6H7z"></path></svg>
                             </a>
 
                             <a role="button"
                                class="btn btn-sm btn-danger mr-1"
-                               title="Delete"
-                               href="{% url 'cohort_graph_delete' cohort.pk graph.pk %}">
+                               title="Delete {{graph.title}}"
+                               href="{% url 'cohort_graph_edit' cohort.pk graph.pk %}?remove=true">
                                 <svg height="32" class="octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="24" aria-hidden="true"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"></path></svg>
                             </a>
                         </li>
