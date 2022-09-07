@@ -147,15 +147,17 @@ class FeaturedGraphUpdateView(
 
     def get(self, request, *args, **kwargs):
         if request.GET.get('move') == 'down' or \
-           request.GET.get('move') == 'up':
+           request.GET.get('move') == 'up' or \
+           request.GET.get('remove'):
             graph = self.get_object()
             if request.GET.get('move') == 'down':
                 graph.down()
-            else:
+            elif request.GET.get('move') == 'up':
                 graph.up()
-
+            else:
+                graph.featured = False
+                graph.save()
             return HttpResponseRedirect(self.get_success_url())
-
         return HttpResponseForbidden()
 
     def get_success_url(self):
@@ -221,12 +223,23 @@ class GraphEmbedPublicMinimalView(
     template_name = 'main/graph_embed_public_minimal.html'
 
 
-class GraphDeleteView(UserPassesTestMixin, DeleteView):
+class GraphDeleteView(LoginRequiredMixin, CohortInstructorMixin, DeleteView):
     model = Graph
-    success_url = '/'
 
-    def test_func(self):
-        return user_is_instructor(self.request.user)
+    def get_context_data(self, **kwargs):
+        ctx = super(GraphDeleteView, self).get_context_data(**kwargs)
+        ctx.update({
+            'cohort': self.cohort,
+        })
+        return ctx
+
+    def get_success_url(self):
+        messages.add_message(
+            self.request, messages.SUCCESS,
+            '<strong>{}</strong> has been deleted.'.format(self.object.title),
+            extra_tags='safe')
+
+        return reverse('cohort_detail', kwargs={'pk': self.cohort.pk})
 
 
 class MyLTILandingPage(LTILandingPage):
