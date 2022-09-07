@@ -239,10 +239,7 @@ class GraphDeleteView(LoginRequiredMixin, CohortInstructorMixin, DeleteView):
             '<strong>{}</strong> has been deleted.'.format(self.object.title),
             extra_tags='safe')
 
-        return reverse('cohort_detail', kwargs={'cohort_pk': self.cohort.pk})
-
-    def test_func(self):
-        return isinstance(self.object.title, str)
+        return reverse('cohort_detail', kwargs={'pk': self.cohort.pk})
 
 
 class MyLTILandingPage(LTILandingPage):

@@ -38,6 +38,47 @@ class GraphDetailViewTest(LoggedInTestMixin, TestCase):
         self.assertContains(r, g.topic.cohort.title)
 
 
+class GraphDeleteViewTest(LoggedInTestInstructorMixin, TestCase):
+    def setUp(self):
+        super().setUp()
+        self.cohort = CohortFactory()
+        self.cohort.instructors.add(self.u)
+        self.topic = TopicFactory(cohort=self.cohort)
+        self.graph = GraphFactory(topic=self.topic)
+
+    # Test that I can delete my own graph
+    def test_post_delete_graph(self):
+        self.assertEqual(self.cohort.graph_count(), 1)
+
+        r = self.client.post(
+            reverse('cohort_graph_delete', kwargs={
+                'cohort_pk': self.graph.topic.cohort.pk,
+                'pk': self.graph.pk,
+            }), follow=True)
+
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(self.cohort.graph_count(), 0)
+
+        self.assertContains(r, self.graph.title)
+        self.assertContains(r, self.graph.topic.cohort.title)
+
+    # Test that I can't delete someone else's graph
+    def test_post_delete_unassociated_graph(self):
+        cohort = CohortFactory()
+        topic = TopicFactory(cohort=cohort)
+        graph = GraphFactory(topic=topic)
+
+        self.assertEqual(cohort.graph_count(), 1)
+        r = self.client.post(
+            reverse('cohort_graph_delete', kwargs={
+                'cohort_pk': graph.topic.cohort.pk,
+                'pk': graph.pk,
+            }), follow=True)
+
+        self.assertEqual(r.status_code, 403)
+        self.assertEqual(cohort.graph_count(), 1)
+
+
 class CloneGraphUnauthorizedViewTest(LoggedInTestMixin, TestCase):
     def test_get(self):
         g = GraphFactory()
