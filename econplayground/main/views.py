@@ -236,10 +236,13 @@ class GraphDeleteView(LoginRequiredMixin, CohortInstructorMixin, DeleteView):
     def get_success_url(self):
         messages.add_message(
             self.request, messages.SUCCESS,
-            '<strong>{}</strong> has been deleted.'.format(self.object.name),
+            '<strong>{}</strong> has been deleted.'.format(self.object.title),
             extra_tags='safe')
 
-        return reverse('topic_list', kwargs={'cohort_pk': self.cohort.pk})
+        return reverse('cohort_detail', kwargs={'cohort_pk': self.cohort.pk})
+
+    def test_func(self):
+        return isinstance(self.object.title, str)
 
 
 class MyLTILandingPage(LTILandingPage):
