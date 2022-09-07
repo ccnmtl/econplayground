@@ -241,9 +241,6 @@ class GraphDeleteView(LoginRequiredMixin, CohortInstructorMixin, DeleteView):
 
         return reverse('topic_list', kwargs={'cohort_pk': self.cohort.pk})
 
-    def test_func(self):
-        return user_is_instructor(self.request.user)
-
 
 class MyLTILandingPage(LTILandingPage):
     def get_context_data(self, *args, **kwargs):
