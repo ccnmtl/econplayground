@@ -185,9 +185,10 @@
 
     {% if SENTRY_DSN %}
         <script
-            src="https://browser.sentry-cdn.com/5.24.2/bundle.min.js"
-            integrity="sha384-8x1Z8KjWCA4KJ7mh5cTEtm1Jngg4yEZDYTAU3A4HfHdtaiCYba4cCuJDHQ3zc2Qe"
-            crossorigin="anonymous"></script>
+            src="https://browser.sentry-cdn.com/7.12.1/bundle.min.js"
+            integrity="sha384-ds3MEkwHMg1Vl0XMXl86pZU3gIntwqCNJtYn0etV2sTjuKLdqrtEKFzCwgj3uzcL"
+            crossorigin="anonymous"
+        ></script>
 
         <script>
         Sentry.init({dsn: '{{SENTRY_DSN}}'});
