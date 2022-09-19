@@ -7,9 +7,13 @@ nav.navbar {
 }
 
 nav.navbar-dark .navbar-nav .nav-link {
-    color: #73a9db;
+    color: white;
+
+    span {
+        color: white;
+    }
 }
 
 header {
-    margin-bottom: 3em;
+    margin-bottom: 2em;
 }

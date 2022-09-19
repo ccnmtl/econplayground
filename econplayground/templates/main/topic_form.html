@@ -7,6 +7,7 @@
     {% else %}
         Create Topic
     {% endif %}
+     | 
 {% endblock %}
 
 {% block breadcrumb %}
@@ -38,6 +39,14 @@
         </ol>
     </nav>
     {% endif %}
+{% endblock %}
+
+{% block pagetitle %}
+{% if object %}
+    Update Topic
+{% else %}
+    Create Topic
+{% endif %}
 {% endblock %}
 
 {% block content %}

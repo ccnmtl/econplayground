@@ -73,7 +73,7 @@
                     <form class="text-center" method="get" action="/cas/login">
                         <input type="hidden" name="next" value="/" />
 
-                        <input class="btn btn-secondary" type="submit"
+                        <input class="btn btn-secondary loginbtn" type="submit"
                                value="Columbia Log In" />
 
                         <p class="small pt-2">
@@ -97,11 +97,11 @@
                              {% if not form.errors %}style="display: none"{% endif %}>
                             {% bootstrap_form form layout='inline' %}
                         </div>
-                        <input class="btn btn-secondary" type="button"
+                        <input class="btn btn-secondary loginbtn" type="button"
                                value="Guest Log In"
                                {% if form.errors %}style="display: none" {% endif %}
                                onclick="jQuery('.login-local-form').show(); jQuery(this).hide(); return false;" />
-                        <input class="btn btn-secondary login-local-form"
+                        <input class="btn btn-secondary login-local-form loginbtn"
                                type="submit" value="Log In"
                                {% if not form.errors %}style="display: none;" {% endif %} />
                         <input type="hidden" name="next" value="/" />

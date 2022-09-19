@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static econ_auth %}
 
-{% block title %}Manage Topics{% endblock %}
+{% block title %}Manage Topics | {% endblock %}
 
 {% block breadcrumb %}
     {% if i_am_instructor %}
@@ -25,13 +25,11 @@
     {% endif %}
 {% endblock %}
 
+{% block pagetitle %}<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">Manage Topics: {{ cohort.title|truncatewords:5 }}</div>{% endblock %}
+
 {% block content %}
     <div class="row">
         <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
-            <h1>
-                Manage Topics: {{ cohort.title|truncatewords:5 }}
-            </h1>
-
             <form class="form topics-form">
                 <a class="btn btn-primary mb-2"
                    href="{% url 'topic_create' cohort.pk %}" role="button">
@@ -51,20 +49,20 @@
                                     </a>
                                 {% endif %}
                             </div>
-
+                            &emsp;
                             <span class="badge badge-primary badge-pill mr-auto">
                                 {{topic.graph_count}} graph{{topic.graph_count|pluralize}}
                             </span>
 
                             <a href="{% url 'topic_edit' cohort.pk topic.pk %}?move=up"
                                role="button"
-                               title="Move up"
+                               title="Move topic up the list"
                                class="btn btn-sm btn-secondary mr-1 {% if forloop.counter == 1 %}disabled{% endif %}">
                                 <svg height="32" class="octicon octicon-arrow-up" viewBox="0 0 10 16" version="1.1" width="20" aria-hidden="true"><path fill-rule="evenodd" d="M5 3L0 9h3v4h4V9h3L5 3z"></path></svg>
                             </a>
                             <a href="{% url 'topic_edit' cohort.pk topic.pk %}?move=down"
                                role="button"
-                               title="Move down"
+                               title="Move topic down the list"
                                class="btn btn-sm btn-secondary mr-1 {% if forloop.revcounter == 1 %}disabled{% endif %}">
                                 <svg height="32" class="octicon octicon-arrow-down" viewBox="0 0 10 16" version="1.1" width="20" aria-hidden="true"><path fill-rule="evenodd" d="M7 7V3H3v4H0l5 6 5-6H7z"></path></svg>
                             </a>
@@ -72,13 +70,13 @@
                             {% if topic.name != 'General' %}
                                 <a role="button"
                                    class="btn btn-sm btn-secondary mr-1"
-                                   title="Edit"
+                                   title="Edit {{topic.name}}"
                                    href="{% url 'topic_edit' cohort.pk topic.pk %}">
                                     <svg height="32" class="octicon octicon-pencil" viewBox="0 0 14 16" version="1.1" width="28" aria-hidden="true"><path fill-rule="evenodd" d="M0 12v3h3l8-8-3-3-8 8zm3 2H1v-2h1v1h1v1zm10.3-9.3L12 6 9 3l1.3-1.3a.996.996 0 0 1 1.41 0l1.59 1.59c.39.39.39 1.02 0 1.41z"></path></svg>
                                 </a>
                                 <a role="button"
                                    class="btn btn-sm btn-danger mr-1"
-                                   title="Delete"
+                                   title="Delete {{topic.name}}"
                                    href="{% url 'topic_delete' cohort.pk topic.pk %}">
                                     <svg height="32" class="octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="24" aria-hidden="true"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"></path></svg>
                                 </a>
