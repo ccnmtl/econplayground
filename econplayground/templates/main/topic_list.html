@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static econ_auth %}
 
-{% block title %}Manage Topics | {% endblock %}
+{% block title %}Manage Topics{% endblock %}
 
 {% block breadcrumb %}
     {% if i_am_instructor %}
@@ -25,7 +25,13 @@
     {% endif %}
 {% endblock %}
 
-{% block pagetitle %}<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">Manage Topics: {{ cohort.title|truncatewords:5 }}</div>{% endblock %}
+{% block pagetitle %}
+<h1 class="mt-4">
+    <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
+        Manage Topics: {{ cohort.title|truncatewords:5 }}
+    </div>
+</h1>
+{% endblock %}
 
 {% block content %}
     <div class="row">

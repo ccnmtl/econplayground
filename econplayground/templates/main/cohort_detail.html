@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static econ_auth markup %}
 
-{% block title %}{{ object.title }} | {% endblock %}
+{% block title %}{{ object.title }}{% endblock %}
 
 {% block breadcrumb %}
     {% if i_am_instructor %}
@@ -22,11 +22,11 @@
     {% endif %}
 {% endblock %}
 
-{% block pagetitle %}{{ object.title }}{% endblock %}
+{% block pagetitle %}<h1 class="mt-4">{{ object.title }}</h1>{% endblock %}
 
 {% block content %}
     <div id="graph-listing" class="row">
-        <main class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
+        <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
             <p class="text-secondary">Browse and experience our collection of graphs.</p>
             {% if featured %}
             <h2>Featured Graphs</h2>
@@ -148,7 +148,7 @@
                 </div>
                 {% endif %}
             </div>
-        </main>
+        </div>
         <side class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12">
             {% if i_am_instructor %}
                 <div class="form-group">

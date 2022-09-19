@@ -2,7 +2,7 @@
 {% load compress static bootstrap4 %}
 
 {% block title %}
-   Please Login
+   Login
 {% endblock %}
 
 {% block css %}
@@ -24,7 +24,7 @@
             <!-- Fixed navbar -->
             <nav class="navbar navbar-expand-md navbar-dark bg-bright-blue hp-nav">
                 <a class="navbar-brand" href="/" title="EconPractice Home">
-                    <img src="{% static 'img/logo-econpractice.svg' %}" width="200" height="39.78" alt="EconPractice logo" />
+                    <img src="{% static 'img/logo-econpractice.svg' %}" width="200" height="39.78" alt="EconPractice" />
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarCollapse" aria-controls="navbarCollapse"
@@ -59,9 +59,11 @@
 
     <div class="site-wrapper-inner container">
         <div class="cover-container">
-            <main role="main" class="inner cover"> <img
-                src="{% static 'img/logo-econpractice.svg' %}" class="img-fluid"
-                alt="EconPractice">
+            <main role="main" class="inner cover">
+                    <h1 class="visually-hidden">EconPractice Login</h1>
+                <img src="{% static 'img/logo-econpractice.svg' %}" 
+                     class="img-fluid"
+                     alt="EconPractice">
 
                 <p class="lead">BETA VERSION</p>
 
@@ -101,7 +103,7 @@
                                value="Guest Log In"
                                {% if form.errors %}style="display: none" {% endif %}
                                onclick="jQuery('.login-local-form').show(); jQuery(this).hide(); return false;" />
-                        <input class="btn btn-secondary login-local-form loginbtn"
+                        <input class="btn login-local-form loginbtn"
                                type="submit" value="Log In"
                                {% if not form.errors %}style="display: none;" {% endif %} />
                         <input type="hidden" name="next" value="/" />

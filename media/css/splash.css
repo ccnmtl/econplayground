@@ -41,12 +41,12 @@
 
 .splash .mastfoot {
     width: 100%;
-    color: rgba(255,255,255,.5);
+    color: rgba(255,255,255);
 }
 
 .splash .mastfoot a,
 .splash .mastfoot a:focus,
-.splash .mastfoot a:hover { color: #fff; }
+.splash .mastfoot a:hover { color: rgb(143, 220, 241); }
 
 /* LTI Splash Page */
 @media (min-width: 62em) {
