@@ -72,7 +72,8 @@ class CohortGraphCreateDetailView(
         graph_type = kwargs.get('graph_type')
         self.cohort = get_object_or_404(Cohort, pk=pk)
         self.graph_type = graph_type
-        return super(CohortGraphCreateDetailView, self).get(request, *args, **kwargs)
+        return super(
+            CohortGraphCreateDetailView, self).get(request, *args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
         ctx = super(CohortGraphCreateDetailView, self).get_context_data(
