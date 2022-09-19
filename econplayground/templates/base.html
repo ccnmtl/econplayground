@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>EconPractice: {% block title %}{% endblock %}</title>
+    <title>{% block title %}{% endblock %}EconPractice</title>
 
     <meta charset="utf-8" />
 
@@ -125,6 +125,7 @@
         {% endblock %}
 
         <!-- Begin page content -->
+        <h1>{% block pagetitle %}{% endblock %}</h1>
         {% for message in messages %}
         <div class="messages alert alert-primary {% if message.tags %}{{ message.tags }}{% endif %}" role="alert">
             {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
@@ -137,16 +138,16 @@
         </main>
 
         <footer class="base-footer">
-            <ul class="footer-navigation">
-                <li class="float-left">
-                    Built by <a href="https://sipa.columbia.edu/faculty-research/faculty-directory/thomas-groll"
-                                title="Thomas Groll's site">
-                    Thomas Groll
-                    </a> and the <a href="https://ctl.columbia.edu" title="Columbia University Center for Teaching and Learning">CTL</a>.
-                </li>
-                <li><a href="/credits/" title="Credits">Credits</a></li>
-                <li><a href="/contact/" title="Contact">Contact</a></li>
-            </ul>
+            <div style="padding: 0 0.5em;">
+                Built by <a href="https://sipa.columbia.edu/faculty-research/faculty-directory/thomas-groll"
+                            title="Thomas Groll's site">
+                Thomas Groll
+                </a> and the <a href="https://ctl.columbia.edu" title="Columbia University Center for Teaching and Learning">CTL</a>.
+                <div class="float-right footer-right">
+                    <a href="/credits/" title="Credits">Credits</a>
+                    <a href="/contact/" title="Contact">Contact</a>
+                </div>
+            </div>
             <div class="clearfix"></div>
             <ul class="footer-logos" role="presentation">
                 <li itemscope="" itemtype="http://schema.org/EducationalOrganization">

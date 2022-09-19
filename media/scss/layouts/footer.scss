@@ -1,11 +1,14 @@
-footer { margin: 3em 0em 3em 0em; }
+footer {
+    margin: 3em 0em 3em 0em;
+    font-size: 1.2rem;
+}
 
 .base-footer {
     margin: 50px -15px 0px -15px;
-    line-height: 60px;
+    line-height: 30px;
     background-color: #f5f5f5;
     position: relative;
-    font-size: .95em;
+    font-size: $font-general;
     padding: 10px;
 }
 
@@ -15,16 +18,15 @@ footer { margin: 3em 0em 3em 0em; }
 }
 
 .base-footer .footer-navigation {
-  margin: 5px 0;
-  padding: 0;
-  color: black;
-  text-align: center;
-  list-style: none;
+    margin: 5px 0;
+    padding: 0;
+    color: black;
+    text-align: center;
+    list-style: none;
 }
 
 .base-footer .footer-navigation li {
     display: inline-block;
-    float: right;
     padding: 0 10px;
 }
 
@@ -38,16 +40,26 @@ footer { margin: 3em 0em 3em 0em; }
 .base-footer .footer-logos li {
     display: inline-block;
     padding: 10px;
+
+    a {
+        padding: 0.2rem;
+        display: inline-block;
+    }
 }
 
 .base-footer .footer-logos img {
     height: 50px;
 }
 
+.base-footer .footer-right a {
+    padding-left: 1em;
+}
+
 .loader-inner.ball-pulse {
     margin-top: 3em;
     text-align: center;
 }
-.loader-inner.ball-pulse > div {
+
+.loader-inner.ball-pulse>div {
     background-color: #1e429b;
 }

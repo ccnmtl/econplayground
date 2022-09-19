@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static econ_auth markup %}
 
+{% block title %}{{ object.title }} | {% endblock %}
+
 {% block breadcrumb %}
     {% if i_am_instructor %}
     <nav aria-label="breadcrumb">
@@ -20,11 +22,12 @@
     {% endif %}
 {% endblock %}
 
+{% block pagetitle %}{{ object.title }}{% endblock %}
+
 {% block content %}
     <div id="graph-listing" class="row">
-        <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
-            <h1>{{ object.title }}</h1>
-            <p class="lead text-secondary">Browse and experience our collection of graphs.</p>
+        <main class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
+            <p class="text-secondary">Browse and experience our collection of graphs.</p>
             {% if featured %}
             <h2>Featured Graphs</h2>
             {% elif not active_topic %}
@@ -36,100 +39,108 @@
             {% endif %}
             <div class="row">
                 {% if featured %} {# Renders the featured graphs #}
-                <div class="card-deck">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <ul class="list-group list-group-flush">
                     {% for graph in graph_list %}
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="card-inner-container">
-                                <h5 class="card-title">
-                                    <a href="{% url 'cohort_graph_detail' object.pk graph.id %}" title="{{graph.title}}">
-                                        {{ graph.title }}
-                                    </a>
-                                </h5>
-                                {% if graph.summary %}
-                                <p class="card-text">{{ graph.summary | commonmark }}</p>
-                                {% endif %}
-                            </div>
-                            <div class="card-inner-container topic-tag">
-                                <a href="?topic={{ graph.topic }}" title="Topic: {{graph.topic}}">
-                                    {{ graph.topic }}
+                    <li class="list-group-item">
+                        <article class="graph-listing-item">
+                            <h3>
+                                <a href="{% url 'cohort_graph_detail' object.pk graph.id %}" title="{{graph.title}}">
+                                    {{ graph.title }}
                                 </a>
+                            </h3>
+                            {% if graph.summary %}
+                            <div class="mb-2">
+                                <p>{{ graph.summary | commonmark }}</p>
                             </div>
-                        </div>
-                        {% if i_am_instructor %}
-                        {% if graph.is_published or graph.needs_submit %}
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">
-                                {% if graph.is_published %}
-                                    <span class="badge badge-pill badge-primary">Published</span>
-                                {% endif %}
-                                {% if graph.needs_submit %}
-                                    <span class="badge badge-pill badge-secondary">LTI</span>
-                                {% endif %}
-                            </li>
-                        </ul>
-                        {% endif %}
-                        {% endif %}
-                    </div>
+                            {% endif %}
+                            <a href="?topic={{ graph.topic }}" title="Topic: {{graph.topic}}">
+                                {{ graph.topic }}
+                            </a>
+                            {% if i_am_instructor %}
+                            {% if graph.is_published %}
+                            <div class="float-right">
+                                <span class="badge badge-pill badge-primary">Published</span>
+                            </div>
+                            {% endif %}
+                            {% if graph.needs_submit %}
+                            <div class="float-right">
+                                <span class="badge badge-pill badge-secondary">LTI</span>
+                            </div>
+                            {% endif %}
+                            {% endif %}
+                        </article>
+                    </li>
                     {% empty %}
-                    <div class="card-body">
-                        <p class="ml-4">
-                            No graphs here.
-                        </p>
-                    </div>
+                    <li class="list-group-item">
+                        <article class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <p class="ml-4">
+                                No graphs here.
+                            </p>
+                        </article>
+                    </li>
                     {% endfor %}
+                    </ul>
                 </div>
                 {% elif not active_topic %} {# Renders all graphs #}
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     {% for topic in topic_list %}
                         {# Then render those with a topic #}
-                        {% if topic.graph_set.all %}
-                            <h3>{{ topic.name }}</h3>
-                            {% for graph in topic.graph_set.all %}
-                                {% if i_am_instructor or graph.is_visible_to_students %}
-                                <div class="graph-listing-item">
-                                    <h5>
-                                        <a href="{% url 'cohort_graph_detail' object.pk graph.id %}" title="{{graph.title}}">
-                                            {{ graph.title }}
-                                        </a>
-                                    </h5>
-                                    <p>{{ graph.summary }}</p>
-                                    {% if i_am_instructor %}
-                                    {% if graph.is_published %}
-                                    <span class="badge badge-pill badge-primary">Published</span>
-                                    {% endif %}
-                                    {% if graph.needs_submit %}
-                                    <span class="badge badge-pill badge-secondary">LTI</span>
-                                    {% endif %}
-                                    {% endif %}
-                                </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                {% if topic.graph_set.all %}
+                                    <h3>{{ topic.name }}</h3>
+                                    {% for graph in topic.graph_set.all %}
+                                        {% if i_am_instructor or graph.is_visible_to_students %}
+                                        <article class="graph-listing-item">
+                                            <h4>
+                                                <a href="{% url 'cohort_graph_detail' object.pk graph.id %}" title="{{graph.title}}">
+                                                    {{ graph.title }}
+                                                </a>
+                                            </h4>
+                                            <p>{{ graph.summary }}</p>
+                                            {% if i_am_instructor %}
+                                            {% if graph.is_published %}
+                                            <span class="badge badge-pill badge-primary">Published</span>
+                                            {% endif %}
+                                            {% if graph.needs_submit %}
+                                            <span class="badge badge-pill badge-secondary">LTI</span>
+                                            {% endif %}
+                                            {% endif %}
+                                        </article>
+                                        {% endif %}
+                                    {% endfor %}
                                 {% endif %}
-                            {% endfor %}
-                        {% endif %}
+                            </li>
+                        </ul>
                     {% endfor %}
                 </div>
                 {% else %} {# Renders graphs when a specific topic is selected #}
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     {% if graph_list %}
                         {% for graph in graph_list %}
-                            {% if i_am_instructor or graph.is_visible_to_students %}
-                                <div class="graph-listing-item">
-                                    <h5>
-                                        <a href="{% url 'cohort_graph_detail' object.pk graph.id %}" title="{{graph.title}}">
-                                            {{ graph.title }}
-                                        </a>
-                                    </h5>
-                                    <p>{{ graph.summary }}</p>
-                                    {% if i_am_instructor %}
-                                    {% if graph.is_published %}
-                                    <span class="badge badge-pill badge-primary">Published</span>
-                                    {% endif %}
-                                    {% if graph.needs_submit %}
-                                    <span class="badge badge-pill badge-secondary">LTI</span>
-                                    {% endif %}
-                                    {% endif %}
-                                </div>
-                            {% endif %}
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                {% if i_am_instructor or graph.is_visible_to_students %}
+                                    <div class="graph-listing-item">
+                                        <h3>
+                                            <a href="{% url 'cohort_graph_detail' object.pk graph.id %}" title="{{graph.title}}">
+                                                {{ graph.title }}
+                                            </a>
+                                        </h3>
+                                        <p>{{ graph.summary }}</p>
+                                        {% if i_am_instructor %}
+                                        {% if graph.is_published %}
+                                        <span class="badge badge-pill badge-primary">Published</span>
+                                        {% endif %}
+                                        {% if graph.needs_submit %}
+                                        <span class="badge badge-pill badge-secondary">LTI</span>
+                                        {% endif %}
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                            </li>
+                        </ul>
                         {% endfor %}
                     {% else %}
                         <p>There are no graphs in this topic.</p>
@@ -137,8 +148,8 @@
                 </div>
                 {% endif %}
             </div>
-        </div>
-        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12">
+        </main>
+        <side class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12">
             {% if i_am_instructor %}
                 <div class="form-group">
                     <a class="btn btn-secondary btn-sm btn-block"
@@ -161,20 +172,20 @@
 
             <ul class="list-group">
                 <li class="list-group-item {% if featured %}active{% endif %}">
-                    <a href="{% url 'cohort_detail' object.pk %}" title="Featured Graphs">
+                    <a href="{% url 'cohort_detail' object.pk %}">
                         Featured Graphs
+                        <span class="badge badge-secondary float-right" tabindex="-1">
+                            {{ featured_count }}
+                        </span>
                     </a>
-                    <span class="badge badge-secondary float-right">
-                        {{ featured_count }}
-                    </span>
                 </li>
                 <li class="list-group-item {% if not featured and not active_topic %}active{% endif %}">
-                    <a href="{% url 'cohort_detail' object.pk %}?all=true" title="All Graphs">
+                    <a href="{% url 'cohort_detail' object.pk %}?all=true">
                         All Graphs
+                        <span class="badge badge-secondary float-right">
+                            {{ all_count }}
+                        </span>
                     </a>
-                    <span class="badge badge-secondary float-right">
-                        {{ all_count }}
-                    </span>
                 </li>
             </ul>
 
@@ -183,25 +194,25 @@
                 {% for topic in topic_list %}
                 {% if i_am_instructor %}
                 <li class="list-group-item {% if active_topic == topic.id %}active{% endif %}">
-                    <a href="?topic={{ topic.id }}" title="{{topic.name}}">
+                    <a href="?topic={{ topic.id }}">
                         {{ topic.name }}
+                        <span class="badge badge-secondary float-right">
+                            {{ topic.graph_count }}
+                        </span>
                     </a>
-                    <span class="badge badge-secondary float-right">
-                        {{ topic.graph_count }}
-                    </span>
                 </li>
                 {% elif topic.published_graph_count > 0 %}
                 <li class="list-group-item {% if active_topic == topic.id %}active{% endif %}">
-                    <a href="?topic={{ topic.id }}" title="{{topic.name}}">
+                    <a href="?topic={{ topic.id }}">
                         {{ topic.name }}
+                        <span class="badge badge-secondary float-right">
+                            {{ topic.published_graph_count }}
+                        </span>
                     </a>
-                    <span class="badge badge-secondary float-right">
-                        {{ topic.published_graph_count }}
-                    </span>
                 </li>
                 {% endif %}
                 {% endfor %}
             </ul>
-        </div>
+        </side>
     </div>
 {% endblock %}

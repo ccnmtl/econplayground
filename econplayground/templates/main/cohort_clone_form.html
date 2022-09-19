@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
 
-{% block title %}Clone Cohort{% endblock %}
+{% block title %}Clone Cohort | {% endblock %}
 
 {% block breadcrumb %}
     <nav aria-label="breadcrumb">
@@ -24,15 +24,13 @@
 {% endblock %}
 
 {% block pagetitle %}
-    Clone Graph: {{ object.title|truncatewords:5 }}
+    <span class="h1-small">Cloning <strong>{{object.title}}</strong></span>
 {% endblock %}
 
 {% block pagedescription %}
 {% endblock %}
 
 {% block content %}
-    <h4>Cloning <strong>{{object.title}}</strong></h4>
-
     <p>
         Pick a title for the cloned course:
     </p>

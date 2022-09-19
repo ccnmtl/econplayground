@@ -1,7 +1,57 @@
-.btn-primary { background-color: $blue; }
+.btn-primary {
+    background-color: $blue;
+}
 
-.card a img  {border: 2px solid #ccc;}
-.card a:hover img  {border: 2px solid $blue;}
+.graph-listing-item {
+    margin-bottom: 1rem !important;
+}
+
+.graph-listing-item p {
+    margin-left: 1rem;
+}
+
+.loginbtn {
+    border: 3px solid $background  !important;
+    border-radius: 0.5rem;
+}
+
+.loginbtn:focus,
+.loginbtn:hover {
+    background-color: $background  !important;
+    border: 3px solid white !important;
+    color: white !important;
+}
+
+.lti-landing {
+    background-color: $background;
+}
+
+.slider-wrapper {
+    margin: 0 0.2rem 1rem 0.2rem;
+}
+
+.card-deck .card {
+    min-width: calc(31% - 1rem) !important;
+    max-width: calc(31% - 1rem) !important;
+}
+
+.card a img {
+    border: 2px solid #ccc;
+}
+
+.card a:hover img {
+    border: 2px solid $blue;
+}
+
+.shift-down {
+    position: absolute;
+    top: 1rem;
+}
+
+.shift-up {
+    position: relative;
+    top: -0.5rem;
+}
 
 #outer-container {
     padding-bottom: 2em;
@@ -25,9 +75,9 @@
 
 // Select box appearance reset
 select {
-    -webkit-appearance:none;
-    -moz-appearance:none;
-    appearance:none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 }
 
 /* MathJax */
@@ -35,14 +85,17 @@ select {
     margin: 0;
 }
 
-.GraphEditor, .topics-form, .featuredgraphs-form {
+.GraphEditor,
+.topics-form,
+.featuredgraphs-form {
     svg.octicon {
         width: 20px;
         height: 20px;
     }
 }
 
-#skip a, .accessibility-note {
+#skip a,
+.accessibility-note {
     position: absolute;
     left: -10000px;
     top: auto;

@@ -62,6 +62,29 @@ class CohortGraphCreateView(
         return user_is_instructor(self.request.user)
 
 
+class CohortGraphCreateDetailView(
+        EnsureCsrfCookieMixin, UserPassesTestMixin, CreateView):
+    model = Graph
+    fields = ['title', 'summary', 'instructions', 'graph_type']
+
+    def get(self, request, *args, **kwargs):
+        pk = kwargs.get('pk')
+        graph_type = kwargs.get('graph_type')
+        self.cohort = get_object_or_404(Cohort, pk=pk)
+        self.graph_type = graph_type
+        return super(CohortGraphCreateDetailView, self).get(request, *args, **kwargs)
+
+    def get_context_data(self, *args, **kwargs):
+        ctx = super(CohortGraphCreateDetailView, self).get_context_data(
+            *args, **kwargs)
+        ctx.update({'cohort': self.cohort})
+        ctx.update({'graph_type': self.graph_type})
+        return ctx
+
+    def test_func(self):
+        return user_is_instructor(self.request.user)
+
+
 class GraphCloneDisplay(LoginRequiredMixin, CohortInstructorMixin, DetailView):
     model = Graph
     template_name = 'main/graph_clone_form.html'

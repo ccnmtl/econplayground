@@ -48,6 +48,9 @@ urlpatterns = [
     path('course/<int:pk>/graph/create/',
          views.CohortGraphCreateView.as_view(),
          name='cohort_graph_create'),
+    path('course/<int:pk>/graph/create/<int:graph_type>/',
+         views.CohortGraphCreateDetailView.as_view(),
+         name='cohort_graph_create_detail'),
 
     path('course/<int:cohort_pk>/graph/<int:pk>/',
          views.GraphDetailView.as_view(), name='cohort_graph_detail'),
