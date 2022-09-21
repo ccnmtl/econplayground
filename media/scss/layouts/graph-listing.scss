@@ -5,8 +5,8 @@
     }
 
     .card {
-        max-width: calc(48% - 15px);
-        min-width: calc(48% - 15px);
+        max-width: calc(31% - 1rem);
+        min-width: calc(31% - 1rem);
         margin-bottom: 2rem;
 
         .card-body {
@@ -26,7 +26,7 @@
     }
 
     .graph-listing-item {
-        margin-bottom: 2.5rem;
+        margin-bottom: 1rem;
 
         h5 {
             text-transformation: allcaps;

@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load static econ_auth %}
 
 {% block title %}Delete Graph: {{object.title}} | {% endblock %}
 
@@ -9,17 +8,18 @@
     <p>
         Removing <strong>{{object.title}}</strong>  &mdash; Are you sure?
     </p>
-    <form action="." method="post">{% csrf_token %}
+    <form id="delete-graph" action="." method="post">{% csrf_token %}
         <div class="row">
             <div class="mb-1 mr-3 pr-0">
-                <input class="btn btn-danger" type="submit"
-                    value="Yes, delete this graph">
+                <button class="btn btn-danger" type="submit"
+                    form="delete-graph">Yes, delete this graph</button>
             </div>
             <div class="mb-1 mr-3 pr-0">
-                <a class="btn btn-block btn-secondary"
-                    href="{% url 'cohort_graph_detail' cohort.pk graph.pk %}">
-                    Cancel
-                </a>
+                <button class="btn btn-block btn-secondary">
+                    <a href="{% url 'cohort_graph_detail' cohort.pk graph.pk %}">
+                        Cancel
+                    </a>
+                </button>
             </div>
         </div>
     </form>
