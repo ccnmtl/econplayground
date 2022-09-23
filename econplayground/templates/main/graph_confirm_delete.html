@@ -1,13 +1,28 @@
 {% extends 'base.html' %}
 
-{% block title %}Delete Graph: {{object.title}}{% endblock %}
+{% block title %}Delete Graph: {{object.title}} | {% endblock %}
+
+{% block pagetitle %}Delete Graph | {% endblock %}
+
+{% block pagetitle %}Delete Graph{% endblock %}
 
 {% block content %}
     <p>
         Removing <strong>{{object.title}}</strong>  &mdash; Are you sure?
     </p>
-    <form action="." method="post">{% csrf_token %}
-        <input class="btn btn-danger" type="submit"
-               value="Yes, delete this graph">
+    <form id="delete-graph" action="." method="post">{% csrf_token %}
+        <div class="row">
+            <div class="mb-1 mr-3 pr-0">
+                <button class="btn btn-danger" type="submit"
+                    form="delete-graph">Yes, delete this graph</button>
+            </div>
+            <div class="mb-1 mr-3 pr-0">
+                <button class="btn btn-block btn-secondary">
+                    <a href="{% url 'cohort_graph_detail' cohort.pk graph.pk %}">
+                        Cancel
+                    </a>
+                </button>
+            </div>
+        </div>
     </form>
 {% endblock %}

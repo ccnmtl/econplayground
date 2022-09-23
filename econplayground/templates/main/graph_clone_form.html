@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
 
-{% block title %}Clone Graph{% endblock %}
+{% block title %}Clone Graph | {% endblock %}
 
 {% block breadcrumb %}
     <nav aria-label="breadcrumb">
@@ -29,15 +29,13 @@
 {% endblock %}
 
 {% block pagetitle %}
-    Clone Graph: {{ object.title|truncatewords:5 }}
+    Cloning <strong>{{ object.title }}</strong>
 {% endblock %}
 
 {% block pagedescription %}
 {% endblock %}
 
 {% block content %}
-    <h4>Cloning <strong>{{object.title}}</strong></h4>
-
     <p>
         Where do you want to clone this graph to?
         Cloning to <strong>General</strong> topic in:

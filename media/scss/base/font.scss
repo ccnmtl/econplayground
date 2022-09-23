@@ -1,32 +1,99 @@
-* { font-family: 'Quattrocento Sans', sans-serif; }
+$font-general: 1.2rem;
 
-h1
-{
-	color: $blue;
-	font-weight: 900;
+* {
+    font-family: 'Quattrocento Sans', sans-serif;
 }
 
-h2
-{
-	margin-top: 1em;
-	font-weight: 700;
+h1 {
+    color: $blue;
+    font-weight: 900;
 }
 
-h3, p.lead { font-weight: 600; }
+h1 div {
+    color: $blue;
+}
 
-h3 { margin-top: 1em; }
+.h1-small {
+    font-size: 2rem;
+}
+
+h2 {
+    margin-top: 1em;
+    font-weight: 700;
+}
+
+h2.card-title {
+    font-size: 1.5rem;
+}
+
+p.lead {
+    font-weight: 500;
+    margin-left: 1rem;
+    margin-bottom: 0;
+}
+
+h3 {
+    margin-top: 1em;
+    font-size: 1.7rem;
+    font-weight: 500;
+}
+
+.list-group-item h3 {
+    margin-top: 0;
+}
+
+h3.card-title {
+    margin-top: 0;
+    padding-bottom: 0.5em;
+}
+
+h4 {
+    font-size: 1.4rem;
+}
+
+.card-img-top .badge {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+
+.lead {
+    margin-bottom: 3em;
+}
 
 
+p a,
+li a,
+h3 a {
+    color: $blue;
+}
 
-.lead { margin-bottom: 3em; }
+p,
+li,
+label,
+textarea,
+a.btn,
+button,
+.btn,
+input,
+blockquote,
+.form-control {
+    font-size: $font-general;
+}
 
+a:visited {
+    color: $visited;
+}
 
-p a, li a, h3 a { color: $blue; }
+a.btn:visited,
+button a:visited {
+    color: white;
+}
 
 input.monospace {
-    font-family: monospace;
+	font-family: monospace;
 }
 
 span.MJXc-display {
-    padding-left: 15px;
+	padding-left: 15px;
 }
