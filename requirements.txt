@@ -22,7 +22,7 @@ cssselect==1.1.0
 lxml==4.9.1
 fuzzywuzzy==0.18.0
 sure==2.0.0
-coverage==6.4
+coverage==6.5.0
 asn1crypto==1.5.0  # cryptography
 cryptography==38.0.0
 urllib3==1.26.8  # requests, sentry-sdk
