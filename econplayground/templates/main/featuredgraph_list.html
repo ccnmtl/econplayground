@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static econ_auth %}
 
-{% block title %}Manage Featured Graphs | {% endblock %}
+{% block title %}Manage Featured Graphs{% endblock %}
 
 {% block breadcrumb %}
     {% if i_am_instructor %}
@@ -25,7 +25,13 @@
     {% endif %}
 {% endblock %}
 
-{% block pagetitle %}<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">Manage Featured Graphs: {{ cohort.title|truncatewords:5 }}</div>{% endblock %}
+{% block pagetitle %}
+    <h1 class="mt-4">
+        <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
+            Manage Featured Graphs: {{ cohort.title|truncatewords:5 }}
+        </div>
+    </h1>
+{% endblock %}
 
 {% block content %}
     <div class="row">
@@ -55,7 +61,7 @@
 
                             <a role="button"
                                class="btn btn-sm btn-danger mr-1"
-                               title="Remove {{graph.title}} from Feautured List"
+                               title="Remove {{graph.title}} from Featured List"
                                href="{% url 'cohort_graph_edit' cohort.pk graph.pk %}?remove=true">
                                 <svg height="32" class="octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="24" aria-hidden="true"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"></path></svg>
                             </a>

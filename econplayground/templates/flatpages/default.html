@@ -3,7 +3,8 @@
 
 {% block title %}{{ flatpage.title }}{% endblock %}
 
+{% block pagetitle %}<h1 class="mt-4">{{ flatpage.title }}</h1>{% endblock %}
+
 {% block content %}
-<h1 class="pageheader">{{ flatpage.title }}</h1>
 {{ flatpage.content|markdown}}
 {% endblock %}

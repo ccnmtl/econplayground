@@ -7,7 +7,6 @@
     {% else %}
         Create Topic
     {% endif %}
-     | 
 {% endblock %}
 
 {% block breadcrumb %}
@@ -42,11 +41,13 @@
 {% endblock %}
 
 {% block pagetitle %}
-{% if object %}
-    Update Topic
-{% else %}
-    Create Topic
-{% endif %}
+<h1 class="mt-4">
+    {% if object %}
+        Update Topic
+    {% else %}
+        Create Topic
+    {% endif %}
+</h1>
 {% endblock %}
 
 {% block content %}

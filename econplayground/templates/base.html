@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>{% block title %}{% endblock %}EconPractice</title>
+    <title>{% block title %}{% endblock %} | EconPractice</title>
 
     <meta charset="utf-8" />
 
@@ -68,9 +68,9 @@
 
 {% user_is_instructor request.user as i_am_instructor %}
 <body class="{% block bodyclass %}{% endblock %}" id="{% block bodyid %}{% endblock %}">
-    <div id="skip">
+    <aside id="skip">
         <a href="#maincontent">Skip to main content</a>
-    </div>
+    </aside>
 
     {% block content-container %}
     <div class="container content-container">
@@ -121,11 +121,11 @@
                 </nav>
 
             {% block breadcrumb %}{% endblock %}
+            {% block pagetitle %}{% endblock %}
         </header>
         {% endblock %}
 
         <!-- Begin page content -->
-        <h1>{% block pagetitle %}{% endblock %}</h1>
         {% for message in messages %}
         <div class="messages alert alert-primary {% if message.tags %}{{ message.tags }}{% endif %}" role="alert">
             {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}

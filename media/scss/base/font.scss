@@ -4,6 +4,17 @@ $font-general: 1.2rem;
     font-family: 'Quattrocento Sans', sans-serif;
 }
 
+.visually-hidden {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+    box-shadow: none;
+}
+
 h1 {
     color: $blue;
     font-weight: 900;
@@ -79,6 +90,10 @@ input,
 blockquote,
 .form-control {
     font-size: $font-general;
+}
+
+button:hover {
+    text-decoration: none;
 }
 
 a:visited {
