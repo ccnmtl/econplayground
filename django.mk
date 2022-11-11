@@ -76,7 +76,7 @@ clean:
 	rm -rf reports
 	rm -f celerybeat-schedule
 	rm -f .coverage
-	rm -rf node_modules
+	rm -rf node_modules build
 	find . -name '*.pyc' -exec rm {} \;
 
 pull:
