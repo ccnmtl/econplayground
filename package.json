@@ -46,7 +46,7 @@
     "@babel/preset-env": "^7.9.6",
     "@babel/preset-react": "^7.9.4",
     "@babel/eslint-parser": "^7.15.8",
-    "babel-jest": "~29.2.0",
+    "babel-jest": "~29.3.1",
     "babel-loader": "~8.2.1",
     "bfj": "^7.0.2",
     "canvas": "~2.10.0",
