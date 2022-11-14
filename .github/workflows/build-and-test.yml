@@ -6,8 +6,23 @@ jobs:
     strategy:
       matrix:
           python-version: [3.8]
+          node-version: [16.x, 18.x]
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
       - name: Build with Makefile
         run: make
+      - name: Install npm modules
+        run: npm install
+      - name: Apt Update
+        run: sudo apt-get -qq update
+      - name: Install libgif-dev
+        run: sudo apt-get install -y libgif-dev
+      - name: Run eslint
+        run: make eslint
+      - name: Test
+        run: make test

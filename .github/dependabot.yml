@@ -63,3 +63,20 @@ updates:
   ignore:
   - dependency-name: "*"
     update-types: ["version-update:semver-patch"]
+  - dependency-name: webpack
+    versions:
+    - 5.20.0
+    - 5.20.1
+    - 5.20.2
+    - 5.21.0
+    - 5.22.0
+    - 5.26.0
+    - 5.26.1
+    - 5.27.0
+    - 5.27.1
+    - 5.32.0
+    - 5.33.2
+    - 5.35.0
+  - dependency-name: whatwg-fetch
+    versions:
+    - 3.6.0

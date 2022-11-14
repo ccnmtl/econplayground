@@ -2,21 +2,111 @@
   "name": "econplayground",
   "version": "0.1.0",
   "description": "econplayground",
-  "license": "GPL-2.0+",
+  "author": "Nik Nyby",
+  "license": "GPL-3.0+",
+  "bugs": {
+    "url": "https://github.com/ccnmtl/econplayground/issues"
+  },
+  "homepage": "https://github.com/ccnmtl/econplayground#readme",
+  "dependencies": {
+    "commonmark": "0.30.0",
+    "jsxgraph": "~1.4.5",
+    "mathjax-full": "^3.1.2",
+    "mathjax-react": "CharlieMcVicker/mathjax-react",
+    "object-assign": "~4.1.1",
+    "promise": "~8.3.0",
+    "react": "~18.2.0",
+    "react-dom": "~18.2.0",
+    "webpack": "~5.74.0",
+    "webpack-cli": "~4.10.0",
+    "whatwg-fetch": "~3.6.1"
+  },
   "scripts": {
     "test": "mocha",
     "build-scss": "node-sass --output media/css media/scss/main.scss --output-style compressed",
-    "watch-scss": "nodemon --watch media/scss --verbose -e scss -x 'npm run build-scss'"
+    "watch-scss": "nodemon --watch media/scss --verbose -e scss -x 'npm run build-scss'",
+    "dev": "webpack --mode development --watch --config media/js/config/webpack.config.dev.js",
+    "build": "node media/js/scripts/build.js",
+    "jstest": "node media/js/scripts/test.js --env=jsdom",
+    "eslint": "eslint media/js/src/*.js media/js/config/*.js"
   },
   "devDependencies": {
     "autoprefixer": "~10.4.0",
     "eslint": "~8.27.0",
     "eslint-plugin-security": "~1.5.0",
+    "eslint-plugin-import": "~2.26.0",
+    "eslint-plugin-jsx-a11y": "~6.6.0",
+    "eslint-plugin-react": "~7.31.0",
     "mocha": "~10.1.0",
     "node-sass": "~8.0.0",
     "nodemon": "~2.0.4",
     "postcss-cli": "~10.0.0",
     "requirejs": "~2.3.6",
-    "sinon": "~14.0.0"
+    "sinon": "~14.0.0",
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.9.6",
+    "@babel/preset-react": "^7.9.4",
+    "@babel/eslint-parser": "^7.15.8",
+    "babel-jest": "~29.2.0",
+    "babel-loader": "~8.2.1",
+    "bfj": "^7.0.2",
+    "canvas": "~2.10.0",
+    "file-loader": "~6.2.0",
+    "fs-extra": "~10.1.0",
+    "jest": "~29.2.0",
+    "jest-environment-jsdom": "29.2.2",
+    "jsdom": "~20.0.0",
+    "lodash": "^4.17.20",
+    "react-dev-utils": "~12.0.0",
+    "react-test-renderer": "~18.2.0",
+    "style-loader": "~3.3.0",
+    "url-loader": "~4.1.0"
+  },
+  "greenkeeper": {
+    "ignore": [
+      "jsdom"
+    ]
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}"
+    ],
+    "setupFiles": [
+      "<rootDir>/media/js/config/polyfills.js"
+    ],
+    "testMatch": [
+      "<rootDir>/media/js/src/**/__tests__/**/*.js?(x)",
+      "<rootDir>/media/js/src/**/?(*.)(spec|test).js?(x)"
+    ],
+    "testEnvironment": "node",
+    "testURL": "http://localhost",
+    "transform": {
+      "^.+\\.(js|jsx)$": "<rootDir>/node_modules/babel-jest",
+      "^.+\\.css$": "<rootDir>/media/js/config/jest/cssTransform.js",
+      "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/media/js/config/jest/fileTransform.js"
+    },
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"
+    ],
+    "moduleNameMapper": {
+      "^react-native$": "react-native-web"
+    },
+    "moduleFileExtensions": [
+      "web.js",
+      "js",
+      "json",
+      "web.jsx",
+      "jsx",
+      "node"
+    ]
+  },
+  "babel": {
+    "presets": [
+      "@babel/env",
+      "@babel/react"
+    ]
+  },
+  "eslintConfig": {
+    "extends": "react-app"
   }
 }

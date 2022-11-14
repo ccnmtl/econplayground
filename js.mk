@@ -37,6 +37,9 @@ $(JS_SENTINAL): package.json
 	npm install $(NPM_OPTS)
 	touch $(JS_SENTINAL)
 
+dev: $(JS_SENTINAL)
+	npm run dev
+
 eslint: $(JS_SENTINAL)
 	$(ESLINT) $(JS_FILES)
 

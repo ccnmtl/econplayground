@@ -4,13 +4,23 @@ module.exports = {
         "amd": true,
         "jquery": true
     },
-    "plugins": [
-        "security"
-    ],
     "extends": [
         "eslint:recommended",
+        "plugin:react/recommended",
         "plugin:security/recommended"
-    ],  
+    ],
+    "parser": "@babel/eslint-parser",
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    },
+    "plugins": [
+        "react",
+        "security"
+    ],
     "rules": {
         "indent": [
             "error",
@@ -20,6 +30,7 @@ module.exports = {
             "error",
             "unix"
         ],
+        "no-console": "off",
         "no-unused-vars": [
             "error",
             {"vars": "all", "args": "none"}
