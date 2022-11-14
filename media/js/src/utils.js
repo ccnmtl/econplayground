@@ -1,3 +1,6 @@
+const BOARD_WIDTH = 540;
+const BOARD_HEIGHT = 300;
+
 /**
  * A wrapper for `fetch` that passes along auth credentials.
  */
@@ -283,5 +286,6 @@ export {
     getSubmission, createSubmission, getOrCreateSubmission,
     getL1SubmissionOffset, getL2SubmissionOffset, handleFormUpdate,
     getOffset, getXIntercept, getYIntercept,
-    forceFloat, forceNumber, displayGraphType, getError, btnStep
+    forceFloat, forceNumber, displayGraphType, getError, btnStep,
+    BOARD_HEIGHT, BOARD_WIDTH
 };

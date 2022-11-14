@@ -34,7 +34,8 @@ class Viewer extends Component {
             return <React.Fragment>
                 <div className="alert alert-info"
                     hidden={this.state.alertText ? false : true}
-                    role="alert">
+                    role="alert"
+                >
                     {this.state.alertText}
                 </div>
                 <GraphEditor
@@ -127,13 +128,16 @@ class Viewer extends Component {
                     updateDisplayIntersection={this.updateDisplayIntersection.bind(this)}
                     updateGraph={this.handleGraphUpdate.bind(this)}
                     saveGraph={this.handleSaveGraph.bind(this)}
-                    saveAndViewGraph={this.handleSaveAndViewGraph.bind(this)} />
+                    saveAndViewGraph={this.handleSaveAndViewGraph.bind(this)}
+                />
             </React.Fragment>;
         } else {
             return <React.Fragment>
-                <div className="alert alert-info"
+                <div 
+                    className="alert alert-info"
                     hidden={this.state.alertText ? false : true}
-                    role="alert">
+                    role="alert"
+                >
                     {this.state.alertText}
                 </div>
                 <GraphViewer
