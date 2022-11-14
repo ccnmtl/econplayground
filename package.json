@@ -22,12 +22,11 @@
     "whatwg-fetch": "~3.6.1"
   },
   "scripts": {
-    "test": "mocha",
+    "test": "node media/js/scripts/test.js --env=jsdom",
     "build-scss": "node-sass --output media/css media/scss/main.scss --output-style compressed",
     "watch-scss": "nodemon --watch media/scss --verbose -e scss -x 'npm run build-scss'",
     "dev": "webpack --mode development --watch --config media/js/config/webpack.config.dev.js",
     "build": "node media/js/scripts/build.js",
-    "jstest": "node media/js/scripts/test.js --env=jsdom",
     "eslint": "eslint media/js/src/*.js media/js/config/*.js"
   },
   "devDependencies": {
