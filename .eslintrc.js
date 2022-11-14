@@ -30,7 +30,6 @@ module.exports = {
             "error",
             "unix"
         ],
-        "no-console": "off",
         "no-unused-vars": [
             "error",
             {"vars": "all", "args": "none"}

@@ -47,10 +47,10 @@ module.exports = {
         // We inferred the "public path" (such as / or /my-project) from homepage.
         publicPath: publicPath,
         // Point sourcemap entries to original disk location (format as URL on Windows)
-        devtoolModuleFilenameTemplate: info =>
-        path
-            .relative(paths.appSrc, info.absoluteResourcePath)
-            .replace(/\\/g, '/'),
+        devtoolModuleFilenameTemplate: (info) => {
+            return path.relative(paths.appSrc, info.absoluteResourcePath)
+                .replace(/\\/g, '/');
+        }
     },
     resolve: {
         // This allows you to set a fallback for where Webpack should look for modules.
