@@ -696,7 +696,7 @@ JXGBoard.propTypes = {
     gY1: PropTypes.number,
     gY2: PropTypes.number,
     gNeedsSubmit: PropTypes.bool,
-    gType: PropTypes.number,
+    gType: PropTypes.number.isRequired,
 
     gCobbDouglasA: PropTypes.number,
     gCobbDouglasAInitial: PropTypes.number,

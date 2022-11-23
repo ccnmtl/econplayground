@@ -60,7 +60,7 @@ export default class GraphPicker extends React.Component {
         return (
             <div className="GraphPicker container">
                 <h1>Create a Graph</h1>
-                <p className="lead text-secondary mb-4">Build illustrations or assignments for EconPractice assessment (local) or CourseWorks assessment (LTI).</p>
+                <p className="lead mb-4">Build illustrations or assignments for EconPractice assessment (local) or CourseWorks assessment (LTI).</p>
                 <div className="card-deck">
                     <a href="#" className="card"
                         title="Linear Demand and Supply"
@@ -89,4 +89,4 @@ export default class GraphPicker extends React.Component {
 GraphPicker.propTypes = {
     onSelectGraph: PropTypes.func.isRequired,
     showing: PropTypes.bool.isRequired
-}
+};

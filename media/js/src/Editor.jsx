@@ -165,16 +165,16 @@ class Editor extends Component {
         // JXGBoard.
         //
         switch (type) {
-            case 5:
-            case 7:
-            case 11:
-            case 15:
-                gA1default = 4;
-                gA2default = 1;
-                gA3default = 0.5;
-                break;
-            default:
-                break;
+        case 5:
+        case 7:
+        case 11:
+        case 15:
+            gA1default = 4;
+            gA2default = 1;
+            gA3default = 0.5;
+            break;
+        default:
+            break;
         }
 
         this.setState({
