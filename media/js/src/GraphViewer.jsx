@@ -109,6 +109,7 @@ export default class GraphViewer extends React.Component {
                     id={'editing-graph'}
                     width={BOARD_WIDTH}
                     height={BOARD_HEIGHT}
+                    shadow={!isInstructor}
                     {...this.props}
                 />
             );
