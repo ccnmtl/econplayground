@@ -92,7 +92,10 @@ export default class GraphEditor extends React.Component {
         let jxgBoard = (
             <p>Loading...</p>
         );
-        if (typeof this.props.gType !== 'undefined') {
+        if (
+            typeof this.props.gType !== 'undefined' &&
+                this.props.gType !== null            
+        ) {
             jxgBoard = (
                 <JXGBoard
                     id={'editing-graph'}

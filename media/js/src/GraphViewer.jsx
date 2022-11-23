@@ -100,7 +100,10 @@ export default class GraphViewer extends React.Component {
         let leftSide = (
             <p>Loading...</p>
         );
-        if (typeof this.props.gType !== 'undefined') {
+        if (
+            typeof this.props.gType !== 'undefined' &&
+                this.props.gType !== null
+        ) {
             leftSide = (
                 <JXGBoard
                     id={'editing-graph'}
