@@ -474,3 +474,85 @@ class Submission(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+
+class Question(models.Model):
+    adaptive = models.BooleanField(default=False)
+    ap_correct = models.ForeignKey(
+        'self',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='ap_continue'
+    )
+    ap_incorrect = models.ForeignKey(
+        'self',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='ap_intervene'
+    )
+    title = models.TextField(max_length=1024, default='Untitled')
+
+    embedded_media = models.TextField(blank=True, default='')
+    graph = models.ForeignKey(
+        Graph, on_delete=models.CASCADE, blank=True, null=True)
+
+    is_assessment = models.BooleanField(default=True)
+    is_key = models.BooleanField(default=True)
+    prompt = models.TextField(blank=True, default='')
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def get_url_embed(self):
+        return self.embedded_media
+
+    def get_graph_name(self):
+        return self.graph.title
+
+    def __str__(self):
+        if len(self.prompt) < 33:
+            return self.prompt
+        else:
+            return self.prompt[0, 32] + '...'
+
+    def clone(self):
+        c = copy.copy(self)
+        c.pk = None
+        c.is_sample = None
+        c.title = self.title + '_copy'
+        c.save()
+
+        return c
+
+
+class Assignment(models.Model):
+    questions = models.ManyToManyField(Question, blank=True)
+    title = models.TextField(max_length=1024, default='Untitled')
+    cohorts = models.ManyToManyField(Cohort, blank=True)
+    instructor = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+
+    def __len__(self):
+        return len(self.questions)
+
+    def get_questions(self):
+        return Question.objects
+
+    def question_count(self):
+        return self.get_questions().count()
+
+    def clone(self):
+        c = copy.copy(self)
+        c.pk = None
+        c.is_sample = None
+        c.title = self.title + '_copy'
+        c.save()
+
+        return c

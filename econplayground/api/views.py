@@ -12,7 +12,7 @@ from econplayground.main.models import (
 )
 from econplayground.api.serializers import (
     AssessmentSerializer, CohortSerializer, GraphSerializer,
-    SubmissionSerializer, TopicSerializer,
+    SubmissionSerializer, TopicSerializer
 )
 
 
