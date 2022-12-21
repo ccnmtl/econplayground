@@ -5,7 +5,8 @@ from factory.django import DjangoModelFactory
 from factory import fuzzy
 from econplayground.main.models import (
     Graph, JXGLine, JXGLineTransformation, Submission,
-    Assessment, AssessmentRule, Topic, Cohort
+    Assessment, AssessmentRule, Topic, Cohort,
+    Assignment, Question
 )
 
 
@@ -133,3 +134,51 @@ class AssessmentRuleFactory(DjangoModelFactory):
     feedback_fulfilled = fuzzy.FuzzyText()
     feedback_unfulfilled = fuzzy.FuzzyText()
     score = fuzzy.FuzzyDecimal(0, 1)
+
+
+class QuestionFactory(DjangoModelFactory):
+    class Meta:
+        model = Question
+
+    title = fuzzy.FuzzyText()
+    embedded_media = fuzzy.FuzzyText(
+        prefix='https://www.google.com/search?q=')
+    graph = factory.SubFactory(GraphFactory)
+    prompt = fuzzy.FuzzyText()
+    ap_correct = None
+    ap_incorrect = None
+
+
+class AssignmentFactory(DjangoModelFactory):
+    class Meta:
+        model = Assignment
+
+    title = fuzzy.FuzzyText()
+    instructor = factory.SubFactory(InstructorFactory)
+
+    @factory.post_generation
+    def questions(self, create, extracted, **kwargs):
+        if not create:
+            return
+
+        if extracted:
+            for question in extracted:
+                self.questions.add(question)
+
+    @factory.post_generation
+    def cohorts(self, create, extracted, **kwargs):
+        if not create:
+            return
+
+        if extracted:
+            for cohort in extracted:
+                self.cohorts.add(cohort)
+
+    @factory.post_generation
+    def instructors(self, create, extracted, **kwargs):
+        if not create:
+            return
+
+        if extracted:
+            for instructor in extracted:
+                self.instructors.add(instructor)

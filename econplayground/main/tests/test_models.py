@@ -1,11 +1,13 @@
 from django.test import TestCase
 from django.db.utils import IntegrityError
-from econplayground.main.models import Assessment, Cohort, Graph, Topic
+from econplayground.main.models import (
+    Assessment, Cohort, Graph, Topic, Assignment, Question
+)
 from econplayground.main.tests.factories import (
-    InstructorFactory,
-    GraphFactory, JXGLineFactory, JXGLineTransformationFactory,
-    SubmissionFactory, TopicFactory,
-    AssessmentFactory, AssessmentRuleFactory, CohortFactory
+    InstructorFactory, GraphFactory, JXGLineFactory,
+    JXGLineTransformationFactory, SubmissionFactory, TopicFactory,
+    AssessmentFactory, AssessmentRuleFactory, CohortFactory,
+    AssignmentFactory, QuestionFactory
 )
 
 
@@ -213,3 +215,76 @@ class CohortTest(TestCase):
         self.assertEqual(Graph.objects.count(), 4)
         self.assertEqual(Topic.objects.count(), 5)
         self.assertEqual(Cohort.objects.count(), 5)
+
+
+class QuestionTest(TestCase):
+    def setUp(self):
+        self.instructor = InstructorFactory()
+        self.x = QuestionFactory()
+
+    def test_is_valid_from_factory(self):
+        self.x.full_clean()
+
+    def test_clone(self):
+        original = QuestionFactory(title='cloned question')
+
+        cloned_pk = original.clone().pk
+        cloned = Question.objects.get(pk=cloned_pk)
+
+        self.assertNotEqual(original.pk, cloned.pk)
+        self.assertEqual(original.title, 'cloned question')
+        self.assertEqual(cloned.title, 'cloned question_copy')
+
+        cloned.title = 'new title'
+        original.save()
+        cloned.save()
+
+        original.refresh_from_db()
+        cloned.refresh_from_db()
+        original.full_clean()
+        cloned.full_clean()
+
+        self.assertNotEqual(original.pk, cloned.pk)
+        self.assertEqual(original.title, 'cloned question')
+        self.assertEqual(cloned.title, 'new title')
+        self.assertEqual(original.adaptive, cloned.adaptive)
+        self.assertEqual(original.ap_correct, cloned.ap_correct)
+        self.assertEqual(original.ap_incorrect, cloned.ap_incorrect)
+        self.assertEqual(original.embedded_media, cloned.embedded_media)
+        self.assertEqual(original.graph, cloned.graph)
+        self.assertEqual(original.is_assessment, cloned.is_assessment)
+        self.assertEqual(original.is_key, cloned.is_key)
+        self.assertEqual(original.prompt, cloned.prompt)
+
+
+class AssignmentTest(TestCase):
+    def setUp(self):
+        self.instructor = InstructorFactory()
+        self.question = QuestionFactory(title='q1')
+        self.x = AssignmentFactory()
+
+    def test_is_valid_from_factory(self):
+        self.x.full_clean()
+
+    def test_clone(self):
+        original = AssignmentFactory(title='cloned assignment')
+
+        cloned_pk = original.clone().pk
+        cloned = Assignment.objects.get(pk=cloned_pk)
+
+        self.assertNotEqual(original.pk, cloned.pk)
+        self.assertEqual(original.title, 'cloned assignment')
+        self.assertEqual(cloned.title, 'cloned assignment_copy')
+
+        cloned.title = 'new title'
+        original.save()
+        cloned.save()
+
+        original.refresh_from_db()
+        cloned.refresh_from_db()
+        original.full_clean()
+        cloned.full_clean()
+
+        self.assertNotEqual(original.pk, cloned.pk)
+        self.assertEqual(original.title, 'cloned assignment')
+        self.assertEqual(cloned.title, 'new title')

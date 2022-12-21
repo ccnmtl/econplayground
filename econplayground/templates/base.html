@@ -88,13 +88,29 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <ul class="navbar-nav ml-auto">
-                            {% if i_am_instructor and cohort %}
+                            {% if i_am_instructor %}
+                                {% if cohort %}
+                                    <li class="nav-item">
+                                        {% url 'cohort_graph_create' cohort.pk as the_url %}
+                                        <a class="nav-link {% if request.path == the_url %}active{% endif %}"
+                                        title="Create Graph"
+                                        href="{{the_url}}"
+                                        >Create Graph</a>
+                                    </li>
+                                {% endif %}
                                 <li class="nav-item">
-                                    {% url 'cohort_graph_create' cohort.pk as the_url %}
+                                    {% url 'assignment_list' as the_url %}
                                     <a class="nav-link {% if request.path == the_url %}active{% endif %}"
-                                       title="Create Graph"
-                                       href="{{the_url}}"
-                                    >Create Graph</a>
+                                    title="Assignment Builder"
+                                    href="{{the_url}}"
+                                    >Assignment Builder</a>
+                                </li>
+                                <li class="nav-item">
+                                    {% url 'question_bank' as the_url %}
+                                    <a class="nav-link {% if request.path == the_url %}active{% endif %}"
+                                    title="Question Bank"
+                                    href="{{the_url}}"
+                                    >Question Bank</a>
                                 </li>
                             {% endif %}
                             <li class="nav-item">

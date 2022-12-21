@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from econplayground.main.models import (
     Graph, Cohort, JXGLine, JXGLineTransformation, Submission,
-    Assessment, AssessmentRule, Topic,
+    Assessment, AssessmentRule, Topic
 )
 
 

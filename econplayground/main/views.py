@@ -26,7 +26,9 @@ from econplayground.main.mixins import (
     CohortGraphMixin, CohortPasswordMixin,
     CohortInstructorMixin
 )
-from econplayground.main.models import Cohort, Graph, Submission, Topic
+from econplayground.main.models import (
+    Cohort, Graph, Submission, Topic, Assignment, Question
+)
 from econplayground.main.utils import user_is_instructor
 
 
@@ -335,7 +337,7 @@ class CohortPasswordView(DetailView):
 
         if cohort.password.strip() == user_pass.strip():
             hashed_pass = hashlib.sha224(
-               cohort.password.strip().encode('utf-8')).hexdigest()
+                cohort.password.strip().encode('utf-8')).hexdigest()
             request.session['cohort_{}'.format(cohort.pk)] = hashed_pass
             url = reverse('cohort_detail', kwargs={'pk': cohort.pk})
         else:
@@ -591,3 +593,133 @@ class TopicDeleteView(LoginRequiredMixin, CohortInstructorMixin, DeleteView):
             extra_tags='safe')
 
         return reverse('topic_list', kwargs={'cohort_pk': self.cohort.pk})
+
+
+class AssignmentListView(LoginRequiredMixin, ListView):
+    model = Assignment
+    template_name = 'main/assignment_list.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        return super(
+            AssignmentListView, self).dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        return Assignment.objects.filter(
+            instructor=self.request.user).order_by('created_at')
+
+    def get_context_data(self, **kwargs):
+        return super(AssignmentListView, self).get_context_data(**kwargs)
+
+
+class AssignmentDetailView(DetailView):
+    model = Assignment
+
+    def get_graph_queryset(self):
+        # First, set up graphs based on a users role
+        questions = Question.objects.all()
+
+        # Then apply filtering based on query string params
+        params = self.request.GET
+        if len(params) == 0:
+            return questions.order_by('created_at')
+        return questions.order_by('title')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        question_list = self.get_graph_queryset()
+
+        context['question_list'] = question_list
+        context['all_count'] = question_list.count()
+
+        return context
+
+
+class AssignmentCreateView(
+        EnsureCsrfCookieMixin, UserPassesTestMixin, CreateView):
+    model = Assignment
+    fields = ['title']
+
+    def test_func(self):
+        return user_is_instructor(self.request.user)
+
+    def get_success_url(self):
+        return reverse('assignment_list')
+
+    def form_valid(self, form):
+        title = form.cleaned_data.get('title')
+        instructor = self.request.user
+
+        result = CreateView.form_valid(self, form)
+
+        form.instance.instructor.add(instructor)
+
+        messages.add_message(
+            self.request, messages.SUCCESS,
+            '<strong>{}</strong> assignment created.'.format(title),
+            extra_tags='safe'
+        )
+
+        return result
+
+
+class AssignmentUpdateView(LoginRequiredMixin, UpdateView):
+    model = Assignment
+    fields = ['title']
+
+    def get_success_url(self):
+        return reverse('assignment_detail', kwargs={'pk': self.object.pk})
+
+
+class QuestionListView(LoginRequiredMixin, ListView):
+    model = Question
+    template_name = 'main/question_list.html'
+
+    def get_queryset(self):
+        return Question.objects.all()
+
+    def get_context_data(self, **kwargs):
+        ctx = super(QuestionListView, self).get_context_data(**kwargs)
+        return ctx
+
+
+class QuestionDetailView(DetailView):
+    model = Question
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # If there are no query string params, then set featured to true.
+        # Set active_topic guard condition, and assign to an id if present in
+        # the query string.
+        return context
+
+
+class QuestionCreateView(
+        EnsureCsrfCookieMixin, UserPassesTestMixin, CreateView):
+    model = Question
+    fields = ['title']
+
+    def get_success_url(self):
+        return reverse('question_bank', kwargs={'pk': self.object.pk})
+
+    def form_valid(self, form):
+        title = form.cleaned_data.get('title')
+
+        result = CreateView.form_valid(self, form)
+
+        messages.add_message(
+            self.request, messages.SUCCESS,
+            '<strong>{}</strong> question created.'.format(title),
+            extra_tags='safe'
+        )
+
+        return result
+
+
+class QuestionUpdateView(LoginRequiredMixin, UpdateView):
+    model = Question
+    fields = ['title']
+
+    def get_success_url(self):
+        return reverse('question_detail', kwargs={'pk': self.object.pk})

@@ -2,7 +2,7 @@ from django.conf.urls import include, url
 from rest_framework import routers
 from econplayground.api.views import (
     AssessmentViewSet, CohortViewSet,
-    GraphViewSet, SubmissionViewSet, TopicViewSet,
+    GraphViewSet, SubmissionViewSet, TopicViewSet
 )
 
 

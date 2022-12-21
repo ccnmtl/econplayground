@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static econ_auth markup %}
+
+{% block title %}Assignment Builder{% endblock %}
+
+{% block pagetitle %}<h1 class="mt-4">Assignment Builder</h1>{% endblock %}
+
+{% block content %}
+    {% url 'assignment_create' as the_url %}
+    <a class="btn btn-primary mb-2 {% if request.path == the_url %}active{% endif %}"
+       role="button"
+       title="Create Assignment"
+       href="{{the_url}}"
+    >
+        Create Assignment
+    </a>
+    <div class="row">
+        <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
+            <form class="form featuredgraphs-form">
+                <ul class="list-group featuredgraphs-list">
+                    {% for assignment in assignment_list %}
+                        <li class="list-group-item d-flex flex-row align-items-center">
+                            <div class="graph-title mr-auto">
+                                <a href="{% url 'assignment_detail' assignment.pk %}" title="{{assignment.title}}">
+                                    {{assignment.title}}
+                                </a>
+                            </div>
+                            <a role="button"
+                               class="btn btn-sm btn-danger mr-1"
+                               title="Remove {{assignment.title}} from Assignment List"
+                               href="{% url 'assignment_edit' assignment.pk %}?remove=true"
+                            >
+                                <svg height="32" 
+                                     class="octicon octicon-x" 
+                                     viewBox="0 0 12 16" 
+                                     version="1.1" 
+                                     width="24" 
+                                     aria-hidden="true"
+                                >
+                                    <path fill-rule="evenodd" 
+                                          d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"></path>
+                                </svg>
+                            </a>
+                        </li>
+                    {% empty %}
+                        Assignments you make can be found here
+                    {% endfor %}
+                </ul>
+            </form>
+        </div>
+    </div>
+{% endblock %}
