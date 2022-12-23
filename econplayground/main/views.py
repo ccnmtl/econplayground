@@ -24,10 +24,11 @@ from econplayground.main.forms import (
 )
 from econplayground.main.mixins import (
     CohortGraphMixin, CohortPasswordMixin,
-    CohortInstructorMixin
+    CohortInstructorMixin, AssignmentInstructorMixin,
+    QuestionBankInstructorMixin, QuestionInstructorMixin
 )
 from econplayground.main.models import (
-    Cohort, Graph, Submission, Topic, Assignment, Question
+    Cohort, Graph, Submission, Topic, Assignment, QuestionBank, Question
 )
 from econplayground.main.utils import user_is_instructor
 
@@ -599,46 +600,65 @@ class AssignmentListView(LoginRequiredMixin, ListView):
     model = Assignment
     template_name = 'main/assignment_list.html'
 
+    def get(self, request, *args, **kwargs):
+        self.assignment = True
+        self.question_bank = False
+        self.question = False
+        return super(AssignmentListView, self).get(request, *args, **kwargs)
+
     def dispatch(self, request, *args, **kwargs):
         return super(
             AssignmentListView, self).dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
-        return Assignment.objects.filter(
-            instructor=self.request.user).order_by('created_at')
+        return Assignment.objects.all().order_by('created_at')
 
-    def get_context_data(self, **kwargs):
-        return super(AssignmentListView, self).get_context_data(**kwargs)
+    def get_context_data(self, *args, **kwargs):
+        ctx = super(AssignmentListView, self).get_context_data(*args, **kwargs)
+        ctx.update({'assignment': self.assignment})
+        ctx.update({'question_bank': self.question_bank})
+        ctx.update({'question': self.question})
+        return ctx
 
 
 class AssignmentDetailView(DetailView):
     model = Assignment
 
-    def get_graph_queryset(self):
-        # First, set up graphs based on a users role
-        questions = Question.objects.all()
+    def get(self, request, *args, **kwargs):
+        self.assignment = True
+        self.question_bank = False
+        self.question = False
+        return super(AssignmentDetailView, self).get(request, *args, **kwargs)
 
-        # Then apply filtering based on query string params
-        params = self.request.GET
-        if len(params) == 0:
-            return questions.order_by('created_at')
-        return questions.order_by('title')
+    def get_bank_queryset(self):
+        return QuestionBank.objects.all()
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        ctx = super().get_context_data(**kwargs)
 
-        question_list = self.get_graph_queryset()
+        bank_list = self.get_bank_queryset()
 
-        context['question_list'] = question_list
-        context['all_count'] = question_list.count()
+        ctx.update({'assignment': self.assignment})
+        ctx.update({'question_bank': self.question_bank})
+        ctx.update({'question': self.question})
 
-        return context
+        ctx['bank_list'] = bank_list
+        ctx['all_count'] = bank_list.count()
+
+        return ctx
 
 
 class AssignmentCreateView(
-        EnsureCsrfCookieMixin, UserPassesTestMixin, CreateView):
+        EnsureCsrfCookieMixin, UserPassesTestMixin,
+        AssignmentInstructorMixin, CreateView):
     model = Assignment
-    fields = ['title']
+    fields = ['title', 'banks', 'cohorts']
+
+    def get(self, request, *args, **kwargs):
+        self.assignment = True
+        self.question_bank = False
+        self.question = False
+        return super(AssignmentCreateView, self).get(request, *args, **kwargs)
 
     def test_func(self):
         return user_is_instructor(self.request.user)
@@ -646,13 +666,18 @@ class AssignmentCreateView(
     def get_success_url(self):
         return reverse('assignment_list')
 
+    def get_context_data(self, *args, **kwargs):
+        ctx = super(
+            AssignmentCreateView, self).get_context_data(*args, **kwargs)
+        ctx.update({'assignment': self.assignment})
+        ctx.update({'question_bank': self.question_bank})
+        ctx.update({'question': self.question})
+        return ctx
+
     def form_valid(self, form):
         title = form.cleaned_data.get('title')
-        instructor = self.request.user
 
         result = CreateView.form_valid(self, form)
-
-        form.instance.instructor.add(instructor)
 
         messages.add_message(
             self.request, messages.SUCCESS,
@@ -663,45 +688,293 @@ class AssignmentCreateView(
         return result
 
 
-class AssignmentUpdateView(LoginRequiredMixin, UpdateView):
+class AssignmentUpdateView(
+        LoginRequiredMixin, AssignmentInstructorMixin, UpdateView):
     model = Assignment
-    fields = ['title']
+    fields = ['title', 'banks', 'cohorts']
+
+    def get(self, request, *args, **kwargs):
+        self.assignment = True
+        self.question_bank = False
+        self.question = False
+        return super(AssignmentUpdateView, self).get(request, *args, **kwargs)
+
+    def test_func(self):
+        return user_is_instructor(self.request.user)
 
     def get_success_url(self):
         return reverse('assignment_detail', kwargs={'pk': self.object.pk})
 
+    def get_context_data(self, *args, **kwargs):
+        ctx = super(
+            AssignmentUpdateView, self).get_context_data(*args, **kwargs)
+        ctx.update({'assignment': self.assignment})
+        ctx.update({'question_bank': self.question_bank})
+        ctx.update({'question': self.question})
+        return ctx
 
-class QuestionListView(LoginRequiredMixin, ListView):
-    model = Question
-    template_name = 'main/question_list.html'
+    def form_valid(self, form):
+        title = form.cleaned_data.get('title')
+
+        result = CreateView.form_valid(self, form)
+
+        messages.add_message(
+            self.request, messages.SUCCESS,
+            '<strong>{}</strong> assignment created.'.format(title),
+            extra_tags='safe'
+        )
+
+        return result
+
+
+class AssignmentDeleteView(
+        LoginRequiredMixin, AssignmentInstructorMixin, DeleteView):
+    model = Assignment
+
+    def get(self, request, *args, **kwargs):
+        self.assignment = True
+        self.question_bank = False
+        self.question = False
+        return super(AssignmentDeleteView, self).get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        ctx = super(AssignmentDeleteView, self).get_context_data(**kwargs)
+        ctx.update({'assignment': self.assignment})
+        ctx.update({'question_bank': self.question_bank})
+        ctx.update({'question': self.question})
+        return ctx
+
+    def get_success_url(self):
+        messages.add_message(
+            self.request, messages.SUCCESS,
+            '<strong>{}</strong> has been deleted.'.format(self.object.title),
+            extra_tags='safe')
+
+        return reverse('assignment_list',
+                       kwargs={'assignment_pk': self.object.pk})
+
+
+class QuestionBankListView(
+        LoginRequiredMixin, QuestionBankInstructorMixin, ListView):
+    model = QuestionBank
+    template_name = 'main/question_bank_list.html'
+
+    def get(self, request, *args, **kwargs):
+        self.assignment = False
+        self.question_bank = True
+        self.question = False
+        return super(QuestionBankListView, self).get(request, *args, **kwargs)
+
+    def dispatch(self, request, *args, **kwargs):
+        return super(
+            QuestionBankListView, self).dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
+        return QuestionBank.objects.all()
+
+    def get_context_data(self, **kwargs):
+        ctx = super(QuestionBankListView, self).get_context_data(**kwargs)
+        ctx.update({'assignment': self.assignment})
+        ctx.update({'question_bank': self.question_bank})
+        ctx.update({'question': self.question})
+        return ctx
+
+
+class QuestionBankDetailView(QuestionBankInstructorMixin, DetailView):
+    model = QuestionBank
+
+    def get(self, request, *args, **kwargs):
+        self.assignment = False
+        self.question_bank = True
+        self.question = False
+        return super(
+            QuestionBankDetailView, self).get(request, *args, **kwargs)
+
+    def get_question_queryset(self):
         return Question.objects.all()
 
     def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+
+        question_list = self.get_question_queryset()
+
+        ctx.update({'assignment': self.assignment})
+        ctx.update({'question_bank': self.question_bank})
+        ctx.update({'question': self.question})
+        ctx['question_list'] = question_list
+        ctx['all_count'] = question_list.count()
+
+        return ctx
+
+
+class QuestionBankCreateView(
+        EnsureCsrfCookieMixin, UserPassesTestMixin,
+        QuestionBankInstructorMixin, CreateView):
+    model = QuestionBank
+    fields = ['title', 'questions']
+
+    def get(self, request, *args, **kwargs):
+        self.assignment = False
+        self.question_bank = True
+        self.question = False
+        return super(
+            QuestionBankCreateView, self).get(request, *args, **kwargs)
+
+    def test_func(self):
+        return user_is_instructor(self.request.user)
+
+    def get_success_url(self):
+        return reverse('question_bank_list')
+
+    def form_valid(self, form):
+        title = form.cleaned_data.get('title')
+
+        result = CreateView.form_valid(self, form)
+
+        messages.add_message(
+            self.request, messages.SUCCESS,
+            '<strong>{}</strong> question bank created.'.format(title),
+            extra_tags='safe'
+        )
+
+        return result
+
+    def get_context_data(self, **kwargs):
+        ctx = super(QuestionBankCreateView, self).get_context_data(**kwargs)
+        ctx.update({'assignment': self.assignment})
+        ctx.update({'question_bank': self.question_bank})
+        ctx.update({'question': self.question})
+        return ctx
+
+
+class QuestionBankUpdateView(
+        LoginRequiredMixin, QuestionBankInstructorMixin, UpdateView):
+    model = QuestionBank
+    fields = ['title', 'questions']
+
+    def get(self, request, *args, **kwargs):
+        self.assignment = False
+        self.question_bank = True
+        self.question = False
+        return super(
+            QuestionBankUpdateView, self).get(request, *args, **kwargs)
+
+    def test_func(self):
+        return user_is_instructor(self.request.user)
+
+    def get_success_url(self):
+        return reverse('question_bank_detail', kwargs={'pk': self.object.pk})
+
+    def form_valid(self, form):
+        title = form.cleaned_data.get('title')
+
+        result = CreateView.form_valid(self, form)
+
+        messages.add_message(
+            self.request, messages.SUCCESS,
+            '<strong>{}</strong> question bank created.'.format(title),
+            extra_tags='safe'
+        )
+
+        return result
+
+    def get_context_data(self, **kwargs):
+        ctx = super(QuestionBankUpdateView, self).get_context_data(**kwargs)
+        ctx.update({'assignment': self.assignment})
+        ctx.update({'question_bank': self.question_bank})
+        ctx.update({'question': self.question})
+        return ctx
+
+
+class QuestionBankDeleteView(
+        LoginRequiredMixin, QuestionBankInstructorMixin, DeleteView):
+    model = QuestionBank
+
+    def get(self, request, *args, **kwargs):
+        self.assignment = False
+        self.question_bank = True
+        self.question = False
+        return super(
+            QuestionBankDeleteView, self).get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        ctx = super(QuestionBankDeleteView, self).get_context_data(**kwargs)
+        ctx.update({'assignment': self.assignment})
+        ctx.update({'question_bank': self.question_bank})
+        ctx.update({'question': self.question})
+        return ctx
+
+    def get_success_url(self):
+        messages.add_message(
+            self.request, messages.SUCCESS,
+            '<strong>{}</strong> has been deleted.'.format(self.object.title),
+            extra_tags='safe')
+
+        return reverse('question_bank_list',
+                       kwargs={'question_bank_pk': self.object.pk})
+
+
+class QuestionListView(LoginRequiredMixin, QuestionInstructorMixin, ListView):
+    model = Question
+    template_name = 'main/question_list.html'
+
+    def get(self, request, *args, **kwargs):
+        self.assignment = False
+        self.question_bank = False
+        self.question = True
+        return super(QuestionListView, self).get(request, *args, **kwargs)
+
+    def get_queryset(self):
+        return Question.objects.all().order_by('created_at')
+
+    def get_context_data(self, **kwargs):
         ctx = super(QuestionListView, self).get_context_data(**kwargs)
+        ctx.update({'assignment': self.assignment})
+        ctx.update({'question_bank': self.question_bank})
+        ctx.update({'question': self.question})
         return ctx
 
 
 class QuestionDetailView(DetailView):
     model = Question
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+    def get(self, request, *args, **kwargs):
+        self.assignment = False
+        self.question_bank = False
+        self.question = True
+        return super(QuestionDetailView, self).get(request, *args, **kwargs)
 
-        # If there are no query string params, then set featured to true.
-        # Set active_topic guard condition, and assign to an id if present in
-        # the query string.
-        return context
+    def is_instructor(self):
+        return user_is_instructor(self.request.user)
+
+    def get_context_data(self, **kwargs):
+        ctx = super(QuestionDetailView, self).get_context_data(**kwargs)
+        ctx.update({'assignment': self.assignment})
+        ctx.update({'question_bank': self.question_bank})
+        ctx.update({'question': self.question})
+        ctx['is_instructor'] = self.is_instructor()
+        return ctx
 
 
 class QuestionCreateView(
-        EnsureCsrfCookieMixin, UserPassesTestMixin, CreateView):
+        EnsureCsrfCookieMixin, UserPassesTestMixin,
+        QuestionInstructorMixin, CreateView):
     model = Question
-    fields = ['title']
+    fields = [
+        'title', 'prompt', 'embedded_media', 'graph'
+    ]
+
+    def get(self, request, *args, **kwargs):
+        self.assignment = False
+        self.question_bank = False
+        self.question = True
+        return super(QuestionCreateView, self).get(request, *args, **kwargs)
+
+    def test_func(self):
+        return user_is_instructor(self.request.user)
 
     def get_success_url(self):
-        return reverse('question_bank', kwargs={'pk': self.object.pk})
+        return reverse('question_list')
 
     def form_valid(self, form):
         title = form.cleaned_data.get('title')
@@ -717,9 +990,46 @@ class QuestionCreateView(
         return result
 
 
-class QuestionUpdateView(LoginRequiredMixin, UpdateView):
+class QuestionUpdateView(
+        LoginRequiredMixin, QuestionInstructorMixin, UpdateView):
     model = Question
-    fields = ['title']
+    fields = [
+        'title', 'prompt', 'embedded_media', 'graph'
+    ]
+
+    def get(self, request, *args, **kwargs):
+        self.assignment = False
+        self.question_bank = False
+        self.question = True
+        return super(QuestionDetailView, self).get(request, *args, **kwargs)
 
     def get_success_url(self):
-        return reverse('question_detail', kwargs={'pk': self.object.pk})
+        return reverse('question_edit', kwargs={'pk': self.object.pk})
+
+
+class QuestionDeleteView(
+        LoginRequiredMixin, QuestionInstructorMixin, DeleteView):
+    model = Question
+
+    def get(self, request, *args, **kwargs):
+        self.assignment = False
+        self.question_bank = False
+        self.question = True
+        return super(
+            QuestionBankDeleteView, self).get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        ctx = super(QuestionDeleteView, self).get_context_data(**kwargs)
+        ctx.update({'assignment': self.assignment})
+        ctx.update({'question_bank': self.question_bank})
+        ctx.update({'question': self.question})
+        return ctx
+
+    def get_success_url(self):
+        messages.add_message(
+            self.request, messages.SUCCESS,
+            '<strong>{}</strong> has been deleted.'.format(self.object.title),
+            extra_tags='safe')
+
+        return reverse('question_bank_list',
+                       kwargs={'question_bank_pk': self.object.pk})

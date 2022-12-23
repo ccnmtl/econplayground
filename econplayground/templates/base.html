@@ -98,6 +98,7 @@
                                         >Create Graph</a>
                                     </li>
                                 {% endif %}
+                                {% if not assignment %}
                                 <li class="nav-item">
                                     {% url 'assignment_list' as the_url %}
                                     <a class="nav-link {% if request.path == the_url %}active{% endif %}"
@@ -105,13 +106,25 @@
                                     href="{{the_url}}"
                                     >Assignment Builder</a>
                                 </li>
+                                {% endif %}
+                                {% if assignment or question %}
                                 <li class="nav-item">
-                                    {% url 'question_bank' as the_url %}
+                                    {% url 'question_bank_list' as the_url %}
                                     <a class="nav-link {% if request.path == the_url %}active{% endif %}"
-                                    title="Question Bank"
+                                    title="Question Banks"
                                     href="{{the_url}}"
-                                    >Question Bank</a>
+                                    >Question Banks</a>
                                 </li>
+                                {% endif %}
+                                {% if assignment or question_bank %}
+                                <li class="nav-item">
+                                    {% url 'question_list' as the_url %}
+                                    <a class="nav-link {% if request.path == the_url %}active{% endif %}"
+                                    title="Questions"
+                                    href="{{the_url}}"
+                                    >Questions</a>
+                                </li>
+                                {% endif %}
                             {% endif %}
                             <li class="nav-item">
                                 <a class="nav-link" title="Help" href="/help/">Help</a>

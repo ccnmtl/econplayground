@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% load static econ_auth markup %}
 
-{% block title %}Question Bank{% endblock %}
+{% block title %}Questions{% endblock %}
 
-{% block pagetitle %}<h1 class="mt-4">Question Bank</h1>{% endblock %}
+{% block pagetitle %}<h1 class="mt-4">Questions</h1>{% endblock %}
 
 {% block content %}
     {% url 'question_create' as the_url %}
@@ -18,7 +18,7 @@
         <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
             <form class="form featuredgraphs-form">
                 <ul class="list-group featuredgraphs-list">
-                    {% for question in question_bank %}
+                    {% for question in question_list %}
                         <li class="list-group-item d-flex flex-row align-items-center">
                             <div class="graph-title mr-auto">
                                 <a href="{% url 'question_detail' question.pk %}" title="{{question.title}}">
@@ -27,7 +27,7 @@
                             </div>
                             <a role="button"
                                class="btn btn-sm btn-danger mr-1"
-                               title="Remove {{question.title}} from Assignment List"
+                               title="Remove {{question.title}} from the Question Bank"
                                href="{% url 'question_edit' question.pk %}?remove=true"
                             >
                                 <svg height="32" 
