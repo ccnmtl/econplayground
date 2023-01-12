@@ -26,7 +26,7 @@ sure==2.0.0
 coverage==7.0.5
 asn1crypto==1.5.1  # cryptography
 cryptography==39.0.0
-urllib3==1.26.13  # requests, sentry-sdk
+urllib3==1.26.14  # requests, sentry-sdk
 chardet==5.1.0  # requests
 idna==3.4  # requests
 certifi==2022.12.7  # requests, sentry-sdk
