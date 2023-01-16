@@ -61,7 +61,7 @@ rcssmin==1.1.1  # django-compressor
 rjsmin==1.2.1  # django-compressor
 django-compressor>=3.1,<5.0
 django-statsd-mozilla==0.4.0
-sentry-sdk==1.12.1
+sentry-sdk==1.13.0
 django-bootstrap4==22.3
 django-debug-toolbar==3.8.1
 django-waffle==3.0.0
