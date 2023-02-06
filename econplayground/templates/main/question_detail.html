@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static econ_auth %}
+{% load bootstrap4 %}
+
+{% block title %}{{ object.title }}{% endblock %}
+
+{% block css %}
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    <link href="{% static 'css/embed.css' %}" rel="stylesheet">
+    <link href="{% static 'css/octicons.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/epjs.css' %}">
+{% endblock %}
+
+{% block extrahead %}
+<meta id="csrf-token" name="csrf-token" content="{{csrf_token}}">
+{% endblock %}
+
+
+{% block js %}
+    <script>
+    if (!window.EconPlayground) {
+        window.EconPlayground = {};
+    }
+
+    window.EconPlayground['isInstructor'] = false;
+    window.EconPlayground['hideTitleAndInstructions'] = false;
+    </script>
+    <script src="{% static 'js/build/viewer.js' %}"></script>
+{% endblock %}
+
+{% user_is_instructor request.user as i_am_instructor %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{% url 'question_list' %}" title="Question Bank">
+                {% include 'main/your_questions_snippet.html' %}
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            {{ object.title|truncatewords:5 }}
+        </li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block pagetitle %}
+<h1 class="mt-4">{{ object.title }}</h1>
+{% endblock %}
+
+{% block pagedescription %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% if is_instructor %}
+    <a href="{% url 'question_edit' object.pk %}" title="Edit {{ object.title }}">
+        <button class="btn btn-secondary mb-4">
+            Edit "{{ object.title }}"
+        </button>
+    </a>
+    {% endif %}
+    <div class="container">
+        <h2>Prompt</h2>
+        <p>{{ object.prompt }}</p>
+        <h2>Media</h2>
+        <div id="root">
+            <div class="loader-inner ball-pulse">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+        {{ object.embedded_media }}
+    </div>
+</div>
+{% endblock %}

@@ -6,15 +6,14 @@
 {% block pagetitle %}<h1 class="mt-4">Assignment Builder</h1>{% endblock %}
 
 {% block content %}
-    {% url 'assignment_create' as the_url %}
-    <a class="btn btn-primary mb-2 {% if request.path == the_url %}active{% endif %}"
+    <a class="btn btn-primary mb-2"
        role="button"
        title="Create Assignment"
-       href="{{the_url}}"
+       href="{% url 'assignment_create' %}"
     >
         Create Assignment
     </a>
-    <div class="row">
+    <section class="row">
         <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
             <form class="form featuredgraphs-form">
                 <ul class="list-group featuredgraphs-list">
@@ -25,10 +24,24 @@
                                     {{assignment.title}}
                                 </a>
                             </div>
+                            <form method="post" action="{% url 'assignment_published' assignment.pk %}">
+                                <button type="submit"
+                                        class="btn btn-sm {% if assignment.published %}btn-outline-{% else %}btn-{% endif %}primary mr-2"
+                                        title="Publish {{assignment.title}}"
+                                >
+                                    {% if assignment.published %}Unpublish{% else %}Publish{% endif %}
+                                    <svg viewBox="0 0 16 16" 
+                                        class="octicon octicon-x ml-1 mt-1"
+                                    >
+                                        <path fill-rule="evenodd"
+                                            d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path>
+                                    </svg>
+                                </button>
+                            </form>
                             <a role="button"
                                class="btn btn-sm btn-danger mr-1"
                                title="Remove {{assignment.title}} from Assignment List"
-                               href="{% url 'assignment_edit' assignment.pk %}?remove=true"
+                               href="{% url 'assignment_delete' assignment.pk %}?remove=true"
                             >
                                 <svg height="32" 
                                      class="octicon octicon-x" 
@@ -48,5 +61,5 @@
                 </ul>
             </form>
         </div>
-    </div>
+    </section>
 {% endblock %}

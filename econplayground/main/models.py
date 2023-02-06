@@ -8,6 +8,7 @@ from django.db import models
 from ordered_model.models import OrderedModel
 from django.dispatch import receiver
 from django.db.models.signals import post_save, pre_delete
+import random
 
 
 GRAPH_TYPES = (
@@ -477,6 +478,36 @@ class Submission(models.Model):
 
 
 class Question(models.Model):
+    title = models.TextField(max_length=1024, default='Untitled')
+
+    embedded_media = models.TextField(blank=True, default='')
+    graph = models.ForeignKey(
+        Graph, on_delete=models.CASCADE, blank=True, null=True)
+
+    prompt = models.TextField(blank=True, default='')
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def get_url_embed(self):
+        return self.embedded_media
+
+    def get_graph_name(self):
+        return self.graph.title
+
+    def __str__(self):
+        return '{} (id:{})'.format(self.title, self.pk)
+
+    def clone(self):
+        c = copy.copy(self)
+        c.pk = None
+        c.title = self.title + '_copy'
+        c.save()
+
+        return c
+
+
+class QuestionBank(models.Model):
     adaptive = models.BooleanField(default=False)
     ap_correct = models.ForeignKey(
         'self',
@@ -492,66 +523,66 @@ class Question(models.Model):
         blank=True,
         related_name='ap_intervene'
     )
+    is_assessment = models.BooleanField(default=True)
+    questions = models.ManyToManyField(Question, blank=True)
+    supplemental = models.ManyToManyField('self', blank=True)
     title = models.TextField(max_length=1024, default='Untitled')
 
-    embedded_media = models.TextField(blank=True, default='')
-    graph = models.ForeignKey(
-        Graph, on_delete=models.CASCADE, blank=True, null=True)
-
-    is_assessment = models.BooleanField(default=True)
-    is_key = models.BooleanField(default=True)
-    prompt = models.TextField(blank=True, default='')
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def get_url_embed(self):
-        return self.embedded_media
-
-    def get_graph_name(self):
-        return self.graph.title
+    def __len__(self):
+        return self.questions.count()
 
     def __str__(self):
-        if len(self.prompt) < 33:
-            return self.prompt
-        else:
-            return self.prompt[0, 32] + '...'
+        return '{} (id:{})'.format(self.title, self.pk)
+
+    def get_random(self):
+        entry_list = list(self.questions.all())
+        pick = random.randrange(len(entry_list))  # nosec
+        return entry_list[pick]
 
     def clone(self):
         c = copy.copy(self)
+        c.supplemental.set([])
         c.pk = None
-        c.is_sample = None
         c.title = self.title + '_copy'
+        c.adaptive = False
+        c.ap_correct = None
+        c.ap_incorrect = None
+        c.is_assessment = True
         c.save()
 
         return c
 
 
 class Assignment(models.Model):
-    questions = models.ManyToManyField(Question, blank=True)
-    title = models.TextField(max_length=1024, default='Untitled')
+    banks = models.ManyToManyField(QuestionBank, blank=True)
     cohorts = models.ManyToManyField(Cohort, blank=True)
     instructor = models.ForeignKey(User, on_delete=models.CASCADE)
+    prompt = models.TextField(blank=True, default='')
+    published = models.BooleanField(default=False)
+    title = models.TextField(max_length=1024, default='Untitled')
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.title
+        return '{} (id:{})'.format(self.title, self.pk)
 
     def __len__(self):
-        return len(self.questions)
+        return self.banks.count()
 
-    def get_questions(self):
-        return Question.objects
+    def get_question_banks(self):
+        return self.banks.all()
 
-    def question_count(self):
-        return self.get_questions().count()
+    def bank_count(self):
+        return self.banks.count()
+
+    def flip_published(self):
+        self.published = not self.published
+        return self
 
     def clone(self):
         c = copy.copy(self)
         c.pk = None
-        c.is_sample = None
         c.title = self.title + '_copy'
         c.save()
 

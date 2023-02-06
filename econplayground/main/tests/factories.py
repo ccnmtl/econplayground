@@ -6,7 +6,7 @@ from factory import fuzzy
 from econplayground.main.models import (
     Graph, JXGLine, JXGLineTransformation, Submission,
     Assessment, AssessmentRule, Topic, Cohort,
-    Assignment, Question
+    Assignment, Question, QuestionBank
 )
 
 
@@ -145,8 +145,36 @@ class QuestionFactory(DjangoModelFactory):
         prefix='https://www.google.com/search?q=')
     graph = factory.SubFactory(GraphFactory)
     prompt = fuzzy.FuzzyText()
+
+
+class QuestionBankFactory(DjangoModelFactory):
+    class Meta:
+        model = QuestionBank
+
+    adaptive = False
     ap_correct = None
     ap_incorrect = None
+    is_assessment = True
+    questions = factory.SubFactory(QuestionFactory)
+    title = fuzzy.FuzzyText()
+
+    @factory.post_generation
+    def questions(self, create, extracted):
+        if not create:
+            return
+
+        if extracted:
+            for questions in extracted:
+                self.questions.add(questions)
+
+    @factory.post_generation
+    def supplemental(self, create, extracted):
+        if not create:
+            return
+
+        if extracted:
+            for supplemental in extracted:
+                self.supplemental.add(supplemental)
 
 
 class AssignmentFactory(DjangoModelFactory):
@@ -157,16 +185,16 @@ class AssignmentFactory(DjangoModelFactory):
     instructor = factory.SubFactory(InstructorFactory)
 
     @factory.post_generation
-    def questions(self, create, extracted, **kwargs):
+    def banks(self, create, extracted):
         if not create:
             return
 
         if extracted:
-            for question in extracted:
-                self.questions.add(question)
+            for banks in extracted:
+                self.banks.add(banks)
 
     @factory.post_generation
-    def cohorts(self, create, extracted, **kwargs):
+    def cohorts(self, create, extracted):
         if not create:
             return
 
@@ -175,7 +203,7 @@ class AssignmentFactory(DjangoModelFactory):
                 self.cohorts.add(cohort)
 
     @factory.post_generation
-    def instructors(self, create, extracted, **kwargs):
+    def instructors(self, create, extracted):
         if not create:
             return
 

@@ -1,13 +1,14 @@
 from django.test import TestCase
 from django.db.utils import IntegrityError
 from econplayground.main.models import (
-    Assessment, Cohort, Graph, Topic, Assignment, Question
+    Assessment, Cohort, Graph, Topic, Assignment, Question,
+    QuestionBank
 )
 from econplayground.main.tests.factories import (
     InstructorFactory, GraphFactory, JXGLineFactory,
     JXGLineTransformationFactory, SubmissionFactory, TopicFactory,
     AssessmentFactory, AssessmentRuleFactory, CohortFactory,
-    AssignmentFactory, QuestionFactory
+    AssignmentFactory, QuestionFactory, QuestionBankFactory
 )
 
 
@@ -247,21 +248,62 @@ class QuestionTest(TestCase):
         self.assertNotEqual(original.pk, cloned.pk)
         self.assertEqual(original.title, 'cloned question')
         self.assertEqual(cloned.title, 'new title')
-        self.assertEqual(original.adaptive, cloned.adaptive)
-        self.assertEqual(original.ap_correct, cloned.ap_correct)
-        self.assertEqual(original.ap_incorrect, cloned.ap_incorrect)
         self.assertEqual(original.embedded_media, cloned.embedded_media)
         self.assertEqual(original.graph, cloned.graph)
-        self.assertEqual(original.is_assessment, cloned.is_assessment)
-        self.assertEqual(original.is_key, cloned.is_key)
         self.assertEqual(original.prompt, cloned.prompt)
+
+
+class QuestionBankTest(TestCase):
+    def setUp(self):
+        self.question = QuestionFactory(title='q1')
+        self.supplement = QuestionBankFactory(title='supplemental')
+        self.x = QuestionBankFactory(
+            questions=(self.question,), supplemental=(self.supplement,))
+
+    def test_is_valid_from_factory(self):
+        self.x.full_clean()
+
+    def test_clone(self):
+        original = QuestionBankFactory(
+            title='cloned question_bank',
+            adaptive=True,
+            ap_correct=QuestionBankFactory(title='correct'),
+            ap_incorrect=QuestionBankFactory(title='incorrect'),
+            is_assessment=False,
+            supplemental=QuestionBankFactory(title='supplemental'),
+        )
+
+        cloned_pk = original.clone().pk
+        cloned = QuestionBank.objects.get(pk=cloned_pk)
+
+        self.assertNotEqual(original.pk, cloned.pk)
+        self.assertEqual(original.title, 'cloned question_bank')
+        self.assertEqual(cloned.title, 'cloned question_bank_copy')
+
+        cloned.title = 'new title'
+        original.save()
+        cloned.save()
+
+        original.refresh_from_db()
+        cloned.refresh_from_db()
+        original.full_clean()
+        cloned.full_clean()
+
+        self.assertNotEqual(original.pk, cloned.pk)
+        self.assertEqual(original.title, 'cloned question_bank')
+        self.assertEqual(cloned.title, 'new title')
+        self.assertEqual(cloned.adaptive, False)
+        self.assertEqual(cloned.ap_correct, None)
+        self.assertEqual(cloned.ap_incorrect, None)
+        self.assertEqual(cloned.is_assessment, True)
+        self.assertEqual(list(cloned.supplemental.all()), [])
 
 
 class AssignmentTest(TestCase):
     def setUp(self):
-        self.instructor = InstructorFactory()
-        self.question = QuestionFactory(title='q1')
-        self.x = AssignmentFactory()
+        self.cohort = CohortFactory()
+        self.bank = QuestionBankFactory(title='b1')
+        self.x = AssignmentFactory(banks=(self.bank,), cohorts=(self.cohort,))
 
     def test_is_valid_from_factory(self):
         self.x.full_clean()
