@@ -114,8 +114,8 @@ urlpatterns = [
          views.QuestionBankUpdateView.as_view(), name='question_bank_edit'),
     path('question_bank/<int:pk>/delete/',
          views.QuestionBankDeleteView.as_view(), name='question_bank_delete'),
-    path('course/<int:pk>/clone/',
-         views.CohortCloneView.as_view(), name='cohort_clone'),
+    # path('question_bank/<int:pk>/clone/',
+    #      views.QuestionBankCloneView.as_view(), name='question_bank_clone'),
 
     path('question/',
          views.QuestionListView.as_view(), name='question_list'),
@@ -127,8 +127,8 @@ urlpatterns = [
          views.QuestionUpdateView.as_view(), name='question_edit'),
     path('question/<int:pk>/delete/',
          views.QuestionDeleteView.as_view(), name='question_delete'),
-    path('course/<int:pk>/clone/',
-         views.CohortCloneView.as_view(), name='cohort_clone'),
+    # path('question/<int:pk>/clone/',
+    #      views.QeustionCloneView.as_view(), name='question_clone'),
 
     path('stats/', TemplateView.as_view(template_name="stats.html")),
     path('smoketest/', include('smoketest.urls')),

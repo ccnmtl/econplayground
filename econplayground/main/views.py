@@ -598,25 +598,20 @@ class TopicDeleteView(LoginRequiredMixin, CohortInstructorMixin, DeleteView):
 
 
 class AssignmentListView(
-    LoginRequiredMixin, SingleObjectMixin, ListView):
+        LoginRequiredMixin, ListView):
     model = Assignment
     template_name = 'main/assignment_list.html'
+    is_assignment = True
+    is_question_bank = False
+    is_question = False
 
-    def get(self, request, *args, **kwargs):
-        self.is_assignment = True
-        self.is_question_bank = False
-        self.is_question = False
-        return super(AssignmentListView, self).get(request, *args, **kwargs)
-
-    # def get_object(self, queryset: Optional[models.query.QuerySet[Any]] = ...) -> models.Model:
-    #     return super().get_object(queryset)
-
-    def post(self, request, pk, *args, **kwargs):
-        print('In here!!!')
-        assignment = Assignment.objects.filter(pk=pk)
-        assignment.update(published= not assignment.published)
+    def flip_published(self, *args, **kwargs):
+        assignment = Assignment.objects.filter(pk=self.pk)
+        assignment.update(published=not assignment.published)
         assignment.save()
-        return super(AssignmentListView, self).get(request, *args, **kwargs)
+        print(assignment.title, 'is now',
+              'published' if assignment.published else "unpublished")
+        return super(AssignmentListView, self).get(*args, **kwargs)
 
     def dispatch(self, request, *args, **kwargs):
         return super(
@@ -627,9 +622,12 @@ class AssignmentListView(
 
     def get_context_data(self, *args, **kwargs):
         ctx = super(AssignmentListView, self).get_context_data(*args, **kwargs)
-        ctx.update({'is_assignment': self.is_assignment})
-        ctx.update({'is_question_bank': self.is_question_bank})
-        ctx.update({'is_question': self.is_question})
+        ctx.update({
+            'is_assignment': self.is_assignment,
+            'is_question_bank': self.is_question_bank,
+            'is_question': self.is_question,
+            'flip_publish': self.flip_published
+        })
         return ctx
 
 
@@ -645,13 +643,17 @@ class AssignmentDetailView(
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
+        ctx = super().get_context_data(**kwargs)
 
+        bank_list = self.get_bank_queryset()
         bank_list = self.get_bank_queryset()
 
         ctx.update({'is_assignment': self.is_assignment})
         ctx.update({'is_question_bank': self.is_question_bank})
         ctx.update({'is_question': self.is_question})
 
+        ctx['bank_list'] = bank_list
+        ctx['all_count'] = bank_list.count()
         ctx['bank_list'] = bank_list
         ctx['all_count'] = bank_list.count()
 
@@ -664,7 +666,7 @@ class AssignmentCreateView(
     model = Assignment
     fields = ['title', 'prompt', 'banks', 'cohorts']
     template_name = 'main/assignment_form.html'
-    
+
     def get(self, request, *args, **kwargs):
         self.is_assignment = True
         self.is_question_bank = False
@@ -676,22 +678,6 @@ class AssignmentCreateView(
 
     def get_success_url(self):
         return reverse('assignment_list')
-
-    def form_valid(self, form):
-        title = form.cleaned_data.get('title')
-        instructor = self.request.user
-
-        result = CreateView.form_valid(self, form)
-
-        form.instance.instructors.add(instructor)
-
-        messages.add_message(
-            self.request, messages.SUCCESS,
-            '<strong>{}</strong> cohort created.'.format(title),
-            extra_tags='safe'
-        )
-
-        return result
 
     def get_context_data(self, *args, **kwargs):
         ctx = super(
@@ -775,7 +761,7 @@ class AssignmentDeleteView(
 
 
 class AssignmentCloneFormView(LoginRequiredMixin, AssignmentInstructorMixin,
-                          SingleObjectMixin, FormView):
+                              SingleObjectMixin, FormView):
     template_name = 'main/assignment_clone_form.html'
     form_class = AssignmentCloneForm
     model = Assignment
@@ -818,7 +804,7 @@ class AssignmentCloneFormView(LoginRequiredMixin, AssignmentInstructorMixin,
 
 
 class AssignmentCloneDisplay(LoginRequiredMixin, AssignmentInstructorMixin,
-                         DetailView):
+                             DetailView):
     model = Assignment
     template_name = 'main/assignment_clone_form.html'
 
@@ -831,7 +817,7 @@ class AssignmentCloneDisplay(LoginRequiredMixin, AssignmentInstructorMixin,
 
 
 class AssignmentCloneView(LoginRequiredMixin, AssignmentInstructorMixin,
-                      SingleObjectMixin, View):
+                          SingleObjectMixin, View):
     model = Assignment
 
     def get(self, request, *args, **kwargs):
@@ -984,8 +970,9 @@ class QuestionBankDeleteView(
                        kwargs={'question_bank_pk': self.object.pk})
 
 
-class QuestionBankCloneFormView(LoginRequiredMixin, QuestionBankInstructorMixin,
-                          SingleObjectMixin, FormView):
+class QuestionBankCloneFormView(
+        LoginRequiredMixin, QuestionBankInstructorMixin,
+        SingleObjectMixin, FormView):
     template_name = 'main/question_bank_clone_form.html'
     form_class = QuestionBankCloneForm
     model = QuestionBank
@@ -1018,9 +1005,12 @@ class QuestionBankCloneFormView(LoginRequiredMixin, QuestionBankInstructorMixin,
 
         url = reverse('question_bank_detail', kwargs={'pk': cloned.pk})
         messages.add_message(
-            self.request, messages.SUCCESS,
-            'Question Bank <strong><a href="{}">{}</a></strong> created.'.format(
-                url, cloned.title),
+            self.request, messages.SUCCESS, '{}{}{}{}{}'.format(
+                'Question Bank <strong><a href="',
+                url,
+                '">',
+                cloned.title,
+                '</a></strong> created.'),
             extra_tags='safe'
         )
 
@@ -1028,7 +1018,7 @@ class QuestionBankCloneFormView(LoginRequiredMixin, QuestionBankInstructorMixin,
 
 
 class QuestionBankCloneDisplay(LoginRequiredMixin, QuestionBankInstructorMixin,
-                         DetailView):
+                               DetailView):
     model = QuestionBank
     template_name = 'main/question_bank_clone_form.html'
 
@@ -1041,7 +1031,7 @@ class QuestionBankCloneDisplay(LoginRequiredMixin, QuestionBankInstructorMixin,
 
 
 class QuestionBankCloneView(LoginRequiredMixin, QuestionBankInstructorMixin,
-                      SingleObjectMixin, View):
+                            SingleObjectMixin, View):
     model = QuestionBank
 
     def get(self, request, *args, **kwargs):
@@ -1159,7 +1149,7 @@ class QuestionDeleteView(
 
 
 class QuestionCloneFormView(LoginRequiredMixin, QuestionInstructorMixin,
-                          SingleObjectMixin, FormView):
+                            SingleObjectMixin, FormView):
     template_name = 'main/question_clone_form.html'
     form_class = QuestionCloneForm
     model = Question
@@ -1202,7 +1192,7 @@ class QuestionCloneFormView(LoginRequiredMixin, QuestionInstructorMixin,
 
 
 class QuestionCloneDisplay(LoginRequiredMixin, QuestionInstructorMixin,
-                         DetailView):
+                           DetailView):
     model = Question
     template_name = 'main/question_clone_form.html'
 
@@ -1215,7 +1205,7 @@ class QuestionCloneDisplay(LoginRequiredMixin, QuestionInstructorMixin,
 
 
 class QuestionCloneView(LoginRequiredMixin, QuestionInstructorMixin,
-                      SingleObjectMixin, View):
+                        SingleObjectMixin, View):
     model = Question
 
     def get(self, request, *args, **kwargs):

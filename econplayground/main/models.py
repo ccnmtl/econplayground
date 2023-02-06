@@ -542,8 +542,13 @@ class QuestionBank(models.Model):
     def clone(self):
         c = copy.copy(self)
         c.supplemental.set([])
+        c.supplemental.set([])
         c.pk = None
         c.title = self.title + '_copy'
+        c.adaptive = False
+        c.ap_correct = None
+        c.ap_incorrect = None
+        c.is_assessment = True
         c.adaptive = False
         c.ap_correct = None
         c.ap_incorrect = None
