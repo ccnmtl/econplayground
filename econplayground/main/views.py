@@ -715,6 +715,11 @@ class AssignmentUpdateView(
     is_question_bank = False
     is_question = False
 
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['title'].widget = forms.TextInput()
+        return form
+
     def test_func(self):
         return user_is_instructor(self.request.user)
 
@@ -724,15 +729,17 @@ class AssignmentUpdateView(
     def get_context_data(self, *args, **kwargs):
         ctx = super(
             AssignmentUpdateView, self).get_context_data(*args, **kwargs)
-        ctx.update({'is_assignment': self.is_assignment})
-        ctx.update({'is_question_bank': self.is_question_bank})
-        ctx.update({'is_question': self.is_question})
+        ctx.update({
+            'is_assignment': self.is_assignment,
+            'is_question_bank': self.is_question_bank,
+            'is_question': self.is_question,
+        })
         return ctx
 
     def form_valid(self, form):
         title = form.cleaned_data.get('title')
 
-        result = CreateView.form_valid(self, form)
+        result = super(AssignmentUpdateView, self).form_valid(form)
 
         messages.add_message(
             self.request, messages.SUCCESS,
