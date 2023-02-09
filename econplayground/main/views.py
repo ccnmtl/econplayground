@@ -688,15 +688,20 @@ class AssignmentCreateView(
     def get_context_data(self, *args, **kwargs):
         ctx = super(
             AssignmentCreateView, self).get_context_data(*args, **kwargs)
-        ctx.update({'is_assignment': self.is_assignment})
-        ctx.update({'is_question_bank': self.is_question_bank})
-        ctx.update({'is_question': self.is_question})
+
+        ctx.update({
+            'is_assignment': self.is_assignment,
+            'is_question_bank': self.is_question_bank,
+            'is_question': self.is_question,
+        })
+
         return ctx
 
     def form_valid(self, form):
         title = form.cleaned_data.get('title')
+        form.instance.instructor = self.request.user
 
-        result = CreateView.form_valid(self, form)
+        result = super(AssignmentCreateView, self).form_valid(form)
 
         messages.add_message(
             self.request, messages.SUCCESS,
