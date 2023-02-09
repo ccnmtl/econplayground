@@ -1,0 +1,5 @@
+{% if request.user.first_name %}
+    {{request.user.first_name}}'s Assignments
+{% else %}
+    Your Assignments
+{% endif %}

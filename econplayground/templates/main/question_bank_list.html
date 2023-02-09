@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% load static econ_auth markup %}
 
-{% block title %}Questions{% endblock %}
+{% block title %}Question Banks{% endblock %}
 
-{% block pagetitle %}<h1 class="mt-4">Questions</h1>{% endblock %}
+{% block pagetitle %}<h1 class="mt-4">Question Banks</h1>{% endblock %}
 
 {% block content %}
     {% url 'question_create' as the_url %}
@@ -12,13 +12,13 @@
        title="Create Question"
        href="{{the_url}}"
     >
-        Create Question
+        Create Question Bank
     </a>
     <div class="row">
         <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
             <form class="form featuredgraphs-form">
                 <ul class="list-group featuredgraphs-list">
-                    {% for question in question_list %}
+                    {% for bank in question_bank_list %}
                         <li class="list-group-item d-flex flex-row align-items-center">
                             <div class="graph-title mr-auto">
                                 <a href="{% url 'question_detail' question.pk %}" title="{{question.title}}">
@@ -43,7 +43,7 @@
                             </a>
                         </li>
                     {% empty %}
-                        Questions you make can be found here.
+                        Question Banks you make can be found here.
                     {% endfor %}
                 </ul>
             </form>

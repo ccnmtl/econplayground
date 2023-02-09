@@ -3,7 +3,9 @@ from django.http import HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 
-from econplayground.main.models import Cohort, Graph
+from econplayground.main.models import (
+    Cohort, Graph, Assignment, Question, QuestionBank
+)
 from econplayground.main.utils import user_is_instructor
 
 
@@ -18,6 +20,34 @@ def attach_cohort(view, **kwargs):
         elif graph_pk:
             graph = get_object_or_404(Graph, pk=graph_pk)
             view.cohort = graph.topic.cohort
+
+
+def attach_assignment(view, **kwargs):
+    if not hasattr(view, 'assignment'):
+        assignment_pk = kwargs.get('assignment_pk', None)
+        if assignment_pk:
+            view.assignment = get_object_or_404(Assignment, pk=assignment_pk)
+        elif hasattr(view, 'get_object'):
+            view.assignment = view.get_object()
+
+
+def attach_question_bank(view, **kwargs):
+    if not hasattr(view, 'question_bank'):
+        question_bank_pk = kwargs.get('question_bank_pk', None)
+        if question_bank_pk:
+            view.question_bank = get_object_or_404(
+                QuestionBank, pk=question_bank_pk)
+        elif hasattr(view, 'get_object'):
+            view.question_bank = view.get_object()
+
+
+def attach_question(view, **kwargs):
+    if not hasattr(view, 'question'):
+        question_pk = kwargs.get('question_pk', None)
+        if question_pk:
+            view.question = get_object_or_404(Question, pk=question_pk)
+        elif hasattr(view, 'get_object'):
+            view.question = view.get_object()
 
 
 class CohortGraphMixin(object):
@@ -85,4 +115,52 @@ class CohortInstructorMixin(object):
             return HttpResponseForbidden()
 
         return super(CohortInstructorMixin, self).dispatch(
+            self.request, *args, **kwargs)
+
+
+class AssignmentInstructorMixin(object):
+    """Find the assignment and attach it to self.assignment.
+
+    Additionally, return a Forbidden error if the current user isn't
+    an instructor.
+    """
+    def dispatch(self, *args, **kwargs):
+        if not user_is_instructor(self.request.user):
+            return HttpResponseForbidden()
+
+        attach_assignment(self, **kwargs)
+
+        return super(AssignmentInstructorMixin, self).dispatch(
+            self.request, *args, **kwargs)
+
+
+class QuestionBankInstructorMixin(object):
+    """Find the question bank and attach it to self.question_bank.
+
+    Additionally, return a Forbidden error if the current user isn't
+    an instructor.
+    """
+    def dispatch(self, *args, **kwargs):
+        if not user_is_instructor(self.request.user):
+            return HttpResponseForbidden()
+
+        attach_question_bank(self, **kwargs)
+
+        return super(QuestionBankInstructorMixin, self).dispatch(
+            self.request, *args, **kwargs)
+
+
+class QuestionInstructorMixin(object):
+    """Find the question and attach it to self.question.
+
+    Additionally, return a Forbidden error if the current user isn't
+    an instructor.
+    """
+    def dispatch(self, *args, **kwargs):
+        if not user_is_instructor(self.request.user):
+            return HttpResponseForbidden()
+
+        attach_question(self, **kwargs)
+
+        return super(QuestionInstructorMixin, self).dispatch(
             self.request, *args, **kwargs)
