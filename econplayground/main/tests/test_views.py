@@ -7,7 +7,7 @@ from econplayground.main.tests.factories import (
 from econplayground.main.tests.mixins import (
     LoggedInTestMixin, LoggedInTestInstructorMixin, LoggedInTestStudentMixin
 )
-from econplayground.main.models import Cohort, Graph, Topic
+from econplayground.main.models import Cohort, Graph, Topic, Assignment
 from django.contrib.messages import get_messages
 
 
@@ -1124,3 +1124,29 @@ class CohortPasswordGraphDetailViewTest(LoggedInTestMixin, TestCase):
         self.assertEqual(r.status_code, 200)
         self.assertNotContains(r, self.g.title)
         self.assertContains(r, 'Password Required')
+
+
+class AssignmentCreateInstructorViewTest(
+        LoggedInTestInstructorMixin, TestCase):
+    def test_get(self):
+        url = reverse('assignment_create')
+        r = self.client.get(url)
+        self.assertEqual(r.status_code, 200)
+
+        r = self.client.post(url, {
+            'title': 'Lorem Ipsum'
+        }, follow=True)
+        self.assertEqual(r.status_code, 200)
+
+        self.assertEqual(Assignment.objects.count(), 1)
+        assignment = Assignment.objects.last()
+        self.assertEqual(self.u, assignment.instructor)
+
+
+class AssignmentCreateStudentViewTest(LoggedInTestStudentMixin, TestCase):
+    def test_create_assignment(self):
+        url = reverse('assignment_create')
+
+        response = self.client.get(url)
+        self.assertEqual(
+            response.status_code, 403, 'Students can\'t create assignments.')
