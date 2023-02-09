@@ -1,5 +1,6 @@
 import hashlib
 from braces.views import CsrfExemptMixin
+from django import forms
 from django.contrib import messages
 from django.contrib.auth.mixins import (
     LoginRequiredMixin, UserPassesTestMixin
@@ -666,6 +667,11 @@ class AssignmentCreateView(
     model = Assignment
     fields = ['title', 'prompt', 'banks', 'cohorts']
     template_name = 'main/assignment_form.html'
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['title'].widget = forms.TextInput()
+        return form
 
     def get(self, request, *args, **kwargs):
         self.is_assignment = True
