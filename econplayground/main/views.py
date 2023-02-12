@@ -644,17 +644,15 @@ class AssignmentDetailView(
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        ctx = super().get_context_data(**kwargs)
 
         bank_list = self.get_bank_queryset()
-        bank_list = self.get_bank_queryset()
 
-        ctx.update({'is_assignment': self.is_assignment})
-        ctx.update({'is_question_bank': self.is_question_bank})
-        ctx.update({'is_question': self.is_question})
+        ctx.update({
+            'is_assignment': self.is_assignment,
+            'is_question_bank': self.is_question_bank,
+            'is_question': self.is_question,
+        })
 
-        ctx['bank_list'] = bank_list
-        ctx['all_count'] = bank_list.count()
         ctx['bank_list'] = bank_list
         ctx['all_count'] = bank_list.count()
 
