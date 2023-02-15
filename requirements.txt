@@ -104,5 +104,5 @@ bandit==1.7.4
 django-ordered-model==3.6
 
 entrypoints==0.4
-typing_extensions==4.4.0
+typing_extensions==4.5.0
 pyparsing==3.0.9
