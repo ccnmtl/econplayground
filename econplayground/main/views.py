@@ -639,22 +639,20 @@ class AssignmentDetailView(
     is_question_bank = False
     is_question = False
 
-    def get_bank_queryset(self):
-        return QuestionBank.objects.all()
+    def get_question_banks(self):
+        return QuestionBank.objects.filter(
+            assignment=self.object.pk).order_by('order')
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-
-        bank_list = self.get_bank_queryset()
 
         ctx.update({
             'is_assignment': self.is_assignment,
             'is_question_bank': self.is_question_bank,
             'is_question': self.is_question,
+            'banks': self.get_question_banks().all(),
+            'all_count': self.get_question_banks().count()
         })
-
-        ctx['bank_list'] = bank_list
-        ctx['all_count'] = bank_list.count()
 
         return ctx
 
@@ -663,7 +661,7 @@ class AssignmentCreateView(
         EnsureCsrfCookieMixin, UserPassesTestMixin,
         LoginRequiredMixin, CreateView):
     model = Assignment
-    fields = ['title', 'prompt', 'banks', 'cohorts']
+    fields = ['title', 'prompt', 'cohorts']
     template_name = 'main/assignment_form.html'
 
     def get_form(self, form_class=None):
@@ -713,7 +711,7 @@ class AssignmentCreateView(
 class AssignmentUpdateView(
         LoginRequiredMixin, AssignmentInstructorMixin, UpdateView):
     model = Assignment
-    fields = ['title', 'prompt', 'banks', 'cohorts']
+    fields = ['title', 'prompt', 'cohorts']
     is_assignment = True
     is_question_bank = False
     is_question = False
@@ -762,9 +760,11 @@ class AssignmentDeleteView(
 
     def get_context_data(self, **kwargs):
         ctx = super(AssignmentDeleteView, self).get_context_data(**kwargs)
-        ctx.update({'is_assignment': self.is_assignment})
-        ctx.update({'is_question_bank': self.is_question_bank})
-        ctx.update({'is_question': self.is_question})
+        ctx.update({
+            'is_assignment': self.is_assignment,
+            'is_question_bank': self.is_question_bank,
+            'is_question': self.is_question
+        })
         return ctx
 
     def get_success_url(self):
@@ -858,47 +858,59 @@ class QuestionBankListView(
             QuestionBankListView, self).dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
-        return QuestionBank.objects.all()
+        return QuestionBank.objects.all().order_by('created_at')
 
     def get_context_data(self, **kwargs):
         ctx = super(QuestionBankListView, self).get_context_data(**kwargs)
-        ctx.update({'is_assignment': self.is_assignment})
-        ctx.update({'is_question_bank': self.is_question_bank})
-        ctx.update({'is_question': self.is_question})
+
+        question_bank_list = self.get_queryset()
+
+        ctx.update({
+            'is_assignment': self.is_assignment,
+            'is_question_bank': self.is_question_bank,
+            'is_question': self.is_question,
+            'question_bank_list': question_bank_list,
+            'all_count': question_bank_list.count()
+        })
         return ctx
 
 
 class QuestionBankDetailView(QuestionBankInstructorMixin, DetailView):
     model = QuestionBank
+    template_name = 'main/question_bank_detail.html'
     is_assignment = False
     is_question_bank = True
     is_question = False
 
     def get_question_queryset(self):
-        return Question.objects.all()
+        return Question.objects.all().order_by('updated_at')
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
 
         question_list = self.get_question_queryset()
 
-        ctx.update({'is_assignment': self.is_assignment})
-        ctx.update({'is_question_bank': self.is_question_bank})
-        ctx.update({'is_question': self.is_question})
-        ctx['question_list'] = question_list
-        ctx['all_count'] = question_list.count()
+        ctx.update({
+            'is_assignment': self.is_assignment,
+            'is_question_bank': self.is_question_bank,
+            'is_question': self.is_question,
+            'question_list': question_list,
+            'all_count': question_list.count()
+        })
 
         return ctx
 
 
 class QuestionBankCreateView(
         EnsureCsrfCookieMixin, UserPassesTestMixin,
-        QuestionBankInstructorMixin, CreateView):
+        LoginRequiredMixin, CreateView):
     model = QuestionBank
-    fields = ['title', 'questions']
+    fields = ['title', 'assignment', 'description',
+              'questions', 'supplemental']
     is_assignment = False
     is_question_bank = True
     is_question = False
+    template_name = 'main/question_bank_form.html'
 
     def test_func(self):
         return user_is_instructor(self.request.user)
@@ -921,19 +933,23 @@ class QuestionBankCreateView(
 
     def get_context_data(self, **kwargs):
         ctx = super(QuestionBankCreateView, self).get_context_data(**kwargs)
-        ctx.update({'is_assignment': self.is_assignment})
-        ctx.update({'is_question_bank': self.is_question_bank})
-        ctx.update({'is_question': self.is_question})
+        ctx.update({
+            'is_assignment': self.is_assignment,
+            'is_question_bank': self.is_question_bank,
+            'is_question': self.is_question
+        })
         return ctx
 
 
 class QuestionBankUpdateView(
         LoginRequiredMixin, QuestionBankInstructorMixin, UpdateView):
     model = QuestionBank
-    fields = ['title', 'questions']
+    fields = ['title', 'assignment', 'description',
+              'questions', 'supplemental']
     is_assignment = False
     is_question_bank = True
     is_question = False
+    template_name = 'main/question_bank_form.html'
 
     def test_func(self):
         return user_is_instructor(self.request.user)
@@ -948,7 +964,7 @@ class QuestionBankUpdateView(
 
         messages.add_message(
             self.request, messages.SUCCESS,
-            '<strong>{}</strong> question bank created.'.format(title),
+            '<strong>{}</strong> question bank updated.'.format(title),
             extra_tags='safe'
         )
 
@@ -956,9 +972,11 @@ class QuestionBankUpdateView(
 
     def get_context_data(self, **kwargs):
         ctx = super(QuestionBankUpdateView, self).get_context_data(**kwargs)
-        ctx.update({'is_assignment': self.is_assignment})
-        ctx.update({'is_question_bank': self.is_question_bank})
-        ctx.update({'is_question': self.is_question})
+        ctx.update({
+            'is_assignment': self.is_assignment,
+            'is_question_bank': self.is_question_bank,
+            'is_question': self.is_question
+        })
         return ctx
 
 
@@ -968,12 +986,15 @@ class QuestionBankDeleteView(
     is_assignment = False
     is_question_bank = True
     is_question = False
+    template_name = 'main/question_bank_confirm_delete.html'
 
     def get_context_data(self, **kwargs):
         ctx = super(QuestionBankDeleteView, self).get_context_data(**kwargs)
-        ctx.update({'is_assignment': self.is_assignment})
-        ctx.update({'is_question_bank': self.is_question_bank})
-        ctx.update({'is_question': self.is_question})
+        ctx.update({
+            'is_assignment': self.is_assignment,
+            'is_question_bank': self.is_question_bank,
+            'is_question': self.is_question
+        })
         return ctx
 
     def get_success_url(self):
@@ -982,20 +1003,19 @@ class QuestionBankDeleteView(
             '<strong>{}</strong> has been deleted.'.format(self.object.title),
             extra_tags='safe')
 
-        return reverse('question_bank_list',
-                       kwargs={'question_bank_pk': self.object.pk})
+        return reverse('assignment_detail',
+                       kwargs={'pk': self.object.assignment.pk})
 
 
 class QuestionBankCloneFormView(
         LoginRequiredMixin, QuestionBankInstructorMixin,
         SingleObjectMixin, FormView):
-    template_name = 'main/question_bank_clone_form.html'
     form_class = QuestionBankCloneForm
     model = QuestionBank
+    template_name = 'main/question_bank_clone_form.html'
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs['user'] = self.request.user
         return kwargs
 
     def get_context_data(self, *args, **kwargs):
@@ -1049,6 +1069,7 @@ class QuestionBankCloneDisplay(LoginRequiredMixin, QuestionBankInstructorMixin,
 class QuestionBankCloneView(LoginRequiredMixin, QuestionBankInstructorMixin,
                             SingleObjectMixin, View):
     model = QuestionBank
+    template_name = 'main/question_bank_clone_form.html'
 
     def get(self, request, *args, **kwargs):
         view = QuestionBankCloneDisplay.as_view()
@@ -1071,9 +1092,11 @@ class QuestionListView(LoginRequiredMixin, QuestionInstructorMixin, ListView):
 
     def get_context_data(self, **kwargs):
         ctx = super(QuestionListView, self).get_context_data(**kwargs)
-        ctx.update({'is_assignment': self.is_assignment})
-        ctx.update({'is_question_bank': self.is_question_bank})
-        ctx.update({'is_question': self.is_question})
+        ctx.update({
+            'is_assignment': self.is_assignment,
+            'is_question_bank': self.is_question_bank,
+            'is_question': self.is_question
+        })
         return ctx
 
 
@@ -1088,16 +1111,18 @@ class QuestionDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         ctx = super(QuestionDetailView, self).get_context_data(**kwargs)
-        ctx.update({'is_assignment': self.is_assignment})
-        ctx.update({'is_question_bank': self.is_question_bank})
-        ctx.update({'is_question': self.is_question})
-        ctx['is_instructor'] = self.is_instructor()
+        ctx.update({
+            'is_assignment': self.is_assignment,
+            'is_question_bank': self.is_question_bank,
+            'is_question': self.is_question,
+            'is_instructor': self.is_instructor()
+        })
         return ctx
 
 
 class QuestionCreateView(
         EnsureCsrfCookieMixin, UserPassesTestMixin,
-        QuestionInstructorMixin, CreateView):
+        LoginRequiredMixin, CreateView):
     model = Question
     fields = [
         'title', 'prompt', 'embedded_media', 'graph'
@@ -1137,7 +1162,7 @@ class QuestionUpdateView(
     is_question = True
 
     def get_success_url(self):
-        return reverse('question_edit', kwargs={'pk': self.object.pk})
+        return reverse('question_detail', kwargs={'pk': self.object.pk})
 
 
 class QuestionDeleteView(
@@ -1149,9 +1174,11 @@ class QuestionDeleteView(
 
     def get_context_data(self, **kwargs):
         ctx = super(QuestionDeleteView, self).get_context_data(**kwargs)
-        ctx.update({'is_assignment': self.is_assignment})
-        ctx.update({'is_question_bank': self.is_question_bank})
-        ctx.update({'is_question': self.is_question})
+        ctx.update({
+            'is_assignment': self.is_assignment,
+            'is_question_bank': self.is_question_bank,
+            'is_question': self.is_question
+        })
         return ctx
 
     def get_success_url(self):
@@ -1160,8 +1187,7 @@ class QuestionDeleteView(
             '<strong>{}</strong> has been deleted.'.format(self.object.title),
             extra_tags='safe')
 
-        return reverse('question_bank_list',
-                       kwargs={'question_bank_pk': self.object.pk})
+        return reverse('question_list')
 
 
 class QuestionCloneFormView(LoginRequiredMixin, QuestionInstructorMixin,
@@ -1172,14 +1198,13 @@ class QuestionCloneFormView(LoginRequiredMixin, QuestionInstructorMixin,
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs['user'] = self.request.user
         return kwargs
 
     def get_context_data(self, *args, **kwargs):
         ctx = super().get_context_data(*args, **kwargs)
         ctx.update({
             'question': self.object,
-            'form': QuestionCloneForm(user=self.request.user),
+            'form': QuestionCloneForm(),
         })
         return ctx
 
@@ -1215,7 +1240,7 @@ class QuestionCloneDisplay(LoginRequiredMixin, QuestionInstructorMixin,
     def get_context_data(self, *args, **kwargs):
         ctx = super().get_context_data(*args, **kwargs)
         ctx.update({
-            'form': QuestionCloneForm(user=self.request.user),
+            'form': QuestionCloneForm(),
         })
         return ctx
 

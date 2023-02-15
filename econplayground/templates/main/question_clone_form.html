@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block title %}Clone Question{% endblock %}
+
+{% block breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{% url 'question_list' %}" title="Question List">
+                    {% include 'main/your_questions_snippet.html' %}
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{% url 'question_detail' object.pk %}" title="{{object.title}}">
+                    {{ object.title|truncatewords:5 }}
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                Clone
+            </li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block pagetitle %}
+    <h1 class="mt-4"><span class="h1-small">Cloning <strong>{{object.title}}</strong></span></h1>
+{% endblock %}
+
+{% block pagedescription %}
+{% endblock %}
+
+{% block content %}
+    <p>
+        Pick a title for the cloned question:
+    </p>
+
+<div class="row">
+    <div class="col-md-12 order-md-1">
+
+        <form action="." method="post">{% csrf_token %}
+
+			{% bootstrap_form form %}
+
+            <div class="row mt-2">
+                <div class="col-md-2 mb-1 pr-0">
+                    <button type="submit" class="btn btn-block btn-primary">Clone</button>
+                </div>
+                <div class="col-md-2 mb-1 pr-0">
+                    <a class="btn btn-block btn-secondary"
+                       href="{% url 'question_detail' object.pk %}">
+                        Cancel
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

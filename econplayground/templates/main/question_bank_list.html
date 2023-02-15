@@ -6,7 +6,7 @@
 {% block pagetitle %}<h1 class="mt-4">Question Banks</h1>{% endblock %}
 
 {% block content %}
-    {% url 'question_create' as the_url %}
+    {% url 'question_bank_create' as the_url %}
     <a class="btn btn-primary mb-2 {% if request.path == the_url %}active{% endif %}"
        role="button"
        title="Create Question"
@@ -18,17 +18,17 @@
         <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
             <form class="form featuredgraphs-form">
                 <ul class="list-group featuredgraphs-list">
-                    {% for bank in question_bank_list %}
+                    {% for question_bank in question_bank_list %}
                         <li class="list-group-item d-flex flex-row align-items-center">
                             <div class="graph-title mr-auto">
-                                <a href="{% url 'question_detail' question.pk %}" title="{{question.title}}">
-                                    {{question.title}}
+                                <a href="{% url 'question_bank_detail' question_bank.pk %}" title="{{question_bank.title}}">
+                                    {{question_bank.title}}
                                 </a>
                             </div>
                             <a role="button"
                                class="btn btn-sm btn-danger mr-1"
-                               title="Remove {{question.title}} from the Question Bank"
-                               href="{% url 'question_edit' question.pk %}?remove=true"
+                               title="Delete {{question_bank.title}}, Question Bank"
+                               href="{% url 'question_bank_delete' question_bank.pk %}?remove=true"
                             >
                                 <svg height="32" 
                                      class="octicon octicon-x" 

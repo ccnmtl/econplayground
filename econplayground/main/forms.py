@@ -1,5 +1,5 @@
 from django import forms
-from econplayground.main.models import Cohort
+from econplayground.main.models import Cohort, Assignment
 
 
 class CohortCloneForm(forms.Form):
@@ -34,9 +34,13 @@ class AssignmentCloneForm(forms.Form):
 
 class QuestionBankCloneForm(forms.Form):
     title = forms.CharField()
+    assignment = forms.ModelChoiceField(Assignment.objects.none())
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, user, *args, **kwargs):
         r = super(QuestionBankCloneForm, self).__init__(*args, **kwargs)
+
+        self.fields['assignment'].queryset = Assignment.objects.filter(
+            instructor__in=(user,))
 
         return r
 
