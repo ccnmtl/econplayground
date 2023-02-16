@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import GraphEditor from './GraphEditor';
 import GraphPicker from './GraphPicker';
 import { exportGraph, defaultGraph } from './GraphMapping';
-import { authedFetch, getError, getCohortId } from './utils';
+import {authedFetch, getError, getCohortId} from './utils';
 
 class Editor extends Component {
     constructor(props) {
@@ -145,7 +145,7 @@ class Editor extends Component {
 
                         updateGraph={this.handleGraphUpdate.bind(this)}
                         saveGraph={this.handleSaveGraph.bind(this)}
-                        saveAndViewGraph={this.handleSaveAndViewGraph.bind(this)} />
+                        saveAndViewGraph={this.handleSaveGraph.bind(this, true)} />
                 </div>
             </div>
         );
@@ -187,34 +187,31 @@ class Editor extends Component {
     }
     /**
      * Save the graph to the backend. Returns a promise.
-     *
-     * If the `chain` param is true, then this function can be used
-     * within a promise chain and customized as needed.
      */
-    handleSaveGraph(chain = false) {
+    handleSaveGraph(studentView=false) {
         let data = exportGraph(this.state);
         data.author = window.EconPlayground.user;
 
         const me = this;
         return authedFetch('/api/graphs/', 'post', JSON.stringify(data))
             .then(function(response) {
-                if (chain) {
-                    return response.json();
-                }
-
                 if (response.status === 201) {
                     me.setState({
                         alertText: null,
                         step: 2
                     });
 
-                    response.json().then(function(graph) {
+                    return response.json().then(function(graph) {
                         const courseId = getCohortId(window.location.pathname);
-                        const url = `/course/${courseId}/graph/${graph.id}/`;
+                        let url = `/course/${courseId}/graph/${graph.id}/`;
+                        if (studentView) {
+                            url += 'public/';
+                        }
+
                         window.location.href = url;
                     });
                 } else {
-                    response.json().then(function(d) {
+                    return response.json().then(function(d) {
                         me.setState({
                             alertText: getError(d)
                         });
@@ -223,14 +220,7 @@ class Editor extends Component {
                 }
             });
     }
-    handleSaveAndViewGraph() {
-        return this.handleSaveGraph(true).then(function(graph) {
-            const courseId = getCohortId(window.location.pathname);
-            const url = `/course/${courseId}/graph/${graph.id}/public/`;
-            window.location.href = url;
-        });
 
-    }
     handleGraphUpdate(obj) {
         this.setState(obj);
     }

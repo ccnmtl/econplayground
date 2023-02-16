@@ -128,12 +128,12 @@ class Viewer extends Component {
                     updateDisplayIntersection={this.updateDisplayIntersection.bind(this)}
                     updateGraph={this.handleGraphUpdate.bind(this)}
                     saveGraph={this.handleSaveGraph.bind(this)}
-                    saveAndViewGraph={this.handleSaveAndViewGraph.bind(this)}
+                    saveAndViewGraph={this.handleSaveGraph.bind(this, true)}
                 />
             </React.Fragment>;
         } else {
             return <React.Fragment>
-                <div 
+                <div
                     className="alert alert-info"
                     hidden={this.state.alertText ? false : true}
                     role="alert"
@@ -370,11 +370,8 @@ class Viewer extends Component {
 
     /**
      * Save the graph to the backend. Returns a promise.
-     *
-     * If the `chain` param is true, then this function can be used
-     * within a promise chain and customized as needed.
      */
-    handleSaveGraph(chain = false) {
+    handleSaveGraph(studentView=false) {
         let data = exportGraph(this.state);
         data.author = window.EconPlayground.user;
 
@@ -382,18 +379,22 @@ class Viewer extends Component {
         return authedFetch(
             `/api/graphs/${this.graphId}/`, 'put', JSON.stringify(data))
             .then(function(response) {
-                if (chain) {
-                    return response.json();
-                }
-
                 if (response.status === 200) {
-                    me.setState({
-                        alertText: 'Graph saved'
-                    });
+                    if (studentView) {
+                        const courseId = getCohortId(window.location.pathname);
+                        const graphId = getGraphId(window.location.pathname);
+                        const url = `/course/${courseId}/graph/${graphId}/public/`;
+                        window.location.href = url;
+                    } else {
+                        me.setState({
+                            alertText: 'Graph saved'
+                        });
 
-                    window.scrollTo(0, 0);
+
+                        window.scrollTo(0, 0);
+                    }
                 } else {
-                    response.json().then(function(d) {
+                    return response.json().then(function(d) {
                         me.setState({
                             alertText: getError(d)
                         });
@@ -402,13 +403,7 @@ class Viewer extends Component {
                 }
             });
     }
-    handleSaveAndViewGraph() {
-        return this.handleSaveGraph(true).then(function(graph) {
-            const courseId = getCohortId(window.location.pathname);
-            const url = `/course/${courseId}/graph/${graph.id}/public/`;
-            window.location.href = url;
-        });
-    }
+
     handleGraphUpdate(obj) {
         this.setState(obj);
     }
