@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { btnStep } from '../utils';
+import {btnStep, forceNumber} from '../utils';
 
 /**
  * RangeEditor is a re-usable component that creates an <input> with
@@ -8,6 +8,21 @@ import { btnStep } from '../utils';
  * to allow the user to override that value.
  */
 export default class RangeEditor extends React.Component {
+    /*
+     * Use the input's min and max values to restrict input
+     * submission.
+     */
+    handleNumberInputChange(e) {
+        const val = forceNumber(e.target.value);
+
+        if (
+            e.target.value !== '' &&
+            val >= e.target.min && val <= e.target.max
+           ) {
+            return this.props.handler(e);
+        }
+    }
+
     render() {
         return <React.Fragment>
             <div className="form-row slider-wrapper">
@@ -109,9 +124,9 @@ export default class RangeEditor extends React.Component {
                         type="number"
                         id={this.props.id}
                         data-id={this.props.dataId}
-                        value={this.props.value}
                         step={Number(this.props.step) || 0.01}
-                        onChange={this.props.handler}
+                        value={this.props.value}
+                        onChange={this.handleNumberInputChange.bind(this)}
                         min={this.props.min}
                         max={this.props.max}>
                     </input>
