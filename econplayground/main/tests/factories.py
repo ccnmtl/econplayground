@@ -154,7 +154,6 @@ class QuestionBankFactory(DjangoModelFactory):
     adaptive = False
     ap_correct = None
     ap_incorrect = None
-    is_assessment = True
     questions = factory.SubFactory(QuestionFactory)
     title = fuzzy.FuzzyText()
 

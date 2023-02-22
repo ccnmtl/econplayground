@@ -256,9 +256,13 @@ class QuestionTest(TestCase):
 class QuestionBankTest(TestCase):
     def setUp(self):
         self.question = QuestionFactory(title='q1')
-        self.supplement = QuestionBankFactory(title='supplemental')
+        self.supplement = QuestionBankFactory(
+            assignment=AssignmentFactory(cohorts=(CohortFactory(),)),
+            title='supplemental')
         self.x = QuestionBankFactory(
-            questions=(self.question,), supplemental=(self.supplement,))
+            assignment=AssignmentFactory(cohorts=(CohortFactory(),)),
+            questions=(self.question,),
+            supplemental=(self.supplement,))
 
     def test_is_valid_from_factory(self):
         self.x.full_clean()
@@ -267,18 +271,25 @@ class QuestionBankTest(TestCase):
         original = QuestionBankFactory(
             title='cloned question_bank',
             adaptive=True,
-            ap_correct=QuestionBankFactory(title='correct'),
-            ap_incorrect=QuestionBankFactory(title='incorrect'),
-            is_assessment=False,
-            supplemental=QuestionBankFactory(title='supplemental'),
+            assignment=AssignmentFactory(cohorts=(CohortFactory(),)),
+            ap_correct=QuestionBankFactory(
+                assignment=AssignmentFactory(cohorts=(CohortFactory(),)),
+                title='correct'),
+            ap_incorrect=QuestionBankFactory(
+                assignment=AssignmentFactory(cohorts=(CohortFactory(),)),
+                title='incorrect'),
+            supplemental=QuestionBankFactory(
+                assignment=AssignmentFactory(cohorts=(CohortFactory(),)),
+                title='supplemental'),
         )
 
-        cloned_pk = original.clone().pk
+        cloned_pk = original.clone(AssignmentFactory(
+            cohorts=(CohortFactory(),))).pk
         cloned = QuestionBank.objects.get(pk=cloned_pk)
 
         self.assertNotEqual(original.pk, cloned.pk)
         self.assertEqual(original.title, 'cloned question_bank')
-        self.assertEqual(cloned.title, 'cloned question_bank_copy')
+        self.assertEqual(cloned.title, 'cloned question_bank')
 
         cloned.title = 'new title'
         original.save()
@@ -292,18 +303,17 @@ class QuestionBankTest(TestCase):
         self.assertNotEqual(original.pk, cloned.pk)
         self.assertEqual(original.title, 'cloned question_bank')
         self.assertEqual(cloned.title, 'new title')
+        self.assertNotEqual(cloned.assignment, original.assignment)
         self.assertEqual(cloned.adaptive, False)
         self.assertEqual(cloned.ap_correct, None)
         self.assertEqual(cloned.ap_incorrect, None)
-        self.assertEqual(cloned.is_assessment, True)
         self.assertEqual(list(cloned.supplemental.all()), [])
 
 
 class AssignmentTest(TestCase):
     def setUp(self):
         self.cohort = CohortFactory()
-        self.bank = QuestionBankFactory(title='b1')
-        self.x = AssignmentFactory(banks=(self.bank,), cohorts=(self.cohort,))
+        self.x = AssignmentFactory(cohorts=(self.cohort,))
 
     def test_is_valid_from_factory(self):
         self.x.full_clean()

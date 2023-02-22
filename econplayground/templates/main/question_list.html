@@ -16,37 +16,35 @@
     </a>
     <div class="row">
         <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
-            <form class="form featuredgraphs-form">
-                <ul class="list-group featuredgraphs-list">
-                    {% for question in question_list %}
-                        <li class="list-group-item d-flex flex-row align-items-center">
-                            <div class="graph-title mr-auto">
-                                <a href="{% url 'question_detail' question.pk %}" title="{{question.title}}">
-                                    {{question.title}}
-                                </a>
-                            </div>
-                            <a role="button"
-                               class="btn btn-sm btn-danger mr-1"
-                               title="Remove {{question.title}} from the Question Bank"
-                               href="{% url 'question_edit' question.pk %}?remove=true"
-                            >
-                                <svg height="32" 
-                                     class="octicon octicon-x" 
-                                     viewBox="0 0 12 16" 
-                                     version="1.1" 
-                                     width="24" 
-                                     aria-hidden="true"
-                                >
-                                    <path fill-rule="evenodd" 
-                                          d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"></path>
-                                </svg>
+            <ul class="list-group featuredgraphs-list">
+                {% for question in question_list %}
+                    <li class="list-group-item d-flex flex-row align-items-center">
+                        <div class="graph-title mr-auto">
+                            <a href="{% url 'question_detail' question.pk %}" title="{{question.title}}">
+                                {{question.title}}
                             </a>
-                        </li>
-                    {% empty %}
-                        Questions you make can be found here.
-                    {% endfor %}
-                </ul>
-            </form>
+                        </div>
+                        <a role="button"
+                            class="btn btn-sm btn-danger mr-1"
+                            title="Remove {{question.title}} from the Question Bank"
+                            href="{% url 'question_delete' question.pk %}?remove=true"
+                        >
+                            <svg height="24" 
+                                 class="octicon octicon-x" 
+                                 viewBox="0 0 12 16" 
+                                 version="1.1" 
+                                 width="20" 
+                                 aria-hidden="true"
+                            >
+                                <path fill-rule="evenodd" 
+                                        d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"></path>
+                            </svg>
+                        </a>
+                    </li>
+                {% empty %}
+                    Questions you make can be found here.
+                {% endfor %}
+            </ul>
         </div>
     </div>
 {% endblock %}

@@ -31,140 +31,252 @@
     <div class="row">
         <a href="{% url 'assignment_edit' object.pk %}" title="Edit {{ object.title }}">
             <button class="btn btn-secondary mb-4 mr-4">
-                Edit "{{ object.title }}"
+                Edit "{{ object.title|truncatewords:5 }}"
             </button>
         </a>
         <a href="{% url 'assignment_clone' object.pk %}" title="Edit {{ object.title }}">
             <button class="btn btn-secondary mb-4 mr-4">
-                Clone "{{ object.title }}"
+                Clone "{{ object.title|truncatewords:5 }}"
             </button>
         </a>
     </div>
     <p>{{ object.prompt }}</p>
-    <div class="container">
-        <strong class="row bg-dark text-white p-1">
-            <div class="col-2">Question</div>
-            <div class="col-2">Type</div>
-            <div class="col-5">Adaptive Path</div>
-            <div class="col-3">Actions</div>
+    <ol class="container">
+        <strong class="d-flex row bg-dark text-white p-1">
+            <div class="col-4">Question</div>
+            <div class="col-2 pl-0">Type</div>
+            <div class="flex-grow-1">Adaptive Path</div>
+            <div class="col-auto">Actions</div>
         </strong>
-        {% for bank in object.banks.all %}
-        <div class="row text-bg-info p-1 border-bottom">
-            <div class="col-2">
-                <span class="ms-4">{{forloop.counter}} {{ bank.title }}</span>
+        {% for bank in banks %}
+        <li class="d-flex row text-bg-info p-2 border-top border-dark align-items-center">
+            <div class="col-auto">
+                <button class="btn btn-light mb-1">
+                    <svg viewBox="0 0 16 16" 
+                        width="16" 
+                        height="16"
+                    >
+                        <path d="M1 2.75A.75.75 0 0 1 1.75 2h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 2.75Zm0 5A.75.75 0 0 1 1.75 7h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 7.75ZM1.75 12h12.5a.75.75 0 0 1 0 1.5H1.75a.75.75 0 0 1 0-1.5Z"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="col-3">
+                <a class="ms-4" href="{% url 'question_bank_detail' bank.pk %}">
+                    {{forloop.counter}} {{ bank.title }}
+                </a>
             </div>
             <div class="col-2">
-                <div class="col-auto">
-                    <select class="form-select form-select-sm text-dark select-sm" aria-label="Section Type">
-                        <option selected="">Select One</option>
-                        <option value="1">Assessment</option>
-                        <option value="1">Intervention</option>
-                    </select>
-                </div>
+                <select class="btn btn-secondary" aria-label="Section Type">
+                    <option selected="">Select One</option>
+                    <option value="1">Assessment</option>
+                    <option value="1">Intervention</option>
+                </select>
             </div>
-            <div class="col-5">
+            <div class="col-auto flex-grow-1">
                 <form class="row">
                     <div class="col-auto">
                         <div class="form-check form-switch">
-                            <input type="checkbox" id="flexSwitchCheckChecked" class="form-check-input" role="switch" checked={{bank.adaptive}}>
-                            <label class="form-check-label" for="flexSwitchCheckChecked">Yes</label>
+                            <input type="checkbox" id="flexSwitchCheckChecked" class="form-check-input" role="switch" {% if bank.adaptive %}checked{% endif %}>
+                            <label class="form-check-label" for="flexSwitchCheckChecked" aria-label="Set as Adaptive Path"></label>
                         </div>
                     </div>
-                    <div class="col-auto">
-                        <select class="btn-sm form-select form-select-sm bg-success text-light select-sm" aria-label="Adaptive Path">
-                            <option selected="">If correct, go to:</option>
-                            {% for jump_to in object.banks.all %}
-                            {% if jump_to.pk != bank.pk %}
-                            <option value="1">{{ bank.title }}</option>
+                    <div class="col-auto dropdown">
+                        <button class="btn-sm dropdown-toggle
+                                      {% if bank.adaptive %}bg-danger text-light
+                                      {% else %}text-black-50 disabled{% endif %}"
+                                type="button"
+                                data-toggle="dropdown"
+                                aria-expanded="false"
+                                {% if not bank.adaptive %}
+                                tabindex="-1"
+                                aria-disabled="true"
+                                {% endif %}
+                        >
+                            If correct, go to:
+                        </button>
+                        <div class="dropdown-menu">
+                            {% for jump_to in bank.supplemental.all %}
+                            {% if jump_to.pk == sub_bank.pk %}
+                            <div class="dropdown-item">{{ jump_to.title }}</div>
                             {% endif %}
                             {% endfor %}
-                        </select>
+                        </div>
                     </div>
-                    <div class="col-auto">
-                        <select class="btn-sm form-select form-select-sm bg-danger text-light" aria-label="Intervention">
-                            <option selected="">If incorrect, go to:</option>
-                            {% for jump_to in object.banks.all %}
-                            {% if jump_to.pk != bank.pk %}
-                            <option value="1">{{ bank.title }}</option>
+                    <div class="col-auto dropdown">
+                        <button class="btn-sm dropdown-toggle
+                                      {% if bank.adaptive %}bg-danger text-light
+                                      {% else %}text-black-50 disabled{% endif %}"
+                                type="button"
+                                data-toggle="dropdown"
+                                aria-expanded="false"
+                                {% if not bank.adaptive %}
+                                tabindex="-1"
+                                aria-disabled="true"
+                                {% endif %}
+                        >
+                            If incorrect, go to:
+                        </button>
+                        <div class="dropdown-menu">
+                            {% for jump_to in bank.supplemental.all %}
+                            {% if jump_to.pk != sub_bank.pk %}
+                            <div class="dropdown-item">{{ jump_to.title }}</div>
                             {% endif %}
                             {% endfor %}
-                        </select>
+                        </div>
                     </div>
                 </form>
             </div>
-            <div class="col-3">
-                <a href="{% url 'question_bank_edit' bank.pk %}" title="Edit {{ bank.title }}">
-                    <button class="btn btn-secondary btn-sm col-auto">Edit Q{{ forloop.counter }}</button>
+            <div class="float-right">
+                <a href="{% url 'question_bank_edit' bank.pk %}"
+                   title="Edit {{ bank.title }}"
+                   class="btn btn-secondary btn-sm col-auto"
+                >
+                    Edit Q{{ forloop.counter }}
+                </a>
+                <a role="button"
+                   class="btn btn-sm btn-danger mr-1"
+                   title="Delete Q{{ forloop.counter }}"
+                   href="{% url 'question_bank_delete' bank.pk %}?remove=true"
+                >
+                    <svg height="24" 
+                         class="octicon octicon-x" 
+                         viewBox="0 0 12 16" 
+                         version="1.1" 
+                         width="20" 
+                         aria-hidden="true"
+                    >
+                        <path fill-rule="evenodd" 
+                              d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"></path>
+                    </svg>
                 </a>
             </div>
-        </div>
-        {% for sub_bank in bank.supplemental %}
-        <div class="row text-bg-light p-1 border-bottom">
-            <div class="col-2">
-                <span class="ms-8">{{forloop.parentloop.counter}}.{{forloop.counter}} {{ sub_bank.title }}</span>
+        </li>
+        {% for sub_bank in bank.supplemental.all %}
+        <li class="d-flex row bg-light p-2 ml-2 border-top align-items-center">
+            <div class="col-auto">
+                <button class="btn bg-white">
+                    <svg viewBox="0 0 16 16" 
+                        width="16" 
+                        height="16"
+                    >
+                        <path d="M1 2.75A.75.75 0 0 1 1.75 2h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 2.75Zm0 5A.75.75 0 0 1 1.75 7h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 7.75ZM1.75 12h12.5a.75.75 0 0 1 0 1.5H1.75a.75.75 0 0 1 0-1.5Z"></path>
+                    </svg>
+                </button>
             </div>
-            <div class="col-2">
-                <div class="col-auto">
-                    <select class="form-select form-select-sm text-dark select-sm" aria-label="Section Type">
-                        <option selected="">Select One</option>
-                        <option value="1">Assessment</option>
-                        <option value="1">Intervention</option>
-                    </select>
-                </div>
+            <div class="col-3">
+                <a href="{% url 'question_bank_detail' sub_bank.pk %}">
+                    {{forloop.parentloop.counter}}.{{forloop.counter}} {{ sub_bank.title }}
+                </a>
             </div>
-            <div class="col-5">
-                <form class="row">
-                    <div class="col-auto">
-                        <div class="form-check form-switch">
-                            <input type="checkbox" id="flexSwitchCheckChecked" class="form-check-input" role="switch" checked={{sub_bank.adaptive}}>
-                            <label class="form-check-label" for="flexSwitchCheckChecked">Yes</label>
+            <div class="col-2 pl-0">
+                <select class="btn btn-secondary" aria-label="Section Type">
+                    <option selected="">Select One</option>
+                    <option value="1">Assessment</option>
+                    <option value="1">Intervention</option>
+                </select>
+            </div>
+            <div class="col-auto flex-grow-1 pl-0">
+                <form class="row ml-4 pl-4">
+                    <div class="dropdown ml-1">
+                        <button class="btn-sm dropdown-toggle
+                                      {% if bank.adaptive %}bg-danger text-light
+                                      {% else %}text-black-50 disabled{% endif %}"
+                                type="button"
+                                data-toggle="dropdown"
+                                aria-expanded="false"
+                                {% if not bank.adaptive %}
+                                tabindex="-1"
+                                aria-disabled="true"
+                                {% endif %}
+                        >
+                            If correct, go to:
+                        </button>
+                        <div class="dropdown-menu">
+                            {% for jump_to in bank.supplemental.all %}
+                            {% if jump_to.pk != sub_bank.pk %}
+                            <div class="dropdown-item">{{ jump_to.title }}</div>
+                            {% endif %}
+                            {% endfor %}
                         </div>
                     </div>
-                    <div class="col-auto">
-                        <select class="btn-sm form-select form-select-sm bg-success text-light select-sm" aria-label="Adaptive Path">
-                            <option selected="">If correct, go to:</option>
+                    <div class="col-auto ml-3 dropdown">
+                        <button class="btn-sm dropdown-toggle
+                                      {% if bank.adaptive %}bg-danger text-light
+                                      {% else %}text-black-50 disabled{% endif %}"
+                                type="button"
+                                data-toggle="dropdown"
+                                aria-expanded="false"
+                                {% if not bank.adaptive %}
+                                tabindex="-1"
+                                aria-disabled="true"
+                                {% endif %}
+                        >
+                            If incorrect, go to:
+                        </button>
+                        <div class="dropdown-menu">
                             {% for jump_to in bank.supplemental.all %}
                             {% if jump_to.pk != sub_bank.pk %}
-                            <option value="1">{{ sub_bank.title }}</option>
+                            <div class="dropdown-item">{{ jump_to.title }}</div>
                             {% endif %}
                             {% endfor %}
-                        </select>
-                    </div>
-                    <div class="col-auto">
-                        <select class="btn-sm form-select form-select-sm bg-danger text-light" aria-label="Intervention">
-                            <option selected="">If incorrect, go to:</option>
-                            {% for jump_to in bank.supplemental.all %}
-                            {% if jump_to.pk != sub_bank.pk %}
-                            <option value="1">{{ sub_bank.title }}</option>
-                            {% endif %}
-                            {% endfor %}
-                        </select>
+                        </div>
                     </div>
                 </form>
             </div>
-            <div class="col-3">
-                <a href="{% url 'question_bank_edit' sub_bank.pk %}" title="Edit {{ sub_bank.title }}">
-                    <button class="btn btn-secondary btn-sm col-auto">Edit Q{{forloop.parentloop.counter}}.{{ forloop.counter }}</button>
+            <div class="float-right">
+                <a href="{% url 'question_bank_edit' sub_bank.pk %}" 
+                   title="Edit {{ sub_bank.title }}"
+                   class="btn btn-secondary btn-sm col-auto"
+                >
+                    Edit Q{{forloop.parentloop.counter}}.{{ forloop.counter }}
+                </a>
+                <a role="button"
+                   class="btn btn-sm btn-danger mr-1"
+                   title="Delete Q{{forloop.parentloop.counter}}.{{ forloop.counter }}"
+                   href="{% url 'question_bank_delete' sub_bank.pk %}?remove=true"
+                >
+                    <svg height="24" 
+                         class="octicon octicon-x" 
+                         viewBox="0 0 12 16" 
+                         version="1.1" 
+                         width="20" 
+                         aria-hidden="true"
+                    >
+                        <path fill-rule="evenodd" 
+                              d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"></path>
+                    </svg>
                 </a>
             </div>
-        </div>
-        <a href="{% url 'question_bank_create' %}">
-            <button class="btn btn-secondary btn-sm mt-3">Add Q{{forloop.parentloop.counter}}.{{ forloop.counter|add:"1" }}</button>
-        </a>
-        {% endfor %}
+        </li>
         {% if forloop.last %}
-        <a href="{% url 'question_bank_create' %}">
-            <button class="btn btn-secondary btn-sm mt-3">Add Q{{ forloop.counter|add:"1" }}</button>
-        </a>
+        <li class="d-flex row bg-light p-1 ml-2 border-top ">
+            <a class="ml-3" href="{% url 'question_bank_create' %}">
+                <button class="btn btn-primary btn-sm">Add Q{{forloop.parentloop.counter}}.{{ forloop.counter|add:"1" }}</button>
+            </a>
+        </li>
         {% endif %}
         {% empty %}
-        <div class="row text-bg-light text-secondary p-1">
+        <li class="d-flex row bg-light p-1 ml-2 border-top">
+            <a class="ml-3" href="{% url 'question_bank_create' %}">
+                <button class="btn btn-primary btn-sm">Add Q{{ forloop.counter }}.1</button>
+            </a>
+        </li>
+        {% endfor %}
+        {% if forloop.last %}
+        <li class="d-flex row p-1  border-top border-dark">
+            <a class="ml-2" href="{% url 'question_bank_create' %}">
+                <button class="btn btn-primary btn-sm">Add Q{{ forloop.counter|add:"1" }}</button>
+            </a>
+        </li>
+        {% endif %}
+        {% empty %}
+        <div class="row bg-light text-secondary p-1">
             <div class="col-12"><em>This assignment has no path.</em></div>
         </div>
         <a href="{% url 'question_bank_create' %}">
             <button class="btn btn-primary btn-sm mt-3">Add Q1</button>
         </a>
         {% endfor %}
-    </div>
+    </ol>
 </div>
 {% endblock %}

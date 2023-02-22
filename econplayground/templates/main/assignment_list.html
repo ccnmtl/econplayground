@@ -18,14 +18,14 @@
             <form class="form featuredgraphs-form">
                 <ul class="list-group featuredgraphs-list">
                     {% for assignment in assignment_list %}
-                        <li class="list-group-item d-flex flex-row align-items-center">
+                        <li class="list-group-item d-flex align-items-center">
                             <div class="graph-title mr-auto">
                                 <a href="{% url 'assignment_detail' assignment.pk %}" title="{{assignment.title}}">
                                     {{assignment.title}}
                                 </a>
                             </div>
-                            <button class="btn btn-sm {% if assignment.published %}btn-outline-{% else %}btn-{% endif %}primary mr-2"
-                                    title="{% if assignment.published %}Unpublish{% else %}Publish{% endif %}"
+                            <button class="btn btn-sm col-auto {% if assignment.published %}btn-outline-{% else %}btn-{% endif %}primary mx-2"
+                                    title="{% if assignment.published %}Unpublish{% else %}Publish{% endif %} {{assignment.title}}"
                             >
                                 {% if assignment.published %}Unpublish{% else %}Publish{% endif %}
                                 <svg viewBox="0 0 16 16" 

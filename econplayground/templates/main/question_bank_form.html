@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block title %}{% if object %}Edit {% else %}New {% endif %} Question Bank{% endblock %}
+
+{% block breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{% url 'question_bank_list' %}" title="Question List">
+                    {% include 'main/your_question_bank_snippet.html' %}
+                </a>
+            </li>
+            {% if question_bank %}
+                <li class="breadcrumb-item">
+                    <a href="{% url 'question_bank_detail' object.pk %}" title="{{object.title}}">
+                        {{ object.title|truncatewords:5 }}
+                    </a>
+                </li>
+                <li class="breadcrumb-item">Edit Question Bank</li>
+            {% else %}
+                <li class="breadcrumb-item">Create Question Bank</li>
+            {% endif %}
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block pagetitle %}
+    <h1 class="mt-4">{% if object %}Edit {% else %}New {% endif %} Question Bank</h1>
+{% endblock %}
+
+{% block pagedescription %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 order-md-1">
+        <form action="." method="post" v-on:submit="onSubmit">{% csrf_token %}
+
+            {% bootstrap_form form %}
+
+            <div class="row">
+                <div class="col-md-2 mb-1 pr-0">
+                    <button type="submit" class="btn btn-block btn-primary">Save</button>
+                </div>
+                <div class="col-md-2 mb-1 pr-0">
+                    {% if object %}
+                        <a class="btn btn-block btn-secondary" href="{% url 'question_bank_detail' object.pk %}">Cancel</a>
+                    {% else %}
+                        <a class="btn btn-block btn-secondary" href="{% url 'question_bank_list' %}#question_banks">Cancel</a>
+                    {% endif %}
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

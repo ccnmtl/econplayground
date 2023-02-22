@@ -54,16 +54,75 @@
 
 {% block content %}
 <div class="container">
-    {% if is_instructor %}
+    {% if i_am_instructor %}
     <a href="{% url 'question_bank_edit' object.pk %}" title="Edit {{ object.title }}">
-        <button class="btn btn-secondary mb-4">
-            Edit "{{ object.title }}"
+        <button class="btn btn-secondary mb-4 mr-4">
+            Edit "{{ object.title|truncatewords:5 }}"
+        </button>
+    </a>
+    <a href="{% url 'question_bank_clone' object.pk %}" title="Edit {{ object.title }}">
+        <button class="btn btn-secondary mb-4 mr-4">
+            Clone "{{ object.title|truncatewords:5 }}"
         </button>
     </a>
     {% endif %}
-    <div class="container">
-        <h2>Prompt</h2>
-        
-    </div>
+    {% if object.description %}
+    <h2 class="mt-0">Description</h2>
+    <p>{{object.description}}</p>
+    {%  endif %}
+    <ul class="list-group">
+        <li class="list-group-item bg-dark text-white">
+            <div class="row px-1">
+                <div class="col-4">Questions</div>
+                <div class="col-3">Last Modified</div>
+                <div class="col-auto">Actions</div>
+            </div>
+        </li>
+        {% for question in object.questions.all %}
+        <li class="list-group-item text-bg-info border-bottom {% cycle '' 'bg-light' %}">
+            <div class="row px-1">
+                <div class="col-4 mt-1">
+                    <a href="{% url 'question_detail' question.pk %}">
+                        {{ question.title }}
+                    </a>
+                </div>
+                <div class="col-3 mt-1">
+                    {{ question.updated_at }}
+                </div>
+                <div class="col-auto">
+                    <a href="{% url 'question_edit' question.pk %}" 
+                    title="Edit {{ question.title }}"
+                    class="mr-2"
+                    >
+                        <button class="btn btn-secondary btn-sm col-auto">Edit {{ question.title|truncatewords:5 }}</button>
+                    </a>
+                    <a role="button"
+                    class="btn btn-sm btn-danger mr-1"
+                    title="Remove {{question.title}} from the Question Bank"
+                    href="{% url 'question_delete' question.pk %}?remove=true"
+                    >
+                        <svg height="24" 
+                                class="octicon octicon-x" 
+                                viewBox="0 0 12 16" 
+                                version="1.1" 
+                                width="20" 
+                                aria-hidden="true"
+                        >
+                            <path fill-rule="evenodd" 
+                                    d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </li>
+        {% empty %}
+        <li class="row text-bg-light text-secondary p-1">
+            <div class="col-12"><em>This question bank is empty.</em></div>
+        </li>
+        <a href="{% url 'question_bank_create' %}">
+            <button class="btn btn-primary btn-sm mt-3">Add a Question</button>
+        </a>
+        {% endfor %}
+    </ul>
 </div>
 {% endblock %}

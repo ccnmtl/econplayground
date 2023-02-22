@@ -56,23 +56,41 @@
 <div class="container">
     {% if is_instructor %}
     <a href="{% url 'question_edit' object.pk %}" title="Edit {{ object.title }}">
-        <button class="btn btn-secondary mb-4">
-            Edit "{{ object.title }}"
+        <button class="btn btn-secondary mb-4 mr-4">
+            Edit "{{ object.title|truncatewords:5 }}"
+        </button>
+    </a>
+    <a href="{% url 'question_clone' object.pk %}" title="Edit {{ object.title }}">
+        <button class="btn btn-secondary mb-4 mr-4">
+            Clone "{{ object.title|truncatewords:5 }}"
         </button>
     </a>
     {% endif %}
     <div class="container">
-        <h2>Prompt</h2>
-        <p>{{ object.prompt }}</p>
-        <h2>Media</h2>
-        <div id="root">
-            <div class="loader-inner ball-pulse">
-                <div></div>
-                <div></div>
-                <div></div>
+        <section id="prompt">
+            <h2>Prompt</h2>
+            <p>{{ object.prompt }}</p>
+        </section>
+        {% if object.graph %}
+        <section id="graph">
+            <h2>Graph</h2>
+            <div id="root">
+                <div class="loader-inner ball-pulse">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
             </div>
-        </div>
-        {{ object.embedded_media }}
+        </section>
+        {% endif %}
+        {% if object.embedded_media %}
+        <section id="embed">
+            <h2>Embedded Media</h2>
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" src="{{ object.embedded_media }}" />
+            </div>
+        </section>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

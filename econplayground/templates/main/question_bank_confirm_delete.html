@@ -1,39 +1,39 @@
 {% extends 'base.html' %}
 
-{% block title %}Delete Assignment{% endblock %}
+{% block title %}Delete Question Bank{% endblock %}
 
 {% block breadcrumb %}
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="{% url 'assignment_list' %}">
-                    {% include 'main/your_assignments_snippet.html' %}
+                <a href="{% url 'question_bank_list' %}">
+                    {% include 'main/your_question_bank_snippet.html' %}
                 </a>
             </li>
             <li class="breadcrumb-item">
-                <a href="{% url 'assignment_list' %}">
-                    {{ assignment.title|truncatewords:5 }}
+                <a href="{% url 'question_bank_list' %}">
+                    {{ question_bank.title|truncatewords:5 }}
                 </a>
             </li>
             <li class="breadcrumb-item">
-                <a href="{% url 'assignment_list' %}">
-                    Manage Assignments
+                <a href="{% url 'question_bank_list' %}">
+                    Manage Question Banks
                 </a>
             </li>
-            <li class="breadcrumb-item">Delete Assignment</li>
+            <li class="breadcrumb-item">Delete Question Bank</li>
         </ol>
     </nav>
 {% endblock %}
 
 {% block pagetitle %}
-    <h1 class="mt-4">Delete Assignment</h1>
+    <h1 class="mt-4">Delete Question Bank</h1>
 {% endblock %}
 
 {% block content %}
     {% if not readonly %}
         <p>
             Are you sure you want to delete the
-            <strong>{{object.title}}</strong> assignment?
+            <strong>{{object.title}}</strong> question_bank?
         </p>
     {% endif %}
 
@@ -44,7 +44,7 @@
             </div>
             <div class="col-md-2 mb-1 pr-0">
                 <a class="btn btn-block btn-secondary"
-                   href="{% url 'assignment_list' %}">
+                   href="{% url 'question_bank_list' %}">
                     Cancel
                 </a>
             </div>

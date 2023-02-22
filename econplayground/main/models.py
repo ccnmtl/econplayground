@@ -479,7 +479,8 @@ class Submission(models.Model):
 
 class Question(models.Model):
     title = models.TextField(max_length=1024, default='Untitled')
-
+    assessment_rule = models.ForeignKey(
+        AssessmentRule, on_delete=models.CASCADE, blank=True, null=True)
     embedded_media = models.TextField(blank=True, default='')
     graph = models.ForeignKey(
         Graph, on_delete=models.CASCADE, blank=True, null=True)
@@ -507,7 +508,54 @@ class Question(models.Model):
         return c
 
 
-class QuestionBank(models.Model):
+class Assignment(models.Model):
+    cohorts = models.ManyToManyField(Cohort, blank=True)
+    instructor = models.ForeignKey(User, on_delete=models.CASCADE)
+    prompt = models.TextField(blank=True, default='')
+    published = models.BooleanField(default=False)
+    title = models.TextField(max_length=1024, default='Untitled')
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return '{} (id:{})'.format(self.title, self.pk)
+
+    def __len__(self):
+        return self.bank_count()
+
+    def get_question_banks(self):
+        return QuestionBank.objects.filter(assignment=self)
+
+    def bank_count(self):
+        count = 0
+        for key in self.get_question_banks():
+            count = count + 1 + len(key)
+        return count
+
+    def flip_published(self):
+        self.published = not self.published
+        return self.published
+
+    def clone(self):
+        c = copy.copy(self)
+        c.pk = None
+        c.title = self.title + '_copy'
+        c.save()
+
+        for bank in self.get_question_banks():
+            cloned_bank = bank.clone()
+            cloned_bank.assignment = c
+            cloned_bank.save()
+
+        return c
+
+
+class QuestionBank(OrderedModel):
+    class Meta(OrderedModel.Meta):
+        ordering = ('assignment', 'order')
+        unique_together = ('title', 'assignment')
+
     adaptive = models.BooleanField(default=False)
     ap_correct = models.ForeignKey(
         'self',
@@ -523,10 +571,16 @@ class QuestionBank(models.Model):
         blank=True,
         related_name='ap_intervene'
     )
-    is_assessment = models.BooleanField(default=True)
+    assignment = models.ForeignKey(
+        Assignment,
+        on_delete=models.CASCADE
+    )
     questions = models.ManyToManyField(Question, blank=True)
     supplemental = models.ManyToManyField('self', blank=True)
     title = models.TextField(max_length=1024, default='Untitled')
+    description = models.TextField(max_length=1024, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __len__(self):
         return self.questions.count()
@@ -539,56 +593,34 @@ class QuestionBank(models.Model):
         pick = random.randrange(len(entry_list))  # nosec
         return entry_list[pick]
 
-    def clone(self):
-        c = copy.copy(self)
-        c.supplemental.set([])
-        c.supplemental.set([])
-        c.pk = None
-        c.title = self.title + '_copy'
-        c.adaptive = False
-        c.ap_correct = None
-        c.ap_incorrect = None
-        c.is_assessment = True
-        c.adaptive = False
-        c.ap_correct = None
-        c.ap_incorrect = None
-        c.is_assessment = True
-        c.save()
+    def change_assignment(self, assignment):
+        self.assignment = assignment
+        for sup in list(self.supplemental.all()):
+            sup.assignment = assignment
+            sup.save()
+        self.save()
 
-        return c
-
-
-class Assignment(models.Model):
-    banks = models.ManyToManyField(QuestionBank, blank=True)
-    cohorts = models.ManyToManyField(Cohort, blank=True)
-    instructor = models.ForeignKey(User, on_delete=models.CASCADE)
-    prompt = models.TextField(blank=True, default='')
-    published = models.BooleanField(default=False)
-    title = models.TextField(max_length=1024, default='Untitled')
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return '{} (id:{})'.format(self.title, self.pk)
-
-    def __len__(self):
-        return self.banks.count()
-
-    def get_question_banks(self):
-        return self.banks.all()
-
-    def bank_count(self):
-        return self.banks.count()
-
-    def flip_published(self):
-        self.published = not self.published
         return self
 
-    def clone(self):
+    def clone(self, assignment):
         c = copy.copy(self)
+        c.assignment = assignment
         c.pk = None
-        c.title = self.title + '_copy'
+        c.title = self.title
+        c.adaptive = False
+        c.ap_correct = None
+        c.ap_incorrect = None
+        c.save()
+        c.supplemental.clear()
+        for sup in list(self.supplemental.all()):
+            cloned_sub = copy.copy(sup)
+            cloned_sub.pk = None
+            cloned_sub.assigment = c.assignment
+            cloned_sub.save()
+            cloned_sub.supplemental.clear()
+            cloned_sub.save()
+            c.supplemental.add(cloned_sub)
+
         c.save()
 
         return c
