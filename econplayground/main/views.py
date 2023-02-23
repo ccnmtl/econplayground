@@ -6,7 +6,11 @@ from django.contrib.auth.mixins import (
     LoginRequiredMixin, UserPassesTestMixin
 )
 from django.db.models import Count, Q
-from django.http import HttpResponseForbidden, HttpResponseRedirect
+from django.http import (
+    HttpResponse,
+    HttpResponseForbidden,
+    HttpResponseRedirect
+)
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -784,13 +788,14 @@ class AssignmentCloneFormView(LoginRequiredMixin, AssignmentInstructorMixin,
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
         return kwargs
 
     def get_context_data(self, *args, **kwargs):
         ctx = super().get_context_data(*args, **kwargs)
         ctx.update({
             'assignment': self.object,
-            'form': AssignmentCloneForm(),
+            'form': AssignmentCloneForm(user=self.request.user),
         })
         return ctx
 
@@ -799,7 +804,7 @@ class AssignmentCloneFormView(LoginRequiredMixin, AssignmentInstructorMixin,
         return super().post(request, *args, **kwargs)
 
     def get_success_url(self):
-        return reverse('assignment_detail', kwargs={'pk': self.object.pk})
+        return reverse('assignment_list')
 
     def form_valid(self, form):
         cloned = self.object.clone()
@@ -827,7 +832,7 @@ class AssignmentCloneDisplay(LoginRequiredMixin, AssignmentInstructorMixin,
     def get_context_data(self, *args, **kwargs):
         ctx = super().get_context_data(*args, **kwargs)
         ctx.update({
-            'form': AssignmentCloneForm(),
+            'form': AssignmentCloneForm(user=self.request.user),
         })
         return ctx
 
@@ -843,6 +848,13 @@ class AssignmentCloneView(LoginRequiredMixin, AssignmentInstructorMixin,
     def post(self, request, *args, **kwargs):
         view = AssignmentCloneFormView.as_view()
         return view(request, *args, **kwargs)
+
+
+def toggle_published(request):
+    assignment = Assignment.objects.get(pk=request.POST['pk'])
+    assignment.published = not assignment.published
+    assignment.save()
+    return HttpResponse('success')
 
 
 class QuestionBankListView(
@@ -1010,12 +1022,13 @@ class QuestionBankDeleteView(
 class QuestionBankCloneFormView(
         LoginRequiredMixin, QuestionBankInstructorMixin,
         SingleObjectMixin, FormView):
+    template_name = 'main/question_bank_clone_form.html'
     form_class = QuestionBankCloneForm
     model = QuestionBank
-    template_name = 'main/question_bank_clone_form.html'
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
         return kwargs
 
     def get_context_data(self, *args, **kwargs):
@@ -1031,11 +1044,10 @@ class QuestionBankCloneFormView(
         return super().post(request, *args, **kwargs)
 
     def get_success_url(self):
-        return reverse('question_bank_detail', kwargs={'pk': self.object.pk})
+        return reverse('question_bank_list')
 
     def form_valid(self, form):
-        cloned = self.object.clone()
-
+        cloned = self.object.clone(form.data.get('assignment'))
         cloned.title = form.data.get('title')
         cloned.save()
 
@@ -1066,7 +1078,7 @@ class QuestionBankCloneDisplay(LoginRequiredMixin, QuestionBankInstructorMixin,
         return ctx
 
 
-class QuestionBankCloneView(LoginRequiredMixin, QuestionBankInstructorMixin,
+class QuestionBankCloneView(QuestionBankInstructorMixin,
                             SingleObjectMixin, View):
     model = QuestionBank
     template_name = 'main/question_bank_clone_form.html'
@@ -1078,6 +1090,13 @@ class QuestionBankCloneView(LoginRequiredMixin, QuestionBankInstructorMixin,
     def post(self, request, *args, **kwargs):
         view = QuestionBankCloneFormView.as_view()
         return view(request, *args, **kwargs)
+
+
+def toggle_adaptive(request):
+    bank = QuestionBank.objects.get(pk=request.POST['bank_pk'])
+    bank.adaptive = request.POST['is_adaptive'] == 'true'
+    bank.save()
+    return HttpResponse('success')
 
 
 class QuestionListView(LoginRequiredMixin, QuestionInstructorMixin, ListView):
@@ -1213,7 +1232,7 @@ class QuestionCloneFormView(LoginRequiredMixin, QuestionInstructorMixin,
         return super().post(request, *args, **kwargs)
 
     def get_success_url(self):
-        return reverse('question_detail', kwargs={'pk': self.object.pk})
+        return reverse('question_list')
 
     def form_valid(self, form):
         cloned = self.object.clone()

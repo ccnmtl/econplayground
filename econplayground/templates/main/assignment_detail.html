@@ -43,8 +43,7 @@
     <p>{{ object.prompt }}</p>
     <ol class="container">
         <strong class="d-flex row bg-dark text-white p-1">
-            <div class="col-4">Question</div>
-            <div class="col-2 pl-0">Type</div>
+            <div class="col-6">Question</div>
             <div class="flex-grow-1">Adaptive Path</div>
             <div class="col-auto">Actions</div>
         </strong>
@@ -60,29 +59,26 @@
                     </svg>
                 </button>
             </div>
-            <div class="col-3">
+            <div class="col-5">
                 <a class="ms-4" href="{% url 'question_bank_detail' bank.pk %}">
                     {{forloop.counter}} {{ bank.title }}
                 </a>
             </div>
-            <div class="col-2">
-                <select class="btn btn-secondary" aria-label="Section Type">
-                    <option selected="">Select One</option>
-                    <option value="1">Assessment</option>
-                    <option value="1">Intervention</option>
-                </select>
-            </div>
             <div class="col-auto flex-grow-1">
-                <form class="row">
+                <div class="row">
                     <div class="col-auto">
                         <div class="form-check form-switch">
-                            <input type="checkbox" id="flexSwitchCheckChecked" class="form-check-input" role="switch" {% if bank.adaptive %}checked{% endif %}>
-                            <label class="form-check-label" for="flexSwitchCheckChecked" aria-label="Set as Adaptive Path"></label>
+                            <input type="checkbox"
+                                   id="is-adaptive-{{bank.pk}}"
+                                   class="form-check-input"
+                                   value="{{bank.adaptive}}"
+                                   role="switch" {% if bank.adaptive %}checked{% endif %}>
+                            <label class="form-check-label" for="is-adaptive-{{bank.pk}}" aria-label="Set as Adaptive Path"></label>
                         </div>
                     </div>
                     <div class="col-auto dropdown">
                         <button class="btn-sm dropdown-toggle
-                                      {% if bank.adaptive %}bg-danger text-light
+                                      {% if bank.adaptive %}bg-success text-light
                                       {% else %}text-black-50 disabled{% endif %}"
                                 type="button"
                                 data-toggle="dropdown"
@@ -95,12 +91,19 @@
                             If correct, go to:
                         </button>
                         <div class="dropdown-menu">
-                            {% for jump_to in bank.supplemental.all %}
-                            {% if jump_to.pk == sub_bank.pk %}
-                            <div class="dropdown-item">{{ jump_to.title }}</div>
-                            {% endif %}
-                            {% endfor %}
+                            <div class="dropdown-item">{{ bank.key_correct }}</div>
                         </div>
+                        <script type="text/javascript">
+                            $(document).ready(function() {
+                                $('#is-adaptive-{{bank.pk}}').change(function() {
+                                    $.post("/toggle_adaptive/", {
+                                        bank_pk: '{{bank.pk}}',
+                                        is_adaptive: this.checked,
+                                        csrfmiddlewaretoken: '{{ csrf_token }}' 
+                                    });
+                                });
+                            }); 
+                        </script>
                     </div>
                     <div class="col-auto dropdown">
                         <button class="btn-sm dropdown-toggle
@@ -117,14 +120,10 @@
                             If incorrect, go to:
                         </button>
                         <div class="dropdown-menu">
-                            {% for jump_to in bank.supplemental.all %}
-                            {% if jump_to.pk != sub_bank.pk %}
-                            <div class="dropdown-item">{{ jump_to.title }}</div>
-                            {% endif %}
-                            {% endfor %}
+                            <div class="dropdown-item">{{ bank.key_incorrect }}</div>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
             <div class="float-right">
                 <a href="{% url 'question_bank_edit' bank.pk %}"
@@ -163,23 +162,16 @@
                     </svg>
                 </button>
             </div>
-            <div class="col-3">
+            <div class="col-5">
                 <a href="{% url 'question_bank_detail' sub_bank.pk %}">
                     {{forloop.parentloop.counter}}.{{forloop.counter}} {{ sub_bank.title }}
                 </a>
-            </div>
-            <div class="col-2 pl-0">
-                <select class="btn btn-secondary" aria-label="Section Type">
-                    <option selected="">Select One</option>
-                    <option value="1">Assessment</option>
-                    <option value="1">Intervention</option>
-                </select>
             </div>
             <div class="col-auto flex-grow-1 pl-0">
                 <form class="row ml-4 pl-4">
                     <div class="dropdown ml-1">
                         <button class="btn-sm dropdown-toggle
-                                      {% if bank.adaptive %}bg-danger text-light
+                                      {% if bank.adaptive %}bg-success text-light
                                       {% else %}text-black-50 disabled{% endif %}"
                                 type="button"
                                 data-toggle="dropdown"
@@ -192,7 +184,7 @@
                             If correct, go to:
                         </button>
                         <div class="dropdown-menu">
-                            {% for jump_to in bank.supplemental.all %}
+                            {% for jump_to in bank.get_path_options %}
                             {% if jump_to.pk != sub_bank.pk %}
                             <div class="dropdown-item">{{ jump_to.title }}</div>
                             {% endif %}
@@ -214,7 +206,7 @@
                             If incorrect, go to:
                         </button>
                         <div class="dropdown-menu">
-                            {% for jump_to in bank.supplemental.all %}
+                            {% for jump_to in bank.get_path_options %}
                             {% if jump_to.pk != sub_bank.pk %}
                             <div class="dropdown-item">{{ jump_to.title }}</div>
                             {% endif %}
@@ -250,14 +242,14 @@
         </li>
         {% if forloop.last %}
         <li class="d-flex row bg-light p-1 ml-2 border-top ">
-            <a class="ml-3" href="{% url 'question_bank_create' %}">
+            <a class="ml-3" href="{% url 'question_bank_create' %}?sub_of={{bank.pk}}">
                 <button class="btn btn-primary btn-sm">Add Q{{forloop.parentloop.counter}}.{{ forloop.counter|add:"1" }}</button>
             </a>
         </li>
         {% endif %}
         {% empty %}
         <li class="d-flex row bg-light p-1 ml-2 border-top">
-            <a class="ml-3" href="{% url 'question_bank_create' %}">
+            <a class="ml-3" href="{% url 'question_bank_create' %}?sub_of={{bank.pk}}">
                 <button class="btn btn-primary btn-sm">Add Q{{ forloop.counter }}.1</button>
             </a>
         </li>

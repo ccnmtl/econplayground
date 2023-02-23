@@ -102,6 +102,7 @@ urlpatterns = [
          views.AssignmentDeleteView.as_view(), name='assignment_delete'),
     path('assignment/<int:pk>/clone/',
          views.AssignmentCloneView.as_view(), name='assignment_clone'),
+    path('toggle_published/', views.toggle_published),
 
 
     path('question_bank/',
@@ -116,6 +117,7 @@ urlpatterns = [
          views.QuestionBankDeleteView.as_view(), name='question_bank_delete'),
     path('question_bank/<int:pk>/clone/',
          views.QuestionBankCloneView.as_view(), name='question_bank_clone'),
+    path('toggle_adaptive/', views.toggle_adaptive),
 
     path('question/',
          views.QuestionListView.as_view(), name='question_list'),
