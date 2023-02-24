@@ -477,37 +477,6 @@ class Submission(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
-class Question(models.Model):
-    title = models.TextField(max_length=1024, default='Untitled')
-    assessment_rule = models.ForeignKey(
-        AssessmentRule, on_delete=models.CASCADE, blank=True, null=True)
-    embedded_media = models.TextField(blank=True, default='')
-    graph = models.ForeignKey(
-        Graph, on_delete=models.CASCADE, blank=True, null=True)
-
-    prompt = models.TextField(blank=True, default='')
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def get_url_embed(self):
-        return self.embedded_media
-
-    def get_graph_name(self):
-        return self.graph.title
-
-    def __str__(self):
-        return '{} (id:{})'.format(self.title, self.pk)
-
-    def clone(self):
-        c = copy.copy(self)
-        c.pk = None
-        c.title = self.title + '_copy'
-        c.save()
-
-        return c
-
-
 class Assignment(models.Model):
     cohorts = models.ManyToManyField(Cohort, blank=True)
     instructor = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -529,12 +498,13 @@ class Assignment(models.Model):
 
     def bank_count(self):
         count = 0
-        for key in self.get_question_banks():
-            count = count + 1 + len(key)
+        for key_question in self.get_question_banks():
+            count = count + 1 + len(key_question)
         return count
 
     def flip_published(self):
         self.published = not self.published
+        self.save()
         return self.published
 
     def clone(self):
@@ -547,6 +517,45 @@ class Assignment(models.Model):
             cloned_bank = bank.clone(c.pk)
             cloned_bank.assignment = c
             cloned_bank.save()
+
+        return c
+
+
+class Question(models.Model):
+    title = models.TextField(max_length=1024, default='Untitled')
+    assessment_rule = models.ForeignKey(
+        AssessmentRule, on_delete=models.CASCADE, blank=True, null=True)
+    embedded_media = models.TextField(blank=True, default='')
+    graph = models.ForeignKey(
+        Graph, on_delete=models.CASCADE, blank=True, null=True)
+
+    prompt = models.TextField(blank=True, default='')
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def get_url_embed(self):
+        return self.embedded_media
+
+    def get_graph_name(self):
+        return self.graph.title
+
+    def generate_tags(self):
+        tags = []
+        for bank in list(self.questionbank_set.all()):
+            # A question may appear in different banks of the same assignment
+            if bank.assignment not in tags:
+                tags.append(bank.assignment)
+        return tags
+
+    def __str__(self):
+        return '{} (id:{})'.format(self.title, self.pk)
+
+    def clone(self):
+        c = copy.copy(self)
+        c.pk = None
+        c.title = self.title + '_copy'
+        c.save()
 
         return c
 
@@ -594,10 +603,9 @@ class QuestionBank(OrderedModel):
         pick = random.randrange(len(entry_list))  # nosec
         return entry_list[pick]
 
-    def change_assignment(self, assignment):
-        self.assignment = assignment
+    def change_assignment(self):
         for sup in list(self.supplemental.all()):
-            sup.assignment = assignment
+            sup.assignment = self.assignment
             sup.save()
         self.save()
 

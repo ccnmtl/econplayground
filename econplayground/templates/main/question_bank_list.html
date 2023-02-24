@@ -18,13 +18,31 @@
         <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
             <form class="form featuredgraphs-form">
                 <ul class="list-group featuredgraphs-list">
+                    <strong class="list-group-item d-flex flex-row text-white bg-dark align-items-center">
+                        <div class=" mr-auto">
+                            Title
+                        </div>
+                        <div class="col-5">
+                            Assignment
+                        </div>
+                        <div class="graph-title">
+                            Actions
+                        </div>
+                    </strong>
                     {% for question_bank in question_bank_list %}
                         <li class="list-group-item d-flex flex-row align-items-center">
-                            <div class="graph-title mr-auto">
-                                <a href="{% url 'question_bank_detail' question_bank.pk %}" title="{{question_bank.title}}">
-                                    {{question_bank.title}}
-                                </a>
-                            </div>
+                            <a class="graph-title mr-auto"
+                               href="{% url 'question_bank_detail' question_bank.pk %}"
+                               title="{{question_bank.title}}"
+                            >
+                                {{question_bank.title}}
+                            </a>
+                            <a class="col-5"
+                               href="{% url 'assignment_detail' question_bank.assignment.pk %}"
+                               title="{{question_bank.assignment.title}}"
+                            >
+                                {{question_bank.assignment.title}}
+                            </a>
                             <a role="button"
                                class="btn btn-sm btn-danger mr-1"
                                title="Delete {{question_bank.title}}, Question Bank"
