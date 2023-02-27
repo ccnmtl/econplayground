@@ -1,5 +1,7 @@
 from django import forms
-from econplayground.main.models import Cohort, Assignment
+from econplayground.main.models import (
+    Cohort, Assignment, Question, QuestionBank
+)
 
 
 class CohortCloneForm(forms.Form):
@@ -32,6 +34,16 @@ class AssignmentCloneForm(forms.Form):
         return r
 
 
+class QuestionBankForm(forms.ModelForm):
+    class Meta:
+        model = QuestionBank
+        fields = ('title', 'assignment', 'description',
+                  'questions', 'supplemental')
+        widgets = {
+            'title': forms.TextInput(),
+        }
+
+
 class QuestionBankCloneForm(forms.Form):
     title = forms.CharField()
     assignment = forms.ModelChoiceField(Assignment.objects.none())
@@ -43,6 +55,17 @@ class QuestionBankCloneForm(forms.Form):
             instructor__in=(user,))
 
         return r
+
+
+class QuestionForm(forms.ModelForm):
+    class Meta:
+        model = Question
+        fields = (
+            'title', 'prompt', 'embedded_media', 'graph'
+        )
+        widgets = {
+            'title': forms.TextInput(),
+        }
 
 
 class QuestionCloneForm(forms.Form):
