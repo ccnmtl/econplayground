@@ -22,7 +22,8 @@ from lti_provider.views import LTILandingPage
 
 from econplayground.main.forms import (
     CohortCloneForm, GraphCloneForm, AssignmentCloneForm,
-    QuestionBankCloneForm, QuestionCloneForm
+    QuestionBankForm, QuestionBankCloneForm,
+    QuestionForm, QuestionCloneForm
 )
 from econplayground.main.mixins import (
     CohortGraphMixin, CohortPasswordMixin,
@@ -905,8 +906,8 @@ class QuestionBankCreateView(
         EnsureCsrfCookieMixin, UserPassesTestMixin,
         LoginRequiredMixin, CreateView):
     model = QuestionBank
-    fields = ['title', 'assignment', 'description',
-              'questions', 'supplemental']
+    form_class = QuestionBankForm
+
     is_assignment = False
     is_question_bank = True
     is_question = False
@@ -1124,9 +1125,8 @@ class QuestionCreateView(
         EnsureCsrfCookieMixin, UserPassesTestMixin,
         LoginRequiredMixin, CreateView):
     model = Question
-    fields = [
-        'title', 'prompt', 'embedded_media', 'graph'
-    ]
+    form_class = QuestionForm
+
     is_assignment = False
     is_question_bank = False
     is_question = True
