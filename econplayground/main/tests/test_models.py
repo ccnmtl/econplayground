@@ -284,7 +284,7 @@ class QuestionBankTest(TestCase):
         )
 
         cloned_pk = original.clone(AssignmentFactory(
-            cohorts=(CohortFactory(),))).pk
+            cohorts=(CohortFactory(),)).pk).pk
         cloned = QuestionBank.objects.get(pk=cloned_pk)
 
         self.assertNotEqual(original.pk, cloned.pk)

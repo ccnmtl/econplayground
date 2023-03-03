@@ -544,7 +544,7 @@ class Assignment(models.Model):
         c.save()
 
         for bank in self.get_question_banks():
-            cloned_bank = bank.clone()
+            cloned_bank = bank.clone(c.pk)
             cloned_bank.assignment = c
             cloned_bank.save()
 
@@ -576,7 +576,8 @@ class QuestionBank(OrderedModel):
         on_delete=models.CASCADE
     )
     questions = models.ManyToManyField(Question, blank=True)
-    supplemental = models.ManyToManyField('self', blank=True)
+    supplemental = models.ManyToManyField(
+        'self', blank=True, symmetrical=False)
     title = models.TextField(max_length=1024, default='Untitled')
     description = models.TextField(max_length=1024, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -604,7 +605,7 @@ class QuestionBank(OrderedModel):
 
     def clone(self, assignment):
         c = copy.copy(self)
-        c.assignment = assignment
+        c.assignment = Assignment.objects.get(id=assignment)
         c.pk = None
         c.title = self.title
         c.adaptive = False
