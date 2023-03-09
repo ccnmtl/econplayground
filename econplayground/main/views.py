@@ -860,7 +860,7 @@ class QuestionBankListView(
             QuestionBankListView, self).dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
-        return QuestionBank.objects.all().order_by('created_at')
+        return QuestionBank.objects.all().order_by('assignment')
 
     def get_context_data(self, **kwargs):
         ctx = super(QuestionBankListView, self).get_context_data(**kwargs)
@@ -957,6 +957,8 @@ class QuestionBankUpdateView(
         return user_is_instructor(self.request.user)
 
     def get_success_url(self):
+        self.object.tag_questions()
+        self.object.change_assignment()
         return reverse('question_bank_detail', kwargs={'pk': self.object.pk})
 
     def form_valid(self, form):

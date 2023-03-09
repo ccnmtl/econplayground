@@ -71,6 +71,15 @@
             <h2>Prompt</h2>
             <p>{{ object.prompt }}</p>
         </section>
+        {% if is_instructor %}
+        <section>
+            {% for tag in question.tags.all %}
+            <a href="{% url 'assignment_detail' tag.pk %}" title="{{tag.title}}">
+                {{tag.title}}
+            </a>, 
+            {% endfor %}
+        </section>
+        {% endif %}
         {% if object.graph %}
         <section id="graph">
             <h2>Graph</h2>
