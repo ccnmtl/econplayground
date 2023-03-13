@@ -102,6 +102,10 @@ urlpatterns = [
          views.AssignmentDeleteView.as_view(), name='assignment_delete'),
     path('assignment/<int:pk>/clone/',
          views.AssignmentCloneView.as_view(), name='assignment_clone'),
+    path('assignment/<int:pk>/success/',
+         views.AssignmentSuccessView.as_view(), name='assignment_success'),
+    path('assignment/<int:pk>/failure/',
+         views.AssignmentFailureView.as_view(), name='assignment_failure'),
 
 
     path('question_bank/',
