@@ -1,11 +1,14 @@
 {% extends 'base.html' %}
 {% load static econ_auth markup %}
 
-{% block title %}Assignment Builder{% endblock %}
 
-{% block pagetitle %}<h1 class="mt-4">Assignment Builder</h1>{% endblock %}
+{% block title %}Assignments{% endblock %}
+
+{% block pagetitle %}<h1 class="mt-4">{% if i_am_instructor %}Assignment Builder{% else %}Your Assignments{% endif %}</h1>{% endblock %}
+
 
 {% block content %}
+{% if i_am_instructor %}
     <a class="btn btn-primary mb-2"
        role="button"
        title="Create Assignment"
@@ -13,17 +16,40 @@
     >
         Create Assignment
     </a>
+{% endif %}
     <section class="row">
-        <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <form class="form featuredgraphs-form">
                 <ul class="list-group featuredgraphs-list">
+                    <strong class="list-group-item d-flex flex-row text-white bg-dark align-items-center">
+                        <div class=" mr-auto">
+                            Title
+                        </div>
+                        <div class="col-6">
+                            Updated At
+                        </div>
+                        {% if i_am_instructor %}
+                        <div class="graph-title">
+                            Actions
+                        </div>
+                        {% endif %}
+                    </strong>
                     {% for assignment in assignment_list %}
+                    
                         <li class="list-group-item d-flex align-items-center">
                             <div class="graph-title mr-auto">
-                                <a href="{% url 'assignment_detail' assignment.pk %}" title="{{assignment.title}}">
+                                <a 
+                                   {% if i_am_instructor %}
+                                    href="{% url 'assignment_detail' assignment.pk %}"
+                                   {% else %}
+                                   href="{% url 'assignment_detail' assignment.pk %}"
+                                   {% endif %}
+                                   title="{{assignment.title}}">
                                     {{assignment.title}}
                                 </a>
                             </div>
+                            <div class="col-6">{{assignment.updated_at}}</div>
+                            {% if i_am_instructor %}
                             <a role="button"
                                class="btn btn-sm btn-danger mr-1"
                                title="Remove {{assignment.title}} from Assignment List"
@@ -40,6 +66,7 @@
                                           d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"></path>
                                 </svg>
                             </a>
+                            {% endif %}
                         </li>
                     {% empty %}
                         Assignments you make can be found here

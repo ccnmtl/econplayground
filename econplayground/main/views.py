@@ -31,7 +31,8 @@ from econplayground.main.mixins import (
     QuestionBankInstructorMixin, QuestionInstructorMixin
 )
 from econplayground.main.models import (
-    Cohort, Graph, Submission, Topic, Assignment, QuestionBank, Question
+    Cohort, Graph, Submission, Topic, Assignment, QuestionBank, Question,
+    UserAssignment, QuestionEvaluation
 )
 from econplayground.main.utils import user_is_instructor
 
@@ -608,11 +609,9 @@ class AssignmentListView(
     is_question = False
 
     def flip_published(self, *args, **kwargs):
-        assignment = Assignment.objects.filter(pk=self.pk)
+        assignment = Assignment.objects.get(pk=self.pk)
         assignment.update(published=not assignment.published)
         assignment.save()
-        print(assignment.title, 'is now',
-              'published' if assignment.published else "unpublished")
         return super(AssignmentListView, self).get(*args, **kwargs)
 
     def dispatch(self, request, *args, **kwargs):
@@ -623,12 +622,19 @@ class AssignmentListView(
         return Assignment.objects.all().order_by('created_at')
 
     def get_context_data(self, *args, **kwargs):
-        ctx = super(AssignmentListView, self).get_context_data(*args, **kwargs)
+        ctx = super(
+            AssignmentListView, self).get_context_data(*args, **kwargs)
+
+        ua = [UserAssignment.objects.get_or_create(
+                assignment=x,
+                user=self.request.user)[0].pk for x in self.get_queryset()]
+
         ctx.update({
             'is_assignment': self.is_assignment,
             'is_question_bank': self.is_question_bank,
             'is_question': self.is_question,
-            'flip_publish': self.flip_published
+            'flip_publish': self.flip_published,
+            'user_assignment': ua
         })
         return ctx
 
@@ -639,20 +645,56 @@ class AssignmentDetailView(
     is_assignment = True
     is_question_bank = False
     is_question = False
+    student_view = False
 
     def get_question_banks(self):
         return QuestionBank.objects.filter(
             assignment=self.object.pk).order_by('order')
 
+    def get_user_assignment(self):
+        ua, created = UserAssignment.objects.get_or_create(
+            assignment=self.object, user=self.request.user)
+        return ua
+
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
+        if self.student_view:
+            ctx.update({'student_view': True})
 
         ctx.update({
             'is_assignment': self.is_assignment,
             'is_question_bank': self.is_question_bank,
             'is_question': self.is_question,
-            'banks': self.get_question_banks().all(),
-            'all_count': self.get_question_banks().count()
+            'banks': self.get_question_banks(),
+            'all_count': self.get_question_banks().count(),
+            'user_assignment': self.get_user_assignment()
+        })
+        return ctx
+
+
+class AssignmentStudentDisplayView(LoginRequiredMixin, DetailView):
+    model = UserAssignment
+    template_name = 'main/assignment_student.html'
+    student_view = True
+
+    def get_user_questions(self):
+        qe = QuestionEvaluation.objects.filter(user_assignment=self.object)
+        if qe.count() == 0:
+            selected = map(
+                lambda a: a.get_random(),
+                list(QuestionBank.objects.filter(assignment=self.object))
+            )
+            selected = (filter(lambda s: s is not None, selected))
+            qe = map(
+                lambda q: QuestionEvaluation.objects.get_or_create(
+                    question=q, user_assignment=self.object)[0], selected)
+        return qe
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx.update({
+            'score': self.object.get_score(),
+            'evaluations': self.get_user_questions()
         })
 
         return ctx
@@ -834,6 +876,17 @@ class AssignmentCloneDisplay(LoginRequiredMixin, AssignmentInstructorMixin,
         return ctx
 
 
+class QuestionStudentDisplayView(LoginRequiredMixin, DetailView):
+    model = QuestionEvaluation
+    template_name = 'main/question_student.html'
+
+    def get_context_data(self, **kwargs):
+        ctx = super(
+            QuestionStudentDisplayView,
+            self).get_context_data(**kwargs)
+        return ctx
+
+
 class AssignmentCloneView(LoginRequiredMixin, AssignmentInstructorMixin,
                           SingleObjectMixin, View):
     model = Assignment
@@ -991,7 +1044,6 @@ class QuestionBankUpdateView(
         return user_is_instructor(self.request.user)
 
     def get_success_url(self):
-        self.object.tag_questions()
         self.object.change_assignment()
         return reverse('question_bank_detail', kwargs={'pk': self.object.pk})
 
@@ -1191,9 +1243,7 @@ class QuestionCreateView(
 class QuestionUpdateView(
         LoginRequiredMixin, QuestionInstructorMixin, UpdateView):
     model = Question
-    fields = [
-        'title', 'prompt', 'embedded_media', 'graph'
-    ]
+    form_class = QuestionForm
     is_assignment = False
     is_question_bank = False
     is_question = True

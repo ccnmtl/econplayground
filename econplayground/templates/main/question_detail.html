@@ -37,7 +37,7 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
-            <a href="{% url 'question_list' %}" title="Question Bank">
+            <a href="{% url 'question_list' %}" title="Question List">
                 {% include 'main/your_questions_snippet.html' %}
             </a>
         </li>
@@ -69,40 +69,38 @@
         </button>
     </a>
     {% endif %}
-    <div class="container">
         <section id="prompt">
-            <h2>Prompt</h2>
             <p>{{ object.prompt }}</p>
         </section>
         {% if is_instructor %}
-        <section>
-            {% for tag in question.tags.all %}
-            <a href="{% url 'assignment_detail' tag.pk %}" title="{{tag.title}}">
-                {{tag.title}}
-            </a>, 
-            {% endfor %}
+        <section id="tags">
+            <p>
+                <strong>Found in: </strong>
+                {% for tag in question.generate_tags %}
+                <a href="{% url 'assignment_detail' tag.pk %}" title="{{tag.title}}">
+                    {{tag.title}}
+                </a>{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </p>
         </section>
-        {% endif %}
-        {% if object.graph %}
-        <section id="graph">
-            <h2>Graph</h2>
-            <div id="root">
-                <div class="loader-inner ball-pulse">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </div>
-            </div>
-        </section>
-        {% endif %}
-        {% if object.embedded_media %}
-        <section id="embed">
-            <h2>Embedded Media</h2>
-            <div class="embed-responsive embed-responsive-16by9">
-                <iframe class="embed-responsive-item" src="{{ object.embedded_media }}" />
-            </div>
-        </section>
-        {% endif %}
-    </div>
+    {% endif %}
 </div>
+{% if object.graph %}
+    <section id="graph">
+        <div id="root">
+            <div class="loader-inner ball-pulse">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+    {% if object.embedded_media %}
+    <section id="embed">
+        <div class="embed-responsive embed-responsive-16by9">
+            <iframe class="embed-responsive-item" src="{{ object.embedded_media }}" />
+        </div>
+    </section>
+{% endif %}
 {% endblock %}

@@ -41,6 +41,12 @@ ASSIGNMENT_TYPES = (
     (2, 'Modification'),
 )
 
+DIRECTION = (
+    (-1, 'Negative'),
+    (0, 'None'),
+    (1, 'Positive'),
+)
+
 
 class Cohort(models.Model):
     """A Cohort is a grouping of instructors and students.
@@ -496,6 +502,10 @@ class Assignment(models.Model):
     def get_question_banks(self):
         return QuestionBank.objects.filter(assignment=self)
 
+    def get_user_assignment(self, user):
+        return UserAssignment.objects.get(
+            assignment=self, user=user)
+
     def bank_count(self):
         count = 0
         for key_question in self.get_question_banks():
@@ -523,13 +533,106 @@ class Assignment(models.Model):
 
 class Question(models.Model):
     title = models.TextField(max_length=1024, default='Untitled')
-    assessment_rule = models.ForeignKey(
-        AssessmentRule, on_delete=models.CASCADE, blank=True, null=True)
     embedded_media = models.TextField(blank=True, default='')
     graph = models.ForeignKey(
         Graph, on_delete=models.CASCADE, blank=True, null=True)
+    keywords = models.TextField(max_length=1024, blank=True, default='')
 
     prompt = models.TextField(blank=True, default='')
+    value = models.PositiveSmallIntegerField(default=1)
+    partial = models.PositiveSmallIntegerField(default=0)
+
+    intersection_label = models.BooleanField(default=False)
+    intersection_2_label = models.BooleanField(default=False)
+    intersection_3_label = models.BooleanField(default=False)
+
+    intersection_horiz_line_label = models.BooleanField(default=False)
+    intersection_vert_line_label = models.BooleanField(default=False)
+    intersection_2_horiz_line_label = models.BooleanField(default=False)
+    intersection_2_vert_line_label = models.BooleanField(default=False)
+    intersection_3_horiz_line_label = models.BooleanField(default=False)
+    intersection_3_vert_line_label = models.BooleanField(default=False)
+
+    x_axis_label = models.BooleanField(default=False)
+    y_axis_label = models.BooleanField(default=False)
+    x_axis_2_label = models.BooleanField(default=False)
+    y_axis_2_label = models.BooleanField(default=False)
+
+    line_1_label = models.BooleanField(default=False)
+    line_2_label = models.BooleanField(default=False)
+    line_3_label = models.BooleanField(default=False)
+    line_4_label = models.BooleanField(default=False)
+
+    line_1_slope = models.IntegerField(choices=DIRECTION, default=0)
+    line_2_slope = models.IntegerField(choices=DIRECTION, default=0)
+    line_3_slope = models.IntegerField(choices=DIRECTION, default=0)
+    line_4_slope = models.IntegerField(choices=DIRECTION, default=0)
+    line_1_offset_x = models.IntegerField(choices=DIRECTION,
+                                          default=0)
+    line_1_offset_y = models.IntegerField(choices=DIRECTION,
+                                          default=0)
+    line_2_offset_x = models.IntegerField(choices=DIRECTION,
+                                          default=0)
+    line_2_offset_y = models.IntegerField(choices=DIRECTION,
+                                          default=0)
+    line_3_offset_x = models.IntegerField(choices=DIRECTION,
+                                          default=0)
+    line_3_offset_y = models.IntegerField(choices=DIRECTION,
+                                          default=0)
+    line_4_offset_x = models.IntegerField(choices=DIRECTION,
+                                          default=0)
+    line_4_offset_y = models.IntegerField(choices=DIRECTION,
+                                          default=0)
+
+    # TODO: migrate these to a1, a2, etc.
+    alpha = models.IntegerField(choices=DIRECTION, default=0)
+    omega = models.IntegerField(choices=DIRECTION, default=0)
+
+    # Arbitrary float storage to be used as needed for the altering
+    # functions of the various graph types.
+    a1 = models.IntegerField(choices=DIRECTION, default=0)
+    a2 = models.IntegerField(choices=DIRECTION, default=0)
+    a3 = models.IntegerField(choices=DIRECTION, default=0)
+    a4 = models.IntegerField(choices=DIRECTION, default=0)
+    a5 = models.IntegerField(choices=DIRECTION, default=0)
+    a1_name = models.BooleanField(default=False)
+    a2_name = models.BooleanField(default=False)
+    a3_name = models.BooleanField(default=False)
+    a4_name = models.BooleanField(default=False)
+
+    # TODO: migrate these to a1, a2, etc.
+    a = models.IntegerField(choices=DIRECTION, default=0)
+    k = models.IntegerField(choices=DIRECTION, default=0)
+    r = models.IntegerField(choices=DIRECTION, default=0)
+    y1 = models.IntegerField(choices=DIRECTION, default=0)
+    y2 = models.IntegerField(choices=DIRECTION, default=0)
+
+    # The following are input values for the Cobb-Douglas function,
+    # only used if this is a Cobb-Douglas graph.
+    # TODO: migrate these to a1, a2, etc.
+    cobb_douglas_a = models.IntegerField(choices=DIRECTION, default=0)
+    cobb_douglas_l = models.IntegerField(choices=DIRECTION, default=0)
+    cobb_douglas_k = models.IntegerField(choices=DIRECTION, default=0)
+    cobb_douglas_alpha = models.IntegerField(choices=DIRECTION,
+                                             default=0)
+    cobb_douglas_a_name = models.BooleanField(default=False)
+    cobb_douglas_l_name = models.BooleanField(default=False)
+    cobb_douglas_k_name = models.BooleanField(default=False)
+    cobb_douglas_alpha_name = models.BooleanField(default=False)
+    cobb_douglas_y_name = models.BooleanField(default=False)
+
+    # Text field for an arbitrary N value used in NLDS.
+    n_name = models.BooleanField(default=False)
+
+    # A graph may contain a few different functions that
+    # can be toggled.
+    function_choice = models.PositiveSmallIntegerField(default=0)
+
+    # An Area under Curve (AUC) graph has different cases handling
+    # which areas are displayed.
+    area_a_name = models.BooleanField(default=False)
+    area_b_name = models.BooleanField(default=False)
+    area_c_name = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -547,6 +650,11 @@ class Question(models.Model):
             if bank.assignment not in tags:
                 tags.append(bank.assignment)
         return tags
+
+    def parse_keywords(self):
+        # Keywords will be separated by spaces.
+        # Multiword keywords must be joined with underscores
+        return [x for x in self.keywords.split(' ') if x]
 
     def __str__(self):
         return '{} (id:{})'.format(self.title, self.pk)
@@ -600,8 +708,11 @@ class QuestionBank(OrderedModel):
 
     def get_random(self):
         entry_list = list(self.questions.all())
-        pick = random.randrange(len(entry_list))  # nosec
-        return entry_list[pick]
+        if len(entry_list) > 0:
+            pick = random.randrange(len(entry_list))  # nosec
+            return entry_list[pick]
+        else:
+            return None
 
     def change_assignment(self):
         for sup in list(self.supplemental.all()):
@@ -633,3 +744,42 @@ class QuestionBank(OrderedModel):
         c.save()
 
         return c
+
+
+class UserAssignment(models.Model):
+    class Meta:
+        unique_together = ('assignment', 'user')
+
+    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __len__(self):
+        return len(self.assignment)
+
+    def __str__(self):
+        return 'User: {}, Score: {}, Questions: {})'.format(
+            self.user,
+            self.get_score(),
+            QuestionEvaluation.objects.filter(user_assignment=self))
+
+    def get_score(self):
+        evaluations = QuestionEvaluation.objects.filter(user_assignment=self)
+        return sum(map(lambda num: num.score, evaluations))/(
+            1 if len(evaluations) == 0 else sum(
+                map(lambda den: den.question.value, evaluations)))*100
+
+
+class QuestionEvaluation(OrderedModel):
+    class Meta(OrderedModel.Meta):
+        unique_together = ('question', 'user_assignment')
+
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    user_assignment = models.ForeignKey(
+        UserAssignment, on_delete=models.CASCADE)
+    score = models.PositiveSmallIntegerField(default=0)
+
+    def __str__(self):
+        return '{}, {}'.format(self.question.title, self.score)
+
+    def get_score(self):
+        return (self.score/self.question.value)*100

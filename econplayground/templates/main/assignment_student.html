@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block title %}{{ object.assignment.title }}{% endblock %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{% url 'assignment_list' %}" title="Assignment List">
+                {% include 'main/your_assignments_snippet.html' %}
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            {{ object.assignment.title|truncatewords:5 }}
+        </li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block pagetitle %}
+<h1 class="mt-4">{{ object.assignment.title }}</h1>
+{% endblock %}
+
+{% block pagedescription %}
+
+{% endblock %}
+
+{% block content %}
+{% if i_am_instructor %}
+<div class="row align-items-center">
+    <h2 class="mr-auto">In Student View</h2>
+    <a href="{% url 'assignment_detail' object.assignment.pk %}"
+        class="btn btn-primary"
+        title="Instructor View"
+    >
+        Instructor View
+    </a>
+</div>
+{% endif %}
+<p>{{ object.assignment.prompt }}</p>
+<ol class="container">
+    <div class="progress">
+        <div
+            class="progress-bar progress-bar-striped"
+            role="progressbar"
+            style="width: {{object.score}}%"
+            aria-valuenow="{{object.score}}"
+            aria-valuemin="0"
+            aria-valuemax="100"
+        ></div>
+    </div>
+    {% for eval in evaluations %}
+    <li class="d-flex row text-bg-info p-2 align-items-center{% cycle '' ' bg-light' %}">
+        {{forloop.counter}}
+        <a class="col-11 ms-4" href="{% url 'question_student' object.pk eval.pk %}">
+            {{ eval.question.title }}
+        </a>
+        <p><strong>{{eval.score}} / {{eval.question.value}}</strong></p>
+    </li>
+    {% if forloop.last %}
+    <p><strong class="{% if score < 65 %}text-danger{% elif score >= 95 %}text-success{% endif %}">
+        Total Score: {{score}}%
+    </strong></p>
+    {% endif %}
+    {% empty %}
+    <div class="row bg-light text-secondary p-1">
+        <div class="col-12"><em>
+            This assignment is empty. Check with your professor or TAs to make sure there isn't a mistake.<br>
+            If there is no mistake, CONGRATS! No assignment :D
+        </em></div>
+    </div>
+    {% endfor %}
+</ol>
+{% endblock %}

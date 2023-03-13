@@ -7,16 +7,28 @@
 
 {% block content %}
     {% url 'question_create' as the_url %}
-    <a class="btn btn-primary mb-2 {% if request.path == the_url %}active{% endif %}"
+    <a class="btn btn-primary mb-2"
        role="button"
        title="Create Question"
-       href="{{the_url}}"
+       href="{% url 'question_create' %}"
     >
         Create Question
     </a>
     <div class="row">
-        <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <ul class="list-group featuredgraphs-list">
+                <strong class="list-group-item d-flex flex-row text-white bg-dark align-items-center">
+                    <div class=" mr-auto">
+                        Title
+                    </div>
+                    <div class="col-3">
+                        Keywords
+                    </div>
+                    <div class="col-5">
+                        Associated Assignments
+                    </div>
+                    Remove
+                </strong>
                 {% for question in question_list %}
                     <li class="list-group-item d-flex flex-row align-items-center">
                         <div class="graph-title mr-auto">
@@ -24,12 +36,21 @@
                                 {{question.title}}
                             </a>
                         </div>
+                        <div class="col-3">
+                            {% with question.parse_keywords as keywords %}
+                            {% for keyword in keywords %}
+                                {{keyword}}{% if not forloop.last %} /{% endif %}
+                            {% empty %}
+                                <em class="text-secondary text-center">--No Keywords--</em>
+                            {% endfor %}{% endwith %}
+                        </div>
                         <div class="col-5">
-                            Tags: 
                             {% for assignment in question.generate_tags %}
                             <a href="{% url 'assignment_detail' assignment.pk %}" title="{{assignment.title}}">
                                 {{assignment.title}}
-                            </a>, 
+                            </a>{% if not forloop.last %} / {% endif %}
+                            {% empty %}
+                                <em class="text-secondary text-center">--No Associated Assignments--</em>
                             {% endfor %}
                         </div>
                         <a role="button"
@@ -53,6 +74,5 @@
                     Questions you make can be found here.
                 {% endfor %}
             </ul>
-        </div>
     </div>
 {% endblock %}
