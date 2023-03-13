@@ -16,7 +16,7 @@
     <script src="{% static 'js/build/question.js' %}"></script>
 {% endblock %}
 
-{% block title %}Create Question{% endblock %}
+{% block title %}{% if object %}Edit Question{% else %}Create Question{% endif %}{% endblock %}
 
 {% block breadcrumb %}
     <nav aria-label="breadcrumb">
@@ -26,7 +26,13 @@
                     {% include 'main/your_questions_snippet.html' %}
                 </a>
             </li>
-            <li class="breadcrumb-item">Create Question</li>
+            <li class="breadcrumb-item">
+                {% if object %}
+                Edit Question
+                {% else %}
+                Create Question
+                {% endif %}
+            </li>
         </ol>
     </nav>
 {% endblock %}

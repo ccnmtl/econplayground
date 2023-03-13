@@ -37,6 +37,7 @@ module.exports = {
     devtool: shouldUseSourceMap ? 'source-map' : false,
     // In production, we only want to load the polyfills and the app code.
     entry: {
+        assignment: [require.resolve('./polyfills'), paths.appAssignmentJs],
         editor: [require.resolve('./polyfills'), paths.appEditorJs],
         question: [require.resolve('./polyfills'), paths.appQuestionJs],
         viewer: [require.resolve('./polyfills'), paths.appViewerJs]

@@ -44,8 +44,8 @@
         <div
             class="progress-bar progress-bar-striped"
             role="progressbar"
-            style="width: {{object.score}}%"
-            aria-valuenow="{{object.score}}"
+            style="width: {{score}}%"
+            aria-valuenow="{{score}}"
             aria-valuemin="0"
             aria-valuemax="100"
         ></div>
@@ -56,7 +56,7 @@
         <a class="col-11 ms-4" href="{% url 'question_student' object.pk eval.pk %}">
             {{ eval.question.title }}
         </a>
-        <p><strong>{{eval.score}} / {{eval.question.value}}</strong></p>
+        <strong>{% if eval.question.value > 0 %}{{eval.score}} / {{eval.question.value}}{% else %}Free{% endif %}</strong>
     </li>
     {% if forloop.last %}
     <p><strong class="{% if score < 65 %}text-danger{% elif score >= 95 %}text-success{% endif %}">

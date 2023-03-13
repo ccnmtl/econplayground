@@ -122,6 +122,103 @@ const exportGraph = function(state) {
     return obj;
 };
 
+const convertGraph = function(json) {
+    return {
+        gId: json.id,
+        gTitle: json.title || '',
+        gSummary: json.summary,
+        gInstructions: json.instructions,
+        gInstructorNotes: json.instructor_notes,
+        gType: json.graph_type,
+        gAssignmentType: json.assignment_type,
+        gIsPublished: json.is_published,
+        gIsFeatured: json.featured,
+        gDisplayFeedback: json.display_feedback,
+        gDisplayShadow: json.display_shadow,
+        gNeedsSubmit: json.needs_submit,
+        gTopic: json.topic,
+
+        gShowIntersection: json.show_intersection,
+        gDisplayIntersection1: json.display_intersection_1,
+        gDisplayIntersection2: json.display_intersection_2,
+        gDisplayIntersection3: json.display_intersection_3,
+        gIntersectionLabel: json.intersection_label,
+        gIntersection2Label: json.intersection_2_label,
+        gIntersection3Label: json.intersection_3_label,
+
+        gIntersectionHorizLineLabel: json.intersection_horiz_line_label,
+        gIntersectionVertLineLabel: json.intersection_vert_line_label,
+        gIntersection2HorizLineLabel: json.intersection_2_horiz_line_label,
+        gIntersection2VertLineLabel: json.intersection_2_vert_line_label,
+        gIntersection3HorizLineLabel: json.intersection_3_horiz_line_label,
+        gIntersection3VertLineLabel: json.intersection_3_vert_line_label,
+
+        gLine1Slope: forceFloat(json.line_1_slope) || 0,
+        gLine2Slope: forceFloat(json.line_2_slope) || 0,
+        gLine3Slope: forceFloat(json.line_3_slope) || 0,
+        gLine4Slope: forceFloat(json.line_4_slope) || 0,
+        gLine1OffsetX: forceFloat(json.line_1_offset_x),
+        gLine1OffsetY: forceFloat(json.line_1_offset_y),
+        gLine2OffsetX: forceFloat(json.line_2_offset_x),
+        gLine2OffsetY: forceFloat(json.line_2_offset_y),
+        gLine3OffsetX: forceFloat(json.line_3_offset_x),
+        gLine3OffsetY: forceFloat(json.line_3_offset_y),
+        gLine4OffsetX: forceFloat(json.line_4_offset_x),
+        gLine4OffsetY: forceFloat(json.line_4_offset_y),
+        gLine1Label: json.line_1_label,
+        gLine2Label: json.line_2_label,
+        gLine3Label: json.line_3_label,
+        gLine4Label: json.line_4_label,
+
+        gLine1Dashed: json.line_1_dashed,
+        gLine2Dashed: json.line_2_dashed,
+        gLine3Dashed: json.line_3_dashed,
+        gLine4Dashed: json.line_4_dashed,
+
+        gAlpha: forceFloat(json.alpha),
+        gOmega: forceFloat(json.omega),
+
+        gA1: forceFloat(json.a1),
+        gA2: forceFloat(json.a2),
+        gA3: forceFloat(json.a3),
+        gA4: forceFloat(json.a4),
+        gA5: forceFloat(json.a5),
+
+        gA: forceFloat(json.a),
+        gK: forceFloat(json.k),
+        gR: forceFloat(json.r),
+        gY1: forceFloat(json.y1),
+        gY2: forceFloat(json.y2),
+
+        gXAxisLabel: json.x_axis_label,
+        gYAxisLabel: json.y_axis_label,
+
+        gXAxis2Label: json.x_axis_2_label,
+        gYAxis2Label: json.y_axis_2_label,
+
+        gCobbDouglasA: forceFloat(json.cobb_douglas_a),
+        gCobbDouglasAName: json.cobb_douglas_a_name,
+        gCobbDouglasL: forceFloat(json.cobb_douglas_l),
+        gCobbDouglasLName: json.cobb_douglas_l_name,
+        gCobbDouglasK: forceFloat(json.cobb_douglas_k),
+        gCobbDouglasKName: json.cobb_douglas_k_name,
+        gCobbDouglasAlpha: forceFloat(json.cobb_douglas_alpha),
+        gCobbDouglasYName: json.cobb_douglas_y_name,
+
+        gNName: json.n_name,
+
+        gFunctionChoice: json.function_choice,
+
+        // AUC features
+        gAreaConfiguration: json.area_configuration,
+        gIsAreaDisplayed: json.is_area_displayed,
+
+        gAreaAName: json.area_a_name,
+        gAreaBName: json.area_b_name,
+        gAreaCName: json.area_c_name
+    };
+};
+
 /**
  * Import the json graph into the current state.
  */
@@ -156,18 +253,18 @@ const importGraph = function(json, obj) {
         gIntersection3HorizLineLabel: json.intersection_3_horiz_line_label,
         gIntersection3VertLineLabel: json.intersection_3_vert_line_label,
 
-        gLine1Slope: window.parseFloat(json.line_1_slope),
-        gLine2Slope: window.parseFloat(json.line_2_slope),
-        gLine3Slope: window.parseFloat(json.line_3_slope),
-        gLine4Slope: window.parseFloat(json.line_4_slope),
-        gLine1OffsetX: window.parseFloat(json.line_1_offset_x),
-        gLine1OffsetY: window.parseFloat(json.line_1_offset_y),
-        gLine2OffsetX: window.parseFloat(json.line_2_offset_x),
-        gLine2OffsetY: window.parseFloat(json.line_2_offset_y),
-        gLine3OffsetX: window.parseFloat(json.line_3_offset_x),
-        gLine3OffsetY: window.parseFloat(json.line_3_offset_y),
-        gLine4OffsetX: window.parseFloat(json.line_4_offset_x),
-        gLine4OffsetY: window.parseFloat(json.line_4_offset_y),
+        gLine1Slope: forceFloat(json.line_1_slope),
+        gLine2Slope: forceFloat(json.line_2_slope),
+        gLine3Slope: forceFloat(json.line_3_slope),
+        gLine4Slope: forceFloat(json.line_4_slope),
+        gLine1OffsetX: forceFloat(json.line_1_offset_x),
+        gLine1OffsetY: forceFloat(json.line_1_offset_y),
+        gLine2OffsetX: forceFloat(json.line_2_offset_x),
+        gLine2OffsetY: forceFloat(json.line_2_offset_y),
+        gLine3OffsetX: forceFloat(json.line_3_offset_x),
+        gLine3OffsetY: forceFloat(json.line_3_offset_y),
+        gLine4OffsetX: forceFloat(json.line_4_offset_x),
+        gLine4OffsetY: forceFloat(json.line_4_offset_y),
         gLine1Label: json.line_1_label,
         gLine2Label: json.line_2_label,
         gLine3Label: json.line_3_label,
@@ -178,20 +275,20 @@ const importGraph = function(json, obj) {
         gLine3Dashed: json.line_3_dashed,
         gLine4Dashed: json.line_4_dashed,
 
-        gAlpha: window.parseFloat(json.alpha),
-        gOmega: window.parseFloat(json.omega),
+        gAlpha: forceFloat(json.alpha),
+        gOmega: forceFloat(json.omega),
 
-        gA1: window.parseFloat(json.a1),
-        gA2: window.parseFloat(json.a2),
-        gA3: window.parseFloat(json.a3),
-        gA4: window.parseFloat(json.a4),
-        gA5: window.parseFloat(json.a5),
+        gA1: forceFloat(json.a1),
+        gA2: forceFloat(json.a2),
+        gA3: forceFloat(json.a3),
+        gA4: forceFloat(json.a4),
+        gA5: forceFloat(json.a5),
 
-        gA: window.parseFloat(json.a),
-        gK: window.parseFloat(json.k),
-        gR: window.parseFloat(json.r),
-        gY1: window.parseFloat(json.y1),
-        gY2: window.parseFloat(json.y2),
+        gA: forceFloat(json.a),
+        gK: forceFloat(json.k),
+        gR: forceFloat(json.r),
+        gY1: forceFloat(json.y1),
+        gY2: forceFloat(json.y2),
 
         gXAxisLabel: json.x_axis_label,
         gYAxisLabel: json.y_axis_label,
@@ -199,13 +296,13 @@ const importGraph = function(json, obj) {
         gXAxis2Label: json.x_axis_2_label,
         gYAxis2Label: json.y_axis_2_label,
 
-        gCobbDouglasA: window.parseFloat(json.cobb_douglas_a),
+        gCobbDouglasA: forceFloat(json.cobb_douglas_a),
         gCobbDouglasAName: json.cobb_douglas_a_name,
-        gCobbDouglasL: window.parseFloat(json.cobb_douglas_l),
+        gCobbDouglasL: forceFloat(json.cobb_douglas_l),
         gCobbDouglasLName: json.cobb_douglas_l_name,
-        gCobbDouglasK: window.parseFloat(json.cobb_douglas_k),
+        gCobbDouglasK: forceFloat(json.cobb_douglas_k),
         gCobbDouglasKName: json.cobb_douglas_k_name,
-        gCobbDouglasAlpha: window.parseFloat(json.cobb_douglas_alpha),
+        gCobbDouglasAlpha: forceFloat(json.cobb_douglas_alpha),
         gCobbDouglasYName: json.cobb_douglas_y_name,
 
         gNName: json.n_name,
@@ -303,6 +400,76 @@ const defaultEvaluation = {
     cobb_douglas_k: 1,
     cobb_douglas_k_name: 'K',
     cobb_douglas_alpha: 0.65,
+    cobb_douglas_y_name: 'Y',
+
+    n_name: 'N',
+
+    area_a_name: 'A',
+    area_b_name: 'B',
+    area_c_name: 'C'
+};
+
+const defaultModificationEvaluation = {
+    line_1_slope: 1,
+    line_2_slope: -1,
+    line_3_slope: 999,
+    line_4_slope: -1,
+
+    line_1_offset_x: 0,
+    line_1_offset_y: 0,
+    line_2_offset_x: 0,
+    line_2_offset_y: 0,
+    line_3_offset_x: 0,
+    line_3_offset_y: 0,
+    line_4_offset_x: 0,
+    line_4_offset_y: 0,
+
+    alpha: 0.3,
+    omega: 1,
+
+    a1: 2.5,
+    a2: 2,
+    a3: 0.5,
+    a4: 0,
+    a5: 0.5, // used in graph type 11 - beta value
+
+    a: 3,
+    k: 2,
+    r: 0,
+    y1: 0,
+    y2: 0,
+
+    cobb_douglas_a: 2,
+    cobb_douglas_l: 5,
+    cobb_douglas_k: 1,
+    cobb_douglas_alpha: 0.65,
+
+};
+
+const defaultLabelEvaluation = {
+    intersection_label: '',
+    intersection_2_label: '',
+    intersection_3_label: '',
+
+    intersection_horiz_line_label: '',
+    intersection_vert_line_label: '',
+    intersection2_horiz_line_label: '',
+    intersection2_vert_line_label: '',
+    intersection3_horiz_line_label: '',
+    intersection3_vert_line_label: '',
+
+    line_1_label: '',
+    line_2_label: '',
+    line_3_label: '',
+    line_4_label: '',
+    x_axis_label: '',
+    y_axis_label: '',
+    x_axis_2_label: '',
+    y_axis_2_label: '',
+    
+    cobb_douglas_a_name: 'A',
+    cobb_douglas_l_name: 'L',
+    cobb_douglas_k_name: 'K',
     cobb_douglas_y_name: 'Y',
 
     n_name: 'N',
@@ -412,4 +579,4 @@ const defaultGraph = {
     assessment: []
 };
 
-export { exportGraph, importGraph, defaultGraph, defaultEvaluation };
+export { convertGraph, exportGraph, importGraph, defaultGraph, defaultEvaluation, defaultModificationEvaluation, defaultLabelEvaluation };

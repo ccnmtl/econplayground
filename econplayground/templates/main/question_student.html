@@ -24,11 +24,24 @@
 
     window.EconPlayground['isInstructor'] = false;
     window.EconPlayground['hideTitleAndInstructions'] = false;
-    {% if object.question.graph %}
-        window.GRAPH_ID = {{ object.question.graph.pk }};
+    window.Q_EVAL_ID = {{ object.pk }}
+    {% if object.question %}
+        window.QUESTION_ID = {{ object.question.pk }};
+        {% if object.question.graph %}
+            window.GRAPH_ID = {{ object.question.graph.pk }};
+            window.ASSIGNMENT_TYPE = {{object.question.graph.assignment_type}};
+        {% endif %}
+    {% endif %}
+    {% if object.next %}
+        window.NEXT = "{% url 'question_student' object.user_assignment.pk object.next.pk %}";
+    {% else %}
+        window.FINISH = "{% url 'assignment_success' object.user_assignment.assignment.pk %}";
+    {% endif %}
+    {% if object.previous %}
+        window.PREVIOUS = "{% url 'question_student' object.user_assignment.pk object.previous.pk %}";
     {% endif %}
     </script>
-    <script src="{% static 'js/build/viewer.js' %}"></script>
+    <script src="{% static 'js/build/assignment.js' %}"></script>
 {% endblock %}
 
 {% user_is_instructor request.user as i_am_instructor %}
@@ -94,22 +107,4 @@
         </div>
     </section>
     {% endif %}
-    <section id="assignment-nav" class="row d-flex">
-        {% if object.previous %}
-        <a href="{% url 'question_student' object.user_assignment.pk object.previous.pk %}"
-           class="btn btn-primary mr-auto" 
-           title="Previous Question"
-        >
-            Previous Question
-        </a>
-        {% endif %}
-        {% if object.next %}
-        <a href="{% url 'question_student' object.user_assignment.pk object.next.pk %}"
-           class="btn btn-primary ml-auto" 
-           title="Next Question"
-        >
-            Next Question
-        </a>
-        {% endif %}
-    </section>
 {% endblock %}

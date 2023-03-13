@@ -1,7 +1,8 @@
 from rest_framework import serializers
 from econplayground.main.models import (
     Graph, Cohort, JXGLine, JXGLineTransformation, Submission,
-    Assessment, AssessmentRule, Topic, Question, Evaluation
+    Assessment, AssessmentRule, Topic, Question, Evaluation,
+    Assignment, UserAssignment, QuestionEvaluation
 )
 
 
@@ -194,55 +195,83 @@ class GraphSerializer(serializers.ModelSerializer):
         return instance
 
 
+class EvaluationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Evaluation
+        fields = (
+            'field', 'comparison', 'value'
+        )
+
+        def validate_value(self, value):
+            if value < 0 or value > 100:
+                raise serializers.ValidationError(
+                    'Value has to be between 1 and 100.'
+                )
+            return value
+
+
 class QuestionSerializer(serializers.ModelSerializer):
-    graph = GraphSerializer()
+    evaluations = EvaluationSerializer(many=True, write_only=True)
 
     class Meta:
         model = Question
         fields = (
-            'title', 'embedded_media', 'graph',
-            'keywords', 'prompt', 'value'
+            'pk', 'title', 'embedded_media', 'evaluations', 'media_upload',
+            'graph', 'keywords', 'prompt', 'value'
         )
 
     def create(self, validated_data):
-        return Question.objects.create(**validated_data)
+        evaluations_data = validated_data.pop('evaluations')
+        question = Question.objects.create(**validated_data)
+        for evaluation_data in evaluations_data:
+            Evaluation.objects.create(
+                question=question, **evaluation_data)
+        return question
 
     def update(self, instance, validated_data):
+        evaluations_data = validated_data.pop('evaluations')
         for field in validated_data:
             newval = validated_data.get(field, getattr(instance, field))
             setattr(instance, field, newval)
         instance.save()
-
+        for evaluation_data in evaluations_data:
+            try:
+                existing = Evaluation.objects.get(
+                    question=instance, field=evaluation_data['field'])
+                existing.comparison = evaluation_data['comparison']
+                existing.value = evaluation_data['value']
+                existing.save()
+            except Evaluation.DoesNotExist:
+                Evaluation.objects.create(
+                    question=instance, **evaluation_data)
         return instance
 
 
-class EvaluationSerializer(serializers.ModelSerializer):
-    question = QuestionSerializer()
+class AssignmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Assignment
+        fields = ('title',)
+
+
+class UserAssignmentSerializer(serializers.ModelSerializer):
+    assignment = AssignmentSerializer(read_only=True)
 
     class Meta:
-        model = Evaluation
-        fields = (
-            'field', 'answered', 'comparison', 'value'
-        )
+        model = UserAssignment
+        fields = ('user',)
 
-    def create(self, validated_data):
-        return Evaluation.objects.create(**validated_data)
 
-    def update(self, instance, validated_data):
-        for field in validated_data:
-            newval = validated_data.get(field, getattr(instance, field))
-            setattr(instance, field, newval)
-        instance.save()
-
-        return instance
+class QuestionEvaluationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = QuestionEvaluation
+        fields = '__all__'
 
 
 class AssessmentRulesSerializer(serializers.ModelSerializer):
     class Meta:
         model = AssessmentRule
-        fields = ('name', 'value',
-                  'feedback_fulfilled', 'feedback_unfulfilled',
-                  'score')
+        fields = ('name', 'value', 'feedback_fulfilled',
+                  'feedback_unfulfilled', 'score')
 
 
 class AssessmentSerializer(serializers.ModelSerializer):
@@ -250,10 +279,7 @@ class AssessmentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Assessment
-        fields = (
-            'graph',
-            'assessmentrule_set',
-        )
+        fields = ('graph', 'assessmentrule_set',)
 
 
 class SubmissionSerializer(serializers.ModelSerializer):

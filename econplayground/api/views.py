@@ -8,12 +8,14 @@ from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from econplayground.main.models import (
-    Assessment, Cohort, Graph, Submission, Topic, Question, Evaluation
+    Assessment, Cohort, Graph, Submission, Topic, Question, Evaluation,
+    UserAssignment, QuestionEvaluation
 )
 from econplayground.api.serializers import (
     AssessmentSerializer, CohortSerializer, GraphSerializer,
     SubmissionSerializer, TopicSerializer, QuestionSerializer,
-    EvaluationSerializer
+    EvaluationSerializer, UserAssignmentSerializer,
+    QuestionEvaluationSerializer
 )
 
 
@@ -88,17 +90,48 @@ class CohortViewSet(viewsets.ReadOnlyModelViewSet):
         return Cohort.objects.filter(instructors__in=(user,))
 
 
-class QuestionViewSet(viewsets.ReadOnlyModelViewSet):
+class QuestionViewSet(viewsets.ModelViewSet):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
 
-    def get_queryset(self):
-        return Question.objects.all()
+    def create(self, request):
+        r = super(QuestionViewSet, self).create(request)
+        if r:
+            messages.success(
+                request,
+                'Question "{}" created.'.format(r.data.get('title')))
+
+        return r
+
+    def update(self, request, pk):
+        r = super(QuestionViewSet, self).update(request)
+        if r:
+            messages.success(
+                request,
+                'Question "{}" updated.'.format(r.data.get('title')))
+
+        return r
 
 
-class EvaluationViewSet(viewsets.ReadOnlyModelViewSet):
+class EvaluationViewSet(viewsets.ModelViewSet):
     queryset = Evaluation.objects.all()
     serializer_class = EvaluationSerializer
 
     def get_queryset(self):
-        return Evaluation.objects.all()
+        qId = self.request.query_params.get('qId')
+        question = Question.objects.get(id=qId)
+        return self.queryset.filter(question=question)
+
+
+class UserAssignmentViewSet(viewsets.ModelViewSet):
+    queryset = UserAssignment.objects.all()
+    serializer_class = UserAssignmentSerializer
+
+    def get_queryset(self):
+        id = self.request.query_params.get('id')
+        return UserAssignment.objects.get(id=id)
+
+
+class QuestionEvaluationViewSet(viewsets.ModelViewSet):
+    queryset = QuestionEvaluation.objects.all()
+    serializer_class = QuestionEvaluationSerializer
