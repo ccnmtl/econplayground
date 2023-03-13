@@ -8,11 +8,12 @@ from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from econplayground.main.models import (
-    Assessment, Cohort, Graph, Submission, Topic
+    Assessment, Cohort, Graph, Submission, Topic, Question, Evaluation
 )
 from econplayground.api.serializers import (
     AssessmentSerializer, CohortSerializer, GraphSerializer,
-    SubmissionSerializer, TopicSerializer
+    SubmissionSerializer, TopicSerializer, QuestionSerializer,
+    EvaluationSerializer
 )
 
 
@@ -85,3 +86,19 @@ class CohortViewSet(viewsets.ReadOnlyModelViewSet):
     def get_queryset(self):
         user = self.request.user
         return Cohort.objects.filter(instructors__in=(user,))
+
+
+class QuestionViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializer
+
+    def get_queryset(self):
+        return Question.objects.all()
+
+
+class EvaluationViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Evaluation.objects.all()
+    serializer_class = EvaluationSerializer
+
+    def get_queryset(self):
+        return Evaluation.objects.all()

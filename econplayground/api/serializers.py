@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from econplayground.main.models import (
     Graph, Cohort, JXGLine, JXGLineTransformation, Submission,
-    Assessment, AssessmentRule, Topic
+    Assessment, AssessmentRule, Topic, Question, Evaluation
 )
 
 
@@ -190,6 +190,49 @@ class GraphSerializer(serializers.ModelSerializer):
             s = JXGLineSerializer(data=line_data)
             if s.is_valid():
                 s.create(line_data)
+
+        return instance
+
+
+class QuestionSerializer(serializers.ModelSerializer):
+    graph = GraphSerializer()
+
+    class Meta:
+        model = Question
+        fields = (
+            'title', 'embedded_media', 'graph',
+            'keywords', 'prompt', 'value'
+        )
+
+    def create(self, validated_data):
+        return Question.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        for field in validated_data:
+            newval = validated_data.get(field, getattr(instance, field))
+            setattr(instance, field, newval)
+        instance.save()
+
+        return instance
+
+
+class EvaluationSerializer(serializers.ModelSerializer):
+    question = QuestionSerializer()
+
+    class Meta:
+        model = Evaluation
+        fields = (
+            'field', 'answered', 'comparison', 'value'
+        )
+
+    def create(self, validated_data):
+        return Evaluation.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        for field in validated_data:
+            newval = validated_data.get(field, getattr(instance, field))
+            setattr(instance, field, newval)
+        instance.save()
 
         return instance
 

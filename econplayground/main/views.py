@@ -1239,6 +1239,16 @@ class QuestionCreateView(
 
         return result
 
+    def get_graphs(self):
+        return Graph.objects.all()
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx.update({
+            'graph_list': self.get_graphs()
+        })
+        return ctx
+
 
 class QuestionUpdateView(
         LoginRequiredMixin, QuestionInstructorMixin, UpdateView):

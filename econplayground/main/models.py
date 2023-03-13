@@ -47,6 +47,29 @@ DIRECTION = (
     (1, 'Positive'),
 )
 
+QUESTION_FACTORS = [
+    'intersection_label', 'intersection_2_label', 'intersection_3_label',
+    'intersection_horiz_line_label', 'intersection_vert_line_label',
+    'intersection_2_horiz_line_label', 'intersection_2_vert_line_label',
+    'intersection_3_horiz_line_label', 'intersection_3_vert_line_label',
+    'x_axis_label', 'y_axis_label', 'x_axis_2_label', 'y_axis_2_label',
+    'line_1_label', 'line_2_label', 'line_3_label', 'line_4_label',
+    'line_1_slope', 'line_2_slope', 'line_3_slope', 'line_4_slope',
+    'line_1_offset_x', 'line_1_offset_y',
+    'line_2_offset_x', 'line_2_offset_y',
+    'line_3_offset_x', 'line_3_offset_y',
+    'line_4_offset_x', 'line_4_offset_y',
+    'a1', 'a1_name', 'a2', 'a2_name', 'a3', 'a3_name', 'a4', 'a4_name', 'a5',
+    'alpha', 'omega', 'a', 'k', 'r', 'y1', 'y2',
+    'cobb_douglas_a', 'cobb_douglas_a_name',
+    'cobb_douglas_l', 'cobb_douglas_l_name',
+    'cobb_douglas_k', 'cobb_douglas_k_name',
+    'cobb_douglas_alpha', 'cobb_douglas_alpha_name',
+    'cobb_douglas_y_name',
+    'n_name', 'function_choice',
+    'area_a_name', 'area_b_name', 'area_c_name'
+]
+
 
 class Cohort(models.Model):
     """A Cohort is a grouping of instructors and students.
@@ -540,99 +563,6 @@ class Question(models.Model):
 
     prompt = models.TextField(blank=True, default='')
     value = models.PositiveSmallIntegerField(default=1)
-    partial = models.PositiveSmallIntegerField(default=0)
-
-    intersection_label = models.BooleanField(default=False)
-    intersection_2_label = models.BooleanField(default=False)
-    intersection_3_label = models.BooleanField(default=False)
-
-    intersection_horiz_line_label = models.BooleanField(default=False)
-    intersection_vert_line_label = models.BooleanField(default=False)
-    intersection_2_horiz_line_label = models.BooleanField(default=False)
-    intersection_2_vert_line_label = models.BooleanField(default=False)
-    intersection_3_horiz_line_label = models.BooleanField(default=False)
-    intersection_3_vert_line_label = models.BooleanField(default=False)
-
-    x_axis_label = models.BooleanField(default=False)
-    y_axis_label = models.BooleanField(default=False)
-    x_axis_2_label = models.BooleanField(default=False)
-    y_axis_2_label = models.BooleanField(default=False)
-
-    line_1_label = models.BooleanField(default=False)
-    line_2_label = models.BooleanField(default=False)
-    line_3_label = models.BooleanField(default=False)
-    line_4_label = models.BooleanField(default=False)
-
-    line_1_slope = models.IntegerField(choices=DIRECTION, default=0)
-    line_2_slope = models.IntegerField(choices=DIRECTION, default=0)
-    line_3_slope = models.IntegerField(choices=DIRECTION, default=0)
-    line_4_slope = models.IntegerField(choices=DIRECTION, default=0)
-    line_1_offset_x = models.IntegerField(choices=DIRECTION,
-                                          default=0)
-    line_1_offset_y = models.IntegerField(choices=DIRECTION,
-                                          default=0)
-    line_2_offset_x = models.IntegerField(choices=DIRECTION,
-                                          default=0)
-    line_2_offset_y = models.IntegerField(choices=DIRECTION,
-                                          default=0)
-    line_3_offset_x = models.IntegerField(choices=DIRECTION,
-                                          default=0)
-    line_3_offset_y = models.IntegerField(choices=DIRECTION,
-                                          default=0)
-    line_4_offset_x = models.IntegerField(choices=DIRECTION,
-                                          default=0)
-    line_4_offset_y = models.IntegerField(choices=DIRECTION,
-                                          default=0)
-
-    # TODO: migrate these to a1, a2, etc.
-    alpha = models.IntegerField(choices=DIRECTION, default=0)
-    omega = models.IntegerField(choices=DIRECTION, default=0)
-
-    # Arbitrary float storage to be used as needed for the altering
-    # functions of the various graph types.
-    a1 = models.IntegerField(choices=DIRECTION, default=0)
-    a2 = models.IntegerField(choices=DIRECTION, default=0)
-    a3 = models.IntegerField(choices=DIRECTION, default=0)
-    a4 = models.IntegerField(choices=DIRECTION, default=0)
-    a5 = models.IntegerField(choices=DIRECTION, default=0)
-    a1_name = models.BooleanField(default=False)
-    a2_name = models.BooleanField(default=False)
-    a3_name = models.BooleanField(default=False)
-    a4_name = models.BooleanField(default=False)
-
-    # TODO: migrate these to a1, a2, etc.
-    a = models.IntegerField(choices=DIRECTION, default=0)
-    k = models.IntegerField(choices=DIRECTION, default=0)
-    r = models.IntegerField(choices=DIRECTION, default=0)
-    y1 = models.IntegerField(choices=DIRECTION, default=0)
-    y2 = models.IntegerField(choices=DIRECTION, default=0)
-
-    # The following are input values for the Cobb-Douglas function,
-    # only used if this is a Cobb-Douglas graph.
-    # TODO: migrate these to a1, a2, etc.
-    cobb_douglas_a = models.IntegerField(choices=DIRECTION, default=0)
-    cobb_douglas_l = models.IntegerField(choices=DIRECTION, default=0)
-    cobb_douglas_k = models.IntegerField(choices=DIRECTION, default=0)
-    cobb_douglas_alpha = models.IntegerField(choices=DIRECTION,
-                                             default=0)
-    cobb_douglas_a_name = models.BooleanField(default=False)
-    cobb_douglas_l_name = models.BooleanField(default=False)
-    cobb_douglas_k_name = models.BooleanField(default=False)
-    cobb_douglas_alpha_name = models.BooleanField(default=False)
-    cobb_douglas_y_name = models.BooleanField(default=False)
-
-    # Text field for an arbitrary N value used in NLDS.
-    n_name = models.BooleanField(default=False)
-
-    # A graph may contain a few different functions that
-    # can be toggled.
-    function_choice = models.PositiveSmallIntegerField(default=0)
-
-    # An Area under Curve (AUC) graph has different cases handling
-    # which areas are displayed.
-    area_a_name = models.BooleanField(default=False)
-    area_b_name = models.BooleanField(default=False)
-    area_c_name = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -642,6 +572,15 @@ class Question(models.Model):
 
     def get_graph_name(self):
         return self.graph.title
+
+    # TODO Finish method
+    def evaluate(self):
+        rules = self.evaluation_set.all()
+        total = 0
+        for prop in QUESTION_FACTORS:
+            rule = rules.get(field=prop)
+            total += rule.value
+        return total
 
     def generate_tags(self):
         tags = []
@@ -666,6 +605,14 @@ class Question(models.Model):
         c.save()
 
         return c
+
+
+class Evaluation(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    field = models.TextField(max_length=1024, default='line_1_label')
+    answered = models.BooleanField(default=False)
+    comparison = models.IntegerField(choices=DIRECTION, default=0)
+    value = models.IntegerField(default=1)
 
 
 class QuestionBank(OrderedModel):

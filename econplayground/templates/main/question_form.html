@@ -1,7 +1,21 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
+{% load static %}
 
-{% block title %}{% if object %}Edit {% else %}New {% endif %} Question{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/loaders.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/epjs.css' %}">
+{% endblock %}
+
+{% block extrahead %}
+<meta id="csrf-token" name="csrf-token" content="{{csrf_token}}">
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/build/question.js' %}"></script>
+{% endblock %}
+
+{% block title %}Create Question{% endblock %}
 
 {% block breadcrumb %}
     <nav aria-label="breadcrumb">
@@ -11,47 +25,17 @@
                     {% include 'main/your_questions_snippet.html' %}
                 </a>
             </li>
-            {% if question %}
-                <li class="breadcrumb-item">
-                    <a href="{% url 'question_detail' object.pk %}" title="{{object.title}}">
-                        {{ object.title|truncatewords:5 }}
-                    </a>
-                </li>
-                <li class="breadcrumb-item">Edit Question</li>
-            {% else %}
-                <li class="breadcrumb-item">Create Question</li>
-            {% endif %}
+            <li class="breadcrumb-item">Create Question</li>
         </ol>
     </nav>
 {% endblock %}
 
-{% block pagetitle %}
-    <h1 class="mt-4">{% if object %}Edit {% else %}New {% endif %} Question</h1>
-{% endblock %}
-
-{% block pagedescription %}
-{% endblock %}
-
 {% block content %}
-<div class="row">
-    <div class="col-md-12 order-md-1">
-        <form action="." method="post" v-on:submit="onSubmit">{% csrf_token %}
-
-            {% bootstrap_form form %}
-
-            <div class="row">
-                <div class="col-md-2 mb-1 pr-0">
-                    <button type="submit" class="btn btn-block btn-primary">Save</button>
-                </div>
-                <div class="col-md-2 mb-1 pr-0">
-                    {% if object %}
-                        <a class="btn btn-block btn-secondary" href="{% url 'question_detail' object.pk %}">Cancel</a>
-                    {% else %}
-                        <a class="btn btn-block btn-secondary" href="{% url 'question_list' %}#questions">Cancel</a>
-                    {% endif %}
-                </div>
-            </div>
-        </form>
+    <div id="root">
+        <div class="loader-inner ball-pulse">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
     </div>
-</div>
 {% endblock %}

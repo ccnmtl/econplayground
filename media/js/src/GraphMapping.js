@@ -246,6 +246,72 @@ const importGraph = function(json, obj) {
     return obj.setState(Object.assign({}, updateObj, initialStateObj));
 };
 
+const defaultEvaluation = {
+    // Graph options
+    intersection_label: '',
+    intersection_2_label: '',
+    intersection_3_label: '',
+
+    intersection_horiz_line_label: '',
+    intersection_vert_line_label: '',
+    intersection2_horiz_line_label: '',
+    intersection2_vert_line_label: '',
+    intersection3_horiz_line_label: '',
+    intersection3_vert_line_label: '',
+
+    line_1_slope: 1,
+    line_2_slope: -1,
+    line_3_slope: 999,
+    line_4_slope: -1,
+
+    line_1_offset_x: 0,
+    line_1_offset_y: 0,
+    line_2_offset_x: 0,
+    line_2_offset_y: 0,
+    line_3_offset_x: 0,
+    line_3_offset_y: 0,
+    line_4_offset_x: 0,
+    line_4_offset_y: 0,
+    line_1_label: '',
+    line_2_label: '',
+    line_3_label: '',
+    line_4_label: '',
+    x_axis_label: '',
+    y_axis_label: '',
+    x_axis_2_label: '',
+    y_axis_2_label: '',
+
+    alpha: 0.3,
+    omega: 1,
+
+    a1: 2.5,
+    a2: 2,
+    a3: 0.5,
+    a4: 0,
+    a5: 0.5, // used in graph type 11 - beta value
+
+    a: 3,
+    k: 2,
+    r: 0,
+    y1: 0,
+    y2: 0,
+
+    cobb_douglas_a: 2,
+    cobb_douglas_a_name: 'A',
+    cobb_douglas_l: 5,
+    cobb_douglas_l_name: 'L',
+    cobb_douglas_k: 1,
+    cobb_douglas_k_name: 'K',
+    cobb_douglas_alpha: 0.65,
+    cobb_douglas_y_name: 'Y',
+
+    n_name: 'N',
+
+    area_a_name: 'A',
+    area_b_name: 'B',
+    area_c_name: 'C'
+};
+
 const defaultGraph = {
     // Graph options
     gId: null,
@@ -346,4 +412,4 @@ const defaultGraph = {
     assessment: []
 };
 
-export { exportGraph, importGraph, defaultGraph };
+export { exportGraph, importGraph, defaultGraph, defaultEvaluation };
