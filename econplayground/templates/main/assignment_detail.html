@@ -43,8 +43,7 @@
     <p>{{ object.prompt }}</p>
     <ol class="container">
         <strong class="d-flex row bg-dark text-white p-1">
-            <div class="col-4">Question</div>
-            <div class="col-2 pl-0">Type</div>
+            <div class="col-6">Question</div>
             <div class="flex-grow-1">Adaptive Path</div>
             <div class="col-auto">Actions</div>
         </strong>
@@ -60,17 +59,10 @@
                     </svg>
                 </button>
             </div>
-            <div class="col-3">
+            <div class="col-5">
                 <a class="ms-4" href="{% url 'question_bank_detail' bank.pk %}">
                     {{forloop.counter}} {{ bank.title }}
                 </a>
-            </div>
-            <div class="col-2">
-                <select class="btn btn-secondary" aria-label="Section Type">
-                    <option selected="">Select One</option>
-                    <option value="1">Assessment</option>
-                    <option value="1">Intervention</option>
-                </select>
             </div>
             <div class="col-auto flex-grow-1">
                 <form class="row">
@@ -163,17 +155,10 @@
                     </svg>
                 </button>
             </div>
-            <div class="col-3">
+            <div class="col-5">
                 <a href="{% url 'question_bank_detail' sub_bank.pk %}">
                     {{forloop.parentloop.counter}}.{{forloop.counter}} {{ sub_bank.title }}
                 </a>
-            </div>
-            <div class="col-2 pl-0">
-                <select class="btn btn-secondary" aria-label="Section Type">
-                    <option selected="">Select One</option>
-                    <option value="1">Assessment</option>
-                    <option value="1">Intervention</option>
-                </select>
             </div>
             <div class="col-auto flex-grow-1 pl-0">
                 <form class="row ml-4 pl-4">
