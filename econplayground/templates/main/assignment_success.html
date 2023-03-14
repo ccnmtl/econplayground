@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static econ_auth markup %}
+
+{% block title %}Assignment Success{% endblock %}
+
+{% block pagetitle %}<h1 class="mt-4">Assignment Completed!</h1>{% endblock %}
+
+{% block content %}
+    <p>
+        You have successfully completed {{assignment.title}}
+    </p>
+{% endblock %}

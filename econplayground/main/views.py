@@ -847,6 +847,40 @@ class AssignmentCloneView(LoginRequiredMixin, AssignmentInstructorMixin,
         return view(request, *args, **kwargs)
 
 
+class AssignmentSuccessView(LoginRequiredMixin, DetailView):
+    model = Assignment
+    template_name = 'main/assignment_success.html'
+    is_assignment = True
+    is_question_bank = False
+    is_question = False
+
+    def get_context_data(self, *args, **kwargs):
+        ctx = super().get_context_data(*args, **kwargs)
+        ctx.update({
+            'is_assignment': self.is_assignment,
+            'is_question_bank': self.is_question_bank,
+            'is_question': self.is_question,
+        })
+        return ctx
+
+
+class AssignmentFailureView(LoginRequiredMixin, DetailView):
+    model = Assignment
+    template_name = 'main/assignment_failure.html'
+    is_assignment = True
+    is_question_bank = False
+    is_question = False
+
+    def get_context_data(self, *args, **kwargs):
+        ctx = super().get_context_data(*args, **kwargs)
+        ctx.update({
+            'is_assignment': self.is_assignment,
+            'is_question_bank': self.is_question_bank,
+            'is_question': self.is_question,
+        })
+        return ctx
+
+
 class QuestionBankListView(
         LoginRequiredMixin, QuestionBankInstructorMixin, ListView):
     model = QuestionBank

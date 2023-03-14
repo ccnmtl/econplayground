@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static econ_auth markup %}
+
+{% block title %}Assignment Failure{% endblock %}
+
+{% block pagetitle %}<h1 class="mt-4">Assignment Failed</h1>{% endblock %}
+
+{% block content %}
+    <h2>What to do next:</h2>
+    <ul>
+        <p>
+            You appear to be struggling with the assignment material. It is
+            recommended that you do some or all of the following:
+        <p>
+        <li>Contact your TA for review</li>
+        <li>Look over your course notes</li>
+        <li>Take a deep breath, maybe grab a snack. It's okay, you'll get better.</li>
+    </ul>
+{% endblock %}
