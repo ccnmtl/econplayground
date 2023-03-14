@@ -13,6 +13,12 @@ class Viewer extends Component {
         super(props);
 
         this.graphId = getGraphId(window.location.pathname);
+        // If the graph ID can't be found in the URL, look in the
+        // global JS namespace.
+        if (!this.graphId && window.GRAPH_ID) {
+            this.graphId = window.GRAPH_ID;
+        }
+
 
         this.state = {
             submission: null
