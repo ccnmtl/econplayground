@@ -523,8 +523,6 @@ class Assignment(models.Model):
 
 class Question(models.Model):
     title = models.TextField(max_length=1024, default='Untitled')
-    assessment_rule = models.ForeignKey(
-        AssessmentRule, on_delete=models.CASCADE, blank=True, null=True)
     embedded_media = models.TextField(blank=True, default='')
     graph = models.ForeignKey(
         Graph, on_delete=models.CASCADE, blank=True, null=True)
@@ -600,8 +598,11 @@ class QuestionBank(OrderedModel):
 
     def get_random(self):
         entry_list = list(self.questions.all())
-        pick = random.randrange(len(entry_list))  # nosec
-        return entry_list[pick]
+        if len(entry_list) > 0:
+            pick = random.randrange(len(entry_list))  # nosec
+            return entry_list[pick]
+        else:
+            return None
 
     def change_assignment(self):
         for sup in list(self.supplemental.all()):
@@ -633,3 +634,35 @@ class QuestionBank(OrderedModel):
         c.save()
 
         return c
+
+
+class UserAssignment(models.Model):
+    class Meta:
+        unique_together = ('assignment', 'user')
+
+    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __len__(self):
+        return self.questions.count()
+
+    def __str__(self):
+        return 'User: {}, Score: {}, Questions: {})'.format(
+            self.user, self.total_score, list(self.questions.all()))
+
+    def get_score(self):
+        evaluations = QuestionEvaluation.objects.filter(user_assignment=self)
+        return sum(map(
+            lambda n: n.assessment_rule.score, evaluations))/len(evaluations)
+
+    def get_questions(self):
+        evaluations = QuestionEvaluation.objects.filter(user_assignment=self)
+        return map(lambda qe: qe.question, evaluations)
+
+
+class QuestionEvaluation(models.Model):
+    assessment_rule = models.ForeignKey(
+        AssessmentRule, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    user_assignment = models.OneToOneField(
+        UserAssignment, on_delete=models.CASCADE)
