@@ -24,6 +24,9 @@
 
     window.EconPlayground['isInstructor'] = false;
     window.EconPlayground['hideTitleAndInstructions'] = false;
+    {% if object.graph %}
+        window.GRAPH_ID = {{ object.graph.pk }};
+    {% endif %}
     </script>
     <script src="{% static 'js/build/viewer.js' %}"></script>
 {% endblock %}
