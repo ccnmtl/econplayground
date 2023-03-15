@@ -102,7 +102,7 @@ pbr==5.11.1  # bandit
 pyyaml==6.0  # bandit
 stevedore==5.0.0  # bandit
 bandit==1.7.5
-django-ordered-model==3.7.1
+django-ordered-model==3.7.2
 
 entrypoints==0.4
 typing_extensions==4.5.0
