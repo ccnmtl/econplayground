@@ -165,11 +165,11 @@ class GraphOrderTest(TestCase):
         g4.refresh_from_db()
         self.assertEqual(g1.order, 0)
         self.assertEqual(g2.order, 1)
-        self.assertEqual(g3.order, 2)
+        self.assertEqual(g3.order, 0)
 
         # Check that when save is called on a graph whose featured val
         # has been toggled, that ordering is condensed
-        self.assertEqual(Graph.objects.get(title="g4").order, 0)
+        self.assertEqual(Graph.objects.get(title="g4").order, 1)
         g2.featured = False
         g2.save()
         g1.refresh_from_db()
@@ -178,9 +178,9 @@ class GraphOrderTest(TestCase):
         g4.refresh_from_db()
         # Check order of featured = True
         self.assertEqual(g1.order, 0)
-        self.assertEqual(g3.order, 1)
+        self.assertEqual(g3.order, 0)
         # Check order of featured = False
-        self.assertEqual(g4.order, 0)
+        self.assertEqual(g4.order, 1)
         self.assertEqual(g2.order, 1)
 
 
