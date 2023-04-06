@@ -8,6 +8,7 @@ from django.db import models
 from ordered_model.models import OrderedModel
 from django.dispatch import receiver
 from django.db.models.signals import post_save, pre_delete
+from .custom_storage import MediaStorage
 import random
 
 
@@ -557,6 +558,7 @@ class Assignment(models.Model):
 class Question(models.Model):
     title = models.TextField(max_length=1024, default='Untitled')
     embedded_media = models.TextField(blank=True, default='')
+    media_upload = models.FileField(storage=MediaStorage, blank=True)
     graph = models.ForeignKey(
         Graph, on_delete=models.CASCADE, blank=True, null=True)
     keywords = models.TextField(max_length=1024, blank=True, default='')

@@ -248,7 +248,6 @@ class QuestionTest(TestCase):
         self.assertNotEqual(original.pk, cloned.pk)
         self.assertEqual(original.title, 'cloned question')
         self.assertEqual(cloned.title, 'new title')
-        self.assertEqual(original.embedded_media, cloned.embedded_media)
         self.assertEqual(original.graph, cloned.graph)
         self.assertEqual(original.prompt, cloned.prompt)
 

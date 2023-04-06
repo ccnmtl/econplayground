@@ -80,6 +80,7 @@ INSTALLED_APPS = [  # noqa
     'econplayground.main',
     'contactus',
     'ordered_model',
+    's3sign',
 ]
 
 CONTACT_US_EMAIL = 'econpractice@columbia.edu'
