@@ -40,7 +40,7 @@ ipaddress==1.0.23  # faker
 faker==18.4.0  # factory_boy
 factory_boy==3.2.1
 ldap3==2.9.1
-sqlparse==0.4.3
+sqlparse==0.4.4
 python-dateutil==2.8.2
 
 # boto3 deps
