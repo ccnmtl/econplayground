@@ -16,7 +16,7 @@ pycodestyle==2.10.0
 importlib_metadata<6.5
 zipp==3.15.0  # for flake8
 flake8==6.0.0
-tornado==6.2
+tornado==6.3
 beautifulsoup4==4.12.2
 soupsieve==2.4.1
 cssselect==1.2.0
