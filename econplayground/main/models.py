@@ -41,6 +41,35 @@ ASSIGNMENT_TYPES = (
     (2, 'Modification'),
 )
 
+DIRECTION = (
+    (-1, 'Negative'),
+    (0, 'None'),
+    (1, 'Positive'),
+)
+
+QUESTION_FACTORS = [
+    'intersection_label', 'intersection_2_label', 'intersection_3_label',
+    'intersection_horiz_line_label', 'intersection_vert_line_label',
+    'intersection_2_horiz_line_label', 'intersection_2_vert_line_label',
+    'intersection_3_horiz_line_label', 'intersection_3_vert_line_label',
+    'x_axis_label', 'y_axis_label', 'x_axis_2_label', 'y_axis_2_label',
+    'line_1_label', 'line_2_label', 'line_3_label', 'line_4_label',
+    'line_1_slope', 'line_2_slope', 'line_3_slope', 'line_4_slope',
+    'line_1_offset_x', 'line_1_offset_y',
+    'line_2_offset_x', 'line_2_offset_y',
+    'line_3_offset_x', 'line_3_offset_y',
+    'line_4_offset_x', 'line_4_offset_y',
+    'a1', 'a1_name', 'a2', 'a2_name', 'a3', 'a3_name', 'a4', 'a4_name', 'a5',
+    'alpha', 'omega', 'a', 'k', 'r', 'y1', 'y2',
+    'cobb_douglas_a', 'cobb_douglas_a_name',
+    'cobb_douglas_l', 'cobb_douglas_l_name',
+    'cobb_douglas_k', 'cobb_douglas_k_name',
+    'cobb_douglas_alpha', 'cobb_douglas_alpha_name',
+    'cobb_douglas_y_name',
+    'n_name', 'function_choice',
+    'area_a_name', 'area_b_name', 'area_c_name'
+]
+
 
 class Cohort(models.Model):
     """A Cohort is a grouping of instructors and students.
@@ -496,6 +525,10 @@ class Assignment(models.Model):
     def get_question_banks(self):
         return QuestionBank.objects.filter(assignment=self)
 
+    def get_user_assignment(self, user):
+        return UserAssignment.objects.get(
+            assignment=self, user=user)
+
     def bank_count(self):
         count = 0
         for key_question in self.get_question_banks():
@@ -523,13 +556,13 @@ class Assignment(models.Model):
 
 class Question(models.Model):
     title = models.TextField(max_length=1024, default='Untitled')
-    assessment_rule = models.ForeignKey(
-        AssessmentRule, on_delete=models.CASCADE, blank=True, null=True)
     embedded_media = models.TextField(blank=True, default='')
     graph = models.ForeignKey(
         Graph, on_delete=models.CASCADE, blank=True, null=True)
+    keywords = models.TextField(max_length=1024, blank=True, default='')
 
     prompt = models.TextField(blank=True, default='')
+    value = models.PositiveSmallIntegerField(default=1)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -540,6 +573,15 @@ class Question(models.Model):
     def get_graph_name(self):
         return self.graph.title
 
+    # TODO Finish method
+    def evaluate(self):
+        rules = self.evaluation_set.all()
+        total = 0
+        for prop in QUESTION_FACTORS:
+            rule = rules.get(field=prop)
+            total += rule.value
+        return total
+
     def generate_tags(self):
         tags = []
         for bank in list(self.questionbank_set.all()):
@@ -547,6 +589,11 @@ class Question(models.Model):
             if bank.assignment not in tags:
                 tags.append(bank.assignment)
         return tags
+
+    def parse_keywords(self):
+        # Keywords will be separated by spaces.
+        # Multiword keywords must be joined with underscores
+        return [x for x in self.keywords.split(' ') if x]
 
     def __str__(self):
         return '{} (id:{})'.format(self.title, self.pk)
@@ -558,6 +605,14 @@ class Question(models.Model):
         c.save()
 
         return c
+
+
+class Evaluation(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    field = models.TextField(max_length=1024, default='line_1_label')
+    answered = models.BooleanField(default=False)
+    comparison = models.IntegerField(choices=DIRECTION, default=0)
+    value = models.IntegerField(default=1)
 
 
 class QuestionBank(OrderedModel):
@@ -600,8 +655,11 @@ class QuestionBank(OrderedModel):
 
     def get_random(self):
         entry_list = list(self.questions.all())
-        pick = random.randrange(len(entry_list))  # nosec
-        return entry_list[pick]
+        if len(entry_list) > 0:
+            pick = random.randrange(len(entry_list))  # nosec
+            return entry_list[pick]
+        else:
+            return None
 
     def change_assignment(self):
         for sup in list(self.supplemental.all()):
@@ -633,3 +691,42 @@ class QuestionBank(OrderedModel):
         c.save()
 
         return c
+
+
+class UserAssignment(models.Model):
+    class Meta:
+        unique_together = ('assignment', 'user')
+
+    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __len__(self):
+        return len(self.assignment)
+
+    def __str__(self):
+        return 'User: {}, Score: {}, Questions: {})'.format(
+            self.user,
+            self.get_score(),
+            QuestionEvaluation.objects.filter(user_assignment=self))
+
+    def get_score(self):
+        evaluations = QuestionEvaluation.objects.filter(user_assignment=self)
+        return sum(map(lambda num: num.score, evaluations))/(
+            1 if len(evaluations) == 0 else sum(
+                map(lambda den: den.question.value, evaluations)))*100
+
+
+class QuestionEvaluation(OrderedModel):
+    class Meta(OrderedModel.Meta):
+        unique_together = ('question', 'user_assignment')
+
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    user_assignment = models.ForeignKey(
+        UserAssignment, on_delete=models.CASCADE)
+    score = models.PositiveSmallIntegerField(default=0)
+
+    def __str__(self):
+        return '{}, {}'.format(self.question.title, self.score)
+
+    def get_score(self):
+        return (self.score/self.question.value)*100

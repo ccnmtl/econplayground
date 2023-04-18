@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static econ_auth %}
+{% load bootstrap4 %}
+
+{% block title %}{{ object.question.title }}{% endblock %}
+
+{% block css %}
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    <link href="{% static 'css/embed.css' %}" rel="stylesheet">
+    <link href="{% static 'css/octicons.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/epjs.css' %}">
+{% endblock %}
+
+{% block extrahead %}
+<meta id="csrf-token" name="csrf-token" content="{{csrf_token}}">
+{% endblock %}
+
+
+{% block js %}
+    <script>
+    if (!window.EconPlayground) {
+        window.EconPlayground = {};
+    }
+
+    window.EconPlayground['isInstructor'] = false;
+    window.EconPlayground['hideTitleAndInstructions'] = false;
+    {% if object.question.graph %}
+        window.GRAPH_ID = {{ object.question.graph.pk }};
+    {% endif %}
+    </script>
+    <script src="{% static 'js/build/viewer.js' %}"></script>
+{% endblock %}
+
+{% user_is_instructor request.user as i_am_instructor %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{% url 'assignment_list' %}" title="Assignment List">
+                {% include 'main/your_assignments_snippet.html' %}
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'assignment_student' object.user_assignment.pk %}"
+               title="{{object.user_assignment.assignment.title}}">
+                {{ object.user_assignment.assignment.title|truncatewords:5 }}
+        </a>
+        </li>
+        <li class="breadcrumb-item">
+            {{ object.question.title|truncatewords:5 }}
+        </li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block pagetitle %}
+<h1 class="mt-4">{{ object.question.title }}</h1>
+{% endblock %}
+
+{% block pagedescription %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <section id="prompt">
+        <p>{{ object.question.prompt }}</p>
+    </section>
+    {% if is_instructor %}
+    <section>
+        {% for tag in question.generate_tags %}
+        <a href="{% url 'assignment_detail' tag.pk %}" title="{{tag.title}}">
+            {{tag.title}}
+        </a>, 
+        {% endfor %}
+    </section>
+    {% endif %}
+</div>
+    {% if object.question.graph %}
+    <section id="graph">
+        <div id="root">
+            <div class="loader-inner ball-pulse">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+    {% if object.question.embedded_media %}
+    <section id="embed">
+        <div class="embed-responsive embed-responsive-16by9">
+            <iframe class="embed-responsive-item" src="{{ object.question.embedded_media }}" />
+        </div>
+    </section>
+    {% endif %}
+    <section id="assignment-nav" class="row d-flex">
+        {% if object.previous %}
+        <a href="{% url 'question_student' object.user_assignment.pk object.previous.pk %}"
+           class="btn btn-primary mr-auto" 
+           title="Previous Question"
+        >
+            Previous Question
+        </a>
+        {% endif %}
+        {% if object.next %}
+        <a href="{% url 'question_student' object.user_assignment.pk object.next.pk %}"
+           class="btn btn-primary ml-auto" 
+           title="Next Question"
+        >
+            Next Question
+        </a>
+        {% endif %}
+    </section>
+{% endblock %}

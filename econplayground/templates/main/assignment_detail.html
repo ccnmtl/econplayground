@@ -28,16 +28,25 @@
 
 {% block content %}
 <div class="container">
+    {% if i_am_instructor %}
     <div class="row">
-        <a href="{% url 'assignment_edit' object.pk %}" title="Edit {{ object.title }}">
-            <button class="btn btn-secondary mb-4 mr-4">
-                Edit "{{ object.title|truncatewords:5 }}"
-            </button>
+        <a class="btn btn-secondary mb-4 mr-4"
+           href="{% url 'assignment_edit' object.pk %}" 
+           title="Edit {{ object.title }}"
+        >
+            Edit "{{ object.title|truncatewords:5 }}"
         </a>
-        <a href="{% url 'assignment_clone' object.pk %}" title="Edit {{ object.title }}">
-            <button class="btn btn-secondary mb-4 mr-4">
-                Clone "{{ object.title|truncatewords:5 }}"
-            </button>
+        <a class="btn btn-secondary mb-4 mr-auto"
+           href="{% url 'assignment_clone' object.pk %}" 
+           title="Clone {{ object.title }}"
+        >
+            Clone "{{ object.title|truncatewords:5 }}"
+        </a>
+        <a class="btn btn-primary mb-4"
+           href="{% url 'assignment_student' user_assignment.pk %}" 
+           title="Student View"
+        >
+            Student View
         </a>
     </div>
     <p>{{ object.prompt }}</p>
@@ -263,5 +272,7 @@
         </a>
         {% endfor %}
     </ol>
+    {% else %}
+    {% endif %}
 </div>
 {% endblock %}

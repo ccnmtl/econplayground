@@ -6,28 +6,28 @@
 {% block pagetitle %}<h1 class="mt-4">Question Banks</h1>{% endblock %}
 
 {% block content %}
-    {% url 'question_bank_create' as the_url %}
-    <a class="btn btn-primary mb-2 {% if request.path == the_url %}active{% endif %}"
+    <a class="btn btn-primary mb-2"
        role="button"
-       title="Create Question"
-       href="{{the_url}}"
+       title="Create Question Bank"
+       href="{% url 'question_bank_create' %}"
     >
         Create Question Bank
     </a>
     <div class="row">
-        <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <form class="form featuredgraphs-form">
                 <ul class="list-group featuredgraphs-list">
                     <strong class="list-group-item d-flex flex-row text-white bg-dark align-items-center">
                         <div class=" mr-auto">
                             Title
                         </div>
-                        <div class="col-5">
+                        <div class="col-4">
                             Assignment
                         </div>
-                        <div class="graph-title">
-                            Actions
+                        <div class="col-3">
+                            Updated At
                         </div>
+                        Remove
                     </strong>
                     {% for question_bank in question_bank_list %}
                         <li class="list-group-item d-flex flex-row align-items-center">
@@ -37,12 +37,15 @@
                             >
                                 {{question_bank.title}}
                             </a>
-                            <a class="col-5"
+                            <a class="col-4"
                                href="{% url 'assignment_detail' question_bank.assignment.pk %}"
                                title="{{question_bank.assignment.title}}"
                             >
                                 {{question_bank.assignment.title}}
                             </a>
+                            <div class="col-3">
+                                {{question_bank.updated_at}}
+                            </div>
                             <a role="button"
                                class="btn btn-sm btn-danger mr-1"
                                title="Delete {{question_bank.title}}, Question Bank"
