@@ -19,6 +19,8 @@ export default class QuestionEditor extends Component {
             embedded_media: this.props.media || '',
             keywords: this.props.keywords || '',
             gId: this.props.gId,
+            mediaUploadFilename: '',
+            mediaUploadUrl: null
         };
 
         this.graphList = [];
@@ -31,6 +33,26 @@ export default class QuestionEditor extends Component {
                 me.forceUpdate();
             }
         );
+    }
+
+    s3upload(mediaUploadFilename) {
+        const me = this;
+        const s3upload = new window.S3Upload({
+            file_dom_selector: 'mediaUploadFilename',
+            x_amz_acl: '',
+            s3_sign_put_url: '/sign_s3/',
+            s3_object_name: mediaUploadFilename,
+            onFinishS3Put: function(url, privateUrl) {
+                me.setState({mediaUploadUrl: url});
+            },
+            onError: function(status) {
+                console.error('Upload error', status);
+            }
+        });
+    }    
+
+    handleFileChange(e) {
+        this.s3upload(this.state.mediaUploadFilename);
     }
     
     handleSaveQuestion() {
@@ -91,7 +113,7 @@ export default class QuestionEditor extends Component {
                                     className="col-md-6 col-sm-5"
                                     id="q-media"
                                     type="text"
-                                    placeholder="Path-to-Local-File / Embedded-Source"
+                                    placeholder="Embed code"
                                 ></input>
                                 <button className="btn btn-light mx-2">
                                     <svg
@@ -118,6 +140,27 @@ export default class QuestionEditor extends Component {
                         </div>
                     </div>
                 </section>
+
+                <section>
+                    <label className="row align-items-baseline">
+                        <h3 className="col-md-3 col-sm-4">Image / PDF</h3>
+                        <input
+                            id="mediaUploadFilename"
+                            className="form-control" type="file"
+                            value={this.state.mediaUploadFilename}
+                            onChange={this.handleFileChange.bind(this)}
+                        ></input>
+                    </label>
+                    {this.state.mediaUploadUrl && (
+                        <img className="img-thumbnail"
+                             style={{
+                                 maxWidth: '200px',
+                                 maxHeight: '200px'
+                             }}
+                             src={this.state.mediaUploadUrl} />
+                    )}
+                </section>
+                
                 <section id="graph">
                     <h3>Graph</h3>
                     <div className="row">

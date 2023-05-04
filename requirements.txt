@@ -108,3 +108,5 @@ django-ordered-model==3.6
 entrypoints==0.4
 typing_extensions==4.5.0
 pyparsing==3.0.9
+
+django-s3sign==0.3.3

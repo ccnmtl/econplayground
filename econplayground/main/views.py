@@ -1,6 +1,7 @@
 import hashlib
 from braces.views import CsrfExemptMixin
 from django import forms
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import (
     LoginRequiredMixin, UserPassesTestMixin
@@ -19,6 +20,7 @@ from django.views.generic.detail import SingleObjectMixin
 from django.shortcuts import get_object_or_404
 from lti_provider.mixins import LTIAuthMixin
 from lti_provider.views import LTILandingPage
+from s3sign.views import SignS3View
 
 from econplayground.main.forms import (
     CohortCloneForm, GraphCloneForm, AssignmentCloneForm,
@@ -1353,3 +1355,14 @@ class QuestionCloneView(LoginRequiredMixin, QuestionInstructorMixin,
     def post(self, request, *args, **kwargs):
         view = QuestionCloneFormView.as_view()
         return view(request, *args, **kwargs)
+
+
+class S3SignView(SignS3View):
+    # ACL's are deprecated in s3. Use public bucket policy instead of
+    # `public-read` ACL.
+    acl = None
+
+    def get_bucket(self):
+        return getattr(
+            settings,
+            'S3_MEDIA_BUCKET_NAME', 'econpractice-media')

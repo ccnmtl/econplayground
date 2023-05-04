@@ -147,6 +147,9 @@ urlpatterns = [
          serve, {'document_root': settings.MEDIA_ROOT}),
     path('lti/landing/', views.MyLTILandingPage.as_view()),
     path('lti/', include('lti_provider.urls')),
+
+    path('sign_s3/', views.S3SignView.as_view()),
+
     path('contact/', include('contactus.urls')),
 
     path('sentry-debug/', trigger_error),
