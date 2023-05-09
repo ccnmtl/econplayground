@@ -712,6 +712,7 @@ class AssignmentCreateView(
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
         form.fields['title'].widget = forms.TextInput()
+        form.fields['cohorts'].queryset = self.request.user.cohort_set.all()
         return form
 
     def get(self, request, *args, **kwargs):
