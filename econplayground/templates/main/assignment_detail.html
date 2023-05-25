@@ -68,7 +68,7 @@
                     </svg>
                 </button>
             </div>
-            <div class="col-5">
+            <div class="col-4">
                 <a class="ms-4" href="{% url 'question_bank_detail' bank.pk %}">
                     {{forloop.counter}} {{ bank.title }}
                 </a>
@@ -82,13 +82,14 @@
                         </div>
                     </div>
                     <div class="col-auto dropdown">
-                        <button class="btn-sm dropdown-toggle
-                                      {% if bank.adaptive %}bg-danger text-light
-                                      {% else %}text-black-50 disabled{% endif %}"
+                        <button class="btn btn-sm dropdown-toggle
+                                      {% if bank.adaptive %}btn-danger
+                                      {% else %}btn-secondary disabled{% endif %}"
                                 type="button"
                                 data-toggle="dropdown"
                                 aria-expanded="false"
                                 {% if not bank.adaptive %}
+                                disabled
                                 tabindex="-1"
                                 aria-disabled="true"
                                 {% endif %}
@@ -104,13 +105,14 @@
                         </div>
                     </div>
                     <div class="col-auto dropdown">
-                        <button class="btn-sm dropdown-toggle
-                                      {% if bank.adaptive %}bg-danger text-light
-                                      {% else %}text-black-50 disabled{% endif %}"
+                        <button class="btn btn-sm dropdown-toggle
+                                      {% if bank.adaptive %}btn-danger
+                                      {% else %}btn-secondary disabled{% endif %}"
                                 type="button"
                                 data-toggle="dropdown"
                                 aria-expanded="false"
                                 {% if not bank.adaptive %}
+                                disabled
                                 tabindex="-1"
                                 aria-disabled="true"
                                 {% endif %}
@@ -127,7 +129,7 @@
                     </div>
                 </form>
             </div>
-            <div class="float-right">
+            <div class="col-auto justify-content-end">
                 <a href="{% url 'question_bank_edit' bank.pk %}"
                    title="Edit {{ bank.title }}"
                    class="btn btn-secondary btn-sm col-auto"
@@ -164,7 +166,7 @@
                     </svg>
                 </button>
             </div>
-            <div class="col-5">
+            <div class="col-4">
                 <a href="{% url 'question_bank_detail' sub_bank.pk %}">
                     {{forloop.parentloop.counter}}.{{forloop.counter}} {{ sub_bank.title }}
                 </a>
@@ -172,13 +174,14 @@
             <div class="col-auto flex-grow-1 pl-0">
                 <form class="row ml-4 pl-4">
                     <div class="dropdown ml-1">
-                        <button class="btn-sm dropdown-toggle
-                                      {% if bank.adaptive %}bg-danger text-light
-                                      {% else %}text-black-50 disabled{% endif %}"
+                        <button class="btn btn-sm dropdown-toggle
+                                      {% if bank.adaptive %}btn-danger
+                                      {% else %}btn-secondary disabled{% endif %}"
                                 type="button"
                                 data-toggle="dropdown"
                                 aria-expanded="false"
                                 {% if not bank.adaptive %}
+                                disabled
                                 tabindex="-1"
                                 aria-disabled="true"
                                 {% endif %}
@@ -194,13 +197,14 @@
                         </div>
                     </div>
                     <div class="col-auto ml-3 dropdown">
-                        <button class="btn-sm dropdown-toggle
-                                      {% if bank.adaptive %}bg-danger text-light
-                                      {% else %}text-black-50 disabled{% endif %}"
+                        <button class="btn btn-sm dropdown-toggle
+                                      {% if bank.adaptive %}btn-danger
+                                      {% else %}btn-secondary disabled{% endif %}"
                                 type="button"
                                 data-toggle="dropdown"
                                 aria-expanded="false"
                                 {% if not bank.adaptive %}
+                                disabled
                                 tabindex="-1"
                                 aria-disabled="true"
                                 {% endif %}
@@ -217,7 +221,7 @@
                     </div>
                 </form>
             </div>
-            <div class="float-right">
+            <div class="col-auto justify-content-end">
                 <a href="{% url 'question_bank_edit' sub_bank.pk %}" 
                    title="Edit {{ sub_bank.title }}"
                    class="btn btn-secondary btn-sm col-auto"
