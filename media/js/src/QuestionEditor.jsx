@@ -290,6 +290,20 @@ export default class QuestionEditor extends Component {
         }
     }
 
+    generateLabel(prop, graph) {
+        let label = prop;
+        let propRoot = prop.split('_');
+        let propType = propRoot.pop();
+        if (propType === 'slope') {
+            label = graph[`${propRoot.join('_')}_label`];
+        } else if (propRoot[0] === 'cobb') {
+            label = graph[`${prop}_name`];
+        } else if (prop.length < 3) {
+            // TODO: Resolve labeling for a1 - a5, a, k, r, y1, y2, alpha, omega
+        }
+        return label.length === 0 ? prop : label;
+    }
+
     displayParameters() {
         if (this.state.graph == null || this.graphList.length === 0) {
             return (
@@ -310,22 +324,23 @@ export default class QuestionEditor extends Component {
                 // This condition isn't for error checking, but for converting number strings into Number objects for comparison 
                 if (graphProp && isNaN(graphProp) ? graphProp : Number(graphProp) !== compareDefault[prop]) {
                     let field = this.state.evaluations.find(thisEval => thisEval.field === prop) || {};
+                    let label = this.generateLabel(prop, graph);
                     return (
                         <li key={index} className="row bg-light align-items-end my-2">
-                            <h4 className="col">{prop}</h4>
+                            <h4 className="col">{label}</h4>
                             <label className="col">
                                 Correct Adjustment
                                 <select
-                                    id={prop + '_adjust'}
+                                    id={label + '_adjust'}
                                     className="form-control"
                                     defaultValue={field.comparison || 'None'}
                                     name="correct adjustment"
                                     onChange={(e) => {
                                         let update = this.state.evaluations.filter(e => e.field !== prop);
                                         update.push({
-                                            'field': prop,
+                                            'field': label,
                                             'comparison': e.target.value,
-                                            'value': forceNumber(document.getElementById(prop + '_score').value) || 1
+                                            'value': forceNumber(document.getElementById(label + '_score').value) || 1
                                         });
                                         this.setState({'evaluations': update});
                                     }}
@@ -338,16 +353,16 @@ export default class QuestionEditor extends Component {
                             <label className="col">
                                 Score
                                 <input
-                                    id={prop + '_score'}
+                                    id={label + '_score'}
                                     className="mx-2"
                                     type="number"
-                                    name={prop + ' score'}
+                                    name={label + ' score'}
                                     defaultValue={field.value || '0'}
                                     onChange={(e) => {
                                         let update = this.state.evaluations.filter(e => e.field !== prop);
                                         update.push({
-                                            'field': prop, 
-                                            'comparison': document.getElementById(prop + '_adjust').value || 'None',
+                                            'field': label, 
+                                            'comparison': document.getElementById(label + '_adjust').value || 'None',
                                             'value': forceNumber(e.target.value)
                                         });
                                         this.setState({'evaluations': update});
