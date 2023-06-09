@@ -558,13 +558,14 @@ class Assignment(models.Model):
 class Question(models.Model):
     title = models.TextField(max_length=1024, default='Untitled')
     embedded_media = models.TextField(blank=True, default='')
-    media_upload = models.FileField(storage=MediaStorage, blank=True)
+    media_upload = models.FileField(
+        storage=MediaStorage, blank=True, null=True)
     graph = models.ForeignKey(
         Graph, on_delete=models.CASCADE, blank=True, null=True)
     keywords = models.TextField(max_length=1024, blank=True, default='')
 
     prompt = models.TextField(blank=True, default='')
-    value = models.PositiveSmallIntegerField(default=1)
+    value = models.PositiveSmallIntegerField(default=0)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -605,14 +606,20 @@ class Question(models.Model):
         c.pk = None
         c.title = self.title + '_copy'
         c.save()
-
+        evaluations = self.evaluation_set.all()
+        for evaluation in evaluations:
+            Evaluation.objects.create(
+                question=c, field=evaluation.field,
+                comparison=evaluation.comparison, value=evaluation.value)
         return c
 
 
 class Evaluation(models.Model):
+    class Meta:
+        unique_together = ('field', 'question')
+
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     field = models.TextField(max_length=1024, default='line_1_label')
-    answered = models.BooleanField(default=False)
     comparison = models.IntegerField(choices=DIRECTION, default=0)
     value = models.IntegerField(default=1)
 
@@ -713,19 +720,22 @@ class UserAssignment(models.Model):
 
     def get_score(self):
         evaluations = QuestionEvaluation.objects.filter(user_assignment=self)
+        denominator = sum(map(lambda den: den.question.value, evaluations))
         return sum(map(lambda num: num.score, evaluations))/(
-            1 if len(evaluations) == 0 else sum(
-                map(lambda den: den.question.value, evaluations)))*100
+            1 if denominator == 0 else denominator)*100
 
 
 class QuestionEvaluation(OrderedModel):
     class Meta(OrderedModel.Meta):
+        ordering = ('user_assignment', 'order')
         unique_together = ('question', 'user_assignment')
 
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     user_assignment = models.ForeignKey(
         UserAssignment, on_delete=models.CASCADE)
     score = models.PositiveSmallIntegerField(default=0)
+
+    order_with_respect_to = ('user_assignment')
 
     def __str__(self):
         return '{}, {}'.format(self.question.title, self.score)

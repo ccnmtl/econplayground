@@ -31,6 +31,61 @@ const getAssessment = function(graphId) {
         });
 };
 
+
+const getGraph = function(graphId) {
+    return authedFetch(`/api/graphs/${graphId}/`)
+        .then(function(response) {
+            if (response.status === 200) {
+                return response.json();
+            } else {
+                throw 'Not found';
+            }
+        });
+};
+
+const getQuestion = function(questionId) {
+    return authedFetch(`/api/questions/${questionId}/`)
+        .then(function(response) {
+            if (response.status === 200) {
+                return response.json();
+            } else {
+                throw 'Not found';
+            }
+        });
+};
+
+const getEvaluations = function(qId) {
+    const elt = document.getElementById('csrf-token');
+    const token = elt ? elt.getAttribute('content') : '';
+    return fetch(`/api/evaluations/?format=json&qId=${qId}`, {
+        method: 'get',
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRFToken': token
+        },
+        body: null,
+        credentials: 'same-origin'
+    });
+};
+
+const getUserAssignment = function(id) {
+    const elt = document.getElementById('csrf-token');
+    const token = elt ? elt.getAttribute('content') : '';
+    return fetch(`/api/user_assignments/?id=${id}`, {
+        method: 'get',
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRFToken': token
+        },
+        body: null,
+        credentials: 'same-origin'
+    });
+};
+
 const getGraphId = function(urlpath) {
     let m = urlpath.match(/^\/?course\/\d+\/graph\/(\d+)\/?/);
     if (m && m.length > 1) {
@@ -282,10 +337,10 @@ const btnStep = function(val, sign, strength, min, max) {
 };
 
 export {
-    authedFetch, getAssessment, getGraphId, getCohortId, getTopics,
-    getSubmission, createSubmission, getOrCreateSubmission,
-    getL1SubmissionOffset, getL2SubmissionOffset, handleFormUpdate,
-    getOffset, getXIntercept, getYIntercept,
-    forceFloat, forceNumber, displayGraphType, getError, btnStep,
-    BOARD_HEIGHT, BOARD_WIDTH
+    authedFetch, getAssessment, getQuestion, getEvaluations, getGraph,
+    getGraphId, getCohortId, getTopics, getSubmission, getUserAssignment,
+    createSubmission, getOrCreateSubmission, getL1SubmissionOffset,
+    getL2SubmissionOffset, handleFormUpdate, getOffset, getXIntercept,
+    getYIntercept, forceFloat, forceNumber, displayGraphType, getError,
+    btnStep, BOARD_HEIGHT, BOARD_WIDTH,
 };

@@ -34,73 +34,105 @@
 {% user_is_instructor request.user as i_am_instructor %}
 
 {% block breadcrumb %}
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a href="{% url 'question_list' %}" title="Question List">
-                {% include 'main/your_questions_snippet.html' %}
-            </a>
-        </li>
-        <li class="breadcrumb-item">
-            {{ object.title|truncatewords:5 }}
-        </li>
-    </ol>
-</nav>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{% url 'question_list' %}" title="Question List">
+                    {% include 'main/your_questions_snippet.html' %}
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                {{ object.title|truncatewords:5 }}
+            </li>
+        </ol>
+    </nav>
 {% endblock %}
 
 {% block pagetitle %}
-<h1 class="mt-4">{{ object.title }}</h1>
+    <h1 class="mt-4">{{ object.title }}</h1>
 {% endblock %}
 
 {% block pagedescription %}
 {% endblock %}
 
 {% block content %}
-<div class="container">
-    {% if is_instructor %}
-    <a href="{% url 'question_edit' object.pk %}" title="Edit {{ object.title }}">
-        <button class="btn btn-secondary mb-4 mr-4">
-            Edit "{{ object.title|truncatewords:5 }}"
-        </button>
-    </a>
-    <a href="{% url 'question_clone' object.pk %}" title="Edit {{ object.title }}">
-        <button class="btn btn-secondary mb-4 mr-4">
-            Clone "{{ object.title|truncatewords:5 }}"
-        </button>
-    </a>
-    {% endif %}
+    <div class="container">
+        {% if is_instructor %}
+        <a href="{% url 'question_edit' object.pk %}" title="Edit {{ object.title }}">
+            <button class="btn btn-secondary mb-4 mr-4">
+                Edit "{{ object.title|truncatewords:5 }}"
+            </button>
+        </a>
+        <a href="{% url 'question_clone' object.pk %}" title="Clone {{ object.title }}">
+            <button class="btn btn-secondary mb-4 mr-4">
+                Clone "{{ object.title|truncatewords:5 }}"
+            </button>
+        </a>
+        {% endif %}
         <section id="prompt">
             <p>{{ object.prompt }}</p>
         </section>
         {% if is_instructor %}
-        <section id="tags">
-            <p>
-                <strong>Found in: </strong>
-                {% for tag in question.generate_tags %}
-                <a href="{% url 'assignment_detail' tag.pk %}" title="{{tag.title}}">
-                    {{tag.title}}
-                </a>{% if not forloop.last %}, {% endif %}
-                {% endfor %}
-            </p>
+            <div class="row">
+                {% if question.generate_tags.count > 0 %}
+                    <section id="tags" class="col">
+                        <p>
+                            <strong>Found in: </strong>
+                            {% for tag in question.generate_tags %}
+                            <a href="{% url 'assignment_detail' tag.pk %}" title="{{tag.title}}">
+                                {{tag.title}}
+                            </a>{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </p>
+                    </section>
+                {% endif %}
+                {% if evaluations.count > 0 %}
+                    <section id="evaluations" class="col">
+                        <h2>Evaluations</h2>
+                        <ul class="container">
+                            <strong class="d-flex row bg-dark text-white p-1">
+                                <div class="col-lg-5 col-md-4">Field</div>
+                                <div class="flex-grow-1">Direction from Origin</div>
+                                <div class="col-auto">Value</div>
+                            </strong>
+                        {% for evaluation in evaluations %}
+                            <li class="d-flex row text-bg-info p-2 border-top align-items-center">
+                                <div class="col-lg-5 col-md-4">{{evaluation.field}}</div>
+                                
+                                <div class="flex-grow-1">
+                                    {% if evaluation.comparison < 0 %}
+                                        Negative
+                                    {% elif evaluation.comparison > 0 %}
+                                        Positive
+                                    {% else %}
+                                        None
+                                    {% endif %}
+                                </div>
+                                <div class="col-auto">{{evaluation.value}}</div>
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    </section>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+    {% if object.graph %}
+        <section id="graph">
+            <div id="root">
+                <div class="loader-inner ball-pulse">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+        </section>
+        {% endif %}
+        {% if object.embedded_media %}
+        <section id="embed">
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" src="{{ object.embedded_media }}" />
+            </div>
         </section>
     {% endif %}
-</div>
-{% if object.graph %}
-    <section id="graph">
-        <div id="root">
-            <div class="loader-inner ball-pulse">
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-        </div>
-    </section>
-    {% endif %}
-    {% if object.embedded_media %}
-    <section id="embed">
-        <div class="embed-responsive embed-responsive-16by9">
-            <iframe class="embed-responsive-item" src="{{ object.embedded_media }}" />
-        </div>
-    </section>
-{% endif %}
 {% endblock %}

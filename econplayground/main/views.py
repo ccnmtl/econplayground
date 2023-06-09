@@ -34,7 +34,7 @@ from econplayground.main.mixins import (
 )
 from econplayground.main.models import (
     Cohort, Graph, Submission, Topic, Assignment, QuestionBank, Question,
-    UserAssignment, QuestionEvaluation
+    UserAssignment, Evaluation, QuestionEvaluation
 )
 from econplayground.main.utils import user_is_instructor
 
@@ -679,24 +679,11 @@ class AssignmentStudentDisplayView(LoginRequiredMixin, DetailView):
     template_name = 'main/assignment_student.html'
     student_view = True
 
-    def get_user_questions(self):
-        qe = QuestionEvaluation.objects.filter(user_assignment=self.object)
-        if qe.count() == 0:
-            selected = map(
-                lambda a: a.get_random(),
-                list(QuestionBank.objects.filter(assignment=self.object))
-            )
-            selected = (filter(lambda s: s is not None, selected))
-            qe = map(
-                lambda q: QuestionEvaluation.objects.get_or_create(
-                    question=q, user_assignment=self.object)[0], selected)
-        return qe
-
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx.update({
             'score': self.object.get_score(),
-            'evaluations': self.get_user_questions()
+            'evaluations': self.object.questionevaluation_set.all()
         })
 
         return ctx
@@ -883,10 +870,16 @@ class QuestionStudentDisplayView(LoginRequiredMixin, DetailView):
     model = QuestionEvaluation
     template_name = 'main/question_student.html'
 
+    def get_evaluations(self, **kwargs):
+        return Evaluation.objects.filter(question=self.object.question)
+
     def get_context_data(self, **kwargs):
         ctx = super(
             QuestionStudentDisplayView,
             self).get_context_data(**kwargs)
+        ctx.update({
+            'evaluations': self.get_evaluations(),
+        })
         return ctx
 
 
@@ -1208,7 +1201,8 @@ class QuestionDetailView(DetailView):
             'is_assignment': self.is_assignment,
             'is_question_bank': self.is_question_bank,
             'is_question': self.is_question,
-            'is_instructor': self.is_instructor()
+            'is_instructor': self.is_instructor(),
+            'evaluations': self.object.evaluation_set.all()
         })
         return ctx
 
@@ -1248,18 +1242,31 @@ class QuestionCreateView(
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx.update({
-            'graph_list': self.get_graphs()
+            'graph_list': self.get_graphs(),
+            'is_assignment': self.is_assignment,
+            'is_question_bank': self.is_question_bank,
+            'is_question': self.is_question
         })
         return ctx
 
 
 class QuestionUpdateView(
-        LoginRequiredMixin, QuestionInstructorMixin, UpdateView):
+        EnsureCsrfCookieMixin, LoginRequiredMixin,
+        QuestionInstructorMixin, UpdateView):
     model = Question
     form_class = QuestionForm
     is_assignment = False
     is_question_bank = False
     is_question = True
+
+    def get_context_data(self, **kwargs):
+        ctx = super(QuestionUpdateView, self).get_context_data(**kwargs)
+        ctx.update({
+            'is_assignment': self.is_assignment,
+            'is_question_bank': self.is_question_bank,
+            'is_question': self.is_question
+        })
+        return ctx
 
     def get_success_url(self):
         return reverse('question_detail', kwargs={'pk': self.object.pk})
