@@ -125,7 +125,7 @@ class Cohort(models.Model):
 
 
 class Topic(OrderedModel):
-    class Meta(OrderedModel.Meta):
+    class Meta:
         ordering = ('cohort', 'order')
         unique_together = ('name', 'cohort')
 
@@ -174,8 +174,12 @@ def orphan_remaining_graphs(sender, instance, **kwargs):
 
 
 class Graph(OrderedModel):
-    class Meta(OrderedModel.Meta):
+    class Meta:
         ordering = ('topic__cohort', 'order')
+
+    # This doesn't go in Meta, see:
+    # https://github.com/django-ordered-model/django-ordered-model#subset-ordering
+    order_with_respect_to = ('topic__cohort', 'featured')
 
     title = models.TextField()
     instructions = models.TextField(blank=True, null=True, default='')
@@ -188,7 +192,6 @@ class Graph(OrderedModel):
         on_delete=models.DO_NOTHING,
         null=True, blank=True)
     featured = models.BooleanField(default=False)
-    order_with_respect_to = ('topic__cohort', 'featured')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -625,7 +628,7 @@ class Evaluation(models.Model):
 
 
 class QuestionBank(OrderedModel):
-    class Meta(OrderedModel.Meta):
+    class Meta:
         ordering = ('assignment', 'order')
         unique_together = ('title', 'assignment')
 
@@ -726,7 +729,7 @@ class UserAssignment(models.Model):
 
 
 class QuestionEvaluation(OrderedModel):
-    class Meta(OrderedModel.Meta):
+    class Meta:
         ordering = ('user_assignment', 'order')
         unique_together = ('question', 'user_assignment')
 
