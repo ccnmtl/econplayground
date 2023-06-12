@@ -175,7 +175,7 @@ def orphan_remaining_graphs(sender, instance, **kwargs):
 
 class Graph(OrderedModel):
     class Meta(OrderedModel.Meta):
-        ordering = ('topic__cohort', 'order')
+        ordering = ('topic__cohort', 'featured', 'order')
 
     title = models.TextField()
     instructions = models.TextField(blank=True, null=True, default='')
@@ -188,7 +188,7 @@ class Graph(OrderedModel):
         on_delete=models.DO_NOTHING,
         null=True, blank=True)
     featured = models.BooleanField(default=False)
-    order_with_respect_to = ('topic__cohort', 'featured')
+    order_with_respect_to = ('topic__cohort')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
