@@ -153,15 +153,12 @@ class Assignment extends Component {
 
     evaluate(url) {
         let score = 0;
-        console.log('State:', this.state);
         for (let evaluation of this.state.evaluations) {
             let label = this.convert_label(evaluation.field);
-            console.log('Label: ', label);
-            const offset = this.state[`${label}OffsetX`];
-            const initial = this.state[`${label}InitialtX`];
-            console.log('Offset:', offset, 'Initial:', initial);
-            if (evaluation.comparison == Math.sign(offset - initial)) {
-                score += evaluation.score;
+            const adjusted = this.state[label];
+            const initial = this.state[`${label}Initial`];
+            if (evaluation.comparison === Math.sign(adjusted - initial)) {
+                score += evaluation.value;
             }
         }
         const updated = {...this.state.qEval, 'score': score};
@@ -186,12 +183,11 @@ class Assignment extends Component {
     }
 
     updateQuestionEvaluation(url) {
-        console.log('Updated Evaluation:', this.state.qEval);
         authedFetch(
             `/api/question_evaluations/${this.qEvalId}/`, 'put', JSON.stringify(this.state.qEval))
             .then(function(response) {return response.json();})
             .then(() => {
-                // location.href = url;
+                location.href = url;
             });
     }
 

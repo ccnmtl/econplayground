@@ -42,7 +42,7 @@
 <ol class="container">
     <div class="progress">
         <div
-            class="progress-bar progress-bar-striped"
+            class="progress-bar progress-bar-striped {% if score < 65 %}bg-danger{% elif score >= 95 %}bg-success{% endif %}"
             role="progressbar"
             style="width: {{score}}%"
             aria-valuenow="{{score}}"
@@ -60,7 +60,7 @@
     </li>
     {% if forloop.last %}
     <p><strong class="{% if score < 65 %}text-danger{% elif score >= 95 %}text-success{% endif %}">
-        Total Score: {{score}}%
+        Total Score: {{score|floatformat:2}}%
     </strong></p>
     {% endif %}
     {% empty %}
