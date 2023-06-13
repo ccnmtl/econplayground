@@ -78,6 +78,7 @@ INSTALLED_APPS = [  # noqa
     'rest_framework',
     'lti_provider',
     'econplayground.main',
+    'econplayground.assignment',
     'contactus',
     'ordered_model',
     's3sign',
