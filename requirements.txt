@@ -110,3 +110,5 @@ typing_extensions==4.6.3
 pyparsing==3.0.9
 
 django-s3sign==0.3.3
+
+django-treebeard==4.7

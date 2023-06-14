@@ -7,6 +7,7 @@ from django.views.generic import TemplateView
 from django.views.static import serve
 
 from econplayground.main import views
+from econplayground.assignment import views as assignment_views
 from django_cas_ng import views as cas_views
 
 
@@ -89,6 +90,25 @@ urlpatterns = [
          name='graph_embed_public_minimal'),
     path('graph/<int:pk>/delete/',
          views.GraphDeleteView.as_view(), name='graph_delete'),
+
+    path('assignment/list/',
+         assignment_views.AssignmentListView.as_view(),
+         name='assignment_assignment_list'),
+    path('assignment/create/',
+         assignment_views.AssignmentCreateView.as_view(),
+         name='assignment_assignment_create'),
+    path('assignment_assignment/<int:pk>/',
+         assignment_views.AssignmentDetailView.as_view(),
+         name='assignment_assignment_detail'),
+    path('assignment_assignment/<int:pk>/edit/',
+         assignment_views.AssignmentUpdateView.as_view(),
+         name='assignment_assignment_edit'),
+    path('tree/<int:pk>/edit/',
+         assignment_views.TreeUpdateView.as_view(),
+         name='tree_edit'),
+    path('assignment_assignment/<int:pk>/delete/',
+         assignment_views.AssignmentDeleteView.as_view(),
+         name='assignment_assignment_delete'),
 
     path('assignment/',
          views.AssignmentListView.as_view(), name='assignment_list'),
