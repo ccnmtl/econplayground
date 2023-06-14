@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { MathComponent } from 'mathjax-react';
-import RangeEditor from '../form-components/RangeEditor';
-import EditableControl from '../form-components/EditableControl';
-import AreaConfiguration from './AreaConfiguration';
-import { handleFormUpdate } from '../utils';
+import RangeEditor from '../form-components/RangeEditor.js';
+import EditableControl from '../form-components/EditableControl.js';
+import AreaConfiguration from './AreaConfiguration.jsx';
+import { handleFormUpdate } from '../utils.js';
 
 export default class NonLinearDemandSupplyEditor extends React.Component {
     render() {

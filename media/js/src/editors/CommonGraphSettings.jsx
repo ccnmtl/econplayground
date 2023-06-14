@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {getCohortId, getTopics, handleFormUpdate} from '../utils';
+import {getCohortId, getTopics, handleFormUpdate} from '../utils.js';
 
 /**
  * This component contains the form fields for assignment type,

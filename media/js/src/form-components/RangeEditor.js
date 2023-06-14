@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { btnStep } from '../utils';
+import { btnStep } from '../utils.js';
 
 /**
  * RangeEditor is a re-usable component that creates an <input> with

@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import EditableControl from '../form-components/EditableControl';
-import RangeEditor from '../form-components/RangeEditor';
-import AreaConfiguration from './AreaConfiguration';
-import { handleFormUpdate } from '../utils';
+import EditableControl from '../form-components/EditableControl.js';
+import RangeEditor from '../form-components/RangeEditor.js';
+import AreaConfiguration from './AreaConfiguration.jsx';
+import { handleFormUpdate } from '../utils.js';
 
 export default class DemandSupplyEditor extends React.Component {
     render() {

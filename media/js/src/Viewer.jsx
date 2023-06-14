@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import Assessment from './Assessment';
-import GraphEditor from './GraphEditor';
-import GraphViewer from './GraphViewer';
-import { exportGraph, importGraph, defaultGraph } from './GraphMapping';
+import Assessment from './Assessment.js';
+import GraphEditor from './GraphEditor.jsx';
+import GraphViewer from './GraphViewer.jsx';
+import { exportGraph, importGraph, defaultGraph } from './GraphMapping.js';
 import {
     authedFetch, getGraphId, getCohortId, getAssessment,
     getSubmission, getError
-} from './utils';
+} from './utils.js';
 
 class Viewer extends Component {
     constructor(props) {

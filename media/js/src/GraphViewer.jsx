@@ -1,19 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as commonmark from 'commonmark';
-import Assessment from './Assessment';
-import ADASEditor from './editors/ADASEditor';
-import CobbDouglasEditor from './editors/CobbDouglasEditor';
-import CobbDouglasNLDSEditor from './editors/CobbDouglasNLDSEditor';
-import ConsumptionLeisureEditor from './editors/ConsumptionLeisureEditor';
-import ConsumptionSavingEditor from './editors/ConsumptionSavingEditor';
-import DemandSupplyEditor from './editors/DemandSupplyEditor';
-import NonLinearDemandSupplyEditor from './editors/NonLinearDemandSupplyEditor';
-import ExportGraphButton from './buttons/ExportGraphButton';
-import ResetGraphButton from './buttons/ResetGraphButton';
-import SubmitButton from './buttons/SubmitButton';
-import JXGBoard from './JXGBoard';
-import Feedback from './Feedback';
+import Assessment from './Assessment.js';
+import ADASEditor from './editors/ADASEditor.jsx';
+import CobbDouglasEditor from './editors/CobbDouglasEditor.jsx';
+import CobbDouglasNLDSEditor from './editors/CobbDouglasNLDSEditor.jsx';
+import ConsumptionLeisureEditor from './editors/ConsumptionLeisureEditor.jsx';
+import ConsumptionSavingEditor from './editors/ConsumptionSavingEditor.jsx';
+import DemandSupplyEditor from './editors/DemandSupplyEditor.jsx';
+import NonLinearDemandSupplyEditor from './editors/NonLinearDemandSupplyEditor.jsx';
+import ExportGraphButton from './buttons/ExportGraphButton.jsx';
+import ResetGraphButton from './buttons/ResetGraphButton.jsx';
+import SubmitButton from './buttons/SubmitButton.jsx';
+import JXGBoard from './JXGBoard.jsx';
+import Feedback from './Feedback.jsx';
 import {
     forceFloat, getOrCreateSubmission, BOARD_WIDTH, BOARD_HEIGHT
 } from './utils';

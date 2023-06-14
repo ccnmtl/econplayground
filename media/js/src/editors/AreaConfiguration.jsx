@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import EditableControl from '../form-components/EditableControl';
-import { handleFormUpdate } from '../utils';
+import EditableControl from '../form-components/EditableControl.js';
+import { handleFormUpdate } from '../utils.js';
 
 export default class AreaConfiguration extends React.Component {
     render() {

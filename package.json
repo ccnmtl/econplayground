@@ -4,13 +4,14 @@
   "description": "econplayground",
   "author": "Nik Nyby",
   "license": "GPL-3.0+",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/ccnmtl/econplayground/issues"
   },
   "homepage": "https://github.com/ccnmtl/econplayground#readme",
   "dependencies": {
     "commonmark": "0.30.0",
-    "jsxgraph": "~1.4.5",
+    "jsxgraph": "~1.5.0",
     "mathjax-full": "^3.1.2",
     "mathjax-react": "CharlieMcVicker/mathjax-react",
     "object-assign": "~4.1.1",
@@ -18,16 +19,15 @@
     "react": "~18.2.0",
     "react-dom": "~18.2.0",
     "webpack": "~5.87.0",
-    "webpack-cli": "~5.1.0",
-    "whatwg-fetch": "~3.6.1"
+    "webpack-cli": "~5.1.0"
   },
   "scripts": {
-    "test": "node media/js/scripts/test.js --env=jsdom",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "build-scss": "node-sass --output media/css media/scss/main.scss --output-style compressed",
     "watch-scss": "nodemon --watch media/scss --verbose -e scss -x 'npm run build-scss'",
-    "dev": "webpack --mode development --watch --config media/js/config/webpack.config.dev.js",
-    "build": "NODE_ENV=production webpack --mode production --config media/js/config/webpack.config.prod.js",
-    "eslint": "eslint media/js/src/*.js media/js/config/*.js"
+    "dev": "webpack --mode development --watch --config media/js/config/webpack.config.dev.cjs",
+    "build": "NODE_ENV=production webpack --mode production --config media/js/config/webpack.config.prod.cjs",
+    "eslint": "eslint media/js/src/**/*.js media/js/config/*.cjs"
   },
   "devDependencies": {
     "autoprefixer": "~10.4.0",
@@ -58,50 +58,6 @@
     "react-test-renderer": "~18.2.0",
     "style-loader": "~3.3.0",
     "url-loader": "~4.1.0"
-  },
-  "greenkeeper": {
-    "ignore": [
-      "jsdom"
-    ]
-  },
-  "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx}"
-    ],
-    "setupFiles": [
-      "<rootDir>/media/js/config/polyfills.js"
-    ],
-    "testMatch": [
-      "<rootDir>/media/js/src/**/__tests__/**/*.js?(x)",
-      "<rootDir>/media/js/src/**/?(*.)(spec|test).js?(x)"
-    ],
-    "testEnvironment": "node",
-    "testURL": "http://localhost",
-    "transform": {
-      "^.+\\.(js|jsx)$": "<rootDir>/node_modules/babel-jest",
-      "^.+\\.css$": "<rootDir>/media/js/config/jest/cssTransform.js",
-      "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/media/js/config/jest/fileTransform.js"
-    },
-    "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"
-    ],
-    "moduleNameMapper": {
-      "^react-native$": "react-native-web"
-    },
-    "moduleFileExtensions": [
-      "web.js",
-      "js",
-      "json",
-      "web.jsx",
-      "jsx",
-      "node"
-    ]
-  },
-  "babel": {
-    "presets": [
-      "@babel/env",
-      "@babel/react"
-    ]
   },
   "eslintConfig": {
     "extends": "react-app"

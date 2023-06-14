@@ -2,7 +2,7 @@
 
 import React from 'react';
 import TestRenderer from 'react-test-renderer';
-import RangeEditor from './RangeEditor';
+import RangeEditor from './RangeEditor.js';
 
 it('renders without crashing', () => {
     const el = TestRenderer.create(

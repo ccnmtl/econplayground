@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import GraphViewer from './GraphViewer';
-import { importGraph, defaultGraph } from './GraphMapping';
+import GraphViewer from './GraphViewer.jsx';
+import { importGraph, defaultGraph } from './GraphMapping.js';
 import {
     authedFetch, getEvaluations
-} from './utils';
+} from './utils.js';
 
 class Assignment extends Component {
     constructor(props) {

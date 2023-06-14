@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import JXGBoard from './JXGBoard';
-import ResetGraphButton from './buttons/ResetGraphButton';
+import JXGBoard from './JXGBoard.jsx';
+import ResetGraphButton from './buttons/ResetGraphButton.jsx';
 import {
     BOARD_WIDTH, BOARD_HEIGHT
 } from './utils';

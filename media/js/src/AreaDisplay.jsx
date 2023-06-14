@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {forceFloat} from './utils';
+import {forceFloat} from './utils.js';
 
 export default class AreaDisplay extends React.Component {
     render() {

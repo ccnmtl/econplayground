@@ -4,7 +4,7 @@ import {
     forceFloat, getOffset,
     getGraphId, getCohortId,
     btnStep
-} from './utils';
+} from './utils.js';
 
 it('allows many values for floats', () => {
     expect(forceFloat(null)).toBe(0);
