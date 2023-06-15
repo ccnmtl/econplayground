@@ -1,3 +1,5 @@
+/* globals process, Promise */
+
 const BOARD_WIDTH = 540;
 const BOARD_HEIGHT = 300;
 
@@ -9,9 +11,10 @@ const authedFetch = function(url, method = 'get', data = null) {
     const token = elt ? elt.getAttribute('content') : '';
 
     // Stub out fetch calls for jest.
-    if (typeof process !== 'undefined' &&
-        process.env.NODE_ENV === 'test'
-       ) {
+    if (
+        typeof process !== 'undefined' &&
+            process.env.NODE_ENV === 'test'
+    ) {
         return new Promise(() => {
             return;
         });
@@ -190,32 +193,32 @@ const handleFormUpdate = function(e) {
     }
 
     switch(e.target.type) {
-    case 'checkbox':
-    case 'radio':
-        if (e.target.className.includes('override')) {
-            obj[id] = parseFloat(e.target.dataset.override);
-        } else if (
-            e.target.type !== 'checkbox' &&
-                typeof e.target.value !== 'undefined'
-        ) {
-            obj[id] = forceNumber(e.target.value);
-        } else {
-            obj[id] = e.target.checked;
-        }
-        break;
-    case 'number':
-    case 'range':
-    case 'button':
-        obj[id] = parseFloat(e.target.value);
-        break;
-    case 'select-one':
-        obj[id] = parseInt(e.target.value, 10);
-        break;
-    case 'textarea':
-        obj[id] = e.target.value;
-        break;
-    default:
-        obj[id] = e.target.value;
+        case 'checkbox':
+        case 'radio':
+            if (e.target.className.includes('override')) {
+                obj[id] = parseFloat(e.target.dataset.override);
+            } else if (
+                e.target.type !== 'checkbox' &&
+                    typeof e.target.value !== 'undefined'
+            ) {
+                obj[id] = forceNumber(e.target.value);
+            } else {
+                obj[id] = e.target.checked;
+            }
+            break;
+        case 'number':
+        case 'range':
+        case 'button':
+            obj[id] = parseFloat(e.target.value);
+            break;
+        case 'select-one':
+            obj[id] = parseInt(e.target.value, 10);
+            break;
+        case 'textarea':
+            obj[id] = e.target.value;
+            break;
+        default:
+            obj[id] = e.target.value;
     }
 
     if (typeof obj['gNeedsSubmit'] === 'number') {
@@ -275,47 +278,47 @@ const forceNumber = function(n) {
 const displayGraphType = function(gType) {
     let name = '';
     switch (gType) {
-    case 0:
-        name = 'Linear Demand and Supply';
-        break;
-    case 1:
-        name = 'Input Markets';
-        break;
-    case 3:
-        name = 'Cobb-Douglas Production Graph';
-        break;
-    case 5:
-        name = 'Consumption-Leisure: Constraint';
-        break;
-    case 7:
-        name = 'Consumption-Saving: Constraint';
-        break;
-    case 8:
-        name = 'Linear Demand and Supply: 3 Functions';
-        break;
-    case 9:
-        name = 'Linear Demand and Supply: Areas';
-        break;
-    case 10:
-        name = 'Input Markets: Areas';
-        break;
-    case 11:
-        name = 'Consumption-Saving: Optimal Choice';
-        break;
-    case 12:
-        name = 'Input-Output Illustrations';
-        break;
-    case 13:
-        name = 'Linear Demand and Supply: 2 Diagrams';
-        break;
-    case 14:
-        name = 'Input Markets: 2 Diagrams';
-        break;
-    case 15:
-        name = 'Consumption-Leisure: Optimal Choice';
-        break;
-    default:
-        break;
+        case 0:
+            name = 'Linear Demand and Supply';
+            break;
+        case 1:
+            name = 'Input Markets';
+            break;
+        case 3:
+            name = 'Cobb-Douglas Production Graph';
+            break;
+        case 5:
+            name = 'Consumption-Leisure: Constraint';
+            break;
+        case 7:
+            name = 'Consumption-Saving: Constraint';
+            break;
+        case 8:
+            name = 'Linear Demand and Supply: 3 Functions';
+            break;
+        case 9:
+            name = 'Linear Demand and Supply: Areas';
+            break;
+        case 10:
+            name = 'Input Markets: Areas';
+            break;
+        case 11:
+            name = 'Consumption-Saving: Optimal Choice';
+            break;
+        case 12:
+            name = 'Input-Output Illustrations';
+            break;
+        case 13:
+            name = 'Linear Demand and Supply: 2 Diagrams';
+            break;
+        case 14:
+            name = 'Input Markets: 2 Diagrams';
+            break;
+        case 15:
+            name = 'Consumption-Leisure: Optimal Choice';
+            break;
+        default:
+            break;
     }
     return name;
 };

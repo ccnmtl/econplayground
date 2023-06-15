@@ -11,7 +11,6 @@ module.exports = {
     ],
     "parser": "@babel/eslint-parser",
     "parserOptions": {
-        "ecmaVersion": 6,
         "sourceType": "module",
         "ecmaFeatures": {
             "jsx": true
@@ -24,7 +23,8 @@ module.exports = {
     "rules": {
         "indent": [
             "error",
-            4
+            4,
+            {SwitchCase: 1}
         ],
         "linebreak-style": [
             "error",

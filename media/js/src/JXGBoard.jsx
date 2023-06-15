@@ -77,9 +77,10 @@ export default class JXGBoard extends React.Component {
         //          gShowIntersection={true} />,
         //     div);
         //
-        if (typeof process !== 'undefined' &&
-            process.env.NODE_ENV === 'test'
-           ) {
+        if (
+            typeof process !== 'undefined' &&
+                process.env.NODE_ENV === 'test'
+        ) {
             return;
         }
 
@@ -303,15 +304,17 @@ export default class JXGBoard extends React.Component {
         }
 
         if (this.props.gType === 13) {
-            if (this.board2 &&
-                prevProps.gXAxis2Label !== this.props.gXAxis2Label
-               ) {
+            if (
+                this.board2 &&
+                    prevProps.gXAxis2Label !== this.props.gXAxis2Label
+            ) {
                 this.board2.defaultAxes.x.name = this.props.gXAxis2Label;
                 this.board2.update();
             }
-            if (this.board2 &&
-                prevProps.gYAxis2Label !== this.props.gYAxis2Label
-               ) {
+            if (
+                this.board2 &&
+                    prevProps.gYAxis2Label !== this.props.gYAxis2Label
+            ) {
                 this.board2.defaultAxes.y.name = this.props.gYAxis2Label;
                 this.board2.update();
             }
@@ -372,9 +375,10 @@ export default class JXGBoard extends React.Component {
         //          gShowIntersection={true} />,
         //     div);
         //
-        if (typeof process !== 'undefined' &&
-            process.env.NODE_ENV === 'test'
-           ) {
+        if (
+            typeof process !== 'undefined' &&
+                process.env.NODE_ENV === 'test'
+        ) {
             return;
         }
 
@@ -553,16 +557,18 @@ export default class JXGBoard extends React.Component {
             return (
                 <>
                     <div className="col-6">
-                        <figure aria-label="The EconPractice graph."
-                                id={this.id} className="jxgbox" style={this.style}>
+                        <figure
+                            aria-label="The EconPractice graph."
+                            id={this.id} className="jxgbox" style={this.style}>
                         </figure>
                     </div>
 
                     <div className="col-6">
-                        <figure aria-label="The EconPractice graph."
-                                id={this.id + '-2'}
-                                className="jxgbox"
-                                style={this.style}>
+                        <figure
+                            aria-label="The EconPractice graph."
+                            id={this.id + '-2'}
+                            className="jxgbox"
+                            style={this.style}>
                         </figure>
                     </div>
                 </>
@@ -573,17 +579,19 @@ export default class JXGBoard extends React.Component {
             return (
                 <>
                     <div className="col-6">
-                        <figure aria-label="The EconPractice graph."
-                                id={this.id} className="jxgbox" style={this.style}>
+                        <figure
+                            aria-label="The EconPractice graph."
+                            id={this.id} className="jxgbox" style={this.style}>
                         </figure>
                         <MathComponent tex={func1} />
                     </div>
 
                     <div className="col-6">
-                        <figure aria-label="The EconPractice graph."
-                                id={this.id + '-2'}
-                                className="jxgbox"
-                                style={this.style}>
+                        <figure
+                            aria-label="The EconPractice graph."
+                            id={this.id + '-2'}
+                            className="jxgbox"
+                            style={this.style}>
                         </figure>
                         <MathComponent tex={func2} />
                     </div>
@@ -593,15 +601,17 @@ export default class JXGBoard extends React.Component {
 
         return (
             <>
-                <figure aria-label="The EconPractice graph."
-                        id={this.id} className="jxgbox" style={this.style}>
+                <figure
+                    aria-label="The EconPractice graph."
+                    id={this.id} className="jxgbox" style={this.style}>
                 </figure>
 
                 {(this.props.gType === 12) && (
-                    <figure aria-label="The EconPractice graph."
-                            id={this.id + '-2'}
-                            className="jxgbox"
-                            style={this.style}>
+                    <figure
+                        aria-label="The EconPractice graph."
+                        id={this.id + '-2'}
+                        className="jxgbox"
+                        style={this.style}>
                     </figure>
                 )}
 
