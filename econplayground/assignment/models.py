@@ -36,12 +36,13 @@ class Tree(models.Model):
 
     def get_root(self):
         try:
-            return Step.objects.get(tree=self).get_root()
+            return Step.objects.get(tree=self, is_root=True).get_root()
         except Step.DoesNotExist:
-            return Step.add_root(tree=self)
+            return Step.add_root(tree=self, is_root=True)
 
 
 class Step(MP_Node):
+    is_root = models.BooleanField(default=False)
     tree = models.ForeignKey(Tree, on_delete=models.CASCADE)
     question = models.ForeignKey(
         Question, on_delete=models.CASCADE, blank=True, null=True)
