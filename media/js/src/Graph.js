@@ -4,11 +4,13 @@
  * Each graph type is a sub-class of the common Graph class.
  */
 
-import { defaultGraph } from './GraphMapping';
-import { forceFloat, getOffset, getXIntercept, getYIntercept } from './utils';
+import { defaultGraph } from './GraphMapping.js';
+import {
+    forceFloat, getOffset, getXIntercept, getYIntercept
+} from './utils.js';
 import {
     drawLabel, drawPolygon, getXInterceptWithPoint
-} from './jsxgraphUtils';
+} from './jsxgraphUtils.js';
 
 
 const applyDefaults = function(obj, defaults) {

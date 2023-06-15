@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import RangeEditor from '../form-components/RangeEditor';
-import EditableControl from '../form-components/EditableControl';
-import { handleFormUpdate } from '../utils';
-import Checkbox from '../form-components/Checkbox';
+import RangeEditor from '../form-components/RangeEditor.js';
+import EditableControl from '../form-components/EditableControl.js';
+import { handleFormUpdate } from '../utils.js';
+import Checkbox from '../form-components/Checkbox.js';
 
 export default class ADASEditor extends React.Component {
 

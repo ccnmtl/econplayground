@@ -4,7 +4,7 @@
  * Mapping to and from a graph's react.js state and its
  * json representation in django-rest-framework.
  */
-import { forceFloat, forceNumber } from './utils';
+import { forceFloat, forceNumber } from './utils.js';
 
 /**
  * Returns the current graph settings as a persistable JSON object.

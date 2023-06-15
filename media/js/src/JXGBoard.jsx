@@ -4,9 +4,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {MathComponent} from 'mathjax-react';
 import JXG from 'jsxgraph';
-import {graphTypes, mkDemandSupply, mkNonLinearDemandSupply} from './Graph';
-import AreaDisplay from './AreaDisplay';
-import {getL1SubmissionOffset, getL2SubmissionOffset} from './utils';
+import {graphTypes, mkDemandSupply, mkNonLinearDemandSupply} from './Graph.js';
+import AreaDisplay from './AreaDisplay.jsx';
+import {getL1SubmissionOffset, getL2SubmissionOffset} from './utils.js';
 
 const getNLDSYLabel = function(functionChoice, kName, nName) {
     let label = `MP<sub>${nName}</sub>, w`;

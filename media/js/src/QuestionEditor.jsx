@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import GraphPreview from './GraphPreview';
+import GraphPreview from './GraphPreview.jsx';
 import { 
     convertGraph, defaultEvaluation, defaultLabelEvaluation, defaultModificationEvaluation
-} from './GraphMapping';
+} from './GraphMapping.js';
 import {
     authedFetch, getError, getGraph, getQuestion, getEvaluations, forceNumber
-} from './utils';
+} from './utils.js';
 
 
 export default class QuestionEditor extends Component {

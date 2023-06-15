@@ -2,7 +2,7 @@
 
 import React from 'react';
 import TestRenderer from 'react-test-renderer';
-import GraphEditor from './GraphEditor';
+import GraphEditor from './GraphEditor.jsx';
 
 it('renders without crashing', () => {
     TestRenderer.create(

@@ -2,9 +2,6 @@
 
 'use strict';
 
-process.env.BABEL_ENV = 'development';
-process.env.NODE_ENV = 'development';
-
 const path = require('path');
 const webpack = require('webpack');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
@@ -23,27 +20,30 @@ const publicUrl = publicPath.slice(0, -1);
 // Get environment variables to inject into our app.
 const env = getClientEnvironment(publicUrl);
 
+// Assert this just to be safe.
+// Development builds of React are slow and not intended for production.
+if (env.stringified['process.env'].NODE_ENV !== '"production"') {
+    throw new Error('Production builds must have NODE_ENV=production.');
+}
+
 // This is the production configuration.
 // It compiles slowly and is focused on producing a fast and minimal bundle.
 // The development configuration is different and lives in a separate file.
 module.exports = {
+    // Don't attempt to continue if there are any errors.
+    bail: true,
     // We generate sourcemaps in production. This is slow but gives good results.
     // You can exclude the *.map files from the build during deployment.
     devtool: shouldUseSourceMap ? 'source-map' : false,
-    // In production, we only want to load the polyfills and the app code.
     entry: {
-        assignment: [require.resolve('./polyfills'), paths.appAssignmentJs],
-        editor: [require.resolve('./polyfills'), paths.appEditorJs],
-        question: [require.resolve('./polyfills'), paths.appQuestionJs],
-        viewer: [require.resolve('./polyfills'), paths.appViewerJs]
+        assignment: [paths.appAssignmentJs],
+        editor: [paths.appEditorJs],
+        question: [paths.appQuestionJs],
+        viewer: [paths.appViewerJs]
     },
     output: {
         // The build folder.
         path: paths.appBuild,
-        // Generated JS file names (with nested folders).
-        // There will be one main bundle, and one file per asynchronous chunk.
-        // We don't currently advertise code splitting but Webpack supports it.
-        filename: '[name].js',
         chunkFilename: '[name].chunk.js',
         // We inferred the "public path" (such as / or /my-project) from homepage.
         publicPath: publicPath,
@@ -79,57 +79,19 @@ module.exports = {
         ],
     },
     module: {
-        strictExportPresence: true,
         rules: [
-            // TODO: Disable require.ensure as it's not a standard language feature.
-            // We are waiting for https://github.com/facebookincubator/create-react-app/issues/2176.
-            // { parser: { requireEnsure: false } },
-
             {
-                // "oneOf" will traverse all following loaders until one will
-                // match the requirements. When no loader matches it will fall
-                // back to the "file" loader at the end of the loader list.
-                oneOf: [
-                    // "url" loader works just like "file" loader but it also embeds
-                    // assets smaller than specified size as data URLs to avoid requests.
-                    {
-                        test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
-                        loader: require.resolve('url-loader'),
-                        options: {
-                            limit: 10000,
-                            name: '[name].[ext]',
-                        },
-                    },
-                    // Process JS with Babel.
-                    {
-                        test: /\.(js|jsx)$/,
-                        include: paths.appSrc,
-                        loader: require.resolve('babel-loader'),
-                        options: {
-
-                            compact: true,
-                        },
-                    },
-                    // "file" loader makes sure assets end up in the `build` folder.
-                    // When you `import` an asset, you get its filename.
-                    // This loader don't uses a "test" so it will catch all modules
-                    // that fall through the other loaders.
-                    {
-                        loader: require.resolve('file-loader'),
-                        // Exclude `js` files to keep "css" loader working as it injects
-                        // it's runtime that would otherwise processed through "file" loader.
-                        // Also exclude `html` and `json` extensions so they get processed
-                        // by webpacks internal loaders.
-                        exclude: [/\.js$/, /\.html$/, /\.json$/],
-                        options: {
-                            name: '[name].[ext]',
-                        },
-                    },
-                    // ** STOP ** Are you adding a new loader?
-                    // Make sure to add the new loader(s) before the "file" loader.
-                ],
-            },
-        ],
+                test: /\.(js|jsx)$/,
+                include: paths.appSrc,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env', '@babel/preset-react']
+                    }
+                }
+            }
+        ]
     },
     plugins: [
         // Makes some environment variables available to the JS code, for example:

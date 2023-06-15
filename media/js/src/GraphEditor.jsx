@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ADASEditor from './editors/ADASEditor';
-import CobbDouglasEditor from './editors/CobbDouglasEditor';
-import CobbDouglasNLDSEditor from './editors/CobbDouglasNLDSEditor';
-import NonLinearDemandSupplyEditor from './editors/NonLinearDemandSupplyEditor';
-import ConsumptionLeisureEditor from './editors/ConsumptionLeisureEditor';
-import ConsumptionSavingEditor from './editors/ConsumptionSavingEditor';
-import DemandSupplyEditor from './editors/DemandSupplyEditor';
-import CommonGraphEditor from './editors/CommonGraphEditor';
-import CommonGraphSettings from './editors/CommonGraphSettings';
-import JXGBoard from './JXGBoard';
+import ADASEditor from './editors/ADASEditor.jsx';
+import CobbDouglasEditor from './editors/CobbDouglasEditor.jsx';
+import CobbDouglasNLDSEditor from './editors/CobbDouglasNLDSEditor.jsx';
+import NonLinearDemandSupplyEditor from './editors/NonLinearDemandSupplyEditor.jsx';
+import ConsumptionLeisureEditor from './editors/ConsumptionLeisureEditor.jsx';
+import ConsumptionSavingEditor from './editors/ConsumptionSavingEditor.jsx';
+import DemandSupplyEditor from './editors/DemandSupplyEditor.jsx';
+import CommonGraphEditor from './editors/CommonGraphEditor.jsx';
+import CommonGraphSettings from './editors/CommonGraphSettings.jsx';
+import JXGBoard from './JXGBoard.jsx';
 import {
     displayGraphType, handleFormUpdate, getCohortId, BOARD_HEIGHT, BOARD_WIDTH
 } from './utils';

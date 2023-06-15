@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { displayGraphType } from './utils';
+import { displayGraphType } from './utils.js';
 
 export default class GraphPicker extends React.Component {
     constructor(props) {

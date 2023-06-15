@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {handleFormUpdate} from '../utils';
+import {handleFormUpdate} from '../utils.js';
 
 /**
  * EditableControl

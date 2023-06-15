@@ -1,6 +1,6 @@
 /* eslint-env jest */
 
-import Assessment from './Assessment';
+import Assessment from './Assessment.js';
 
 it('Defaults to an empty array', () => {
     const a = new Assessment();

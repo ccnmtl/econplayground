@@ -1,14 +1,12 @@
 /* eslint-env jest */
 
 import React from 'react';
-import { createRoot } from 'react-dom/client';
-import GraphPicker from './GraphPicker';
+import TestRenderer from 'react-test-renderer';
 import ReactTestUtils from 'react-dom/test-utils';
+import GraphPicker from './GraphPicker.jsx';
 
 it('renders without crashing', () => {
-    const div = document.createElement('div');
-    const root = createRoot(div);
-    root.render(
+    TestRenderer.create(
         <GraphPicker
             gType={0}
             showing={true}
@@ -16,9 +14,7 @@ it('renders without crashing', () => {
 });
 
 it('can be clicked', () => {
-    const div = document.createElement('div');
-    const root = createRoot(div);
-    root.render(
+    TestRenderer.create(
         <GraphPicker
             gType={0}
             showing={true}

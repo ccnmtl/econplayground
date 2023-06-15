@@ -1,13 +1,11 @@
 /* eslint-env jest */
 
 import React from 'react';
-import { createRoot } from 'react-dom/client';
-import JXGBoard from './JXGBoard';
+import TestRenderer from 'react-test-renderer';
+import JXGBoard from './JXGBoard.jsx';
 
 it('renders without crashing', () => {
-    const div = document.createElement('div');
-    const root = createRoot(div);
-    root.render(
+    TestRenderer.create(
         <JXGBoard
             id={'id-test'}
             gType={0}

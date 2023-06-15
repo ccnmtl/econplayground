@@ -1,4 +1,4 @@
-import { forceFloat } from './utils';
+import { forceFloat } from './utils.js';
 
 /**
  * Assessment.js

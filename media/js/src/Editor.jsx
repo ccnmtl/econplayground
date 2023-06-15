@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import GraphEditor from './GraphEditor';
-import GraphPicker from './GraphPicker';
-import { exportGraph, defaultGraph } from './GraphMapping';
-import {authedFetch, getError, getCohortId} from './utils';
+import GraphEditor from './GraphEditor.jsx';
+import GraphPicker from './GraphPicker.jsx';
+import { exportGraph, defaultGraph } from './GraphMapping.js';
+import {authedFetch, getError, getCohortId} from './utils.js';
 
 class Editor extends Component {
     constructor(props) {

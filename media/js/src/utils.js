@@ -7,6 +7,16 @@ const BOARD_HEIGHT = 300;
 const authedFetch = function(url, method = 'get', data = null) {
     const elt = document.getElementById('csrf-token');
     const token = elt ? elt.getAttribute('content') : '';
+
+    // Stub out fetch calls for jest.
+    if (typeof process !== 'undefined' &&
+        process.env.NODE_ENV === 'test'
+       ) {
+        return new Promise(() => {
+            return;
+        });
+    }
+
     return fetch(url + '?format=json', {
         method: method,
         headers: {
