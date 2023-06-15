@@ -27,7 +27,7 @@
     "watch-scss": "nodemon --watch media/scss --verbose -e scss -x 'npm run build-scss'",
     "dev": "webpack --mode development --watch --config media/js/config/webpack.config.dev.cjs",
     "build": "NODE_ENV=production webpack --mode production --config media/js/config/webpack.config.prod.cjs",
-    "eslint": "eslint media/js/src/**/*.js media/js/config/*.cjs"
+    "eslint": "eslint media/js/src/**/*.js media/js/src/**/*.jsx media/js/config/*.cjs"
   },
   "devDependencies": {
     "autoprefixer": "~10.4.0",

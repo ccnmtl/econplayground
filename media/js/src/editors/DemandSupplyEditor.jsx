@@ -7,13 +7,12 @@ import { handleFormUpdate } from '../utils.js';
 
 export default class DemandSupplyEditor extends React.Component {
     render() {
-        const me = this;
         return <React.Fragment>
             {this.props.displaySliders && (
                 <div>
                     <h2>Slope</h2>
                     <RangeEditor
-                        itemlabel={["Orange line slope"]}
+                        itemlabel="\text{Orange line slope}"
                         dataId="gLine1Slope"
                         value={this.props.gLine1Slope}
                         min={0}
@@ -26,7 +25,7 @@ export default class DemandSupplyEditor extends React.Component {
                         override2Value={0}
                         handler={handleFormUpdate.bind(this)} />
                     <RangeEditor
-                        itemlabel={["Blue line slope"]}
+                        itemlabel="\text{Blue line slope}"
                         dataId="gLine2Slope"
                         min={-5}
                         max={0}
@@ -41,7 +40,7 @@ export default class DemandSupplyEditor extends React.Component {
                     {this.props.gType === 13 && (
                         <>
                             <RangeEditor
-                                itemlabel={["Right graph: Orange line slope"]}
+                                itemlabel="\text{Right graph: Orange line slope}"
                                 dataId="gLine3Slope"
                                 value={this.props.gLine3Slope}
                                 min={0}
@@ -54,7 +53,7 @@ export default class DemandSupplyEditor extends React.Component {
                                 override2Value={0}
                                 handler={handleFormUpdate.bind(this)} />
                             <RangeEditor
-                                itemlabel={["Right graph: Blue line slope"]}
+                                itemlabel="\text{Right graph: Blue line slope}"
                                 dataId="gLine4Slope"
                                 min={-5}
                                 max={0}

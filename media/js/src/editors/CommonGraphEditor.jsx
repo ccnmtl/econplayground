@@ -51,4 +51,4 @@ CommonGraphEditor.propTypes = {
     gInstructions: PropTypes.string.isRequired,
 
     updateGraph: PropTypes.func.isRequired
-}
+};

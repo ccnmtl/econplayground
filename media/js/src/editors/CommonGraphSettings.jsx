@@ -55,14 +55,15 @@ export default class CommonGraphSettings extends React.Component {
                     <label htmlFor="gTopic">
                         Topic
                     </label>
-                    <select id="gTopic"
+                    <select
+                        id="gTopic"
                         className="custom-select form-control-sm"
                         onChange={handleFormUpdate.bind(this)}
-                            value={this.props.gTopic || 0}>
+                        value={this.props.gTopic || 0}>
                         {this.state.topics.map(e => (
                             <option key={e.pk} value={e.pk}>{e.name}</option>
                         ))}
-            </select>
+                    </select>
                 </div>
                 <div className="form-group">
                     <label htmlFor="gNeedsSubmit">
@@ -72,8 +73,8 @@ export default class CommonGraphSettings extends React.Component {
                         className="custom-select form-control-sm"
                         onChange={handleFormUpdate.bind(this)}
                         value={(this.props.gNeedsSubmit ? 1 : 0)}>
-                <option value={0}>Practice assessment</option>
-                <option value={1}>LTI Assessment</option>
+                        <option value={0}>Practice assessment</option>
+                        <option value={1}>LTI Assessment</option>
                     </select>
                 </div>
                 <div className="form-check">
@@ -132,11 +133,13 @@ export default class CommonGraphSettings extends React.Component {
                     </label>
                 </div>
                 <div>
-                    <a target="_blank"
-                       role="button"
-                       className="btn btn-sm btn-primary mt-2"
-                       title="Feedback and Assessment editor"
-                       href={assessmentUrl}>
+                    <a
+                        target="_blank"
+                        rel="noreferrer"
+                        role="button"
+                        className="btn btn-sm btn-primary mt-2"
+                        title="Feedback and Assessment editor"
+                        href={assessmentUrl}>
                         Feedback and Assessment editor
                     </a>
                     <small className="form-text text-muted">
@@ -162,4 +165,4 @@ CommonGraphSettings.propTypes = {
     gTopic: PropTypes.number,
 
     updateGraph: PropTypes.func.isRequired
-}
+};

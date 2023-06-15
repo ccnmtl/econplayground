@@ -24,7 +24,7 @@ export default class CobbDouglasEditor extends React.Component {
                 <div className="form-inline">
                     {this.props.isInstructor && (
                         <input type="text"
-                            aria-label={"Function variable for " + tex}
+                            aria-label={'Function variable for ' + tex}
                             className="form-control form-control-sm mr-2"
                             name="gCobbDouglasYName"
                             value={this.props.gCobbDouglasYName}
@@ -79,7 +79,7 @@ export default class CobbDouglasEditor extends React.Component {
                             handler={handleFormUpdate.bind(this)}
                             min={0} />
                         <RangeEditor
-                            itemlabel={["ɑ"]}
+                            itemlabel="\alpha"
                             dataId="gCobbDouglasAlpha"
                             value={this.props.gCobbDouglasAlpha}
                             handler={handleFormUpdate.bind(this)}
