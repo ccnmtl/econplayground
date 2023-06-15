@@ -36,7 +36,7 @@ export default class ConsumptionSavingEditor extends React.Component {
                     <React.Fragment>
                         <h2>Slope</h2>
                         <RangeEditor
-                            itemlabel={['y', <sub>1</sub>]}
+                            itemlabel="y_1"
                             id="gA1"
                             dataId="gA1"
                             value={this.props.gA1}
@@ -44,7 +44,7 @@ export default class ConsumptionSavingEditor extends React.Component {
                             max={5}
                             handler={handleFormUpdate.bind(this)} />
                         <RangeEditor
-                            itemlabel={['y', <sub>2</sub>]}
+                            itemlabel="y_2"
                             id="gA2"
                             dataId="gA2"
                             value={this.props.gA2}
@@ -52,7 +52,7 @@ export default class ConsumptionSavingEditor extends React.Component {
                             max={5}
                             handler={handleFormUpdate.bind(this)} />
                         <RangeEditor
-                            itemlabel={['W']}
+                            itemlabel="W"
                             id="gA3"
                             dataId="gA3"
                             value={this.props.gA3}
@@ -60,7 +60,7 @@ export default class ConsumptionSavingEditor extends React.Component {
                             max={5}
                             handler={handleFormUpdate.bind(this)} />
                         <RangeEditor
-                            itemlabel={['r']}
+                            itemlabel="r"
                             id="gA4"
                             dataId="gA4"
                             value={this.props.gA4}
@@ -69,7 +69,7 @@ export default class ConsumptionSavingEditor extends React.Component {
                             handler={handleFormUpdate.bind(this)} />
                         {this.props.gType === 11 && (
                             <RangeEditor
-                                itemlabel={['β']}
+                                itemlabel="\beta"
                                 id="gA5"
                                 dataId="gA5"
                                 value={this.props.gA5}
@@ -209,6 +209,9 @@ ConsumptionSavingEditor.propTypes = {
     gIntersection2HorizLineLabel: PropTypes.string,
     gIntersection2VertLineLabel: PropTypes.string,
 
+    gIntersection3HorizLineLabel: PropTypes.string,
+    gIntersection3VertLineLabel: PropTypes.string,
+
     gA1: PropTypes.number.isRequired,
     gA2: PropTypes.number.isRequired,
     gA3: PropTypes.number.isRequired,
@@ -220,5 +223,7 @@ ConsumptionSavingEditor.propTypes = {
 
     displayLabels: PropTypes.bool.isRequired,
     displaySliders: PropTypes.bool.isRequired,
-    isInstructor: PropTypes.bool.isRequired
+    isInstructor: PropTypes.bool.isRequired,
+
+    updateGraph: PropTypes.func.isRequired
 };

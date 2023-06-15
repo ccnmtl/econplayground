@@ -32,7 +32,7 @@ export default class ConsumptionLeisureEditor extends React.Component {
                     <React.Fragment>
                         <h2>Slope</h2>
                         <RangeEditor
-                            itemlabel={["Horizontal intercept value: ", <strong>T</strong>]}
+                            itemlabel="\text{Horizontal intercept value: }T"
                             id="gA1"
                             dataId="gA1"
                             value={this.props.gA1}
@@ -40,7 +40,7 @@ export default class ConsumptionLeisureEditor extends React.Component {
                             max={9}
                             handler={handleFormUpdate.bind(this)} />
                         <RangeEditor
-                            itemlabel={["Real Wage: ", <strong>w</strong>]}
+                            itemlabel="\text{Real Wage: }w"
                             id="gA2"
                             dataId="gA2"
                             value={this.props.gA2}
@@ -49,7 +49,7 @@ export default class ConsumptionLeisureEditor extends React.Component {
                             handler={handleFormUpdate.bind(this)} />
                         {this.props.gType === 15 && (
                             <RangeEditor
-                                itemlabel={["Rel. Preference: ", <strong>α</strong>]}
+                                itemlabel="\text{Rel. Preference: }\alpha"
                                 id="gA3"
                                 dataId="gA3"
                                 value={this.props.gA3}
@@ -58,7 +58,7 @@ export default class ConsumptionLeisureEditor extends React.Component {
                                 handler={handleFormUpdate.bind(this)} />
                         )}
                         <RangeEditor
-                            itemlabel={["Tax Rate: ", <strong>t</strong>]}
+                            itemlabel="\text{Tax Rate: }t"
                             id="gA4"
                             dataId="gA4"
                             value={this.props.gA4}
@@ -189,5 +189,7 @@ ConsumptionLeisureEditor.propTypes = {
 
     displayLabels: PropTypes.bool.isRequired,
     displaySliders: PropTypes.bool.isRequired,
-    isInstructor: PropTypes.bool.isRequired
+    isInstructor: PropTypes.bool.isRequired,
+
+    updateGraph: PropTypes.func.isRequired
 };

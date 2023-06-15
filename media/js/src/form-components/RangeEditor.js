@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { MathComponent } from 'mathjax-react';
 import { btnStep } from '../utils.js';
 
 /**
@@ -12,7 +13,11 @@ export default class RangeEditor extends React.Component {
         return <React.Fragment>
             <div className="form-row slider-wrapper">
                 <label key="dataId" className="mb-0 w-100" htmlFor={this.props.id}>
-                    {this.props.itemlabel.map((value, index) => <em key={index}>{value}</em>)}
+                    {this.props.itemlabel && (
+                        <div style={{display: 'flex'}}>
+                            <MathComponent tex={this.props.itemlabel} />
+                        </div>
+                    )}
                     <div className="d-inline w-100">
                         {this.props.showMinMax && (
                             <div className="position-absolute l-0">
@@ -155,7 +160,7 @@ export default class RangeEditor extends React.Component {
 }
 
 RangeEditor.defaultProps = {
-    itemlabel: [],
+    itemlabel: null,
     min: -5,
     max: 5,
     showOverrideButton: false,
@@ -177,7 +182,7 @@ RangeEditor.propTypes = {
     min: PropTypes.number,
     max: PropTypes.number,
     showOverrideButton: PropTypes.bool,
-    itemlabel: PropTypes.array,
+    itemlabel: PropTypes.string,  // a LaTeX string
     overrideLabel: PropTypes.string,
     overrideValue: PropTypes.number,
     showOverride2Button: PropTypes.bool,

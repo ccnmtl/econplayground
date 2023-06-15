@@ -119,7 +119,7 @@ export default class CobbDouglasNLDSEditor extends React.Component {
                                 handler={handleFormUpdate.bind(this)}
                                 min={0} />
                             <RangeEditor
-                                itemlabel={["ɑ"]}
+                                itemlabel="\alpha"
                                 dataId="gCobbDouglasAlpha"
                                 value={this.props.gCobbDouglasAlpha}
                                 handler={handleFormUpdate.bind(this)}
@@ -148,7 +148,7 @@ export default class CobbDouglasNLDSEditor extends React.Component {
                                 min={0}
                                 max={10} />
                             <RangeEditor
-                                itemlabel={["Orange line slope"]}
+                                itemlabel="\text{Orange line slope}"
                                 dataId="gLine1Slope"
                                 value={this.props.gLine1Slope}
                                 min={0}
@@ -248,7 +248,6 @@ CobbDouglasNLDSEditor.propTypes = {
     gCobbDouglasKName: PropTypes.string.isRequired,
     gCobbDouglasAlpha: PropTypes.number.isRequired,
     gCobbDouglasYName: PropTypes.string.isRequired,
-    gIntersectionLabel: PropTypes.string.isRequired,
 
     gNName: PropTypes.string.isRequired,
 
