@@ -12,10 +12,11 @@ export default class AreaDisplay extends React.Component {
             return (
                 <div>
                     <span className="mr-2">
-                        Area A ∪ B: <strong>
-                                        {forceFloat(
-                                            this.props.areaA + this.props.areaB)}
-                                    </strong>
+                        Area A ∪ B:
+                        <strong>
+                            {forceFloat(
+                                this.props.areaA + this.props.areaB)}
+                        </strong>
                     </span>
                     <span>
                         Area C: <strong>{this.props.areaC}</strong>
@@ -29,10 +30,11 @@ export default class AreaDisplay extends React.Component {
                         Area A: <strong>{this.props.areaA}</strong>
                     </span>
                     <span className="mr-2">
-                        Area B ∪ C: <strong>
-                                        {forceFloat(
-                                            this.props.areaB + this.props.areaC)}
-                                    </strong>
+                        Area B ∪ C:
+                        <strong>
+                            {forceFloat(
+                                this.props.areaB + this.props.areaC)}
+                        </strong>
                     </span>
                 </div>
             );

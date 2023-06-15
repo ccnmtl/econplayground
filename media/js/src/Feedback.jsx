@@ -8,9 +8,10 @@ export default class Feedback extends React.Component {
             return (
                 <React.Fragment>
                     {this.props.feedback.map(e => (
-                        <div key={n++}
-                             className={'alert ' + (e.fulfilled ? 'alert-primary' : 'alert-danger')}
-                             role="alert">
+                        <div
+                            key={n++}
+                            className={'alert ' + (e.fulfilled ? 'alert-primary' : 'alert-danger')}
+                            role="alert">
                             {e.feedback}
                         </div>
                     ))}
