@@ -64,6 +64,11 @@ class AssignmentDetailView(
     model = Tree
     template_name = 'assignment/assignment_detail.html'
 
+    def get_context_data(self, *args, **kwargs):
+        ctx = super().get_context_data(*args, **kwargs)
+        ctx.update({'tree': self.object.get_root().get_tree()})
+        return ctx
+
     def test_func(self):
         return user_is_instructor(self.request.user)
 
@@ -88,6 +93,11 @@ class TreeUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):
             new_step = Step(tree=tree)
             tree.get_root().add_child(instance=new_step)
             messages.add_message(request, messages.SUCCESS, 'New step added.')
+        elif action == 'remove_step':
+            step_id = request.POST.get('step_id')
+            step = Step.objects.get(pk=step_id)
+            step.delete()
+            messages.add_message(request, messages.SUCCESS, 'Step removed.')
 
         return HttpResponseRedirect(self.get_success_url(pk))
 
