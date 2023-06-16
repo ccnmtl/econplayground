@@ -66,7 +66,8 @@ class AssignmentDetailView(
 
     def get_context_data(self, *args, **kwargs):
         ctx = super().get_context_data(*args, **kwargs)
-        ctx.update({'tree': self.object.get_root().get_tree()})
+        bulk_tree = self.object.get_root().dump_bulk()
+        ctx.update({'tree': bulk_tree})
         return ctx
 
     def test_func(self):
@@ -91,8 +92,16 @@ class TreeUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):
         if action == 'add_step':
             # Add a node on the main path.
             new_step = Step(tree=tree)
-            tree.get_root().add_child(instance=new_step)
+            tree.get_root().add_sibling(instance=new_step)
             messages.add_message(request, messages.SUCCESS, 'New step added.')
+        if action == 'add_substep':
+            # Add a node on a sub path.
+            step_id = request.POST.get('step_id')
+            step = Step.objects.get(pk=step_id)
+            new_step = Step(tree=tree)
+            step.add_child(instance=new_step)
+            messages.add_message(
+                request, messages.SUCCESS, 'New sub-step added.')
         elif action == 'remove_step':
             step_id = request.POST.get('step_id')
             step = Step.objects.get(pk=step_id)
