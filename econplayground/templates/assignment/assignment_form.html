@@ -45,9 +45,9 @@
                 </div>
                 <div class="col-md-2 mb-1 pr-0">
                     {% if object %}
-                        <a class="btn btn-block btn-secondary" href="{% url 'assignment_detail' object.pk %}">Cancel</a>
+                        <a class="btn btn-block btn-secondary" href="{% url 'assignment_assignment_detail' object.pk %}">Cancel</a>
                     {% else %}
-                        <a class="btn btn-block btn-secondary" href="{% url 'assignment_list' %}#assignments">Cancel</a>
+                        <a class="btn btn-block btn-secondary" href="{% url 'assignment_assignment_list' %}">Cancel</a>
                     {% endif %}
                 </div>
             </div>

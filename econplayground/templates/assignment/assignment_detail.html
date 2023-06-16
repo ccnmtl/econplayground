@@ -28,7 +28,7 @@
 
 {% block content %}
 <div class="container">
-    <a class="btn btn-secondary mb-4 mr-4"
+    <a class="btn btn-sm btn-secondary float-right"
        href="{% url 'assignment_assignment_edit' object.pk %}"
        title="Edit {{ object.title }}">
         Edit assignment
@@ -42,69 +42,47 @@
                   action="{% url 'tree_edit' object.pk %}">
                 {% csrf_token %}
                 <input name="action" value="add_step" type="hidden" />
-                <button class="btn btn-sm btn-primary">
+                <button type="submit" class="btn btn-sm btn-primary">
                     <i class="bi bi-plus"></i>
                     Add step
                 </button>
             </form>
         </div>
 
-        <div class="assignment-step">
-            <select class="form-control form-control-sm">
-                <option>Select question bank</option>
-            </select>
-            <div class="assignment-subpath">
-                subpath
+        {% for step in tree %}
+            <div class="assignment-step">
+                <form name="remove_step" method="post"
+                      class="float-right mb-1"
+                      action="{% url 'tree_edit' object.pk %}">
+                    {% csrf_token %}
+                    <input name="action" value="remove_step" type="hidden" />
+                    <input name="step_id" value="{{step.pk}}" type="hidden" />
+                    <button type="submit"
+                            class="btn btn-sm btn-danger"
+                            title="Remove step">
+                        <i class="bi bi-x"></i>
+                    </button>
+                </form>
 
-                <div class="assignment-empty-step">
-                    <form name="add_substep" method="post">
-                        {% csrf_token %}
-                        <button class="btn btn-sm btn-primary">
-                            <i class="bi bi-plus"></i>
-                            Add step
-                        </button>
-                    </form>
+                <select class="form-control form-control-sm">
+                    <option>Select question bank</option>
+                </select>
+
+                <div class="assignment-subpath">
+                    subpath
+
+                    <div class="assignment-empty-step">
+                        <form name="add_substep" method="post">
+                            {% csrf_token %}
+                            <button class="btn btn-sm btn-primary">
+                                <i class="bi bi-plus"></i>
+                                Add step
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div class="assignment-step">
-            <select class="form-control form-control-sm">
-                <option>Select question bank</option>
-            </select>
-            <div class="assignment-subpath">
-                subpath
-
-                <div class="assignment-empty-step">
-                    <form name="add_substep" method="post">
-                        {% csrf_token %}
-                        <button class="btn btn-sm btn-primary">
-                            <i class="bi bi-plus"></i>
-                            Add step
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <div class="assignment-step">
-            <select class="form-control form-control-sm">
-                <option>Select question bank</option>
-            </select>
-            <div class="assignment-subpath">
-                subpath
-
-                <div class="assignment-empty-step">
-                    <form name="add_substep" method="post">
-                        {% csrf_token %}
-                        <button class="btn btn-sm btn-primary">
-                            <i class="bi bi-plus"></i>
-                            Add step
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}
