@@ -64,8 +64,8 @@ class AssignmentDetailView(
     model = Tree
     template_name = 'assignment/assignment_detail.html'
 
-    def get_context_data(self, *args, **kwargs):
-        ctx = super().get_context_data(*args, **kwargs)
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
         bulk_tree = self.object.get_root().dump_bulk()
         ctx.update({'tree': bulk_tree})
         return ctx
@@ -138,3 +138,37 @@ class AssignmentDeleteView(
 
     def test_func(self):
         return user_is_instructor(self.request.user)
+
+
+class AssignmentStepDetailView(LoginRequiredMixin, DetailView):
+    model = Step
+    template_name = 'assignment/step_detail.html'
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+
+        assignment = Tree.objects.get(pk=self.kwargs.get('assignment_pk'))
+        next_step = self.object.get_next()
+        prev_step = self.object.get_prev()
+
+        next_url = None
+        prev_url = None
+
+        if next_step:
+            next_url = reverse('step_detail', kwargs={
+                'pk': next_step.pk,
+                'assignment_pk': assignment.pk,
+            })
+
+        if prev_step:
+            prev_url = reverse('step_detail', kwargs={
+                'pk': prev_step.pk,
+                'assignment_pk': assignment.pk,
+            })
+
+        ctx.update({
+            'assignment': assignment,
+            'next_url': next_url,
+            'prev_url': prev_url,
+        })
+        return ctx

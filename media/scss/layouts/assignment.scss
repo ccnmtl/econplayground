@@ -1,4 +1,6 @@
-.assignments {
+.assignment-grid button,
+.assignment-grid .form-control {
+    font-size: 1rem;
 }
 
 .assignment-empty-step,
@@ -6,6 +8,10 @@
     padding: 5px;
     border: dashed 1px black;
     margin: 5px;
+}
+
+.assignment-empty-step {
+    background-color: hsl(192, 100%, 50%);
 }
 
 .assignment-step {

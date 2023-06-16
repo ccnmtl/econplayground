@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block title %}Step {{ object.pk }}{% endblock %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{% url 'assignment_assignment_detail' assignment.pk %}">
+                {{assignment.title|truncatewords:5}}
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            Step {{object.pk}}
+        </li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block pagetitle %}
+<h1 class="mt-4">Step {{object.pk}}</h1>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% if object.question %}
+            <form action="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-small btn-primary">
+                    Submit
+                </button>
+            </form>
+        {% else %}
+            <p>
+                No question
+            </p>
+        {% endif %}
+
+
+        <a class="btn btn-small btn-primary {% if not prev_url %}disabled{% endif %}"
+           {% if prev_url %}
+           href="{{prev_url}}"
+           {% else %}
+           disabled="disabled"
+           {% endif %}
+        >
+            <i class="bi bi-arrow-left"></i>
+            Previous
+        </a>
+
+
+        <a class="btn btn-small btn-primary {% if not next_url %}disabled{% endif %}"
+           {% if next_url %}
+           href="{{next_url}}"
+           {% else %}
+           disabled="disabled"
+           {% endif %}
+        >
+            Next
+            <i class="bi bi-arrow-right"></i>
+        </a>
+    </div>
+{% endblock %}

@@ -46,3 +46,34 @@ class Step(MP_Node):
     tree = models.ForeignKey(Tree, on_delete=models.CASCADE)
     question = models.ForeignKey(
         Question, on_delete=models.CASCADE, blank=True, null=True)
+
+    def get_prev(self):
+        """Return the previous child, or the prev sibling, or None."""
+
+        node = self.get_prev_sibling()
+        if node:
+            child = node.get_last_child()
+            if child:
+                return child
+
+        if not node:
+            return self.get_parent()
+
+        return node
+
+    def get_next(self):
+        """Return the next child, or the next sibling, or None."""
+
+        child = self.get_first_child()
+        if child:
+            return child
+
+        node = self.get_next_sibling()
+        if node:
+            return node
+
+        node = self.get_parent()
+        if node:
+            return node.get_next_sibling()
+
+        return None
