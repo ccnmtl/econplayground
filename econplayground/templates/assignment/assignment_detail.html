@@ -19,7 +19,14 @@
 {% endblock %}
 
 {% block pagetitle %}
-<h1 class="mt-4">{{ object.title }}</h1>
+    <h1 class="mt-4">{{ object.title }}</h1>
+    <div class="d-flex justify-content-end">
+        <a class="btn btn-sm btn-secondary display-inline"
+           href="{% url 'assignment_assignment_edit' object.pk %}"
+           title="Edit {{ object.title }}">
+            Edit
+        </a>
+    </div>
 {% endblock %}
 
 {% block pagedescription %}
@@ -28,12 +35,6 @@
 
 {% block content %}
 <div class="container">
-    <a class="btn btn-sm btn-secondary float-right"
-       href="{% url 'assignment_assignment_edit' object.pk %}"
-       title="Edit {{ object.title }}">
-        Edit assignment
-    </a>
-
     <div class="assignment-grid d-flex flex-wrap">
         <form name="add_step" method="post"
               class="mr-2"
