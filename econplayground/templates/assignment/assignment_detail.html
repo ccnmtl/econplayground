@@ -35,7 +35,7 @@
 
 {% block content %}
 <div class="container">
-    <div class="assignment-grid d-flex">
+    <div class="assignment-grid d-flex flex-wrap">
         <form name="add_step" method="post"
               class="mr-2"
               action="{% url 'tree_edit' object.pk %}">
