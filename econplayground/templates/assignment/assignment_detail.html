@@ -41,15 +41,18 @@
               action="{% url 'tree_edit' object.pk %}">
             {% csrf_token %}
             <input name="action" value="add_step" type="hidden" />
-            <button type="submit" class="btn btn-sm btn-primary">
-                <i class="bi bi-plus"></i>
+            <button type="submit" class="btn btn-sm btn-primary"
+                    title="Add step">
+                <i class="bi bi-plus-lg"></i>
                 Add step
             </button>
         </form>
 
         {% for step in tree %}
             <div class="assignment-step">
-                id: {{step.id}}
+                <a href="{% url 'step_detail' object.pk step.id %}">
+                    Step {{step.id}}
+                </a>
                 <form name="remove_step" method="post"
                       class="float-right mb-1"
                       action="{% url 'tree_edit' object.pk %}">
@@ -59,7 +62,7 @@
                     <button type="submit"
                             class="btn btn-sm btn-danger"
                             title="Remove step">
-                        <i class="bi bi-x"></i>
+                        <i class="bi bi-x-lg"></i>
                     </button>
                 </form>
 
@@ -71,7 +74,9 @@
                     {% if step.id is not substep.id %}
                         <div class="assignment-subpath">
                             <div class="assignment-empty-step">
-                                id: {{substep.id}}
+                                <a href="{% url 'step_detail' object.pk substep.id %}">
+                                    Step {{substep.id}}
+                                </a>
                                 <form name="remove_step" method="post"
                                       class="text-right mb-1"
                                       action="{% url 'tree_edit' object.pk %}">
@@ -85,7 +90,7 @@
                                     <button type="submit"
                                             class="btn btn-sm btn-danger"
                                             title="Remove step">
-                                        <i class="bi bi-x"></i>
+                                        <i class="bi bi-x-lg"></i>
                                     </button>
                                 </form>
                             </div>
@@ -103,8 +108,9 @@
                         <input type="hidden"
                                name="step_id"
                                value="{{step.id}}" />
-                        <button class="btn btn-sm btn-primary">
-                            <i class="bi bi-plus"></i>
+                        <button class="btn btn-sm btn-primary"
+                                title="Add step">
+                            <i class="bi bi-plus-lg"></i>
                             Add step
                         </button>
                     </form>

@@ -110,6 +110,10 @@ urlpatterns = [
          assignment_views.AssignmentDeleteView.as_view(),
          name='assignment_assignment_delete'),
 
+    path('assignment/<int:assignment_pk>/step/<int:pk>/',
+         assignment_views.AssignmentStepDetailView.as_view(),
+         name='step_detail'),
+
     path('assignment/',
          views.AssignmentListView.as_view(), name='assignment_list'),
     path('add/assignment/',
