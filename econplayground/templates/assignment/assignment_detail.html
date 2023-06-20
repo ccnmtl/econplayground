@@ -36,18 +36,6 @@
 {% block content %}
 <div class="container">
     <div class="assignment-grid d-flex flex-wrap">
-        <form name="add_step" method="post"
-              class="mr-2"
-              action="{% url 'tree_edit' object.pk %}">
-            {% csrf_token %}
-            <input name="action" value="add_step" type="hidden" />
-            <button type="submit" class="btn btn-sm btn-primary"
-                    title="Add step">
-                <i class="bi bi-plus-lg"></i>
-                Add step
-            </button>
-        </form>
-
         {% for step in tree %}
             <div class="assignment-step">
                 <a href="{% url 'step_detail' object.pk step.id %}">
@@ -68,6 +56,10 @@
 
                 <select class="form-control form-control-sm">
                     <option>Select question bank</option>
+                    <option>A</option>
+                    <option>B</option>
+                    <option>C</option>
+                    <option>D</option>
                 </select>
 
                 {% for substep in step.children %}
@@ -77,8 +69,9 @@
                                 <a href="{% url 'step_detail' object.pk substep.id %}">
                                     Step {{substep.id}}
                                 </a>
+
                                 <form name="remove_step" method="post"
-                                      class="text-right mb-1"
+                                      class="float-right mb-1"
                                       action="{% url 'tree_edit' object.pk %}">
                                     {% csrf_token %}
                                     <input type="hidden"
@@ -93,6 +86,14 @@
                                         <i class="bi bi-x-lg"></i>
                                     </button>
                                 </form>
+
+                                <select class="form-control form-control-sm">
+                                    <option>Select question bank</option>
+                                    <option>A</option>
+                                    <option>B</option>
+                                    <option>C</option>
+                                    <option>D</option>
+                                </select>
                             </div>
                         </div>
                     {% endif %}
@@ -118,6 +119,18 @@
 
             </div>
         {% endfor %}
+
+        <form name="add_step" method="post"
+              class="mr-2"
+              action="{% url 'tree_edit' object.pk %}">
+            {% csrf_token %}
+            <input name="action" value="add_step" type="hidden" />
+            <button type="submit" class="btn btn-sm btn-primary"
+                    title="Add step">
+                <i class="bi bi-plus-lg"></i>
+                Add step
+            </button>
+        </form>
     </div>
 
     <hr />
