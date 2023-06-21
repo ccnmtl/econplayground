@@ -62,18 +62,28 @@ class Step(MP_Node):
         return node
 
     def get_next(self):
-        """Return the next child, or the next sibling, or None."""
+        """Return the next child, or the next sibling, or None.
 
+        This is probably the result of a correct answer on the student
+        side.
+        """
         child = self.get_first_child()
         if child:
             return child
 
+        return None
+
+    def get_next_intervention(self):
+        """The student answered incorrectly, so find the intervention path."""
+
+        # If this node has siblings, return the next one.
         node = self.get_next_sibling()
         if node:
             return node
 
-        node = self.get_parent()
+        # Otherwise, move on the next depth.
+        node = self.get_first_sibling()
         if node:
-            return node.get_next_sibling()
+            return node.get_first_child()
 
         return None
