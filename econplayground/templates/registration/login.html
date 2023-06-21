@@ -73,7 +73,7 @@
                         (UNI)
                     </p>
                     <form class="text-center" method="get" action="/cas/login">
-                        <input type="hidden" name="next" value="{{ next|urlencode }}" />
+                        <input type="hidden" name="next" value="{{ next|default:'/' }}" />
 
                         <input class="btn loginbtn" type="submit"
                                value="Columbia Log In" />
