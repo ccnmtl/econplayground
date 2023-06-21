@@ -2,26 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from treebeard.mp_tree import MP_Node
 
-from econplayground.main.models import Cohort, Graph
-from .custom_storage import MediaStorage
-
-
-class Question(models.Model):
-    title = models.TextField(max_length=1024, default='Untitled')
-    embedded_media = models.TextField(blank=True, default='')
-    media_upload = models.FileField(
-        storage=MediaStorage, blank=True, null=True)
-    graph = models.ForeignKey(
-        Graph, on_delete=models.CASCADE, blank=True, null=True,
-        related_name='assignment_question'
-    )
-    keywords = models.TextField(blank=True, default='')
-
-    prompt = models.TextField(blank=True, default='')
-    value = models.PositiveSmallIntegerField(default=0)
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+from econplayground.main.models import Cohort
 
 
 class Tree(models.Model):
@@ -44,8 +25,6 @@ class Tree(models.Model):
 class Step(MP_Node):
     is_root = models.BooleanField(default=False)
     tree = models.ForeignKey(Tree, on_delete=models.CASCADE)
-    question = models.ForeignKey(
-        Question, on_delete=models.CASCADE, blank=True, null=True)
 
     def get_prev(self):
         """Return the previous child, or the prev sibling, or None."""
