@@ -82,6 +82,7 @@ INSTALLED_APPS = [  # noqa
     'contactus',
     'ordered_model',
     's3sign',
+    'treebeard',
 ]
 
 CONTACT_US_EMAIL = 'econpractice@columbia.edu'
