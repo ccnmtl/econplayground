@@ -17,13 +17,15 @@ class Tree(models.Model):
 
     def get_root(self):
         try:
-            return Step.objects.get(tree=self, is_root=True).get_root()
+            root = Step.objects.get(tree=self, is_root_node=True).get_root()
         except Step.DoesNotExist:
-            return Step.add_root(tree=self, is_root=True)
+            root = Step.add_root(tree=self, is_root_node=True)
+
+        return root
 
 
 class Step(MP_Node):
-    is_root = models.BooleanField(default=False)
+    is_root_node = models.BooleanField(default=False)
     tree = models.ForeignKey(Tree, on_delete=models.CASCADE)
 
     def get_prev(self):
