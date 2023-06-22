@@ -23,6 +23,36 @@ class Tree(models.Model):
 
         return root
 
+    def add_step(self):
+        """Add a node on the main path.
+
+        Returns the new Step.
+        """
+        root = self.get_root()
+        new_step = Step(tree=self)
+        first_child = root.get_first_child()
+
+        if first_child:
+            first_child.add_sibling(instance=new_step, pos='last-sibling')
+        else:
+            root.add_child(instance=new_step)
+
+        return new_step
+
+    def add_substep(self, step_id):
+        """Add a node on a sub path.
+
+        Returns the new Step.
+        """
+        step = Step.objects.get(tree=self, pk=step_id)
+        new_step = Step(tree=self)
+        step.add_child(instance=new_step)
+        return new_step
+
+    def remove_step(self, step_id):
+        step = Step.objects.get(tree=self, pk=step_id)
+        step.delete()
+
 
 class Step(MP_Node):
     is_root_node = models.BooleanField(default=False)
@@ -48,6 +78,14 @@ class Step(MP_Node):
         This is probably the result of a correct answer on the student
         side.
         """
+        node = self.get_next_sibling()
+        if node:
+            return node
+
+        node = self.get_parent().get_next_sibling()
+        if node:
+            return node
+
         child = self.get_first_child()
         if child:
             return child
@@ -56,15 +94,16 @@ class Step(MP_Node):
 
     def get_next_intervention(self):
         """The student answered incorrectly, so find the intervention path."""
+        node = self.get_first_child()
+        if node:
+            return node
 
-        # If this node has siblings, return the next one.
         node = self.get_next_sibling()
         if node:
             return node
 
-        # Otherwise, move on the next depth.
-        node = self.get_first_sibling()
+        node = self.get_parent().get_next_sibling()
         if node:
-            return node.get_first_child()
+            return node
 
         return None

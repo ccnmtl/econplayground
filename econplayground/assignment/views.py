@@ -64,14 +64,16 @@ class AssignmentDetailView(
     model = Tree
     template_name = 'assignment/assignment_detail.html'
 
-    def get_context_data(self, **kwargs):
-        ctx = super().get_context_data(**kwargs)
-        bulk_tree = self.object.get_root().dump_bulk()
-        ctx.update({'tree': bulk_tree})
-        return ctx
-
     def test_func(self):
         return user_is_instructor(self.request.user)
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        root = self.object.get_root()
+        bulk_tree = Step.dump_bulk(parent=root)
+        root = bulk_tree[0]
+        ctx.update({'tree': root.get('children')})
+        return ctx
 
 
 class TreeUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):
@@ -90,22 +92,17 @@ class TreeUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):
         action = request.POST.get('action')
 
         if action == 'add_step':
-            # Add a node on the main path.
-            new_step = Step(tree=tree)
-            tree.get_root().add_sibling(instance=new_step)
+            tree.add_step()
             messages.add_message(request, messages.SUCCESS, 'New step added.')
         if action == 'add_substep':
             # Add a node on a sub path.
             step_id = request.POST.get('step_id')
-            step = Step.objects.get(pk=step_id)
-            new_step = Step(tree=tree)
-            step.add_child(instance=new_step)
+            tree.add_substep(step_id)
             messages.add_message(
                 request, messages.SUCCESS, 'New sub-step added.')
         elif action == 'remove_step':
             step_id = request.POST.get('step_id')
-            step = Step.objects.get(pk=step_id)
-            step.delete()
+            tree.remove_step(step_id)
             messages.add_message(request, messages.SUCCESS, 'Step removed.')
 
         return HttpResponseRedirect(self.get_success_url(pk))
