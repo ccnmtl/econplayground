@@ -1,4 +1,4 @@
-from django.conf.urls import include, url
+from django.urls import include, path
 from rest_framework import routers
 from econplayground.api.views import (
     AssessmentViewSet, CohortViewSet,
@@ -20,5 +20,5 @@ router.register(r'user_assignments', UserAssignmentViewSet)
 router.register(r'question_evaluations', QuestionEvaluationViewSet)
 
 urlpatterns = [
-    url(r'^', include(router.urls)),
+    path('', include(router.urls)),
 ]

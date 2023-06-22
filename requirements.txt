@@ -1,10 +1,10 @@
-Django>=3.2.14,<4
+Django==4.2.2
+backports.zoneinfo;python_version<"3.9"
 asgiref==3.7.2
 pytz==2023.3
 httplib2==0.22.0
 feedparser==6.0.10
 Markdown==3.4.3
-commonmark==0.9.1
 psycopg2==2.9.6
 versiontools==1.9.1
 statsd==4.0.1
@@ -68,14 +68,17 @@ django-debug-toolbar==4.1.0
 django-waffle==3.0.0
 django-smoketest==1.2.0
 
+webencodings==0.5.1  # django-markdownify
+tinycss2==1.2.1  # django-markdownify
+bleach==6.0.0  # django-markdownify
+django-markdownify==0.9.3
+
 django-extensions==3.2.3
 django-stagingcontext==0.1.0
 django-ga-context==0.1.0
 django-global-context==0.1.1
 django-registration-redux==2.12
-django-markwhat==1.6.2
 gunicorn==20.1.0
-django-infranil==1.1.0
 django-flatblocks==1.0.0
 django-storages==1.13.2
 django-cacheds3storage==0.3.0
