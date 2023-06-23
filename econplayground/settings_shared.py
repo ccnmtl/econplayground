@@ -70,7 +70,7 @@ INSTALLED_APPS = [  # noqa
     'waffle',
 
     'debug_toolbar',
-    'bootstrap4',
+    'django_bootstrap5',
     'django_extensions',
 
     'rest_framework',

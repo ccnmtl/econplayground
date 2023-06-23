@@ -83,8 +83,8 @@ export default class ConsumptionSavingEditor extends React.Component {
                 {this.props.displayLabels && (
                     <React.Fragment>
                         <h2>Labels</h2>
-                        <div className="row justify-content-between align-items-end">
-                            <div className="col-6">
+                        <div className="row">
+                            <div className="col">
                                 <EditableControl
                                     id="gLine1Label"
                                     name="Orange line label"
@@ -94,7 +94,7 @@ export default class ConsumptionSavingEditor extends React.Component {
                                     updateGraph={this.props.updateGraph}
                                 />
                             </div>
-                            <div className="col-6">
+                            <div className="col">
                                 {this.props.gType === 11 && (
                                     <EditableControl
                                         id="gLine2Label"
@@ -106,7 +106,9 @@ export default class ConsumptionSavingEditor extends React.Component {
                                     />
                                 )}
                             </div>
-                            <div className="col-4">
+                        </div>
+                        <div className="row">
+                            <div className="col">
                                 <EditableControl
                                     id="gIntersectionLabel"
                                     name="Endowment point label"
@@ -116,7 +118,7 @@ export default class ConsumptionSavingEditor extends React.Component {
                                     updateGraph={this.props.updateGraph}
                                 />
                             </div>
-                            <div className="col-4">
+                            <div className="col">
                                 <EditableControl
                                     id="gIntersectionHorizLineLabel"
                                     name="Endowment point&apos;s horizontal line label"
@@ -126,7 +128,7 @@ export default class ConsumptionSavingEditor extends React.Component {
                                     updateGraph={this.props.updateGraph}
                                 />
                             </div>
-                            <div className="col-4">
+                            <div className="col">
                                 <EditableControl
                                     id="gIntersectionVertLineLabel"
                                     name="Endowment point&apos;s vertical line label"
@@ -136,9 +138,11 @@ export default class ConsumptionSavingEditor extends React.Component {
                                     updateGraph={this.props.updateGraph}
                                 />
                             </div>
-                            {this.props.gType === 11 && (
-                                <React.Fragment>
-                                    <div className="col-4">
+                        </div>
+                        {this.props.gType === 11 && (
+                            <React.Fragment>
+                                <div className="row">
+                                    <div className="col">
                                         <EditableControl
                                             id="gIntersection2Label"
                                             name="Optimal point label"
@@ -148,7 +152,7 @@ export default class ConsumptionSavingEditor extends React.Component {
                                             updateGraph={this.props.updateGraph}
                                         />
                                     </div>
-                                    <div className="col-4">
+                                    <div className="col">
                                         <EditableControl
                                             id="gIntersection2HorizLineLabel"
                                             name="Optimal point&apos;s horizontal line label"
@@ -158,7 +162,7 @@ export default class ConsumptionSavingEditor extends React.Component {
                                             updateGraph={this.props.updateGraph}
                                         />
                                     </div>
-                                    <div className="col-4">
+                                    <div className="col">
                                         <EditableControl
                                             id="gIntersection2VertLineLabel"
                                             name="Optimal point&apos;s vertical line label"
@@ -168,7 +172,9 @@ export default class ConsumptionSavingEditor extends React.Component {
                                             updateGraph={this.props.updateGraph}
                                         />
                                     </div>
-                                    <div className="col-6">
+                                </div>
+                                <div className="row">
+                                    <div className="col">
                                         <EditableControl
                                             id="gIntersection3HorizLineLabel"
                                             name="Orange line&apos;s horizontal intercept label"
@@ -178,7 +184,7 @@ export default class ConsumptionSavingEditor extends React.Component {
                                             updateGraph={this.props.updateGraph}
                                         />
                                     </div>
-                                    <div className="col-6">
+                                    <div className="col">
                                         <EditableControl
                                             id="gIntersection3VertLineLabel"
                                             name="Orange line&apos;s vertical intercept label"
@@ -188,9 +194,9 @@ export default class ConsumptionSavingEditor extends React.Component {
                                             updateGraph={this.props.updateGraph}
                                         />
                                     </div>
-                                </React.Fragment>
-                            )}
-                        </div>
+                                </div>
+                            </React.Fragment>
+                        )}
                     </React.Fragment>
                 )}
             </div>

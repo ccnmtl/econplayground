@@ -34,49 +34,46 @@ export default class GraphEditor extends React.Component {
         const courseId = getCohortId(window.location.pathname);
 
         const editRow = (
-            <div className="row">
-                <div className="ml-3 mr-2">
-                    <button 
-                        type="button"
-                        className="btn btn-primary"
-                        onClick={this.handleSaveGraph.bind(this)}
-                    >
-                        Save
-                    </button>
-                </div>
-                <button 
+            <div className="d-grid gap-2 d-md-block">
+                <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={this.handleSaveGraph.bind(this)}>
+                    Save
+                </button>
+
+                <button
                     onClick={this.handleSaveAndViewGraph.bind(this)}
                     type="button"
-                    className="btn btn-secondary">Save and View</button>
+                    className="btn btn-secondary ms-md-2">
+                    Save and View
+                </button>
+
                 {this.props.gId &&
-                <div className="ml-auto mr-2">
-                    <a 
-                        role="button"
-                        className="btn btn-primary float-md-right"
-                        title="Clone Graph"
-                        href={`/course/${courseId}/graph/${this.props.gId}/clone/`}
-                    >
-                        <svg alt="" height="32" className="mr-1 octicon octicon-repo-clone" viewBox="0 0 16 16" version="1.1" width="32" aria-hidden="true">
-                            <path fillRule="evenodd" d="M15 0H9v7c0 .55.45 1 1 1h1v1h1V8h3c.55 0 1-.45 1-1V1c0-.55-.45-1-1-1zm-4 7h-1V6h1v1zm4 0h-3V6h3v1zm0-2h-4V1h4v4zM4 5H3V4h1v1zm0-2H3V2h1v1zM2 1h6V0H1C.45 0 0 .45 0 1v12c0 .55.45 1 1 1h2v2l1.5-1.5L6 16v-2h5c.55 0 1-.45 1-1v-3H2V1zm9 10v2H6v-1H3v1H1v-2h10zM3 8h1v1H3V8zm1-1H3V6h1v1z"></path>
-                        </svg>
-                        Clone Graph
-                    </a>
-                </div>
-                }
-                {this.props.gId &&
-                <div className="mr-3">
-                    <a
-                        role="button"
-                        className="btn btn-danger float-md-right"
-                        title="Delete Graph"
-                        href={`/course/${courseId}/graph/${this.props.gId}/delete/`}
-                    >
-                        <svg alt="" height="32" className="octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="24" aria-hidden="true">
-                            <path fillRule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"></path>
-                        </svg>
-                        Delete Graph
-                    </a>
-                </div>
+                 <React.Fragment>
+                     <a
+                         role="button"
+                         className="btn btn-danger ms-md-2 float-md-end"
+                         title="Delete Graph"
+                         href={`/course/${courseId}/graph/${this.props.gId}/delete/`}
+                     >
+                         <svg alt="" height="32" className="octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="24" aria-hidden="true">
+                             <path fillRule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"></path>
+                         </svg>
+                         Delete Graph
+                     </a>
+                     <a
+                         role="button"
+                         className="btn btn-primary ms-md-2 float-md-end"
+                         title="Clone Graph"
+                         href={`/course/${courseId}/graph/${this.props.gId}/clone/`}
+                     >
+                         <svg alt="" height="32" className="me-1 octicon octicon-repo-clone" viewBox="0 0 16 16" version="1.1" width="32" aria-hidden="true">
+                             <path fillRule="evenodd" d="M15 0H9v7c0 .55.45 1 1 1h1v1h1V8h3c.55 0 1-.45 1-1V1c0-.55-.45-1-1-1zm-4 7h-1V6h1v1zm4 0h-3V6h3v1zm0-2h-4V1h4v4zM4 5H3V4h1v1zm0-2H3V2h1v1zM2 1h6V0H1C.45 0 0 .45 0 1v12c0 .55.45 1 1 1h2v2l1.5-1.5L6 16v-2h5c.55 0 1-.45 1-1v-3H2V1zm9 10v2H6v-1H3v1H1v-2h10zM3 8h1v1H3V8zm1-1H3V6h1v1z"></path>
+                         </svg>
+                         Clone Graph
+                     </a>
+                 </React.Fragment>
                 }
             </div>
         );
@@ -94,7 +91,7 @@ export default class GraphEditor extends React.Component {
         );
         if (
             typeof this.props.gType !== 'undefined' &&
-                this.props.gType !== null            
+                this.props.gType !== null
         ) {
             jxgBoard = (
                 <JXGBoard
@@ -116,7 +113,7 @@ export default class GraphEditor extends React.Component {
                         <label htmlFor="gTitle">
                             Title
                         </label>
-                        <input 
+                        <input
                             id="gTitle"
                             onChange={handleFormUpdate.bind(this)}
                             value={this.props.gTitle}
@@ -131,7 +128,7 @@ export default class GraphEditor extends React.Component {
                     />
 
                     {this.props.gId &&
-                    <div className="form-group">
+                    <div className="form-group mt-1">
                         <a href={`/course/${courseId}/graph/` + this.props.gId + '/public/'}
                             title="Student View"
                             className="btn btn-secondary"
@@ -211,7 +208,7 @@ export default class GraphEditor extends React.Component {
                 />;
         } else if (this.props.gType === 3 || this.props.gType === 12) {
             // Cobb-Douglas
-            rightSide = 
+            rightSide =
                 <>
                     {this.props.gType === 3 && (
                         <CobbDouglasEditor
@@ -243,7 +240,7 @@ export default class GraphEditor extends React.Component {
                 />;
         } else if (this.props.gType === 8) {
             // Aggregate Demand - Aggregate Supply
-            rightSide = 
+            rightSide =
                 <ADASEditor
                     {...commonEditorProps}
                     {...this.props}
@@ -262,7 +259,7 @@ export default class GraphEditor extends React.Component {
                                     <label htmlFor="gTitle">
                                         Title
                                     </label>
-                                    <input 
+                                    <input
                                         id="gTitle"
                                         onChange={handleFormUpdate.bind(this)}
                                         value={this.props.gTitle}

@@ -14,21 +14,30 @@ export default class GraphPicker extends React.Component {
 
     renderGraphOption(n, imgname, isBeta, idx) {
         return (
-            <a href="#" className="card" key={idx}
-                title={displayGraphType(n)}
-                onClick={() => this.props.onSelectGraph(n)}>
-                <div className="card-img-top">
-                    <img className="img-fluid" alt="" src={this.mediaPrefix + imgname} />
+            <div className="col" key={idx}>
+                <div
+                    className="card"
+                    title={displayGraphType(n)}
+                    onClick={() => this.props.onSelectGraph(n)}>
+                    <div className="card-img-top">
+                        <a href="#" onClick={() => this.props.onSelectGraph(n)}>
+                            <img className="img-fluid" alt="" src={this.mediaPrefix + imgname} />
+                        </a>
+                    </div>
+                    <div className="card-body">
+                        <h2 className="card-title">
+                            {isBeta && (
+                                <span className="badge text-bg-warning me-2">
+                                    Beta
+                                </span>
+                            )}
+                            <a href="#" onClick={() => this.props.onSelectGraph(n)}>
+                                {displayGraphType(n)}
+                            </a>
+                        </h2>
+                    </div>
                 </div>
-                <h2 className="card-title ml-4 mb-4 mr-4">
-                    {isBeta && (
-                        <span className="badge badge-warning mr-2">
-                            Beta
-                        </span>
-                    )}
-                    {displayGraphType(n)}
-                </h2>
-            </a>
+            </div>
         );
     }
 
@@ -61,18 +70,26 @@ export default class GraphPicker extends React.Component {
             <div className="GraphPicker container">
                 <h1>Create a Graph</h1>
                 <p className="lead mb-4">Build illustrations or assignments for EconPractice assessment (local) or CourseWorks assessment (LTI).</p>
-                <div className="card-deck">
-                    <a href="#" className="card"
-                        title="Linear Demand and Supply"
-                        ref={this.b1}
-                        onClick={() => this.props.onSelectGraph(0)}>
-                        <div className="card-img-top">
-                            <img alt="" className="img-fluid" src={this.mediaPrefix + 'linear_demand_supply.png'} />
+                <div className="row row-cols-3 g-4">
+                    <div className="col">
+                        <div
+                            className="card"
+                            title="Linear Demand and Supply"
+                            ref={this.b1}>
+                            <div className="card-img-top">
+                                <a href="#" onClick={() => this.props.onSelectGraph(0)}>
+                                    <img alt="" className="img-fluid" src={this.mediaPrefix + 'linear_demand_supply.png'} />
+                                </a>
+                            </div>
+                            <div className="card-body">
+                                <h2 className="card-title">
+                                    <a href="#" onClick={() => this.props.onSelectGraph(0)}>
+                                        {displayGraphType(0)}
+                                    </a>
+                                </h2>
+                            </div>
                         </div>
-                        <h2 className="card-title ml-4 mb-4 mr-4">
-                            {displayGraphType(0)}
-                        </h2>
-                    </a>
+                    </div>
 
                     {
                         graphs.map(function (g, idx) {

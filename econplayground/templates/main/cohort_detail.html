@@ -151,20 +151,20 @@
         </div>
         <side class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12">
             {% if i_am_instructor %}
-                <div class="form-group">
-                    <a class="btn btn-secondary btn-sm btn-block"
+                <div class="d-grid gap-2">
+                    <a class="btn btn-secondary btn-sm"
                        href="{% url 'cohort_edit' object.pk %}"
                        role="button">Edit Course</a>
 
-                    <a class="btn btn-secondary btn-sm btn-block"
+                    <a class="btn btn-secondary btn-sm"
                        href="{% url 'cohort_clone' object.pk %}"
                        role="button">Clone Course</a>
 
-                    <a class="btn btn-secondary btn-sm btn-block"
+                    <a class="btn btn-secondary btn-sm"
                        href="{% url 'featuredgraph_list' object.pk %}"
                        role="button">Manage Featured Graphs</a>
 
-                    <a class="btn btn-secondary btn-sm btn-block"
+                    <a class="btn btn-secondary btn-sm mb-2"
                        href="{% url 'topic_list' object.pk %}"
                        role="button">Manage Topics</a>
                 </div>

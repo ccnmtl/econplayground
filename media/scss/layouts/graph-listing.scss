@@ -1,21 +1,5 @@
 #graph-listing,
 .GraphPicker {
-    .card-deck {
-        width: 100%;
-    }
-
-    .card {
-        max-width: calc(31% - 1rem);
-        min-width: calc(31% - 1rem);
-        margin-bottom: 2rem;
-
-        .card-body {
-            display: flex;
-            flex-flow: column nowrap;
-            justify-content: space-between;
-        }
-    }
-
     li.active a {
         color: white;
     }

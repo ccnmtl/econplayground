@@ -14,18 +14,16 @@ export default class EditableControl extends React.Component {
         return (
             <React.Fragment>
                 {(this.props.isInstructor || this.props.valueEditable) && (
-                    <div className="form-group">
-                        <label>
-                            {this.props.name}
-                            <input
-                                name={this.props.id}
-                                className="form-control"
-                                type="text"
-                                maxLength="60"
-                                value={this.props.value}
-                                onChange={handleFormUpdate.bind(this)} />
-                        </label>
-                    </div>
+                    <label>
+                        {this.props.name}
+                        <input
+                            name={this.props.id}
+                            className="form-control"
+                            type="text"
+                            maxLength="60"
+                            value={this.props.value}
+                            onChange={handleFormUpdate.bind(this)} />
+                    </label>
                 )}
             </React.Fragment>
         );
