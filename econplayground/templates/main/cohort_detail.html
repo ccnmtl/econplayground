@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static econ_auth markup %}
+{% load static econ_auth markdownify %}
 
 {% block title %}{{ object.title }}{% endblock %}
 
@@ -51,7 +51,7 @@
                             </h3>
                             {% if graph.summary %}
                             <div class="mb-2">
-                                <p>{{ graph.summary | commonmark }}</p>
+                                <p>{{ graph.summary | markdownify }}</p>
                             </div>
                             {% endif %}
                             <a href="?topic={{ graph.topic }}" title="Topic: {{graph.topic}}">

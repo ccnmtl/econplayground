@@ -68,11 +68,9 @@ INSTALLED_APPS = [  # noqa
     'compressor',
     'django_cas_ng',
     'waffle',
-    'django_markwhat',
 
     'debug_toolbar',
     'bootstrap4',
-    'infranil',
     'django_extensions',
 
     'rest_framework',
@@ -83,6 +81,7 @@ INSTALLED_APPS = [  # noqa
     'ordered_model',
     's3sign',
     'treebeard',
+    'markdownify.apps.MarkdownifyConfig',
 ]
 
 CONTACT_US_EMAIL = 'econpractice@columbia.edu'
