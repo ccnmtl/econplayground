@@ -4,6 +4,7 @@ import factory
 from factory.django import DjangoModelFactory
 from factory import fuzzy
 from econplayground.main.models import (
+    GRAPH_TYPES,
     Graph, JXGLine, JXGLineTransformation, Submission,
     Assessment, AssessmentRule, Topic, Cohort,
     Assignment, Question, QuestionBank
@@ -62,6 +63,7 @@ class GraphFactory(DjangoModelFactory):
     class Meta:
         model = Graph
 
+    graph_type = fuzzy.FuzzyChoice(choices=[x[0] for x in GRAPH_TYPES])
     title = fuzzy.FuzzyText()
     instructions = fuzzy.FuzzyText()
     instructor_notes = fuzzy.FuzzyText()
@@ -143,7 +145,6 @@ class QuestionFactory(DjangoModelFactory):
     title = fuzzy.FuzzyText()
     embedded_media = fuzzy.FuzzyText(
         prefix='https://www.google.com/search?q=')
-    graph = factory.SubFactory(GraphFactory)
     prompt = fuzzy.FuzzyText()
 
 

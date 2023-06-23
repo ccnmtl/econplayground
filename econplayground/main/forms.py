@@ -65,7 +65,7 @@ class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
         fields = (
-            'title', 'prompt', 'keywords', 'embedded_media', 'graph'
+            'title', 'prompt', 'keywords', 'embedded_media',
         )
         widgets = {
             'title': forms.TextInput(),

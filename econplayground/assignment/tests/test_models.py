@@ -1,9 +1,12 @@
 from django.test import TestCase
-from econplayground.assignment.tests.factories import TreeFactory
+from econplayground.assignment.tests.factories import (
+    TreeFactory, QuestionFactory
+)
 from econplayground.assignment.models import Tree, Step
 
 
 class TreeTest(TestCase):
+    """Structure tests for unpopulated assignments"""
     def setUp(self):
         self.x = TreeFactory()
 
@@ -180,3 +183,73 @@ class TreeTest(TestCase):
         # step_7 = step_6.get_next_intervention()
         # self.assertEqual(step_7, self.d1)
         # self.assertEqual(step_7.get_depth(), 2)
+
+
+class QuestionTest(TestCase):
+    def setUp(self):
+        self.x = QuestionFactory()
+
+    def test_is_valid_from_factory(self):
+        self.x.full_clean()
+
+
+class AssignmentTest(TestCase):
+    """Tests for populated assignments (Tree + Questions)"""
+
+    def setUp(self):
+        """Make a populated, linear assignment"""
+        self.x = TreeFactory()
+
+        self.root = self.x.get_root()
+
+        self.a1 = Step(tree=self.root.tree)
+        self.root.add_child(instance=self.a1)
+        self.b1 = Step(tree=self.root.tree)
+        self.a1.add_sibling(instance=self.b1, pos='last-sibling')
+        self.c1 = Step(tree=self.root.tree)
+        self.b1.add_sibling(instance=self.c1, pos='last-sibling')
+        self.d1 = Step(tree=self.root.tree)
+        self.c1.add_sibling(instance=self.d1, pos='last-sibling')
+
+        # Populate it with questions
+        q1 = QuestionFactory(
+            assessment_name='line1', assessment_value='up')
+        self.a1.question = q1
+        self.a1.save()
+
+        q2 = QuestionFactory(
+            assessment_name='line1_slope', assessment_value='increase')
+        self.b1.question = q2
+        self.b1.save()
+
+        q3 = QuestionFactory(
+            assessment_name='line1_label', assessment_value='Demand')
+        self.c1.question = q3
+        self.c1.save()
+
+        # Evaluation of say, the alpha value of a cobb-douglas graph.
+        q4 = QuestionFactory(
+            assessment_name='alpha', assessment_value='0.6')
+        self.d1.question = q4
+        self.d1.save()
+
+    def test_assignment_flow(self):
+        result1 = self.a1.question.evaluate_action('line2', 'down')
+        self.assertFalse(result1)
+
+        result2 = self.a1.question.evaluate_action('line1', 'up')
+        self.assertTrue(result2)
+
+        step2 = self.a1.get_next()
+        result3 = step2.question.evaluate_action('line1_slope', 'increase')
+        self.assertTrue(result3)
+
+        step3 = step2.get_next()
+        result4 = step3.question.evaluate_action('line1_label', 'demand')
+        self.assertTrue(result4)
+
+        step4 = step3.get_next()
+        self.assertFalse(
+            step4.question.evaluate_action('alpha', '0.5'))
+        self.assertTrue(
+            step4.question.evaluate_action('alpha', '0.6'))
