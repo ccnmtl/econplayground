@@ -1,5 +1,3 @@
-$font-general: 1.2rem;
-
 * {
     font-family: 'Quattrocento Sans', sans-serif;
 }
@@ -77,19 +75,6 @@ p a,
 li a,
 h3 a {
     color: $blue;
-}
-
-p,
-li,
-label,
-textarea,
-a.btn,
-button,
-.btn,
-input,
-blockquote,
-.form-control {
-    font-size: $font-general;
 }
 
 button:hover {
