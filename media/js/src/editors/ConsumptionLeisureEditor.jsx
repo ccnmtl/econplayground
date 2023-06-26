@@ -70,94 +70,102 @@ export default class ConsumptionLeisureEditor extends React.Component {
                 )}
 
                 {this.props.displayLabels && (
-                    <div className="d-flex flex-wrap justify-content-between align-items-end">
-                        <div className="col-6">
-                            <EditableControl
-                                id="gLine1Label"
-                                name={'Budget line label'}
-                                value={this.props.gLine1Label}
-                                valueEditable={true}
-                                isInstructor={this.props.isInstructor}
-                                updateGraph={this.props.updateGraph}
-                            />
-                        </div>
-                        <div className="col-6">
-                            {this.props.gType === 15 && (
+                    <div className="d-flex flex-wrap">
+                        <div className="row">
+                            <div className="col">
                                 <EditableControl
-                                    id="gIntersectionLabel"
-                                    name="Optimal point label"
-                                    value={this.props.gIntersectionLabel}
+                                    id="gLine1Label"
+                                    name={'Budget line label'}
+                                    value={this.props.gLine1Label}
                                     valueEditable={true}
                                     isInstructor={this.props.isInstructor}
                                     updateGraph={this.props.updateGraph}
                                 />
-                            )}
+                            </div>
+                            <div className="col">
+                                {this.props.gType === 15 && (
+                                    <EditableControl
+                                        id="gIntersectionLabel"
+                                        name="Optimal point label"
+                                        value={this.props.gIntersectionLabel}
+                                        valueEditable={true}
+                                        isInstructor={this.props.isInstructor}
+                                        updateGraph={this.props.updateGraph}
+                                    />
+                                )}
+                            </div>
                         </div>
-                        <div className="col-6">
-                            <EditableControl
-                                id="gXAxisLabel"
-                                name="X-axis label"
-                                value={this.props.gXAxisLabel}
-                                valueEditable={true}
-                                isInstructor={this.props.isInstructor}
-                                updateGraph={this.props.updateGraph}
-                            />
+                        <div className="row">
+                            <div className="col">
+                                <EditableControl
+                                    id="gXAxisLabel"
+                                    name="X-axis label"
+                                    value={this.props.gXAxisLabel}
+                                    valueEditable={true}
+                                    isInstructor={this.props.isInstructor}
+                                    updateGraph={this.props.updateGraph}
+                                />
+                            </div>
+                            <div className="col">
+                                <EditableControl
+                                    id="gYAxisLabel"
+                                    name="Y-axis label"
+                                    value={this.props.gYAxisLabel}
+                                    valueEditable={true}
+                                    isInstructor={this.props.isInstructor}
+                                    updateGraph={this.props.updateGraph}
+                                />
+                            </div>
                         </div>
-                        <div className="col-6">
-                            <EditableControl
-                                id="gYAxisLabel"
-                                name="Y-axis label"
-                                value={this.props.gYAxisLabel}
-                                valueEditable={true}
-                                isInstructor={this.props.isInstructor}
-                                updateGraph={this.props.updateGraph}
-                            />
-                        </div>
-                        <div className="col-6">
-                            <EditableControl
-                                id="gIntersectionHorizLineLabel"
-                                name="Horizontal intersection label"
-                                value={this.props.gIntersectionHorizLineLabel}
-                                valueEditable={true}
-                                isInstructor={this.props.isInstructor}
-                                updateGraph={this.props.updateGraph}
-                            />
-                        </div>
-                        <div className="col-6">
-                            <EditableControl
-                                id="gIntersectionVertLineLabel"
-                                name="Vertical intersection label"
-                                value={this.props.gIntersectionVertLineLabel}
-                                valueEditable={true}
-                                isInstructor={this.props.isInstructor}
-                                updateGraph={this.props.updateGraph}
-                            />
+                        <div className="row">
+                            <div className="col">
+                                <EditableControl
+                                    id="gIntersectionHorizLineLabel"
+                                    name="Horizontal intersection label"
+                                    value={this.props.gIntersectionHorizLineLabel}
+                                    valueEditable={true}
+                                    isInstructor={this.props.isInstructor}
+                                    updateGraph={this.props.updateGraph}
+                                />
+                            </div>
+                            <div className="col">
+                                <EditableControl
+                                    id="gIntersectionVertLineLabel"
+                                    name="Vertical intersection label"
+                                    value={this.props.gIntersectionVertLineLabel}
+                                    valueEditable={true}
+                                    isInstructor={this.props.isInstructor}
+                                    updateGraph={this.props.updateGraph}
+                                />
+                            </div>
                         </div>
                     </div>
                 )}
 
                 {
                     this.props.gType === 15 && this.props.displayLabels && (
-                        <div className="d-flex flex-wrap justify-content-between align-items-end">
-                            <div className="col-6">
-                                <EditableControl
-                                    id="gIntersection2HorizLineLabel"
-                                    name="Optimal point&apos;s horizontal line label"
-                                    value={this.props.gIntersection2HorizLineLabel}
-                                    valueEditable={true}
-                                    isInstructor={this.props.isInstructor}
-                                    updateGraph={this.props.updateGraph}
-                                />
-                            </div>
-                            <div className="col-6">
-                                <EditableControl
-                                    id="gIntersection2VertLineLabel"
-                                    name="Optimal point&apos;s vertical line label"
-                                    value={this.props.gIntersection2VertLineLabel}
-                                    valueEditable={true}
-                                    isInstructor={this.props.isInstructor}
-                                    updateGraph={this.props.updateGraph}
-                                />
+                        <div className="d-flex flex-wrap">
+                            <div className="row">
+                                <div className="col">
+                                    <EditableControl
+                                        id="gIntersection2HorizLineLabel"
+                                        name="Optimal point&apos;s horizontal line label"
+                                        value={this.props.gIntersection2HorizLineLabel}
+                                        valueEditable={true}
+                                        isInstructor={this.props.isInstructor}
+                                        updateGraph={this.props.updateGraph}
+                                    />
+                                </div>
+                                <div className="col">
+                                    <EditableControl
+                                        id="gIntersection2VertLineLabel"
+                                        name="Optimal point&apos;s vertical line label"
+                                        value={this.props.gIntersection2VertLineLabel}
+                                        valueEditable={true}
+                                        isInstructor={this.props.isInstructor}
+                                        updateGraph={this.props.updateGraph}
+                                    />
+                                </div>
                             </div>
                         </div>
                     )

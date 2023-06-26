@@ -24,18 +24,23 @@ export default class CobbDouglasNLDSEditor extends React.Component {
                     with {this.props.gCobbDouglasLName} plotted along
                     the X-axis.
                 </em></blockquote>
-                <div className="form-inline">
+                <div className="row">
                     {this.props.isInstructor && (
-                        <input type="text"
-                            className="form-control form-control-sm mr-2"
-                            name="gCobbDouglasYName"
-                            value={this.props.gCobbDouglasYName}
-                            maxLength="1"
-                            size="1"
-                            onChange={handleFormUpdate.bind(this)}
-                        />
+                        <div className="col">
+                            <input
+                                type="text"
+                                className="form-control form-control-sm mr-2"
+                                name="gCobbDouglasYName"
+                                value={this.props.gCobbDouglasYName}
+                                maxLength="1"
+                                size="1"
+                                onChange={handleFormUpdate.bind(this)}
+                            />
+                        </div>
                     )}
-                    <MathComponent tex={tex} />
+                    <div className="col">
+                        <MathComponent tex={tex} />
+                    </div>
                 </div>
 
                 {this.props.isInstructor && !this.props.hideFunctionChoice && (
@@ -170,8 +175,8 @@ export default class CobbDouglasNLDSEditor extends React.Component {
                     this.props.displayLabels && (
                         <React.Fragment>
                             <h2>Labels</h2>
-                            <div className="row justify-content-between align-items-end">
-                                <div className="col-6">
+                            <div className="row">
+                                <div className="col">
                                     <EditableControl
                                         id="gLine1Label"
                                         name="Orange line label"
@@ -181,7 +186,7 @@ export default class CobbDouglasNLDSEditor extends React.Component {
                                         updateGraph={this.props.updateGraph}
                                     />
                                 </div>
-                                <div className="col-6">
+                                <div className="col">
                                     <EditableControl
                                         id="gLine2Label"
                                         name="Blue line label"
@@ -198,8 +203,8 @@ export default class CobbDouglasNLDSEditor extends React.Component {
 
                 {
                     this.props.displayLabels && (
-                        <div className="row justify-content-between align-items-end">
-                            <div className="col-4">
+                        <div className="row">
+                            <div className="col">
                                 <EditableControl
                                     id="gIntersectionLabel"
                                     name="Intersection point label"
@@ -209,7 +214,7 @@ export default class CobbDouglasNLDSEditor extends React.Component {
                                     updateGraph={this.props.updateGraph}
                                 />
                             </div>
-                            <div className="col-4">
+                            <div className="col">
                                 <EditableControl
                                     id="gIntersectionHorizLineLabel"
                                     name="Intersection&apos;s horizontal line label"
@@ -219,7 +224,7 @@ export default class CobbDouglasNLDSEditor extends React.Component {
                                     updateGraph={this.props.updateGraph}
                                 />
                             </div>
-                            <div className="col-4">
+                            <div className="col">
                                 <EditableControl
                                     id="gIntersectionVertLineLabel"
                                     name="Intersection&apos;s vertical line label"

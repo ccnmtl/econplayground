@@ -28,21 +28,20 @@
 }
 
 .card a img {
-    border: 2px solid #ccc;
+    border: 1px solid rgba(255, 255, 255, 0);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 
 .card a:hover img {
-    border: 2px solid $blue;
+    border: 1px solid $blue;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 
 .shift-down {
     position: absolute;
     top: 1rem;
-}
-
-.shift-up {
-    position: relative;
-    top: -0.5rem;
 }
 
 #outer-container {

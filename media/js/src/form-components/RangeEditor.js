@@ -12,7 +12,7 @@ export default class RangeEditor extends React.Component {
     render() {
         return <React.Fragment>
             <div className="form-row slider-wrapper">
-                <label key="dataId" className="mb-0 w-100" htmlFor={this.props.id}>
+                <label key="dataId" className="w-100" htmlFor={this.props.id}>
                     {this.props.itemlabel && (
                         <div style={{display: 'flex'}}>
                             <MathComponent tex={this.props.itemlabel} />
@@ -25,7 +25,7 @@ export default class RangeEditor extends React.Component {
                             </div>
                         )}
                         <input
-                            className="d-inline form-control-range form-control-sm w-90 mt-2"
+                            className="d-inline form-range form-control-sm w-90"
                             aria-label={this.props.note}
                             id={this.props.id}
                             data-id={this.props.dataId}
@@ -43,9 +43,9 @@ export default class RangeEditor extends React.Component {
                         )}
                     </div>
                 </label>
-                <div className='ml-2 mb-2  form-inline shift-up'>
+                <div className="mb-2 input-group">
                     <button
-                        className="btn btn-primary ml-2 w-20"
+                        className="btn btn-sm btn-primary ms-1 w-20"
                         aria-label={'Decrease by ' + (Number(this.props.step) * 10 || 0.1)}
                         id={this.props.id}
                         data-id={this.props.dataId}
@@ -58,10 +58,11 @@ export default class RangeEditor extends React.Component {
                                 this.props.step * 10 || 0.1,
                                 this.props.min,
                                 this.props.max)
-                        }
-                    >&lt;&lt;&lt;</button>
+                        }>
+                        &lt;&lt;&lt;
+                    </button>
                     <button
-                        className="btn btn-info ml-2 w-20"
+                        className="btn btn-sm btn-info ms-1 w-20"
                         aria-label={'Decrease by ' + (Number(this.props.step) || 0.01)}
                         id={this.props.id}
                         data-id={this.props.dataId}
@@ -74,10 +75,11 @@ export default class RangeEditor extends React.Component {
                                 this.props.step || 0.01,
                                 this.props.min,
                                 this.props.max)
-                        }
-                    >&lt;</button>
+                        }>
+                        &lt;
+                    </button>
                     <button
-                        className="btn btn-info ml-2 w-20"
+                        className="btn btn-sm btn-info ms-1 w-20"
                         aria-label={'Increase by ' + (Number(this.props.step) || 0.01)}
                         id={this.props.id}
                         data-id={this.props.dataId}
@@ -90,10 +92,11 @@ export default class RangeEditor extends React.Component {
                                 this.props.step || 0.01,
                                 this.props.min,
                                 this.props.max)
-                        }
-                    >&gt;</button>
+                        }>
+                        &gt;
+                    </button>
                     <button
-                        className="btn btn-primary ml-2 w-20"
+                        className="btn btn-sm btn-primary ms-1 w-20"
                         aria-label={'Increase by ' + (Number(this.props.step) * 10 || 0.1)}
                         id={this.props.id}
                         data-id={this.props.dataId}
@@ -106,10 +109,11 @@ export default class RangeEditor extends React.Component {
                                 this.props.step * 10 || 0.1,
                                 this.props.min,
                                 this.props.max)
-                        }
-                    >&gt;&gt;&gt;</button>
+                        }>
+                        &gt;&gt;&gt;
+                    </button>
                     <input
-                        className="form-control ml-4"
+                        className="form-control ms-1"
                         aria-label={'Input: ' + this.props.value}
                         type="number"
                         id={this.props.id}
@@ -151,7 +155,7 @@ export default class RangeEditor extends React.Component {
                         </div>
                     )}
                 </div>
-                <small className="form-text text-muted ml-sm-2">
+                <small className="form-text text-muted ms-sm-2">
                     {this.props.note}
                 </small>
             </div>

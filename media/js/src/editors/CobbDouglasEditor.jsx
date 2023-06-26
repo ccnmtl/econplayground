@@ -21,19 +21,24 @@ export default class CobbDouglasEditor extends React.Component {
                     with {this.props.gCobbDouglasLName} plotted along
                     the X-axis.
                 </em></blockquote>
-                <div className="form-inline">
+                <div className="row">
                     {this.props.isInstructor && (
-                        <input type="text"
-                            aria-label={'Function variable for ' + tex}
-                            className="form-control form-control-sm mr-2"
-                            name="gCobbDouglasYName"
-                            value={this.props.gCobbDouglasYName}
-                            maxLength="1"
-                            size="1"
-                            onChange={handleFormUpdate.bind(this)}
-                        />
+                        <div className="col">
+                            <input
+                                type="text"
+                                aria-label={'Function variable for ' + tex}
+                                className="form-control form-control-sm mr-2"
+                                name="gCobbDouglasYName"
+                                value={this.props.gCobbDouglasYName}
+                                maxLength="1"
+                                size="1"
+                                onChange={handleFormUpdate.bind(this)}
+                            />
+                        </div>
                     )}
-                    <MathComponent tex={tex}/>
+                    <div className="col">
+                        <MathComponent tex={tex}/>
+                    </div>
                 </div>
                 <hr />
 

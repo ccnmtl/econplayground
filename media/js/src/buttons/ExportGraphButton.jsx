@@ -10,7 +10,7 @@ export default class ExportGraphButton extends React.Component {
     render() {
         return (
             <a
-                className="btn btn-secondary btn-sm ml-2"
+                className="btn btn-secondary btn-sm ms-2"
                 download="ep-graph.svg"
                 href={this.state.url}
                 title="Export as SVG"

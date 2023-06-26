@@ -122,56 +122,60 @@ export default class NonLinearDemandSupplyEditor extends React.Component {
                     this.props.displayLabels && (
                         <React.Fragment>
                             <h2>Labels</h2>
-                            <div className="d-flex flex-wrap justify-content-between align-items-end">
-                                <div className="col-6">
-                                    <EditableControl
-                                        id="gLine1Label"
-                                        name="Orange line label"
-                                        value={this.props.gLine1Label}
-                                        valueEditable={true}
-                                        isInstructor={this.props.isInstructor}
-                                        updateGraph={this.props.updateGraph}
-                                    />
+                            <div className="d-flex flex-wrap">
+                                <div className="row">
+                                    <div className="col">
+                                        <EditableControl
+                                            id="gLine1Label"
+                                            name="Orange line label"
+                                            value={this.props.gLine1Label}
+                                            valueEditable={true}
+                                            isInstructor={this.props.isInstructor}
+                                            updateGraph={this.props.updateGraph}
+                                        />
+                                    </div>
+                                    <div className="col">
+                                        <EditableControl
+                                            id="gLine2Label"
+                                            name="Blue line label"
+                                            value={this.props.gLine2Label}
+                                            valueEditable={true}
+                                            isInstructor={this.props.isInstructor}
+                                            updateGraph={this.props.updateGraph}
+                                        />
+                                    </div>
                                 </div>
-                                <div className="col-6">
-                                    <EditableControl
-                                        id="gLine2Label"
-                                        name="Blue line label"
-                                        value={this.props.gLine2Label}
-                                        valueEditable={true}
-                                        isInstructor={this.props.isInstructor}
-                                        updateGraph={this.props.updateGraph}
-                                    />
-                                </div>
-                                <div className="col-4">
-                                    <EditableControl
-                                        id="gIntersectionLabel"
-                                        name="Intersection point label"
-                                        value={this.props.gIntersectionLabel}
-                                        valueEditable={true}
-                                        isInstructor={this.props.isInstructor}
-                                        updateGraph={this.props.updateGraph}
-                                    />
-                                </div>
-                                <div className="col-4">
-                                    <EditableControl
-                                        id="gIntersectionHorizLineLabel"
-                                        name="Intersection&apos;s horizontal line label"
-                                        value={this.props.gIntersectionHorizLineLabel}
-                                        valueEditable={true}
-                                        isInstructor={this.props.isInstructor}
-                                        updateGraph={this.props.updateGraph}
-                                    />
-                                </div>
-                                <div className="col-4">
-                                    <EditableControl
-                                        id="gIntersectionVertLineLabel"
-                                        name="Intersection&apos;s vertical line label"
-                                        value={this.props.gIntersectionVertLineLabel}
-                                        valueEditable={true}
-                                        isInstructor={this.props.isInstructor}
-                                        updateGraph={this.props.updateGraph}
-                                    />
+                                <div className="row">
+                                    <div className="col">
+                                        <EditableControl
+                                            id="gIntersectionLabel"
+                                            name="Intersection point label"
+                                            value={this.props.gIntersectionLabel}
+                                            valueEditable={true}
+                                            isInstructor={this.props.isInstructor}
+                                            updateGraph={this.props.updateGraph}
+                                        />
+                                    </div>
+                                    <div className="col">
+                                        <EditableControl
+                                            id="gIntersectionHorizLineLabel"
+                                            name="Intersection&apos;s horizontal line label"
+                                            value={this.props.gIntersectionHorizLineLabel}
+                                            valueEditable={true}
+                                            isInstructor={this.props.isInstructor}
+                                            updateGraph={this.props.updateGraph}
+                                        />
+                                    </div>
+                                    <div className="col">
+                                        <EditableControl
+                                            id="gIntersectionVertLineLabel"
+                                            name="Intersection&apos;s vertical line label"
+                                            value={this.props.gIntersectionVertLineLabel}
+                                            valueEditable={true}
+                                            isInstructor={this.props.isInstructor}
+                                            updateGraph={this.props.updateGraph}
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </React.Fragment>

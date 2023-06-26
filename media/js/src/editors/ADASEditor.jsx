@@ -7,9 +7,9 @@ import Checkbox from '../form-components/Checkbox.js';
 
 export default class ADASEditor extends React.Component {
 
-    formatControlStd(containerClass, id, name, value) {
+    formatControlStd(id, name, value) {
         return (
-            <div className={containerClass}>
+            <div className="col">
                 <EditableControl
                     id={id}
                     name={name}
@@ -118,91 +118,89 @@ export default class ADASEditor extends React.Component {
                 {this.props.displayLabels && (
                     <React.Fragment>
                         <h2>Labels</h2>
-                        <div className="d-flex flex-wrap justify-content-between align-items-end">
-                            {this.formatControlStd(/* className, id, name, value */
-                                'col-4',
-                                'gLine1Label',
-                                'Orange line',
-                                this.props.gLine1Label
-                            )}
-                            {this.formatControlStd(
-                                'col-4',
-                                'gLine2Label',
-                                'Blue line',
-                                this.props.gLine2Label
-                            )}
-                            {this.formatControlStd(
-                                'col-4',
-                                'gLine3Label',
-                                'Red line',
-                                this.props.gLine3Label
-                            )}
-                            {this.formatControlStd(
-                                'col-6',
-                                'gXAxisLabel',
-                                'X-Axis',
-                                this.props.gXAxisLabel
-                            )}
-                            {this.formatControlStd(
-                                'col-6',
-                                'gYAxisLabel',
-                                'Y-Axis',
-                                this.props.gYAxisLabel
-                            )}
-                            {this.formatControlStd(
-                                'col-4',
-                                'gIntersectionLabel',
-                                'Orange-Blue intersection',
-                                this.props.gIntersectionLabel
-                            )}
-                            {this.formatControlStd(
-                                'col-4',
-                                'gIntersection2Label',
-                                'Blue-Red intersection',
-                                this.props.gIntersection2Label
-                            )}
-                            {this.formatControlStd(
-                                'col-4',
-                                'gIntersection3Label',
-                                'Orange-Red intersection',
-                                this.props.gIntersection3Label
-                            )}
-                            {this.formatControlStd(
-                                'col-6',
-                                'gIntersectionHorizLineLabel',
-                                'Orange-Blue intersection horizontal',
-                                this.props.gIntersectionHorizLineLabel
-                            )}
-                            {this.formatControlStd(
-                                'col-6',
-                                'gIntersectionVertLineLabel',
-                                'Orange-Blue intersection vertical',
-                                this.props.gIntersectionVertLineLabel
-                            )}
-                            {this.formatControlStd(
-                                'col-6',
-                                'gIntersection2HorizLineLabel',
-                                'Blue-Red intersection horizontal',
-                                this.props.gIntersection2HorizLineLabel
-                            )}
-                            {this.formatControlStd(
-                                'col-6',
-                                'gIntersection2VertLineLabel',
-                                'Blue-Red intersection vertical',
-                                this.props.gIntersection2VertLineLabel
-                            )}
-                            {this.formatControlStd(
-                                'col-6',
-                                'gIntersection3HorizLineLabel',
-                                'Orange-Red intersection horizontal',
-                                this.props.gIntersection3HorizLineLabel
-                            )}
-                            {this.formatControlStd(
-                                'col-6',
-                                'gIntersection3VertLineLabel',
-                                'Orange-Red intersection vertical',
-                                this.props.gIntersection3VertLineLabel
-                            )}
+                        <div className="d-flex flex-wrap">
+                            <div className="row">
+                                {this.formatControlStd(
+                                    'gLine1Label',
+                                    'Orange line',
+                                    this.props.gLine1Label
+                                )}
+                                {this.formatControlStd(
+                                    'gLine2Label',
+                                    'Blue line',
+                                    this.props.gLine2Label
+                                )}
+                                {this.formatControlStd(
+                                    'gLine3Label',
+                                    'Red line',
+                                    this.props.gLine3Label
+                                )}
+                            </div>
+                            <div className="row">
+                                {this.formatControlStd(
+                                    'gXAxisLabel',
+                                    'X-Axis',
+                                    this.props.gXAxisLabel
+                                )}
+                                {this.formatControlStd(
+                                    'gYAxisLabel',
+                                    'Y-Axis',
+                                    this.props.gYAxisLabel
+                                )}
+                            </div>
+                            <div className="row">
+                                {this.formatControlStd(
+                                    'gIntersectionLabel',
+                                    'Orange-Blue intersection',
+                                    this.props.gIntersectionLabel
+                                )}
+                                {this.formatControlStd(
+                                    'gIntersection2Label',
+                                    'Blue-Red intersection',
+                                    this.props.gIntersection2Label
+                                )}
+                                {this.formatControlStd(
+                                    'gIntersection3Label',
+                                    'Orange-Red intersection',
+                                    this.props.gIntersection3Label
+                                )}
+                            </div>
+                            <div className="row">
+                                {this.formatControlStd(
+                                    'gIntersectionHorizLineLabel',
+                                    'Orange-Blue intersection horizontal',
+                                    this.props.gIntersectionHorizLineLabel
+                                )}
+                                {this.formatControlStd(
+                                    'gIntersectionVertLineLabel',
+                                    'Orange-Blue intersection vertical',
+                                    this.props.gIntersectionVertLineLabel
+                                )}
+                            </div>
+                            <div className="row">
+                                {this.formatControlStd(
+                                    'gIntersection2HorizLineLabel',
+                                    'Blue-Red intersection horizontal',
+                                    this.props.gIntersection2HorizLineLabel
+                                )}
+                                {this.formatControlStd(
+                                    'gIntersection2VertLineLabel',
+                                    'Blue-Red intersection vertical',
+                                    this.props.gIntersection2VertLineLabel
+                                )}
+                            </div>
+                            <div className="row">
+                                {this.formatControlStd(
+                                    'gIntersection3HorizLineLabel',
+                                    'Orange-Red intersection horizontal',
+                                    this.props.gIntersection3HorizLineLabel
+                                )}
+                                {this.formatControlStd(
+                                    'gIntersection3VertLineLabel',
+                                    'Orange-Red intersection vertical',
+                                    this.props.gIntersection3VertLineLabel
+                                )}
+                            </div>
                         </div>
                     </React.Fragment>
                 )}
