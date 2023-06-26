@@ -17,54 +17,34 @@
         Create Assignment
     </a>
 {% endif %}
-    <section class="row">
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <form class="form">
-                <ul class="list-group">
-                    <strong class="list-group-item d-flex flex-row text-white bg-dark align-items-center">
-                        <div class=" mr-auto">
-                            Title
-                        </div>
-                        <div class="col-6">
-                            Updated At
-                        </div>
-                        {% if i_am_instructor %}
-                        <div class="graph-title">
-                            Actions
-                        </div>
-                        {% endif %}
-                    </strong>
-                    {% for assignment in tree_list %}
-
-                        <li class="list-group-item d-flex align-items-center">
-                            <div class="graph-title mr-auto">
-                                <a
-                                   {% if i_am_instructor %}
-                                    href="{% url 'assignment_assignment_detail' assignment.pk %}"
-                                   {% else %}
-                                   href="{% url 'assignment_assignment_detail' assignment.pk %}"
-                                   {% endif %}
-                                   title="{{assignment.title}}">
-                                    {{assignment.title}}
-                                </a>
-                            </div>
-                            <div class="col-6">{{assignment.updated_at}}</div>
-                            {% if i_am_instructor %}
-                            <a role="button"
-                               class="btn btn-sm btn-danger mr-1"
-                               title="Remove {{assignment.title}} from Assignment List"
-                               href="{% url 'assignment_assignment_delete' assignment.pk %}?remove=true" >
-                                <i class="bi bi-x"></i>
-                            </a>
-                            {% endif %}
-                        </li>
-                    {% empty %}
-                        <p>
-                            Assignments you make can be found here.
-                        </p>
-                    {% endfor %}
-                </ul>
-            </form>
-        </div>
-    </section>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Updated at</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody class="table-group-divider">
+        {% for assignment in tree_list %}
+        <tr>
+            <th scope="row">
+                <a href="{% url 'assignment_assignment_detail' assignment.pk %}"
+                   title="{{assignment.title}}">
+                    {{assignment.title}}
+                </a>
+            </th>
+            <td>{{assignment.updated_at}}</td>
+            <td>
+                <a role="button"
+                   class="btn btn-sm btn-danger"
+                   title="Remove {{assignment.title}}"
+                   href="{% url 'assignment_assignment_delete' assignment.pk %}" >
+                    <i class="bi bi-x-lg"></i>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}
