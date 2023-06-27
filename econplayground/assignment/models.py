@@ -2,7 +2,67 @@ from django.contrib.auth.models import User
 from django.db import models
 from treebeard.mp_tree import MP_Node
 
-from econplayground.main.models import Cohort
+from econplayground.main.models import Cohort, Graph
+from .custom_storage import MediaStorage
+
+
+class Question(models.Model):
+    title = models.TextField(blank=True, default='')
+    prompt = models.TextField(blank=True, default='')
+
+    graph = models.ForeignKey(
+        Graph, on_delete=models.CASCADE,
+        blank=True, null=True)
+    media_upload = models.FileField(
+        storage=MediaStorage, blank=True, null=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    #
+    # Question evaluation data. The following fields are based on the
+    # main.AssessmentRule structure.
+    #
+    # The default empty value for these fields will allow any user
+    # action to succeed.
+    #
+    # You can constrain this by setting a value for assessment_name,
+    # allowing any action on, e.g. line1_slope to succeed. And then
+    # you can further constrain this action on line1_slope by setting
+    # the assessment_value to something like 'increase' or 'decrease'.
+    #
+
+    # The graph characteristic to assess, i.e. slope, position, label
+    assessment_name = models.CharField(
+        blank=True, default='', max_length=1024)
+
+    # The value we are looking for (i.e. user action), increase,
+    # decrease, or label match
+    assessment_value = models.CharField(
+        blank=True, default='', max_length=1024)
+
+    # Optional custom feedback for this assessment rule
+    feedback_fulfilled = models.TextField(blank=True, default='')
+    feedback_unfulfilled = models.TextField(blank=True, default='')
+
+    def evaluate_action(self, action_name, action_value):
+        """
+        Evaluate a user action, based on action type and value.
+
+
+        Returns a boolean: True for success, False for failure.
+        """
+        if self.assessment_name and self.assessment_value:
+            return action_name == self.assessment_name and \
+                action_value.lower() == self.assessment_value.lower()
+
+        if self.assessment_name:
+            return action_name == self.assessment_name
+
+        if not self.assessment_name and not self.assessment_value:
+            return True
+
+        return False
 
 
 class Tree(models.Model):
@@ -57,6 +117,10 @@ class Tree(models.Model):
 class Step(MP_Node):
     is_root_node = models.BooleanField(default=False)
     tree = models.ForeignKey(Tree, on_delete=models.CASCADE)
+
+    question = models.ForeignKey(
+        Question, on_delete=models.CASCADE,
+        blank=True, null=True)
 
     def get_prev(self):
         """Return the previous child, or the prev sibling, or None."""

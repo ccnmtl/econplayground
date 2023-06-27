@@ -1,8 +1,8 @@
 import factory
 from factory.django import DjangoModelFactory
 from factory import fuzzy
-from econplayground.assignment.models import Tree
-from econplayground.main.tests.factories import InstructorFactory
+from econplayground.assignment.models import Tree, Question
+from econplayground.main.tests.factories import GraphFactory, InstructorFactory
 
 
 class TreeFactory(DjangoModelFactory):
@@ -20,3 +20,12 @@ class TreeFactory(DjangoModelFactory):
         if extracted:
             for cohort in extracted:
                 self.cohorts.add(cohort)
+
+
+class QuestionFactory(DjangoModelFactory):
+    class Meta:
+        model = Question
+
+    title = fuzzy.FuzzyText()
+    prompt = fuzzy.FuzzyText()
+    graph = factory.SubFactory(GraphFactory)

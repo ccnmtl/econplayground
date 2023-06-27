@@ -560,8 +560,6 @@ class Question(models.Model):
     embedded_media = models.TextField(blank=True, default='')
     media_upload = models.FileField(
         storage=MediaStorage, blank=True, null=True)
-    graph = models.ForeignKey(
-        Graph, on_delete=models.CASCADE, blank=True, null=True)
     keywords = models.TextField(max_length=1024, blank=True, default='')
 
     prompt = models.TextField(blank=True, default='')
@@ -572,9 +570,6 @@ class Question(models.Model):
 
     def get_url_embed(self):
         return self.embedded_media
-
-    def get_graph_name(self):
-        return self.graph.title
 
     # TODO Finish method
     def evaluate(self):
