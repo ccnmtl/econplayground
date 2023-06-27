@@ -176,6 +176,8 @@ urlpatterns = [
     path('contact/', include('contactus.urls')),
 
     path('sentry-debug/', trigger_error),
+
+    path('pages/', include('django.contrib.flatpages.urls')),
 ]
 
 if settings.DEBUG:
