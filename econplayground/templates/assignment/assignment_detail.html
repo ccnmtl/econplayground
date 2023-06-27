@@ -18,14 +18,16 @@
 {% endblock %}
 
 {% block pagetitle %}
-    <h1>{{ object.title }}</h1>
-    <div class="d-flex justify-content-end">
-        <a class="btn btn-sm btn-secondary display-inline"
+    <div class="float-end">
+        <a class="btn btn-secondary display-inline"
+           role="button"
            href="{% url 'assignment_assignment_edit' object.pk %}"
            title="Edit {{ object.title }}">
             Edit
         </a>
     </div>
+
+    <h1>{{ object.title }}</h1>
 {% endblock %}
 
 {% block pagedescription %}
@@ -41,7 +43,7 @@
                     Step {{step.id}}
                 </a>
                 <form name="remove_step" method="post"
-                      class="float-right mb-1"
+                      class="float-end mb-1"
                       action="{% url 'tree_edit' object.pk %}">
                     {% csrf_token %}
                     <input name="action" value="remove_step" type="hidden" />
@@ -53,12 +55,15 @@
                     </button>
                 </form>
 
-                <select class="form-control form-control-sm">
-                    <option>Select question bank</option>
-                    <option>A</option>
-                    <option>B</option>
-                    <option>C</option>
-                    <option>D</option>
+
+                <select class="form-select form-select-sm">
+                    <option>Question:</option>
+                    {% for question in questions %}
+                        <option {% if step.data.question == question.pk %}selected{% endif %}
+                                value="{{question.pk}}">
+                            {{question.title}}
+                        </option>
+                    {% endfor %}
                 </select>
 
                 {% for substep in step.children %}
@@ -70,7 +75,7 @@
                                 </a>
 
                                 <form name="remove_step" method="post"
-                                      class="float-right mb-1"
+                                      class="float-end mb-1"
                                       action="{% url 'tree_edit' object.pk %}">
                                     {% csrf_token %}
                                     <input type="hidden"
@@ -86,12 +91,15 @@
                                     </button>
                                 </form>
 
-                                <select class="form-control form-control-sm">
-                                    <option>Select question bank</option>
-                                    <option>A</option>
-                                    <option>B</option>
-                                    <option>C</option>
-                                    <option>D</option>
+
+                                <select class="form-select form-select-sm">
+                                    <option>Question:</option>
+                                    {% for question in questions %}
+                                        <option {% if substep.data.question == question.pk %}selected{% endif %}
+                                            value="{{question.pk}}">
+                                            {{question.title}}
+                                        </option>
+                                    {% endfor %}
                                 </select>
                             </div>
                         </div>
@@ -124,8 +132,7 @@
               action="{% url 'tree_edit' object.pk %}">
             {% csrf_token %}
             <input name="action" value="add_step" type="hidden" />
-            <button type="submit" class="btn btn-sm btn-primary"
-                    title="Add step">
+            <button type="submit" class="btn btn-primary" title="Add step">
                 <i class="bi bi-plus-lg"></i>
                 Add step
             </button>

@@ -12,7 +12,7 @@ from django.views.generic.edit import (
 )
 from econplayground.main.views import EnsureCsrfCookieMixin
 from econplayground.main.utils import user_is_instructor
-from econplayground.assignment.models import Tree, Step
+from econplayground.assignment.models import Tree, Step, Question
 
 
 class AssignmentListView(LoginRequiredMixin, ListView):
@@ -69,10 +69,15 @@ class AssignmentDetailView(
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
+
         root = self.object.get_root()
         bulk_tree = Step.dump_bulk(parent=root)
         root = bulk_tree[0]
-        ctx.update({'tree': root.get('children')})
+
+        ctx.update({
+            'tree': root.get('children'),
+            'questions': Question.objects.all(),
+        })
         return ctx
 
 
