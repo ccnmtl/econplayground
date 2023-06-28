@@ -25,7 +25,7 @@ export default class RangeEditor extends React.Component {
                             </div>
                         )}
                         <input
-                            className="d-inline form-range form-control-sm w-90"
+                            className="d-inline form-range w-90"
                             aria-label={this.props.note}
                             id={this.props.id}
                             data-id={this.props.dataId}
