@@ -12,8 +12,6 @@
 @import 'base/base';
 @import 'base/font';
 @import 'layouts/nav';
-@import 'layouts/footer';
-@import 'layouts/banner';
 @import 'layouts/graphwidget';
 @import 'layouts/graph-listing';
 @import 'layouts/cohort-listing';
@@ -21,4 +19,13 @@
 
 mjx-container.MathJax {
     margin: 0 !important;
+}
+
+.loader-inner.ball-pulse {
+    margin-top: 3em;
+    text-align: center;
+}
+
+.loader-inner.ball-pulse>div {
+    background-color: #1e429b;
 }
