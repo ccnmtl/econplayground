@@ -11,9 +11,10 @@
                     {% include 'main/your_assignments_snippet.html' %}
                 </a>
             </li>
-            {% if assignment %}
+            {% if object %}
                 <li class="breadcrumb-item">
-                    <a href="{% url 'assignment_detail' object.pk %}" title="{{object.title}}">
+                    <a href="{% url 'assignment_assignment_detail' object.pk %}"
+                       title="{{object.title}}">
                         {{ object.title|truncatewords:5 }}
                     </a>
                 </li>
@@ -29,29 +30,28 @@
     <h1>{% if object %}Edit {% else %}New {% endif %} Assignment</h1>
 {% endblock %}
 
-{% block pagedescription %}
-{% endblock %}
-
 {% block content %}
-<div class="row">
-    <div class="col-md-12 order-md-1">
-        <form action="." method="post" v-on:submit="onSubmit">{% csrf_token %}
+    <form action="." method="post">
+        {% csrf_token %}
 
-            {% bootstrap_form form %}
+        {% bootstrap_form form %}
 
-            <div class="row">
-                <div class="col-md-2 mb-1 pr-0">
-                    <button type="submit" class="btn btn-block btn-primary">Save</button>
-                </div>
-                <div class="col-md-2 mb-1 pr-0">
-                    {% if object %}
-                        <a class="btn btn-block btn-secondary" href="{% url 'assignment_assignment_detail' object.pk %}">Cancel</a>
-                    {% else %}
-                        <a class="btn btn-block btn-secondary" href="{% url 'assignment_assignment_list' %}">Cancel</a>
-                    {% endif %}
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
+        <div class="d-grid gap-2 d-md-block">
+            <button type="submit" class="btn btn-primary">Save</button>
+
+            {% if object %}
+                <a class="btn btn-secondary"
+                   role="button"
+                   href="{% url 'assignment_assignment_detail' object.pk %}">
+                    Cancel
+                </a>
+            {% else %}
+                <a class="btn btn-secondary"
+                   role="button"
+                   href="{% url 'assignment_assignment_list' %}">
+                    Cancel
+                </a>
+            {% endif %}
+        </div>
+    </form>
 {% endblock %}
