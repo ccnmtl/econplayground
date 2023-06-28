@@ -1,3 +1,8 @@
+/*
+ Basic CSS customizations for EconPractice - for if you don't want to
+ get into scss.
+ */
+
 .nav-link {
     color: white;
 }
@@ -14,4 +19,8 @@
 
 .ep-max {
     margin-left: 10px;
+}
+
+figure#editing-graph {
+    background-color: white;
 }
