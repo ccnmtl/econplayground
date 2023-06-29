@@ -3,10 +3,6 @@
  get into scss.
  */
 
-.nav-link {
-    color: white;
-}
-
 .GraphPicker .graph-card {
     width: 50%;
     display: inline-block;

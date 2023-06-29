@@ -114,6 +114,13 @@ urlpatterns = [
          assignment_views.AssignmentStepDetailView.as_view(),
          name='step_detail'),
 
+    path('assignment/question/create/',
+         assignment_views.QuestionCreateView.as_view(),
+         name='assignment_question_create'),
+    path('assignment/question/<int:pk>/edit/',
+         assignment_views.QuestionUpdateView.as_view(),
+         name='assignment_question_edit'),
+
     path('assignment/',
          views.AssignmentListView.as_view(), name='assignment_list'),
     path('add/assignment/',
