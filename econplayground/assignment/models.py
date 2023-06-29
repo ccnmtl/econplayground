@@ -1,3 +1,8 @@
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
+
 from django.contrib.auth.models import User
 from django.db import models
 from treebeard.mp_tree import MP_Node
@@ -45,7 +50,7 @@ class Question(models.Model):
     feedback_fulfilled = models.TextField(blank=True, default='')
     feedback_unfulfilled = models.TextField(blank=True, default='')
 
-    def evaluate_action(self, action_name, action_value):
+    def evaluate_action(self, action_name: str, action_value: str) -> bool:
         """
         Evaluate a user action, based on action type and value.
 
@@ -75,7 +80,7 @@ class Tree(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def get_root(self):
+    def get_root(self) -> 'Step':
         try:
             root = Step.objects.get(tree=self, is_root_node=True).get_root()
         except Step.DoesNotExist:
@@ -83,7 +88,7 @@ class Tree(models.Model):
 
         return root
 
-    def add_step(self):
+    def add_step(self) -> 'Step':
         """Add a node on the main path.
 
         Returns the new Step.
@@ -99,7 +104,7 @@ class Tree(models.Model):
 
         return new_step
 
-    def add_substep(self, step_id):
+    def add_substep(self, step_id: int) -> 'Step':
         """Add a node on a sub path.
 
         Returns the new Step.
@@ -109,7 +114,7 @@ class Tree(models.Model):
         step.add_child(instance=new_step)
         return new_step
 
-    def remove_step(self, step_id):
+    def remove_step(self, step_id: int) -> None:
         step = Step.objects.get(tree=self, pk=step_id)
         step.delete()
 
@@ -122,7 +127,7 @@ class Step(MP_Node):
         Question, on_delete=models.CASCADE,
         blank=True, null=True)
 
-    def get_prev(self):
+    def get_prev(self) -> Self:
         """Return the previous child, or the prev sibling, or None."""
 
         node = self.get_prev_sibling()
@@ -136,7 +141,7 @@ class Step(MP_Node):
 
         return node
 
-    def get_next(self):
+    def get_next(self) -> Self:
         """Return the next child, or the next sibling, or None.
 
         This is probably the result of a correct answer on the student
@@ -156,7 +161,7 @@ class Step(MP_Node):
 
         return None
 
-    def get_next_intervention(self):
+    def get_next_intervention(self) -> Self:
         """The student answered incorrectly, so find the intervention path."""
         node = self.get_first_child()
         if node:
