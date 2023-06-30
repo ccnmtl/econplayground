@@ -124,7 +124,7 @@ class Step(MP_Node):
     tree = models.ForeignKey(Tree, on_delete=models.CASCADE)
 
     question = models.ForeignKey(
-        Question, on_delete=models.CASCADE,
+        Question, on_delete=models.SET_NULL,
         blank=True, null=True)
 
     def get_prev(self) -> Self:
