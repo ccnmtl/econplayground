@@ -38,35 +38,35 @@ class AssignmentTreeTest(TestCase):
         """
         self.root = self.x.get_root()
 
-        self.a1 = Step(tree=self.root.tree)
+        self.a1 = Step(assignment=self.root.assignment)
         self.root.add_child(instance=self.a1)
 
-        self.a2 = Step(tree=self.root.tree)
+        self.a2 = Step(assignment=self.root.assignment)
         self.a1.add_child(instance=self.a2)
-        self.a3 = Step(tree=self.root.tree)
+        self.a3 = Step(assignment=self.root.assignment)
         self.a2.add_child(instance=self.a3)
-        self.a4 = Step(tree=self.root.tree)
+        self.a4 = Step(assignment=self.root.assignment)
         self.a3.add_child(instance=self.a4)
 
-        self.b1 = Step(tree=self.root.tree)
+        self.b1 = Step(assignment=self.root.assignment)
         self.a1.add_sibling(instance=self.b1, pos='last-sibling')
 
-        self.b2 = Step(tree=self.root.tree)
+        self.b2 = Step(assignment=self.root.assignment)
         self.b1.add_child(instance=self.b2)
-        self.b3 = Step(tree=self.root.tree)
+        self.b3 = Step(assignment=self.root.assignment)
         self.b1.add_child(instance=self.b3)
 
-        self.c1 = Step(tree=self.root.tree)
+        self.c1 = Step(assignment=self.root.assignment)
         self.b1.add_sibling(instance=self.c1, pos='last-sibling')
 
-        self.d1 = Step(tree=self.root.tree)
+        self.d1 = Step(assignment=self.root.assignment)
         self.c1.add_child(instance=self.d1)
-        self.d2 = Step(tree=self.root.tree)
+        self.d2 = Step(assignment=self.root.assignment)
         self.d1.add_child(instance=self.d2)
-        self.d3 = Step(tree=self.root.tree)
+        self.d3 = Step(assignment=self.root.assignment)
         self.d2.add_child(instance=self.d3)
 
-        self.e1 = Step(tree=self.root.tree)
+        self.e1 = Step(assignment=self.root.assignment)
         self.d1.add_sibling(instance=self.e1, pos='last-sibling')
 
         return self.a1
@@ -80,7 +80,7 @@ class AssignmentTreeTest(TestCase):
 
     def test_make_steps(self):
         root = self.x.get_root()
-        step = Step(tree=root.tree)
+        step = Step(assignment=root.assignment)
         root.add_child(instance=step)
 
         self.assertEqual(root.get_depth(), 1)
@@ -128,17 +128,17 @@ class AssignmentTreeTest(TestCase):
     def test_multiple_assignments(self):
         a1 = self.x.get_root()
 
-        b1 = Step(tree=a1.tree)
+        b1 = Step(assignment=a1.assignment)
         a1.add_child(instance=b1)
 
         a2 = AssignmentFactory()
 
         a2root = a2.get_root()
-        b2 = Step(tree=a2root.tree)
+        b2 = Step(assignment=a2root.assignment)
         a2root.add_child(instance=b2)
 
         self.assertNotEqual(a1, a2)
-        self.assertNotEqual(b1.tree, b2.tree)
+        self.assertNotEqual(b1.assignment, b2.assignment)
 
     # Test basic assignment flow.
     def test_assignment_navigation(self):
@@ -202,13 +202,13 @@ class AssignmentTest(TestCase):
 
         self.root = self.x.get_root()
 
-        self.a1 = Step(tree=self.root.tree)
+        self.a1 = Step(assignment=self.root.assignment)
         self.root.add_child(instance=self.a1)
-        self.b1 = Step(tree=self.root.tree)
+        self.b1 = Step(assignment=self.root.assignment)
         self.a1.add_sibling(instance=self.b1, pos='last-sibling')
-        self.c1 = Step(tree=self.root.tree)
+        self.c1 = Step(assignment=self.root.assignment)
         self.b1.add_sibling(instance=self.c1, pos='last-sibling')
-        self.d1 = Step(tree=self.root.tree)
+        self.d1 = Step(assignment=self.root.assignment)
         self.c1.add_sibling(instance=self.d1, pos='last-sibling')
 
         # Populate it with questions
