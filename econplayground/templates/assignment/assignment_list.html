@@ -30,7 +30,7 @@
         {% for assignment in assignment_list %}
         <tr>
             <th scope="row">
-                <a href="{% url 'assignment_assignment_detail' assignment.pk %}"
+                <a href="{% url 'assignment_detail' assignment.pk %}"
                    title="{{assignment.title}}">
                     {{assignment.title}}
                 </a>

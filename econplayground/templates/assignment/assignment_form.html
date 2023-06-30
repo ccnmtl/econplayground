@@ -14,7 +14,7 @@
             </li>
             {% if object %}
                 <li class="breadcrumb-item">
-                    <a href="{% url 'assignment_assignment_detail' object.pk %}"
+                    <a href="{% url 'assignment_detail' object.pk %}"
                        title="{{object.title}}">
                         {{ object.title|truncatewords:5 }}
                     </a>
@@ -43,7 +43,7 @@
             {% if object %}
                 <a class="btn btn-secondary"
                    role="button"
-                   href="{% url 'assignment_assignment_detail' object.pk %}">
+                   href="{% url 'assignment_detail' object.pk %}">
                     Cancel
                 </a>
             {% else %}

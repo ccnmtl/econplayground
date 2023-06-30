@@ -74,9 +74,14 @@ class AssignmentDetailView(
         bulk_tree = Step.dump_bulk(parent=root)
         root = bulk_tree[0]
 
+        graphs = []
+        for cohort in self.object.cohorts.all():
+            graphs += cohort.get_graphs()
+
         ctx.update({
             'tree': root.get('children'),
             'questions': Question.objects.all(),
+            'graphs': graphs,
         })
         return ctx
 
@@ -89,7 +94,7 @@ class AssignmentTreeUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):
         return user_is_instructor(self.request.user)
 
     def get_success_url(self, pk):
-        return reverse('assignment_assignment_detail', kwargs={'pk': pk})
+        return reverse('assignment_detail', kwargs={'pk': pk})
 
     def post(self, request, *args, **kwargs):
         pk = kwargs.get('pk')
@@ -129,8 +134,7 @@ class AssignmentUpdateView(
         return form
 
     def get_success_url(self):
-        return reverse('assignment_assignment_detail',
-                       kwargs={'pk': self.object.pk})
+        return reverse('assignment_detail', kwargs={'pk': self.object.pk})
 
 
 class AssignmentDeleteView(
@@ -142,7 +146,7 @@ class AssignmentDeleteView(
         return user_is_instructor(self.request.user)
 
 
-class AssignmentStepDetailView(LoginRequiredMixin, DetailView):
+class StepDetailView(LoginRequiredMixin, DetailView):
     model = Step
     template_name = 'assignment/step_detail.html'
 
@@ -189,10 +193,58 @@ class QuestionCreateView(
     def test_func(self):
         return user_is_instructor(self.request.user)
 
-    def get_success_url(self, pk):
-        return reverse('assignment_assignment_detail', kwargs={'pk': pk})
+    def dispatch(self, *args, **kwargs):
+        self.assignment_pk = kwargs.get('assignment_pk')
+        return super().dispatch(*args, **kwargs)
+
+    def form_valid(self, form):
+        title = form.cleaned_data.get('title')
+        result = super().form_valid(form)
+
+        messages.add_message(
+            self.request, messages.SUCCESS,
+            'Question <strong>{}</strong> created.'.format(title),
+            extra_tags='safe'
+        )
+
+        return result
+
+    def get_success_url(self):
+        return reverse(
+            'assignment_detail', kwargs={'pk': self.assignment_pk})
 
 
 class QuestionUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):
     def test_func(self):
         return user_is_instructor(self.request.user)
+
+    def dispatch(self, *args, **kwargs):
+        self.assignment_pk = kwargs.get('assignment_pk')
+        return super().dispatch(*args, **kwargs)
+
+    def get_success_url(self):
+        return reverse(
+            'assignment_detail', kwargs={'pk': self.assignment_pk})
+
+
+class QuestionDeleteView(
+        LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Question
+
+    def test_func(self):
+        return user_is_instructor(self.request.user)
+
+    def dispatch(self, *args, **kwargs):
+        self.assignment_pk = kwargs.get('assignment_pk')
+        return super().dispatch(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx.update({
+            'assignment_pk': self.assignment_pk,
+        })
+        return ctx
+
+    def get_success_url(self):
+        return reverse(
+            'assignment_detail', kwargs={'pk': self.assignment_pk})

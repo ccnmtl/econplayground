@@ -18,7 +18,7 @@
 
           <div class="mb-3">
               <form method="post"
-                    action="{% url 'assignment_question_create' %}">
+                    action="{% url 'assignment_question_create' object.pk %}">
                   {% csrf_token %}
                   <button type="submit" class="btn btn-primary">
                       <i class="bi bi-plus-lg"></i> Add question
@@ -33,7 +33,8 @@
                        role="tabpanel"
                        aria-labelledby="question-{{question.pk}}-tab" tabindex="0">
                       <h4>Question {{question.pk}}</h4>
-                      <form method="post" action=".">
+                      <form method="post"
+                            action="{% url 'assignment_question_edit' object.pk question.pk %}">
                           {% csrf_token %}
 
                           <div class="mb-3">
@@ -50,9 +51,9 @@
                                      class="form-label">
                                   Prompt
                               </label>
-                              <input type="text" class="form-control"
-                                     id="questionPrompt-{{question.pk}}"
-                                     value="{{question.prompt}}">
+                              <textarea class="form-control"
+                                        id="questionPrompt-{{question.pk}}"
+                              >{{question.prompt}}</textarea>
                           </div>
 
                           <div class="mb-3">
@@ -62,10 +63,11 @@
                               </label>
                               <select class="form-select"
                                       id="questionGraph-{{question.pk}}">
-                                  <option>A</option>
-                                  <option>B</option>
-                                  <option>C</option>
-                                  <option>D</option>
+                                  {% for graph in graphs %}
+                                      <option value="{{graph.pk}}">
+                                          {{graph.title}}
+                                      </option>
+                                  {% endfor %}
                               </select>
                           </div>
 
@@ -96,9 +98,11 @@
                           <button type="submit" class="btn btn-primary">
                               Save
                           </button>
-                          <button type="button" class="btn btn-danger float-end">
+                          <a role="button"
+                             class="btn btn-danger float-end"
+                             href="{% url 'assignment_question_delete' object.pk question.pk %}">
                               Delete question
-                          </button>
+                          </a>
                       </form>
                   </div>
               {% endfor %}

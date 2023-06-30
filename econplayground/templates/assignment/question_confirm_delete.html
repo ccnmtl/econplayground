@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Question: {{object.title}}{% endblock %}
+
+{% block pagetitle %}<h1>Delete Question</h1>{% endblock %}
+
+{% block content %}
+    <p>
+        Removing <strong>{{object.title}}</strong>  &mdash; Are you sure?
+    </p>
+
+    <div class="row">
+        <div class="col-md-3">
+            <form action="." method="post">{% csrf_token %}
+                <button class="btn btn-danger" type="submit">
+                    Yes, delete this question
+                </button>
+            </form>
+        </div>
+
+        <div class="col-md-3">
+            <form action="{% url 'assignment_detail' assignment_pk %}">
+                <button class="btn btn-secondary" type="submit">
+                    Cancel
+                </button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
