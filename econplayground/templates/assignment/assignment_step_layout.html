@@ -17,8 +17,8 @@
                 </button>
             </form>
 
-
-            <select class="form-select form-select-sm">
+            <select class="form-select form-select-sm"
+                    name="question_step_{{step.id}}">
                 <option>Question:</option>
                 {% for question in questions %}
                     <option {% if step.data.question == question.pk %}selected{% endif %}
@@ -54,7 +54,8 @@
                             </form>
 
 
-                            <select class="form-select form-select-sm">
+                            <select class="form-select form-select-sm"
+                                    name="question_step_{{substep.id}}">
                                 <option>Question:</option>
                                 {% for question in questions %}
                                     <option {% if substep.data.question == question.pk %}selected{% endif %}
@@ -102,11 +103,54 @@
 </div>
 
 <form name="save" method="post"
-      class="mr-2"
       action="{% url 'tree_edit' object.pk %}">
     {% csrf_token %}
+
     <input name="action" value="save" type="hidden" />
-    <button type="submit" class="btn btn-primary" title="Save step state">
+    <button type="submit" class="btn btn-primary"
+            title="Save step state">
         Save
     </button>
 </form>
+
+<script>
+/*
+ * Some minimal-as-possible JS to connect the question <select> boxes
+ * up to the <form> submit. Would be nice if we could design the form
+ * in a way where this wasn't necessary.
+ */
+$(document).ready(function() {
+    let stepQuestions = {};
+
+    $('.assignment-grid select').on('change', function(e) {
+        const match = e.target.name.match(/\d+$/);
+        let stepId = null;
+        if (match) {
+            stepId = Number(match);
+        }
+
+        const questionId = e.target.value;
+
+        if (stepId) {
+            stepQuestions[stepId] = questionId;
+        }
+    });
+
+    $('form[name="save"]').submit(function(e) {
+        console.log('form submit :)');
+
+        let questionEls = [];
+
+        for (const stepId in stepQuestions) {
+            const questionId = stepQuestions[stepId];
+            questionEls.push(
+                '<input type="hidden"' +
+                ' name="step_question_' + stepId + '"' +
+                ' value="' + questionId + '" />'
+            );
+        }
+
+        $(e.target).append(questionEls);
+    });
+});
+</script>
