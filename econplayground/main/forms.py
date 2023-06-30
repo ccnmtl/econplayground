@@ -27,13 +27,9 @@ class GraphCloneForm(forms.Form):
 
 class AssignmentCloneForm(forms.Form):
     title = forms.CharField()
-    cohorts = forms.ModelChoiceField(Cohort.objects.none())
 
     def __init__(self, user, *args, **kwargs):
         r = super(AssignmentCloneForm, self).__init__(*args, **kwargs)
-
-        self.fields['cohorts'].queryset = Cohort.objects.filter(
-            instructors__in=(user,))
 
         return r
 

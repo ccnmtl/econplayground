@@ -21,12 +21,13 @@
     <thead>
         <tr>
             <th scope="col">Title</th>
+            <th scope="col">Courses</th>
             <th scope="col">Updated at</th>
             <th scope="col">Actions</th>
         </tr>
     </thead>
     <tbody class="table-group-divider">
-        {% for assignment in tree_list %}
+        {% for assignment in assignment_list %}
         <tr>
             <th scope="row">
                 <a href="{% url 'assignment_assignment_detail' assignment.pk %}"
@@ -34,6 +35,11 @@
                     {{assignment.title}}
                 </a>
             </th>
+            <td>
+                {% for cohort in assignment.cohorts.all %}
+                    {{cohort.title}},
+                {% endfor %}
+            </td>
             <td>{{assignment.updated_at}}</td>
             <td>
                 <a role="button"

@@ -70,7 +70,7 @@ class Question(models.Model):
         return False
 
 
-class Tree(models.Model):
+class Assignment(models.Model):
     title = models.TextField(max_length=1024, default='Untitled')
     published = models.BooleanField(default=False)
     prompt = models.TextField(blank=True, default='')
@@ -82,9 +82,11 @@ class Tree(models.Model):
 
     def get_root(self) -> 'Step':
         try:
-            root = Step.objects.get(tree=self, is_root_node=True).get_root()
+            root = Step.objects.get(
+                assignment=self, is_root_node=True).get_root()
         except Step.DoesNotExist:
-            root = Step.add_root(tree=self, is_root_node=True)
+            root = Step.add_root(
+                assignment=self, is_root_node=True)
 
         return root
 
@@ -94,7 +96,7 @@ class Tree(models.Model):
         Returns the new Step.
         """
         root = self.get_root()
-        new_step = Step(tree=self)
+        new_step = Step(assignment=self)
         first_child = root.get_first_child()
 
         if first_child:
@@ -109,19 +111,19 @@ class Tree(models.Model):
 
         Returns the new Step.
         """
-        step = Step.objects.get(tree=self, pk=step_id)
-        new_step = Step(tree=self)
+        step = Step.objects.get(assignment=self, pk=step_id)
+        new_step = Step(assignment=self)
         step.add_child(instance=new_step)
         return new_step
 
     def remove_step(self, step_id: int) -> None:
-        step = Step.objects.get(tree=self, pk=step_id)
+        step = Step.objects.get(assignment=self, pk=step_id)
         step.delete()
 
 
 class Step(MP_Node):
     is_root_node = models.BooleanField(default=False)
-    tree = models.ForeignKey(Tree, on_delete=models.CASCADE)
+    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
 
     question = models.ForeignKey(
         Question, on_delete=models.SET_NULL,

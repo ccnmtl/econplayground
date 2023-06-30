@@ -255,10 +255,10 @@ class QuestionBankTest(TestCase):
     def setUp(self):
         self.question = QuestionFactory(title='q1')
         self.supplement = QuestionBankFactory(
-            assignment=AssignmentFactory(cohorts=(CohortFactory(),)),
+            assignment=AssignmentFactory(),
             title='supplemental')
         self.x = QuestionBankFactory(
-            assignment=AssignmentFactory(cohorts=(CohortFactory(),)),
+            assignment=AssignmentFactory(),
             questions=(self.question,),
             supplemental=(self.supplement,))
 
@@ -269,20 +269,19 @@ class QuestionBankTest(TestCase):
         original = QuestionBankFactory(
             title='cloned question_bank',
             adaptive=True,
-            assignment=AssignmentFactory(cohorts=(CohortFactory(),)),
+            assignment=AssignmentFactory(),
             ap_correct=QuestionBankFactory(
-                assignment=AssignmentFactory(cohorts=(CohortFactory(),)),
+                assignment=AssignmentFactory(),
                 title='correct'),
             ap_incorrect=QuestionBankFactory(
-                assignment=AssignmentFactory(cohorts=(CohortFactory(),)),
+                assignment=AssignmentFactory(),
                 title='incorrect'),
             supplemental=QuestionBankFactory(
-                assignment=AssignmentFactory(cohorts=(CohortFactory(),)),
+                assignment=AssignmentFactory(),
                 title='supplemental'),
         )
 
-        cloned_pk = original.clone(AssignmentFactory(
-            cohorts=(CohortFactory(),)).pk).pk
+        cloned_pk = original.clone(AssignmentFactory().pk).pk
         cloned = QuestionBank.objects.get(pk=cloned_pk)
 
         self.assertNotEqual(original.pk, cloned.pk)
@@ -310,8 +309,7 @@ class QuestionBankTest(TestCase):
 
 class AssignmentTest(TestCase):
     def setUp(self):
-        self.cohort = CohortFactory()
-        self.x = AssignmentFactory(cohorts=(self.cohort,))
+        self.x = AssignmentFactory()
 
     def test_is_valid_from_factory(self):
         self.x.full_clean()

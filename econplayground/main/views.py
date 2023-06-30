@@ -699,7 +699,6 @@ class AssignmentCreateView(
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
         form.fields['title'].widget = forms.TextInput()
-        form.fields['cohorts'].queryset = self.request.user.cohort_set.all()
         return form
 
     def get(self, request, *args, **kwargs):
@@ -839,7 +838,6 @@ class AssignmentCloneFormView(LoginRequiredMixin, AssignmentInstructorMixin,
         cloned = self.object.clone()
 
         cloned.title = form.data.get('title')
-        cloned.instructor = self.request.user
         cloned.save()
 
         url = reverse('assignment_detail', kwargs={'pk': cloned.pk})

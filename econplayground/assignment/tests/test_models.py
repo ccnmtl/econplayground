@@ -1,14 +1,14 @@
 from django.test import TestCase
 from econplayground.assignment.tests.factories import (
-    TreeFactory, QuestionFactory
+    AssignmentFactory, QuestionFactory
 )
-from econplayground.assignment.models import Tree, Step
+from econplayground.assignment.models import Assignment, Step
 
 
-class TreeTest(TestCase):
+class AssignmentTreeTest(TestCase):
     """Structure tests for unpopulated assignments"""
     def setUp(self):
-        self.x = TreeFactory()
+        self.x = AssignmentFactory()
 
     def make_test_assignment(self):
         """
@@ -73,7 +73,7 @@ class TreeTest(TestCase):
 
     def test_is_valid_from_factory(self):
         self.x.full_clean()
-        self.assertIsInstance(self.x, Tree)
+        self.assertIsInstance(self.x, Assignment)
 
     def test_get_root(self):
         self.x.get_root()
@@ -131,7 +131,7 @@ class TreeTest(TestCase):
         b1 = Step(tree=a1.tree)
         a1.add_child(instance=b1)
 
-        a2 = TreeFactory()
+        a2 = AssignmentFactory()
 
         a2root = a2.get_root()
         b2 = Step(tree=a2root.tree)
@@ -194,11 +194,11 @@ class QuestionTest(TestCase):
 
 
 class AssignmentTest(TestCase):
-    """Tests for populated assignments (Tree + Questions)"""
+    """Tests for populated assignments (Assignment + Questions)"""
 
     def setUp(self):
         """Make a populated, linear assignment"""
-        self.x = TreeFactory()
+        self.x = AssignmentFactory()
 
         self.root = self.x.get_root()
 
