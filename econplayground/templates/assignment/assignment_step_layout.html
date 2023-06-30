@@ -1,0 +1,102 @@
+<div class="assignment-grid d-flex flex-wrap">
+    {% for step in tree %}
+        <div class="assignment-step">
+            <a href="{% url 'step_detail' object.pk step.id %}">
+                Step {{step.id}}
+            </a>
+            <form name="remove_step" method="post"
+                  class="float-end mb-1"
+                  action="{% url 'tree_edit' object.pk %}">
+                {% csrf_token %}
+                <input name="action" value="remove_step" type="hidden" />
+                <input name="step_id" value="{{step.id}}" type="hidden" />
+                <button type="submit"
+                        class="btn btn-sm btn-danger"
+                        title="Remove step">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </form>
+
+
+            <select class="form-select form-select-sm">
+                <option>Question:</option>
+                {% for question in questions %}
+                    <option {% if step.data.question == question.pk %}selected{% endif %}
+                            value="{{question.pk}}">
+                        {{question.title}}
+                    </option>
+                {% endfor %}
+            </select>
+
+            {% for substep in step.children %}
+                {% if step.id is not substep.id %}
+                    <div class="assignment-subpath">
+                        <div class="assignment-empty-step">
+                            <a href="{% url 'step_detail' object.pk substep.id %}">
+                                Step {{substep.id}}
+                            </a>
+
+                            <form name="remove_step" method="post"
+                                  class="float-end mb-1"
+                                  action="{% url 'tree_edit' object.pk %}">
+                                {% csrf_token %}
+                                <input type="hidden"
+                                       name="action"
+                                       value="remove_step" />
+                                <input type="hidden"
+                                       name="step_id"
+                                       value="{{substep.id}}" />
+                                <button type="submit"
+                                        class="btn btn-sm btn-danger"
+                                        title="Remove step">
+                                    <i class="bi bi-x-lg"></i>
+                                </button>
+                            </form>
+
+
+                            <select class="form-select form-select-sm">
+                                <option>Question:</option>
+                                {% for question in questions %}
+                                    <option {% if substep.data.question == question.pk %}selected{% endif %}
+                                            value="{{question.pk}}">
+                                        {{question.title}}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+            <div class="assignment-empty-step">
+                <form name="add_substep" method="post"
+                      action="{% url 'tree_edit' object.pk %}">
+                    {% csrf_token %}
+                    <input type="hidden"
+                           name="action"
+                           value="add_substep" />
+                    <input type="hidden"
+                           name="step_id"
+                           value="{{step.id}}" />
+                    <button class="btn btn-sm btn-primary"
+                            title="Add step">
+                        <i class="bi bi-plus-lg"></i>
+                        Add step
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    {% endfor %}
+
+    <form name="add_step" method="post"
+          class="mr-2"
+          action="{% url 'tree_edit' object.pk %}">
+        {% csrf_token %}
+        <input name="action" value="add_step" type="hidden" />
+        <button type="submit" class="btn btn-primary" title="Add step">
+            <i class="bi bi-plus-lg"></i>
+            Add step
+        </button>
+    </form>
+</div>

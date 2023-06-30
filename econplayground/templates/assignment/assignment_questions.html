@@ -1,0 +1,122 @@
+<div class="container mt-2">
+  <div class="row">
+      <div class="col-3">
+          <div class="mb-3">
+              <select class="form-select ep-question-select"
+                      aria-label="Select question" role="tablist">
+                  {% for question in questions %}
+                      <option
+                          value="{{question.pk}}"
+                          data-bs-toggle="tab"
+                          role="tab"
+                          data-bs-target="#question-{{question.pk}}">
+                          {{question.title}}
+                      </option>
+                  {% endfor %}
+              </select>
+          </div>
+
+          <div class="mb-3">
+              <form method="post"
+                    action="{% url 'assignment_question_create' %}">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-primary">
+                      <i class="bi bi-plus-lg"></i> Add question
+                  </button>
+              </form>
+          </div>
+      </div>
+      <div class="col">
+          <div class="tab-content" id="question-tabContent">
+              {% for question in questions %}
+                  <div class="tab-pane fade" id="question-{{question.pk}}"
+                       role="tabpanel"
+                       aria-labelledby="question-{{question.pk}}-tab" tabindex="0">
+                      <h4>Question {{question.pk}}</h4>
+                      <form method="post" action=".">
+                          {% csrf_token %}
+
+                          <div class="mb-3">
+                              <label for="questionTitle-{{question.pk}}"
+                                     class="form-label">
+                                  Title
+                              </label>
+                              <input type="text" class="form-control"
+                                     id="questionTitle-{{question.pk}}"
+                                     value="{{question.title}}">
+                          </div>
+                          <div class="mb-3">
+                              <label for="questionPrompt-{{question.pk}}"
+                                     class="form-label">
+                                  Prompt
+                              </label>
+                              <input type="text" class="form-control"
+                                     id="questionPrompt-{{question.pk}}"
+                                     value="{{question.prompt}}">
+                          </div>
+
+                          <div class="mb-3">
+                              <label for="questionGraph-{{question.pk}}"
+                                     class="form-label">
+                                  Graph
+                              </label>
+                              <select class="form-select"
+                                      id="questionGraph-{{question.pk}}">
+                                  <option>A</option>
+                                  <option>B</option>
+                                  <option>C</option>
+                                  <option>D</option>
+                              </select>
+                          </div>
+
+                          <div class="mb-3">
+                              <label for="questionAssessmentName-{{question.pk}}"
+                                     class="form-label">
+                                  Assessment type
+                              </label>
+                              <select class="form-select"
+                                      id="questionAssessmentName-{{question.pk}}">
+                                  <option>Line</option>
+                                  <option>Line slope</option>
+                                  <option>Label</option>
+                                  <option>Parameter</option>
+                              </select>
+                          </div>
+
+                          <div class="mb-3">
+                              <label for="questionAssessmentValue-{{question.pk}}"
+                                     class="form-label">
+                                  Assessment value
+                              </label>
+                              <input type="text" class="form-control"
+                                     id="questionAssessmentValue-{{question.pk}}"
+                                     value="{{question.prompt}}">
+                          </div>
+
+                          <button type="submit" class="btn btn-primary">
+                              Save
+                          </button>
+                          <button type="button" class="btn btn-danger float-end">
+                              Delete question
+                          </button>
+                      </form>
+                  </div>
+              {% endfor %}
+          </div>
+      </div>
+  </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    // Programmatic Bootstrap Tab functionality, adapted for the
+    // <select> element.
+    // https://getbootstrap.com/docs/5.3/components/navs-tabs/#javascript-behavior
+    $('select.ep-question-select').on('change', function(e) {
+        const questionId = Number(e.target.value);
+        const triggerEl = e.target.querySelector(
+            `option[data-bs-target="#question-${questionId}"]`)
+        bootstrap.Tab.getOrCreateInstance(triggerEl).show();
+    });
+});
+</script>

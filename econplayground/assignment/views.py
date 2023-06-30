@@ -174,3 +174,25 @@ class AssignmentStepDetailView(LoginRequiredMixin, DetailView):
             'prev_url': prev_url,
         })
         return ctx
+
+
+class QuestionCreateView(
+        EnsureCsrfCookieMixin, UserPassesTestMixin,
+        LoginRequiredMixin, CreateView):
+    model = Question
+    fields = [
+        'title', 'prompt', 'graph', 'assessment_name',
+        'assessment_value',
+    ]
+
+    def test_func(self):
+        return user_is_instructor(self.request.user)
+
+    # TODO
+    # def get_success_url(self, pk):
+    #     return reverse('assignment_assignment_detail', kwargs={'pk': pk})
+
+
+class QuestionUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):
+    def test_func(self):
+        return user_is_instructor(self.request.user)

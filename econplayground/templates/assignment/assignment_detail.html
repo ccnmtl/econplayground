@@ -35,112 +35,38 @@
 {% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="assignment-grid d-flex flex-wrap">
-        {% for step in tree %}
-            <div class="assignment-step">
-                <a href="{% url 'step_detail' object.pk step.id %}">
-                    Step {{step.id}}
-                </a>
-                <form name="remove_step" method="post"
-                      class="float-end mb-1"
-                      action="{% url 'tree_edit' object.pk %}">
-                    {% csrf_token %}
-                    <input name="action" value="remove_step" type="hidden" />
-                    <input name="step_id" value="{{step.id}}" type="hidden" />
-                    <button type="submit"
-                            class="btn btn-sm btn-danger"
-                            title="Remove step">
-                        <i class="bi bi-x-lg"></i>
-                    </button>
-                </form>
+    <div class="container">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="assignment-tab"
+                        data-bs-toggle="tab" data-bs-target="#assignment-tab-pane"
+                        type="button" role="tab"
+                        aria-controls="assignment-tab-pane" aria-selected="true">
+                    Assignment
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="questions-tab"
+                        data-bs-toggle="tab" data-bs-target="#questions-tab-pane"
+                        type="button" role="tab"
+                        aria-controls="questions-tab-pane" aria-selected="false">
+                    Questions
+                </button>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="assignment-tab-pane"
+                 role="tabpanel" aria-labelledby="assignment-tab" tabindex="0">
+                {% include 'assignment/assignment_step_layout.html' %}
 
+                <hr />
 
-                <select class="form-select form-select-sm">
-                    <option>Question:</option>
-                    {% for question in questions %}
-                        <option {% if step.data.question == question.pk %}selected{% endif %}
-                                value="{{question.pk}}">
-                            {{question.title}}
-                        </option>
-                    {% endfor %}
-                </select>
-
-                {% for substep in step.children %}
-                    {% if step.id is not substep.id %}
-                        <div class="assignment-subpath">
-                            <div class="assignment-empty-step">
-                                <a href="{% url 'step_detail' object.pk substep.id %}">
-                                    Step {{substep.id}}
-                                </a>
-
-                                <form name="remove_step" method="post"
-                                      class="float-end mb-1"
-                                      action="{% url 'tree_edit' object.pk %}">
-                                    {% csrf_token %}
-                                    <input type="hidden"
-                                           name="action"
-                                           value="remove_step" />
-                                    <input type="hidden"
-                                           name="step_id"
-                                           value="{{substep.id}}" />
-                                    <button type="submit"
-                                            class="btn btn-sm btn-danger"
-                                            title="Remove step">
-                                        <i class="bi bi-x-lg"></i>
-                                    </button>
-                                </form>
-
-
-                                <select class="form-select form-select-sm">
-                                    <option>Question:</option>
-                                    {% for question in questions %}
-                                        <option {% if substep.data.question == question.pk %}selected{% endif %}
-                                            value="{{question.pk}}">
-                                            {{question.title}}
-                                        </option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        </div>
-                    {% endif %}
-                {% endfor %}
-
-                <div class="assignment-empty-step">
-                    <form name="add_substep" method="post"
-                          action="{% url 'tree_edit' object.pk %}">
-                        {% csrf_token %}
-                        <input type="hidden"
-                               name="action"
-                               value="add_substep" />
-                        <input type="hidden"
-                               name="step_id"
-                               value="{{step.id}}" />
-                        <button class="btn btn-sm btn-primary"
-                                title="Add step">
-                            <i class="bi bi-plus-lg"></i>
-                            Add step
-                        </button>
-                    </form>
-                </div>
-
+                <p>{{ object.prompt }}</p>
             </div>
-        {% endfor %}
-
-        <form name="add_step" method="post"
-              class="mr-2"
-              action="{% url 'tree_edit' object.pk %}">
-            {% csrf_token %}
-            <input name="action" value="add_step" type="hidden" />
-            <button type="submit" class="btn btn-primary" title="Add step">
-                <i class="bi bi-plus-lg"></i>
-                Add step
-            </button>
-        </form>
+            <div class="tab-pane fade" id="questions-tab-pane"
+                 role="tabpanel" aria-labelledby="questions-tab" tabindex="0">
+                {% include 'assignment/assignment_questions.html' %}
+            </div>
+        </div>
     </div>
-
-    <hr />
-
-    <p>{{ object.prompt }}</p>
-</div>
 {% endblock %}
