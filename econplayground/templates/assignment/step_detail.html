@@ -6,7 +6,7 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
-            <a href="{% url 'assignment_assignment_detail' assignment.pk %}">
+            <a href="{% url 'assignment_detail' assignment.pk %}">
                 {{assignment.title|truncatewords:5}}
             </a>
         </li>
@@ -24,9 +24,18 @@
 {% block content %}
     <div class="container">
         {% if object.question %}
+            <h4>{{object.question.title}}</h4>
+            <p>
+                {{object.question.prompt}}
+            </p>
+
+            <p>
+                Graph: {{object.question.graph}}
+            </p>
+
             <form action="post">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-small btn-primary">
+                <button type="submit" class="btn btn-primary">
                     Submit
                 </button>
             </form>
@@ -36,8 +45,10 @@
             </p>
         {% endif %}
 
+        <hr />
 
-        <a class="btn btn-small btn-primary {% if not prev_url %}disabled{% endif %}"
+        <a class="btn btn-primary {% if not prev_url %}disabled{% endif %}"
+           role="button"
            {% if prev_url %}
            href="{{prev_url}}"
            {% else %}
@@ -50,6 +61,7 @@
 
 
         <a class="btn btn-small btn-primary {% if not next_url %}disabled{% endif %}"
+           role="button"
            {% if next_url %}
            href="{{next_url}}"
            {% else %}
