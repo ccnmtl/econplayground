@@ -100,3 +100,13 @@
         </button>
     </form>
 </div>
+
+<form name="save" method="post"
+      class="mr-2"
+      action="{% url 'tree_edit' object.pk %}">
+    {% csrf_token %}
+    <input name="action" value="save" type="hidden" />
+    <button type="submit" class="btn btn-primary" title="Save step state">
+        Save
+    </button>
+</form>

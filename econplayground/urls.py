@@ -104,7 +104,7 @@ urlpatterns = [
          assignment_views.AssignmentUpdateView.as_view(),
          name='assignment_assignment_edit'),
     path('tree/<int:pk>/edit/',
-         assignment_views.TreeUpdateView.as_view(),
+         assignment_views.AssignmentTreeUpdateView.as_view(),
          name='tree_edit'),
     path('assignment_assignment/<int:pk>/delete/',
          assignment_views.AssignmentDeleteView.as_view(),

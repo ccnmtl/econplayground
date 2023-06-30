@@ -1,13 +1,13 @@
 import factory
 from factory.django import DjangoModelFactory
 from factory import fuzzy
-from econplayground.assignment.models import Tree, Question
+from econplayground.assignment.models import Assignment, Question
 from econplayground.main.tests.factories import GraphFactory, InstructorFactory
 
 
-class TreeFactory(DjangoModelFactory):
+class AssignmentFactory(DjangoModelFactory):
     class Meta:
-        model = Tree
+        model = Assignment
 
     title = fuzzy.FuzzyText()
     instructor = factory.SubFactory(InstructorFactory)
