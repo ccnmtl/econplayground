@@ -12,15 +12,15 @@ from django.views.generic.edit import (
 )
 from econplayground.main.views import EnsureCsrfCookieMixin
 from econplayground.main.utils import user_is_instructor
-from econplayground.assignment.models import Tree, Step, Question
+from econplayground.assignment.models import Assignment, Step, Question
 
 
 class AssignmentListView(LoginRequiredMixin, ListView):
-    model = Tree
+    model = Assignment
     template_name = 'assignment/assignment_list.html'
 
     def get_queryset(self):
-        return Tree.objects.filter(
+        return Assignment.objects.filter(
             instructor=self.request.user
         ).order_by('created_at')
 
@@ -28,7 +28,7 @@ class AssignmentListView(LoginRequiredMixin, ListView):
 class AssignmentCreateView(
         EnsureCsrfCookieMixin, UserPassesTestMixin,
         LoginRequiredMixin, CreateView):
-    model = Tree
+    model = Assignment
     fields = ['title', 'prompt', 'cohorts']
     template_name = 'assignment/assignment_form.html'
 
@@ -61,7 +61,7 @@ class AssignmentCreateView(
 
 class AssignmentDetailView(
         LoginRequiredMixin, UserPassesTestMixin, DetailView):
-    model = Tree
+    model = Assignment
     template_name = 'assignment/assignment_detail.html'
 
     def test_func(self):
@@ -81,7 +81,7 @@ class AssignmentDetailView(
         return ctx
 
 
-class TreeUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):
+class AssignmentTreeUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):
     """
     Add and remove nodes from the assignment tree.
     """
@@ -93,7 +93,7 @@ class TreeUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):
 
     def post(self, request, *args, **kwargs):
         pk = kwargs.get('pk')
-        tree = Tree.objects.get(pk=pk)
+        tree = Assignment.objects.get(pk=pk)
         action = request.POST.get('action')
 
         if action == 'add_step':
@@ -115,7 +115,7 @@ class TreeUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):
 
 class AssignmentUpdateView(
         LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    model = Tree
+    model = Assignment
     template_name = 'assignment/assignment_form.html'
     fields = ['title', 'prompt', 'cohorts']
 
@@ -135,7 +135,7 @@ class AssignmentUpdateView(
 
 class AssignmentDeleteView(
         LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    model = Tree
+    model = Assignment
     template_name = 'assignment/assignment_delete.html'
 
     def test_func(self):
@@ -149,7 +149,8 @@ class AssignmentStepDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
 
-        assignment = Tree.objects.get(pk=self.kwargs.get('assignment_pk'))
+        assignment = Assignment.objects.get(
+            pk=self.kwargs.get('assignment_pk'))
         next_step = self.object.get_next()
         prev_step = self.object.get_prev()
 
@@ -188,9 +189,8 @@ class QuestionCreateView(
     def test_func(self):
         return user_is_instructor(self.request.user)
 
-    # TODO
-    # def get_success_url(self, pk):
-    #     return reverse('assignment_assignment_detail', kwargs={'pk': pk})
+    def get_success_url(self, pk):
+        return reverse('assignment_assignment_detail', kwargs={'pk': pk})
 
 
 class QuestionUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):

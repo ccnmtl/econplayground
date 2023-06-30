@@ -21,6 +21,7 @@
     <thead>
         <tr>
             <th scope="col">Title</th>
+            <th scope="col">Courses</th>
             <th scope="col">Updated at</th>
             <th scope="col">Actions</th>
         </tr>
@@ -34,6 +35,11 @@
                     {{assignment.title}}
                 </a>
             </th>
+            <td>
+                {% for cohort in assignment.cohorts.all %}
+                    {{cohort.title}},
+                {% endfor %}
+            </td>
             <td>{{assignment.updated_at}}</td>
             <td>
                 <a role="button"

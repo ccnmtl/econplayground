@@ -182,7 +182,6 @@ class AssignmentFactory(DjangoModelFactory):
         model = Assignment
 
     title = fuzzy.FuzzyText()
-    instructor = factory.SubFactory(InstructorFactory)
 
     @factory.post_generation
     def banks(self, create, extracted):
@@ -192,21 +191,3 @@ class AssignmentFactory(DjangoModelFactory):
         if extracted:
             for banks in extracted:
                 self.banks.add(banks)
-
-    @factory.post_generation
-    def cohorts(self, create, extracted):
-        if not create:
-            return
-
-        if extracted:
-            for cohort in extracted:
-                self.cohorts.add(cohort)
-
-    @factory.post_generation
-    def instructors(self, create, extracted):
-        if not create:
-            return
-
-        if extracted:
-            for instructor in extracted:
-                self.instructors.add(instructor)

@@ -11,9 +11,68 @@ from econplayground.main.models import Cohort, Graph
 from .custom_storage import MediaStorage
 
 
+class Assignment(models.Model):
+    title = models.TextField(max_length=1024, default='Untitled')
+    published = models.BooleanField(default=False)
+    prompt = models.TextField(blank=True, default='')
+    cohorts = models.ManyToManyField(Cohort, blank=True)
+    instructor = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def get_root(self) -> 'Step':
+        try:
+            root = Step.objects.get(tree=self, is_root_node=True).get_root()
+        except Step.DoesNotExist:
+            root = Step.add_root(tree=self, is_root_node=True)
+
+        return root
+
+    def add_step(self) -> 'Step':
+        """Add a node on the main path.
+
+        Returns the new Step.
+        """
+        root = self.get_root()
+        new_step = Step(tree=self)
+        first_child = root.get_first_child()
+
+        if first_child:
+            first_child.add_sibling(instance=new_step, pos='last-sibling')
+        else:
+            root.add_child(instance=new_step)
+
+        return new_step
+
+    def add_substep(self, step_id: int) -> 'Step':
+        """Add a node on a sub path.
+
+        Returns the new Step.
+        """
+        step = Step.objects.get(tree=self, pk=step_id)
+        new_step = Step(tree=self)
+        step.add_child(instance=new_step)
+        return new_step
+
+    def remove_step(self, step_id: int) -> None:
+        step = Step.objects.get(tree=self, pk=step_id)
+        step.delete()
+
+
+class QuestionBank(models.Model):
+    title = models.TextField(blank=True, default='')
+    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
 class Question(models.Model):
     title = models.TextField(blank=True, default='')
     prompt = models.TextField(blank=True, default='')
+
+    bank = models.ForeignKey(QuestionBank, on_delete=models.CASCADE)
 
     graph = models.ForeignKey(
         Graph, on_delete=models.CASCADE,
@@ -70,58 +129,9 @@ class Question(models.Model):
         return False
 
 
-class Tree(models.Model):
-    title = models.TextField(max_length=1024, default='Untitled')
-    published = models.BooleanField(default=False)
-    prompt = models.TextField(blank=True, default='')
-    cohorts = models.ManyToManyField(Cohort, blank=True)
-    instructor = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def get_root(self) -> 'Step':
-        try:
-            root = Step.objects.get(tree=self, is_root_node=True).get_root()
-        except Step.DoesNotExist:
-            root = Step.add_root(tree=self, is_root_node=True)
-
-        return root
-
-    def add_step(self) -> 'Step':
-        """Add a node on the main path.
-
-        Returns the new Step.
-        """
-        root = self.get_root()
-        new_step = Step(tree=self)
-        first_child = root.get_first_child()
-
-        if first_child:
-            first_child.add_sibling(instance=new_step, pos='last-sibling')
-        else:
-            root.add_child(instance=new_step)
-
-        return new_step
-
-    def add_substep(self, step_id: int) -> 'Step':
-        """Add a node on a sub path.
-
-        Returns the new Step.
-        """
-        step = Step.objects.get(tree=self, pk=step_id)
-        new_step = Step(tree=self)
-        step.add_child(instance=new_step)
-        return new_step
-
-    def remove_step(self, step_id: int) -> None:
-        step = Step.objects.get(tree=self, pk=step_id)
-        step.delete()
-
-
 class Step(MP_Node):
     is_root_node = models.BooleanField(default=False)
-    tree = models.ForeignKey(Tree, on_delete=models.CASCADE)
+    tree = models.ForeignKey(Assignment, on_delete=models.CASCADE)
 
     question = models.ForeignKey(
         Question, on_delete=models.SET_NULL,

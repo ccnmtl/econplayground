@@ -508,8 +508,6 @@ class Submission(models.Model):
 
 
 class Assignment(models.Model):
-    cohorts = models.ManyToManyField(Cohort, blank=True)
-    instructor = models.ForeignKey(User, on_delete=models.CASCADE)
     prompt = models.TextField(blank=True, default='')
     published = models.BooleanField(default=False)
     title = models.TextField(max_length=1024, default='Untitled')
