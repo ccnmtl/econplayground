@@ -19,7 +19,6 @@ class Viewer extends Component {
             this.graphId = window.GRAPH_ID;
         }
 
-
         this.state = {
             submission: null
         };

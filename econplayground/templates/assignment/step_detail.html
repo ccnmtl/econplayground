@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Step {{ object.pk }}{% endblock %}
 
@@ -21,6 +22,21 @@
 <h1>Step {{object.pk}}</h1>
 {% endblock %}
 
+{% block js %}
+    <script>
+        if (!window.EconPlayground) {
+            window.EconPlayground = {};
+        }
+
+        window.EconPlayground['isInstructor'] = false;
+        window.EconPlayground['hideTitleAndInstructions'] = true;
+        {% if object.question and object.question.graph %}
+            window.GRAPH_ID = {{object.question.graph.pk}};
+        {% endif %}
+    </script>
+    <script src="{% static 'js/build/viewer.js' %}"></script>
+{% endblock %}
+
 {% block content %}
     <div class="container">
         {% if object.question %}
@@ -29,9 +45,13 @@
                 {{object.question.prompt}}
             </p>
 
-            <p>
-                Graph: {{object.question.graph}}
-            </p>
+            <div id="root">
+                <div class="loader-inner ball-pulse">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
 
             <form action="post">
                 {% csrf_token %}
