@@ -1,3 +1,5 @@
+import re
+
 from django import forms
 from django.contrib import messages
 from django.contrib.auth.mixins import (
@@ -114,6 +116,22 @@ class AssignmentTreeUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):
             step_id = request.POST.get('step_id')
             tree.remove_step(step_id)
             messages.add_message(request, messages.SUCCESS, 'Step removed.')
+        elif action == 'save':
+            # Update questions for each step in the POST
+            for key in request.POST.keys():
+                if key.startswith('step_question_'):
+                    match = re.search(r'\d+$', key)
+                    step_id = match.group()
+                    question_id = request.POST.get(key)
+
+                    step = Step.objects.get(pk=step_id)
+                    question = Question.objects.get(pk=question_id)
+
+                    step.question = question
+                    step.save()
+
+            messages.add_message(
+                request, messages.SUCCESS, 'Questions updated.')
 
         return HttpResponseRedirect(self.get_success_url(pk))
 
