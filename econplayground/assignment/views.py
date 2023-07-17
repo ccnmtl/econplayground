@@ -198,6 +198,27 @@ class StepDetailView(LoginRequiredMixin, DetailView):
         })
         return ctx
 
+    def post(self, request, *args, **kwargs):
+        step = self.get_object()
+        question = step.question
+
+        action_name = request.POST.get('action_name')
+        action_value = request.POST.get('action_value')
+
+        if question:
+            result = question.evaluate_action(action_name, action_value)
+            if result:
+                messages.add_message(
+                    self.request, messages.SUCCESS, 'Correct!')
+            else:
+                messages.add_message(
+                    self.request, messages.ERROR, 'Incorrect!')
+
+        return HttpResponseRedirect(reverse('step_detail', kwargs={
+            'assignment_pk': step.assignment.pk,
+            'pk': step.pk,
+        }))
+
 
 class QuestionCreateView(
         EnsureCsrfCookieMixin, UserPassesTestMixin,

@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 from econplayground.assignment.tests.factories import (
-    AssignmentFactory, QuestionFactory
+    AssignmentFactory, QuestionFactory, AssignmentMixin
 )
 from econplayground.assignment.models import Step
 from econplayground.main.tests.mixins import (
@@ -67,10 +67,89 @@ class AssignmentManagementViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertEqual(Step.objects.count(), 5)
 
 
-class AssignmentStudentFlowViewTest(LoggedInTestStudentMixin, TestCase):
-    def setUp(self):
-        super().setUp()
-        self.assignment = AssignmentFactory()
+class AssignmentStudentFlowViewTest(
+        LoggedInTestStudentMixin, AssignmentMixin, TestCase):
+    def test_assignment_step_view(self):
+        assignment = self.setup_sample_assignment()
 
-    def test_complete_assignment(self):
-        pass
+        first_step = assignment.get_root().get_first_child()
+
+        r = self.client.get(reverse('step_detail', kwargs={
+            'assignment_pk': assignment.pk,
+            'pk': first_step.pk
+        }))
+
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, first_step.question.title)
+
+    def test_assignment_step_submit_empty_action(self):
+        assignment = self.setup_sample_assignment()
+
+        first_step = assignment.get_root().get_first_child()
+
+        r = self.client.post(reverse('step_detail', kwargs={
+            'assignment_pk': assignment.pk,
+            'pk': first_step.pk
+        }), {
+            'action_name': '',
+            'action_value': '',
+        }, follow=True)
+
+        self.assertEqual(r.status_code, 200)
+
+    def test_assignment_step_submit_empty_assessment(self):
+        assignment = self.setup_sample_assignment()
+
+        first_step = assignment.get_root().get_first_child()
+
+        r = self.client.post(reverse('step_detail', kwargs={
+            'assignment_pk': assignment.pk,
+            'pk': first_step.pk
+        }), {
+            'action_name': 'line1',
+            'action_value': 'down',
+        }, follow=True)
+
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, 'Correct!')
+
+        r = self.client.post(reverse('step_detail', kwargs={
+            'assignment_pk': assignment.pk,
+            'pk': first_step.pk
+        }), {
+            'action_name': 'line1',
+            'action_value': 'up',
+        }, follow=True)
+
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, 'Correct!')
+
+    def test_assignment_step_submit(self):
+        assignment = self.setup_sample_assignment()
+
+        first_step = assignment.get_root().get_first_child()
+        first_step.question.assessment_name = 'line1'
+        first_step.question.assessment_value = 'up'
+        first_step.question.save()
+
+        r = self.client.post(reverse('step_detail', kwargs={
+            'assignment_pk': assignment.pk,
+            'pk': first_step.pk
+        }), {
+            'action_name': 'line1',
+            'action_value': 'down',
+        }, follow=True)
+
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, 'Incorrect!')
+
+        r = self.client.post(reverse('step_detail', kwargs={
+            'assignment_pk': assignment.pk,
+            'pk': first_step.pk
+        }), {
+            'action_name': 'line1',
+            'action_value': 'up',
+        }, follow=True)
+
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, 'Correct!')
