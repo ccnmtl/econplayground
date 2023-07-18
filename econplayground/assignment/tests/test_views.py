@@ -14,7 +14,53 @@ class AssignmentManagementViewTest(LoggedInTestInstructorMixin, TestCase):
         super().setUp()
         self.assignment = AssignmentFactory()
 
-    def test_question_management(self):
+    def test_create_question(self):
+        r = self.client.post(
+            reverse(
+                'assignment_question_create',
+                kwargs={'assignment_pk': self.assignment.pk}), {
+                'title': 'Test question',
+            }, follow=True)
+
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, 'Test question')
+        self.assertContains(r, 'created.')
+
+    def test_delete_question(self):
+        question = QuestionFactory()
+        question_pk = question.pk
+        r = self.client.post(
+            reverse(
+                'assignment_question_delete',
+                kwargs={
+                    'assignment_pk': self.assignment.pk,
+                    'pk': question_pk,
+                }), follow=True)
+
+        self.assertEqual(r.status_code, 200)
+
+    def test_update_question(self):
+        question = QuestionFactory()
+        question_pk = question.pk
+        r = self.client.post(
+            reverse(
+                'assignment_question_edit',
+                kwargs={
+                    'assignment_pk': self.assignment.pk,
+                    'pk': question_pk,
+                }), {
+                    'title': 'New title',
+                    'assessment_name': 'line1',
+                    'assessment_value': 'down',
+                }, follow=True)
+
+        self.assertEqual(r.status_code, 200)
+        question.refresh_from_db()
+        self.assertEqual(question.title, 'New title')
+        self.assertEqual(question.assessment_name, 'line1')
+        self.assertEqual(question.assessment_value, 'down')
+
+    def test_step_question_management(self):
         r = self.client.post(
             reverse('tree_edit', kwargs={'pk': self.assignment.pk}), {
                 'action': 'add_step',

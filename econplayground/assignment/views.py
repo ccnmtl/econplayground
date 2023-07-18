@@ -256,7 +256,14 @@ class QuestionCreateView(
             'assignment_detail', kwargs={'pk': self.assignment_pk})
 
 
-class QuestionUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):
+class QuestionUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Question
+    fields = [
+        'title', 'prompt',
+        'graph',
+        'assessment_name', 'assessment_value'
+    ]
+
     def test_func(self):
         return user_is_instructor(self.request.user)
 
