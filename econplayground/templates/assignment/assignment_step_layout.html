@@ -19,7 +19,7 @@
 
             <select class="form-select form-select-sm"
                     name="question_step_{{step.id}}">
-                <option>Question:</option>
+                <option value="0">Question:</option>
                 {% for question in questions %}
                     <option {% if step.data.question == question.pk %}selected{% endif %}
                             value="{{question.pk}}">
@@ -56,7 +56,7 @@
 
                             <select class="form-select form-select-sm"
                                     name="question_step_{{substep.id}}">
-                                <option>Question:</option>
+                                <option value="0">Question:</option>
                                 {% for question in questions %}
                                     <option {% if substep.data.question == question.pk %}selected{% endif %}
                                             value="{{question.pk}}">
@@ -129,7 +129,7 @@ $(document).ready(function() {
             stepId = Number(match);
         }
 
-        const questionId = e.target.value;
+        const questionId = Number(e.target.value);
 
         if (stepId) {
             stepQuestions[stepId] = questionId;
@@ -137,8 +137,6 @@ $(document).ready(function() {
     });
 
     $('form[name="save"]').submit(function(e) {
-        console.log('form submit :)');
-
         let questionEls = [];
 
         for (const stepId in stepQuestions) {

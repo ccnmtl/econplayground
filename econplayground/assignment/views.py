@@ -125,9 +125,12 @@ class AssignmentTreeUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):
                     question_id = request.POST.get(key)
 
                     step = Step.objects.get(pk=step_id)
-                    question = Question.objects.get(pk=question_id)
 
-                    step.question = question
+                    if question_id and question_id != '0':
+                        step.question = Question.objects.get(pk=question_id)
+                    else:
+                        step.question = None
+
                     step.save()
 
             messages.add_message(
