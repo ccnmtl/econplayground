@@ -44,6 +44,7 @@
                               </label>
                               <input type="text" class="form-control"
                                      id="questionTitle-{{question.pk}}"
+                                     name="title"
                                      value="{{question.title}}">
                           </div>
                           <div class="mb-3">
@@ -52,6 +53,7 @@
                                   Prompt
                               </label>
                               <textarea class="form-control"
+                                        name="prompt"
                                         id="questionPrompt-{{question.pk}}"
                               >{{question.prompt}}</textarea>
                           </div>
@@ -62,6 +64,7 @@
                                   Graph
                               </label>
                               <select class="form-select"
+                                      name="graph"
                                       id="questionGraph-{{question.pk}}">
                                   {% for graph in graphs %}
                                       <option value="{{graph.pk}}">
@@ -77,6 +80,7 @@
                                   Assessment type
                               </label>
                               <select class="form-select"
+                                      name="assessment_name"
                                       id="questionAssessmentName-{{question.pk}}">
                                   <option>Line</option>
                                   <option>Line slope</option>
@@ -91,6 +95,7 @@
                                   Assessment value
                               </label>
                               <input type="text" class="form-control"
+                                     name="assessment_value"
                                      id="questionAssessmentValue-{{question.pk}}"
                                      value="{{question.prompt}}">
                           </div>
