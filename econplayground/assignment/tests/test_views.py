@@ -3,7 +3,7 @@ from django.urls import reverse
 from econplayground.assignment.tests.factories import (
     AssignmentFactory, QuestionFactory, AssignmentMixin
 )
-from econplayground.assignment.models import Step
+from econplayground.assignment.models import Step, Question
 from econplayground.main.tests.mixins import (
     LoggedInTestInstructorMixin, LoggedInTestStudentMixin
 )
@@ -25,6 +25,9 @@ class AssignmentManagementViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, 'Test question')
         self.assertContains(r, 'created.')
+
+        q = Question.objects.last()
+        self.assertEqual(q.title, 'Test question')
 
     def test_delete_question(self):
         question = QuestionFactory()
