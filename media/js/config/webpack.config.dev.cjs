@@ -34,6 +34,7 @@ module.exports = {
         assignment: [paths.appAssignmentJs],
         editor: [paths.appEditorJs],
         question: [paths.appQuestionJs],
+        stepGraphViewer: [paths.appStepGraphViewerJs],
         viewer: [paths.appViewerJs]
     },
     output: {

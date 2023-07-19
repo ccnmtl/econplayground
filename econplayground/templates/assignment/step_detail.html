@@ -28,13 +28,11 @@
             window.EconPlayground = {};
         }
 
-        window.EconPlayground['isInstructor'] = false;
-        window.EconPlayground['hideTitleAndInstructions'] = true;
         {% if object.question and object.question.graph %}
             window.GRAPH_ID = {{object.question.graph.pk}};
         {% endif %}
     </script>
-    <script src="{% static 'js/build/viewer.js' %}"></script>
+    <script src="{% static 'js/build/stepGraphViewer.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -45,15 +43,16 @@
                 {{object.question.prompt}}
             </p>
 
-            <div id="root">
-                <div class="loader-inner ball-pulse">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </div>
-            </div>
-
             <form action="post">
+                <div id="root">
+                    <div class="loader-inner ball-pulse">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </div>
+
+
                 {% csrf_token %}
                 <button type="submit" class="btn btn-primary">
                     Submit

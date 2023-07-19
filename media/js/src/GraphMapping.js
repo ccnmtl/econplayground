@@ -222,7 +222,7 @@ const convertGraph = function(json) {
 /**
  * Import the json graph into the current state.
  */
-const importGraph = function(json, obj) {
+const importGraph = function(json, obj, callback=null) {
     const updateObj = {
         gId: json.id,
         gTitle: json.title,
@@ -340,7 +340,9 @@ const importGraph = function(json, obj) {
         updateObj.gA3 = 0.5;
     }
 
-    return obj.setState(Object.assign({}, updateObj, initialStateObj));
+    return obj.setState(
+        Object.assign({}, updateObj, initialStateObj),
+        callback);
 };
 
 const defaultEvaluation = {
