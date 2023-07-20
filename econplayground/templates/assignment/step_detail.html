@@ -44,6 +44,8 @@
             </p>
 
             <form method="post">
+                {% csrf_token %}
+
                 <div id="root">
                     <div class="loader-inner ball-pulse">
                         <div></div>
@@ -52,10 +54,15 @@
                     </div>
                 </div>
 
-                {% csrf_token %}
-                <button type="submit" class="btn btn-primary">
-                    Submit
-                </button>
+                {% if submission != None %}
+                    <div>
+                        Submitted: {{submission}}
+                    </div>
+                {% else %}
+                    <button type="submit" class="btn btn-primary">
+                        Submit
+                    </button>
+                {% endif %}
             </form>
         {% else %}
             <p>

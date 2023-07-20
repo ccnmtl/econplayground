@@ -194,10 +194,15 @@ class StepDetailView(LoginRequiredMixin, DetailView):
                 'assignment_pk': assignment.pk,
             })
 
+        step_name = 'step_{}_{}'.format(
+            self.object.assignment.pk, self.object.pk)
+        submission = self.request.session.get(step_name)
+
         ctx.update({
             'assignment': assignment,
             'next_url': next_url,
             'prev_url': prev_url,
+            'submission': submission,
         })
         return ctx
 
