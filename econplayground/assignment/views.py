@@ -275,6 +275,17 @@ class QuestionUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return reverse(
             'assignment_detail', kwargs={'pk': self.assignment_pk})
 
+    def form_valid(self, form):
+        result = super().form_valid(form)
+
+        messages.add_message(
+            self.request, messages.SUCCESS,
+            'Question <strong>{}</strong> updated.'.format(self.object.title),
+            extra_tags='safe'
+        )
+
+        return result
+
 
 class QuestionDeleteView(
         LoginRequiredMixin, UserPassesTestMixin, DeleteView):
