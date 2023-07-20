@@ -43,7 +43,7 @@
                 {{object.question.prompt}}
             </p>
 
-            <form action="post">
+            <form method="post">
                 <div id="root">
                     <div class="loader-inner ball-pulse">
                         <div></div>
@@ -51,7 +51,6 @@
                         <div></div>
                     </div>
                 </div>
-
 
                 {% csrf_token %}
                 <button type="submit" class="btn btn-primary">

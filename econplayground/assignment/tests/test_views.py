@@ -238,6 +238,11 @@ class AssignmentStudentFlowViewTest(
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, 'Incorrect!')
 
+        session = self.client.session
+        self.assertEqual(
+            session['step_{}_{}'.format(assignment.pk, first_step.pk)],
+            False)
+
         r = self.client.post(reverse('step_detail', kwargs={
             'assignment_pk': assignment.pk,
             'pk': first_step.pk
@@ -248,3 +253,8 @@ class AssignmentStudentFlowViewTest(
 
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, 'Correct!')
+
+        session = self.client.session
+        self.assertEqual(
+            session['step_{}_{}'.format(assignment.pk, first_step.pk)],
+            True)
