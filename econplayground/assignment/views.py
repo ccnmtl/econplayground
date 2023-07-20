@@ -210,6 +210,11 @@ class StepDetailView(LoginRequiredMixin, DetailView):
 
         if question:
             result = question.evaluate_action(action_name, action_value)
+
+            # Store the result in the user's session.
+            step_name = 'step_{}_{}'.format(step.assignment.pk, step.pk)
+            request.session[step_name] = result
+
             if result:
                 messages.add_message(
                     self.request, messages.SUCCESS, 'Correct!')

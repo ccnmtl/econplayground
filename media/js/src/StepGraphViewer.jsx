@@ -12,6 +12,9 @@ import {
  * This component is intended to be used in an Assignment Step. Basically,
  * just render the graph with no surrounding assessment stuff - let all
  * that be handled in Django.
+ *
+ * TODO: migrate to function component.
+ * https://react.dev/reference/react/Component#alternatives
  */
 export default class StepGraphViewer extends Component {
     constructor(props) {
