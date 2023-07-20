@@ -62,6 +62,8 @@ class AssignmentManagementViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertEqual(question.title, 'New title')
         self.assertEqual(question.assessment_name, 'line1')
         self.assertEqual(question.assessment_value, 'down')
+        self.assertContains(r, 'New title')
+        self.assertContains(r, 'updated.')
 
     def test_step_question_management(self):
         r = self.client.post(

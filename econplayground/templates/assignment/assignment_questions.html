@@ -4,6 +4,13 @@
           <div class="mb-3">
               <select class="form-select ep-question-select"
                       aria-label="Select question" role="tablist">
+                      <option
+                          value="0"
+                          data-bs-toggle="tab"
+                          role="tab"
+                          data-bs-target="#question-0">
+                          --
+                      </option>
                   {% for question in questions %}
                       <option
                           value="{{question.pk}}"
