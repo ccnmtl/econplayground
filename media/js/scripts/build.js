@@ -38,8 +38,11 @@ const WARN_AFTER_BUNDLE_GZIP_SIZE = 512 * 1024;
 const WARN_AFTER_CHUNK_GZIP_SIZE = 1024 * 1024;
 
 // Warn and crash if required files are missing
-if (!checkRequiredFiles([paths.appHtml, paths.appEditorJs, paths.appQuestionJs, paths.appViewerJs])) {
-  process.exit(1);
+if (!checkRequiredFiles([
+    paths.appHtml, paths.appEditorJs, paths.appQuestionJs, paths.appViewerJs,
+    paths.appStepGraphViewerJs
+])) {
+    process.exit(1);
 }
 
 // First, read the current file sizes in build directory.
