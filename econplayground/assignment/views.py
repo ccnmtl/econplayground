@@ -80,10 +80,13 @@ class AssignmentDetailView(
         for cohort in self.object.cohorts.all():
             graphs += cohort.get_graphs()
 
+        steps = Step.objects.filter(assignment=self.object)
+
         ctx.update({
             'tree': root.get('children'),
             'questions': Question.objects.all(),
             'graphs': graphs,
+            'steps': steps,
         })
         return ctx
 
@@ -133,8 +136,22 @@ class AssignmentTreeUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):
 
                     step.save()
 
+                elif key.startswith('step_next_'):
+                    match = re.search(r'\d+$', key)
+                    step_id = match.group()
+                    next_step_id = request.POST.get(key)
+
+                    step = Step.objects.get(pk=step_id)
+
+                    if next_step_id and next_step_id != '0':
+                        step.next_step = Step.objects.get(pk=next_step_id)
+                    else:
+                        step.next_step = None
+
+                    step.save()
+
             messages.add_message(
-                request, messages.SUCCESS, 'Questions updated.')
+                request, messages.SUCCESS, 'Steps updated.')
 
         return HttpResponseRedirect(self.get_success_url(pk))
 

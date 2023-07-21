@@ -17,7 +17,7 @@
                 </button>
             </form>
 
-            <select class="form-select form-select-sm"
+            <select class="form-select form-select-sm ep-question"
                     name="question_step_{{step.id}}">
                 <option value="0">--</option>
                 {% for question in questions %}
@@ -25,6 +25,23 @@
                             value="{{question.pk}}">
                         {{question.title}}
                     </option>
+                {% endfor %}
+            </select>
+
+            <label for="step_next_{{step.id}}">
+                Next step:
+            </label>
+            <select class="form-select form-select-sm ep-nextstep"
+                    id="step_next_{{step.id}}"
+                    name="step_next_{{step.id}}">
+                <option value="0">(default)</option>
+                {% for my_step in steps %}
+                    {% if not my_step.is_root and my_step.pk != step.id %}
+                        <option {% if step.data.next_step == my_step.pk %}selected{% endif %}
+                                value="{{my_step.pk}}">
+                            Step {{my_step.pk}}
+                        </option>
+                    {% endif %}
                 {% endfor %}
             </select>
 
@@ -53,8 +70,7 @@
                                 </button>
                             </form>
 
-
-                            <select class="form-select form-select-sm"
+                            <select class="form-select form-select-sm ep-question"
                                     name="question_step_{{substep.id}}">
                                 <option value="0">--</option>
                                 {% for question in questions %}
@@ -62,6 +78,23 @@
                                             value="{{question.pk}}">
                                         {{question.title}}
                                     </option>
+                                {% endfor %}
+                            </select>
+
+                            <label for="step_next_{{substep.id}}">
+                                Next step:
+                            </label>
+                            <select class="form-select form-select-sm ep-nextstep"
+                                    id="step_next_{{substep.id}}"
+                                    name="step_next_{{substep.id}}">
+                                <option value="0">(default)</option>
+                                {% for my_step in steps %}
+                                    {% if not my_step.is_root and my_step.pk != substep.id %}
+                                        <option {% if substep.data.next_step == my_step.pk %}selected{% endif %}
+                                                value="{{my_step.pk}}">
+                                            Step {{my_step.pk}}
+                                        </option>
+                                    {% endif %}
                                 {% endfor %}
                             </select>
                         </div>
@@ -121,8 +154,9 @@
  */
 $(document).ready(function() {
     let stepQuestions = {};
+    let nextSteps = {};
 
-    $('.assignment-grid select').on('change', function(e) {
+    $('.assignment-grid select.ep-question').on('change', function(e) {
         const match = e.target.name.match(/\d+$/);
         let stepId = null;
         if (match) {
@@ -136,19 +170,42 @@ $(document).ready(function() {
         }
     });
 
+    $('.assignment-grid select.ep-nextstep').on('change', function(e) {
+        const match = e.target.name.match(/\d+$/);
+        let stepId = null;
+        if (match) {
+            stepId = Number(match);
+        }
+
+        const nextStepId = Number(e.target.value);
+
+        if (stepId) {
+            nextSteps[stepId] = nextStepId;
+        }
+    });
+
     $('form[name="save"]').submit(function(e) {
-        let questionEls = [];
+        let inputEls = [];
 
         for (const stepId in stepQuestions) {
             const questionId = stepQuestions[stepId];
-            questionEls.push(
+            inputEls.push(
                 '<input type="hidden"' +
                 ' name="step_question_' + stepId + '"' +
                 ' value="' + questionId + '" />'
             );
         }
 
-        $(e.target).append(questionEls);
+        for (const stepId in nextSteps) {
+            const nextStepId = nextSteps[stepId];
+            inputEls.push(
+                '<input type="hidden"' +
+                ' name="step_next_' + stepId + '"' +
+                ' value="' + nextStepId + '" />'
+            );
+        }
+
+        $(e.target).append(inputEls);
     });
 });
 </script>

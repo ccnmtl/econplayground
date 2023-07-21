@@ -129,6 +129,10 @@ class Step(MP_Node):
         Question, on_delete=models.SET_NULL,
         blank=True, null=True)
 
+    next_step = models.ForeignKey(
+        'self', on_delete=models.SET_NULL,
+        blank=True, null=True)
+
     def get_prev(self) -> Self:
         """Return the previous child, or the prev sibling, or None."""
 
