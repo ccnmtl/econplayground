@@ -83,7 +83,7 @@ class AssignmentManagementViewTest(LoggedInTestInstructorMixin, TestCase):
                 'step_question_' + str(step.pk): q.pk,
             }, follow=True)
         self.assertEqual(r.status_code, 200)
-        self.assertContains(r, 'Questions updated.')
+        self.assertContains(r, 'Steps updated.')
         self.assertEqual(Step.objects.count(), 2)
         step.refresh_from_db()
         self.assertEqual(step.question, q)
@@ -95,10 +95,26 @@ class AssignmentManagementViewTest(LoggedInTestInstructorMixin, TestCase):
                 'step_question_' + str(step.pk): 0,
             }, follow=True)
         self.assertEqual(r.status_code, 200)
-        self.assertContains(r, 'Questions updated.')
+        self.assertContains(r, 'Steps updated.')
         self.assertEqual(Step.objects.count(), 2)
         step.refresh_from_db()
         self.assertEqual(step.question, None)
+
+        # Save next step
+        new_step = Step(assignment=self.assignment)
+        self.assignment.get_root().add_sibling(
+            instance=new_step, pos='last-sibling')
+
+        r = self.client.post(
+            reverse('tree_edit', kwargs={'pk': self.assignment.pk}), {
+                'action': 'save',
+                'step_next_' + str(step.pk): new_step.pk,
+            }, follow=True)
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, 'Steps updated.')
+        self.assertEqual(Step.objects.count(), 3)
+        step.refresh_from_db()
+        self.assertEqual(step.next_step, new_step)
 
     def test_build_linear_assignment(self):
         r = self.client.post(
@@ -150,7 +166,7 @@ class AssignmentManagementViewTest(LoggedInTestInstructorMixin, TestCase):
                 'step_question_' + str(Step.objects.first().pk): q.pk,
             }, follow=True)
         self.assertEqual(r.status_code, 200)
-        self.assertContains(r, 'Questions updated.')
+        self.assertContains(r, 'Steps updated.')
         self.assertEqual(Step.objects.count(), 5)
         self.assertEqual(Step.objects.first().question, q)
 
@@ -160,7 +176,7 @@ class AssignmentManagementViewTest(LoggedInTestInstructorMixin, TestCase):
                 'step_question_' + str(Step.objects.all()[1].pk): q2.pk,
             }, follow=True)
         self.assertEqual(r.status_code, 200)
-        self.assertContains(r, 'Questions updated.')
+        self.assertContains(r, 'Steps updated.')
         self.assertEqual(Step.objects.all()[1].question, q2)
 
 
