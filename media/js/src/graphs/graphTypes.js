@@ -1,14 +1,12 @@
-import {
-    mkDemandSupply,
-    mkNonLinearDemandSupply,
-    mkCobbDouglas,
-    mkConsumptionLeisure,
-    mkConsumptionSaving,
-    mkDemandSupplyAUC,
-    mkNonLinearDemandSupplyAUC,
-    mkOptimalChoice,
-    mkConsumptionLeisureOptimalChoice
-} from './Graph.js';
+import {mkDemandSupply} from './DemandSupplyGraph.js';
+import {mkDemandSupplyAUC} from './DemandSupplyGraphAUC.js';
+import {mkNonLinearDemandSupply} from './NonLinearDemandSupplyGraph.js';
+import {mkNonLinearDemandSupplyAUC} from './NonLinearDemandSupplyGraphAUC.js';
+import {mkCobbDouglas} from './CobbDouglasGraph.js';
+import {mkConsumptionLeisure} from './ConsumptionLeisureGraph.js';
+import {mkConsumptionLeisureOptimalChoice} from './ConsumptionLeisureOptimalChoiceGraph.js';
+import {mkConsumptionSaving} from './ConsumptionSavingGraph.js';
+import {mkOptimalChoice} from './OptimalChoiceGraph.js';
 import {mkADAS} from './ADASGraph.js';
 
 export const graphTypes = [

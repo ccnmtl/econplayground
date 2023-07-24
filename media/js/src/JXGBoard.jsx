@@ -5,9 +5,8 @@ import PropTypes from 'prop-types';
 import {MathComponent} from 'mathjax-react';
 import JXG from 'jsxgraph';
 import {graphTypes} from './graphs/graphTypes.js';
-import {
-    mkDemandSupply, mkNonLinearDemandSupply
-} from './graphs/Graph.js';
+import {mkNonLinearDemandSupply} from './graphs/NonLinearDemandSupplyGraph.js';
+import {mkDemandSupply} from './graphs/DemandSupplyGraph.js';
 import AreaDisplay from './AreaDisplay.jsx';
 import {getL1SubmissionOffset, getL2SubmissionOffset} from './utils.js';
 
