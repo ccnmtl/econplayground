@@ -55,9 +55,18 @@
                 </div>
 
                 {% if submission != None %}
-                    <div>
-                        Submitted: {{submission}}
+                    <div class="alert alert-light" role="alert">
+                        {% if submission %}
+                            {{object.question.feedback_fulfilled}}
+                        {% else %}
+                            {{object.question.feedback_unfulfilled}}
+                        {% endif %}
                     </div>
+
+                    <input type="hidden" name="unsubmit" value="true" />
+                    <button type="submit" class="btn btn-secondary">
+                        Un-submit
+                    </button>
                 {% else %}
                     <button type="submit" class="btn btn-primary">
                         Submit
