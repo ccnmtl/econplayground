@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static econ_auth %}
+
+{% block title %}Assignments{% endblock %}
+
+{% block pagetitle %}<h1>Assignments</h1>{% endblock %}
+
+{% block content %}
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Courses</th>
+            <th scope="col">Updated at</th>
+        </tr>
+    </thead>
+    <tbody class="table-group-divider">
+        {% for assignment in assignment_list %}
+        <tr>
+            <th scope="row">
+                {% if assignment.first_step %}
+                    <a href="{% url 'step_detail' assignment.pk assignment.first_step.pk %}"
+                       title="{{assignment.title}}">
+                        {{assignment.title}}
+                    </a>
+                {% else %}
+                    {{assignment.title}}
+                {% endif %}
+            </th>
+            <td>
+                {% for cohort in assignment.cohorts.all %}
+                    {{cohort.title}},
+                {% endfor %}
+            </td>
+            <td>{{assignment.updated_at}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

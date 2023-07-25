@@ -413,10 +413,11 @@ class CohortListStudentViewTest(LoggedInTestStudentMixin, TestCase):
 
         self.assertEqual(
             r.request.get('PATH_INFO'),
-            '/accounts/login/',
-            'Accessing course list page as a student redirects to login page.')
+            '/assignments/',
+            'Accessing course list page as a student redirects ' +
+            'to assignments page.')
 
-        self.assertContains(r, 'Log In')
+        self.assertContains(r, 'Assignments')
 
 
 class CohortCreateViewTest(LoggedInTestInstructorMixin, TestCase):

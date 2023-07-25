@@ -467,7 +467,7 @@ class CohortListView(LoginRequiredMixin, ListView):
 
     def dispatch(self, request, *args, **kwargs):
         if not user_is_instructor(request.user):
-            url = '/accounts/login/'
+            url = reverse('assignment_list_student')
             return HttpResponseRedirect(url)
 
         return super(CohortListView, self).dispatch(request, *args, **kwargs)
@@ -600,45 +600,6 @@ class TopicDeleteView(LoginRequiredMixin, CohortInstructorMixin, DeleteView):
             extra_tags='safe')
 
         return reverse('topic_list', kwargs={'cohort_pk': self.cohort.pk})
-
-
-class AssignmentListView(
-        LoginRequiredMixin, ListView):
-    model = Assignment
-    template_name = 'main/assignment_list.html'
-    is_assignment = True
-    is_question_bank = False
-    is_question = False
-
-    def flip_published(self, *args, **kwargs):
-        assignment = Assignment.objects.get(pk=self.pk)
-        assignment.update(published=not assignment.published)
-        assignment.save()
-        return super(AssignmentListView, self).get(*args, **kwargs)
-
-    def dispatch(self, request, *args, **kwargs):
-        return super(
-            AssignmentListView, self).dispatch(request, *args, **kwargs)
-
-    def get_queryset(self):
-        return Assignment.objects.all().order_by('created_at')
-
-    def get_context_data(self, *args, **kwargs):
-        ctx = super(
-            AssignmentListView, self).get_context_data(*args, **kwargs)
-
-        ua = [UserAssignment.objects.get_or_create(
-                assignment=x,
-                user=self.request.user)[0].pk for x in self.get_queryset()]
-
-        ctx.update({
-            'is_assignment': self.is_assignment,
-            'is_question_bank': self.is_question_bank,
-            'is_question': self.is_question,
-            'flip_publish': self.flip_published,
-            'user_assignment': ua
-        })
-        return ctx
 
 
 class AssignmentDetailView(

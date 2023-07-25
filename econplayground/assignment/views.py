@@ -27,6 +27,14 @@ class AssignmentListView(LoginRequiredMixin, ListView):
         ).order_by('created_at')
 
 
+class AssignmentListStudentView(LoginRequiredMixin, ListView):
+    model = Assignment
+    template_name = 'assignment/assignment_list_student.html'
+
+    def get_queryset(self):
+        return Assignment.objects.all().order_by('created_at')
+
+
 class AssignmentCreateView(
         EnsureCsrfCookieMixin, UserPassesTestMixin,
         LoginRequiredMixin, CreateView):
@@ -44,7 +52,7 @@ class AssignmentCreateView(
         return form
 
     def get_success_url(self):
-        return reverse('assignment_assignment_list')
+        return reverse('assignment_list')
 
     def form_valid(self, form):
         title = form.cleaned_data.get('title')
