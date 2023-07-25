@@ -90,6 +90,10 @@ class Assignment(models.Model):
 
         return root
 
+    @property
+    def first_step(self) -> 'Step':
+        return self.get_root().get_first_child()
+
     def add_step(self) -> 'Step':
         """Add a node on the main path.
 

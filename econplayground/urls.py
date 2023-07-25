@@ -93,7 +93,10 @@ urlpatterns = [
 
     path('assignment/list/',
          assignment_views.AssignmentListView.as_view(),
-         name='assignment_assignment_list'),
+         name='assignment_list'),
+    path('assignments/',
+         assignment_views.AssignmentListStudentView.as_view(),
+         name='assignment_list_student'),
     path('assignment/create/',
          assignment_views.AssignmentCreateView.as_view(),
          name='assignment_assignment_create'),
@@ -124,8 +127,6 @@ urlpatterns = [
          assignment_views.QuestionUpdateView.as_view(),
          name='assignment_question_edit'),
 
-    path('assignment/',
-         views.AssignmentListView.as_view(), name='assignment_list'),
     path('add/assignment/',
          views.AssignmentCreateView.as_view(), name='assignment_create'),
     path('assignment/<int:pk>/edit/',
