@@ -225,6 +225,17 @@ class StepDetailView(LoginRequiredMixin, DetailView):
 
     def post(self, request, *args, **kwargs):
         step = self.get_object()
+
+        unsubmit = request.POST.get('unsubmit')
+
+        if unsubmit == 'true':
+            step_name = 'step_{}_{}'.format(step.assignment.pk, step.pk)
+            del request.session[step_name]
+            return HttpResponseRedirect(reverse('step_detail', kwargs={
+                'assignment_pk': step.assignment.pk,
+                'pk': step.pk,
+            }))
+
         question = step.question
 
         action_name = request.POST.get('action_name')
@@ -288,7 +299,8 @@ class QuestionUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     fields = [
         'title', 'prompt',
         'graph',
-        'assessment_name', 'assessment_value'
+        'assessment_name', 'assessment_value',
+        'feedback_fulfilled', 'feedback_unfulfilled',
     ]
 
     def test_func(self):

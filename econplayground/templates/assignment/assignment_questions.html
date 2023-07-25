@@ -104,7 +104,29 @@
                               <input type="text" class="form-control"
                                      name="assessment_value"
                                      id="questionAssessmentValue-{{question.pk}}"
-                                     value="{{question.prompt}}">
+                                     value="{{question.assessment_value}}">
+                          </div>
+
+                          <div class="mb-3">
+                              <label for="feedbackFulfilled-{{question.pk}}"
+                                     class="form-label">
+                                  Feedback (fulfilled)
+                              </label>
+                              <textarea class="form-control"
+                                        name="feedback_fulfilled"
+                                        id="feedbackFulfilled-{{question.pk}}"
+                              >{{question.feedback_fulfilled}}</textarea>
+                          </div>
+
+                          <div class="mb-3">
+                              <label for="feedbackUnfulfilled-{{question.pk}}"
+                                     class="form-label">
+                                  Feedback (unfulfilled)
+                              </label>
+                              <textarea class="form-control"
+                                        name="feedback_unfulfilled"
+                                        id="feedbackUnfulfilled-{{question.pk}}"
+                              >{{question.feedback_unfulfilled}}</textarea>
                           </div>
 
                           <button type="submit" class="btn btn-primary">

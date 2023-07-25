@@ -55,6 +55,8 @@ class AssignmentManagementViewTest(LoggedInTestInstructorMixin, TestCase):
                     'title': 'New title',
                     'assessment_name': 'line1',
                     'assessment_value': 'down',
+                    'feedback_fulfilled': 'Feedback (fulfilled)',
+                    'feedback_unfulfilled': 'Feedback (unfulfilled)',
                 }, follow=True)
 
         self.assertEqual(r.status_code, 200)
@@ -62,6 +64,10 @@ class AssignmentManagementViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertEqual(question.title, 'New title')
         self.assertEqual(question.assessment_name, 'line1')
         self.assertEqual(question.assessment_value, 'down')
+        self.assertEqual(
+            question.feedback_fulfilled, 'Feedback (fulfilled)')
+        self.assertEqual(
+            question.feedback_unfulfilled, 'Feedback (unfulfilled)')
         self.assertContains(r, 'New title')
         self.assertContains(r, 'updated.')
 
