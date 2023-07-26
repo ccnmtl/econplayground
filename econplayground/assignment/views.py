@@ -32,7 +32,7 @@ class AssignmentListStudentView(LoginRequiredMixin, ListView):
     template_name = 'assignment/assignment_list_student.html'
 
     def get_queryset(self):
-        return Assignment.objects.all().order_by('created_at')
+        return Assignment.objects.order_by('created_at')
 
 
 class AssignmentCreateView(
@@ -92,7 +92,7 @@ class AssignmentDetailView(
 
         ctx.update({
             'tree': root.get('children'),
-            'questions': Question.objects.all(),
+            'questions': Question.objects.order_by('created_at'),
             'graphs': graphs,
             'steps': steps,
         })
