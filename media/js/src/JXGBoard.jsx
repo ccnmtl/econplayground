@@ -89,7 +89,7 @@ export default class JXGBoard extends React.Component {
         if (this.board) {
             // Remove all the current objects from the board so we can
             // re-render.
-            // https://jsxgraph.uni-bayreuth.de/docs/symbols/JXG.Board.html#removeObjec
+            // https://jsxgraph.uni-bayreuth.de/docs/symbols/JXG.Board.html#removeObject
             this.board.suspendUpdate();
 
             let i;
