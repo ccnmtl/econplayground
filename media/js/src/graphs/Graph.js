@@ -1,9 +1,3 @@
-/**
- * Graph.js
- *
- * Each graph type is a sub-class of the common Graph class.
- */
-
 import { defaultGraph } from '../GraphMapping.js';
 import {getOffset} from '../utils.js';
 import {drawPolygon} from '../jsxgraphUtils.js';
@@ -86,6 +80,13 @@ export const drawAreaBC = function(
         color);
 };
 
+/**
+ * Graph
+ *
+ * Each graph type is a sub-class of the common Graph class. A Graph
+ * sub-class must implement the make() method. See existing graph
+ * types for examples.
+ */
 export class Graph {
     constructor(board, options, defaults) {
         if (typeof defaults === 'undefined') {

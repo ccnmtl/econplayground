@@ -54,65 +54,60 @@ export default class StepGraphViewer extends Component {
             });
     }
 
+    /**
+     * Initialize handlers for all custom events for the given line.
+     *
+     * See the postMake() step of Graph.js for how these events get
+     * set up.
+     */
+    setupLineEventHandlers(line) {
+        const me = this;
+
+        // This is annoyingly required for the Reset button to work
+        // properly. Can this be re-organized to be handled
+        // automatically by the graph system?
+        document.addEventListener(`l${line}offset`, function(e) {
+            const offset = e.detail;
+
+            me.setState({
+                [`gLine${line}OffsetX`]: offset.x,
+                [`gLine${line}OffsetY`]: offset.y
+            });
+        });
+
+        document.addEventListener(`l${line}up`, function(e) {
+            let actions = [...me.state.actions, {
+                key: Date.now(),
+                name: 'line' + line,
+                value: 'up'
+            }];
+
+            me.setState({
+                actions: actions
+            });
+        });
+
+        document.addEventListener(`l${line}down`, function(e) {
+            let actions = [...me.state.actions, {
+                key: Date.now(),
+                name: 'line' + line,
+                value: 'down'
+            }];
+
+            me.setState({
+                actions: actions
+            });
+        });
+    }
+
     componentDidMount() {
         this.getGraph();
 
-        const me = this;
-        document.addEventListener('l1offset', function(e) {
-            const offset = e.detail;
-            let line = 1;
-            if (e.detail.line) {
-                line = e.detail.line;
-            }
+        this.setupLineEventHandlers(1);
+        this.setupLineEventHandlers(2);
 
-            let actions = [...me.state.actions, {
-                key: Date.now(),
-                name: 'line1',
-                value: 'change'
-            }];
-
-            me.setState({
-                [`gLine${line}OffsetX`]: offset.x,
-                [`gLine${line}OffsetY`]: offset.y,
-                actions: actions
-            });
-        });
-
-        document.addEventListener('l2offset', function(e) {
-            const offset = e.detail;
-            let line = 2;
-            if (e.detail.line) {
-                line = e.detail.line;
-            }
-
-            let actions = [...me.state.actions, {
-                key: Date.now(),
-                name: 'line2',
-                value: 'change'
-            }];
-
-            me.setState({
-                [`gLine${line}OffsetX`]: offset.x,
-                [`gLine${line}OffsetY`]: offset.y,
-                actions: actions
-            });
-        });
-
-        document.addEventListener('l3offset', function(e) {
-            const offset = e.detail;
-
-            let actions = [...me.state.actions, {
-                key: Date.now(),
-                name: 'line3',
-                value: 'change'
-            }];
-
-            me.setState({
-                gLine3OffsetX: offset.x,
-                gLine3OffsetY: offset.y,
-                actions: actions
-            });
-        });
+        // TODO: Only if we have line 3
+        this.setupLineEventHandlers(3);
     }
 
     render() {
