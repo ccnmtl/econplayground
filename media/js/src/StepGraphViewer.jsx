@@ -77,7 +77,7 @@ export default class StepGraphViewer extends Component {
 
         document.addEventListener(`l${line}up`, function(e) {
             let actions = [...me.state.actions, {
-                key: Date.now(),
+                key: window.crypto.randomUUID(),
                 name: 'line' + line,
                 value: 'up'
             }];
@@ -89,7 +89,7 @@ export default class StepGraphViewer extends Component {
 
         document.addEventListener(`l${line}down`, function(e) {
             let actions = [...me.state.actions, {
-                key: Date.now(),
+                key: window.crypto.randomUUID(),
                 name: 'line' + line,
                 value: 'down'
             }];
@@ -149,10 +149,16 @@ export default class StepGraphViewer extends Component {
                     </div>
                 </div>
                 {this.state.actions.map((action) => (
-                    <input
-                        type="hidden"
-                        key={action.key}
-                        name={action.name} value={action.value} />
+                    <>
+                        <input
+                            type="hidden"
+                            key={action.key + '1'}
+                            name="action_name" value={action.name} />
+                        <input
+                            type="hidden"
+                            key={action.key + '2'}
+                            name="action_value" value={action.value} />
+                    </>
                 ))}
             </div>
         );
