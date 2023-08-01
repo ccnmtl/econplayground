@@ -7,7 +7,7 @@ from econplayground.main.models import (
     GRAPH_TYPES,
     Graph, JXGLine, JXGLineTransformation, Submission,
     Assessment, AssessmentRule, Topic, Cohort,
-    Assignment, Question, QuestionBank
+    Assignment, Question
 )
 
 
@@ -146,35 +146,6 @@ class QuestionFactory(DjangoModelFactory):
     embedded_media = fuzzy.FuzzyText(
         prefix='https://www.google.com/search?q=')
     prompt = fuzzy.FuzzyText()
-
-
-class QuestionBankFactory(DjangoModelFactory):
-    class Meta:
-        model = QuestionBank
-
-    adaptive = False
-    ap_correct = None
-    ap_incorrect = None
-    questions = factory.SubFactory(QuestionFactory)
-    title = fuzzy.FuzzyText()
-
-    @factory.post_generation
-    def questions(self, create, extracted):
-        if not create:
-            return
-
-        if extracted:
-            for questions in extracted:
-                self.questions.add(questions)
-
-    @factory.post_generation
-    def supplemental(self, create, extracted):
-        if not create:
-            return
-
-        if extracted:
-            for supplemental in extracted:
-                self.supplemental.add(supplemental)
 
 
 class AssignmentFactory(DjangoModelFactory):
