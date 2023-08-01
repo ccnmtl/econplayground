@@ -29,3 +29,9 @@ mjx-container.MathJax {
 .loader-inner.ball-pulse>div {
     background-color: #1e429b;
 }
+
+@include media-breakpoint-only(lg) {
+    #root figure#editing-graph {
+        margin-left: -70px;
+    }
+}
