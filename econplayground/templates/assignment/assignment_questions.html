@@ -52,7 +52,7 @@
                               <input type="text" class="form-control"
                                      id="questionTitle-{{question.pk}}"
                                      name="title"
-                                     value="{{question.title}}">
+                                     value="{{question.title}}" />
                           </div>
                           <div class="mb-3">
                               <label for="questionPrompt-{{question.pk}}"
@@ -82,29 +82,44 @@
                           </div>
 
                           <div class="mb-3">
-                              <label for="questionAssessmentName-{{question.pk}}"
+                              <label for="questionAssessmentType-{{question.pk}}"
                                      class="form-label">
                                   Assessment type
                               </label>
-                              <select class="form-select"
-                                      name="assessment_name"
-                                      id="questionAssessmentName-{{question.pk}}">
-                                  <option>Line</option>
-                                  <option>Line slope</option>
-                                  <option>Label</option>
-                                  <option>Parameter</option>
+                              <select class="form-select ep-question-assessment-type"
+                                      name="assessment_type"
+                                      id="questionAssessmentType-{{question.pk}}">
+                                  <option>Select:</option>
+                                  {% for assessment_type in assessment_types %}
+                                      <option value="{{assessment_type.value}}">
+                                          {{assessment_type.name}}
+                                      </option>
+                                  {% endfor %}
                               </select>
                           </div>
 
-                          <div class="mb-3">
-                              <label for="questionAssessmentValue-{{question.pk}}"
-                                     class="form-label">
-                                  Assessment value
-                              </label>
-                              <input type="text" class="form-control"
-                                     name="assessment_value"
-                                     id="questionAssessmentValue-{{question.pk}}"
-                                     value="{{question.assessment_value}}">
+                          <div class="row mb-3">
+                              <div class="col">
+                                  <label for="questionAssessmentName-{{question.pk}}"
+                                         class="form-label">
+                                      Assessment name
+                                  </label>
+                                  <select class="form-select ep-question-assessment-name"
+                                          name="assessment_name"
+                                          id="questionAssessmentName-{{question.pk}}">
+                                  </select>
+                              </div>
+
+                              <div class="col">
+                                  <label for="questionAssessmentValue-{{question.pk}}"
+                                         class="form-label">
+                                      Assessment value
+                                  </label>
+                                  <input type="text" class="form-control"
+                                         name="assessment_value"
+                                         id="questionAssessmentValue-{{question.pk}}"
+                                         value="{{question.assessment_value}}" />
+                              </div>
                           </div>
 
                           <div class="mb-3">
@@ -145,8 +160,37 @@
   </div>
 </div>
 
+{{ assessment_types|json_script:"assessment_types" }}
+
 <script>
+/**
+ * https://www.w3schools.com/howto/howto_js_cascading_dropdown.asp
+ */
+function initDynamicAssessment(questionId, assessmentTypes) {
+    let typeSelect = document.getElementById(
+        `questionAssessmentType-${questionId}`);
+    let nameSelect = document.getElementById(
+        `questionAssessmentName-${questionId}`);
+    let valueSelect = document.getElementById(
+        `questionAssessmentValue-${questionId}`);
+
+    typeSelect.onchange = function() {
+        // Reset name/value dropdowns
+        nameSelect.length = 0;
+        valueSelect.length = 0;
+
+        typeObj = assessmentTypes.find(el => el.value === this.value);
+        typeObj.names.forEach((name) => {
+            nameSelect.options[nameSelect.options.length] =
+                new Option(name.name, name.value);
+        });
+    };
+};
+
 $(document).ready(function() {
+    const assessmentTypes = JSON.parse(
+        document.getElementById('assessment_types').textContent);
+
     // Programmatic Bootstrap Tab functionality, adapted for the
     // <select> element.
     // https://getbootstrap.com/docs/5.3/components/navs-tabs/#javascript-behavior
@@ -155,6 +199,8 @@ $(document).ready(function() {
         const triggerEl = e.target.querySelector(
             `option[data-bs-target="#question-${questionId}"]`)
         bootstrap.Tab.getOrCreateInstance(triggerEl).show();
+
+        initDynamicAssessment(questionId, assessmentTypes);
     });
 });
 </script>
