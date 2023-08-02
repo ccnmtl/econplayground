@@ -188,10 +188,22 @@ class AssignmentUpdateView(
 class AssignmentDeleteView(
         LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Assignment
-    template_name = 'assignment/assignment_delete.html'
+    template_name = 'assignment/assignment_confirm_delete.html'
 
     def test_func(self):
         return user_is_instructor(self.request.user)
+
+    def get_success_url(self):
+        return reverse('assignment_list')
+
+    def form_valid(self, form):
+        result = super().form_valid(form)
+
+        messages.add_message(
+            self.request, messages.SUCCESS,
+            'Assignment deleted.')
+
+        return result
 
 
 class StepDetailView(LoginRequiredMixin, DetailView):
