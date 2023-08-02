@@ -173,58 +173,39 @@ export class Graph {
         ) {
             this.initialL1Y = this.l1.getRise();
 
-            if (window.EconPlayground.isInstructor) {
-                this.l1.on('up', function() {
-                    const offset = getOffset(
-                        me.l1.getSlope(), me.l1.getRise(), 2.5);
+            this.l1.on('up', function() {
+                // Only do this line reset functionality if this
+                // is a submittable graph. Otherwise, students
+                // should be able to play freely.
+                if (!window.EconPlayground.isInstructor && me.options.gNeedsSubmit) {
+                    me.resetLine2();
+                }
 
-                    let line = 1;
-                    if (me.options.isBoard2) {
-                        line += 2;
+                if (this.getRise() > me.initialL1Y) {
+                    console.log('l1up');
+                    document.dispatchEvent(new Event('l1up'));
+                } else if (this.getRise() < me.initialL1Y) {
+                    document.dispatchEvent(new Event('l1down'));
+                } else {
+                    document.dispatchEvent(new Event('l1initial'));
+                }
+
+                const offset = getOffset(
+                    me.l1.getSlope(), me.l1.getRise(), 2.5);
+
+                let line = 1;
+                if (me.options.isBoard2) {
+                    line += 2;
+                }
+                const offsetEvt = new CustomEvent('l1offset', {
+                    detail: {
+                        x: 0,
+                        y: offset,
+                        line: line
                     }
-                    const offsetEvt = new CustomEvent('l1offset', {
-                        detail: {
-                            x: 0,
-                            y: offset,
-                            line: line
-                        }
-                    });
-                    document.dispatchEvent(offsetEvt);
                 });
-            } else {
-                this.l1.on('up', function() {
-                    // Only do this line reset functionality if this
-                    // is a submittable graph. Otherwise, students
-                    // should be able to play freely.
-                    if (me.options.gNeedsSubmit) {
-                        me.resetLine2();
-                    }
-
-                    if (this.getRise() > me.initialL1Y) {
-                        document.dispatchEvent(new Event('l1up'));
-                    } else if (this.getRise() < me.initialL1Y) {
-                        document.dispatchEvent(new Event('l1down'));
-                    } else {
-                        document.dispatchEvent(new Event('l1initial'));
-                    }
-
-                    const offset = getOffset(
-                        me.l1.getSlope(), me.l1.getRise(), 2.5);
-
-                    let line = 1;
-                    if (me.options.isBoard2) {
-                        line += 2;
-                    }
-                    const offsetEvt = new CustomEvent('l1offset', {
-                        detail: {
-                            x: 0,
-                            y: offset,
-                            line: line
-                        }
-                    });
-                    document.dispatchEvent(offsetEvt);
-                });
-            }
+                document.dispatchEvent(offsetEvt);
+            });
         }
 
         if (
@@ -233,57 +214,37 @@ export class Graph {
         ) {
             this.initialL2Y = this.l2.getRise();
 
-            if (window.EconPlayground.isInstructor) {
-                this.l2.on('up', function() {
-                    const offset = getOffset(
-                        me.l2.getSlope(), me.l2.getRise(), 2.5);
+            this.l2.on('up', function() {
+                // Only do this line reset functionality if this
+                // is a submittable graph. Otherwise, students
+                // should be able to play freely.
+                if (!window.EconPlayground.isInstructor && me.options.gNeedsSubmit) {
+                    me.resetLine1();
+                }
 
-                    let line = 2;
-                    if (me.options.isBoard2) {
-                        line += 2;
+                if (this.getRise() > me.initialL2Y) {
+                    document.dispatchEvent(new Event('l2up'));
+                } else if (this.getRise() < me.initialL2Y) {
+                    document.dispatchEvent(new Event('l2down'));
+                } else {
+                    document.dispatchEvent(new Event('l2initial'));
+                }
+
+                const offset = getOffset(
+                    me.l2.getSlope(), me.l2.getRise(), 2.5);
+                let line = 2;
+                if (me.options.isBoard2) {
+                    line += 2;
+                }
+                const offsetEvt = new CustomEvent('l2offset', {
+                    detail: {
+                        x: 0,
+                        y: offset,
+                        line: line
                     }
-                    const offsetEvt = new CustomEvent('l2offset', {
-                        detail: {
-                            x: 0,
-                            y: offset,
-                            line: line
-                        }
-                    });
-                    document.dispatchEvent(offsetEvt);
                 });
-            } else {
-                this.l2.on('up', function() {
-                    // Only do this line reset functionality if this
-                    // is a submittable graph. Otherwise, students
-                    // should be able to play freely.
-                    if (me.options.gNeedsSubmit) {
-                        me.resetLine1();
-                    }
-
-                    if (this.getRise() > me.initialL2Y) {
-                        document.dispatchEvent(new Event('l2up'));
-                    } else if (this.getRise() < me.initialL2Y) {
-                        document.dispatchEvent(new Event('l2down'));
-                    } else {
-                        document.dispatchEvent(new Event('l2initial'));
-                    }
-
-                    const offset = getOffset(
-                        me.l2.getSlope(), me.l2.getRise(), 2.5);
-                    let line = 2;
-                    if (me.options.isBoard2) {
-                        line += 2;
-                    }
-                    const offsetEvt = new CustomEvent('l2offset', {
-                        detail: {
-                            x: 0,
-                            y: offset,
-                            line: line
-                        }
-                    });
-                    document.dispatchEvent(offsetEvt);
-                });
-            }
+                document.dispatchEvent(offsetEvt);
+            });
         }
     }
     /**
