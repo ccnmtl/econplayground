@@ -124,7 +124,7 @@
     {% endfor %}
 
     <form name="add_step" method="post"
-          class="mr-2"
+          class="mt-1 mb-1"
           action="{% url 'tree_edit' object.pk %}">
         {% csrf_token %}
         <input name="action" value="add_step" type="hidden" />
