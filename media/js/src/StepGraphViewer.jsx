@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import GraphForm from './GraphForm.jsx';
 import { defaultGraph, importGraph } from './GraphMapping.js';
 import ResetGraphButton from './buttons/ResetGraphButton.jsx';
 import JXGBoard from './JXGBoard.jsx';
@@ -111,28 +112,32 @@ export default class StepGraphViewer extends Component {
     }
 
     render() {
-        let leftSide = (
-            <p>Loading...</p>
-        );
+        let leftSide = <p>Loading...</p>;
+        let rightSide = <p>Loading...</p>;
+
         if (
             typeof this.state.gType !== 'undefined' &&
                 this.state.gType !== null
         ) {
-            leftSide = (
+            leftSide =
                 <JXGBoard
                     id={'editing-graph'}
                     width={BOARD_WIDTH}
                     height={BOARD_HEIGHT}
                     shadow={true}
                     {...this.state}
-                />
-            );
+                />;
+
+            rightSide =
+                <GraphForm
+                    gType={this.state.gType}
+                    updateGraph={this.setState.bind(this)}
+                    props={this.state}
+                />;
         }
 
-        const rightSide = <p>rightSide</p>;
-
         return (
-            <div className="GraphViewer">
+            <div className="GraphViewer mb-1">
                 <div className="row">
                     <div className="col">
                         <div className="sticky-top">
@@ -149,16 +154,14 @@ export default class StepGraphViewer extends Component {
                     </div>
                 </div>
                 {this.state.actions.map((action) => (
-                    <>
+                    <div key={action.key}>
                         <input
                             type="hidden"
-                            key={action.key + '1'}
                             name="action_name" value={action.name} />
                         <input
                             type="hidden"
-                            key={action.key + '2'}
                             name="action_value" value={action.value} />
-                    </>
+                    </div>
                 ))}
             </div>
         );
