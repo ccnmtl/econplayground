@@ -1,14 +1,15 @@
 .assignment-empty-step,
 .assignment-step {
-    padding: 5px;
-    border: dashed 1px black;
+    padding: 0.5rem;
+    border: solid 1px #bbb;
+    border-radius: 0.25rem;
     margin: 5px;
 }
 
 .assignment-empty-step {
-    background-color: hsl(192, 100%, 50%);
+    background-color: white;
 }
 
 .assignment-step {
-    background-color: cyan;
+    background-color: #e9ecef;
 }
