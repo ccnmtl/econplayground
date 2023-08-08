@@ -182,7 +182,6 @@ export class Graph {
                 }
 
                 if (this.getRise() > me.initialL1Y) {
-                    console.log('l1up');
                     document.dispatchEvent(new Event('l1up'));
                 } else if (this.getRise() < me.initialL1Y) {
                     document.dispatchEvent(new Event('l1down'));
