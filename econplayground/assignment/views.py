@@ -216,14 +216,22 @@ class StepDetailView(LoginRequiredMixin, DetailView):
         assignment = Assignment.objects.get(
             pk=self.kwargs.get('assignment_pk'))
         next_step = self.object.get_next()
+        next_incorrect_step = self.object.get_next_intervention()
         prev_step = self.object.get_prev()
 
         next_url = None
+        next_incorrect_url = None
         prev_url = None
 
         if next_step:
             next_url = reverse('step_detail', kwargs={
                 'pk': next_step.pk,
+                'assignment_pk': assignment.pk,
+            })
+
+        if next_incorrect_step:
+            next_incorrect_url = reverse('step_detail', kwargs={
+                'pk': next_incorrect_step.pk,
                 'assignment_pk': assignment.pk,
             })
 
@@ -240,6 +248,7 @@ class StepDetailView(LoginRequiredMixin, DetailView):
         ctx.update({
             'assignment': assignment,
             'next_url': next_url,
+            'next_incorrect_url': next_incorrect_url,
             'prev_url': prev_url,
             'submission': submission,
         })
