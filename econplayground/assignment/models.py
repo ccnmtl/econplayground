@@ -184,7 +184,7 @@ class Step(MP_Node):
         if node:
             return node
 
-        parent = node.get_parent()
+        parent = self.get_parent()
         if parent:
             node = parent.get_next_sibling()
 
