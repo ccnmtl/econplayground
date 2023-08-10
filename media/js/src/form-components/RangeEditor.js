@@ -14,7 +14,7 @@ export default class RangeEditor extends React.Component {
             <React.Fragment>
                 <div className="row">
                     <div className="col">
-                        <div className="form-row slider-wrapper">
+                        <div className="form-row">
                             <label key="dataId" className="w-100" htmlFor={this.props.id}>
                                 {this.props.itemlabel && (
                                     <div style={{display: 'flex'}}>
