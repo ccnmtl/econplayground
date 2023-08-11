@@ -1,0 +1,24 @@
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  web:
+    build: .
+    command: >
+      sh -c "python manage.py migrate --noinput --settings=econplayground.settings_docker &&
+             python manage.py runserver --settings=econplayground.settings_docker 0.0.0.0:8000"
+    volumes:
+      - .:/src
+    ports:
+      - "8000:8000"
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      - db
