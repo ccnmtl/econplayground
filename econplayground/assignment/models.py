@@ -174,19 +174,28 @@ class Step(MP_Node):
 
         return None
 
+    def closest_next_sibling(self) -> Self:
+        """
+        Return the closest next sibling to this node, traversing
+        up its line of descendents.
+        """
+        node = self
+        while node:
+            sibling = node.get_next_sibling()
+            if sibling:
+                return sibling
+
+            node = node.get_parent()
+
+        return None
+
     def get_next_intervention(self) -> Self:
         """The student answered incorrectly, so find the intervention path."""
         node = self.get_first_child()
         if node:
             return node
 
-        node = self.get_next_sibling()
-        if node:
-            return node
-
-        parent = self.get_parent()
-        if parent:
-            node = parent.get_next_sibling()
+        node = self.closest_next_sibling()
 
         if node:
             return node
