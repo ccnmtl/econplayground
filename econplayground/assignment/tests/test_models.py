@@ -60,7 +60,7 @@ class AssignmentTreeTest(TestCase):
         self.b1.add_sibling(instance=self.c1, pos='last-sibling')
 
         self.d1 = Step(assignment=self.root.assignment)
-        self.c1.add_child(instance=self.d1)
+        self.c1.add_sibling(instance=self.d1, pos='last-sibling')
         self.d2 = Step(assignment=self.root.assignment)
         self.d1.add_child(instance=self.d2)
         self.d3 = Step(assignment=self.root.assignment)
@@ -165,24 +165,22 @@ class AssignmentTreeTest(TestCase):
         step_4 = step_3.get_next_intervention()
         self.assertEqual(step_4, self.a4)
 
-        # TODO
         # b1
-        # step_5 = step_4.get_next_intervention()
-        # from pdb import set_trace; set_trace()
-        # self.assertEqual(step_5, self.b1)
-        # self.assertEqual(step_5.get_depth(), 2)
+        step_5 = step_4.get_next_intervention()
+        self.assertEqual(step_5, self.b1)
+        self.assertEqual(step_5.get_depth(), 2)
 
-        # # I answer this question correctly, skipping the intervention path.
-        # step_6 = step_5.get_next()
-        # self.assertEqual(step_6, self.c1)
-        # self.assertEqual(step_6.get_depth(), 4)
+        # I answer this question correctly, skipping the intervention path.
+        step_6 = step_5.get_next()
+        self.assertEqual(step_6, self.c1)
+        self.assertEqual(step_6.get_depth(), 2)
 
-        # # I answer this question incorrectly, but there is no
-        # # intervention path defined, moving me on to the child node
-        # # d1.
-        # step_7 = step_6.get_next_intervention()
-        # self.assertEqual(step_7, self.d1)
-        # self.assertEqual(step_7.get_depth(), 2)
+        # I answer this question incorrectly, but there is no
+        # intervention path defined, moving me on to the sibling node
+        # d1.
+        step_7 = step_6.get_next_intervention()
+        self.assertEqual(step_7, self.d1)
+        self.assertEqual(step_7.get_depth(), 2)
 
 
 class QuestionTest(TestCase):
