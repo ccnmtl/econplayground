@@ -187,6 +187,36 @@ function initDynamicAssessment(questionId, assessmentTypes) {
     };
 };
 
+function selectQuestion(selectEl, questionId, assessmentTypes) {
+    const triggerEl = selectEl.querySelector(
+        `option[data-bs-target="#question-${questionId}"]`)
+    bootstrap.Tab.getOrCreateInstance(triggerEl).show();
+
+    initDynamicAssessment(questionId, assessmentTypes);
+};
+
+/**
+ * Display the Questions tab, and then the given question.
+ */
+function selectQuestionTab(questionId) {
+    $('.ep-question-select').val(questionId);
+
+    const triggerEl = document.querySelector(
+        '#myTab button[data-bs-target="#questions-tab-pane"]');
+
+    const assessmentTypes = JSON.parse(
+        document.getElementById('assessment_types').textContent);
+
+    triggerEl.addEventListener('shown.bs.tab', event => {
+        selectQuestion(
+            document.querySelector('.ep-question-select'),
+            questionId,
+            assessmentTypes);
+    })
+
+    bootstrap.Tab.getInstance(triggerEl).show()
+};
+
 $(document).ready(function() {
     const assessmentTypes = JSON.parse(
         document.getElementById('assessment_types').textContent);
@@ -195,12 +225,7 @@ $(document).ready(function() {
     // <select> element.
     // https://getbootstrap.com/docs/5.3/components/navs-tabs/#javascript-behavior
     $('select.ep-question-select').on('change', function(e) {
-        const questionId = Number(e.target.value);
-        const triggerEl = e.target.querySelector(
-            `option[data-bs-target="#question-${questionId}"]`)
-        bootstrap.Tab.getOrCreateInstance(triggerEl).show();
-
-        initDynamicAssessment(questionId, assessmentTypes);
+        selectQuestion(e.target, Number(e.target.value), assessmentTypes);
     });
 });
 </script>

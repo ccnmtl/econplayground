@@ -312,9 +312,14 @@ class QuestionCreateView(
         title = form.cleaned_data.get('title')
         result = super().form_valid(form)
 
+        if not title:
+            title = self.object.pk
+
+        onclick = 'selectQuestionTab({})'.format(self.object.pk)
         messages.add_message(
             self.request, messages.SUCCESS,
-            'Question <strong>{}</strong> created.'.format(title),
+            'Question <a href="#" onclick="{}">{}</a> created.'.format(
+                onclick, title),
             extra_tags='safe'
         )
 
@@ -348,9 +353,11 @@ class QuestionUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def form_valid(self, form):
         result = super().form_valid(form)
 
+        onclick = 'selectQuestionTab({})'.format(self.object.pk)
         messages.add_message(
             self.request, messages.SUCCESS,
-            'Question <strong>{}</strong> updated.'.format(self.object.title),
+            'Question <a href="#" onclick="{}">{}</a> updated.'.format(
+                onclick, self.object.title),
             extra_tags='safe'
         )
 

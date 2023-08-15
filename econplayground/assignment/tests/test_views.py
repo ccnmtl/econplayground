@@ -155,12 +155,16 @@ class AssignmentManagementViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertContains(r, 'New step added.')
         self.assertEqual(Step.objects.count(), 5)
 
-        # TODO
-        # r = self.client.post(
-        #     reverse(
-        #         'assignment_question_create',
-        #         kwargs={'pk': self.assignment.pk}), follow=True)
-        # self.assertEqual(Question.objects.count(), 1)
+        r = self.client.post(
+            reverse(
+                'assignment_question_create',
+                kwargs={'assignment_pk': self.assignment.pk}), follow=True)
+
+        self.assertContains(
+            r,
+            'Question <strong>{}</strong> created.'.format(
+                Question.objects.last().pk))
+        self.assertEqual(Question.objects.count(), 1)
 
         q = QuestionFactory()
         q2 = QuestionFactory()
