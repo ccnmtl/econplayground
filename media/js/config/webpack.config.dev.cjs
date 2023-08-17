@@ -35,6 +35,7 @@ module.exports = {
         editor: [paths.appEditorJs],
         question: [paths.appQuestionJs],
         stepGraphViewer: [paths.appStepGraphViewerJs],
+        rubric: [paths.appRubricJs],
         viewer: [paths.appViewerJs]
     },
     output: {

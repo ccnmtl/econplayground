@@ -81,68 +81,8 @@
                               </select>
                           </div>
 
-                          <div class="mb-3">
-                              <label for="questionAssessmentType-{{question.pk}}"
-                                     class="form-label">
-                                  Assessment type
-                              </label>
-                              <select class="form-select ep-question-assessment-type"
-                                      name="assessment_type"
-                                      id="questionAssessmentType-{{question.pk}}">
-                                  <option>Select:</option>
-                                  {% for assessment_type in assessment_types %}
-                                      <option value="{{assessment_type.value}}">
-                                          {{assessment_type.name}}
-                                      </option>
-                                  {% endfor %}
-                              </select>
-                          </div>
-
-                          <div class="row mb-3">
-                              <div class="col">
-                                  <label for="questionAssessmentName-{{question.pk}}"
-                                         class="form-label">
-                                      Assessment name
-                                  </label>
-                                  <select class="form-select ep-question-assessment-name"
-                                          name="assessment_name"
-                                          id="questionAssessmentName-{{question.pk}}">
-                                  </select>
-                              </div>
-
-                              <div class="col">
-                                  <label for="questionAssessmentValue-{{question.pk}}"
-                                         class="form-label">
-                                      Assessment value
-                                  </label>
-                                  <input type="text" class="form-control"
-                                         name="assessment_value"
-                                         id="questionAssessmentValue-{{question.pk}}"
-                                         value="{{question.assessment_value}}" />
-                              </div>
-                          </div>
-
-                          <div class="mb-3">
-                              <label for="feedbackFulfilled-{{question.pk}}"
-                                     class="form-label">
-                                  Feedback (fulfilled)
-                              </label>
-                              <textarea class="form-control"
-                                        name="feedback_fulfilled"
-                                        id="feedbackFulfilled-{{question.pk}}"
-                              >{{question.feedback_fulfilled}}</textarea>
-                          </div>
-
-                          <div class="mb-3">
-                              <label for="feedbackUnfulfilled-{{question.pk}}"
-                                     class="form-label">
-                                  Feedback (unfulfilled)
-                              </label>
-                              <textarea class="form-control"
-                                        name="feedback_unfulfilled"
-                                        id="feedbackUnfulfilled-{{question.pk}}"
-                              >{{question.feedback_unfulfilled}}</textarea>
-                          </div>
+                          <!-- Rubric React component -->
+                          <div id="question-rubric-{{question.pk}}"></div>
 
                           <button type="submit" class="btn btn-primary">
                               Save
@@ -163,36 +103,19 @@
 {{ assessment_types|json_script:"assessment_types" }}
 
 <script>
-/**
- * https://www.w3schools.com/howto/howto_js_cascading_dropdown.asp
- */
-function initDynamicAssessment(questionId, assessmentTypes) {
-    let typeSelect = document.getElementById(
-        `questionAssessmentType-${questionId}`);
-    let nameSelect = document.getElementById(
-        `questionAssessmentName-${questionId}`);
-    let valueSelect = document.getElementById(
-        `questionAssessmentValue-${questionId}`);
-
-    typeSelect.onchange = function() {
-        // Reset name/value dropdowns
-        nameSelect.length = 0;
-        valueSelect.length = 0;
-
-        typeObj = assessmentTypes.find(el => el.value === this.value);
-        typeObj.names.forEach((name) => {
-            nameSelect.options[nameSelect.options.length] =
-                new Option(name.name, name.value);
-        });
-    };
-};
-
-function selectQuestion(selectEl, questionId, assessmentTypes) {
+function selectQuestion(selectEl, questionId) {
     const triggerEl = selectEl.querySelector(
         `option[data-bs-target="#question-${questionId}"]`)
     bootstrap.Tab.getOrCreateInstance(triggerEl).show();
 
-    initDynamicAssessment(questionId, assessmentTypes);
+    if (window.initRubric) {
+        const containerId = `question-rubric-${questionId}`;
+        const container = document.getElementById(containerId);
+        window.initRubric(container);
+    } else {
+        console.error(
+            'Rubric could not be initialized for question ' + questionId);
+    }
 };
 
 /**
@@ -218,14 +141,11 @@ function selectQuestionTab(questionId) {
 };
 
 $(document).ready(function() {
-    const assessmentTypes = JSON.parse(
-        document.getElementById('assessment_types').textContent);
-
     // Programmatic Bootstrap Tab functionality, adapted for the
     // <select> element.
     // https://getbootstrap.com/docs/5.3/components/navs-tabs/#javascript-behavior
     $('select.ep-question-select').on('change', function(e) {
-        selectQuestion(e.target, Number(e.target.value), assessmentTypes);
+        selectQuestion(e.target, Number(e.target.value));
     });
 });
 </script>

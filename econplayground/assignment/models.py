@@ -8,7 +8,7 @@ from django.db import models
 from treebeard.mp_tree import MP_Node
 
 from econplayground.main.models import Cohort, Graph
-from .custom_storage import MediaStorage
+from econplayground.assignment.custom_storage import MediaStorage
 
 
 class Question(models.Model):
@@ -18,37 +18,38 @@ class Question(models.Model):
     graph = models.ForeignKey(
         Graph, on_delete=models.CASCADE,
         blank=True, null=True)
-    media_upload = models.FileField(
-        storage=MediaStorage, blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    #
-    # Question evaluation data. The following fields are based on the
-    # main.AssessmentRule structure.
-    #
-    # The default empty value for these fields will allow any user
-    # action to succeed.
-    #
-    # You can constrain this by setting a value for assessment_name,
-    # allowing any action on, e.g. line1_slope to succeed. And then
-    # you can further constrain this action on line1_slope by setting
-    # the assessment_value to something like 'increase' or 'decrease'.
-    #
+
+class AssessmentRule(models.Model):
+    """
+    Question evaluation data. The following fields are based on the
+    main.models.AssessmentRule structure.
+
+    You can constrain this by setting a value for assessment_name,
+    allowing any action on, e.g. line1_slope to succeed. And then
+    you can further constrain this action on line1_slope by setting
+    the assessment_value to something like 'increase' or 'decrease'.
+    """
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
 
     # The graph characteristic to assess, i.e. slope, position, label
-    assessment_name = models.CharField(
-        blank=True, default='', max_length=1024)
+    assessment_name = models.CharField(max_length=1024)
 
     # The value we are looking for (i.e. user action), increase,
     # decrease, or label match
-    assessment_value = models.CharField(
-        blank=True, default='', max_length=1024)
+    assessment_value = models.CharField(max_length=1024)
 
     # Optional custom feedback for this assessment rule
     feedback_fulfilled = models.TextField(blank=True, default='')
+    media_fulfilled = models.FileField(
+        storage=MediaStorage, blank=True, null=True)
+
     feedback_unfulfilled = models.TextField(blank=True, default='')
+    media_unfulfilled = models.FileField(
+        storage=MediaStorage, blank=True, null=True)
 
     def evaluate_action(self, action_name: str, action_value: str) -> bool:
         """
