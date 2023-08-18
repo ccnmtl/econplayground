@@ -143,28 +143,6 @@ export class Graph {
      * make() step.
      */
     postMake() {
-        // Make two white lines to block the curves from displaying
-        // below 0. A more straightforward way to do this would be
-        // better.
-        this.board.create('line', [[-0.2, 0], [-0.2, 5]], {
-            dash: 0,
-            highlight: false,
-            fixed: true,
-            strokeColor: 'white',
-            strokeWidth: this.board.canvasWidth / 25.5,
-            straightFirst: true,
-            straightLast: true
-        });
-        this.board.create('line', [[0, -0.2], [5, -0.2]], {
-            dash: 0,
-            highlight: false,
-            fixed: true,
-            strokeColor: 'white',
-            strokeWidth: this.board.canvasWidth / 25.5,
-            straightFirst: true,
-            straightLast: true
-        });
-
         const me = this;
 
         if (

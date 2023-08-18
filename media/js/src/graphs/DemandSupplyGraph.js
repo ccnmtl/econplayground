@@ -47,7 +47,10 @@ export class DemandSupplyGraph extends Graph {
             ], {
                 name: this.options.gLine1Label,
                 withLabel: true,
-                label: { position: 'rt', offset: [-10, -20] },
+                label: {
+                    autoPosition: true,
+                    offset: [0, 35]
+                },
                 strokeColor: this.l1Color,
                 strokeWidth: 2,
                 fixed: this.areLinesFixed
@@ -63,7 +66,13 @@ export class DemandSupplyGraph extends Graph {
             ], {
                 name: this.options.gLine2Label,
                 withLabel: true,
-                label: { position: 'rt', offset: [0, 35] },
+                label: {
+                    autoPosition: true,
+                    // These offsets are not ideal, but are necessary
+                    // for now. See:
+                    // https://github.com/jsxgraph/jsxgraph/issues/575
+                    offset: [50, -50]
+                },
                 strokeColor: this.l2Color,
                 strokeWidth: 2,
                 fixed: this.areLinesFixed
