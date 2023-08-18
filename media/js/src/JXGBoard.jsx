@@ -482,6 +482,7 @@ export default class JXGBoard extends React.Component {
                 showNavigation: false,
                 boundingBox: [-0.02, 5, 5, -0.02]
             });
+        this.board.renderer.svgRoot.style.backgroundColor = 'white';
         this.board1InitObjects = this.board.numObjects;
 
         window.board = this.board;
@@ -540,6 +541,7 @@ export default class JXGBoard extends React.Component {
                     showNavigation: false,
                     boundingBox: [-0.02, 5, 5, -0.02]
                 });
+            this.board2.renderer.svgRoot.style.backgroundColor = 'white';
 
             this.board2InitObjects = this.board2.numObjects;
         }
