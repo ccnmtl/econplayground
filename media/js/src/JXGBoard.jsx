@@ -455,7 +455,7 @@ export default class JXGBoard extends React.Component {
                     x: {
                         name: xAxisLabel,
                         label: {
-                            offset: [400, -12]
+                            offset: [400, 0]
                         },
                         withLabel: xAxisLabel ? true : false,
                         ticks: {
@@ -466,7 +466,7 @@ export default class JXGBoard extends React.Component {
                     y: {
                         name: yAxisLabel,
                         label: {
-                            offset: [(options.gType === 1) ? 0 : -5, 260]
+                            offset: [0, 260]
                         },
                         withLabel: yAxisLabel ? true : false,
                         ticks: {
@@ -475,12 +475,12 @@ export default class JXGBoard extends React.Component {
                         layer: 9
                     }
                 },
-                keepaspectratio: false,
+                keepAspectRatio: false,
                 showCopyright: false,
                 showZoom: false,
                 showReload: false,
                 showNavigation: false,
-                boundingbox: [-0.4, 5, 5, -0.4]
+                boundingBox: [-0.02, 5, 5, -0.02]
             });
         this.board1InitObjects = this.board.numObjects;
 
@@ -513,7 +513,7 @@ export default class JXGBoard extends React.Component {
                         x: {
                             name: xLabel,
                             label: {
-                                offset: [400, -12]
+                                offset: [400, 0]
                             },
                             withLabel: xLabel ? true : false,
                             ticks: {
@@ -524,7 +524,7 @@ export default class JXGBoard extends React.Component {
                         y: {
                             name: yLabel,
                             label: {
-                                offset: [8, 260]
+                                offset: [0, 260]
                             },
                             withLabel: yLabel ? true : false,
                             ticks: {
@@ -533,12 +533,12 @@ export default class JXGBoard extends React.Component {
                             layer: 9
                         }
                     },
-                    keepaspectratio: false,
+                    keepAspectRatio: false,
                     showCopyright: false,
                     showZoom: false,
                     showReload: false,
                     showNavigation: false,
-                    boundingbox: [-0.4, 5, 5, -0.4]
+                    boundingBox: [-0.02, 5, 5, -0.02]
                 });
 
             this.board2InitObjects = this.board2.numObjects;
