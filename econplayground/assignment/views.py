@@ -15,7 +15,6 @@ from django.views.generic.edit import (
 from econplayground.main.views import EnsureCsrfCookieMixin
 from econplayground.main.utils import user_is_instructor
 from econplayground.assignment.models import Assignment, Step, Question
-from econplayground.assignment.assessment import build_assessment_structure
 
 
 class AssignmentListView(LoginRequiredMixin, ListView):
@@ -96,7 +95,6 @@ class AssignmentDetailView(
             'questions': Question.objects.order_by('created_at'),
             'graphs': graphs,
             'steps': steps,
-            'assessment_types': build_assessment_structure(),
         })
         return ctx
 

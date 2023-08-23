@@ -1,6 +1,8 @@
 import React from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useRules, useRulesDispatch } from './RulesContext.jsx';
+import { getRuleOptions } from './ruleOptions.js';
 
 export default function RuleList() {
     const rules = useRules();
@@ -15,7 +17,11 @@ export default function RuleList() {
 }
 
 function Rule({ rule }) {
+    const [names, setNames] = useState([]);
+
     const dispatch = useRulesDispatch();
+
+    const options = getRuleOptions();
 
     function onClickRemoveRule() {
         dispatch({
@@ -23,6 +29,27 @@ function Rule({ rule }) {
             id: rule.id
         });
     }
+
+    function onTypeChange(e) {
+        const selectedType = options.find(x => x.value === e.target.value);
+        setNames(selectedType.names);
+    }
+
+    const renderedTypes = options.map((x) => {
+        return (
+            <option key={x.value} value={x.value}>
+                {x.name}
+            </option>
+        );
+    });
+
+    const renderedNames = names.map((x) => {
+        return (
+            <option key={x.value} value={x.value}>
+                {x.name}
+            </option>
+        );
+    });
 
     return (
         <section className="border px-2 mb-1">
@@ -43,11 +70,10 @@ function Rule({ rule }) {
                 <select
                     className="form-select ep-question-assessment-type"
                     name="assessment_type"
-                    id={`questionAssessmentType-${rule.id}`}>
+                    id={`questionAssessmentType-${rule.id}`}
+                    onChange={onTypeChange}>
                     <option>Select:</option>
-                    <option value="value">
-                        name
-                    </option>
+                    {renderedTypes}
                 </select>
             </div>
 
@@ -62,6 +88,7 @@ function Rule({ rule }) {
                         className="form-select ep-question-assessment-name"
                         name="assessment_name"
                         id={`questionAssessmentName-${rule.id}`}>
+                        {renderedNames}
                     </select>
                 </div>
 
@@ -75,8 +102,7 @@ function Rule({ rule }) {
                         type="text" className="form-control"
                         name="assessment_value"
                         id={`questionAssessmentValue-${rule.id}`}
-                        value={rule.value}
-                        readOnly />
+                        defaultValue={rule.value} />
                 </div>
             </div>
 

@@ -100,8 +100,6 @@
   </div>
 </div>
 
-{{ assessment_types|json_script:"assessment_types" }}
-
 <script>
 function selectQuestion(selectEl, questionId) {
     const triggerEl = selectEl.querySelector(
@@ -127,14 +125,10 @@ function selectQuestionTab(questionId) {
     const triggerEl = document.querySelector(
         '#myTab button[data-bs-target="#questions-tab-pane"]');
 
-    const assessmentTypes = JSON.parse(
-        document.getElementById('assessment_types').textContent);
-
     triggerEl.addEventListener('shown.bs.tab', event => {
         selectQuestion(
             document.querySelector('.ep-question-select'),
-            questionId,
-            assessmentTypes);
+            questionId);
     })
 
     bootstrap.Tab.getInstance(triggerEl).show()
