@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}{{ object.title }}{% endblock %}
 
@@ -72,6 +73,7 @@
 {% endblock %}
 
 {% block js %}
+    <script src="{% static 'js/build/rubric.js' %}"></script>
     <script>
         $(document).ready(function() {
             // https://getbootstrap.com/docs/5.3/components/navs-tabs/#via-javascript
