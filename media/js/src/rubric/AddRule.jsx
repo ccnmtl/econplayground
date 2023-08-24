@@ -7,7 +7,6 @@ export default function AddRule() {
     const dispatch = useRulesDispatch();
 
     function onClickNewRule() {
-        console.log('dispatch', dispatch);
         dispatch({
             type: 'added',
             id: nextId++,
