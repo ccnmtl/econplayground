@@ -4,11 +4,14 @@ from econplayground.main.models import (
     Graph, JXGLine, JXGLineTransformation, Submission
 )
 from econplayground.main.tests.mixins import (
-    LoggedInTestMixin, LoggedInTestStudentMixin
+    LoggedInTestMixin, LoggedInTestInstructorMixin, LoggedInTestStudentMixin
 )
 from econplayground.main.tests.factories import (
     GraphFactory, JXGLineFactory, JXGLineTransformationFactory,
     SubmissionFactory, UserFactory, TopicFactory
+)
+from econplayground.assignment.tests.factories import (
+    QuestionFactory, AssessmentRuleFactory
 )
 
 
@@ -516,3 +519,35 @@ class SubmissionSetTest(LoggedInTestStudentMixin, APITestCase):
         self.assertEqual(
             response.status_code, 404,
             'Students can\'t see other students\' submissions')
+
+
+class InstructorQuestionViewSetTest(LoggedInTestInstructorMixin, APITestCase):
+    def test_get_detail(self):
+        question = QuestionFactory()
+        title = question.title
+        AssessmentRuleFactory(question=question)
+
+        response = self.client.get('/api/questions/{}/'.format(question.pk))
+        self.assertEqual(response.status_code, 200)
+
+        data = response.data
+        self.assertEqual(data.get('title'), title)
+        self.assertEqual(len(data.get('assessmentrule_set')), 1)
+
+
+class StudentQuestionViewSetTest(LoggedInTestStudentMixin, APITestCase):
+    def test_get_detail(self):
+        question = QuestionFactory()
+        AssessmentRuleFactory(question=question)
+
+        response = self.client.get('/api/questions/{}/'.format(question.pk))
+        self.assertEqual(response.status_code, 403)
+
+
+class AnonQuestionViewSetTest(APITestCase):
+    def test_get_detail(self):
+        question = QuestionFactory()
+        AssessmentRuleFactory(question=question)
+
+        response = self.client.get('/api/questions/{}/'.format(question.pk))
+        self.assertEqual(response.status_code, 403)

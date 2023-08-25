@@ -1,8 +1,12 @@
 from rest_framework import serializers
 from econplayground.main.models import (
     Graph, Cohort, JXGLine, JXGLineTransformation, Submission,
-    Assessment, AssessmentRule, Topic, Question, Evaluation,
+    Assessment, AssessmentRule, Topic, Evaluation,
     Assignment, UserAssignment, QuestionEvaluation
+)
+from econplayground.assignment.models import (
+    AssessmentRule as AssignmentAssessmentRule,
+    Question
 )
 
 
@@ -210,43 +214,6 @@ class EvaluationSerializer(serializers.ModelSerializer):
             return value
 
 
-class QuestionSerializer(serializers.ModelSerializer):
-    evaluations = EvaluationSerializer(many=True, write_only=True)
-
-    class Meta:
-        model = Question
-        fields = (
-            'pk', 'title', 'embedded_media', 'evaluations', 'media_upload',
-            'graph', 'keywords', 'prompt', 'value'
-        )
-
-    def create(self, validated_data):
-        evaluations_data = validated_data.pop('evaluations')
-        question = Question.objects.create(**validated_data)
-        for evaluation_data in evaluations_data:
-            Evaluation.objects.create(
-                question=question, **evaluation_data)
-        return question
-
-    def update(self, instance, validated_data):
-        evaluations_data = validated_data.pop('evaluations')
-        for field in validated_data:
-            newval = validated_data.get(field, getattr(instance, field))
-            setattr(instance, field, newval)
-        instance.save()
-        for evaluation_data in evaluations_data:
-            try:
-                existing = Evaluation.objects.get(
-                    question=instance, field=evaluation_data['field'])
-                existing.comparison = evaluation_data['comparison']
-                existing.value = evaluation_data['value']
-                existing.save()
-            except Evaluation.DoesNotExist:
-                Evaluation.objects.create(
-                    question=instance, **evaluation_data)
-        return instance
-
-
 class AssignmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Assignment
@@ -305,4 +272,24 @@ class CohortSerializer(serializers.ModelSerializer):
         model = Cohort
         fields = (
             'pk', 'title', 'topic_set',
+        )
+
+
+class AssessmentRuleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AssignmentAssessmentRule
+        fields = (
+            'assessment_name', 'assessment_value',
+            'feedback_fulfilled', 'media_fulfilled',
+            'feedback_unfulfilled', 'media_unfulfilled',
+        )
+
+
+class QuestionSerializer(serializers.ModelSerializer):
+    assessmentrule_set = AssessmentRuleSerializer(many=True)
+
+    class Meta:
+        model = Question
+        fields = (
+            'title', 'prompt', 'assessmentrule_set',
         )

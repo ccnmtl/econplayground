@@ -4,7 +4,7 @@ from django.contrib.auth.models import Group
 INSTRUCTOR_LIST = ['tg2451']
 
 
-def user_is_instructor(user):
+def user_is_instructor(user: object) -> bool:
     try:
         # Use INSTRUCTOR_LIST from local_settings if it exists.
         instructor_list = settings.INSTRUCTOR_LIST

@@ -7,15 +7,20 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+
+from econplayground.api.permissions import IsInstructor
 from econplayground.main.models import (
-    Assessment, Cohort, Graph, Submission, Topic, Question, Evaluation,
+    Assessment, Cohort, Graph, Submission, Topic, Evaluation,
     UserAssignment, QuestionEvaluation
 )
+from econplayground.assignment.models import Question
 from econplayground.api.serializers import (
     AssessmentSerializer, CohortSerializer, GraphSerializer,
-    SubmissionSerializer, TopicSerializer, QuestionSerializer,
+    SubmissionSerializer, TopicSerializer,
     EvaluationSerializer, UserAssignmentSerializer,
-    QuestionEvaluationSerializer
+    QuestionEvaluationSerializer,
+
+    QuestionSerializer
 )
 
 
@@ -90,29 +95,6 @@ class CohortViewSet(viewsets.ReadOnlyModelViewSet):
         return Cohort.objects.filter(instructors__in=(user,))
 
 
-class QuestionViewSet(viewsets.ModelViewSet):
-    queryset = Question.objects.all()
-    serializer_class = QuestionSerializer
-
-    def create(self, request):
-        r = super(QuestionViewSet, self).create(request)
-        if r:
-            messages.success(
-                request,
-                'Question "{}" created.'.format(r.data.get('title')))
-
-        return r
-
-    def update(self, request, pk):
-        r = super(QuestionViewSet, self).update(request)
-        if r:
-            messages.success(
-                request,
-                'Question "{}" updated.'.format(r.data.get('title')))
-
-        return r
-
-
 class EvaluationViewSet(viewsets.ModelViewSet):
     queryset = Evaluation.objects.all()
     serializer_class = EvaluationSerializer
@@ -135,3 +117,9 @@ class UserAssignmentViewSet(viewsets.ModelViewSet):
 class QuestionEvaluationViewSet(viewsets.ModelViewSet):
     queryset = QuestionEvaluation.objects.all()
     serializer_class = QuestionEvaluationSerializer
+
+
+class QuestionViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializer
+    permission_classes = (IsInstructor,)
