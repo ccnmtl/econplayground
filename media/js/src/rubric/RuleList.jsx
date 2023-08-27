@@ -52,7 +52,7 @@ function Rule({ rule }) {
     });
 
     return (
-        <section className="border px-2 mb-1">
+        <fieldset className="border px-2 mb-1">
             <button
                 type="button"
                 className="btn btn-sm btn-danger float-end my-2"
@@ -69,7 +69,7 @@ function Rule({ rule }) {
                 </label>
                 <select
                     className="form-select ep-question-assessment-type"
-                    name="assessment_type"
+                    name={`assessment_type_${rule.id}`}
                     id={`questionAssessmentType-${rule.id}`}
                     onChange={onTypeChange}>
                     <option>Select:</option>
@@ -86,7 +86,7 @@ function Rule({ rule }) {
                     </label>
                     <select
                         className="form-select ep-question-assessment-name"
-                        name="assessment_name"
+                        name={`assessment_name_${rule.id}`}
                         id={`questionAssessmentName-${rule.id}`}>
                         {renderedNames}
                     </select>
@@ -100,7 +100,7 @@ function Rule({ rule }) {
                     </label>
                     <input
                         type="text" className="form-control"
-                        name="assessment_value"
+                        name={`assessment_value_${rule.id}`}
                         id={`questionAssessmentValue-${rule.id}`}
                         defaultValue={rule.value} />
                 </div>
@@ -114,7 +114,7 @@ function Rule({ rule }) {
                 </label>
                 <textarea
                     className="form-control"
-                    name="feedback_fulfilled"
+                    name={`feedback_fulfilled_${rule.id}`}
                     id={`feedbackFulfilled-${rule.id}`}
                     defaultValue="feedback_fulfilled" />
             </div>
@@ -125,7 +125,10 @@ function Rule({ rule }) {
                     className="form-label">
                     Media (fulfilled)
                 </label>
-                <input className="form-control" type="file" />
+                <input
+                    className="form-control"
+                    name={`media_fulfilled_${rule.id}`}
+                    type="file" />
             </div>
 
             <div className="mb-3">
@@ -136,7 +139,7 @@ function Rule({ rule }) {
                 </label>
                 <textarea
                     className="form-control"
-                    name="feedback_unfulfilled"
+                    name={`feedback_unfulfilled_${rule.id}`}
                     id={`feedbackUnfulfilled-${rule.id}`}
                     defaultValue="feedback_unfulfilled" />
             </div>
@@ -147,9 +150,12 @@ function Rule({ rule }) {
                     className="form-label">
                     Media (unfulfilled)
                 </label>
-                <input className="form-control" type="file" />
+                <input
+                    className="form-control"
+                    name={`media_unfulfilled_${rule.id}`}
+                    type="file" />
             </div>
-        </section>
+        </fieldset>
     );
 }
 

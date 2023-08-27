@@ -331,10 +331,7 @@ class QuestionCreateView(
 class QuestionUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Question
     fields = [
-        'title', 'prompt',
-        'graph',
-        'assessment_name', 'assessment_value',
-        'feedback_fulfilled', 'feedback_unfulfilled',
+        'title', 'prompt', 'graph',
     ]
 
     def test_func(self):
@@ -347,6 +344,15 @@ class QuestionUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def get_success_url(self):
         return reverse(
             'assignment_detail', kwargs={'pk': self.assignment_pk})
+
+    def post(self, request, *args, **kwargs):
+        result = super().post(request, *args, **kwargs)
+
+        # TODO
+        # Find the extra AssessmentRule info in the POST, and make the objects.
+        print(request.POST)
+
+        return result
 
     def form_valid(self, form):
         result = super().form_valid(form)
