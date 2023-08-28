@@ -22,6 +22,10 @@ class Question(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def evaluate_action(self, action_name: str, action_value: str) -> bool:
+        return self.assessmentrule_set.first().evaluate_action(
+            action_name, action_value)
+
 
 class AssessmentRule(models.Model):
     """

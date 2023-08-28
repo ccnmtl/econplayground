@@ -53,21 +53,11 @@ class AssignmentManagementViewTest(LoggedInTestInstructorMixin, TestCase):
                     'pk': question_pk,
                 }), {
                     'title': 'New title',
-                    'assessment_name': 'line1',
-                    'assessment_value': 'down',
-                    'feedback_fulfilled': 'Feedback (fulfilled)',
-                    'feedback_unfulfilled': 'Feedback (unfulfilled)',
                 }, follow=True)
 
         self.assertEqual(r.status_code, 200)
         question.refresh_from_db()
         self.assertEqual(question.title, 'New title')
-        self.assertEqual(question.assessment_name, 'line1')
-        self.assertEqual(question.assessment_value, 'down')
-        self.assertEqual(
-            question.feedback_fulfilled, 'Feedback (fulfilled)')
-        self.assertEqual(
-            question.feedback_unfulfilled, 'Feedback (unfulfilled)')
         self.assertContains(r, 'New title')
         self.assertContains(r, 'updated.')
 
@@ -160,10 +150,8 @@ class AssignmentManagementViewTest(LoggedInTestInstructorMixin, TestCase):
                 'assignment_question_create',
                 kwargs={'assignment_pk': self.assignment.pk}), follow=True)
 
-        self.assertContains(
-            r,
-            'Question <strong>{}</strong> created.'.format(
-                Question.objects.last().pk))
+        self.assertContains(r, Question.objects.last().pk)
+        self.assertContains(r, 'created.')
         self.assertEqual(Question.objects.count(), 1)
 
         q = QuestionFactory()
@@ -251,9 +239,10 @@ class AssignmentStudentFlowViewTest(
         assignment = self.setup_sample_assignment()
 
         first_step = assignment.get_root().get_first_child()
-        first_step.question.assessment_name = 'line1'
-        first_step.question.assessment_value = 'up'
-        first_step.question.save()
+        rule = first_step.question.assessmentrule_set.first()
+        rule.assessment_name = 'line1'
+        rule.assessment_value = 'up'
+        rule.save()
 
         r = self.client.post(reverse('step_detail', kwargs={
             'assignment_pk': assignment.pk,
