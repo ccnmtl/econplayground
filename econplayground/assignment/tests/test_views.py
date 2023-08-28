@@ -53,6 +53,13 @@ class AssignmentManagementViewTest(LoggedInTestInstructorMixin, TestCase):
                     'pk': question_pk,
                 }), {
                     'title': 'New title',
+                    'rule_assessment_type_0': '',
+                    'rule_assessment_name_0': 'rule_name',
+                    'rule_assessment_value_0': 'rule_value',
+                    'rule_feedback_fulfilled_0': '',
+                    'rule_media_fulfilled_0': '',
+                    'rule_feedback_unfulfilled_0': '',
+                    'rule_media_unfulfilled_0': '',
                 }, follow=True)
 
         self.assertEqual(r.status_code, 200)
@@ -60,6 +67,11 @@ class AssignmentManagementViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertEqual(question.title, 'New title')
         self.assertContains(r, 'New title')
         self.assertContains(r, 'updated.')
+
+        self.assertEqual(question.assessmentrule_set.count(), 1)
+        rule = question.assessmentrule_set.first()
+        self.assertEqual(rule.assessment_name, 'rule_name')
+        self.assertEqual(rule.assessment_value, 'rule_value')
 
     def test_step_question_management(self):
         r = self.client.post(

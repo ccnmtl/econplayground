@@ -14,7 +14,9 @@ from django.views.generic.edit import (
 )
 from econplayground.main.views import EnsureCsrfCookieMixin
 from econplayground.main.utils import user_is_instructor
-from econplayground.assignment.models import Assignment, Step, Question
+from econplayground.assignment.models import (
+    Assignment, Step, Question, AssessmentRule
+)
 
 
 class AssignmentListView(LoginRequiredMixin, ListView):
@@ -354,9 +356,35 @@ class QuestionUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def post(self, request, *args, **kwargs):
         result = super().post(request, *args, **kwargs)
 
-        # TODO
-        # Find the extra AssessmentRule info in the POST, and make the objects.
-        print(request.POST)
+        # Clear this question's existing rules. TODO: we could make
+        # this better by updating existing rules, but this is simplest
+        # for now.
+        self.object.assessmentrule_set.all().delete()
+
+        # Find the extra AssessmentRule info in the POST, and make the
+        # objects.
+
+        # Limit to ten rules per question, for now. Should be more
+        # than enough.
+        for i in range(10):
+            if 'rule_assessment_name_{}'.format(i) not in request.POST:
+                break
+
+            AssessmentRule.objects.create(
+                question=self.object,
+                assessment_name=request.POST.get(
+                    'rule_assessment_name_{}'.format(i)),
+                assessment_value=request.POST.get(
+                    'rule_assessment_value_{}'.format(i)),
+                feedback_fulfilled=request.POST.get(
+                    'rule_feedback_fulfilled_{}'.format(i)),
+                media_fulfilled=request.POST.get(
+                    'rule_media_fulfilled_{}'.format(i)),
+                feedback_unfulfilled=request.POST.get(
+                    'rule_feedback_unfulfilled_{}'.format(i)),
+                media_unfulfilled=request.POST.get(
+                    'rule_media_unfulfilled_{}'.format(i))
+            )
 
         return result
 
