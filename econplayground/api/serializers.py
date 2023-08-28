@@ -279,6 +279,7 @@ class AssessmentRuleSerializer(serializers.ModelSerializer):
     class Meta:
         model = AssignmentAssessmentRule
         fields = (
+            'pk',
             'assessment_name', 'assessment_value',
             'feedback_fulfilled', 'media_fulfilled',
             'feedback_unfulfilled', 'media_unfulfilled',
@@ -291,5 +292,5 @@ class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
         fields = (
-            'title', 'prompt', 'assessmentrule_set',
+            'pk', 'title', 'prompt', 'assessmentrule_set',
         )

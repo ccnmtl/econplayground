@@ -38,9 +38,13 @@ function rulesReducer(rules, action) {
     switch (action.type) {
         case 'added': {
             return [...rules, {
-                id: action.id,
+                id: rules.length,
                 name: action.name,
-                value: action.value
+                value: action.value,
+                feedback_fulfilled: action.feedback_fulfilled,
+                media_fulfilled: action.media_fulfilled,
+                feedback_unfulfilled: action.feedback_unfulfilled,
+                media_unfulfilled: action.media_unfulfilled
             }];
         }
         case 'changed': {
@@ -61,10 +65,4 @@ function rulesReducer(rules, action) {
     }
 }
 
-const initialRules = [
-    {
-        id: 0,
-        name: 'name 0',
-        value: 'value 0'
-    }
-];
+const initialRules = [];
