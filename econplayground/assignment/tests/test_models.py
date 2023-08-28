@@ -1,6 +1,6 @@
 from django.test import TestCase
 from econplayground.assignment.tests.factories import (
-    AssignmentFactory, QuestionFactory
+    AssignmentFactory, QuestionFactory, AssessmentRuleFactory
 )
 from econplayground.assignment.models import Assignment, Step
 
@@ -210,23 +210,31 @@ class AssignmentTest(TestCase):
         self.c1.add_sibling(instance=self.d1, pos='last-sibling')
 
         # Populate it with questions
-        q1 = QuestionFactory(
+        q1 = QuestionFactory()
+        AssessmentRuleFactory(
+            question=q1,
             assessment_name='line1', assessment_value='up')
         self.a1.question = q1
         self.a1.save()
 
-        q2 = QuestionFactory(
+        q2 = QuestionFactory()
+        AssessmentRuleFactory(
+            question=q2,
             assessment_name='line1_slope', assessment_value='increase')
         self.b1.question = q2
         self.b1.save()
 
-        q3 = QuestionFactory(
+        q3 = QuestionFactory()
+        AssessmentRuleFactory(
+            question=q3,
             assessment_name='line1_label', assessment_value='Demand')
         self.c1.question = q3
         self.c1.save()
 
         # Evaluation of say, the alpha value of a cobb-douglas graph.
-        q4 = QuestionFactory(
+        q4 = QuestionFactory()
+        AssessmentRuleFactory(
+            question=q4,
             assessment_name='alpha', assessment_value='0.6')
         self.d1.question = q4
         self.d1.save()

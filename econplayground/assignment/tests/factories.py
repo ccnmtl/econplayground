@@ -61,14 +61,18 @@ class AssignmentMixin(object):
         assignment.add_step()
 
         q1 = QuestionFactory()
+        AssessmentRuleFactory(
+            question=q1, assessment_name='', assessment_value='')
         a1.question = q1
         a1.save()
 
         q2 = QuestionFactory()
+        AssessmentRuleFactory(question=q2)
         b1.question = q2
         b1.save()
 
         q3 = QuestionFactory()
+        AssessmentRuleFactory(question=q3)
         c1.question = q3
         c1.save()
 
