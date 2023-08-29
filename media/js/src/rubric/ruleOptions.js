@@ -5,8 +5,8 @@ const lineAssessmentNames = (line) => {
 
     return [
         {
-            'name': `${lineColor} line position`,
-            'value': `line_${line}_offset_y`,
+            'name': `${lineColor} line`,
+            'value': `line_${line}`,
             'values': [
                 {
                     'name': 'Up ↑',
@@ -16,21 +16,7 @@ const lineAssessmentNames = (line) => {
                     'name': 'Down ↓',
                     'value': -1,
                 }
-            ],
-        },
-        {
-            'name': `${lineColor} line slope`,
-            'value': `line_${line}_slope`,
-            'values': [
-                {
-                    'name': 'Increase ↑',
-                    'value': 1,
-                },
-                {
-                    'name': 'Decrease ↓',
-                    'value': -1,
-                }
-            ],
+            ]
         }
     ];
 };

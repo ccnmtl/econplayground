@@ -79,7 +79,7 @@ export default class StepGraphViewer extends Component {
         document.addEventListener(`l${line}up`, function(e) {
             let actions = [...me.state.actions, {
                 key: window.crypto.randomUUID(),
-                name: 'line' + line,
+                name: 'line_' + line,
                 value: 'up'
             }];
 
@@ -91,7 +91,7 @@ export default class StepGraphViewer extends Component {
         document.addEventListener(`l${line}down`, function(e) {
             let actions = [...me.state.actions, {
                 key: window.crypto.randomUUID(),
-                name: 'line' + line,
+                name: 'line_' + line,
                 value: 'down'
             }];
 

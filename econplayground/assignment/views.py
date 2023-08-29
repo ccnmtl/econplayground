@@ -273,25 +273,18 @@ class StepDetailView(LoginRequiredMixin, DetailView):
         action_value = request.POST.get('action_value')
 
         if question:
-            rule = question.assessmentrule_set.first()
+            result = question.evaluate_action(action_name, action_value)
 
-            if rule:
-                result = rule.evaluate_action(action_name, action_value)
+            # Store the result in the user's session.
+            step_name = 'step_{}_{}'.format(step.assignment.pk, step.pk)
+            request.session[step_name] = result
 
-                # Store the result in the user's session.
-                step_name = 'step_{}_{}'.format(step.assignment.pk, step.pk)
-                request.session[step_name] = result
-
-                if result:
-                    messages.add_message(
-                        self.request, messages.SUCCESS, 'Correct!')
-                else:
-                    messages.add_message(
-                        self.request, messages.ERROR, 'Incorrect!')
+            if result:
+                messages.add_message(
+                    self.request, messages.SUCCESS, 'Correct!')
             else:
                 messages.add_message(
-                    self.request, messages.ERROR,
-                    'Error: no question rubric found')
+                    self.request, messages.ERROR, 'Incorrect!')
 
         return HttpResponseRedirect(reverse('step_detail', kwargs={
             'assignment_pk': step.assignment.pk,
