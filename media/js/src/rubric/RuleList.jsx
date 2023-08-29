@@ -1,11 +1,30 @@
 import React from 'react';
-import { useState } from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useRules, useRulesDispatch } from './RulesContext.jsx';
 import { getRuleOptions } from './ruleOptions.js';
+import { getQuestion } from '../utils.js';
 
-export default function RuleList() {
+export default function RuleList({ questionId }) {
     const rules = useRules();
+    const dispatch = useRulesDispatch();
+
+    useEffect(() => {
+        getQuestion(questionId).then((d) => {
+            const rules = d.assessmentrule_set;
+            rules.forEach((rule) => {
+                dispatch({
+                    type: 'added',
+                    name: rule.assessment_name,
+                    value: rule.assessment_value,
+                    feedback_fulfilled: rule.feedback_fulfilled,
+                    media_fulfilled: rule.media_fulfilled,
+                    feedback_unfulfilled: rule.feedback_unfulfilled,
+                    media_unfulfilled: rule.media_unfulfilled
+                });
+            });
+        });
+    }, []);
 
     return (
         <>
@@ -16,12 +35,12 @@ export default function RuleList() {
     );
 }
 
+RuleList.propTypes = {
+    questionId: PropTypes.number.isRequired
+};
+
 function Rule({ rule }) {
-    const [names, setNames] = useState([]);
-
     const dispatch = useRulesDispatch();
-
-    const options = getRuleOptions();
 
     function onClickRemoveRule() {
         dispatch({
@@ -30,18 +49,9 @@ function Rule({ rule }) {
         });
     }
 
-    function onTypeChange(e) {
-        const selectedType = options.find(x => x.value === e.target.value);
-        setNames(selectedType.names);
-    }
-
-    const renderedTypes = options.map((x) => {
-        return (
-            <option key={x.value} value={x.value}>
-                {x.name}
-            </option>
-        );
-    });
+    const names = getRuleOptions().map((x) => {
+        return x.names;
+    }).flat();
 
     const renderedNames = names.map((x) => {
         return (
@@ -60,22 +70,6 @@ function Rule({ rule }) {
                 onClick={onClickRemoveRule}>
                 <i className="bi bi-x-lg"></i>
             </button>
-
-            <div className="mb-3">
-                <label
-                    htmlFor={`questionAssessmentType-${rule.id}`}
-                    className="form-label">
-                    Assessment type
-                </label>
-                <select
-                    className="form-select ep-question-assessment-type"
-                    name={`rule_assessment_type_${rule.id}`}
-                    id={`questionAssessmentType-${rule.id}`}
-                    onChange={onTypeChange}>
-                    <option>Select:</option>
-                    {renderedTypes}
-                </select>
-            </div>
 
             <div className="row mb-3">
                 <div className="col">
@@ -116,7 +110,7 @@ function Rule({ rule }) {
                     className="form-control"
                     name={`rule_feedback_fulfilled_${rule.id}`}
                     id={`feedbackFulfilled-${rule.id}`}
-                    defaultValue="feedback_fulfilled" />
+                    defaultValue={rule.feedback_fulfilled} />
             </div>
 
             <div className="mb-3">
@@ -128,6 +122,7 @@ function Rule({ rule }) {
                 <input
                     className="form-control"
                     name={`rule_media_fulfilled_${rule.id}`}
+                    defaultValue={rule.media_fulfilled}
                     type="file" />
             </div>
 
@@ -141,7 +136,7 @@ function Rule({ rule }) {
                     className="form-control"
                     name={`rule_feedback_unfulfilled_${rule.id}`}
                     id={`feedbackUnfulfilled-${rule.id}`}
-                    defaultValue="feedback_unfulfilled" />
+                    defaultValue={rule.feedback_unfulfilled} />
             </div>
 
             <div className="mb-3">
@@ -153,6 +148,7 @@ function Rule({ rule }) {
                 <input
                     className="form-control"
                     name={`rule_media_unfulfilled_${rule.id}`}
+                    defaultValue={rule.media_unfulfilled}
                     type="file" />
             </div>
         </fieldset>

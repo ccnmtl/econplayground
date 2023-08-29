@@ -1,17 +1,18 @@
 import React from 'react';
 import { useRulesDispatch } from './RulesContext.jsx';
 
-let nextId = 1;
-
 export default function AddRule() {
     const dispatch = useRulesDispatch();
 
     function onClickNewRule() {
         dispatch({
             type: 'added',
-            id: nextId++,
-            name: 'name',
-            value: 'value'
+            name: '',
+            value: '',
+            feedback_fulfilled: '',
+            media_fulfilled: '',
+            feedback_unfulfilled: '',
+            media_unfulfilled: ''
         });
     }
 

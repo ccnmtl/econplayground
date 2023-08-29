@@ -109,7 +109,7 @@ function selectQuestion(selectEl, questionId) {
     if (window.initRubric) {
         const containerId = `question-rubric-${questionId}`;
         const container = document.getElementById(containerId);
-        window.initRubric(container);
+        window.initRubric(container, questionId);
     } else {
         console.error(
             'Rubric could not be initialized for question ' + questionId);
