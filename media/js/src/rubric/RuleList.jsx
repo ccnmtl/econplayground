@@ -81,7 +81,8 @@ function Rule({ rule }) {
                     <select
                         className="form-select ep-question-assessment-name"
                         name={`rule_assessment_name_${rule.id}`}
-                        id={`questionAssessmentName-${rule.id}`}>
+                        id={`questionAssessmentName-${rule.id}`}
+                        defaultValue={rule.name}>
                         {renderedNames}
                     </select>
                 </div>
