@@ -105,7 +105,7 @@ class Assignment(models.Model):
     def first_step(self) -> 'Step':
         return self.get_root().get_first_child()
 
-    def add_step(self) -> 'Step':
+    def add_step(self, pos='last-sibling') -> 'Step':
         """Add a node on the main path.
 
         Returns the new Step.
@@ -115,7 +115,7 @@ class Assignment(models.Model):
         first_child = root.get_first_child()
 
         if first_child:
-            first_child.add_sibling(instance=new_step, pos='last-sibling')
+            first_child.add_sibling(instance=new_step, pos=pos)
         else:
             root.add_child(instance=new_step)
 

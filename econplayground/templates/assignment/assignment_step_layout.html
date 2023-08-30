@@ -1,4 +1,22 @@
 <div class="assignment-grid d-flex flex-wrap">
+    {% if tree %}
+        <!--
+             If we have an assignment tree, display a button to add a
+             new Step at the beginning.
+        -->
+        <form name="add_step_beginning" method="post"
+              class="mt-1 mb-1"
+              action="{% url 'tree_edit' object.pk %}">
+            {% csrf_token %}
+            <input name="action" value="add_step_beginning" type="hidden" />
+            <button type="submit"
+                    class="btn btn-primary"
+                    title="Add step at beginning">
+                <i class="bi bi-plus-lg"></i>
+            </button>
+        </form>
+    {% endif %}
+
     {% for step in tree %}
         <div class="assignment-step">
             <a href="{% url 'step_detail' object.pk step.id %}">
