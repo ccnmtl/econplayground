@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static econ_auth %}
 
 {% block title %}Step {{ object.pk }}{% endblock %}
 
@@ -70,7 +70,7 @@
 
                     {% if submission %}
                         <a class="btn btn-small btn-primary {% if not next_url %}disabled{% endif %}"
-                           role="button"
+                           role="button" title="Next"
                            {% if next_url %}
                            href="{{next_url}}"
                            {% else %}
@@ -82,7 +82,7 @@
                         </a>
                     {% else %}
                         <a class="btn btn-small btn-primary {% if not next_incorrect_url %}disabled{% endif %}"
-                           role="button"
+                           role="button" title="Next"
                            {% if next_incorrect_url %}
                            href="{{next_incorrect_url}}"
                            {% else %}
@@ -106,31 +106,38 @@
             </p>
         {% endif %}
 
-        <hr />
-
-        <a class="btn btn-primary {% if not prev_url %}disabled{% endif %}"
-           role="button"
-           {% if prev_url %}
-           href="{{prev_url}}"
-           {% else %}
-           disabled="disabled"
-           {% endif %}
-        >
-            <i class="bi bi-arrow-left"></i>
-            Previous
-        </a>
 
 
-        <a class="btn btn-small btn-primary {% if not next_url %}disabled{% endif %}"
-           role="button"
-           {% if next_url %}
-           href="{{next_url}}"
-           {% else %}
-           disabled="disabled"
-           {% endif %}
-        >
-            Next
-            <i class="bi bi-arrow-right"></i>
-        </a>
+        {% if i_am_instructor %}
+            <hr />
+
+            <small>
+                Instructor nav:
+            </small>
+            <a class="btn btn-sm btn-primary {% if not prev_url %}disabled{% endif %}"
+                role="button" title="Previous"
+               {% if prev_url %}
+                href="{{prev_url}}"
+               {% else %}
+               disabled="disabled"
+               {% endif %}
+            >
+                <i class="bi bi-arrow-left"></i>
+                Previous
+            </a>
+
+
+            <a class="btn btn-sm btn-primary {% if not next_url %}disabled{% endif %}"
+               role="button" title="Next"
+               {% if next_url %}
+               href="{{next_url}}"
+               {% else %}
+               disabled="disabled"
+               {% endif %}
+            >
+                Next
+                <i class="bi bi-arrow-right"></i>
+            </a>
+        {% endif %}
     </div>
 {% endblock %}
