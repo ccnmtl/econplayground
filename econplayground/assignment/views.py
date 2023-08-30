@@ -111,15 +111,50 @@ class AssignmentTreeUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):
     def get_success_url(self, pk):
         return reverse('assignment_detail', kwargs={'pk': pk})
 
+    @staticmethod
+    def save_steps(request) -> None:
+        """Update questions for each step in the POST"""
+        for key in request.POST.keys():
+            if key.startswith('step_question_'):
+                match = re.search(r'\d+$', key)
+                step_id = match.group()
+                question_id = request.POST.get(key)
+
+                step = Step.objects.get(pk=step_id)
+
+                if question_id and question_id != '0':
+                    step.question = Question.objects.get(pk=question_id)
+                else:
+                    step.question = None
+
+                step.save()
+
+            elif key.startswith('step_next_'):
+                match = re.search(r'\d+$', key)
+                step_id = match.group()
+                next_step_id = request.POST.get(key)
+
+                step = Step.objects.get(pk=step_id)
+
+                if next_step_id and next_step_id != '0':
+                    step.next_step = Step.objects.get(pk=next_step_id)
+                else:
+                    step.next_step = None
+
+                step.save()
+
     def post(self, request, *args, **kwargs):
         pk = kwargs.get('pk')
         tree = Assignment.objects.get(pk=pk)
         action = request.POST.get('action')
 
-        if action == 'add_step':
+        if action == 'add_step_beginning':
+            tree.add_step('first-sibling')
+            messages.add_message(request, messages.SUCCESS, 'New step added.')
+        elif action == 'add_step':
             tree.add_step()
             messages.add_message(request, messages.SUCCESS, 'New step added.')
-        if action == 'add_substep':
+        elif action == 'add_substep':
             # Add a node on a sub path.
             step_id = request.POST.get('step_id')
             tree.add_substep(step_id)
@@ -130,38 +165,8 @@ class AssignmentTreeUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):
             tree.remove_step(step_id)
             messages.add_message(request, messages.SUCCESS, 'Step removed.')
         elif action == 'save':
-            # Update questions for each step in the POST
-            for key in request.POST.keys():
-                if key.startswith('step_question_'):
-                    match = re.search(r'\d+$', key)
-                    step_id = match.group()
-                    question_id = request.POST.get(key)
-
-                    step = Step.objects.get(pk=step_id)
-
-                    if question_id and question_id != '0':
-                        step.question = Question.objects.get(pk=question_id)
-                    else:
-                        step.question = None
-
-                    step.save()
-
-                elif key.startswith('step_next_'):
-                    match = re.search(r'\d+$', key)
-                    step_id = match.group()
-                    next_step_id = request.POST.get(key)
-
-                    step = Step.objects.get(pk=step_id)
-
-                    if next_step_id and next_step_id != '0':
-                        step.next_step = Step.objects.get(pk=next_step_id)
-                    else:
-                        step.next_step = None
-
-                    step.save()
-
-            messages.add_message(
-                request, messages.SUCCESS, 'Steps updated.')
+            AssignmentTreeUpdateView.save_steps(request)
+            messages.add_message(request, messages.SUCCESS, 'Steps updated.')
 
         return HttpResponseRedirect(self.get_success_url(pk))
 
