@@ -54,12 +54,12 @@
                     </div>
                 </div>
 
-                {% if submission != None %}
+                {% if submission != None and object.question.first_rule.has_feedback %}
                     <div class="alert alert-light" role="alert">
                         {% if submission %}
-                            {{object.question.feedback_fulfilled}}
+                            {{object.question.first_rule.feedback_fulfilled}}
                         {% else %}
-                            {{object.question.feedback_unfulfilled}}
+                            {{object.question.first_rule.feedback_unfulfilled}}
                         {% endif %}
                     </div>
 

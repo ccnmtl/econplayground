@@ -26,6 +26,9 @@ class Question(models.Model):
         return self.assessmentrule_set.first().evaluate_action(
             action_name, action_value)
 
+    def first_rule(self) -> 'AssessmentRule':
+        return self.assessmentrule_set.first()
+
 
 class AssessmentRule(models.Model):
     """
@@ -54,6 +57,9 @@ class AssessmentRule(models.Model):
     feedback_unfulfilled = models.TextField(blank=True, default='')
     media_unfulfilled = models.FileField(
         storage=MediaStorage, blank=True, null=True)
+
+    def has_feedback(self) -> bool:
+        return self.feedback_fulfilled or self.feedback_unfulfilled
 
     def evaluate_action(self, action_name: str, action_value: str) -> bool:
         """
