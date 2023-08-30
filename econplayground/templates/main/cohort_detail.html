@@ -152,6 +152,10 @@
         <side class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12">
             {% if i_am_instructor %}
                 <div class="d-grid gap-2">
+                    <a class="btn btn-primary"
+                       href="{% url 'cohort_graph_create' object.pk %}"
+                       role="button">Create Graph</a>
+
                     <a class="btn btn-secondary"
                        href="{% url 'cohort_edit' object.pk %}"
                        role="button">Edit Course</a>
