@@ -88,15 +88,13 @@
                         <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
                             <ul class="navbar-nav ml-auto">
                                 {% if i_am_instructor %}
-                                    {% if cohort %}
-                                        <li class="nav-item">
-                                            {% url 'cohort_graph_create' cohort.pk as the_url %}
-                                            <a class="nav-link {% if request.path == the_url %}active{% endif %}"
-                                               title="Create Graph"
-                                               href="{{the_url}}"
-                                            >Create Graph</a>
-                                        </li>
-                                    {% endif %}
+                                    <li class="nav-item">
+                                        <a class="nav-link"
+                                           title="Assignments"
+                                           href="{% url 'assignment_list' %}">
+                                            Assignments
+                                        </a>
+                                    </li>
                                 {% endif %}
                                 <li class="nav-item">
                                     <a class="nav-link" title="Help" href="/pages/help/">Help</a>
