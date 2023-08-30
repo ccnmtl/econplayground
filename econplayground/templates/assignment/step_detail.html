@@ -121,16 +121,20 @@
         </a>
 
 
-        <a class="btn btn-small btn-primary {% if not next_url %}disabled{% endif %}"
-           role="button"
-           {% if next_url %}
-           href="{{next_url}}"
-           {% else %}
-           disabled="disabled"
-           {% endif %}
-        >
-            Next
-            <i class="bi bi-arrow-right"></i>
-        </a>
+        {% if submission != None %}
+            <a class="btn btn-small btn-primary {% if not next_url %}disabled{% endif %}"
+               role="button"
+               {% if next_url and submission %}
+               href="{{next_url}}"
+               {% elif next_incorrect_url and not submission %}
+               href="{{next_incorrect_url}}"
+               {% else %}
+               disabled="disabled"
+               {% endif %}
+            >
+                Next
+                <i class="bi bi-arrow-right"></i>
+            </a>
+        {% endif %}
     </div>
 {% endblock %}
