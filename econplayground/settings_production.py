@@ -1,7 +1,7 @@
 import sys
 from django.conf import settings
 from econplayground.settings_shared import *  # noqa: F403
-from ccnmtlsettings.production import common
+from ctlsettings.production import common
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
@@ -9,6 +9,7 @@ locals().update(
     common(
         project=project,  # noqa: F405
         base=base,  # noqa: F405
+        s3prefix='ccnmtl',
         STATIC_ROOT=STATIC_ROOT,  # noqa: F405
         INSTALLED_APPS=INSTALLED_APPS,  # noqa: F405
     ))

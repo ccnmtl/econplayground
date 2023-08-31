@@ -1,24 +1,11 @@
 # Django settings for econplayground project.
 import os.path
-from ccnmtlsettings.shared import common
+from ctlsettings.shared import common
 
 project = 'econplayground'
 base = os.path.dirname(__file__)
 
 locals().update(common(project=project, base=base))
-
-CAS_SERVER_URL = 'https://cas.columbia.edu/cas/'
-CAS_VERSION = '3'
-CAS_ADMIN_REDIRECT = False
-
-# Translate CUIT's CAS user attributes to the Django user model.
-# https://cuit.columbia.edu/content/cas-3-ticket-validation-response
-CAS_APPLY_ATTRIBUTES_TO_USER = True
-CAS_RENAME_ATTRIBUTES = {
-    'givenName': 'first_name',
-    'lastName': 'last_name',
-    'mail': 'email',
-}
 
 PROJECT_APPS = [
     'econplayground.main',
@@ -48,7 +35,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'waffle.middleware.WaffleMiddleware',
     'django_cas_ng.middleware.CASMiddleware',
 ]
 
@@ -66,9 +52,7 @@ INSTALLED_APPS = [  # noqa
     'django_statsd',
     'smoketest',
     'gunicorn',
-    'compressor',
     'django_cas_ng',
-    'waffle',
 
     'debug_toolbar',
     'django_bootstrap5',

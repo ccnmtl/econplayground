@@ -1,14 +1,12 @@
 {% extends "base.html" %}
-{% load compress static django_bootstrap5 %}
+{% load static django_bootstrap5 %}
 
 {% block title %}
    Login
 {% endblock %}
 
 {% block css %}
-    {% compress css %}
-        <link href="{{STATIC_URL}}css/splash.css" rel="stylesheet">
-    {% endcompress %}
+    <link href="{{STATIC_URL}}css/splash.css" rel="stylesheet">
 {% endblock %}
 
 {% block js %}
