@@ -1,4 +1,4 @@
-{% load compress static econ_auth %}
+{% load static econ_auth %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -43,10 +43,8 @@
     <link rel="icon" type="image/png" href="{{STATIC_URL}}img/favicon.png">
     <link rel="shortcut icon" href="{{STATIC_URL}}img/favicon.png" type="image/x-icon" />
 
-    {% compress css %}
     <link href="{{STATIC_URL}}css/main.css" rel="stylesheet">
     <link href="{{STATIC_URL}}css/octicons.css" rel="stylesheet">
-    {% endcompress %}
     <link href="{% static 'css/econplayground.css' %}" rel="stylesheet">
     {% block css %}{% endblock %}
     {% block extrahead %}{% endblock %}
