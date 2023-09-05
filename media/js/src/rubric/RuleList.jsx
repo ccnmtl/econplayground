@@ -1,11 +1,13 @@
 import React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useRules, useRulesDispatch } from './RulesContext.jsx';
 import { getRuleOptions } from './ruleOptions.js';
 import { getQuestion } from '../utils.js';
 
 export default function RuleList({ questionId }) {
+    const [isLoaded, setIsLoaded] = useState(false);
+
     const rules = useRules();
     const dispatch = useRulesDispatch();
 
@@ -23,8 +25,14 @@ export default function RuleList({ questionId }) {
                     media_unfulfilled: rule.media_unfulfilled
                 });
             });
+
+            setIsLoaded(true);
         });
     }, []);
+
+    if (!isLoaded) {
+        return <p>Loading...</p>;
+    }
 
     return (
         <>
