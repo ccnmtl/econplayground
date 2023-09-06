@@ -229,7 +229,7 @@ class AssignmentStudentFlowViewTest(
             'assignment_pk': assignment.pk,
             'pk': first_step.pk
         }), {
-            'action_name': 'line1',
+            'action_name': 'line_1',
             'action_value': 'down',
         }, follow=True)
 
@@ -240,7 +240,7 @@ class AssignmentStudentFlowViewTest(
             'assignment_pk': assignment.pk,
             'pk': first_step.pk
         }), {
-            'action_name': 'line1',
+            'action_name': 'line_1',
             'action_value': 'up',
         }, follow=True)
 
@@ -252,7 +252,7 @@ class AssignmentStudentFlowViewTest(
 
         first_step = assignment.get_root().get_first_child()
         rule = first_step.question.assessmentrule_set.first()
-        rule.assessment_name = 'line1'
+        rule.assessment_name = 'line_1'
         rule.assessment_value = 'up'
         rule.save()
 
@@ -260,7 +260,7 @@ class AssignmentStudentFlowViewTest(
             'assignment_pk': assignment.pk,
             'pk': first_step.pk
         }), {
-            'action_name': 'line1',
+            'action_name': 'line_1',
             'action_value': 'down',
         }, follow=True)
 
@@ -276,7 +276,7 @@ class AssignmentStudentFlowViewTest(
             'assignment_pk': assignment.pk,
             'pk': first_step.pk
         }), {
-            'action_name': 'line1',
+            'action_name': 'line_1',
             'action_value': 'up',
         }, follow=True)
 
