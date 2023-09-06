@@ -213,21 +213,21 @@ class AssignmentTest(TestCase):
         q1 = QuestionFactory()
         AssessmentRuleFactory(
             question=q1,
-            assessment_name='line1', assessment_value='up')
+            assessment_name='line_1', assessment_value='up')
         self.a1.question = q1
         self.a1.save()
 
         q2 = QuestionFactory()
         AssessmentRuleFactory(
             question=q2,
-            assessment_name='line1_slope', assessment_value='increase')
+            assessment_name='line_1', assessment_value='increase')
         self.b1.question = q2
         self.b1.save()
 
         q3 = QuestionFactory()
         AssessmentRuleFactory(
             question=q3,
-            assessment_name='line1_label', assessment_value='Demand')
+            assessment_name='line_1_label', assessment_value='Demand')
         self.c1.question = q3
         self.c1.save()
 
@@ -240,18 +240,18 @@ class AssignmentTest(TestCase):
         self.d1.save()
 
     def test_assignment_flow(self):
-        result1 = self.a1.question.evaluate_action('line2', 'down')
+        result1 = self.a1.question.evaluate_action('line_2', 'down')
         self.assertFalse(result1)
 
-        result2 = self.a1.question.evaluate_action('line1', 'up')
+        result2 = self.a1.question.evaluate_action('line_1', 'up')
         self.assertTrue(result2)
 
         step2 = self.a1.get_next()
-        result3 = step2.question.evaluate_action('line1_slope', 'increase')
+        result3 = step2.question.evaluate_action('line_1', 'increase')
         self.assertTrue(result3)
 
         step3 = step2.get_next()
-        result4 = step3.question.evaluate_action('line1_label', 'demand')
+        result4 = step3.question.evaluate_action('line_1_label', 'demand')
         self.assertTrue(result4)
 
         step4 = step3.get_next()
