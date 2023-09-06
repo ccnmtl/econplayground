@@ -3,6 +3,10 @@
 
 {% block title %}Step {{ object.pk }}{% endblock %}
 
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/loaders.min.css' %}">
+{% endblock %}
+
 {% block breadcrumb %}
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
