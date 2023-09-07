@@ -76,7 +76,7 @@ django-global-context==0.1.1
 django-registration-redux==2.12
 gunicorn==21.2.0
 django-flatblocks==1.0.0
-django-storages==1.13.2
+django-storages==1.14
 
 djangorestframework==3.14.0
 Willow==1.6.2
