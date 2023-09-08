@@ -46,7 +46,7 @@
     "@babel/eslint-parser": "^7.15.8",
     "babel-jest": "~29.6.0",
     "babel-loader": "~9.1.0",
-    "bfj": "^7.0.2",
+    "bfj": "^8.0.0",
     "canvas": "~2.11.0",
     "file-loader": "~6.2.0",
     "fs-extra": "~11.1.0",
