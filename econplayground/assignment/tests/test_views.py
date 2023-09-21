@@ -45,6 +45,7 @@ class AssignmentManagementViewTest(LoggedInTestInstructorMixin, TestCase):
     def test_update_question(self):
         question = QuestionFactory()
         question_pk = question.pk
+        media_path = 'https://example.com/image.png'
         r = self.client.post(
             reverse(
                 'assignment_question_edit',
@@ -57,7 +58,7 @@ class AssignmentManagementViewTest(LoggedInTestInstructorMixin, TestCase):
                     'rule_assessment_name_0': 'rule_name',
                     'rule_assessment_value_0': 'rule_value',
                     'rule_feedback_fulfilled_0': '',
-                    'rule_media_fulfilled_0': '',
+                    'rule_media_fulfilled_0': media_path,
                     'rule_feedback_unfulfilled_0': '',
                     'rule_media_unfulfilled_0': '',
                 }, follow=True)
@@ -72,6 +73,7 @@ class AssignmentManagementViewTest(LoggedInTestInstructorMixin, TestCase):
         rule = question.assessmentrule_set.first()
         self.assertEqual(rule.assessment_name, 'rule_name')
         self.assertEqual(rule.assessment_value, 'rule_value')
+        self.assertEqual(rule.media_fulfilled, media_path)
 
     def test_step_question_management(self):
         r = self.client.post(
