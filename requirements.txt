@@ -88,7 +88,7 @@ ctlsettings==0.2.0
 oauthlib==3.2.2
 oauth2==1.9.0.post1
 pylti==0.7.0
-nameparser==1.1.2
+nameparser==1.1.3
 django-lti-provider==1.0.0
 
 django-braces==1.15.0
