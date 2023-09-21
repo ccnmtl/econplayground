@@ -102,7 +102,7 @@ LTI_TOOL_CONFIGURATION = {
     'course_aware': False,
     'frame_width': 1024,
     'frame_height': 1024,
-    'landing_url': '/',
+    'landing_url': '',
     'allow_ta_access': False
 }
 
