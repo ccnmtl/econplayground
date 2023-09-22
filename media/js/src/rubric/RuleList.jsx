@@ -47,14 +47,59 @@ RuleList.propTypes = {
     questionId: PropTypes.number.isRequired
 };
 
+function s3Upload(inputEl, onFinish) {
+    return new window.S3Upload({
+        file_dom_el: inputEl,
+        s3_sign_put_url: '/sign_s3/', // change this if you route differently
+        s3_object_name: inputEl.value,
+        onProgress: function(percent, message) {
+            console.log('progress', percent, message);
+        },
+        onFinishS3Put: onFinish,
+        onError: function(status) {
+            console.log('onError', status);
+        }
+    });
+}
+
+/**
+ * Given a url, get its path without the domain.
+ */
+function getPath(url) {
+    if (url) {
+        return new window.URL(url).pathname;
+    }
+
+    return '';
+}
+
 function Rule({ rule }) {
     const dispatch = useRulesDispatch();
+
+    const [fulfilledMedia, setFulfilledMedia] = useState('');
+    const [unfulfilledMedia, setUnfulfilledMedia] = useState('');
 
     function onClickRemoveRule() {
         dispatch({
             type: 'deleted',
             id: rule.id
         });
+    }
+
+    function handleFulfilledMediaChange(e) {
+        s3Upload(
+            e.target,
+            function(url) {
+                setFulfilledMedia(url);
+            });
+    }
+
+    function handleUnfulfilledMediaChange(e) {
+        s3Upload(
+            e.target,
+            function(url) {
+                setUnfulfilledMedia(url);
+            });
     }
 
     const names = getRuleOptions().map((x) => {
@@ -130,9 +175,21 @@ function Rule({ rule }) {
                 </label>
                 <input
                     className="form-control"
-                    name={`rule_media_fulfilled_${rule.id}`}
-                    defaultValue={rule.media_fulfilled}
+                    name={`rule_media_file_fulfilled_${rule.id}`}
+                    onChange={handleFulfilledMediaChange.bind(this)}
                     type="file" />
+                <input
+                    name={`rule_media_fulfilled_${rule.id}`}
+                    value={getPath(fulfilledMedia) || getPath(rule.media_fulfilled) || ''}
+                    type="hidden" />
+
+                {(fulfilledMedia || rule.media_fulfilled) && (
+                    <img
+                        src={fulfilledMedia || rule.media_fulfilled}
+                        style={{maxHeight: '200px'}}
+                        className="img-thumbnail mt-1"
+                        alt="Fulfilled media" />
+                )}
             </div>
 
             <div className="mb-3">
@@ -156,9 +213,21 @@ function Rule({ rule }) {
                 </label>
                 <input
                     className="form-control"
-                    name={`rule_media_unfulfilled_${rule.id}`}
-                    defaultValue={rule.media_unfulfilled}
+                    name={`rule_media_file_unfulfilled_${rule.id}`}
+                    onChange={handleUnfulfilledMediaChange.bind(this)}
                     type="file" />
+                <input
+                    name={`rule_media_unfulfilled_${rule.id}`}
+                    value={getPath(unfulfilledMedia) || getPath(rule.media_unfulfilled) || ''}
+                    type="hidden" />
+
+                {(unfulfilledMedia || rule.media_unfulfilled) && (
+                    <img
+                        src={unfulfilledMedia || rule.media_unfulfilled}
+                        style={{maxHeight: '200px'}}
+                        className="img-thumbnail mt-1"
+                        alt="Unfulfilled media" />
+                )}
             </div>
         </fieldset>
     );

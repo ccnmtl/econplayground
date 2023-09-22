@@ -3,7 +3,8 @@ from storages.backends.s3 import S3Storage
 
 
 class MediaStorage(S3Storage):
-    location = 'uploads'
+    # Bucket is publicly readable, don't need querystring_auth.
+    querystring_auth = False
 
     def __init__(self):
         super(MediaStorage, self).__init__()
