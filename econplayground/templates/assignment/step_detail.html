@@ -61,9 +61,23 @@
                 {% if submission != None and object.question.first_rule.has_feedback %}
                     <div class="alert alert-light" role="alert">
                         {% if submission %}
-                            {{object.question.first_rule.feedback_fulfilled}}
+                            <p>
+                                {{object.question.first_rule.feedback_fulfilled}}
+                            </p>
+
+                            {% if object.question.first_rule.media_fulfilled %}
+                                <img src="{{object.question.first_rule.media_fulfilled.url }}"
+                                     class="img-fluid" alt="Question fulfilled media"/>
+                            {% endif %}
                         {% else %}
-                            {{object.question.first_rule.feedback_unfulfilled}}
+                            <p>
+                                {{object.question.first_rule.feedback_unfulfilled}}
+                            </p>
+
+                            {% if object.question.first_rule.media_unfulfilled %}
+                                <img src="{{object.question.first_rule.media_unfulfilled.url }}"
+                                     class="img-fluid" alt="Question unfulfilled media"/>
+                            {% endif %}
                         {% endif %}
                     </div>
 
