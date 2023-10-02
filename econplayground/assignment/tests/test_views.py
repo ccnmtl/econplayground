@@ -253,10 +253,16 @@ class AssignmentStudentFlowViewTest(
         assignment = self.setup_sample_assignment()
 
         first_step = assignment.get_root().get_first_child()
+        second_step = self.b1
         rule = first_step.question.assessmentrule_set.first()
         rule.assessment_name = 'line_1'
         rule.assessment_value = 'up'
         rule.save()
+
+        rule2 = second_step.question.assessmentrule_set.first()
+        rule2.assessment_name = 'line_1_label'
+        rule2.assessment_value = 'Demand'
+        rule2.save()
 
         r = self.client.post(reverse('step_detail', kwargs={
             'assignment_pk': assignment.pk,
@@ -288,4 +294,20 @@ class AssignmentStudentFlowViewTest(
         session = self.client.session
         self.assertEqual(
             session['step_{}_{}'.format(assignment.pk, first_step.pk)],
+            True)
+
+        r = self.client.post(reverse('step_detail', kwargs={
+            'assignment_pk': assignment.pk,
+            'pk': second_step.pk
+        }), {
+            'action_name': 'gLine1Label',
+            'action_value': 'demand',
+        }, follow=True)
+
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, 'Correct!')
+
+        session = self.client.session
+        self.assertEqual(
+            session['step_{}_{}'.format(assignment.pk, second_step.pk)],
             True)

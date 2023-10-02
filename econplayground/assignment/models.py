@@ -3,6 +3,7 @@ try:
 except ImportError:
     from typing_extensions import Self
 
+import re
 from django.contrib.auth.models import User
 from django.db import models
 from treebeard.mp_tree import MP_Node
@@ -31,6 +32,19 @@ class Question(models.Model):
 
     def first_rule(self) -> 'AssessmentRule':
         return self.assessmentrule_set.first()
+
+
+def convert_action_name(s: str) -> str:
+    """
+    Convert a string from the form: gLine1Label
+
+    To: line_1_label
+    """
+    if len(s) > 1 and s.startswith('g') and s[1].isupper():
+        s = s[1:]
+        return re.sub(r'(?<!^)(?=[A-Z])', '_', s).lower()
+
+    return s
 
 
 class AssessmentRule(models.Model):
@@ -68,9 +82,12 @@ class AssessmentRule(models.Model):
         """
         Evaluate a user action, based on action type and value.
 
-
         Returns a boolean: True for success, False for failure.
         """
+        # Remove underscores and lower-case both names for more lax comparison.
+        action_name = convert_action_name(action_name).lower().replace('_', '')
+        self.assessment_name = self.assessment_name.lower().replace('_', '')
+
         if self.assessment_name and self.assessment_value:
             return action_name == self.assessment_name and \
                 action_value.lower() == self.assessment_value.lower()
