@@ -277,6 +277,16 @@ class StepDetailView(LoginRequiredMixin, DetailView):
         action_name = request.POST.get('action_name')
         action_value = request.POST.get('action_value')
 
+        if not action_name:
+            fields = [x for x in request.POST if x.startswith('g')]
+            # If there are no "actions" from the React application,
+            # find the first filled-in field in the form.
+            for field in fields:
+                if request.POST.get(field):
+                    action_name = field
+                    action_value = request.POST.get(field)
+                    break
+
         if question:
             result = question.evaluate_action(action_name, action_value)
 

@@ -54,8 +54,8 @@ class AssignmentMixin(object):
         """
         assignment = AssignmentFactory()
 
-        a1 = assignment.add_step()
-        b1 = assignment.add_step()
+        self.a1 = assignment.add_step()
+        self.b1 = assignment.add_step()
         c1 = assignment.add_step()
         assignment.add_step()
         assignment.add_step()
@@ -63,13 +63,13 @@ class AssignmentMixin(object):
         q1 = QuestionFactory()
         AssessmentRuleFactory(
             question=q1, assessment_name='', assessment_value='')
-        a1.question = q1
-        a1.save()
+        self.a1.question = q1
+        self.a1.save()
 
         q2 = QuestionFactory()
         AssessmentRuleFactory(question=q2)
-        b1.question = q2
-        b1.save()
+        self.b1.question = q2
+        self.b1.save()
 
         q3 = QuestionFactory()
         AssessmentRuleFactory(question=q3)
