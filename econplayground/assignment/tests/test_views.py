@@ -249,6 +249,23 @@ class AssignmentStudentFlowViewTest(
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, 'Correct!')
 
+    def test_assignment_step_empty_submission(self):
+        assignment = self.setup_sample_assignment()
+
+        first_step = assignment.get_root().get_first_child()
+        rule = first_step.question.assessmentrule_set.first()
+        rule.assessment_name = 'line_1'
+        rule.assessment_value = 'up'
+        rule.save()
+
+        r = self.client.post(reverse('step_detail', kwargs={
+            'assignment_pk': assignment.pk,
+            'pk': first_step.pk
+        }), {}, follow=True)
+
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, 'Incorrect!')
+
     def test_assignment_step_submit(self):
         assignment = self.setup_sample_assignment()
 

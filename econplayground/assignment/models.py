@@ -40,11 +40,11 @@ def convert_action_name(s: str) -> str:
 
     To: line_1_label
     """
-    if len(s) > 1 and s.startswith('g') and s[1].isupper():
+    if s and len(s) > 1 and s.startswith('g') and s[1].isupper():
         s = s[1:]
         return re.sub(r'(?<!^)(?=[A-Z])', '_', s).lower()
 
-    return s
+    return s or ''
 
 
 class AssessmentRule(models.Model):
