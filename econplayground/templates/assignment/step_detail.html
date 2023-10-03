@@ -58,28 +58,30 @@
                     </div>
                 </div>
 
-                {% if submission != None and object.question.first_rule.has_feedback %}
-                    <div class="alert alert-light" role="alert">
-                        {% if submission %}
-                            <p>
-                                {{object.question.first_rule.feedback_fulfilled}}
-                            </p>
+                {% if submission != None %}
+                    {% if object.question.first_rule.has_feedback %}
+                        <div class="alert alert-light" role="alert">
+                            {% if submission %}
+                                <p>
+                                    {{object.question.first_rule.feedback_fulfilled}}
+                                </p>
 
-                            {% if object.question.first_rule.media_fulfilled %}
-                                <img src="{{object.question.first_rule.media_fulfilled.url }}"
-                                     class="img-fluid" alt="Question fulfilled media"/>
-                            {% endif %}
-                        {% else %}
-                            <p>
-                                {{object.question.first_rule.feedback_unfulfilled}}
-                            </p>
+                                {% if object.question.first_rule.media_fulfilled %}
+                                    <img src="{{object.question.first_rule.media_fulfilled.url }}"
+                                         class="img-fluid" alt="Question fulfilled media"/>
+                                {% endif %}
+                            {% else %}
+                                <p>
+                                    {{object.question.first_rule.feedback_unfulfilled}}
+                                </p>
 
-                            {% if object.question.first_rule.media_unfulfilled %}
-                                <img src="{{object.question.first_rule.media_unfulfilled.url }}"
-                                     class="img-fluid" alt="Question unfulfilled media"/>
+                                {% if object.question.first_rule.media_unfulfilled %}
+                                    <img src="{{object.question.first_rule.media_unfulfilled.url }}"
+                                         class="img-fluid" alt="Question unfulfilled media"/>
+                                {% endif %}
                             {% endif %}
-                        {% endif %}
-                    </div>
+                        </div>
+                    {% endif %}
 
                     <input type="hidden" name="unsubmit" value="true" />
                     <button type="submit" class="btn btn-secondary">
