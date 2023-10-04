@@ -33,6 +33,7 @@ export default class RangeEditor extends React.Component {
                                         aria-label={this.props.note}
                                         id={this.props.id}
                                         data-id={this.props.dataId}
+                                        name={this.props.dataId}
                                         type="range"
                                         onChange={this.props.handler}
                                         value={this.props.value}
