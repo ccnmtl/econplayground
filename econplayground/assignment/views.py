@@ -1,3 +1,11 @@
+# These typing extensions can be removed when we upgrade off Python
+# 3.8:
+# https://docs.python.org/3/library/typing.html#typing.List
+try:
+    from typing import List, Tuple
+except ImportError:
+    from typing_extensions import List, Tuple
+
 import re
 
 from django import forms
@@ -259,7 +267,28 @@ class StepDetailView(LoginRequiredMixin, DetailView):
         })
         return ctx
 
+    @staticmethod
+    def append_graph_form_fields(
+            request: object,
+            actions: List[Tuple[str, str]]
+    ) -> List[Tuple[str, str]]:
+        """
+        Find the filled-in form fields.
+        """
+        fields = [x for x in request.POST if x.startswith('g')]
+        for field in fields:
+            if request.POST.get(field):
+                action_name = field
+                action_value = request.POST.get(field)
+                actions.append((action_name, action_value))
+
+        return actions
+
     def post(self, request, *args, **kwargs):
+        """
+        This method handles what happens when students submit their
+        answer to a Question.
+        """
         step = self.get_object()
 
         unsubmit = request.POST.get('unsubmit')
@@ -279,13 +308,7 @@ class StepDetailView(LoginRequiredMixin, DetailView):
         action_value = request.POST.get('action_value')
         actions.append((action_name, action_value))
 
-        # Find the filled-in form fields.
-        fields = [x for x in request.POST if x.startswith('g')]
-        for field in fields:
-            if request.POST.get(field):
-                action_name = field
-                action_value = request.POST.get(field)
-                actions.append((action_name, action_value))
+        actions = self.append_graph_form_fields(request, actions)
 
         if question:
             # Check all actions for a success.
