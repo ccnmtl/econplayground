@@ -1,3 +1,6 @@
+# These typing extensions can be removed when we upgrade off Python
+# 3.8:
+# https://docs.python.org/3/library/typing.html#typing.Self
 try:
     from typing import Self
 except ImportError:
