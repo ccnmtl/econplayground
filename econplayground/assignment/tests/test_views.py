@@ -19,19 +19,44 @@ class AssignmentManagementViewTest(LoggedInTestInstructorMixin, TestCase):
             reverse(
                 'assignment_question_create',
                 kwargs={'assignment_pk': self.assignment.pk}), {
-                'title': 'Test question',
+                'title': 'Test question 1',
             }, follow=True)
 
         self.assertEqual(r.status_code, 200)
-        self.assertContains(r, 'Test question')
+        self.assertContains(r, 'Test question 1')
         self.assertContains(r, 'created.')
 
-        q = Question.objects.last()
-        self.assertEqual(q.title, 'Test question')
+        r = self.client.post(
+            reverse(
+                'assignment_question_create',
+                kwargs={'assignment_pk': self.assignment.pk}), {
+                'title': 'Test question 2',
+            }, follow=True)
+
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, 'Test question 2')
+        self.assertContains(r, 'created.')
+
+        r = self.client.post(
+            reverse(
+                'assignment_question_create',
+                kwargs={'assignment_pk': self.assignment.pk}), {
+                'title': 'Test question 3',
+            }, follow=True)
+
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, 'Test question 3')
+        self.assertContains(r, 'created.')
+
+        q_first = Question.objects.first()
+        q_last = Question.objects.last()
+        self.assertEqual(q_first.title, 'Test question 1')
+        self.assertEqual(q_last.title, 'Test question 3')
 
     def test_delete_question(self):
         question = QuestionFactory()
         question_pk = question.pk
+        initial_count = Question.objects.all().count()
         r = self.client.post(
             reverse(
                 'assignment_question_delete',
@@ -41,6 +66,10 @@ class AssignmentManagementViewTest(LoggedInTestInstructorMixin, TestCase):
                 }), follow=True)
 
         self.assertEqual(r.status_code, 200)
+        self.assertEqual(Question.objects.all().count(), initial_count - 1)
+
+        # No orphaned questions
+        self.assertEqual(initial_count - 1, Question.objects.all().count())
 
     def test_update_question(self):
         question = QuestionFactory()
@@ -74,6 +103,106 @@ class AssignmentManagementViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertEqual(rule.assessment_name, 'rule_name')
         self.assertEqual(rule.assessment_value, 'rule_value')
         self.assertEqual(rule.media_fulfilled, media_path)
+
+        # Add a second rule
+        r = self.client.post(
+            reverse(
+                'assignment_question_edit',
+                kwargs={
+                    'assignment_pk': self.assignment.pk,
+                    'pk': question_pk,
+                }), {
+                    'title': 'New title',
+                    'rule_assessment_type_0': '',
+                    'rule_assessment_name_0': 'rule_name',
+                    'rule_assessment_value_0': 'rule_value',
+                    'rule_feedback_fulfilled_0': '',
+                    'rule_media_fulfilled_0': media_path,
+                    'rule_feedback_unfulfilled_0': '',
+                    'rule_media_unfulfilled_0': '',
+                    'rule_assessment_type_1': 'alternative_type',
+                    'rule_assessment_name_1': 'second_rule',
+                    'rule_assessment_value_1': 'second_rule_value',
+                    'rule_feedback_fulfilled_1': 'Fulfilled',
+                    'rule_media_fulfilled_1': '',
+                    'rule_feedback_unfulfilled_1': 'Unfulfilled',
+                    'rule_media_unfulfilled_1': '',
+                }, follow=True)
+
+        self.assertEqual(r.status_code, 200)
+        question.refresh_from_db()
+        self.assertEqual(question.title, 'New title')
+        self.assertContains(r, 'New title')
+        self.assertContains(r, 'updated.')
+
+        self.assertEqual(question.assessmentrule_set.count(), 2)
+        # Need a way to access other assessment_rules
+        rule_2 = question.assessmentrule_set.last()
+        self.assertEqual(rule_2.assessment_name, 'second_rule')
+        self.assertEqual(rule_2.assessment_value, 'second_rule_value')
+
+        # TODO Provide implementation for the following tests
+        # # Partial rule update without erasing all rules
+        # r = self.client.post(
+        #     reverse(
+        #         'assignment_question_edit',
+        #         kwargs={
+        #             'assignment_pk': self.assignment.pk,
+        #             'pk': question_pk,
+        #         }), {
+        #             'rule_assessment_value_0': 'updated_value',
+        #         }, follow=True)
+
+        # self.assertEqual(r.status_code, 200)
+        # question.refresh_from_db()
+        # self.assertEqual(question.title, 'New title')
+        # self.assertContains(r, 'New title')
+        # self.assertContains(r, 'updated.')
+
+        # self.assertEqual(question.assessmentrule_set.count(), 2)
+        # # Need a way to access other assessment_rules
+        # partial_update = question.assessmentrule_set.get(
+        #     assessment_name='rule_assessment_name_0')
+        # self.assertEqual(partial_update.assessment_name, 'rule_name')
+        # self.assertEqual(partial_update.assessment_value, 'updated_value')
+
+        # untouched = question.assessmentrule_set.get(
+        #     assessment_name='rule_assessment_name_1')
+        # self.assertEqual(untouched.assessment_name, 'second_rule')
+
+        # Count all valid rules. I understand that this isn't necessary
+        # given the current implementation, but I think it might be good
+        # future-proofing.
+        # r = self.client.post(
+        #     reverse(
+        #         'assignment_question_edit',
+        #         kwargs={
+        #             'assignment_pk': self.assignment.pk,
+        #             'pk': question_pk,
+        #         }), {
+        #             'title': 'New title',
+        #             'rule_assessment_type_1': 'tertiary_type',
+        #             'rule_assessment_name_1': 'skipping_rule_0',
+        #             'rule_assessment_value_1':
+        #                 'Should be recorded even if out of sequence',
+        #             'rule_feedback_fulfilled_1': 'Hooray!',
+        #             'rule_media_fulfilled_1': '',
+        #             'rule_feedback_unfulfilled_1': 'Boo...',
+        #             'rule_media_unfulfilled_1': '',
+        #         }, follow=True)
+
+        # self.assertEqual(r.status_code, 200)
+        # question.refresh_from_db()
+        # self.assertEqual(question.title, 'New title')
+        # self.assertContains(r, 'New title')
+        # self.assertContains(r, 'updated.')
+
+        # self.assertEqual(question.assessmentrule_set.count(), 2)
+        # # Need a way to access other assessment_rules
+        # rule_3 = question.assessmentrule_set.all()
+        # self.assertEqual(rule_3.assessment_name, 'skipping_rule_0')
+        # self.assertEqual(rule_3.assessment_value,
+        #                  'Should be recorded even if out of sequence')
 
     def test_step_question_management(self):
         r = self.client.post(
