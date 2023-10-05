@@ -77,9 +77,21 @@ const getRuleOptions = () => {
             value: 'parameter',
             names: [
                 {
+                    name: 'A',
+                    value: 'cobb_douglas_a'
+                },
+                {
+                    name: 'K',
+                    value: 'cobb_douglas_k'
+                },
+                {
                     name: 'Alpha (α)',
-                    value: 'alpha'
-                }
+                    value: 'cobb_douglas_alpha'
+                },
+                {
+                    name: 'L',
+                    value: 'cobb_douglas_l'
+                },
             ],
         },
     ];

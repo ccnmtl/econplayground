@@ -274,21 +274,25 @@ class StepDetailView(LoginRequiredMixin, DetailView):
 
         question = step.question
 
+        actions = []
         action_name = request.POST.get('action_name')
         action_value = request.POST.get('action_value')
+        actions.append((action_name, action_value))
 
-        if not action_name:
-            fields = [x for x in request.POST if x.startswith('g')]
-            # If there are no "actions" from the React application,
-            # find the first filled-in field in the form.
-            for field in fields:
-                if request.POST.get(field):
-                    action_name = field
-                    action_value = request.POST.get(field)
-                    break
+        # Find the filled-in form fields.
+        fields = [x for x in request.POST if x.startswith('g')]
+        for field in fields:
+            if request.POST.get(field):
+                action_name = field
+                action_value = request.POST.get(field)
+                actions.append((action_name, action_value))
 
         if question:
-            result = question.evaluate_action(action_name, action_value)
+            # Check all actions for a success.
+            results = [
+                question.evaluate_action(x[0], x[1]) for x in actions if x
+            ]
+            result = any(results)
 
             # Store the result in the user's session.
             step_name = 'step_{}_{}'.format(step.assignment.pk, step.pk)

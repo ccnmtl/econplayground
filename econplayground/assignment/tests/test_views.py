@@ -328,3 +328,64 @@ class AssignmentStudentFlowViewTest(
         self.assertEqual(
             session['step_{}_{}'.format(assignment.pk, second_step.pk)],
             True)
+
+    def test_assignment_step_value_submission(self):
+        assignment = self.setup_sample_assignment()
+
+        first_step = assignment.get_root().get_first_child()
+        rule = first_step.question.assessmentrule_set.first()
+        rule.assessment_name = 'cobb_douglas_alpha'
+        rule.assessment_value = '0.33'
+        rule.save()
+
+        r = self.client.post(reverse('step_detail', kwargs={
+            'assignment_pk': assignment.pk,
+            'pk': first_step.pk
+        }), {
+            'action_name': 'gCobbDouglasAlpha',
+            'action_value': '0.4',
+        }, follow=True)
+
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, 'Incorrect!')
+
+        r = self.client.post(reverse('step_detail', kwargs={
+            'assignment_pk': assignment.pk,
+            'pk': first_step.pk
+        }), {
+            'action_name': 'gCobbDouglasAlpha',
+            'action_value': '0.33',
+        }, follow=True)
+
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, 'Correct!')
+
+        # In practice, the form will have all sorts of filled-in fields. The
+        # request will look more like this, and the code needs to handle that:
+        r = self.client.post(reverse('step_detail', kwargs={
+            'assignment_pk': assignment.pk,
+            'pk': first_step.pk
+        }), {
+            'gCobbDouglasA': '2',
+            'gCobbDouglasK': '1',
+            'gCobbDouglasAlpha': '0.5',
+            'gCobbDouglasL': '5',
+            'gIntersectionLabel': '',
+        }, follow=True)
+
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, 'Incorrect!')
+
+        r = self.client.post(reverse('step_detail', kwargs={
+            'assignment_pk': assignment.pk,
+            'pk': first_step.pk
+        }), {
+            'gCobbDouglasA': '2',
+            'gCobbDouglasK': '1',
+            'gCobbDouglasAlpha': '0.33',
+            'gCobbDouglasL': '5',
+            'gIntersectionLabel': '',
+        }, follow=True)
+
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, 'Correct!')
