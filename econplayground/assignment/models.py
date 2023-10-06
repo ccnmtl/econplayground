@@ -78,8 +78,14 @@ class AssessmentRule(models.Model):
     media_unfulfilled = models.FileField(
         storage=MediaStorage, blank=True, null=True)
 
+    def has_fulfilled_feedback(self) -> bool:
+        return self.feedback_fulfilled or self.media_fulfilled
+
+    def has_unfulfilled_feedback(self) -> bool:
+        return self.feedback_unfulfilled or self.media_unfulfilled
+
     def has_feedback(self) -> bool:
-        return self.feedback_fulfilled or self.feedback_unfulfilled
+        return self.has_fulfilled_feedback() or self.has_unfulfilled_feedback()
 
     def evaluate_action(self, action_name: str, action_value: str) -> bool:
         """

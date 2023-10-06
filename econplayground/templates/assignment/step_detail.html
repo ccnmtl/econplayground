@@ -61,7 +61,7 @@
                 {% if submission != None %}
                     {% if object.question.first_rule.has_feedback %}
                         <div class="alert alert-light" role="alert">
-                            {% if submission %}
+                            {% if submission and object.question.first_rule.has_fulfilled_feedback %}
                                 <p>
                                     {{object.question.first_rule.feedback_fulfilled}}
                                 </p>
@@ -70,7 +70,7 @@
                                     <img src="{{object.question.first_rule.media_fulfilled.url }}"
                                          class="img-fluid" alt="Question fulfilled media"/>
                                 {% endif %}
-                            {% else %}
+                            {% elif object.question.first_rule.has_unfulfilled_feedback %}
                                 <p>
                                     {{object.question.first_rule.feedback_unfulfilled}}
                                 </p>
