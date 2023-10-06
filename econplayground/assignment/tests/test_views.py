@@ -465,6 +465,8 @@ class AssignmentStudentFlowViewTest(
         rule = first_step.question.assessmentrule_set.first()
         rule.assessment_name = 'cobb_douglas_alpha'
         rule.assessment_value = '0.33'
+        rule.feedback_fulfilled = 'Fulfilled feedback!'
+        rule.feedback_unfulfilled = 'unfulfilled.'
         rule.save()
 
         r = self.client.post(reverse('step_detail', kwargs={
@@ -518,3 +520,5 @@ class AssignmentStudentFlowViewTest(
 
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, 'Correct!')
+        self.assertContains(r, 'Fulfilled feedback!')
+        self.assertNotContains(r, 'unfulfilled.')
