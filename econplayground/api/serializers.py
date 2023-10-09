@@ -199,6 +199,12 @@ class GraphSerializer(serializers.ModelSerializer):
         return instance
 
 
+class GraphTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Graph
+        fields = ('graph_type',)
+
+
 class EvaluationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Evaluation
@@ -288,9 +294,11 @@ class AssessmentRuleSerializer(serializers.ModelSerializer):
 
 class QuestionSerializer(serializers.ModelSerializer):
     assessmentrule_set = AssessmentRuleSerializer(many=True)
+    graph = GraphTypeSerializer(read_only=True)
 
     class Meta:
         model = Question
         fields = (
             'pk', 'title', 'prompt', 'assessmentrule_set',
+            'graph',
         )
