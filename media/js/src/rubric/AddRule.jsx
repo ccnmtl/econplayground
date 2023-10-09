@@ -12,7 +12,8 @@ export default function AddRule() {
             feedback_fulfilled: '',
             media_fulfilled: '',
             feedback_unfulfilled: '',
-            media_unfulfilled: ''
+            media_unfulfilled: '',
+            graph_type: null
         });
     }
 

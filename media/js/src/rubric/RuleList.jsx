@@ -22,7 +22,8 @@ export default function RuleList({ questionId }) {
                     feedback_fulfilled: rule.feedback_fulfilled,
                     media_fulfilled: rule.media_fulfilled,
                     feedback_unfulfilled: rule.feedback_unfulfilled,
-                    media_unfulfilled: rule.media_unfulfilled
+                    media_unfulfilled: rule.media_unfulfilled,
+                    graph_type: d.graph.graph_type
                 });
             });
 
@@ -75,9 +76,17 @@ function getPath(url) {
 
 function Rule({ rule }) {
     const dispatch = useRulesDispatch();
+    const [graphType, setGraphType] = useState(rule.graph_type);
 
     const [fulfilledMedia, setFulfilledMedia] = useState('');
     const [unfulfilledMedia, setUnfulfilledMedia] = useState('');
+
+    useEffect(() => {
+        document.addEventListener('graphTypeUpdated', (e) => {
+            const graphType = window.parseInt(e.detail);
+            setGraphType(graphType);
+        });
+    });
 
     function onClickRemoveRule() {
         dispatch({
@@ -102,9 +111,8 @@ function Rule({ rule }) {
             });
     }
 
-    const names = getRuleOptions().map((x) => {
-        return x.names;
-    }).flat();
+    // Get graph type
+    const names = getRuleOptions(graphType);
 
     const renderedNames = names.map((x) => {
         return (

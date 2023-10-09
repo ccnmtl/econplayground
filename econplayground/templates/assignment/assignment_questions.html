@@ -77,7 +77,9 @@
                                       name="graph"
                                       id="questionGraph-{{question.pk}}">
                                   {% for graph in graphs %}
-                                      <option value="{{graph.pk}}" {% if question.graph.pk == graph.pk %}selected{% endif %}>
+                                      <option data-graphtype="{{graph.graph_type}}"
+                                              value="{{graph.pk}}"
+                                              {% if question.graph.pk == graph.pk %}selected{% endif %}>
                                           {{graph.title}}
                                       </option>
                                   {% endfor %}
@@ -143,6 +145,15 @@ $(document).ready(function() {
     // https://getbootstrap.com/docs/5.3/components/navs-tabs/#javascript-behavior
     $('select.ep-question-select').on('change', function(e) {
         selectQuestion(e.target, Number(e.target.value));
+    });
+
+    $('select[name="graph"]').on('change', function(e) {
+        const selectedOption = e.target.options[e.target.selectedIndex];
+        const graphType = selectedOption.dataset.graphtype;
+        const graphTypeUpdated = new CustomEvent('graphTypeUpdated', {
+            detail: graphType
+        });
+        document.dispatchEvent(graphTypeUpdated);
     });
 });
 </script>
