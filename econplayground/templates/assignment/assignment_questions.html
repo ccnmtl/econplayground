@@ -77,7 +77,7 @@
                                       name="graph"
                                       id="questionGraph-{{question.pk}}">
                                   {% for graph in graphs %}
-                                      <option value="{{graph.pk}}">
+                                      <option value="{{graph.pk}}" {% if question.graph.pk == graph.pk %}selected{% endif %}>
                                           {{graph.title}}
                                       </option>
                                   {% endfor %}
