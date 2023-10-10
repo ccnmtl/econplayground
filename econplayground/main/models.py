@@ -14,9 +14,9 @@ import random
 
 GRAPH_TYPES = (
     (0, 'Linear Demand and Supply'),
-    (1, 'Non-Linear Demand and Supply'),
+    (1, 'Input Markets'),
     (2, 'Labor Market (perfectly inelastic)'),  # Unused
-    (3, 'Cobb-Douglas Production Function'),
+    (3, 'Cobb-Douglas Production Graph'),
     (4, 'Labor Supply'),  # Unused
     (5, 'Consumption-Leisure: Constraint'),
     (6, 'Saving - Investment'),  # Unused
@@ -24,16 +24,16 @@ GRAPH_TYPES = (
     (8, 'Linear Demand and Supply: 3 Functions'),
 
     # Area Under Curve graphs
-    (9, 'Linear Demand and Supply: AUC'),
-    (10, 'Non-Linear Demand and Supply: AUC'),
+    (9, 'Linear Demand and Supply: Areas'),
+    (10, 'Input Markets: Areas'),
 
     (11, 'Consumption-Saving: Optimal Choice'),
     (15, 'Consumption-Leisure: Optimal Choice'),
 
     # Joint Graphs
-    (12, 'Cobb-Douglas NLDS'),
-    (13, 'Linear Demand-Supply x2'),
-    (14, 'Non-Linear Demand-Supply x2'),
+    (12, 'Input-Output Illustrations'),
+    (13, 'Linear Demand and Supply: 2 Diagrams'),
+    (14, 'Input Markets: 2 Diagrams'),
 )
 
 ASSIGNMENT_TYPES = (
