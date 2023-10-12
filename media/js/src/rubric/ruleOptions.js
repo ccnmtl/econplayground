@@ -138,6 +138,81 @@ const cobbDouglasOptions = [
     }
 ];
 
+// Type 5
+const consumptionLeisureConstraintOptions = [
+    {
+        name: 'Horizontal intercept value: T',
+        value: 'a1'
+    },
+    {
+        name: 'Real Wage: w',
+        value: 'a2'
+    },
+    {
+        name: 'Tax Rate: t',
+        value: 'a4'
+    },
+    {
+        name: 'Budget line label',
+        value: 'line_1_label'
+    },
+    {
+        name: 'X-axis label',
+        value: 'x_axis_label'
+    },
+    {
+        name: 'Y-axis label',
+        value: 'y_axis_label'
+    },
+    {
+        name: 'Intersection\'s horizontal line label',
+        value: 'intersection_horiz_line_label'
+    },
+    {
+        name: 'Intersection\'s vertical line label',
+        value: 'intersection_vert_line_label'
+    }
+];
+
+// Type 7
+const consumptionSavingConstraintOptions = [
+    {
+        name: 'y1',
+        value: 'a1'
+    },
+    {
+        name: 'y2',
+        value: 'a2'
+    },
+    {
+        name: 'W',
+        value: 'a3'
+    },
+    {
+        name: 'r',
+        value: 'a4'
+    },
+    {
+        name: 'Orange line label',
+        value: 'line_1_label'
+    },
+    {
+        name: 'Endowment point label',
+        value: 'intersection_label'
+    },
+    {
+        name: 'Endowment point\'s horizontal line label',
+        value: 'intersection_horiz_line_label'
+    },
+    {
+        name: 'Endowment point\'s vertical line label',
+        value: 'intersection_vert_line_label'
+    }
+];
+
+// Type 8
+const linearDemandSupplyThreeFunctionsOptions = [];
+
 // Graph type 9
 // Linear Demand and Supply: Areas
 const linearDemandAreasOptions = [
@@ -271,6 +346,21 @@ const inputMarketsAreasOptions = [
     }
 ];
 
+// Type 11
+const consumptionSavingOptimalChoiceOptions = [];
+
+// Type 15
+const consumptionLeisureOptimalChoiceOptions = [];
+
+// Type 12
+const inputOutputIllustrationsOptions = [];
+
+// Type 13
+const linearDemandSupplyTwoDiagramsOptions = [];
+
+// Type 14
+const inputMarketsTwoDiagramsOptions = [];
+
 /**
  * getRuleOptions
  *
@@ -284,10 +374,31 @@ const getRuleOptions = (graphType) => {
             return inputMarketsOptions;
         case 3:
             return cobbDouglasOptions;
+        case 5:
+            return consumptionLeisureConstraintOptions;
+        case 7:
+            return consumptionSavingConstraintOptions;
+        case 8:
+            return linearDemandSupplyThreeFunctionsOptions;
+
+            // AUC Graphs
         case 9:
             return linearDemandAreasOptions;
         case 10:
             return inputMarketsAreasOptions;
+        case 11:
+            return consumptionSavingOptimalChoiceOptions;
+        case 15:
+            return consumptionLeisureOptimalChoiceOptions;
+
+            // Joint graphs
+        case 12:
+            return inputOutputIllustrationsOptions;
+        case 13:
+            return linearDemandSupplyTwoDiagramsOptions;
+        case 14:
+            return inputMarketsTwoDiagramsOptions;
+
         default:
             return [];
     }
