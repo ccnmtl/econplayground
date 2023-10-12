@@ -148,19 +148,3 @@ class QuestionBankInstructorMixin(object):
 
         return super(QuestionBankInstructorMixin, self).dispatch(
             self.request, *args, **kwargs)
-
-
-class QuestionInstructorMixin(object):
-    """Find the question and attach it to self.question.
-
-    Additionally, return a Forbidden error if the current user isn't
-    an instructor.
-    """
-    def dispatch(self, *args, **kwargs):
-        if not user_is_instructor(self.request.user):
-            return HttpResponseForbidden()
-
-        attach_question(self, **kwargs)
-
-        return super(QuestionInstructorMixin, self).dispatch(
-            self.request, *args, **kwargs)
