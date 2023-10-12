@@ -15,11 +15,8 @@ import random
 GRAPH_TYPES = (
     (0, 'Linear Demand and Supply'),
     (1, 'Input Markets'),
-    (2, 'Labor Market (perfectly inelastic)'),  # Unused
     (3, 'Cobb-Douglas Production Graph'),
-    (4, 'Labor Supply'),  # Unused
     (5, 'Consumption-Leisure: Constraint'),
-    (6, 'Saving - Investment'),  # Unused
     (7, 'Consumption-Saving: Constraint'),
     (8, 'Linear Demand and Supply: 3 Functions'),
 
