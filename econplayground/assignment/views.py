@@ -94,16 +94,10 @@ class AssignmentDetailView(
         bulk_tree = Step.dump_bulk(parent=root)
         root = bulk_tree[0]
 
-        graphs = []
-        for cohort in self.object.cohorts.all():
-            graphs += cohort.get_graphs()
-
         steps = Step.objects.filter(assignment=self.object)
 
         ctx.update({
             'tree': root.get('children'),
-            'questions': Question.objects.order_by('created_at'),
-            'graphs': graphs,
             'steps': steps,
         })
         return ctx
@@ -334,6 +328,33 @@ class StepDetailView(LoginRequiredMixin, DetailView):
         }))
 
 
+class AssignmentQuestionView(
+        EnsureCsrfCookieMixin, UserPassesTestMixin,
+        LoginRequiredMixin, DetailView):
+    model = Assignment
+    template_name = 'assignment/question_detail.html'
+
+    def test_func(self):
+        return user_is_instructor(self.request.user)
+
+    def get_object(self):
+        return Assignment.objects.get(
+            pk=self.kwargs.get('assignment_pk'))
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+
+        graphs = []
+        for cohort in self.object.cohorts.all():
+            graphs += cohort.get_graphs()
+
+        ctx.update({
+            'questions': Question.objects.order_by('created_at'),
+            "graphs": graphs
+        })
+        return ctx
+
+
 class QuestionCreateView(
         EnsureCsrfCookieMixin, UserPassesTestMixin,
         LoginRequiredMixin, CreateView):
@@ -368,7 +389,8 @@ class QuestionCreateView(
 
     def get_success_url(self):
         return reverse(
-            'assignment_detail', kwargs={'pk': self.assignment_pk})
+            'assignment_question_list',
+            kwargs={'assignment_pk': self.assignment_pk})
 
 
 class QuestionUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -386,7 +408,8 @@ class QuestionUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def get_success_url(self):
         return reverse(
-            'assignment_detail', kwargs={'pk': self.assignment_pk})
+            'assignment_question_list',
+            kwargs={'assignment_pk': self.assignment_pk})
 
     def post(self, request, *args, **kwargs):
         result = super().post(request, *args, **kwargs)
@@ -457,4 +480,5 @@ class QuestionDeleteView(
 
     def get_success_url(self):
         return reverse(
-            'assignment_detail', kwargs={'pk': self.assignment_pk})
+            'assignment_question_list',
+            kwargs={'assignment_pk': self.assignment_pk})
