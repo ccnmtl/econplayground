@@ -23,5 +23,5 @@ export default function Rubric({ questionId }) {
 }
 
 Rubric.propTypes = {
-    questionId: PropTypes.number.isRequired
+    questionId: PropTypes.number
 };

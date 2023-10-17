@@ -7,28 +7,49 @@ import { getQuestion } from '../utils.js';
 
 export default function RuleList({ questionId }) {
     const [isLoaded, setIsLoaded] = useState(false);
+    const [graphType, setGraphType] = useState(null);
 
     const rules = useRules();
     const dispatch = useRulesDispatch();
 
     useEffect(() => {
-        getQuestion(questionId).then((d) => {
-            const rules = d.assessmentrule_set;
-            rules.forEach((rule) => {
-                dispatch({
-                    type: 'added',
-                    name: rule.assessment_name,
-                    value: rule.assessment_value,
-                    feedback_fulfilled: rule.feedback_fulfilled,
-                    media_fulfilled: rule.media_fulfilled,
-                    feedback_unfulfilled: rule.feedback_unfulfilled,
-                    media_unfulfilled: rule.media_unfulfilled,
-                    graph_type: d.graph.graph_type
+        document.addEventListener('graphTypeUpdated', (e) => {
+            const graphType = window.parseInt(e.detail);
+            setGraphType(graphType);
+        });
+
+        if (questionId) {
+            getQuestion(questionId).then((d) => {
+                const rules = d.assessmentrule_set;
+
+                setGraphType(d.graph.graph_type);
+
+                rules.forEach((rule) => {
+                    dispatch({
+                        type: 'added',
+                        name: rule.assessment_name,
+                        value: rule.assessment_value,
+                        feedback_fulfilled: rule.feedback_fulfilled,
+                        media_fulfilled: rule.media_fulfilled,
+                        feedback_unfulfilled: rule.feedback_unfulfilled,
+                        media_unfulfilled: rule.media_unfulfilled
+                    });
                 });
+
+                setIsLoaded(true);
             });
+        } else {
+            if (
+                window.EconPlayground &&
+                    typeof window.EconPlayground.initialGraphType !==
+                    'undefined'
+            ) {
+                setGraphType(window.EconPlayground.initialGraphType);
+            }
 
             setIsLoaded(true);
-        });
+        }
+
     }, []);
 
     if (!isLoaded) {
@@ -38,14 +59,14 @@ export default function RuleList({ questionId }) {
     return (
         <>
             {rules.map(rule => (
-                <Rule key={rule.id} rule={rule} />
+                <Rule key={rule.id} rule={rule} graphType={graphType} />
             ))}
         </>
     );
 }
 
 RuleList.propTypes = {
-    questionId: PropTypes.number.isRequired
+    questionId: PropTypes.number
 };
 
 function s3Upload(inputEl, onFinish) {
@@ -74,19 +95,11 @@ function getPath(url) {
     return '';
 }
 
-function Rule({ rule }) {
+function Rule({ rule, graphType }) {
     const dispatch = useRulesDispatch();
-    const [graphType, setGraphType] = useState(rule.graph_type);
 
     const [fulfilledMedia, setFulfilledMedia] = useState('');
     const [unfulfilledMedia, setUnfulfilledMedia] = useState('');
-
-    useEffect(() => {
-        document.addEventListener('graphTypeUpdated', (e) => {
-            const graphType = window.parseInt(e.detail);
-            setGraphType(graphType);
-        });
-    });
 
     function onClickRemoveRule() {
         dispatch({
@@ -242,5 +255,6 @@ function Rule({ rule }) {
 }
 
 Rule.propTypes = {
-    rule: PropTypes.object.isRequired
+    rule: PropTypes.object.isRequired,
+    graphType: PropTypes.number.isRequired
 };
