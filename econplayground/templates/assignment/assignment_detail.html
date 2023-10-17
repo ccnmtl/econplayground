@@ -39,20 +39,18 @@
     <div class="container">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="assignment-tab"
+                <a class="nav-link active" id="assignment-tab"
                         data-bs-toggle="tab" data-bs-target="#assignment-tab-pane"
                         type="button" role="tab"
                         aria-controls="assignment-tab-pane" aria-selected="true">
                     Assignment
-                </button>
+                </a>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="questions-tab"
-                        data-bs-toggle="tab" data-bs-target="#questions-tab-pane"
-                        type="button" role="tab"
-                        aria-controls="questions-tab-pane" aria-selected="false">
+                <a href="{% url 'assignment_question_list' object.pk %}" class="nav-link" id="questions-tab"
+                        aria-selected="false">
                     Questions
-                </button>
+                </a>
             </li>
         </ul>
         <div class="tab-content" id="myTabContent">
@@ -64,28 +62,6 @@
 
                 <p>{{ object.prompt }}</p>
             </div>
-            <div class="tab-pane fade" id="questions-tab-pane"
-                 role="tabpanel" aria-labelledby="questions-tab" tabindex="0">
-                {% include 'assignment/assignment_questions.html' %}
-            </div>
         </div>
     </div>
-{% endblock %}
-
-{% block js %}
-    <script src="{% static 'js/build/rubric.js' %}"></script>
-    <script>
-        $(document).ready(function() {
-            // https://getbootstrap.com/docs/5.3/components/navs-tabs/#via-javascript
-            const triggerTabList = document.querySelectorAll('#myTab button')
-            triggerTabList.forEach(triggerEl => {
-                const tabTrigger = new bootstrap.Tab(triggerEl)
-
-                triggerEl.addEventListener('click', event => {
-                    event.preventDefault()
-                    tabTrigger.show()
-                })
-            })
-        });
-    </script>
 {% endblock %}

@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ object.title }}{% endblock %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{% url 'assignment_list' %}" title="Assignment List">
+                {% include 'main/your_assignments_snippet.html' %}
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            {{ object.title|truncatewords:5 }}
+        </li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block pagetitle %}
+    <h1>Question Editor</h1>
+{% endblock %}
+
+{% block pagedescription %}
+
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a href={% url 'assignment_detail' assignment.pk %} class="nav-link" id="assignment-tab"
+                        type="button" role="tab" aria-selected="false">
+                    Assignment
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="questions-tab"
+                        type="button" role="tab" aria-selected="true">
+                    Questions
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="questions-tab-pane"
+                 role="tabpanel" aria-labelledby="questions-tab" tabindex="0">
+                {% include 'assignment/assignment_questions.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/build/rubric.js' %}"></script>
+    <script>
+        $(document).ready(function() {
+            // https://getbootstrap.com/docs/5.3/components/navs-tabs/#via-javascript
+            const triggerTabList = document.querySelectorAll('#myTab button')
+            triggerTabList.forEach(triggerEl => {
+                const tabTrigger = new bootstrap.Tab(triggerEl)
+
+                triggerEl.addEventListener('click', event => {
+                    event.preventDefault()
+                    tabTrigger.show()
+                })
+            })
+        });
+    </script>
+{% endblock %}

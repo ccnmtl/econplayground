@@ -42,7 +42,7 @@
                   <div class="tab-pane fade" id="question-{{question.pk}}"
                        role="tabpanel"
                        aria-labelledby="question-{{question.pk}}-tab" tabindex="0">
-                      <h4>Question {{question.pk}}</h4>
+                      <h4>{{question.title}}</h4>
                       <form method="post"
                             action="{% url 'assignment_question_edit' object.pk question.pk %}">
                           {% csrf_token %}
