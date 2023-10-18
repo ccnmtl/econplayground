@@ -52,7 +52,7 @@ boto3>=1.9.198,<1.29.0
 
 # django libraries
 python-cas==1.6.0
-django-cas-ng==5.0.0
+django-cas-ng==5.0.1
 django-indexer==0.3.0
 django-templatetag-sugar==1.0
 django-paging==0.2.5
