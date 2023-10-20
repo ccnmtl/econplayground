@@ -44,8 +44,7 @@ function rulesReducer(rules, action) {
                 feedback_fulfilled: action.feedback_fulfilled,
                 media_fulfilled: action.media_fulfilled,
                 feedback_unfulfilled: action.feedback_unfulfilled,
-                media_unfulfilled: action.media_unfulfilled,
-                graph_type: action.graph_type
+                media_unfulfilled: action.media_unfulfilled
             }];
         }
         case 'changed': {

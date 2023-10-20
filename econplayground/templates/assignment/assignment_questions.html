@@ -14,7 +14,7 @@
                           data-bs-target="#question-0">
                           --
                       </option>
-                  {% for question in questions %}
+                  {% for question in object_list %}
                       <option
                           value="{{question.pk}}"
                           data-bs-toggle="tab"
@@ -27,24 +27,21 @@
           </div>
 
           <div class="mb-3">
-              <form method="post"
-                    action="{% url 'assignment_question_create' object.pk %}">
-                  {% csrf_token %}
-                  <button type="submit" class="btn btn-primary">
-                      <i class="bi bi-plus-lg"></i> Add question
-                  </button>
-              </form>
+              <a href="{% url 'assignment_question_create' assignment.pk %}"
+                 type="submit" class="btn btn-primary">
+                  <i class="bi bi-plus-lg"></i> Add question
+              </a>
           </div>
       </div>
       <div class="col">
           <div class="tab-content" id="question-tabContent">
-              {% for question in questions %}
+              {% for question in object_list %}
                   <div class="tab-pane fade" id="question-{{question.pk}}"
                        role="tabpanel"
                        aria-labelledby="question-{{question.pk}}-tab" tabindex="0">
                       <h4>{{question.title}}</h4>
                       <form method="post"
-                            action="{% url 'assignment_question_edit' object.pk question.pk %}">
+                            action="{% url 'assignment_question_edit' assignment.pk question.pk %}">
                           {% csrf_token %}
 
                           <div class="mb-3">
@@ -94,7 +91,7 @@
                           </button>
                           <a role="button"
                              class="btn btn-danger float-end"
-                             href="{% url 'assignment_question_delete' object.pk question.pk %}">
+                             href="{% url 'assignment_question_delete' assignment.pk question.pk %}">
                               Delete question
                           </a>
                       </form>

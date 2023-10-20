@@ -20,11 +20,11 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import (
     CreateView, UpdateView, DeleteView
 )
+from django.shortcuts import get_object_or_404
+from econplayground.assignment.utils import make_rules
 from econplayground.main.views import EnsureCsrfCookieMixin
 from econplayground.main.utils import user_is_instructor
-from econplayground.assignment.models import (
-    Assignment, Step, Question, AssessmentRule
-)
+from econplayground.assignment.models import (Assignment, Step, Question)
 
 
 class AssignmentListView(LoginRequiredMixin, ListView):
@@ -330,9 +330,9 @@ class StepDetailView(LoginRequiredMixin, DetailView):
 
 class AssignmentQuestionView(
         EnsureCsrfCookieMixin, UserPassesTestMixin,
-        LoginRequiredMixin, DetailView):
+        LoginRequiredMixin, ListView):
     model = Assignment
-    template_name = 'assignment/question_detail.html'
+    template_name = 'assignment/questions_list.html'
 
     def test_func(self):
         return user_is_instructor(self.request.user)
@@ -341,16 +341,22 @@ class AssignmentQuestionView(
         return Assignment.objects.get(
             pk=self.kwargs.get('assignment_pk'))
 
+    def get_queryset(self):
+        return Question.objects.order_by('created_at')
+
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
 
+        assignment = Assignment.objects.get(
+            pk=self.kwargs.get('assignment_pk'))
+
         graphs = []
-        for cohort in self.object.cohorts.all():
+        for cohort in assignment.cohorts.all():
             graphs += cohort.get_graphs()
 
         ctx.update({
-            'questions': Question.objects.order_by('created_at'),
-            "graphs": graphs
+            'assignment': assignment,
+            'graphs': graphs,
         })
         return ctx
 
@@ -362,6 +368,7 @@ class QuestionCreateView(
     fields = [
         'title', 'prompt', 'graph',
     ]
+    template_name = 'assignment/assignment_question_create.html'
 
     def test_func(self):
         return user_is_instructor(self.request.user)
@@ -369,6 +376,29 @@ class QuestionCreateView(
     def dispatch(self, *args, **kwargs):
         self.assignment_pk = kwargs.get('assignment_pk')
         return super().dispatch(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+
+        assignment = get_object_or_404(
+            Assignment, pk=self.kwargs.get('assignment_pk'))
+
+        graphs = []
+        for cohort in assignment.cohorts.all():
+            graphs += cohort.get_graphs()
+
+        ctx.update({
+            'assignment': assignment,
+            'graphs': graphs,
+        })
+        return ctx
+
+    def post(self, request, *args, **kwargs):
+        result = super().post(request, *args, **kwargs)
+
+        make_rules(request, self.object)
+
+        return result
 
     def form_valid(self, form):
         title = form.cleaned_data.get('title')
@@ -419,30 +449,7 @@ class QuestionUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         # for now.
         self.object.assessmentrule_set.all().delete()
 
-        # Find the extra AssessmentRule info in the POST, and make the
-        # objects.
-
-        # Limit to ten rules per question, for now. Should be more
-        # than enough.
-        for i in range(10):
-            if 'rule_assessment_name_{}'.format(i) not in request.POST:
-                break
-
-            AssessmentRule.objects.create(
-                question=self.object,
-                assessment_name=request.POST.get(
-                    'rule_assessment_name_{}'.format(i)),
-                assessment_value=request.POST.get(
-                    'rule_assessment_value_{}'.format(i)),
-                feedback_fulfilled=request.POST.get(
-                    'rule_feedback_fulfilled_{}'.format(i)),
-                media_fulfilled=request.POST.get(
-                    'rule_media_fulfilled_{}'.format(i)),
-                feedback_unfulfilled=request.POST.get(
-                    'rule_feedback_unfulfilled_{}'.format(i)),
-                media_unfulfilled=request.POST.get(
-                    'rule_media_unfulfilled_{}'.format(i))
-            )
+        make_rules(request, self.object)
 
         return result
 

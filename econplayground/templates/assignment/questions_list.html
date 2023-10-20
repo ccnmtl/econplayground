@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}{{ object.title }}{% endblock %}
+{% block title %}{{ assignment.title }}{% endblock %}
 
 {% block breadcrumb %}
 <nav aria-label="breadcrumb">
@@ -12,7 +12,7 @@
             </a>
         </li>
         <li class="breadcrumb-item">
-            {{ object.title|truncatewords:5 }}
+            {{ assignment.title|truncatewords:5 }}
         </li>
     </ol>
 </nav>
@@ -28,23 +28,24 @@
 
 {% block content %}
     <div class="container">
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item" role="presentation">
-                <a href={% url 'assignment_detail' assignment.pk %} class="nav-link" id="assignment-tab"
-                        type="button" role="tab" aria-selected="false">
+                <a href={% url 'assignment_detail' assignment.pk %}
+                   class="nav-link"
+                   type="button" role="tab" aria-selected="false">
                     Assignment
                 </a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link active" id="questions-tab"
-                        type="button" role="tab" aria-selected="true">
+                <a class="nav-link active"
+                   type="button" role="tab" aria-selected="true">
                     Questions
                 </a>
             </li>
         </ul>
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="questions-tab-pane"
-                 role="tabpanel" aria-labelledby="questions-tab" tabindex="0">
+                 role="tabpanel" tabindex="0">
                 {% include 'assignment/assignment_questions.html' %}
             </div>
         </div>
@@ -53,18 +54,4 @@
 
 {% block js %}
     <script src="{% static 'js/build/rubric.js' %}"></script>
-    <script>
-        $(document).ready(function() {
-            // https://getbootstrap.com/docs/5.3/components/navs-tabs/#via-javascript
-            const triggerTabList = document.querySelectorAll('#myTab button')
-            triggerTabList.forEach(triggerEl => {
-                const tabTrigger = new bootstrap.Tab(triggerEl)
-
-                triggerEl.addEventListener('click', event => {
-                    event.preventDefault()
-                    tabTrigger.show()
-                })
-            })
-        });
-    </script>
 {% endblock %}

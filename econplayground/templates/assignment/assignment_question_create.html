@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ assignment.title }}{% endblock %}
+
+<script src="{% static 's3sign/js/s3upload.js' %}"></script>
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{% url 'assignment_list' %}" title="Assignment List">
+                {% include 'main/your_assignments_snippet.html' %}
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            {{ assignment.title|truncatewords:5 }}
+        </li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/build/rubric.js' %}"></script>
+    <script>
+    if (!window.EconPlayground) {
+        window.EconPlayground = {};
+    }
+
+    $(document).ready(function() {
+        if (window.initRubric) {
+            const containerId = 'question-rubric';
+            const container = document.getElementById(containerId);
+            window.initRubric(container, null);
+        } else {
+            console.error('Rubric could not be initialized for new question');
+        }
+    });
+
+    const setGraphType = function(graphType) {
+        const graphTypeUpdated = new CustomEvent('graphTypeUpdated', {
+            detail: graphType
+        });
+        document.dispatchEvent(graphTypeUpdated);
+    };
+
+    $(document).ready(function() {
+        // Programmatic Bootstrap Tab functionality, adapted for the
+        // <select> element.
+        // https://getbootstrap.com/docs/5.3/components/navs-tabs/#javascript-behavior
+        $('select.ep-question-select').on('change', function(e) {
+            selectQuestion(e.target, Number(e.target.value));
+        });
+
+        // Set graph type on load, for the create form.
+        const $select = $('select[name="graph"]')[0];
+        const graphType = $select.options[0].dataset['graphtype'];
+
+        window.EconPlayground.initialGraphType = parseInt(graphType, 10);
+
+        $('select[name="graph"]').on('change', function(e) {
+            const selectedOption = e.target.options[e.target.selectedIndex];
+            setGraphType(selectedOption.dataset.graphtype);
+        });
+    });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link"
+                   href="{% url 'assignment_detail' assignment.pk %}"
+                   type="button" role="tab"
+                   aria-controls="assignment-tab-pane" aria-selected="false">
+                    Assignment
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a href="{% url 'assignment_question_list' assignment.pk %}"
+                   class="nav-link active"
+                        aria-selected="true">
+                    Questions
+                </a>
+            </li>
+        </ul>
+
+<div class="container mt-2">
+  <div class="row">
+      <div class="tab-content" id="question-tabContent">
+          <form method="post" action=".">
+              {% csrf_token %}
+
+              <div class="mb-3">
+                  <label for="questionTitle-{{question.pk}}"
+                         class="form-label">
+                      Title
+                  </label>
+                  <input type="text" class="form-control"
+                         id="questionTitle-{{question.pk}}"
+                         name="title"
+                         value="{{question.title}}" />
+              </div>
+              <div class="mb-3">
+                  <label for="questionPrompt-{{question.pk}}"
+                         class="form-label">
+                      Prompt
+                  </label>
+                  <textarea class="form-control"
+                            name="prompt"
+                            id="questionPrompt-{{question.pk}}"
+                  >{{question.prompt}}</textarea>
+              </div>
+
+              <div class="mb-3">
+                  <label for="questionGraph-{{question.pk}}"
+                         class="form-label">
+                      Graph
+                  </label>
+                  <select class="form-select"
+                          name="graph"
+                          id="questionGraph-{{question.pk}}">
+                      {% for graph in graphs %}
+                          <option data-graphtype="{{graph.graph_type}}"
+                                  value="{{graph.pk}}"
+                                  {% if question.graph.pk == graph.pk %}selected{% endif %}>
+                              {{graph.title}}
+                          </option>
+                      {% endfor %}
+                  </select>
+              </div>
+
+              <!-- Rubric React component -->
+              <div id="question-rubric"></div>
+
+              <button type="submit" class="btn btn-primary">
+                  Create
+              </button>
+          </form>
+      </div>
+  </div>
+</div>
+{% endblock %}

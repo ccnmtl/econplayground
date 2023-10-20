@@ -39,16 +39,17 @@
     <div class="container">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
-                <a class="nav-link active" id="assignment-tab"
-                        data-bs-toggle="tab" data-bs-target="#assignment-tab-pane"
-                        type="button" role="tab"
-                        aria-controls="assignment-tab-pane" aria-selected="true">
+                <a class="nav-link active"
+                   href="{% url 'assignment_detail' object.pk %}"
+                   type="button" role="tab"
+                   aria-controls="assignment-tab-pane" aria-selected="true">
                     Assignment
                 </a>
             </li>
             <li class="nav-item" role="presentation">
-                <a href="{% url 'assignment_question_list' object.pk %}" class="nav-link" id="questions-tab"
-                        aria-selected="false">
+                <a href="{% url 'assignment_question_list' object.pk %}"
+                   class="nav-link"
+                   aria-selected="false">
                     Questions
                 </a>
             </li>
