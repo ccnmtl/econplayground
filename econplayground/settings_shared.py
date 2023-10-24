@@ -1,4 +1,5 @@
 # Django settings for econplayground project.
+import sys
 import os.path
 from ctlsettings.shared import common
 
@@ -10,6 +11,19 @@ locals().update(common(project=project, base=base))
 PROJECT_APPS = [
     'econplayground.main',
 ]
+
+if 'test' in sys.argv or 'jenkins' in sys.argv:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': project,
+            'HOST': '',
+            'PORT': 5432,
+            'USER': '',
+            'PASSWORD': '',
+            'ATOMIC_REQUESTS': True,
+        }
+    }
 
 USE_TZ = True
 

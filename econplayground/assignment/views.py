@@ -24,7 +24,10 @@ from django.shortcuts import get_object_or_404
 from econplayground.assignment.utils import make_rules
 from econplayground.main.views import EnsureCsrfCookieMixin
 from econplayground.main.utils import user_is_instructor
-from econplayground.assignment.models import (Assignment, Step, Question)
+from econplayground.assignment.models import (
+    Assignment, Step, Question,
+    StepResult, ScorePath
+)
 
 
 class AssignmentListView(LoginRequiredMixin, ListView):
@@ -314,6 +317,15 @@ class StepDetailView(LoginRequiredMixin, DetailView):
             # Store the result in the user's session.
             step_name = 'step_{}_{}'.format(step.assignment.pk, step.pk)
             request.session[step_name] = result
+
+            # Store the result in the StepResult model.
+            step_result = StepResult(step=step, result=result)
+
+            # Update student's ScorePath with this result.
+            score_path, _ = ScorePath.objects.get_or_create(
+                student=request.user, assignment=step.assignment)
+            score_path.steps.append(step_result.pk)
+            score_path.save()
 
             if result:
                 messages.add_message(

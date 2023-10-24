@@ -2,9 +2,13 @@ import factory
 from factory.django import DjangoModelFactory
 from factory import fuzzy
 from econplayground.assignment.models import (
-    Assignment, Question, AssessmentRule
+    Assignment, Question, AssessmentRule,
+    Step,
+    StepResult, ScorePath
 )
-from econplayground.main.tests.factories import GraphFactory, InstructorFactory
+from econplayground.main.tests.factories import (
+    GraphFactory, InstructorFactory, StudentFactory
+)
 
 
 class AssignmentFactory(DjangoModelFactory):
@@ -43,6 +47,30 @@ class AssessmentRuleFactory(DjangoModelFactory):
 
     feedback_fulfilled = fuzzy.FuzzyText()
     feedback_unfulfilled = fuzzy.FuzzyText()
+
+
+class StepFactory(DjangoModelFactory):
+    class Meta:
+        model = Step
+
+    assignment = factory.SubFactory(AssignmentFactory)
+    question = factory.SubFactory(QuestionFactory)
+
+
+class StepResultFactory(DjangoModelFactory):
+    class Meta:
+        model = StepResult
+
+    step = factory.SubFactory(StepFactory)
+
+
+class ScorePathFactory(DjangoModelFactory):
+    class Meta:
+        model = ScorePath
+
+    assignment = factory.SubFactory(AssignmentFactory)
+    student = factory.SubFactory(StudentFactory)
+    steps = []
 
 
 class AssignmentMixin(object):

@@ -4,7 +4,8 @@ from __future__ import unicode_literals
 import copy
 from decimal import Decimal
 from django.contrib.auth.models import User
-from django.db import models
+from django.db import models, transaction
+from django.db.utils import IntegrityError
 from ordered_model.models import OrderedModel
 from django.dispatch import receiver
 from django.db.models.signals import post_save, pre_delete
@@ -148,9 +149,13 @@ class Topic(OrderedModel):
 
 
 @receiver(post_save, sender=Cohort)
+@transaction.atomic
 def create_general_topic(sender, instance, created, **kwargs):
     if created:
-        Topic.objects.create(name='General', cohort=instance)
+        try:
+            Topic.objects.create(name='General', cohort=instance)
+        except IntegrityError:
+            pass
 
 
 @receiver(pre_delete, sender=Topic)

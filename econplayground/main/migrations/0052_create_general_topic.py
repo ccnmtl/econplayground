@@ -1,4 +1,5 @@
 from django.db import migrations
+from django.db.utils import IntegrityError
 
 
 def create_general_topic(apps, schema_editor):
@@ -7,7 +8,12 @@ def create_general_topic(apps, schema_editor):
 
     Graph.objects.all().update(topic=None)
     Topic.objects.all().delete()
-    t = Topic.objects.create(name='General', pk=1, order=1)
+
+    try:
+        t = Topic.objects.create(name='General', pk=1, order=1)
+    except IntegrityError:
+        t = Topic.objects.get(pk=1)
+
     Graph.objects.all().update(topic=t)
 
 

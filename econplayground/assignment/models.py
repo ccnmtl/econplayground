@@ -8,6 +8,7 @@ except ImportError:
 
 import re
 from django.contrib.auth.models import User
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from treebeard.mp_tree import MP_Node
 
@@ -241,3 +242,30 @@ class Step(MP_Node):
             return node
 
         return None
+
+
+class StepResult(models.Model):
+    """
+    Record of a student's score status on a given step.
+    """
+    step = models.ForeignKey(Step, on_delete=models.CASCADE)
+
+    # For now, score is either correct or incorrect. This may change
+    # in the future.
+    result = models.BooleanField(blank=True, null=True)
+
+
+class ScorePath(models.Model):
+    """
+    ScorePath represents a student's linear path through an assignment.
+    """
+    student = models.ForeignKey(User, on_delete=models.CASCADE)
+    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
+
+    # Array of StepResult id's
+    steps = ArrayField(
+        models.PositiveIntegerField(),
+        # Default to the empty list
+        default=list,
+        blank=True
+    )

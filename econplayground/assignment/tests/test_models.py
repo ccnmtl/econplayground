@@ -1,9 +1,14 @@
+import unittest
+from django.conf import settings
 from django.test import TestCase
 from econplayground.assignment.tests.factories import (
-    AssignmentFactory, QuestionFactory, AssessmentRuleFactory
+    AssignmentFactory, QuestionFactory, AssessmentRuleFactory,
+
+    ScorePathFactory
 )
 from econplayground.assignment.models import (
-    Assignment, Step, Question, AssessmentRule, Graph
+    Assignment, Step, Question, AssessmentRule, Graph,
+    ScorePath
 )
 
 
@@ -408,3 +413,16 @@ class AssignmentTest(TestCase):
         #         self.assertIsInstance(rule.assessment_value, int)  # integers
         #         # or
         #         self.assertIsInstance(rule.assessment_value, float)  # floats
+
+
+@unittest.skipIf(
+    settings.DATABASES['default']['ENGINE'] !=
+    'django.db.backends.postgresql',
+    'This test uses postgres-specific fields')
+class ScorePathTest(TestCase):
+    def setUp(self):
+        self.x = ScorePathFactory()
+
+    def test_is_valid_from_factory(self):
+        self.x.full_clean()
+        self.assertIsInstance(self.x, ScorePath)
