@@ -582,7 +582,7 @@ class CohortDetailInstructorViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertNotContains(r, 'Draft graph')
         # Context Data
         self.assertEqual(r.context['featured'], True)
-        self.assertEqual(r.context['active_topic'], '')
+        self.assertEqual(r.context['active_topic'], None)
         self.assertEqual(r.context['topic_list'].count(), 5)
         self.assertContains(r, 'Topic A')
         self.assertContains(r, 'Topic B')
@@ -612,7 +612,7 @@ class CohortDetailInstructorViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertContains(r, 'Draft graph')
         # Context Data
         self.assertEqual(r.context['featured'], False)
-        self.assertEqual(r.context['active_topic'], '')
+        self.assertEqual(r.context['active_topic'], None)
         self.assertEqual(r.context['topic_list'].count(), 5)
         self.assertContains(r, 'Topic A')
         self.assertContains(r, 'Topic B')
@@ -639,7 +639,7 @@ class CohortDetailInstructorViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertNotContains(r, 'Draft graph')
         # Context Data
         self.assertEqual(r.context['featured'], False)
-        self.assertEqual(r.context['active_topic'], 3)
+        self.assertEqual(r.context['active_topic'], self.t1.pk)
         self.assertEqual(r.context['topic_list'].count(), 5)
         self.assertContains(r, 'Topic A')
         self.assertContains(r, 'Topic B')
@@ -665,7 +665,7 @@ class CohortDetailInstructorViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertContains(r, 'Draft graph')
         # Context Data
         self.assertEqual(r.context['featured'], False)
-        self.assertEqual(r.context['active_topic'], 4)
+        self.assertEqual(r.context['active_topic'], self.t2.pk)
         self.assertEqual(r.context['topic_list'].count(), 5)
         self.assertContains(r, 'Topic A')
         self.assertContains(r, 'Topic B')
@@ -691,7 +691,7 @@ class CohortDetailInstructorViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertNotContains(r, 'Draft graph')
         # Context Data
         self.assertEqual(r.context['featured'], False)
-        self.assertEqual(r.context['active_topic'], 5)
+        self.assertEqual(r.context['active_topic'], self.t3.pk)
         self.assertEqual(r.context['topic_list'].count(), 5)
         self.assertContains(r, 'Topic A')
         self.assertContains(r, 'Topic B')
@@ -742,7 +742,7 @@ class CohortDetailStudentViewTest(LoggedInTestStudentMixin, TestCase):
         self.assertNotContains(r, 'Draft graph')
         # Context Data
         self.assertEqual(r.context['featured'], True)
-        self.assertEqual(r.context['active_topic'], '')
+        self.assertEqual(r.context['active_topic'], None)
         self.assertEqual(r.context['topic_list'].count(), 2)
         self.assertContains(r, 'Topic A')
         self.assertContains(r, 'Topic B')
@@ -763,7 +763,7 @@ class CohortDetailStudentViewTest(LoggedInTestStudentMixin, TestCase):
         self.assertNotContains(r, 'Draft graph')
         # Context Data
         self.assertEqual(r.context['featured'], False)
-        self.assertEqual(r.context['active_topic'], '')
+        self.assertEqual(r.context['active_topic'], None)
         self.assertEqual(r.context['topic_list'].count(), 2)
         self.assertContains(r, 'Topic A')
         self.assertContains(r, 'Topic B')
@@ -786,7 +786,7 @@ class CohortDetailStudentViewTest(LoggedInTestStudentMixin, TestCase):
         self.assertNotContains(r, 'Draft graph')
         # Context Data
         self.assertEqual(r.context['featured'], False)
-        self.assertEqual(r.context['active_topic'], 3)
+        self.assertEqual(r.context['active_topic'], self.t1.pk)
         self.assertEqual(r.context['topic_list'].count(), 2)
         self.assertContains(r, 'Topic A')
         self.assertContains(r, 'Topic B')
@@ -809,7 +809,7 @@ class CohortDetailStudentViewTest(LoggedInTestStudentMixin, TestCase):
         self.assertNotContains(r, 'Draft graph')
         # Context Data
         self.assertEqual(r.context['featured'], False)
-        self.assertEqual(r.context['active_topic'], 4)
+        self.assertEqual(r.context['active_topic'], self.t2.pk)
         self.assertEqual(r.context['topic_list'].count(), 2)
         self.assertContains(r, 'Topic A')
         self.assertContains(r, 'Topic B')

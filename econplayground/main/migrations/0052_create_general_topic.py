@@ -7,7 +7,9 @@ def create_general_topic(apps, schema_editor):
 
     Graph.objects.all().update(topic=None)
     Topic.objects.all().delete()
-    t = Topic.objects.create(name='General', pk=1, order=1)
+
+    t, _ = Topic.objects.get_or_create(name='General', order=1)
+
     Graph.objects.all().update(topic=t)
 
 
