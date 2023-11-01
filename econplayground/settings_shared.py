@@ -1,5 +1,6 @@
 # Django settings for econplayground project.
 import sys
+import os
 import os.path
 from ctlsettings.shared import common
 
@@ -13,14 +14,18 @@ PROJECT_APPS = [
 ]
 
 if 'test' in sys.argv or 'jenkins' in sys.argv:
+    # GitHub Actions needs a slightly different postgres config
+    # than local dev / jenkins.
+    GITHUB = os.environ.get('GITHUB')
+
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': project,
-            'HOST': 'localhost',
+            'HOST': 'localhost' if GITHUB else '',
             'PORT': 5432,
-            'USER': 'postgres',
-            'PASSWORD': 'postgres',
+            'USER': 'postgres' if GITHUB else '',
+            'PASSWORD': 'postgres' if GITHUB else '',
             'ATOMIC_REQUESTS': True,
         }
     }
