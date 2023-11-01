@@ -319,12 +319,12 @@ class CohortDetailView(CohortPasswordMixin, DetailView):
         # the query string.
         params = self.request.GET
         context['featured'] = False
-        context['active_topic'] = ''
+        context['active_topic'] = None
 
         if len(params) == 0:
             context['featured'] = True
         elif 'topic' in params:
-            tid = params.get('topic', '')
+            tid = params.get('topic', None)
             try:
                 context['active_topic'] = int(tid)
             except ValueError:
