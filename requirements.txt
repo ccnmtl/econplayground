@@ -4,7 +4,7 @@ asgiref==3.7.2
 pytz==2023.3.post1
 httplib2==0.22.0
 feedparser==6.0.10
-Markdown==3.5
+Markdown==3.5.1
 psycopg[binary]==3.1.12
 versiontools==1.9.1
 statsd==4.0.1
