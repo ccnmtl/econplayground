@@ -37,16 +37,10 @@ $(JS_SENTINAL): package.json
 	npm install $(NPM_OPTS)
 	touch $(JS_SENTINAL)
 
-dev: $(JS_SENTINAL)
-	npm run dev
-
 eslint: $(JS_SENTINAL)
 	$(ESLINT) $(JS_FILES)
 
-scss: $(JS_SENTINAL)
-	npm run build-scss
+jstest: $(JS_SENTINAL)
+	npm test
 
-scss-watch: $(JS_SENTINAL)
-	npm run watch-scss
-
-.PHONY: eslint
+.PHONY: eslint jstest
