@@ -3,7 +3,7 @@ from django.urls import reverse
 from econplayground.assignment.tests.factories import (
     AssignmentFactory, QuestionFactory, AssignmentMixin
 )
-from econplayground.assignment.models import Step, Question
+from econplayground.assignment.models import Step, Question, ScorePath
 from econplayground.main.tests.mixins import (
     LoggedInTestInstructorMixin, LoggedInTestStudentMixin
 )
@@ -477,8 +477,11 @@ class AssignmentStudentFlowViewTest(
             'action_value': '0.4',
         }, follow=True)
 
+        score_path = ScorePath.objects.get(
+            assignment=assignment, student=self.u)
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, 'Incorrect!')
+        self.assertEqual(score_path.score, 0)
 
         r = self.client.post(reverse('step_detail', kwargs={
             'assignment_pk': assignment.pk,
@@ -490,6 +493,9 @@ class AssignmentStudentFlowViewTest(
 
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, 'Correct!')
+
+        score_path.refresh_from_db()
+        self.assertEqual(score_path.score, 0.5)
 
         # In practice, the form will have all sorts of filled-in fields. The
         # request will look more like this, and the code needs to handle that:
@@ -507,6 +513,9 @@ class AssignmentStudentFlowViewTest(
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, 'Incorrect!')
 
+        score_path.refresh_from_db()
+        self.assertEqual(score_path.score, 1 / 3)
+
         r = self.client.post(reverse('step_detail', kwargs={
             'assignment_pk': assignment.pk,
             'pk': first_step.pk
@@ -522,3 +531,6 @@ class AssignmentStudentFlowViewTest(
         self.assertContains(r, 'Correct!')
         self.assertContains(r, 'Fulfilled feedback!')
         self.assertNotContains(r, 'unfulfilled.')
+
+        score_path.refresh_from_db()
+        self.assertEqual(score_path.score, 0.5)
