@@ -43,4 +43,10 @@ eslint: $(JS_SENTINAL)
 jstest: $(JS_SENTINAL)
 	npm test
 
+scss: $(JS_SENTINAL)
+	npm run build-scss
+
+scss-watch: $(JS_SENTINAL)
+	npm run watch-scss
+
 .PHONY: eslint jstest
