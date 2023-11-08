@@ -16,7 +16,8 @@ export default function GraphForm({ gType, updateGraph, props }) {
     const commonViewerProps = {
         isInstructor: false,
         displayLabels: true,
-        displaySliders: true
+        displaySliders: true,
+        disabled: props.submitted
     };
 
     let graphForm = null;

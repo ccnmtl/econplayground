@@ -21,6 +21,7 @@ export default class EditableControl extends React.Component {
                             className="form-control"
                             type="text"
                             maxLength="60"
+                            disabled={this.props.disabled}
                             value={this.props.value}
                             onChange={handleFormUpdate.bind(this)} />
                     </label>
@@ -35,5 +36,6 @@ EditableControl.propTypes = {
     name: PropTypes.string.isRequired,
     isInstructor: PropTypes.bool.isRequired,
     value: PropTypes.string,
-    valueEditable: PropTypes.bool.isRequired
+    valueEditable: PropTypes.bool.isRequired,
+    disabled: PropTypes.bool
 };

@@ -281,6 +281,14 @@ class StepDetailView(LoginRequiredMixin, DetailView):
 
         return actions
 
+    def unsubmit(self, request, step):
+        step_name = 'step_{}_{}'.format(step.assignment.pk, step.pk)
+        del request.session[step_name]
+        return HttpResponseRedirect(reverse('step_detail', kwargs={
+            'assignment_pk': step.assignment.pk,
+            'pk': step.pk,
+        }))
+
     def post(self, request, *args, **kwargs):
         """
         This method handles what happens when students submit their
@@ -291,12 +299,7 @@ class StepDetailView(LoginRequiredMixin, DetailView):
         unsubmit = request.POST.get('unsubmit')
 
         if unsubmit == 'true':
-            step_name = 'step_{}_{}'.format(step.assignment.pk, step.pk)
-            del request.session[step_name]
-            return HttpResponseRedirect(reverse('step_detail', kwargs={
-                'assignment_pk': step.assignment.pk,
-                'pk': step.pk,
-            }))
+            return self.unsubmit(request, step)
 
         question = step.question
 

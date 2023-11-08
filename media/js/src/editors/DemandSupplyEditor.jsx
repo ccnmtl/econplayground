@@ -23,6 +23,7 @@ export default class DemandSupplyEditor extends React.Component {
                         showOverride2Button={true}
                         override2Label='Horizontal'
                         override2Value={0}
+                        disabled={this.props.disabled}
                         handler={handleFormUpdate.bind(this)} />
                     <RangeEditor
                         itemlabel="\text{Blue line slope}"
@@ -36,6 +37,7 @@ export default class DemandSupplyEditor extends React.Component {
                         showOverride2Button={true}
                         override2Label='Horizontal'
                         override2Value={0}
+                        disabled={this.props.disabled}
                         handler={handleFormUpdate.bind(this)} />
                     {this.props.gType === 13 && (
                         <>
@@ -51,6 +53,7 @@ export default class DemandSupplyEditor extends React.Component {
                                 showOverride2Button={true}
                                 override2Label='Horizontal'
                                 override2Value={0}
+                                disabled={this.props.disabled}
                                 handler={handleFormUpdate.bind(this)} />
                             <RangeEditor
                                 itemlabel="\text{Right graph: Blue line slope}"
@@ -64,6 +67,7 @@ export default class DemandSupplyEditor extends React.Component {
                                 showOverride2Button={true}
                                 override2Label='Horizontal'
                                 override2Value={0}
+                                disabled={this.props.disabled}
                                 handler={handleFormUpdate.bind(this)} />
                         </>
                     )}
@@ -82,6 +86,7 @@ export default class DemandSupplyEditor extends React.Component {
                                     value={this.props.gLine1Label}
                                     valueEditable={true}
                                     isInstructor={true}
+                                    disabled={this.props.disabled}
                                     updateGraph={this.props.updateGraph} />
                             </div>
                             <div className="col">
@@ -91,6 +96,7 @@ export default class DemandSupplyEditor extends React.Component {
                                     value={this.props.gLine2Label}
                                     valueEditable={true}
                                     isInstructor={true}
+                                    disabled={this.props.disabled}
                                     updateGraph={this.props.updateGraph} />
                             </div>
                         </div>
@@ -102,6 +108,7 @@ export default class DemandSupplyEditor extends React.Component {
                                     value={this.props.gXAxisLabel}
                                     valueEditable={true}
                                     isInstructor={true}
+                                    disabled={this.props.disabled}
                                     updateGraph={this.props.updateGraph} />
                             </div>
                             <div className="col">
@@ -111,6 +118,7 @@ export default class DemandSupplyEditor extends React.Component {
                                     value={this.props.gYAxisLabel}
                                     valueEditable={true}
                                     isInstructor={true}
+                                    disabled={this.props.disabled}
                                     updateGraph={this.props.updateGraph} />
                             </div>
                         </div>
@@ -122,6 +130,7 @@ export default class DemandSupplyEditor extends React.Component {
                                     value={this.props.gIntersectionLabel}
                                     valueEditable={true}
                                     isInstructor={true}
+                                    disabled={this.props.disabled}
                                     updateGraph={this.props.updateGraph} />
                             </div>
                             <div className="col">
@@ -131,6 +140,7 @@ export default class DemandSupplyEditor extends React.Component {
                                     value={this.props.gIntersectionHorizLineLabel}
                                     valueEditable={true}
                                     isInstructor={true}
+                                    disabled={this.props.disabled}
                                     updateGraph={this.props.updateGraph} />
                             </div>
                             <div className="col">
@@ -140,6 +150,7 @@ export default class DemandSupplyEditor extends React.Component {
                                     value={this.props.gIntersectionVertLineLabel}
                                     valueEditable={true}
                                     isInstructor={true}
+                                    disabled={this.props.disabled}
                                     updateGraph={this.props.updateGraph} />
                             </div>
                         </div>
@@ -158,6 +169,7 @@ export default class DemandSupplyEditor extends React.Component {
                                 value={this.props.gLine3Label}
                                 valueEditable={true}
                                 isInstructor={true}
+                                disabled={this.props.disabled}
                                 updateGraph={this.props.updateGraph} />
                         </div>
                         <div className="col-6">
@@ -167,6 +179,7 @@ export default class DemandSupplyEditor extends React.Component {
                                 value={this.props.gLine4Label}
                                 valueEditable={true}
                                 isInstructor={true}
+                                disabled={this.props.disabled}
                                 updateGraph={this.props.updateGraph} />
                         </div>
                         <div className="col-6">
@@ -176,6 +189,7 @@ export default class DemandSupplyEditor extends React.Component {
                                 value={this.props.gXAxis2Label}
                                 valueEditable={true}
                                 isInstructor={true}
+                                disabled={this.props.disabled}
                                 updateGraph={this.props.updateGraph} />
                         </div>
                         <div className="col-6">
@@ -185,6 +199,7 @@ export default class DemandSupplyEditor extends React.Component {
                                 value={this.props.gYAxis2Label}
                                 valueEditable={true}
                                 isInstructor={true}
+                                disabled={this.props.disabled}
                                 updateGraph={this.props.updateGraph} />
                         </div>
                         <div className="col-4">
@@ -194,6 +209,7 @@ export default class DemandSupplyEditor extends React.Component {
                                 value={this.props.gIntersection2Label}
                                 valueEditable={true}
                                 isInstructor={true}
+                                disabled={this.props.disabled}
                                 updateGraph={this.props.updateGraph} />
                         </div>
                         <div className="col-4">
@@ -203,6 +219,7 @@ export default class DemandSupplyEditor extends React.Component {
                                 value={this.props.gIntersection2HorizLineLabel}
                                 valueEditable={true}
                                 isInstructor={true}
+                                disabled={this.props.disabled}
                                 updateGraph={this.props.updateGraph} />
                         </div>
                         <div className="col-4">
@@ -212,6 +229,7 @@ export default class DemandSupplyEditor extends React.Component {
                                 value={this.props.gIntersection2VertLineLabel}
                                 valueEditable={true}
                                 isInstructor={true}
+                                disabled={this.props.disabled}
                                 updateGraph={this.props.updateGraph} />
                         </div>
                     </div>
@@ -274,5 +292,7 @@ DemandSupplyEditor.propTypes = {
     displayLabels: PropTypes.bool.isRequired,
     displaySliders: PropTypes.bool.isRequired,
     isInstructor: PropTypes.bool.isRequired,
-    showAUC: PropTypes.bool.isRequired
+    showAUC: PropTypes.bool.isRequired,
+
+    disabled: PropTypes.bool
 };

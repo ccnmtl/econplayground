@@ -40,6 +40,7 @@ export default class RangeEditor extends React.Component {
                                         step={this.props.step || 0.01}
                                         min={this.props.min}
                                         max={this.props.max}
+                                        disabled={this.props.disabled}
                                     />
                                     {this.props.showMinMax && (
                                         <div className="d-inline position-absolute r-0">
@@ -59,6 +60,7 @@ export default class RangeEditor extends React.Component {
                                 data-id={this.props.dataId}
                                 type="button"
                                 onClick={this.props.handler}
+                                disabled={this.props.disabled}
                                 value={
                                     btnStep(
                                         this.props.value,
@@ -76,6 +78,7 @@ export default class RangeEditor extends React.Component {
                                 data-id={this.props.dataId}
                                 type="button"
                                 onClick={this.props.handler}
+                                disabled={this.props.disabled}
                                 value={
                                     btnStep(
                                         this.props.value,
@@ -93,6 +96,7 @@ export default class RangeEditor extends React.Component {
                                 data-id={this.props.dataId}
                                 type="button"
                                 onClick={this.props.handler}
+                                disabled={this.props.disabled}
                                 value={
                                     btnStep(
                                         this.props.value,
@@ -110,6 +114,7 @@ export default class RangeEditor extends React.Component {
                                 data-id={this.props.dataId}
                                 type="button"
                                 onClick={this.props.handler}
+                                disabled={this.props.disabled}
                                 value={
                                     btnStep(
                                         this.props.value,
@@ -129,6 +134,7 @@ export default class RangeEditor extends React.Component {
                                 value={this.props.value}
                                 step={Number(this.props.step) || 0.01}
                                 onChange={this.props.handler}
+                                disabled={this.props.disabled}
                                 min={this.props.min}
                                 max={this.props.max}>
                             </input>
@@ -144,6 +150,7 @@ export default class RangeEditor extends React.Component {
                                         data-override={this.props.overrideValue}
                                         className="form-check-input override"
                                         type="radio"
+                                        disabled={this.props.disabled}
                                         onChange={this.props.handler}
                                         checked={this.props.value === this.props.overrideValue} />
                                     {this.props.overrideLabel}
@@ -158,6 +165,7 @@ export default class RangeEditor extends React.Component {
                                         data-override={this.props.override2Value}
                                         className="form-check-input override"
                                         type="radio"
+                                        disabled={this.props.disabled}
                                         onChange={this.props.handler}
                                         checked={this.props.value === this.props.override2Value} />
                                     {this.props.override2Label}
@@ -185,7 +193,8 @@ RangeEditor.defaultProps = {
     override2Label: '',
     override2Value: 0,
     showMinMax: false,
-    showValue: true
+    showValue: true,
+    disabled: false
 };
 
 RangeEditor.propTypes = {
@@ -206,5 +215,6 @@ RangeEditor.propTypes = {
     showMinMax: PropTypes.bool,
     note: PropTypes.string,
     showNote: PropTypes.bool,
-    showValue: PropTypes.bool
+    showValue: PropTypes.bool,
+    disabled: PropTypes.bool
 };

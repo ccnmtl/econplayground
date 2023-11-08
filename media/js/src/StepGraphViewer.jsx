@@ -25,9 +25,15 @@ export default class StepGraphViewer extends Component {
             this.graphId = window.GRAPH_ID;
         }
 
+        let submitted = false;
+        if (window.EconPlayground && window.EconPlayground.submitted) {
+            submitted = true;
+        }
+
         this.state = {
             initialState: {},
-            actions: []
+            actions: [],
+            submitted: submitted
         };
         this.state = Object.assign(this.state, defaultGraph);
     }
@@ -148,9 +154,11 @@ export default class StepGraphViewer extends Component {
                     <div className="col">
                         {rightSide}
 
-                        <ResetGraphButton
-                            initialState={this.state.initialState}
-                            updateGraph={this.setState.bind(this)} />
+                        {!this.state.submitted && (
+                            <ResetGraphButton
+                                initialState={this.state.initialState}
+                                updateGraph={this.setState.bind(this)} />
+                        )}
                     </div>
                 </div>
                 {this.state.actions.map((action) => (
