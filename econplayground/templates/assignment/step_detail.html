@@ -28,13 +28,17 @@
 
 {% block js %}
     <script>
-        if (!window.EconPlayground) {
-            window.EconPlayground = {};
-        }
+    if (!window.EconPlayground) {
+        window.EconPlayground = {};
+    }
 
-        {% if object.question and object.question.graph %}
+    {% if object.question and object.question.graph %}
             window.GRAPH_ID = {{object.question.graph.pk}};
-        {% endif %}
+    {% endif %}
+
+    {% if submission is not None %}
+        window.EconPlayground.submitted = true;
+    {% endif %}
     </script>
     <script src="{% static 'js/build/stepGraphViewer.js' %}"></script>
 {% endblock %}
