@@ -73,6 +73,7 @@
                               <select class="form-select"
                                       name="graph"
                                       id="questionGraph-{{question.pk}}">
+                                      <option value="">--</option>
                                   {% for graph in graphs %}
                                       <option data-graphtype="{{graph.graph_type}}"
                                               value="{{graph.pk}}"
