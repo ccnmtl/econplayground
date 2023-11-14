@@ -53,6 +53,7 @@ module.exports = {
     appViewerJs: resolveApp(JS_PATH + 'src/viewer-main.js'),
     appStepGraphViewerJs: resolveApp(JS_PATH + 'src/stepGraphViewer-main.js'),
     appRubricJs: resolveApp(JS_PATH + 'src/rubric-main.js'),
+    appSearchJs: resolveApp(JS_PATH + 'src/search-main.js'),
     appQuestionJs: resolveApp(JS_PATH + 'src/question-main.js'),
     appAssignmentJs: resolveApp(JS_PATH + 'src/assignment-main.js'),
     appPackageJson: resolveApp('package.json'),

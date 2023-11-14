@@ -22,12 +22,21 @@
 
 {% block js %}
     <script src="{% static 'js/build/rubric.js' %}"></script>
+    <script src="{% static 'js/build/search.js' %}"></script>
     <script>
     if (!window.EconPlayground) {
         window.EconPlayground = {};
     }
 
     $(document).ready(function() {
+        if (window.initSearch) {
+            const graphId = 'questionGraph';
+            const graphContainer = document.getElementById(graphId);
+            window.initSearch(graphContainer, 'graphs');
+        } else {
+            console.error(
+                'Search could not be initialized for question ' + questionId);
+        }
         if (window.initRubric) {
             const containerId = 'question-rubric';
             const container = document.getElementById(containerId);
@@ -118,18 +127,8 @@
                          class="form-label">
                       Graph
                   </label>
-                  <select class="form-select"
-                          name="graph"
-                          id="questionGraph-{{question.pk}}">
-                      <option value="">--</option>
-                      {% for graph in graphs %}
-                          <option data-graphtype="{{graph.graph_type}}"
-                                  value="{{graph.pk}}"
-                                  {% if question.graph.pk == graph.pk %}selected{% endif %}>
-                              {{graph.title}}
-                          </option>
-                      {% endfor %}
-                  </select>
+                  <!-- Search React component -->
+                  <div class="form-control" id="questionGraph"></div>
               </div>
 
               <!-- Rubric React component -->
