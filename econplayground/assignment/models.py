@@ -31,6 +31,9 @@ class Question(models.Model):
         return self.title or 'Question {}'.format(self.pk)
 
     def evaluate_action(self, action_name: str, action_value: str) -> bool:
+        if self.assessmentrule_set.count() == 0:
+            return None
+
         return self.assessmentrule_set.first().evaluate_action(
             action_name, action_value)
 
