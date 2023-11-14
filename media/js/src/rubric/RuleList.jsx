@@ -22,7 +22,14 @@ export default function RuleList({ questionId }) {
             getQuestion(questionId).then((d) => {
                 const rules = d.assessmentrule_set;
 
-                setGraphType(d.graph.graph_type);
+                if (d.graph) {
+                    setGraphType(d.graph.graph_type);
+                } else {
+                    // Just use first graph type to make the form
+                    // work, in case there is no graph connected to
+                    // this question yet.
+                    setGraphType(1);
+                }
 
                 rules.forEach((rule) => {
                     dispatch({
