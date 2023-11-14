@@ -211,6 +211,10 @@ class QuestionTest(TestCase):
         self.assertEqual(self.x.first_rule(), self.rule_1)
         self.assertNotEqual(self.x.first_rule(), self.rule_2)
 
+    def test_eval_with_no_rules(self):
+        q = QuestionFactory()
+        self.assertIsNone(q.evaluate_action('line1', 'up'))
+
 
 class AssessmentRuleTest(TestCase):
     """Tests the AssessmentRule model and AssessmentRule methods"""
