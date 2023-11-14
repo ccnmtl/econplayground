@@ -1,3 +1,5 @@
+{% load static %}
+
 <div class="assignment-grid d-flex flex-wrap">
     {% if tree %}
         <!--
@@ -18,7 +20,7 @@
     {% endif %}
 
     {% for step in tree %}
-        <div class="assignment-step">
+        <div class="assignment-step col-2">
             <a href="{% url 'step_detail' object.pk step.id %}">
                 Step {{step.id}}
             </a>
@@ -35,17 +37,9 @@
                 </button>
             </form>
 
-            <select class="form-select form-select-sm ep-question"
-                    name="question_step_{{step.id}}">
-                <option value="0">--</option>
-                {% for question in questions %}
-                    <option {% if step.data.question == question.pk %}selected{% endif %}
-                            value="{{question.pk}}">
-                        {{question.title}}
-                    </option>
-                {% endfor %}
-            </select>
-
+            <!-- Search React component -->
+            <div class="container mt-3"  name="step-question" id="stepQuestion-{{step.id}}"></div>
+            <hr class="mb-0 mt-2">
             <label for="step_next_{{step.id}}">
                 Next step:
             </label>
@@ -88,17 +82,9 @@
                                 </button>
                             </form>
 
-                            <select class="form-select form-select-sm ep-question"
-                                    name="question_step_{{substep.id}}">
-                                <option value="0">--</option>
-                                {% for question in questions %}
-                                    <option {% if substep.data.question == question.pk %}selected{% endif %}
-                                            value="{{question.pk}}">
-                                        {{question.title}}
-                                    </option>
-                                {% endfor %}
-                            </select>
-
+                            <!-- Search React component -->
+                            <div class="container mt-3"  name="step-question" id="stepQuestion-{{substep.id}}"></div>
+                            <hr class="mb-0 mt-2">
                             <label for="step_next_{{substep.id}}">
                                 Next step:
                             </label>
@@ -165,6 +151,13 @@
 </form>
 
 <script>
+
+const loadSteps = function() {
+    document.getElementsByName('step-question').forEach(function(el) {
+        const stepId = el.id.split('-')[1];
+        window.initSearch(el, 'steps', Number(stepId));
+    });
+};
 /*
  * Some minimal-as-possible JS to connect the question <select> boxes
  * up to the <form> submit. Would be nice if we could design the form
@@ -173,6 +166,13 @@
 $(document).ready(function() {
     let stepQuestions = {};
     let nextSteps = {};
+
+    if (window.fetchList) {
+        window.fetchList('questions', loadSteps)
+        
+    } else {
+        console.error('fetchList not defined');
+    }
 
     $('.assignment-grid select.ep-question').on('change', function(e) {
         const match = e.target.name.match(/\d+$/);
@@ -227,3 +227,7 @@ $(document).ready(function() {
     });
 });
 </script>
+
+{% block js %}
+<script src="{% static 'js/build/search.js' %}"></script>
+{% endblock %}

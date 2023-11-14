@@ -70,18 +70,8 @@
                                      class="form-label">
                                   Graph
                               </label>
-                              <select class="form-select"
-                                      name="graph"
-                                      id="questionGraph-{{question.pk}}">
-                                      <option value="">--</option>
-                                  {% for graph in graphs %}
-                                      <option data-graphtype="{{graph.graph_type}}"
-                                              value="{{graph.pk}}"
-                                              {% if question.graph.pk == graph.pk %}selected{% endif %}>
-                                          {{graph.title}}
-                                      </option>
-                                  {% endfor %}
-                              </select>
+                              <!-- Search React component -->
+                              <div class="container p-0" id="questionGraph-{{question.pk}}"></div>
                           </div>
 
                           <!-- Rubric React component -->
@@ -108,6 +98,15 @@ function selectQuestion(selectEl, questionId) {
     const triggerEl = selectEl.querySelector(
         `option[data-bs-target="#question-${questionId}"]`)
     bootstrap.Tab.getOrCreateInstance(triggerEl).show();
+    
+    if (window.initSearch) {
+        const graphId = `questionGraph-${questionId}`;
+        const graphContainer = document.getElementById(graphId);
+        window.initSearch(graphContainer, 'graphs', questionId);
+    }else {
+        console.error(
+            'Search could not be initialized for question ' + questionId);
+    }
 
     if (window.initRubric) {
         const containerId = `question-rubric-${questionId}`;

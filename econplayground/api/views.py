@@ -13,14 +13,14 @@ from econplayground.main.models import (
     Assessment, Cohort, Graph, Submission, Topic, Evaluation,
     UserAssignment, QuestionEvaluation
 )
-from econplayground.assignment.models import Question
+from econplayground.assignment.models import Question, Step
 from econplayground.api.serializers import (
     AssessmentSerializer, CohortSerializer, GraphSerializer,
     SubmissionSerializer, TopicSerializer,
     EvaluationSerializer, UserAssignmentSerializer,
     QuestionEvaluationSerializer,
 
-    QuestionSerializer
+    QuestionSerializer, StepSerializer
 )
 
 
@@ -122,4 +122,10 @@ class QuestionEvaluationViewSet(viewsets.ModelViewSet):
 class QuestionViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
+    permission_classes = (IsInstructor,)
+
+
+class StepViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Step.objects.all()
+    serializer_class = StepSerializer
     permission_classes = (IsInstructor,)

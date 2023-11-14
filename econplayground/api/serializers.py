@@ -6,7 +6,7 @@ from econplayground.main.models import (
 )
 from econplayground.assignment.models import (
     AssessmentRule as AssignmentAssessmentRule,
-    Question
+    Question, Step
 )
 
 
@@ -199,10 +199,10 @@ class GraphSerializer(serializers.ModelSerializer):
         return instance
 
 
-class GraphTypeSerializer(serializers.ModelSerializer):
+class GraphMinSerializer(serializers.ModelSerializer):
     class Meta:
         model = Graph
-        fields = ('graph_type',)
+        fields = ('pk', 'graph_type',)
 
 
 class EvaluationSerializer(serializers.ModelSerializer):
@@ -294,11 +294,30 @@ class AssessmentRuleSerializer(serializers.ModelSerializer):
 
 class QuestionSerializer(serializers.ModelSerializer):
     assessmentrule_set = AssessmentRuleSerializer(many=True)
-    graph = GraphTypeSerializer(read_only=True)
+    graph = GraphMinSerializer(read_only=True)
 
     class Meta:
         model = Question
         fields = (
             'pk', 'title', 'prompt', 'assessmentrule_set',
             'graph',
+        )
+
+
+class QuestionMinSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Question
+        fields = (
+            'pk', 'title',
+        )
+
+
+class StepSerializer(serializers.ModelSerializer):
+    question = QuestionMinSerializer(read_only=True)
+
+    class Meta:
+        model = Step
+        fields = (
+            'pk', 'question',
         )

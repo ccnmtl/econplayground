@@ -132,6 +132,17 @@ const getTopics = function(cohortId) {
         });
 };
 
+const getStep = function(stepId) {
+    return authedFetch(`/api/steps/${stepId}/`)
+        .then(function(response) {
+            if (response.status === 200) {
+                return response.json();
+            } else {
+                throw 'Not found';
+            }
+        });
+};
+
 /**
  * Returns a Promise containing the submission for the current user
  * and given graph id, if it exists.
@@ -351,9 +362,9 @@ const btnStep = function(val, sign, strength, min, max) {
 
 export {
     authedFetch, getAssessment, getQuestion, getEvaluations, getGraph,
-    getGraphId, getCohortId, getTopics, getSubmission, getUserAssignment,
-    createSubmission, getOrCreateSubmission, getL1SubmissionOffset,
-    getL2SubmissionOffset, handleFormUpdate, getOffset, getXIntercept,
-    getYIntercept, forceFloat, forceNumber, displayGraphType, getError,
-    btnStep, BOARD_HEIGHT, BOARD_WIDTH,
+    getGraphId, getCohortId, getTopics, getStep, getSubmission,
+    getUserAssignment, createSubmission, getOrCreateSubmission,
+    getL1SubmissionOffset, getL2SubmissionOffset, handleFormUpdate, getOffset,
+    getXIntercept, getYIntercept, forceFloat, forceNumber, displayGraphType,
+    getError, btnStep, BOARD_HEIGHT, BOARD_WIDTH,
 };

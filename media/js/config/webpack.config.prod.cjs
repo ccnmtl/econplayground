@@ -41,6 +41,7 @@ module.exports = {
         question: [paths.appQuestionJs],
         stepGraphViewer: [paths.appStepGraphViewerJs],
         rubric: [paths.appRubricJs],
+        search: [paths.appSearchJs],
         viewer: [paths.appViewerJs]
     },
     output: {

@@ -54,4 +54,14 @@
 
 {% block js %}
     <script src="{% static 'js/build/rubric.js' %}"></script>
+    <script src="{% static 'js/build/search.js' %}"></script>
+    <script>
+    $(document).ready(function() {
+        if (window.fetchList) {
+            window.fetchList('graphs');
+        } else {
+            console.error('fetchList not defined');
+        }
+    });
+    </script>
 {% endblock %}
