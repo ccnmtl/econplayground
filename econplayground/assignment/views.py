@@ -97,11 +97,13 @@ class AssignmentDetailView(
         bulk_tree = Step.dump_bulk(parent=root)
         root = bulk_tree[0]
 
+        questions = Question.objects.order_by('created_at')
         steps = Step.objects.filter(assignment=self.object)
 
         ctx.update({
             'tree': root.get('children'),
             'steps': steps,
+            'questions': questions,
         })
         return ctx
 
