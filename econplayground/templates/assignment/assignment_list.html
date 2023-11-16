@@ -43,6 +43,12 @@
             <td>{{assignment.updated_at}}</td>
             <td>
                 <a role="button"
+                   class="btn btn-sm btn-secondary"
+                   title="Edit {{assignment.title}}"
+                   href="{% url 'assignment_assignment_edit' assignment.pk %}">
+                    <i class="bi bi-pencil"></i>
+                </a>
+                <a role="button"
                    class="btn btn-sm btn-danger"
                    title="Remove {{assignment.title}}"
                    href="{% url 'assignment_assignment_delete' assignment.pk %}">
