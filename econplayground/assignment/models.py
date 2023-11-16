@@ -181,6 +181,12 @@ class Step(MP_Node):
         'self', on_delete=models.SET_NULL,
         blank=True, null=True)
 
+    @property
+    def is_last_step(self) -> bool:
+        return self.next_step is None and \
+            self.get_next() is None and \
+            self.get_next_intervention() is None
+
     def get_prev(self) -> Self:
         """Return the previous child, or the prev sibling, or None."""
 

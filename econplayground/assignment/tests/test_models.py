@@ -84,6 +84,14 @@ class AssignmentTreeTest(TestCase):
     def test_get_root(self):
         self.assertIsInstance(self.x.get_root(), Step)
 
+    def test_last_step(self):
+        self.make_test_assignment()
+        self.assertFalse(self.a1.is_last_step)
+        self.assertFalse(self.b1.is_last_step)
+        self.assertFalse(self.c1.is_last_step)
+        self.assertFalse(self.d1.is_last_step)
+        self.assertTrue(self.e1.is_last_step)
+
     def test_make_steps(self):
         root = self.x.get_root()
         step = Step(assignment=root.assignment)

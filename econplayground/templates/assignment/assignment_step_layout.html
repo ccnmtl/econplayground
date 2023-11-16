@@ -22,6 +22,9 @@
             <a href="{% url 'step_detail' object.pk step.id %}">
                 Step {{step.id}}
             </a>
+            {% if step.id == last_step_id %}
+                (End)
+            {% endif %}
             <form name="remove_step" method="post"
                   class="float-end mb-1"
                   action="{% url 'tree_edit' object.pk %}">
@@ -70,6 +73,10 @@
                             <a href="{% url 'step_detail' object.pk substep.id %}">
                                 Step {{substep.id}}
                             </a>
+
+                            {% if substep.id == last_step_id %}
+                                (End)
+                            {% endif %}
 
                             <form name="remove_step" method="post"
                                   class="float-end mb-1"
