@@ -100,10 +100,16 @@ class AssignmentDetailView(
         questions = Question.objects.order_by('created_at')
         steps = Step.objects.filter(assignment=self.object)
 
+        last_step_id = None
+        for step in steps:
+            if step.is_last_step:
+                last_step_id = step.pk
+
         ctx.update({
             'tree': root.get('children'),
             'steps': steps,
             'questions': questions,
+            'last_step_id': last_step_id,
         })
         return ctx
 
