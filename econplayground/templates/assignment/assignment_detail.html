@@ -20,6 +20,12 @@
 
 {% block pagetitle %}
     <div class="float-end">
+        <a class="btn btn-secondary display-inline mx-2"
+           role="button"
+           href="{% url 'assignment_student' object.pk %}"
+           title="Student preview of {{ object.title }}">
+            Student Preview
+        </a>
         <a class="btn btn-secondary display-inline"
            role="button"
            href="{% url 'assignment_assignment_edit' object.pk %}"
