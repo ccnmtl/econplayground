@@ -177,6 +177,9 @@ class Step(MP_Node):
         Question, on_delete=models.SET_NULL,
         blank=True, null=True)
 
+    # Each step has an optional next_step attribute which overrides default
+    # navigation behavior. This is configured by the instructor and is blank
+    # by default.
     next_step = models.ForeignKey(
         'self', on_delete=models.SET_NULL,
         blank=True, null=True)
