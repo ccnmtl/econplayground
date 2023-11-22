@@ -67,6 +67,29 @@ const getQuestion = function(questionId) {
         });
 };
 
+
+const getMultipleChoice = function(qId) {
+    const elt = document.getElementById('csrf-token');
+    const token = elt ? elt.getAttribute('content') : '';
+    return fetch(`/api/multiple_choice/?format=json&qId=${qId}`, {
+        method: 'get',
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRFToken': token
+        },
+        body: null,
+        credentials: 'same-origin'
+    }).then(function(response) {
+        if (response.status === 200) {
+            return response.json();
+        } else {
+            throw 'Not found';
+        }});
+};
+
+
 const getEvaluations = function(qId) {
     const elt = document.getElementById('csrf-token');
     const token = elt ? elt.getAttribute('content') : '';
@@ -350,10 +373,10 @@ const btnStep = function(val, sign, strength, min, max) {
 };
 
 export {
-    authedFetch, getAssessment, getQuestion, getEvaluations, getGraph,
-    getGraphId, getCohortId, getTopics, getSubmission, getUserAssignment,
-    createSubmission, getOrCreateSubmission, getL1SubmissionOffset,
-    getL2SubmissionOffset, handleFormUpdate, getOffset, getXIntercept,
-    getYIntercept, forceFloat, forceNumber, displayGraphType, getError,
-    btnStep, BOARD_HEIGHT, BOARD_WIDTH,
+    authedFetch, getAssessment, getQuestion, getMultipleChoice, getEvaluations,
+    getGraph, getGraphId, getCohortId, getTopics, getSubmission,
+    getUserAssignment, createSubmission, getOrCreateSubmission,
+    getL1SubmissionOffset, getL2SubmissionOffset, handleFormUpdate, getOffset,
+    getXIntercept, getYIntercept, forceFloat, forceNumber, displayGraphType,
+    getError, btnStep, BOARD_HEIGHT, BOARD_WIDTH,
 };

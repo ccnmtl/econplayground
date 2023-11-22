@@ -54,6 +54,20 @@ def convert_action_name(s: str) -> str:
     return s or ''
 
 
+class MultipleChoice(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    text = models.TextField(max_length=1024, default='Untitled')
+    choices = ArrayField(
+        models.TextField(max_length=1024, blank=True, default=''),
+    )
+    correct = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return '{} (id:{})'.format(self.text, self.pk)
+
+
 class AssessmentRule(models.Model):
     """
     Question evaluation data. The following fields are based on the

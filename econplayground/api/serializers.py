@@ -5,7 +5,7 @@ from econplayground.main.models import (
 )
 from econplayground.assignment.models import (
     AssessmentRule as AssignmentAssessmentRule,
-    Question
+    Question, MultipleChoice
 )
 
 
@@ -265,4 +265,12 @@ class QuestionSerializer(serializers.ModelSerializer):
         fields = (
             'pk', 'title', 'prompt', 'assessmentrule_set',
             'graph',
+        )
+
+
+class MultipleChoiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MultipleChoice
+        fields = (
+            'pk', 'question', 'text', 'choices', 'correct',
         )
