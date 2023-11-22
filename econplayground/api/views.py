@@ -12,10 +12,10 @@ from econplayground.api.permissions import IsInstructor
 from econplayground.main.models import (
     Assessment, Cohort, Graph, Submission, Topic
 )
-from econplayground.assignment.models import Question
+from econplayground.assignment.models import Question, MultipleChoice
 from econplayground.api.serializers import (
     AssessmentSerializer, CohortSerializer, GraphSerializer,
-    SubmissionSerializer, TopicSerializer,
+    SubmissionSerializer, TopicSerializer, MultipleChoiceSerializer,
 
     QuestionSerializer
 )
@@ -96,3 +96,13 @@ class QuestionViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
     permission_classes = (IsInstructor,)
+
+
+class MultipleChoiceViewSet(viewsets.ModelViewSet):
+    queryset = MultipleChoice.objects.all()
+    serializer_class = MultipleChoiceSerializer
+    permission_classes = (IsInstructor,)
+
+    def get_queryset(self):
+        q_id = self.request.query_params.get('qId')
+        return MultipleChoice.objects.filter(question=q_id)

@@ -4,7 +4,7 @@ from econplayground.api.views import (
     AssessmentViewSet, CohortViewSet,
     GraphViewSet, SubmissionViewSet, TopicViewSet,
 
-    QuestionViewSet
+    QuestionViewSet, MultipleChoiceViewSet,
 )
 
 
@@ -17,6 +17,7 @@ router.register(r'topics', TopicViewSet)
 
 # Used by Rubric react component in the assignment builder
 router.register(r'questions', QuestionViewSet)
+router.register(r'multiple_choice', MultipleChoiceViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

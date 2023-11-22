@@ -21,12 +21,12 @@ from django.views.generic.edit import (
     CreateView, UpdateView, DeleteView
 )
 from django.shortcuts import get_object_or_404
-from econplayground.assignment.utils import make_rules
+from econplayground.assignment.utils import make_rules, make_multiple_choice
 from econplayground.main.views import EnsureCsrfCookieMixin
 from econplayground.main.utils import user_is_instructor
 from econplayground.assignment.models import (
     Assignment, Step, Question,
-    StepResult, ScorePath
+    StepResult, ScorePath,
 )
 
 
@@ -479,8 +479,10 @@ class QuestionUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         # this better by updating existing rules, but this is simplest
         # for now.
         self.object.assessmentrule_set.all().delete()
+        self.object.multiplechoice_set.all().delete()
 
         make_rules(request, self.object)
+        make_multiple_choice(request, self.object)
 
         return result
 
