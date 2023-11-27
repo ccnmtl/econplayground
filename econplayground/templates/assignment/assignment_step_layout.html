@@ -1,3 +1,6 @@
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <div class="assignment-grid d-flex flex-wrap">
     {% if tree %}
         <!--
@@ -37,17 +40,18 @@
                     <i class="bi bi-x-lg"></i>
                 </button>
             </form>
-
-            <select class="form-select form-select-sm ep-question"
-                    name="question_step_{{step.id}}">
-                <option value="0">--</option>
-                {% for question in questions %}
-                    <option {% if step.data.question == question.pk %}selected{% endif %}
-                            value="{{question.pk}}">
-                        {{question.title}}
-                    </option>
-                {% endfor %}
-            </select>
+            <div class="mt-3">
+                <select class="form-select form-select-sm ep-question"
+                        name="question_step_{{step.id}}">
+                    <option value="0">--</option>
+                    {% for question in questions %}
+                        <option {% if step.data.question == question.pk %}selected{% endif %}
+                                value="{{question.pk}}">
+                            {{question.title}}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
 
             <label for="step_next_{{step.id}}">
                 Next step:
@@ -95,16 +99,18 @@
                                 </button>
                             </form>
 
-                            <select class="form-select form-select-sm ep-question"
-                                    name="question_step_{{substep.id}}">
-                                <option value="0">--</option>
-                                {% for question in questions %}
-                                    <option {% if substep.data.question == question.pk %}selected{% endif %}
-                                            value="{{question.pk}}">
-                                        {{question.title}}
-                                    </option>
-                                {% endfor %}
-                            </select>
+                            <div class="mt-3">
+                                <select class="form-select form-select-sm ep-question"
+                                        name="question_step_{{substep.id}}">
+                                    <option value="0">--</option>
+                                    {% for question in questions %}
+                                        <option {% if substep.data.question == question.pk %}selected{% endif %}
+                                                value="{{question.pk}}">
+                                            {{question.title}}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
 
                             <label for="step_next_{{substep.id}}">
                                 Next step:
@@ -193,6 +199,9 @@ $(document).ready(function() {
         if (stepId) {
             stepQuestions[stepId] = questionId;
         }
+    });
+    $('.assignment-grid select.ep-question').select2({
+        dropdownCSSClass: ':all:',
     });
 
     $('.assignment-grid select.ep-nextstep').on('change', function(e) {
