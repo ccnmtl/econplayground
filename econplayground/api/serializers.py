@@ -1,8 +1,7 @@
 from rest_framework import serializers
 from econplayground.main.models import (
     Graph, Cohort, JXGLine, JXGLineTransformation, Submission,
-    Assessment, AssessmentRule, Topic, Evaluation,
-    Assignment, UserAssignment, QuestionEvaluation
+    Assessment, AssessmentRule, Topic
 )
 from econplayground.assignment.models import (
     AssessmentRule as AssignmentAssessmentRule,
@@ -203,41 +202,6 @@ class GraphTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Graph
         fields = ('graph_type',)
-
-
-class EvaluationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Evaluation
-        fields = (
-            'field', 'comparison', 'value'
-        )
-
-        def validate_value(self, value):
-            if value < 0 or value > 100:
-                raise serializers.ValidationError(
-                    'Value has to be between 1 and 100.'
-                )
-            return value
-
-
-class AssignmentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Assignment
-        fields = ('title',)
-
-
-class UserAssignmentSerializer(serializers.ModelSerializer):
-    assignment = AssignmentSerializer(read_only=True)
-
-    class Meta:
-        model = UserAssignment
-        fields = ('user',)
-
-
-class QuestionEvaluationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = QuestionEvaluation
-        fields = '__all__'
 
 
 class AssessmentRulesSerializer(serializers.ModelSerializer):
