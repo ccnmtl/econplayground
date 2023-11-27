@@ -10,15 +10,12 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from econplayground.api.permissions import IsInstructor
 from econplayground.main.models import (
-    Assessment, Cohort, Graph, Submission, Topic, Evaluation,
-    UserAssignment, QuestionEvaluation
+    Assessment, Cohort, Graph, Submission, Topic
 )
 from econplayground.assignment.models import Question
 from econplayground.api.serializers import (
     AssessmentSerializer, CohortSerializer, GraphSerializer,
     SubmissionSerializer, TopicSerializer,
-    EvaluationSerializer, UserAssignmentSerializer,
-    QuestionEvaluationSerializer,
 
     QuestionSerializer
 )
@@ -93,30 +90,6 @@ class CohortViewSet(viewsets.ReadOnlyModelViewSet):
     def get_queryset(self):
         user = self.request.user
         return Cohort.objects.filter(instructors__in=(user,))
-
-
-class EvaluationViewSet(viewsets.ModelViewSet):
-    queryset = Evaluation.objects.all()
-    serializer_class = EvaluationSerializer
-
-    def get_queryset(self):
-        qId = self.request.query_params.get('qId')
-        question = Question.objects.get(id=qId)
-        return self.queryset.filter(question=question)
-
-
-class UserAssignmentViewSet(viewsets.ModelViewSet):
-    queryset = UserAssignment.objects.all()
-    serializer_class = UserAssignmentSerializer
-
-    def get_queryset(self):
-        id = self.request.query_params.get('id')
-        return UserAssignment.objects.get(id=id)
-
-
-class QuestionEvaluationViewSet(viewsets.ModelViewSet):
-    queryset = QuestionEvaluation.objects.all()
-    serializer_class = QuestionEvaluationSerializer
 
 
 class QuestionViewSet(viewsets.ReadOnlyModelViewSet):

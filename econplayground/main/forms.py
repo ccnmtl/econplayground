@@ -1,7 +1,5 @@
 from django import forms
-from econplayground.main.models import (
-    Cohort, Assignment, Question, QuestionBank
-)
+from econplayground.main.models import Cohort
 
 
 class CohortCloneForm(forms.Form):
@@ -21,59 +19,5 @@ class GraphCloneForm(forms.Form):
 
         self.fields['course'].queryset = Cohort.objects.filter(
             instructors__in=(user,))
-
-        return r
-
-
-class AssignmentCloneForm(forms.Form):
-    title = forms.CharField()
-
-    def __init__(self, user, *args, **kwargs):
-        r = super(AssignmentCloneForm, self).__init__(*args, **kwargs)
-
-        return r
-
-
-class QuestionBankForm(forms.ModelForm):
-    class Meta:
-        model = QuestionBank
-        fields = ('title', 'assignment', 'description',
-                  'questions', 'supplemental')
-        widgets = {
-            'title': forms.TextInput(),
-        }
-
-
-class QuestionBankCloneForm(forms.Form):
-    title = forms.CharField()
-    assignment = forms.ModelChoiceField(Assignment.objects.none())
-
-    def __init__(self, user, *args, **kwargs):
-        r = super(QuestionBankCloneForm, self).__init__(*args, **kwargs)
-
-        self.fields['assignment'].queryset = Assignment.objects.filter(
-            instructor__in=(user,))
-
-        return r
-
-
-class QuestionForm(forms.ModelForm):
-    class Meta:
-        model = Question
-        fields = (
-            'title', 'prompt', 'keywords', 'embedded_media',
-        )
-        widgets = {
-            'title': forms.TextInput(),
-            'keywords': forms.TextInput(),
-            'embedded_media': forms.TextInput(),
-        }
-
-
-class QuestionCloneForm(forms.Form):
-    title = forms.CharField()
-
-    def __init__(self, *args, **kwargs):
-        r = super(QuestionCloneForm, self).__init__(*args, **kwargs)
 
         return r

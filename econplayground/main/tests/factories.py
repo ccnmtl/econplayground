@@ -6,8 +6,7 @@ from factory import fuzzy
 from econplayground.main.models import (
     GRAPH_TYPES,
     Graph, JXGLine, JXGLineTransformation, Submission,
-    Assessment, AssessmentRule, Topic, Cohort,
-    Assignment, Question
+    Assessment, AssessmentRule, Topic, Cohort
 )
 
 
@@ -136,29 +135,3 @@ class AssessmentRuleFactory(DjangoModelFactory):
     feedback_fulfilled = fuzzy.FuzzyText()
     feedback_unfulfilled = fuzzy.FuzzyText()
     score = fuzzy.FuzzyDecimal(0, 1)
-
-
-class QuestionFactory(DjangoModelFactory):
-    class Meta:
-        model = Question
-
-    title = fuzzy.FuzzyText()
-    embedded_media = fuzzy.FuzzyText(
-        prefix='https://www.google.com/search?q=')
-    prompt = fuzzy.FuzzyText()
-
-
-class AssignmentFactory(DjangoModelFactory):
-    class Meta:
-        model = Assignment
-
-    title = fuzzy.FuzzyText()
-
-    @factory.post_generation
-    def banks(self, create, extracted):
-        if not create:
-            return
-
-        if extracted:
-            for banks in extracted:
-                self.banks.add(banks)

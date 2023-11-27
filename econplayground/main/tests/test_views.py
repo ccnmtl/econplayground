@@ -1125,12 +1125,3 @@ class CohortPasswordGraphDetailViewTest(LoggedInTestMixin, TestCase):
         self.assertEqual(r.status_code, 200)
         self.assertNotContains(r, self.g.title)
         self.assertContains(r, 'Password Required')
-
-
-class AssignmentCreateStudentViewTest(LoggedInTestStudentMixin, TestCase):
-    def test_create_assignment(self):
-        url = reverse('assignment_create')
-
-        response = self.client.get(url)
-        self.assertEqual(
-            response.status_code, 403, 'Students can\'t create assignments.')
