@@ -114,6 +114,14 @@ class AssignmentDetailView(
         return ctx
 
 
+class AssignmentDetailStudentView(LoginRequiredMixin, DetailView):
+    """
+    Read-only view for working through an assignment.
+    """
+    model = Assignment
+    template_name = 'assignment/assignment_detail_student.html'
+
+
 class AssignmentTreeUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):
     """
     Add and remove nodes from the assignment tree.
