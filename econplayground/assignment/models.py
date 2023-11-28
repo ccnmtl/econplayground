@@ -187,11 +187,13 @@ class Step(MP_Node):
     @property
     def is_last_step(self) -> bool:
         return self.next_step is None and \
-            self.get_next() is None and \
-            self.get_next_intervention() is None
+            self.get_next_sibling() is None and \
+            self.get_next() is None
 
     def get_prev(self) -> Self:
         """Return the previous child, or the prev sibling, or None."""
+        if self.is_root_node:
+            return None
 
         node = self.get_prev_sibling()
         if node:
@@ -200,7 +202,11 @@ class Step(MP_Node):
                 return child
 
         if not node:
-            return self.get_parent()
+            parent = self.get_parent()
+            if parent and not parent.is_root_node:
+                return parent
+            else:
+                return None
 
         return node
 
@@ -210,12 +216,13 @@ class Step(MP_Node):
         This is probably the result of a correct answer on the student
         side.
         """
+
         node = self.get_next_sibling()
         if node:
             return node
 
         parent = self.get_parent()
-        if parent:
+        if parent and not parent.is_root_node:
             node = parent.get_next_sibling()
 
         if node:

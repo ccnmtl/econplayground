@@ -15,6 +15,7 @@ class AssignmentTreeTest(TestCase):
     """Structure tests for unpopulated assignments"""
     def setUp(self):
         self.x = AssignmentFactory()
+        self.x2 = AssignmentFactory()
 
     def make_test_assignment(self):
         """
@@ -74,6 +75,7 @@ class AssignmentTreeTest(TestCase):
 
         self.e1 = Step(assignment=self.root.assignment)
         self.d1.add_sibling(instance=self.e1, pos='last-sibling')
+        self.root2 = self.x2.get_root()
 
         return self.a1
 
@@ -195,6 +197,11 @@ class AssignmentTreeTest(TestCase):
         step_7 = step_6.get_next_intervention()
         self.assertEqual(step_7, self.d1)
         self.assertEqual(step_7.get_depth(), 2)
+
+    def test_assignment_delete_cascade(self):
+        pk = self.x.pk
+        self.x.delete()
+        self.assertFalse(Step.objects.filter(assignment=pk).exists())
 
 
 class QuestionTest(TestCase):
