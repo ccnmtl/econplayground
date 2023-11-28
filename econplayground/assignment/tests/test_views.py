@@ -534,3 +534,15 @@ class AssignmentStudentFlowViewTest(
 
         score_path.refresh_from_db()
         self.assertEqual(score_path.score, 0.5)
+
+
+class AssignmentDetailStudentViewTest(
+        LoggedInTestStudentMixin, AssignmentMixin, TestCase):
+    def test_assignment_step_view(self):
+        assignment = self.setup_sample_assignment()
+        r = self.client.get(reverse('assignment_detail_student', kwargs={
+            'pk': assignment.pk
+        }))
+
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, assignment.title)

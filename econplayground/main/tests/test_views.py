@@ -748,8 +748,12 @@ class CohortDetailStudentViewTest(LoggedInTestStudentMixin, TestCase):
         self.assertContains(r, 'Topic B')
         self.assertEqual(r.context['all_count'], 3)
         self.assertEqual(r.context['featured_count'], 2)
-        self.assertEqual(r.context['topic_list'][0].published_graph_count(), 2)
-        self.assertEqual(r.context['topic_list'][1].published_graph_count(), 1)
+
+        self.t1.refresh_from_db()
+        self.t2.refresh_from_db()
+        self.assertEqual(len(r.context['topic_list']), 2)
+        self.assertEqual(self.t1.published_graph_count(), 2)
+        self.assertEqual(self.t2.published_graph_count(), 1)
 
         r = self.client.get(
             '{}?all=true'.format(
@@ -769,8 +773,12 @@ class CohortDetailStudentViewTest(LoggedInTestStudentMixin, TestCase):
         self.assertContains(r, 'Topic B')
         self.assertEqual(r.context['all_count'], 3)
         self.assertEqual(r.context['featured_count'], 2)
-        self.assertEqual(r.context['topic_list'][0].published_graph_count(), 2)
-        self.assertEqual(r.context['topic_list'][1].published_graph_count(), 1)
+
+        self.t1.refresh_from_db()
+        self.t2.refresh_from_db()
+        self.assertEqual(len(r.context['topic_list']), 2)
+        self.assertEqual(self.t1.published_graph_count(), 2)
+        self.assertEqual(self.t2.published_graph_count(), 1)
 
         r = self.client.get(
             '{}?topic={}'.format(
@@ -792,8 +800,12 @@ class CohortDetailStudentViewTest(LoggedInTestStudentMixin, TestCase):
         self.assertContains(r, 'Topic B')
         self.assertEqual(r.context['all_count'], 3)
         self.assertEqual(r.context['featured_count'], 2)
-        self.assertEqual(r.context['topic_list'][0].published_graph_count(), 2)
-        self.assertEqual(r.context['topic_list'][1].published_graph_count(), 1)
+
+        self.t1.refresh_from_db()
+        self.t2.refresh_from_db()
+        self.assertEqual(len(r.context['topic_list']), 2)
+        self.assertEqual(self.t1.published_graph_count(), 2)
+        self.assertEqual(self.t2.published_graph_count(), 1)
 
         r = self.client.get(
             '{}?topic={}'.format(
@@ -815,8 +827,12 @@ class CohortDetailStudentViewTest(LoggedInTestStudentMixin, TestCase):
         self.assertContains(r, 'Topic B')
         self.assertEqual(r.context['all_count'], 3)
         self.assertEqual(r.context['featured_count'], 2)
-        self.assertEqual(r.context['topic_list'][0].published_graph_count(), 2)
-        self.assertEqual(r.context['topic_list'][1].published_graph_count(), 1)
+
+        self.t1.refresh_from_db()
+        self.t2.refresh_from_db()
+        self.assertEqual(len(r.context['topic_list']), 2)
+        self.assertEqual(self.t1.published_graph_count(), 2)
+        self.assertEqual(self.t2.published_graph_count(), 1)
 
 
 class MockLTI(object):

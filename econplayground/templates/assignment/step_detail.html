@@ -8,18 +8,26 @@
 {% endblock %}
 
 {% block breadcrumb %}
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a href="{% url 'assignment_detail' assignment.pk %}">
-                {{assignment.title|truncatewords:5}}
-            </a>
-        </li>
-        <li class="breadcrumb-item">
-            Step {{object.pk}}
-        </li>
-    </ol>
-</nav>
+    {% user_is_instructor request.user as i_am_instructor %}
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                {% if i_am_instructor %}
+                    <a href="{% url 'assignment_detail' assignment.pk %}">
+                        {{assignment.title|truncatewords:5}}
+                    </a>
+                {% else %}
+                    <a href="{% url 'assignment_detail_student' assignment.pk %}">
+                        {{assignment.title|truncatewords:5}}
+                    </a>
+                {% endif %}
+            </li>
+            <li class="breadcrumb-item">
+                Step {{object.pk}}
+            </li>
+        </ol>
+    </nav>
 {% endblock %}
 
 {% block pagetitle %}

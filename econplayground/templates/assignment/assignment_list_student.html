@@ -17,14 +17,10 @@
         {% for assignment in assignment_list %}
         <tr>
             <th scope="row">
-                {% if assignment.first_step %}
-                    <a href="{% url 'step_detail' assignment.pk assignment.first_step.pk %}"
-                       title="{{assignment.title}}">
-                        {{assignment.title}}
-                    </a>
-                {% else %}
+                <a href="{% url 'assignment_detail_student' assignment.pk %}"
+                   title="{{assignment.title}}">
                     {{assignment.title}}
-                {% endif %}
+                </a>
             </th>
             <td>
                 {% for cohort in assignment.cohorts.all %}
