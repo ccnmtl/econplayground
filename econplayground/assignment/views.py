@@ -121,6 +121,27 @@ class AssignmentDetailStudentView(LoginRequiredMixin, DetailView):
     model = Assignment
     template_name = 'assignment/assignment_detail_student.html'
 
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+
+        score_path = None
+        try:
+            score_path = ScorePath.objects.get(
+                assignment=self.object,
+                student=self.request.user)
+        except ScorePath.DoesNotExist:
+            pass
+
+        steps = []
+        if score_path:
+            results = score_path.get_step_results()
+            steps = list(map(lambda x: x.step, results))
+
+        ctx.update({
+            'steps': steps,
+        })
+        return ctx
+
 
 class AssignmentTreeUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):
     """

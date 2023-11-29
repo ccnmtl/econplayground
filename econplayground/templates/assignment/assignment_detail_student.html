@@ -27,12 +27,29 @@
         Welcome to assignment {{object.pk}}!
     </div>
 
+    Your path:
+
+    <div class="ep-score-path">
+        {% for step in steps %}
+            <div class="assignment-step">
+                <a href="{% url 'step_detail' object.pk step.pk %}">
+                    Step {{step.pk}}
+                </a>
+                {% if step.is_last_step %}
+                    (End)
+                {% endif %}
+            </div>
+        {% empty %}
+            (Empty)
+        {% endfor %}
+    </div>
+
     {% if object.first_step %}
         <a href="{% url 'step_detail' object.pk object.first_step.pk %}"
            class="btn btn-primary mt-2"
            role="button"
-           title="First question">
-            First question
+           title="Begin assignment">
+            Begin assignment
         </a>
     {% endif %}
 {% endblock %}
