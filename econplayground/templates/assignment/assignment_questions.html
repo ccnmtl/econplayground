@@ -1,5 +1,8 @@
 {% load static %}
 <script src="{% static 's3sign/js/s3upload.js' %}"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 
 <div class="container mt-2">
   <div class="row">
@@ -70,7 +73,7 @@
                                      class="form-label">
                                   Graph
                               </label>
-                              <select class="form-select"
+                              <select class="form-select ep-question"
                                       name="graph"
                                       id="questionGraph-{{question.pk}}">
                                       <option value="">--</option>
@@ -143,6 +146,11 @@ $(document).ready(function() {
     // https://getbootstrap.com/docs/5.3/components/navs-tabs/#javascript-behavior
     $('select.ep-question-select').on('change', function(e) {
         selectQuestion(e.target, Number(e.target.value));
+    });
+
+    $('select.ep-question').select2({
+        dropdownCSSClass: ':all:',
+        width: '100%',
     });
 
     $('select[name="graph"]').on('change', function(e) {
