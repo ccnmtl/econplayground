@@ -170,7 +170,7 @@ export default class QuestionEditor extends Component {
                         ></input>
                     </label>
                     {this.state.mediaUploadUrl && (
-                        <img className="img-thumbnail"
+                        <img className="img-thumbnail" alt="Uploaded Media"
                             style={{
                                 maxWidth: '200px',
                                 maxHeight: '200px'
@@ -233,7 +233,6 @@ export default class QuestionEditor extends Component {
                                     {this.generateGraphList()}
                                 </div>
                             </div>
-                            <h4 className="mr-auto"></h4>
                             <button
                                 className="btn btn-light"
                                 type="button"
