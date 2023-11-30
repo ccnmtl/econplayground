@@ -295,6 +295,21 @@ class ScorePath(models.Model):
         blank=True
     )
 
+    def get_step_results(self) -> list:
+        """
+        Return the list of this path's StepResults.
+        """
+        results = []
+        for x in self.steps:
+            if x:
+                try:
+                    step_result = StepResult.objects.get(pk=x)
+                    results.append(step_result)
+                except StepResult.DoesNotExist:
+                    pass
+
+        return results
+
     @property
     def score(self) -> float:
         """

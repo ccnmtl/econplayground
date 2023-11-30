@@ -20,3 +20,7 @@
 figure#editing-graph {
     background-color: white;
 }
+
+.ep-score-path {
+    border: dashed;
+}
