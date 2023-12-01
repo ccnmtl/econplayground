@@ -295,6 +295,10 @@ class ScorePath(models.Model):
         blank=True
     )
 
+    def __str__(self) -> str:
+        return 'ScorePath: {} - {}'.format(
+            self.assignment.title, self.student.username)
+
     def get_step_results(self) -> list:
         """
         Return the list of this path's StepResults.

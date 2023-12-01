@@ -3,7 +3,9 @@ from django.contrib import admin
 from treebeard.admin import TreeAdmin
 from treebeard.forms import movenodeform_factory
 
-from econplayground.assignment.models import Step, Question, AssessmentRule
+from econplayground.assignment.models import (
+    Step, Question, AssessmentRule, ScorePath
+)
 
 
 class StepAdmin(TreeAdmin):
@@ -25,3 +27,10 @@ class QuestionAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Question, QuestionAdmin)
+
+
+class ScorePathAdmin(admin.ModelAdmin):
+    pass
+
+
+admin.site.register(ScorePath, ScorePathAdmin)
