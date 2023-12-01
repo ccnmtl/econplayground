@@ -21,7 +21,9 @@ from django.views.generic.edit import (
     CreateView, UpdateView, DeleteView
 )
 from django.shortcuts import get_object_or_404
-from econplayground.assignment.utils import make_rules, make_multiple_choice
+from econplayground.assignment.utils import (
+    make_rules, make_multiple_choice, render_assignment_graph
+)
 from econplayground.main.views import EnsureCsrfCookieMixin
 from econplayground.main.utils import user_is_instructor
 from econplayground.assignment.models import (
@@ -124,6 +126,11 @@ class AssignmentDetailStudentView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
 
+        root = self.object.get_root()
+        print(root.numchild)
+        bulk_tree = Step.dump_bulk(parent=root)
+        root = bulk_tree[0]
+
         score_path = None
         try:
             score_path = ScorePath.objects.get(
@@ -139,6 +146,7 @@ class AssignmentDetailStudentView(LoginRequiredMixin, DetailView):
 
         ctx.update({
             'steps': steps,
+            'graph': render_assignment_graph(root),
         })
         return ctx
 

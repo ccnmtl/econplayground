@@ -1,3 +1,4 @@
+from graphviz import Graph
 from econplayground.assignment.models import AssessmentRule, MultipleChoice
 
 
@@ -65,3 +66,30 @@ def make_multiple_choice(request: object, question: object) -> None:
             choices=choices,
             correct=correct
         )
+
+
+def render_assignment_graph(root: object) -> str:
+    """
+    Given an assignment's root node, render this to an SVG string
+    with graphviz.
+    """
+    graph = Graph(format='svg')
+    # graph.graph_attr['rankdir'] = 'LR'
+    steps = root.get('children')
+
+    for x in range(len(steps)):
+        step = steps[x]
+        print(step)
+
+        step_label = 'Step {}'.format(step.get('id'))
+        if x > 0:
+            prev_step = steps[x-1]
+            prev_step_label = 'Step {}'.format(prev_step.get('id'))
+            graph.edge(prev_step_label, step_label)
+
+        for substep in step.get('children'):
+            substep_label = 'Sub-step {}'.format(str(substep.get('id')))
+            graph.edge(step_label, substep_label)
+
+    # Output to string
+    return graph.pipe().decode('utf-8')

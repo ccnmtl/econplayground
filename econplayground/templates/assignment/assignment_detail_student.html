@@ -27,11 +27,16 @@
         Welcome to assignment {{object.pk}}!
     </div>
 
+    <div class="ep-assignment-graph">
+        {{ graph | safe }}
+    </div>
+
     Your path:
 
-    <div class="ep-score-path">
+    <div class="ep-score-path w-50">
         {% for step in steps %}
             <div class="assignment-step">
+                {{forloop.counter}}.
                 <a href="{% url 'step_detail' object.pk step.pk %}">
                     Step {{step.pk}}
                 </a>
