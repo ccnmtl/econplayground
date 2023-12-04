@@ -54,7 +54,7 @@ export default class RangeEditor extends React.Component {
                     <div className="col">
                         <div className="mb-2 input-group">
                             <button
-                                className="btn btn-sm btn-primary ms-1 w-20"
+                                className="btn btn-primary ms-1"
                                 aria-label={'Decrease by ' + (Number(this.props.step) * 10 || 0.1)}
                                 id={this.props.id}
                                 data-id={this.props.dataId}
@@ -69,46 +69,10 @@ export default class RangeEditor extends React.Component {
                                         this.props.min,
                                         this.props.max)
                                 }>
-                                &lt;&lt;&lt;
+                                &lt;&lt;
                             </button>
                             <button
-                                className="btn btn-sm btn-info ms-1 w-20"
-                                aria-label={'Decrease by ' + (Number(this.props.step) || 0.01)}
-                                id={this.props.id}
-                                data-id={this.props.dataId}
-                                type="button"
-                                onClick={this.props.handler}
-                                disabled={this.props.disabled}
-                                value={
-                                    btnStep(
-                                        this.props.value,
-                                        -1,
-                                        this.props.step || 0.01,
-                                        this.props.min,
-                                        this.props.max)
-                                }>
-                                &lt;
-                            </button>
-                            <button
-                                className="btn btn-sm btn-info ms-1 w-20"
-                                aria-label={'Increase by ' + (Number(this.props.step) || 0.01)}
-                                id={this.props.id}
-                                data-id={this.props.dataId}
-                                type="button"
-                                onClick={this.props.handler}
-                                disabled={this.props.disabled}
-                                value={
-                                    btnStep(
-                                        this.props.value,
-                                        1,
-                                        this.props.step || 0.01,
-                                        this.props.min,
-                                        this.props.max)
-                                }>
-                                &gt;
-                            </button>
-                            <button
-                                className="btn btn-sm btn-primary ms-1 w-20"
+                                className="btn btn-primary ms-1"
                                 aria-label={'Increase by ' + (Number(this.props.step) * 10 || 0.1)}
                                 id={this.props.id}
                                 data-id={this.props.dataId}
@@ -123,7 +87,7 @@ export default class RangeEditor extends React.Component {
                                         this.props.min,
                                         this.props.max)
                                 }>
-                                &gt;&gt;&gt;
+                                &gt;&gt;
                             </button>
                             <input
                                 className="form-control ms-1"
@@ -132,7 +96,7 @@ export default class RangeEditor extends React.Component {
                                 id={this.props.id}
                                 data-id={this.props.dataId}
                                 value={this.props.value}
-                                step={Number(this.props.step) || 0.01}
+                                step={Number(this.props.step) || 0.1}
                                 onChange={this.props.handler}
                                 disabled={this.props.disabled}
                                 min={this.props.min}

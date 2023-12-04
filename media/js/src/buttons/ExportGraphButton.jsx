@@ -20,7 +20,7 @@ export default class ExportGraphButton extends React.Component {
     }
     render() {
         return (
-            <span className="ms-1">
+            <span className="ms-1 float-end">
                 Export as:
                 <a
                     className="btn btn-secondary btn-sm ms-1"
