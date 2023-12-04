@@ -34,6 +34,7 @@ module.exports = {
         assignment: [paths.appAssignmentJs],
         editor: [paths.appEditorJs],
         question: [paths.appQuestionJs],
+        multipleChoice: [paths.appMultipleChoiceJs],
         stepGraphViewer: [paths.appStepGraphViewerJs],
         rubric: [paths.appRubricJs],
         viewer: [paths.appViewerJs]

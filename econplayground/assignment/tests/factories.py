@@ -3,7 +3,7 @@ from factory.django import DjangoModelFactory
 from factory import fuzzy
 from econplayground.assignment.models import (
     Assignment, Question, AssessmentRule,
-    StepResult, ScorePath
+    StepResult, ScorePath, MultipleChoice
 )
 from econplayground.main.tests.factories import (
     GraphFactory, InstructorFactory, StudentFactory
@@ -34,6 +34,16 @@ class QuestionFactory(DjangoModelFactory):
     title = fuzzy.FuzzyText()
     prompt = fuzzy.FuzzyText()
     graph = factory.SubFactory(GraphFactory)
+
+
+class MultipleChoiceFactory(DjangoModelFactory):
+    class Meta:
+        model = MultipleChoice
+
+    question = factory.SubFactory(QuestionFactory)
+    text = fuzzy.FuzzyText()
+    correct = 0
+    choices = [fuzzy.FuzzyText() for _ in range(4)]
 
 
 class AssessmentRuleFactory(DjangoModelFactory):

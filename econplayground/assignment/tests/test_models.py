@@ -3,7 +3,8 @@ from django.conf import settings
 from django.test import TestCase
 from econplayground.assignment.tests.factories import (
     AssignmentFactory, QuestionFactory, AssessmentRuleFactory,
-    StepResultFactory, ScorePathFactory, AssignmentMixin
+    StepResultFactory, ScorePathFactory, AssignmentMixin,
+    MultipleChoiceFactory
 )
 from econplayground.assignment.models import (
     Assignment, Step, Question, AssessmentRule, Graph,
@@ -229,6 +230,37 @@ class QuestionTest(TestCase):
     def test_eval_with_no_rules(self):
         q = QuestionFactory()
         self.assertIsNone(q.evaluate_action('line1', 'up'))
+
+
+class MultipleChoiceTest(TestCase):
+    """Test the MultipleChoice model and MultipleChoice methods"""
+
+    def setUp(self):
+        self.x = MultipleChoiceFactory()
+        self.x2 = MultipleChoiceFactory(
+            choices=[x for x in range(10)],
+            correct=3)
+
+    def test_is_valid_from_factory(self):
+        self.x.full_clean()
+        self.x2.full_clean()
+
+    def test_correct_choice(self):
+        self.assertEqual(0, self.x.correct)
+        self.assertEqual(3, self.x2.correct)
+
+    def test_add_choice(self):
+        self.assertEqual(len(self.x.choices), 4)
+        self.x.choices.append('add_choice')
+        self.assertEqual(len(self.x.choices), 5)
+
+    def test_remove_choice(self):
+        self.assertEqual(len(self.x.choices), 5)
+        self.x.choices.pop()
+        self.assertEqual(len(self.x.choices), 4)
+
+    def test_choice_length(self):
+        self.assertEqual(len(self.x2.choices), 10)
 
 
 class AssessmentRuleTest(TestCase):
