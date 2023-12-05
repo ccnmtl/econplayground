@@ -146,13 +146,10 @@ function selectQuestionTab(questionId) {
     const triggerEl = document.querySelector(
         '#myTab button[data-bs-target="#questions-tab-pane"]');
 
-    triggerEl.addEventListener('shown.bs.tab', event => {
-        selectQuestion(
-            document.querySelector('.ep-question-select'),
-            questionId);
-    })
+    selectQuestion(
+        document.querySelector('.ep-question-select'),
+        questionId);
 
-    bootstrap.Tab.getInstance(triggerEl).show()
 };
 
 $(document).ready(function() {
