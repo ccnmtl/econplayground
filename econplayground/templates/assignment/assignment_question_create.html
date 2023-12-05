@@ -22,12 +22,21 @@
 
 {% block js %}
     <script src="{% static 'js/build/rubric.js' %}"></script>
+    <script src="{% static 'js/build/multipleChoice.js' %}"></script>
     <script>
     if (!window.EconPlayground) {
         window.EconPlayground = {};
     }
 
     $(document).ready(function() {
+        if (window.initMultipleChoice) {
+            const containerId = 'multiple-choice-';
+            const container = document.getElementById(containerId);
+            window.initMultipleChoice(container, null);
+        } else {
+            console.error(
+                'Multiple Choice could not be initialized for the new question');
+        }
         if (window.initRubric) {
             const containerId = 'question-rubric';
             const container = document.getElementById(containerId);
@@ -131,6 +140,9 @@
                       {% endfor %}
                   </select>
               </div>
+
+             <!-- Multiple Choice React Component -->
+             <div id="multiple-choice-{{question.pk}}"></div>
 
               <!-- Rubric React component -->
               <div id="question-rubric"></div>

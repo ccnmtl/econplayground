@@ -449,6 +449,7 @@ class QuestionCreateView(
         result = super().post(request, *args, **kwargs)
 
         make_rules(request, self.object)
+        make_multiple_choice(request, self.object)
 
         return result
 

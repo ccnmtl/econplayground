@@ -6,10 +6,12 @@ export default function MultipleChoice({qId}) {
     const [mcSet, setMcSet] = useState([]);
     
     useEffect(() => {
-        getMultipleChoice(qId).then(data => {
-            if (data) {
-                setMcSet(data);
-            }});
+        if (qId) {
+            getMultipleChoice(qId).then(data => {
+                if (data) {
+                    setMcSet(data);
+                }});
+        }
     }, []);
 
     const handleAddMC = function(e) {
