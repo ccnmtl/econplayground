@@ -187,6 +187,8 @@ class Step(MP_Node):
     is_root_node = models.BooleanField(default=False)
     assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
 
+    name = models.TextField(max_length=1024, blank=True, null=True)
+
     question = models.ForeignKey(
         Question, on_delete=models.SET_NULL,
         blank=True, null=True)
@@ -197,6 +199,9 @@ class Step(MP_Node):
     next_step = models.ForeignKey(
         'self', on_delete=models.SET_NULL,
         blank=True, null=True)
+
+    def get_name(self) -> str:
+        return self.name or 'Step {}'.format(self.pk)
 
     @property
     def is_last_step(self) -> bool:

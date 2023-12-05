@@ -202,6 +202,15 @@ class AssignmentTreeUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):
             tree.add_substep(step_id)
             messages.add_message(
                 request, messages.SUCCESS, 'New sub-step added.')
+        elif action == 'rename_step':
+            step_id = request.POST.get('step_id')
+            name = request.POST.get('step_name').strip()
+
+            step = Step.objects.get(pk=step_id)
+            step.name = name
+            step.save()
+
+            messages.add_message(request, messages.SUCCESS, 'Step renamed.')
         elif action == 'remove_step':
             step_id = request.POST.get('step_id')
             tree.remove_step(step_id)

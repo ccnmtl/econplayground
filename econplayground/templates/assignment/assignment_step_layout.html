@@ -1,3 +1,5 @@
+{% load assignment_tags %}
+
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
@@ -22,24 +24,59 @@
 
     {% for step in tree %}
         <div class="assignment-step">
-            <a href="{% url 'step_detail' object.pk step.id %}">
-                Step {{step.id}}
-            </a>
-            {% if step.id == last_step_id %}
-                (End)
-            {% endif %}
-            <form name="remove_step" method="post"
-                  class="float-end mb-1"
-                  action="{% url 'tree_edit' object.pk %}">
-                {% csrf_token %}
-                <input name="action" value="remove_step" type="hidden" />
-                <input name="step_id" value="{{step.id}}" type="hidden" />
-                <button type="submit"
-                        class="btn btn-sm btn-danger"
-                        title="Remove step">
-                    <i class="bi bi-x-lg"></i>
-                </button>
-            </form>
+            <div class="mb-1 row">
+                <div class="col-sm-7">
+                    <a class="ep-step-name"
+                       href="{% url 'step_detail' object.pk step.id %}">
+                        {% step_name step.id %}
+                    </a>
+                    <input name="step_name"
+                           class="form-control form-control-sm ep-step-name-input mb-1"
+                           style="display: none;"
+                           placeholder="{% step_name step.id %}"
+                           type="text" />
+
+                    {% if step.id == last_step_id %}
+                        (End)
+                    {% endif %}
+                </div>
+
+                <div class="col-sm">
+                    <form name="rename_step" method="post"
+                          class="d-inline"
+                          action="{% url 'tree_edit' object.pk %}">
+                        {% csrf_token %}
+                        <input name="action" value="rename_step" type="hidden" />
+                        <input name="step_id" value="{{step.id}}" type="hidden" />
+                        <input name="step_name" value="" type="hidden" />
+                        <button type="button"
+                                class="btn btn-sm btn-secondary ep-step-rename"
+                                title="Rename step">
+                            <i class="bi bi-pencil"></i>
+                            <button type="submit"
+                                    class="btn btn-sm btn-primary ep-step-rename-save"
+                                    style="display: none;"
+                                    title="Save">
+                                <i class="bi bi-floppy"></i>
+                            </button>
+                    </form>
+
+                    <form name="remove_step" method="post"
+                          class="d-inline"
+                          action="{% url 'tree_edit' object.pk %}">
+                        {% csrf_token %}
+                        <input name="action" value="remove_step" type="hidden" />
+                        <input name="step_id" value="{{step.id}}" type="hidden" />
+                        <button type="submit"
+                                class="btn btn-sm btn-danger"
+                                title="Remove step">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </form>
+                </div>
+
+            </div><!-- end .row -->
+
             <div class="mt-3">
                 <select class="form-select form-select-sm ep-question"
                         name="question_step_{{step.id}}">
@@ -240,6 +277,26 @@ $(document).ready(function() {
         }
 
         $(e.target).append(inputEls);
+    });
+
+    $('.ep-step-rename').click(function(e) {
+        e.preventDefault();
+
+        const $target = $(e.target);
+
+        // Prepare rename form for input
+        $target.closest('button').hide();
+        $form = $target.closest('form');
+        $form.find('.ep-step-rename-save').show();
+
+        const $row = $target.closest('.row');
+        $row.find('.ep-step-name').hide();
+        $input = $row.find('.ep-step-name-input');
+        $input.show();
+        $hiddenInput = $form.find('[name="step_name"]')
+        $input.on('change', function(e) {
+            $hiddenInput.val(e.target.value);
+        });
     });
 });
 </script>
