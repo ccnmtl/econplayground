@@ -73,23 +73,39 @@ def render_assignment_graph(root: object) -> str:
     Given an assignment's root node, render this to an SVG string
     with graphviz.
     """
-    graph = Graph(format='svg')
-    # graph.graph_attr['rankdir'] = 'LR'
+    graph = Graph(format='svg',
+                  node_attr={
+                      'shape': 'box',
+                      'fixedsize': 'true',
+                      'width': '0.30',
+                      'height': '0.25',
+                      'rank': 'same',
+                      'pin': 'true'},
+                  edge_attr={
+                      'arrowsize': '0.5'
+                  },
+                  graph_attr={
+                      'rankdir': 'LR',
+                  })
     steps = root.get('children')
 
-    for x in range(len(steps)):
+    graph.node(str(1), style='filled', color='blue',
+               shape='circle', fontcolor='white')
+    for x in range(1, len(steps)):
         step = steps[x]
-        print(step)
+        graph.edge(str(x), str(x+1))
 
-        step_label = 'Step {}'.format(step.get('id'))
-        if x > 0:
-            prev_step = steps[x-1]
-            prev_step_label = 'Step {}'.format(prev_step.get('id'))
-            graph.edge(prev_step_label, step_label)
-
-        for substep in step.get('children'):
-            substep_label = 'Sub-step {}'.format(str(substep.get('id')))
-            graph.edge(step_label, substep_label)
+        children = step.get('children')
+        with graph.subgraph(name='{}'.format(x+1)) as c:
+            c.attr(rank='same')
+            if children:
+                c.edge(str(x+1), '{}.1'.format(x+1))
+                for y in range(1, len(children)):
+                    child_label = '{}.{}'.format(x+1, y+1)
+                    prev_child = '{}.{}'.format(x+1, y)
+                    if children[y].get('next_step'):
+                        child_label = 'Q{}'.format(children[y].get('id'))
+                    c.edge(prev_child, child_label)
 
     # Output to string
     return graph.pipe().decode('utf-8')
