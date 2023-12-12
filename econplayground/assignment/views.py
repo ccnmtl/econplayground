@@ -234,7 +234,7 @@ class AssignmentUpdateView(
         LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Assignment
     template_name = 'assignment/assignment_form.html'
-    fields = ['title', 'prompt', 'cohorts']
+    fields = ['title', 'published', 'prompt', 'cohorts']
 
     def test_func(self):
         return user_is_instructor(self.request.user)

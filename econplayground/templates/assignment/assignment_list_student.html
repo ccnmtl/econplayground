@@ -15,6 +15,7 @@
     </thead>
     <tbody class="table-group-divider">
         {% for assignment in assignment_list %}
+        {% if assignment.published %}
         <tr>
             <th scope="row">
                 <a href="{% url 'assignment_detail_student' assignment.pk %}"
@@ -24,11 +25,12 @@
             </th>
             <td>
                 {% for cohort in assignment.cohorts.all %}
-                    {{cohort.title}},
+                    {{cohort.title}}{% if forloop.counter > 1 %}, {% endif %}
                 {% endfor %}
             </td>
             <td>{{assignment.updated_at}}</td>
         </tr>
+        {% endif %}
         {% endfor %}
     </tbody>
 </table>
