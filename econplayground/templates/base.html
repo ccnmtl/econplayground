@@ -136,48 +136,36 @@
         </main>
 
 
-        <div class="container">
-            <footer class="py-3 my-4 bg-light bg-gradient">
-                <div class="d-flex flex-wrap justify-content-between">
-                    <p class="col-md-4 p-2 text-body-secondary">
-                        Built by <a href="https://www.sipa.columbia.edu/communities-connections/faculty/thomas-groll"
-                                    title="Thomas Groll's site">Thomas Groll</a>
-                        and the <a href="https://ctl.columbia.edu"
-                                   title="Columbia University Center for Teaching and Learning">CTL</a>.
-                    </p>
+        <footer class="row vstack mb-4">
+            <ul class="nav col-auto mx-auto mt-4">
+                <li class="nav-item">
+                    <a href="/contact/" title="Contact" class="nav-link text-body-secondary">
+                        Contact</a></li>
+                <li class="nav-item">
+                    <a href="/credits/" title="Credits" class="nav-link text-body-secondary">
+                        Credits</a></li>
+            </ul>
 
-                    <ul class="nav col-md-4 justify-content-end">
-                        <li class="nav-item">
-                            <a href="/credits/" title="Credits" class="nav-link text-body-secondary">
-                                Credits
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/contact/" title="Contact" class="nav-link text-body-secondary">
-                                Contact
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+            <p class="col-auto mx-auto mt-4 text-body-secondary">
+                Built by <a href="https://www.sipa.columbia.edu/communities-connections/faculty/thomas-groll"
+                    title="Thomas Groll's site">Thomas Groll</a>
+                and the <a href="https://ctl.columbia.edu"
+                    title="Columbia University Center for Teaching and Learning">
+                    Columbia Center for Teaching and Learning</a>.</p>
 
-
-                <div class="d-flex justify-content-center">
-                    <div class="px-2">
-                        <a href="https://sipa.columbia.edu/" target="_blank" itemprop="url" title="School of International and Public Affairs">
-                            <img height="50" src="{% static 'img/logo-sipa.png' %}" alt="SIPA logo" itemprop="logo">
-                            <span class="visually-hidden" itemprop="name">School of International and Public Affairs</span>
-                        </a>
-                    </div>
-                    <div class="px-2">
-                        <a href="https://ctl.columbia.edu" title="Columbia University Center for Teaching and Learning"
-                           target="_blank" itemprop="url">
-                            <img height="50" src="{% static 'img/logo-ctl.png' %}" alt="CTL logo" itemprop="logo">
-                            <span class="visually-hidden" itemprop="name">Center for Teaching and Learning at Columbia University</span>
-                        </a>
-                    </div>
-                </div>
-            </footer>
-        </div>
+            <div class="col-auto mx-auto mt-4">
+                <a href="https://sipa.columbia.edu/" target="_blank" itemprop="url" title="School of International and Public Affairs">
+                    <img height="35" src="{% static 'img/logo-sipa.png' %}" alt="SIPA logo" itemprop="logo">
+                    <span class="visually-hidden" itemprop="name">School of International and Public Affairs</span>
+                </a>
+                <span class="mx-4"></span>
+                <a href="https://ctl.columbia.edu" title="Columbia University Center for Teaching and Learning"
+                    target="_blank" itemprop="url">
+                    <img height="35" src="{% static 'img/logo-ctl.png' %}" alt="CTL logo" itemprop="logo">
+                    <span class="visually-hidden" itemprop="name">Center for Teaching and Learning at Columbia University</span>
+                </a>
+            </div>
+        </footer>
     </div><!-- end .content-container -->
     {% endblock %}
 
