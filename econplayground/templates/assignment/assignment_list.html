@@ -31,6 +31,7 @@
             <th scope="col">Title</th>
             <th scope="col">Courses</th>
             <th scope="col">Updated at</th>
+            <th scope="col">Published</th>
             <th scope="col">Actions</th>
         </tr>
     </thead>
@@ -45,10 +46,17 @@
             </th>
             <td>
                 {% for cohort in assignment.cohorts.all %}
-                    {{cohort.title}},
+                    {{cohort.title}}{% if forloop.counter > 1 %},{% endif %}
                 {% endfor %}
             </td>
             <td>{{assignment.updated_at}}</td>
+            <td>
+                {% if assignment.published %}
+                    <i class="bi bi-bookmark-check-fill text-primary"></i>
+                {% else %}
+                    <p class="text-secondary">--</p>
+                {% endif %}
+            </td>
             <td>
                 <a role="button"
                    class="btn btn-sm btn-secondary"
