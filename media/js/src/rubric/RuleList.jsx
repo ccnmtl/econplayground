@@ -143,119 +143,131 @@ function Rule({ rule, graphType }) {
     });
 
     return (
-        <fieldset className="border px-2 mb-1">
-            <button
-                type="button"
-                className="btn btn-sm btn-danger float-end my-2"
-                title="Remove rule"
-                onClick={onClickRemoveRule}>
-                <i className="bi bi-x-lg"></i>
-            </button>
-
-            <div className="row mb-3">
-                <div className="col">
-                    <label
-                        htmlFor={`questionAssessmentName-${rule.id}`}
-                        className="form-label">
-                        Assessment name
-                    </label>
-                    <select
-                        className="form-select ep-question-assessment-name"
-                        name={`rule_assessment_name_${rule.id}`}
-                        id={`questionAssessmentName-${rule.id}`}
-                        defaultValue={rule.name}>
-                        {renderedNames}
-                    </select>
+        <fieldset className="accordion px-2 mb-1">
+            <div className="accordion-item">
+                <div className="accordion-header">
+                    <div className="accordion-button py-2" type="button" data-bs-toggle="collapse"
+                        data-bs-target={`#rule-${rule.id}`}
+                    >
+                        <label>
+                            {rule.name || 'Select an assessment name'} = {rule.value || 'Select a value'}
+                            <button
+                                type="button"
+                                className="btn btn-sm btn-danger float-end mx-4"
+                                title="Remove rule"
+                                onClick={onClickRemoveRule}>
+                                <i className="bi bi-x-lg"></i>
+                            </button>
+                        </label>
+                    </div>
                 </div>
+                <div id={`rule-${rule.id}`} className="accordion-collapse collapse show p-2">
+                    <div className="row mb-3">
+                        <div className="col">
+                            <label
+                                htmlFor={`questionAssessmentName-${rule.id}`}
+                                className="form-label">
+                                Assessment name
+                            </label>
+                            <select
+                                className="form-select ep-question-assessment-name"
+                                name={`rule_assessment_name_${rule.id}`}
+                                id={`questionAssessmentName-${rule.id}`}
+                                defaultValue={rule.name}>
+                                {renderedNames}
+                            </select>
+                        </div>
 
-                <div className="col">
-                    <label
-                        htmlFor={`questionAssessmentValue-${rule.id}`}
-                        className="form-label">
-                        Assessment value
-                    </label>
-                    <input
-                        type="text" className="form-control"
-                        name={`rule_assessment_value_${rule.id}`}
-                        id={`questionAssessmentValue-${rule.id}`}
-                        defaultValue={rule.value} />
+                        <div className="col">
+                            <label
+                                htmlFor={`questionAssessmentValue-${rule.id}`}
+                                className="form-label">
+                                Assessment value
+                            </label>
+                            <input
+                                type="text" className="form-control"
+                                name={`rule_assessment_value_${rule.id}`}
+                                id={`questionAssessmentValue-${rule.id}`}
+                                defaultValue={rule.value} />
+                        </div>
+                    </div>
+
+                    <div className="mb-3">
+                        <label
+                            htmlFor={`feedbackFulfilled-${rule.id}`}
+                            className="form-label">
+                            Feedback (fulfilled)
+                        </label>
+                        <textarea
+                            className="form-control"
+                            name={`rule_feedback_fulfilled_${rule.id}`}
+                            id={`feedbackFulfilled-${rule.id}`}
+                            defaultValue={rule.feedback_fulfilled} />
+                    </div>
+
+                    <div className="mb-3">
+                        <label
+                            htmlFor={`mediaFulfilled-${rule.id}`}
+                            className="form-label">
+                            Media (fulfilled)
+                        </label>
+                        <input
+                            className="form-control"
+                            name={`rule_media_file_fulfilled_${rule.id}`}
+                            onChange={handleFulfilledMediaChange.bind(this)}
+                            type="file" />
+                        <input
+                            name={`rule_media_fulfilled_${rule.id}`}
+                            value={getPath(fulfilledMedia) || getPath(rule.media_fulfilled) || ''}
+                            type="hidden" />
+
+                        {(fulfilledMedia || rule.media_fulfilled) && (
+                            <img
+                                src={fulfilledMedia || rule.media_fulfilled}
+                                style={{maxHeight: '200px'}}
+                                className="img-thumbnail mt-1"
+                                alt="Fulfilled media" />
+                        )}
+                    </div>
+
+                    <div className="mb-3">
+                        <label
+                            htmlFor={`feedbackUnfulfilled-${rule.id}`}
+                            className="form-label">
+                            Feedback (unfulfilled)
+                        </label>
+                        <textarea
+                            className="form-control"
+                            name={`rule_feedback_unfulfilled_${rule.id}`}
+                            id={`feedbackUnfulfilled-${rule.id}`}
+                            defaultValue={rule.feedback_unfulfilled} />
+                    </div>
+
+                    <div className="mb-3">
+                        <label
+                            htmlFor={`mediaUnfulfilled-${rule.id}`}
+                            className="form-label">
+                            Media (unfulfilled)
+                        </label>
+                        <input
+                            className="form-control"
+                            name={`rule_media_file_unfulfilled_${rule.id}`}
+                            onChange={handleUnfulfilledMediaChange.bind(this)}
+                            type="file" />
+                        <input
+                            name={`rule_media_unfulfilled_${rule.id}`}
+                            value={getPath(unfulfilledMedia) || getPath(rule.media_unfulfilled) || ''}
+                            type="hidden" />
+
+                        {(unfulfilledMedia || rule.media_unfulfilled) && (
+                            <img
+                                src={unfulfilledMedia || rule.media_unfulfilled}
+                                style={{maxHeight: '200px'}}
+                                className="img-thumbnail mt-1"
+                                alt="Unfulfilled media" />
+                        )}
+                    </div>
                 </div>
-            </div>
-
-            <div className="mb-3">
-                <label
-                    htmlFor={`feedbackFulfilled-${rule.id}`}
-                    className="form-label">
-                    Feedback (fulfilled)
-                </label>
-                <textarea
-                    className="form-control"
-                    name={`rule_feedback_fulfilled_${rule.id}`}
-                    id={`feedbackFulfilled-${rule.id}`}
-                    defaultValue={rule.feedback_fulfilled} />
-            </div>
-
-            <div className="mb-3">
-                <label
-                    htmlFor={`mediaFulfilled-${rule.id}`}
-                    className="form-label">
-                    Media (fulfilled)
-                </label>
-                <input
-                    className="form-control"
-                    name={`rule_media_file_fulfilled_${rule.id}`}
-                    onChange={handleFulfilledMediaChange.bind(this)}
-                    type="file" />
-                <input
-                    name={`rule_media_fulfilled_${rule.id}`}
-                    value={getPath(fulfilledMedia) || getPath(rule.media_fulfilled) || ''}
-                    type="hidden" />
-
-                {(fulfilledMedia || rule.media_fulfilled) && (
-                    <img
-                        src={fulfilledMedia || rule.media_fulfilled}
-                        style={{maxHeight: '200px'}}
-                        className="img-thumbnail mt-1"
-                        alt="Fulfilled media" />
-                )}
-            </div>
-
-            <div className="mb-3">
-                <label
-                    htmlFor={`feedbackUnfulfilled-${rule.id}`}
-                    className="form-label">
-                    Feedback (unfulfilled)
-                </label>
-                <textarea
-                    className="form-control"
-                    name={`rule_feedback_unfulfilled_${rule.id}`}
-                    id={`feedbackUnfulfilled-${rule.id}`}
-                    defaultValue={rule.feedback_unfulfilled} />
-            </div>
-
-            <div className="mb-3">
-                <label
-                    htmlFor={`mediaUnfulfilled-${rule.id}`}
-                    className="form-label">
-                    Media (unfulfilled)
-                </label>
-                <input
-                    className="form-control"
-                    name={`rule_media_file_unfulfilled_${rule.id}`}
-                    onChange={handleUnfulfilledMediaChange.bind(this)}
-                    type="file" />
-                <input
-                    name={`rule_media_unfulfilled_${rule.id}`}
-                    value={getPath(unfulfilledMedia) || getPath(rule.media_unfulfilled) || ''}
-                    type="hidden" />
-
-                {(unfulfilledMedia || rule.media_unfulfilled) && (
-                    <img
-                        src={unfulfilledMedia || rule.media_unfulfilled}
-                        style={{maxHeight: '200px'}}
-                        className="img-thumbnail mt-1"
-                        alt="Unfulfilled media" />
-                )}
             </div>
         </fieldset>
     );

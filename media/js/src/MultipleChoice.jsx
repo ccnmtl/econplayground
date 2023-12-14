@@ -91,53 +91,64 @@ export default function MultipleChoice({qId}) {
             >
                 Multiple Choice
             </label>
-            <div id='multiple-choice' className='container mb-2'>
+            <div id='multiple-choice' className='container mb-2 accordion'>
                 {mcSet.map((set, i) => { if (i < 10) return (
-                    <div className='container form-control mb-2' key={i} id={`multiple-choice-${i}`}>
-                        <label htmlFor={`text-${i}`} className='mb-2'>Multiple Choice Question {i+1}</label>
-                        {mcSet.length > 0 ?
-                            <button className='btn btn-danger float-end mb-2 py-1'
-                                id={`remove-mc-${i}`}
-                                onClick={handleRemoveMC}
+                    <div className='accordion-item' key={i} id={`multiple-choice-${i}`}>
+                        <div className='accordion-header'>
+                            <div className="accordion-button py-2" role='button' type='button' data-bs-toggle="collapse"
+                                data-bs-target={`#collapse${i}`} aria-expanded="true" aria-controls={`collapse${i}`}
                             >
-                                X
-                            </button> : null}
-                        <input id={`mc-text-${i}`} type='text' className='form-control mb-2 col-1'
-                            value={set.text} onChange={handleQuestionText} name={`mc-text-${i}`}/>
-                        {set.choices.map((choice, j) =>
-                            <div className='row mb-2 mx-2' key={j}>
-                                <div className='form-check container col-10'
-                                    id={`choice-${i}-${j}`}
-                                >
-                                    <input type='radio'
-                                        id={`select-${i}-${j}`}
-                                        name={`select-${i}-${j}`}
-                                        onChange={handleCorrectChoice}
-                                        className='form-check-input col-1'
-                                        checked={set.correct === j} />
-                                    <input type='text'
-                                        id={`choice-text-${i}-${j}`}
-                                        name={`choice-text-${i}-${j}`}
-                                        onChange={handleChoiceText}
-                                        className='form-control col-10'
-                                        placeholder={`Choice ${j+1}`}
-                                        value={choice} />
-                                </div>
-                                <button className='btn btn-danger col-1'
-                                    id={`remove-choice-${i}-${j}`}
-                                    onClick={handleRemoveChoice}>
-                                    X
-                                </button>
+                                <label htmlFor={`text-${i}`} className='accordion-header'>
+                                    Multiple Choice Question {i+1}
+                                    {mcSet.length > 0 ?
+                                        <button className='btn btn-sm btn-danger mx-4 py-1'
+                                            id={`remove-mc-${i}`}
+                                            onClick={handleRemoveMC}
+                                        >
+                                            <i className="bi bi-x-lg"></i>
+                                        </button> : null}
+                                </label>
                             </div>
-                        )}
-                        {set.choices.length < 10 && <button className='btn btn-primary mx-1'
-                            id={`add-choice-${i}`}
-                            onClick={handleAddChoice}>
-                            Add choice
-                        </button>}
+                        </div>
+                        <div id={`collapse${i}`} className="container accordion-collapse collapse show mb-2"
+                            aria-labelledby={`heading${i}`} data-bs-parent="#multiple-choice">
+                            <input id={`mc-text-${i}`} type='text' className='form-control my-2 p-2'
+                                placeholder={`Question ${i+1}`} value={set.text} onChange={handleQuestionText} name={`mc-text-${i}`}/>
+                            {set.choices.map((choice, j) =>
+                                <div className='row mb-2 mx-2' key={j}>
+                                    <div className='form-check col-11'
+                                        id={`choice-${i}-${j}`}
+                                    >
+                                        <input type='radio'
+                                            id={`select-${i}-${j}`}
+                                            name={`select-${i}-${j}`}
+                                            onChange={handleCorrectChoice}
+                                            className='form-check-input col-1'
+                                            checked={set.correct === j} />
+                                        <input type='text'
+                                            id={`choice-text-${i}-${j}`}
+                                            name={`choice-text-${i}-${j}`}
+                                            onChange={handleChoiceText}
+                                            className='form-control col-10'
+                                            placeholder={`Choice ${j+1}`}
+                                            value={choice} />
+                                    </div>
+                                    <button className='btn btn-danger col-1'
+                                        id={`remove-choice-${i}-${j}`}
+                                        onClick={handleRemoveChoice}>
+                                        <i className="bi bi-x-lg"></i>
+                                    </button>
+                                </div>
+                            )}
+                            {set.choices.length < 10 && <button className='btn btn-primary mx-1'
+                                id={`add-choice-${i}`}
+                                onClick={handleAddChoice}>
+                                Add choice
+                            </button>}
+                        </div>
                     </div>);}
                 )}
-                {mcSet.length < 10 && <button className='btn btn-primary mx-1' onClick={handleAddMC}>
+                {mcSet.length < 10 && <button className='btn btn-primary mx-1 mt-2' onClick={handleAddMC}>
                     Add multiple choice
                 </button>}
             </div>

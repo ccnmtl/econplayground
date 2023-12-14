@@ -11,7 +11,7 @@ import { RulesProvider } from './RulesContext.jsx';
  */
 export default function Rubric({ questionId }) {
     return (
-        <div className="border mb-2 px-2">
+        <div className="mb-2">
             <h3>Rubric</h3>
 
             <RulesProvider>
