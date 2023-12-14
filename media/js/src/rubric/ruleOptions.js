@@ -733,7 +733,6 @@ const inputMarketsTwoDiagramsOptions = [
  * Get the appropriate rule options based on graph type.
  */
 const getRuleOptions = (graphType) => {
-    console.log('graphType', graphType);
     switch (graphType) {
         case 0:
             return linearDemandOptions;
