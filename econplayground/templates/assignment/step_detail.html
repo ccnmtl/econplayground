@@ -55,7 +55,16 @@
     <div class="container">
         {% if submission != None and object.is_last_step %}
             <div class="alert alert-primary" role="alert">
-                Assignment complete!
+                <p>
+                    Assignment complete!
+                </p>
+
+                <p>
+                    Go back to:
+                    <a href="{% url 'assignment_detail_student' assignment.pk %}">
+                        Assignment summary
+                    </a>
+                </p>
             </div>
         {% endif %}
 
