@@ -7,7 +7,7 @@ module.exports = {
     "extends": [
         "eslint:recommended",
         "plugin:react/recommended",
-        "plugin:security/recommended"
+        "plugin:security/recommended-legacy"
     ],
     "parser": "@babel/eslint-parser",
     "parserOptions": {
