@@ -96,7 +96,7 @@ export default class RangeEditor extends React.Component {
                                 id={this.props.id}
                                 data-id={this.props.dataId}
                                 value={this.props.value}
-                                step={Number(this.props.step) || 0.1}
+                                step={Number(this.props.step) || 0.01}
                                 onChange={this.props.handler}
                                 disabled={this.props.disabled}
                                 min={this.props.min}
