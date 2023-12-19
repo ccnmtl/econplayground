@@ -127,7 +127,6 @@ class AssignmentDetailStudentView(LoginRequiredMixin, DetailView):
         ctx = super().get_context_data(**kwargs)
 
         root = self.object.get_root()
-        print(root.numchild)
         bulk_tree = Step.dump_bulk(parent=root)
         root = bulk_tree[0]
 
@@ -309,12 +308,15 @@ class StepDetailView(LoginRequiredMixin, DetailView):
             self.object.assignment.pk, self.object.pk)
         submission = self.request.session.get(step_name)
 
+        multiple_choice = self.object.question.multiplechoice_set.all()
+
         ctx.update({
             'assignment': assignment,
             'next_url': next_url,
             'next_incorrect_url': next_incorrect_url,
             'prev_url': prev_url,
             'submission': submission,
+            'multiple_choice': multiple_choice,
         })
         return ctx
 
@@ -334,6 +336,17 @@ class StepDetailView(LoginRequiredMixin, DetailView):
                 actions.append((action_name, action_value))
 
         return actions
+
+    def evaluate_mc(self, request):
+        """
+        Evaluate the multiple choice question.
+        """
+        mc_set = self.get_object().question.multiplechoice_set.all()
+        responses = list(map(lambda c: c.correct, mc_set))
+        fields = [request.POST.get(x)
+                  for x in request.POST if x.startswith('mc')]
+        results = [responses[x] == int(fields[x]) for x in range(len(mc_set))]
+        return results
 
     def unsubmit(self, request, step):
         step_name = 'step_{}_{}'.format(step.assignment.pk, step.pk)
@@ -369,6 +382,7 @@ class StepDetailView(LoginRequiredMixin, DetailView):
             results = [
                 question.evaluate_action(x[0], x[1]) for x in actions if x
             ]
+            results += self.evaluate_mc(request)
             result = any(results)
 
             # Store the result in the user's session.

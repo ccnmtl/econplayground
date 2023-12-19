@@ -71,7 +71,7 @@
         {% endif %}
 
         {% if object.question %}
-            <h4>{{object.question.title}}</h4>
+            <h2>{{object.question.title}}</h2>
             <p>
                 {{object.question.prompt}}
             </p>
@@ -88,6 +88,19 @@
                         </div>
                     </div>
                 {% endif %}
+
+                <div id="multiple-choice" class="container my-4">
+                    {% for mc in multiple_choice %}
+                        <strong>{{forloop.counter}}. {{mc.text}}</strong>
+                        {% for choice in mc.choices %}
+                        <div class="form-check mx-4 mb-2">
+                            <input class="form-check-input" type="radio" id="mc_{{mc.pk}}_{{forloop.counter}}" 
+                                name="mc_{{mc.pk}}" value="{{forloop.counter0}}">
+                            <label class="form-check-label" for="mc_{{mc.pk}}_{{forloop.counter}}">{{choice}}</label>
+                        </div>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
 
                 {% if submission != None %}
                     {% if object.question.first_rule.has_feedback %}
