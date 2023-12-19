@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static econ_auth %}
 
-{% block title %}Step {{ object.pk }}{% endblock %}
+{% block title %}Step {{ object.pk }} | {{assignment.title}}{% endblock %}
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'css/loaders.min.css' %}">
@@ -48,7 +48,9 @@
         window.EconPlayground.submitted = true;
     {% endif %}
     </script>
-    <script src="{% static 'js/build/stepGraphViewer.js' %}"></script>
+    {% if object.question.graph %}
+        <script src="{% static 'js/build/stepGraphViewer.js' %}"></script>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -77,13 +79,15 @@
             <form method="post">
                 {% csrf_token %}
 
-                <div id="root">
-                    <div class="loader-inner ball-pulse">
-                        <div></div>
-                        <div></div>
-                        <div></div>
+                {% if object.question.graph %}
+                    <div id="root">
+                        <div class="loader-inner ball-pulse">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
                     </div>
-                </div>
+                {% endif %}
 
                 {% if submission != None %}
                     {% if object.question.first_rule.has_feedback %}
