@@ -100,7 +100,7 @@
                         {% csrf_token %}
                         <div class="login-local-form"
                              {% if not form.errors %}style="display: none"{% endif %}>
-                            {% bootstrap_form form layout='inline' %}
+                            {% bootstrap_form form %}
                         </div>
                         <input class="btn loginbtn" type="button"
                                value="Guest Log In"
