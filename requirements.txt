@@ -17,7 +17,7 @@ importlib_metadata<7.1
 zipp==3.17.0  # for flake8
 flake8==7.0.0
 tornado==6.4
-beautifulsoup4==4.12.2
+beautifulsoup4==4.12.3
 soupsieve==2.5
 cssselect==1.2.0
 lxml==5.1.0
