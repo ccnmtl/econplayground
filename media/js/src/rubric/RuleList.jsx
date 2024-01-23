@@ -151,14 +151,14 @@ function Rule({ rule, graphType }) {
                     >
                         <label>
                             {rule.name || 'Select an assessment name'} = {rule.value || 'Select a value'}
-                            <button
-                                type="button"
-                                className="btn btn-sm btn-danger float-end mx-4"
-                                title="Remove rule"
-                                onClick={onClickRemoveRule}>
-                                <i className="bi bi-x-lg"></i>
-                            </button>
                         </label>
+                        <button
+                            type="button"
+                            className="btn btn-sm btn-danger float-end mx-4"
+                            title="Remove rule"
+                            onClick={onClickRemoveRule}>
+                            <i className="bi bi-x-lg"></i>
+                        </button>
                     </div>
                 </div>
                 <div id={`rule-${rule.id}`} className="accordion-collapse collapse show p-2">
