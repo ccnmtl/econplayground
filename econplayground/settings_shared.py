@@ -109,6 +109,10 @@ AUTHENTICATION_BACKENDS = [
     'lti_provider.auth.LTIBackend',
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.ctl.columbia.edu',
+]
+
 LTI_TOOL_CONFIGURATION = {
     'title': 'EconPractice',
     'description': 'Interactive economics graphs',
