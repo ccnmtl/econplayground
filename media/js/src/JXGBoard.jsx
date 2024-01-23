@@ -487,10 +487,12 @@ export default class JXGBoard extends React.Component {
 
         window.board = this.board;
 
-        this.board2 = null;
+        let xLabel = '';
+        let yLabel = '';
+
         if (options.gType >= 12 && options.gType <= 14) {
-            let yLabel = yAxisLabel;
-            let xLabel = xAxisLabel;
+            yLabel = yAxisLabel;
+            xLabel = xAxisLabel;
             if (options.gType === 12 || options.gType === 14) {
                 yLabel = getNLDSYLabel(
                     options.gType === 14 ? 1 : options.gFunctionChoice,
@@ -506,45 +508,44 @@ export default class JXGBoard extends React.Component {
                 xLabel = options.gXAxis2Label;
                 yLabel = options.gYAxis2Label;
             }
-
-            this.board2 = JXG.JSXGraph.initBoard(
-                this.id + '-2', {
-                    axis: true,
-                    defaultAxes: {
-                        x: {
-                            name: xLabel,
-                            label: {
-                                offset: [400, 0]
-                            },
-                            withLabel: xLabel ? true : false,
-                            ticks: {
-                                visible: false
-                            },
-                            layer: 9
-                        },
-                        y: {
-                            name: yLabel,
-                            label: {
-                                offset: [0, 260]
-                            },
-                            withLabel: yLabel ? true : false,
-                            ticks: {
-                                visible: false
-                            },
-                            layer: 9
-                        }
-                    },
-                    keepAspectRatio: false,
-                    showCopyright: false,
-                    showZoom: false,
-                    showReload: false,
-                    showNavigation: false,
-                    boundingBox: [-0.02, 5, 5, -0.02]
-                });
-            this.board2.renderer.svgRoot.style.backgroundColor = 'white';
-
-            this.board2InitObjects = this.board2.numObjects;
         }
+        this.board2 = JXG.JSXGraph.initBoard(
+            this.id + '-2', {
+                axis: true,
+                defaultAxes: {
+                    x: {
+                        name: xLabel,
+                        label: {
+                            offset: [400, 0]
+                        },
+                        withLabel: xLabel ? true : false,
+                        ticks: {
+                            visible: false
+                        },
+                        layer: 9
+                    },
+                    y: {
+                        name: yLabel,
+                        label: {
+                            offset: [0, 260]
+                        },
+                        withLabel: yLabel ? true : false,
+                        ticks: {
+                            visible: false
+                        },
+                        layer: 9
+                    }
+                },
+                keepAspectRatio: false,
+                showCopyright: false,
+                showZoom: false,
+                showReload: false,
+                showNavigation: false,
+                boundingBox: [-0.02, 5, 5, -0.02]
+            });
+        this.board2.renderer.svgRoot.style.backgroundColor = 'white';
+
+        this.board2InitObjects = this.board2.numObjects;
 
         this.renderJXBoard({
             l1SubmissionOffset: getL1SubmissionOffset(this.props.submission),
