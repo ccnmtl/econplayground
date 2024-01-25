@@ -61,6 +61,7 @@ class AssessmentRuleFactory(DjangoModelFactory):
 class StepResultFactory(DjangoModelFactory):
     class Meta:
         model = StepResult
+    student = factory.SubFactory(StudentFactory)
 
 
 class ScorePathFactory(DjangoModelFactory):
@@ -80,6 +81,7 @@ class AssignmentMixin(object):
         Returns the new assignment.
         """
         assignment = AssignmentFactory()
+        self.student = StudentFactory()
 
         self.a1 = assignment.add_step()
         self.b1 = assignment.add_step()

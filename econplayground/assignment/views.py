@@ -8,6 +8,7 @@ except ImportError:
 
 import re
 
+from time import mktime
 from django import forms
 from django.contrib import messages
 from django.contrib.auth.mixins import (
@@ -28,7 +29,7 @@ from econplayground.main.views import EnsureCsrfCookieMixin
 from econplayground.main.utils import user_is_instructor
 from econplayground.assignment.models import (
     Assignment, Step, Question,
-    StepResult, ScorePath,
+    StepResult, ScorePath, QuestionAnalysis
 )
 
 
@@ -276,6 +277,15 @@ class StepDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
 
+        StepResult.objects.get_or_create(
+                step=self.object, student=self.request.user)
+
+        if self.object.question:
+            QuestionAnalysis.objects.get_or_create(
+                question=self.object.question,
+                student=self.request.user
+            )
+
         assignment = Assignment.objects.get(
             pk=self.kwargs.get('assignment_pk'))
         next_step = self.object.get_next()
@@ -359,6 +369,24 @@ class StepDetailView(LoginRequiredMixin, DetailView):
             'pk': step.pk,
         }))
 
+    def get_avg_diff(self, curr) -> str:
+        """
+        Return the average time difference between the student's time taken
+        on Steps related to a given Question
+        """
+        avg = 0
+        steplist = StepResult.objects.filter(
+            student=self.request.user,
+            step__in=Step.objects.filter(question=curr.question)).all()
+        qty = len(steplist)
+        for step in steplist:
+            end = mktime(step.updated_at.timetuple())
+            start = mktime(step.created_at.timetuple())
+            avg += end - start
+        avg = avg / qty
+
+        return avg, qty
+
     def post(self, request, *args, **kwargs):
         """
         This method handles what happens when students submit their
@@ -393,13 +421,29 @@ class StepDetailView(LoginRequiredMixin, DetailView):
             request.session[step_name] = result
 
             # Store the result in the StepResult model.
-            step_result = StepResult.objects.create(step=step, result=result)
+            step_result, _ = StepResult.objects.get_or_create(
+                step=step, student=request.user)
+            step_result.result = result
+            step_result.save()
 
             # Update student's ScorePath with this result.
             score_path, _ = ScorePath.objects.get_or_create(
                 student=request.user, assignment=step.assignment)
             score_path.steps.append(step_result.pk)
             score_path.save()
+
+            if step.question:
+                curr, _ = QuestionAnalysis.objects.get_or_create(
+                    question=step.question, student=request.user)
+                avg, qty = self.get_avg_diff(step)
+                QuestionAnalysis.objects.filter(
+                    question=step.question,
+                    student=request.user
+                ).update(
+                    attempts=curr.attempts + 1,
+                    avg_sec=avg,
+                    appearances=qty,
+                )
 
             if result:
                 messages.add_message(

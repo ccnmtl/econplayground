@@ -41,6 +41,33 @@ class Question(models.Model):
         return self.assessmentrule_set.first()
 
 
+class QuestionAnalysis(models.Model):
+    class Meta:
+        unique_together = ('question', 'student')
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    student = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    attempts = models.IntegerField(default=0)
+    appearances = models.IntegerField(default=1)
+    avg_sec = models.IntegerField(blank=True, null=True)
+
+    def get_avg_diff(self) -> str:
+        """
+        Return the average time difference between the student's time taken
+        on Steps related to a given Question
+        """
+        avg = 0
+        steplist = StepResult.objects.filter(
+            student=self.student,
+            step__in=Step.objects.filter(question=self.question)).all()
+        for step in steplist:
+            avg += step.updated_at.total_seconds() \
+                    - step.created_at.total_seconds()
+        avg = avg / len(steplist)
+
+        return avg
+
+
 def convert_action_name(s: str) -> str:
     """
     Convert a string from the form: gLine1Label
@@ -286,7 +313,10 @@ class StepResult(models.Model):
     """
     Record of a student's score status on a given step.
     """
+    class Meta:
+        unique_together = ('step', 'student')
     step = models.ForeignKey(Step, on_delete=models.CASCADE)
+    student = models.ForeignKey(User, on_delete=models.CASCADE)
 
     # For now, score is either correct or incorrect. This may change
     # in the future.
@@ -332,6 +362,21 @@ class ScorePath(models.Model):
                     pass
 
         return results
+
+    def get_avg_diff(self, step) -> str:
+        """
+        Return the average time difference between the student's time taken
+        on Steps related to a given Question
+        """
+        avg = 0
+        steplist = StepResult.objects.filter(
+            step__in=Step.objects.filter(question=step.question)).all()
+        for step in steplist:
+            avg += step.updated_at.total_seconds() \
+                    - step.created_at.total_seconds()
+        avg = avg / len(steplist)
+
+        return avg
 
     @property
     def score(self) -> float:
