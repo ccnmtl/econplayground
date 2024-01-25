@@ -308,7 +308,10 @@ class StepDetailView(LoginRequiredMixin, DetailView):
             self.object.assignment.pk, self.object.pk)
         submission = self.request.session.get(step_name)
 
-        multiple_choice = self.object.question.multiplechoice_set.all()
+        if self.object.question:
+            multiple_choice = self.object.question.multiplechoice_set.all()
+        else:
+            multiple_choice = []
 
         ctx.update({
             'assignment': assignment,
