@@ -11,14 +11,14 @@ export default class AreaDisplay extends React.Component {
         if (this.props.areaConf === 5) {
             return (
                 <div>
-                    <span className="mr-2">
+                    <span className="mx-2">
                         Area A ∪ B:
                         <strong>
                             {forceFloat(
                                 this.props.areaA + this.props.areaB)}
                         </strong>
                     </span>
-                    <span>
+                    <span className="mx-2">
                         Area C: <strong>{this.props.areaC}</strong>
                     </span>
                 </div>
@@ -26,10 +26,10 @@ export default class AreaDisplay extends React.Component {
         } else if (this.props.areaConf === 6) {
             return (
                 <div>
-                    <span className="mr-2">
+                    <span className="mx-2">
                         Area A: <strong>{this.props.areaA}</strong>
                     </span>
-                    <span className="mr-2">
+                    <span className="mx-2">
                         Area B ∪ C:
                         <strong>
                             {forceFloat(
@@ -42,13 +42,13 @@ export default class AreaDisplay extends React.Component {
 
         return (
             <div>
-                <span className="mr-2">
+                <span className="mx-2">
                     Area A: <strong>{this.props.areaA}</strong>
                 </span>
-                <span className="mr-2">
+                <span className="mx-2">
                     Area B: <strong>{this.props.areaB}</strong>
                 </span>
-                <span>
+                <span className="mx-2">
                     Area C: <strong>{this.props.areaC}</strong>
                 </span>
             </div>
