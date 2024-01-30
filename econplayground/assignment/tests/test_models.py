@@ -2,13 +2,13 @@ import unittest
 from django.conf import settings
 from django.test import TestCase
 from econplayground.assignment.tests.factories import (
-    AssignmentFactory, QuestionFactory, AssessmentRuleFactory,
-    StepResultFactory, ScorePathFactory, AssignmentMixin,
-    MultipleChoiceFactory
+    AssignmentFactory, QuestionFactory, QuestionAnalysisFactory,
+    AssessmentRuleFactory, StepResultFactory, ScorePathFactory,
+    AssignmentMixin, MultipleChoiceFactory
 )
 from econplayground.assignment.models import (
-    Assignment, Step, Question, AssessmentRule, Graph,
-    ScorePath
+    Assignment, Step, Question, QuestionAnalysis, AssessmentRule,
+    Graph, ScorePath
 )
 
 
@@ -487,3 +487,18 @@ class ScorePathTest(AssignmentMixin, TestCase):
             StepResultFactory(step=self.c1, result=False).pk)
 
         self.assertEqual(self.x.score, 2 / 3)
+
+
+class QuestionAnalysisTest(TestCase):
+    """Structure tests for unpopulated assignments"""
+    def setUp(self):
+        self.x = QuestionAnalysisFactory()
+
+    def test_is_valid_from_factory(self):
+        self.x.full_clean()
+        self.assertIsInstance(self.x, QuestionAnalysis)
+
+    def test_get_avg_diff_empty(self):
+        self.assertEqual(
+            self.x.get_avg_diff(), 0,
+            'Assert that avg of an empty step list doesn\'t fail.')

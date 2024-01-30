@@ -51,10 +51,12 @@ class QuestionAnalysis(models.Model):
     appearances = models.IntegerField(default=1)
     avg_sec = models.IntegerField(blank=True, null=True)
 
-    def get_avg_diff(self) -> str:
+    def get_avg_diff(self) -> float:
         """
-        Return the average time difference between the student's time taken
-        on Steps related to a given Question
+        Return the average time difference between the student's time
+        taken on Steps related to this Question.
+
+        Returns the number of seconds, as a float.
         """
         avg = 0
         steplist = StepResult.objects.filter(
@@ -63,7 +65,11 @@ class QuestionAnalysis(models.Model):
         for step in steplist:
             avg += step.updated_at.total_seconds() \
                     - step.created_at.total_seconds()
-        avg = avg / len(steplist)
+
+        if len(steplist) > 0:
+            avg = avg / len(steplist)
+        else:
+            avg = 0.0
 
         return avg
 
@@ -363,7 +369,7 @@ class ScorePath(models.Model):
 
         return results
 
-    def get_avg_diff(self, step) -> str:
+    def get_avg_diff(self, step) -> float:
         """
         Return the average time difference between the student's time taken
         on Steps related to a given Question

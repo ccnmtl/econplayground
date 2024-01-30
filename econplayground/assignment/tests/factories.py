@@ -2,7 +2,7 @@ import factory
 from factory.django import DjangoModelFactory
 from factory import fuzzy
 from econplayground.assignment.models import (
-    Assignment, Question, AssessmentRule,
+    Assignment, Question, QuestionAnalysis, AssessmentRule,
     StepResult, ScorePath, MultipleChoice
 )
 from econplayground.main.tests.factories import (
@@ -34,6 +34,14 @@ class QuestionFactory(DjangoModelFactory):
     title = fuzzy.FuzzyText()
     prompt = fuzzy.FuzzyText()
     graph = factory.SubFactory(GraphFactory)
+
+
+class QuestionAnalysisFactory(DjangoModelFactory):
+    class Meta:
+        model = QuestionAnalysis
+
+    question = factory.SubFactory(QuestionFactory)
+    student = factory.SubFactory(StudentFactory)
 
 
 class MultipleChoiceFactory(DjangoModelFactory):
