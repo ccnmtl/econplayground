@@ -554,78 +554,45 @@ export default class JXGBoard extends React.Component {
         });
     }
 
+    // The primary HTML structure for JSXGraph
+    makeFigure(id, hide, math) {
+        return (
+            <div className="col-6" hidden={hide}>
+                <figure
+                    aria-label="The EconPractice graph."
+                    id={id}
+                    className="jxgbox"
+                    style={this.style}>
+                </figure>
+                {math}
+            </div>
+        );
+    }
+
     // called only if shouldComponentUpdate returns true
     // for rendering the JSXGraph board div and any child elements
     render() {
-        if (this.props.gType === 13) {
-            return (
-                <>
-                    <div className="col-6">
-                        <figure
-                            aria-label="The EconPractice graph."
-                            id={this.id} className="jxgbox" style={this.style}>
-                        </figure>
-                    </div>
-
-                    <div className="col-6">
-                        <figure
-                            aria-label="The EconPractice graph."
-                            id={this.id + '-2'}
-                            className="jxgbox"
-                            style={this.style}>
-                        </figure>
-                    </div>
-                </>
-            );
-        } else if (this.props.gType === 14) {
-            const func1 = String.raw`MP_${this.props.gNName} = (1 - \alpha)${this.props.gCobbDouglasAName}${this.props.gCobbDouglasKName}^\alpha ${this.props.gNName}^{-\alpha}`;
-            const func2 = String.raw`MP_${this.props.gCobbDouglasKName} = \alpha ${this.props.gCobbDouglasAName}${this.props.gCobbDouglasKName}^{\alpha - 1} ${this.props.gNName}^{1 - \alpha}`;
-            return (
-                <>
-                    <div className="col-6">
-                        <figure
-                            aria-label="The EconPractice graph."
-                            id={this.id} className="jxgbox" style={this.style}>
-                        </figure>
-                        <MathComponent tex={func1} />
-                    </div>
-
-                    <div className="col-6">
-                        <figure
-                            aria-label="The EconPractice graph."
-                            id={this.id + '-2'}
-                            className="jxgbox"
-                            style={this.style}>
-                        </figure>
-                        <MathComponent tex={func2} />
-                    </div>
-                </>
-            );
+        let math1 = null, math2 = null, area = null, figure2 = true;
+        if (this.props.gType === 9 || this.props.gType === 10) {
+            area = <AreaDisplay
+                areaConf={this.props.gAreaConfiguration}
+                areaA={this.state.areaA}
+                areaB={this.state.areaB}
+                areaC={this.state.areaC} />;
+        } else if ([12,13,14].includes(this.props.gType)) {
+            if (this.props.gType === 14) {
+                const func1 = String.raw`MP_${this.props.gNName} = (1 - \alpha)${this.props.gCobbDouglasAName}${this.props.gCobbDouglasKName}^\alpha ${this.props.gNName}^{-\alpha}`;
+                const func2 = String.raw`MP_${this.props.gCobbDouglasKName} = \alpha ${this.props.gCobbDouglasAName}${this.props.gCobbDouglasKName}^{\alpha - 1} ${this.props.gNName}^{1 - \alpha}`;
+                math1 = <MathComponent tex={func1} />;
+                math2 = <MathComponent tex={func2} />;
+            }
+            figure2 = false;
         }
-
         return (
             <>
-                <figure
-                    aria-label="The EconPractice graph."
-                    id={this.id} className="jxgbox" style={this.style}>
-                </figure>
-
-                {(this.props.gType === 12) && (
-                    <figure
-                        aria-label="The EconPractice graph."
-                        id={this.id + '-2'}
-                        className="jxgbox"
-                        style={this.style}>
-                    </figure>
-                )}
-
-                {(this.props.gType === 9 || this.props.gType === 10) && (
-                    <AreaDisplay
-                        areaConf={this.props.gAreaConfiguration}
-                        areaA={this.state.areaA}
-                        areaB={this.state.areaB}
-                        areaC={this.state.areaC} />
-                )}
+                {this.makeFigure(this.id, false, math1)}
+                {this.makeFigure(this.id + '-2', figure2, math2)}
+                {area}
             </>
         );
     }
