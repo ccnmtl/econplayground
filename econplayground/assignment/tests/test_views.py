@@ -495,7 +495,7 @@ class AssignmentStudentFlowViewTest(
         self.assertContains(r, 'Correct!')
 
         score_path.refresh_from_db()
-        self.assertEqual(score_path.score, 0.5)
+        self.assertEqual(score_path.score, 1.0)
 
         # In practice, the form will have all sorts of filled-in fields. The
         # request will look more like this, and the code needs to handle that:
@@ -514,7 +514,7 @@ class AssignmentStudentFlowViewTest(
         self.assertContains(r, 'Incorrect!')
 
         score_path.refresh_from_db()
-        self.assertEqual(score_path.score, 1 / 3)
+        self.assertEqual(score_path.score, 0.0)
 
         r = self.client.post(reverse('step_detail', kwargs={
             'assignment_pk': assignment.pk,
@@ -533,7 +533,7 @@ class AssignmentStudentFlowViewTest(
         self.assertNotContains(r, 'unfulfilled.')
 
         score_path.refresh_from_db()
-        self.assertEqual(score_path.score, 0.5)
+        self.assertEqual(score_path.score, 1.0)
 
 
 class AssignmentDetailStudentViewTest(
