@@ -258,7 +258,7 @@ class AssessmentRuleSerializer(serializers.ModelSerializer):
 
 class QuestionSerializer(serializers.ModelSerializer):
     assessmentrule_set = AssessmentRuleSerializer(many=True)
-    graph = GraphTypeSerializer(read_only=True)
+    graph = GraphSerializer(read_only=True)
 
     class Meta:
         model = Question

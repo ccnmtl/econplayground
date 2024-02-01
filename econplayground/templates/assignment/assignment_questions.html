@@ -92,6 +92,31 @@
                                     {% endfor %}
                                 </select>
                             </div>
+                            
+                            <div class="container mb-2 accordion">
+                                <div class="accordion-item">
+                                    <div class="accordion-header"
+                                        id="heading-{{question.pk}}">
+                                        <button class="accordion-button py-2 collapsed"
+                                                type="button"
+                                                data-bs-toggle="collapse"
+                                                data-bs-target="#collapse-graph"
+                                                aria-expanded="false"
+                                                aria-controls="collapse-graph">
+                                            Graph Preview
+                                        </button>
+                                    </div>
+                                    <div id="collapse-graph"
+                                            class="accordion-collapse collapse"
+                                            aria-labelledby="heading-{{question.pk}}"
+                                            data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <!-- Graph Preview React Component -->
+                                            <div id="graph-preview-{{question.pk}}"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                            
 
                             <!-- Rubric React component -->
                             <div id="question-rubric-{{question.pk}}"></div>
@@ -125,6 +150,20 @@ function selectQuestion(selectEl, questionId) {
     } else {
         console.error(
             'Multiple Choice could not be initialized for question ' + questionId);
+    }
+    
+    if (window.initGraphPreview) {
+        const containerId = `graph-preview-${questionId}`;
+        const container = document.getElementById(containerId);
+        $('#questionGraph-' + questionId).on('select2:select', function (e) {
+            const gId = $('#questionGraph-' + questionId).find(':selected').val();
+            window.initGraphPreview(container, parseInt(gId));
+        });
+        const gId = $('#questionGraph-' + questionId).val();
+        window.initGraphPreview(container, parseInt(gId));
+    } else {
+        console.error(
+            'Graph Preview could not be initialized for question ' + questionId);
     }
 
     if (window.initRubric) {

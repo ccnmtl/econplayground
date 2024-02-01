@@ -4,6 +4,8 @@
 {% block title %}{{ assignment.title }}{% endblock %}
 
 <script src="{% static 's3sign/js/s3upload.js' %}"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 {% block breadcrumb %}
 <nav aria-label="breadcrumb">
@@ -23,12 +25,24 @@
 {% block js %}
     <script src="{% static 'js/build/rubric.js' %}"></script>
     <script src="{% static 'js/build/multipleChoice.js' %}"></script>
+    <script src="{% static 'js/build/graphPreview.js' %}"></script>
     <script>
     if (!window.EconPlayground) {
         window.EconPlayground = {};
     }
 
     $(document).ready(function() {
+        if (window.initGraphPreview) {
+            const containerId = 'graph-preview';
+            const container = document.getElementById(containerId);
+
+            const $select = $('select[name="graph"]')[0];
+            const gId = $select.options[1]
+            window.initGraphPreview(container, parseInt(gId.value));
+        } else {
+            console.error(
+                'Graph Preview could not be initialized for question ' + questionId);
+        }
         if (window.initMultipleChoice) {
             const containerId = 'multiple-choice-';
             const container = document.getElementById(containerId);
@@ -54,13 +68,6 @@
     };
 
     $(document).ready(function() {
-        // Programmatic Bootstrap Tab functionality, adapted for the
-        // <select> element.
-        // https://getbootstrap.com/docs/5.3/components/navs-tabs/#javascript-behavior
-        $('select.ep-question-select').on('change', function(e) {
-            selectQuestion(e.target, Number(e.target.value));
-        });
-
         // Set graph type on load, for the create form.
         const $select = $('select[name="graph"]')[0];
         const graphType = $select.options[0].dataset['graphtype'];
@@ -70,6 +77,10 @@
         $('select[name="graph"]').on('change', function(e) {
             const selectedOption = e.target.options[e.target.selectedIndex];
             setGraphType(selectedOption.dataset.graphtype);
+
+            const containerId = 'graph-preview';
+            const container = document.getElementById(containerId);
+            window.initGraphPreview(container, parseInt(selectedOption.value));
         });
     });
     </script>
@@ -102,47 +113,70 @@
               {% csrf_token %}
 
               <div class="mb-3">
-                  <label for="questionTitle-{{question.pk}}"
+                  <label for="questionTitle"
                          class="form-label">
                       Title
                   </label>
                   <input type="text" class="form-control"
-                         id="questionTitle-{{question.pk}}"
-                         name="title"
-                         value="{{question.title}}" />
+                         id="questionTitle"
+                         name="title" />
               </div>
               <div class="mb-3">
-                  <label for="questionPrompt-{{question.pk}}"
+                  <label for="questionPrompt"
                          class="form-label">
                       Prompt
                   </label>
                   <textarea class="form-control"
                             name="prompt"
-                            id="questionPrompt-{{question.pk}}"
-                  >{{question.prompt}}</textarea>
+                            id="questionPrompt"
+                  ></textarea>
               </div>
 
               <div class="mb-3">
-                  <label for="questionGraph-{{question.pk}}"
+                  <label for="questionGraph"
                          class="form-label">
                       Graph
                   </label>
                   <select class="form-select"
                           name="graph"
-                          id="questionGraph-{{question.pk}}">
+                          id="questionGraph">
                       <option value="">--</option>
                       {% for graph in graphs %}
                           <option data-graphtype="{{graph.graph_type}}"
-                                  value="{{graph.pk}}"
-                                  {% if question.graph.pk == graph.pk %}selected{% endif %}>
+                                  value="{{graph.pk}}">
                               {{graph.title}}
                           </option>
                       {% endfor %}
                   </select>
               </div>
 
+              <div class="container mb-2 accordion">
+                <div class="accordion-item">
+                    <div class="accordion-header"
+                        id="heading">
+                        <button class="accordion-button py-2 collapsed"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#collapse-graph"
+                                aria-expanded="false"
+                                aria-controls="collapse-graph">
+                            Graph Preview
+                        </button>
+                    </div>
+                    <div id="collapse-graph"
+                            class="accordion-collapse collapse"
+                            aria-labelledby="heading"
+                            data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <!-- Graph Preview React Component -->
+                            <div id="graph-preview"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>           
+
              <!-- Multiple Choice React Component -->
-             <div id="multiple-choice-{{question.pk}}"></div>
+             <div id="multiple-choice"></div>
 
               <!-- Rubric React component -->
               <div id="question-rubric"></div>
