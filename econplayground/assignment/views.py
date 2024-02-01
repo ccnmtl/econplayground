@@ -568,6 +568,12 @@ class QuestionUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return super().dispatch(*args, **kwargs)
 
     def get_success_url(self):
+        if (self.request.POST.get('action') == 'save' or
+                self.request.POST.get('action') == 'save_and_continue'):
+            return reverse(
+                'assignment_question_list',
+                kwargs={'assignment_pk': self.assignment_pk})
+
         return reverse(
             'assignment_question_list',
             kwargs={'assignment_pk': self.assignment_pk})
@@ -624,17 +630,35 @@ class QuestionDeleteView(
             kwargs={'assignment_pk': self.assignment_pk})
 
 
-class QuestionPreView(
-        LoginRequiredMixin, UserPassesTestMixin, DetailView):
+class QuestionPreView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Question
     template_name = 'assignment/assignment_question_preview.html'
+    fields = [
+        'title', 'prompt', 'graph',
+    ]
 
     def test_func(self):
         return user_is_instructor(self.request.user)
 
+    def dispatch(self, *args, **kwargs):
+        self.assignment_pk = kwargs.get('assignment_pk')
+        return super().dispatch(*args, **kwargs)
+
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
+
+        if self.object:
+            multiple_choice = self.object.multiplechoice_set.all()
+        else:
+            multiple_choice = []
+
         ctx.update({
             'assignment_pk': self.kwargs.get('assignment_pk'),
+            'multiple_choice': multiple_choice,
         })
         return ctx
+
+    def get_success_url(self):
+        return reverse(
+            'assignment_question_preview',
+            kwargs={'assignment_pk': self.assignment_pk, 'pk': self.object.pk})
