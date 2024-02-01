@@ -38,6 +38,13 @@
                     <i class="bi bi-plus-lg"></i> Add question
                 </a>
             </div>
+            <div class="mb-3">
+                <a href="#"
+                    type="button" class="btn btn-secondary disabled"
+                    id="question-preview">
+                    Question Preview
+                </a>
+            </div>
         </div>
         <div class="col">
             <div class="tab-content" id="question-tabContent">
@@ -134,6 +141,11 @@ function selectQuestion(selectEl, questionId) {
     } else {
         console.error(
             'Rubric could not be initialized for question ' + questionId);
+    }
+    if (questionId > 0) {
+        const preview = document.getElementById('question-preview');
+        preview.classList.remove('disabled');
+        preview.href = window.location + questionId + '/preview/';
     }
 };
 

@@ -622,3 +622,19 @@ class QuestionDeleteView(
         return reverse(
             'assignment_question_list',
             kwargs={'assignment_pk': self.assignment_pk})
+
+
+class QuestionPreView(
+        LoginRequiredMixin, UserPassesTestMixin, DetailView):
+    model = Question
+    template_name = 'assignment/assignment_question_preview.html'
+
+    def test_func(self):
+        return user_is_instructor(self.request.user)
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx.update({
+            'assignment_pk': self.kwargs.get('assignment_pk'),
+        })
+        return ctx
