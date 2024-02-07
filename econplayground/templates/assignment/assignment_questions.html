@@ -124,6 +124,12 @@
                             <button type="submit" class="btn btn-primary">
                                 Save
                             </button>
+                            <button type="submit" class="btn btn-info"
+                                formaction="{% url 'assignment_question_preview' assignment.pk question.pk %}"    
+                                id="question-preview" value="preview" 
+                            >
+                                Save and Preview
+                            </button>
                             <a role="button"
                                 class="btn btn-danger float-end"
                                 href="{% url 'assignment_question_delete' assignment.pk question.pk %}">
