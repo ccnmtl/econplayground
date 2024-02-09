@@ -29,10 +29,12 @@ GRAPH_TYPES = (
     (12, 'Input-Output Illustrations'),
     (13, 'Linear Demand and Supply: 2 Diagrams'),
     (14, 'Input Markets: 2 Diagrams'),
+
+    (16, 'Template Graph'),
 )
 
 ASSIGNMENT_TYPES = (
-    (0, 'Template graph'),
+    (0, 'Template'),
     (1, 'Labeling'),
     (2, 'Modification'),
 )

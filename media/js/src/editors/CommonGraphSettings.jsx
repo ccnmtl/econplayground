@@ -46,7 +46,7 @@ export default class CommonGraphSettings extends React.Component {
                         className="form-select form-control-sm"
                         onChange={handleFormUpdate.bind(this)}
                         value={this.props.gAssignmentType}>
-                        <option value="0">Template graph assignment</option>
+                        <option value="0">Template assignment</option>
                         <option value="1">Labeling assignment</option>
                         <option value="2">Modification assignment</option>
                     </select>

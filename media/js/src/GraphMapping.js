@@ -485,7 +485,7 @@ const defaultGraph = {
     // Graph options
     gId: null,
     gType: null,
-    gAssignmentType: 0, // Default to "Template graph" - everything editable
+    gAssignmentType: 0, // Default to "Template" - everything editable
     gTitle: '',
     gInstructions: '',
     gInstructorNotes: '',

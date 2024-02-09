@@ -340,6 +340,9 @@ const displayGraphType = function(gType) {
         case 15:
             name = 'Consumption-Leisure: Optimal Choice';
             break;
+        case 16:
+            name = 'Template Graph';
+            break;
         default:
             break;
     }
