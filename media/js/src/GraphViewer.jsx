@@ -9,6 +9,7 @@ import ConsumptionLeisureEditor from './editors/ConsumptionLeisureEditor.jsx';
 import ConsumptionSavingEditor from './editors/ConsumptionSavingEditor.jsx';
 import DemandSupplyEditor from './editors/DemandSupplyEditor.jsx';
 import NonLinearDemandSupplyEditor from './editors/NonLinearDemandSupplyEditor.jsx';
+import TemplateGraphEditor from './editors/TemplateGraphEditor.jsx';
 import ExportGraphButton from './buttons/ExportGraphButton.jsx';
 import ResetGraphButton from './buttons/ResetGraphButton.jsx';
 import SubmitButton from './buttons/SubmitButton.jsx';
@@ -184,6 +185,13 @@ export default class GraphViewer extends React.Component {
                 rightSide =
                     <NonLinearDemandSupplyEditor
                         showAUC={this.props.gType === 10}
+                        {...commonViewerProps}
+                        {...this.props}
+                    />;
+            } else if (this.props.gType === 16) {
+                // Template Graph: free-form equations
+                rightSide =
+                    <TemplateGraphEditor
                         {...commonViewerProps}
                         {...this.props}
                     />;
@@ -447,6 +455,7 @@ GraphViewer.propTypes = {
     gNName: PropTypes.string,
 
     gFunctionChoice: PropTypes.number,
+    gExpression: PropTypes.string,
 
     assessment: PropTypes.array,
     submission: PropTypes.object,
