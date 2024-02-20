@@ -137,7 +137,7 @@ export default class CommonGraphSettings extends React.Component {
                         target="_blank"
                         rel="noreferrer"
                         role="button"
-                        className="btn btn-sm btn-primary mt-2"
+                        className="btn btn-sm btn-primary mt-2 me-2"
                         title="Feedback and Assessment editor"
                         href={assessmentUrl}>
                         Feedback and Assessment editor
