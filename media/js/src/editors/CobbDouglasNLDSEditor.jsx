@@ -48,9 +48,11 @@ export default class CobbDouglasNLDSEditor extends React.Component {
                         <h3 className="mt-3">
                             NLDS Function
                         </h3>
-                        <div className="form-check ml-4">
-                            <div className="row mb-4">
-                                <input className="form-check-input"
+
+                        <div className="row">
+                            <div className="form-check">
+                                <input
+                                    className="form-check-input"
                                     aria-label={func1}
                                     type="radio"
                                     name="gFunctionChoice"
@@ -62,8 +64,11 @@ export default class CobbDouglasNLDSEditor extends React.Component {
                                     <MathComponent tex={func1} />
                                 </label>
                             </div>
-                            <div className="row">
-                                <input className="form-check-input"
+                        </div>
+                        <div className="row">
+                            <div className="form-check">
+                                <input
+                                    className="form-check-input"
                                     aria-label={func2}
                                     type="radio"
                                     name="gFunctionChoice"
