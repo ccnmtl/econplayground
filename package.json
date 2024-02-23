@@ -37,7 +37,7 @@
     "eslint-plugin-jsx-a11y": "~6.8.0",
     "eslint-plugin-react": "~7.33.0",
     "node-sass": "~9.0.0",
-    "nodemon": "~3.0.1",
+    "nodemon": "~3.1.0",
     "postcss-cli": "~11.0.0",
     "requirejs": "~2.3.6",
     "@babel/core": "^7.5.5",
