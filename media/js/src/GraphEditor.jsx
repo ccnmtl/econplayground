@@ -7,6 +7,7 @@ import NonLinearDemandSupplyEditor from './editors/NonLinearDemandSupplyEditor.j
 import ConsumptionLeisureEditor from './editors/ConsumptionLeisureEditor.jsx';
 import ConsumptionSavingEditor from './editors/ConsumptionSavingEditor.jsx';
 import DemandSupplyEditor from './editors/DemandSupplyEditor.jsx';
+import TemplateGraphEditor from './editors/TemplateGraphEditor.jsx';
 import CommonGraphEditor from './editors/CommonGraphEditor.jsx';
 import CommonGraphSettings from './editors/CommonGraphSettings.jsx';
 import JXGBoard from './JXGBoard.jsx';
@@ -245,6 +246,13 @@ export default class GraphEditor extends React.Component {
                     {...commonEditorProps}
                     {...this.props}
                 />;
+        } else if (this.props.gType === 16) {
+            // Template Graph: free-form equations
+            rightSide =
+                <TemplateGraphEditor
+                    {...commonEditorProps}
+                    {...this.props}
+                />;
         }
 
         return (
@@ -380,6 +388,7 @@ GraphEditor.propTypes = {
     gNName: PropTypes.string,
 
     gFunctionChoice: PropTypes.number,
+    gExpression: PropTypes.string,
 
     gAreaConfiguration: PropTypes.number,
     gIsAreaDisplayed: PropTypes.bool,

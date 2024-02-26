@@ -104,7 +104,9 @@ const exportGraph = function(state) {
 
         area_a_name: state.gAreaAName,
         area_b_name: state.gAreaBName,
-        area_c_name: state.gAreaCName
+        area_c_name: state.gAreaCName,
+
+        expression: state.gExpression
     };
 
     if (state.gType === 3 || state.gType === 12) {
@@ -215,7 +217,9 @@ const convertGraph = function(json) {
 
         gAreaAName: json.area_a_name,
         gAreaBName: json.area_b_name,
-        gAreaCName: json.area_c_name
+        gAreaCName: json.area_c_name,
+
+        gExpression: json.expression
     };
 };
 
@@ -315,7 +319,10 @@ const importGraph = function(json, obj, callback=null) {
 
         gAreaAName: json.area_a_name,
         gAreaBName: json.area_b_name,
-        gAreaCName: json.area_c_name
+        gAreaCName: json.area_c_name,
+
+        // TODO: enable this when expression back-end is in place.
+        // gExpression: json.expression
     };
 
     // When importing a graph for display, save the initial state of
@@ -572,6 +579,8 @@ const defaultGraph = {
     gAreaBName: 'B',
     gAreaCName: 'C',
 
+    gExpression: 'x',
+
     // Use a hard-coded proof-of-concept assessment spreadsheet for
     // now. Eventually, this will be defined using a Google
     // Spreadsheet, or some react-spreadsheet component with its data
@@ -581,4 +590,8 @@ const defaultGraph = {
     assessment: []
 };
 
-export { convertGraph, exportGraph, importGraph, defaultGraph, defaultEvaluation, defaultModificationEvaluation, defaultLabelEvaluation };
+export {
+    convertGraph, exportGraph, importGraph, defaultGraph,
+    defaultEvaluation, defaultModificationEvaluation,
+    defaultLabelEvaluation
+};
