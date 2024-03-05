@@ -321,8 +321,7 @@ const importGraph = function(json, obj, callback=null) {
         gAreaBName: json.area_b_name,
         gAreaCName: json.area_c_name,
 
-        // TODO: enable this when expression back-end is in place.
-        // gExpression: json.expression
+        gExpression: json.expression
     };
 
     // When importing a graph for display, save the initial state of
