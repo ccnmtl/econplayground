@@ -337,6 +337,9 @@ class Graph(OrderedModel):
     area_b_name = models.TextField(default='B', blank=True,)
     area_c_name = models.TextField(default='C', blank=True,)
 
+    # A graph may use a custon formula to define the x-function
+    expression = models.TextField(default='x', blank=True)
+
     def __str__(self):
         return self.title
 
