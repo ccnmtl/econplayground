@@ -14,8 +14,9 @@ export class TemplateGraph extends Graph {
             let func = function() {};
             try {
                 func = math.evaluate(me.options.gExpression, scope);
+                window.EconPlayground.fallback = me.options.gExpression;
             } catch (e) {
-                console.error('Parse error!');
+                func = math.evaluate(window.EconPlayground.fallback, scope);
             }
 
             return func;

@@ -191,6 +191,7 @@ class Editor extends Component {
     handleSaveGraph(studentView=false) {
         let data = exportGraph(this.state);
         data.author = window.EconPlayground.user;
+        data.expression = window.EconPlayground.fallback;
 
         const me = this;
         return authedFetch('/api/graphs/', 'post', JSON.stringify(data))

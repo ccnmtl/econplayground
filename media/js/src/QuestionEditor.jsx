@@ -109,7 +109,6 @@ export default class QuestionEditor extends Component {
                 'value': evalList.reduce((a,b) => a + b.value, 0)
             },
             () => {
-                console.log('Save State:', this.state);
                 authedFetch(url, method, JSON.stringify(this.state))
                     .then(function(response) {
                         if (response.status === 200) {
