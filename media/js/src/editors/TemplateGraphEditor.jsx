@@ -1,11 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { MathComponent } from 'mathjax-react';
+import { create, all } from 'mathjs';
 
 import EditableControl from '../form-components/EditableControl.js';
 import { handleFormUpdate } from '../utils.js';
 
+
+const math = create(all, {});
+
+
 export default class TemplateGraphEditor extends React.Component {
+    checkFormula() {
+        try {
+            const exp = math.evaluate(this.props.gExpression, { x: 1 });
+            console.log(exp);
+            return false;
+        } catch (e) {
+            return true;
+        }
+    }
+
     render() {
         const func1 = String.raw`MP_N = (1 - \alpha)AK^\alpha N^{-\alpha}`;
         const func2 = String.raw`MP_K = \alpha AK^{\alpha - 1} N^{1 - \alpha}`;
@@ -28,6 +43,10 @@ export default class TemplateGraphEditor extends React.Component {
                                 isInstructor={this.props.isInstructor}
                                 disabled={this.props.disabled}
                                 updateGraph={this.props.updateGraph} />
+                            {
+                                this.checkFormula() && 
+                                <p className='text-danger mt-2'>Formula Error</p>
+                            }
                         </div>
                     </div>
                 </div>
