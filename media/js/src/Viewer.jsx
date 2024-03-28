@@ -131,6 +131,8 @@ class Viewer extends Component {
                     gAreaCName={this.state.gAreaCName}
 
                     gExpression={this.state.gExpression}
+                    gExpression2={this.state.gExpression2}
+                    gExpression3={this.state.gExpression3}
 
                     updateDisplayIntersection={this.updateDisplayIntersection.bind(this)}
                     updateGraph={this.handleGraphUpdate.bind(this)}
@@ -271,6 +273,8 @@ class Viewer extends Component {
                     gAreaCName={this.state.gAreaCName}
 
                     gExpression={this.state.gExpression}
+                    gExpression2={this.state.gExpression2}
+                    gExpression3={this.state.gExpression3}
 
                     assessment={this.state.assessment}
                     submission={this.state.submission}

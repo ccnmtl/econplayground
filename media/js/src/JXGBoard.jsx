@@ -264,6 +264,8 @@ export default class JXGBoard extends React.Component {
             'gAreaConfigurationInitial', 'gIsAreaDisplayed', 'gAreaAName',
             'gAreaBName', 'gAreaCName',
             'gExpression',
+            'gExpression2',
+            'gExpression3',
             'gNeedsSubmit', 'submission',
             'shadow'
         ];
@@ -707,6 +709,8 @@ JXGBoard.propTypes = {
     gAreaCName: PropTypes.string,
 
     gExpression: PropTypes.string,
+    gExpression2: PropTypes.string,
+    gExpression3: PropTypes.string,
 
     id: PropTypes.string.isRequired,
     locked: PropTypes.bool

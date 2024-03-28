@@ -456,6 +456,8 @@ GraphViewer.propTypes = {
 
     gFunctionChoice: PropTypes.number,
     gExpression: PropTypes.string,
+    gExpression2: PropTypes.string,
+    gExpression3: PropTypes.string,    
 
     assessment: PropTypes.array,
     submission: PropTypes.object,

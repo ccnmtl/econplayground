@@ -143,6 +143,10 @@ class Editor extends Component {
                         gAreaBName={this.state.gAreaBName}
                         gAreaCName={this.state.gAreaCName}
 
+                        gExpression={this.state.gExpression}
+                        gExpression2={this.state.gExpression2}
+                        gExpression3={this.state.gExpression3}
+
                         updateGraph={this.handleGraphUpdate.bind(this)}
                         saveGraph={this.handleSaveGraph.bind(this)}
                         saveAndViewGraph={this.handleSaveGraph.bind(this, true)} />
