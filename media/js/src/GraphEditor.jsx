@@ -389,6 +389,8 @@ GraphEditor.propTypes = {
 
     gFunctionChoice: PropTypes.number,
     gExpression: PropTypes.string,
+    gExpression2: PropTypes.string,
+    gExpression3: PropTypes.string,
 
     gAreaConfiguration: PropTypes.number,
     gIsAreaDisplayed: PropTypes.bool,

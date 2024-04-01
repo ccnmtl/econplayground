@@ -4,17 +4,15 @@ import { MathComponent } from 'mathjax-react';
 import { create, all } from 'mathjs';
 
 import EditableControl from '../form-components/EditableControl.js';
-import { handleFormUpdate } from '../utils.js';
 
 
 const math = create(all, {});
 
 
 export default class TemplateGraphEditor extends React.Component {
-    checkFormula() {
+    checkFormula(expression) {
         try {
-            const exp = math.evaluate(this.props.gExpression, { x: 1 });
-            console.log(exp);
+            math.evaluate(expression, { x: 1 });
             return false;
         } catch (e) {
             return true;
@@ -22,9 +20,6 @@ export default class TemplateGraphEditor extends React.Component {
     }
 
     render() {
-        const func1 = String.raw`MP_N = (1 - \alpha)AK^\alpha N^{-\alpha}`;
-        const func2 = String.raw`MP_K = \alpha AK^{\alpha - 1} N^{1 - \alpha}`;
-
         return (
             <>
                 <div className="d-flex flex-wrap">
@@ -44,51 +39,58 @@ export default class TemplateGraphEditor extends React.Component {
                                 disabled={this.props.disabled}
                                 updateGraph={this.props.updateGraph} />
                             {
-                                this.checkFormula() && 
+                                this.checkFormula(this.props.gExpression) &&
                                 <p className='text-danger mt-2'>Formula Error</p>
                             }
                         </div>
                     </div>
                 </div>
 
-                <h3 className="mt-3">
-                    NLDS Function
-                </h3>
-
-                <div className="row">
-                    <div className="form-check">
-                        <input
-                            className="form-check-input"
-                            aria-label={func1}
-                            type="radio"
-                            name="gFunctionChoice"
-                            id="gFunctionChoice1"
-                            onChange={handleFormUpdate.bind(this)}
-                            value={0}
-                            checked={this.props.gFunctionChoice === 0} />
-                        <label
-                            className="form-check-label"
-                            htmlFor="gFunctionChoice1">
-                            <MathComponent tex={func1} />
-                        </label>
+                <div className="d-flex flex-wrap mt-2">
+                    <div className="row">
+                        <div className="col">
+                            <label
+                                className="form-check-label me-2"
+                                htmlFor="gExpression2">
+                                <MathComponent tex="y = " />
+                            </label>
+                            <EditableControl
+                                id="gExpression2"
+                                name="Expression 2"
+                                value={this.props.gExpression2}
+                                valueEditable={true}
+                                isInstructor={this.props.isInstructor}
+                                disabled={this.props.disabled}
+                                updateGraph={this.props.updateGraph} />
+                            {
+                                this.checkFormula(this.props.gExpression2) &&
+                                <p className='text-danger mt-2'>Formula Error</p>
+                            }
+                        </div>
                     </div>
                 </div>
-                <div className="row">
-                    <div className="form-check">
-                        <input
-                            className="form-check-input"
-                            aria-label={func2}
-                            type="radio"
-                            name="gFunctionChoice"
-                            id="gFunctionChoice2"
-                            onChange={handleFormUpdate.bind(this)}
-                            value={1}
-                            checked={this.props.gFunctionChoice === 1} />
-                        <label
-                            className="form-check-label"
-                            htmlFor="gFunctionChoice2">
-                            <MathComponent tex={func2} />
-                        </label>
+
+                <div className="d-flex flex-wrap mt-2">
+                    <div className="row">
+                        <div className="col">
+                            <label
+                                className="form-check-label me-2"
+                                htmlFor="gExpression3">
+                                <MathComponent tex="y = " />
+                            </label>
+                            <EditableControl
+                                id="gExpression3"
+                                name="Expression 3"
+                                value={this.props.gExpression3}
+                                valueEditable={true}
+                                isInstructor={this.props.isInstructor}
+                                disabled={this.props.disabled}
+                                updateGraph={this.props.updateGraph} />
+                            {
+                                this.checkFormula(this.props.gExpression3) &&
+                                <p className='text-danger mt-2'>Formula Error</p>
+                            }
+                        </div>
                     </div>
                 </div>
             </>
@@ -103,5 +105,7 @@ TemplateGraphEditor.propTypes = {
     disabled: PropTypes.bool,
 
     gExpression: PropTypes.string,
+    gExpression2: PropTypes.string,
+    gExpression3: PropTypes.string,
     gFunctionChoice: PropTypes.number
 };
