@@ -345,7 +345,7 @@ class StepDetailView(LoginRequiredMixin, DetailView):
             if request.POST.get(field):
                 action_name = field
                 action_value = request.POST.get(field)
-                actions.append((action_name, action_value))
+                actions[action_name] = action_value
 
         return actions
 
@@ -354,10 +354,11 @@ class StepDetailView(LoginRequiredMixin, DetailView):
         Evaluate the multiple choice question.
         """
         mc_set = self.get_object().question.multiplechoice_set.all()
-        responses = list(map(lambda c: c.correct, mc_set))
-        fields = [request.POST.get(x)
-                  for x in request.POST if x.startswith('mc')]
-        results = [responses[x] == int(fields[x]) for x in range(len(mc_set))]
+        values = list(map(lambda c: ('mc_{}'.format(c.id), c.correct), mc_set))
+        responses = dict([(x, request.POST.get(x))
+                         for x in request.POST if x.startswith('mc_')])
+        results = [
+            value == int(responses.get(name) or -1) for name, value in values]
         return results
 
     def unsubmit(self, request, step):
@@ -400,20 +401,19 @@ class StepDetailView(LoginRequiredMixin, DetailView):
 
         question = step.question
 
-        actions = []
+        actions = {}
         action_name = request.POST.get('action_name')
         action_value = request.POST.get('action_value')
-        actions.append((action_name, action_value))
+        if action_name and len(action_name) > 0:
+            actions[action_name] = action_value
 
         actions = self.append_graph_form_fields(request, actions)
 
         if question:
             # Check all actions for a success.
-            results = [
-                question.evaluate_action(x[0], x[1]) for x in actions if x
-            ]
+            results = question.evaluate_action(actions)
             results += self.evaluate_mc(request)
-            result = any(results)
+            result = all(results)
 
             # Store the result in the user's session.
             step_name = 'step_{}_{}'.format(step.assignment.pk, step.pk)

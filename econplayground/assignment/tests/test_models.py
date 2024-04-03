@@ -229,7 +229,7 @@ class QuestionTest(TestCase):
 
     def test_eval_with_no_rules(self):
         q = QuestionFactory()
-        self.assertIsNone(q.evaluate_action('line1', 'up'))
+        self.assertTrue(q.evaluate_action({'line1': 'up'}))
 
 
 class MultipleChoiceTest(TestCase):
@@ -341,9 +341,6 @@ class AssignmentTest(TestCase):
         AssessmentRuleFactory(
             question=q3,
             assessment_name='line_2_label', assessment_value='Supply')
-        AssessmentRuleFactory(
-            question=q3,
-            assessment_name='line_1', assessment_value='up')
         self.c1.question = q3
         self.c1.save()
 
@@ -364,33 +361,42 @@ class AssignmentTest(TestCase):
         self.assertIsInstance(step.question.graph, Graph)
 
     def test_assignment_flow(self):
-        result1 = self.a1.question.evaluate_action('line_2', 'down')
-        self.assertFalse(result1)
+        result1 = self.a1.question.evaluate_action({'line_2': 'down'})
+        self.assertFalse(all(result1))
 
-        result2 = self.a1.question.evaluate_action('line_1', 'up')
-        self.assertTrue(result2)
+        result2 = self.a1.question.evaluate_action({'line_1': 'up'})
+        self.assertTrue(all(result2))
 
         step2 = self.a1.get_next()
-        result3 = step2.question.evaluate_action('line_1', 'increase')
-        self.assertTrue(result3)
+        result3 = step2.question.evaluate_action({'line_1': 'increase'})
+        self.assertTrue(all(result3))
 
         step3 = step2.get_next()
-        result4 = step3.question.evaluate_action('line_1_label', 'demand')
-        self.assertTrue(result4)
+        result4 = step3.question.evaluate_action({
+            'line_1_label': 'demand',
+            'line_2_label': 'supply'})
+        self.assertTrue(all(result4))
+
+        AssessmentRuleFactory(
+            question=step3.question,
+            assessment_name='line_1', assessment_value='up')
+
+        result5 = step3.question.evaluate_action({'line_1_label': 'demand'})
+        self.assertFalse(all(result5))
 
         step4 = step3.get_next()
-        self.assertFalse(
-            step4.question.evaluate_action('alpha', '0.5'))
-        self.assertTrue(
-            step4.question.evaluate_action('alpha', '0.6'))
+        self.assertFalse(all(
+            step4.question.evaluate_action({'alpha': '0.5'})))
+        self.assertTrue(all(
+            step4.question.evaluate_action({'alpha': '0.6'})))
 
     def test_assignment_flow_2(self):
-        result = self.a1.question.evaluate_action('', 'down')
-        self.assertFalse(result)
-        result = self.a1.question.evaluate_action('line_2', '')
-        self.assertFalse(result)
-        result = self.a1.question.evaluate_action('line_2', 2)
-        self.assertFalse(result)
+        result = self.a1.question.evaluate_action({'': 'down'})
+        self.assertFalse(all(result))
+        result = self.a1.question.evaluate_action({'line_2': ''})
+        self.assertFalse(all(result))
+        result = self.a1.question.evaluate_action({'line_2': 2})
+        self.assertFalse(all(result))
 
         self.assertIsNone(self.a2.question)
 
