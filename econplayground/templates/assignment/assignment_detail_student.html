@@ -37,10 +37,15 @@
         {% for step in steps %}
             <div class="assignment-step">
                 {{forloop.counter}}.
-                <a href="{% url 'step_detail' object.pk step.pk %}">
-                    Step {{step.pk}}
+                <a href="{% url 'step_detail' object.pk step.0.pk %}">
+                    {% if step.0.name %}
+                        {{ step.0.name }}
+                    {% else %}
+                        Step {{step.0.pk}}
+                    {% endif %}
+                     - {{ step.1 }} attempt{% if step.1 != 1 %}s{% endif %}
                 </a>
-                {% if step.is_last_step %}
+                {% if step.0.is_last_step %}
                     (End)
                 {% endif %}
             </div>
