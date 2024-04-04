@@ -327,6 +327,7 @@ class StepResult(models.Model):
     # For now, score is either correct or incorrect. This may change
     # in the future.
     result = models.BooleanField(blank=True, null=True)
+    loop = models.IntegerField(default=0)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -354,20 +355,25 @@ class ScorePath(models.Model):
         return 'ScorePath: {} - {}'.format(
             self.assignment.title, self.student.username)
 
-    def get_step_results(self) -> list:
+    def get_step_results(self, user) -> list:
         """
         Return the list of this path's StepResults.
         """
-        results = []
+        results = {}
         for x in self.steps:
             if x:
                 try:
-                    step_result = StepResult.objects.get(pk=x)
-                    results.append(step_result)
+                    step_result = StepResult.objects.get(pk=x, student=user)
+                    step = step_result.step
+                    if results.get(step) is None:
+                        results[step] = 1
+                    else:
+                        results[step] = results[step] + 1
                 except StepResult.DoesNotExist:
                     pass
 
-        return results
+        # Return a list of tuples (Step object, attempt count)
+        return results.items()
 
     def get_avg_diff(self, step) -> float:
         """

@@ -141,8 +141,7 @@ class AssignmentDetailStudentView(LoginRequiredMixin, DetailView):
 
         steps = []
         if score_path:
-            results = score_path.get_step_results()
-            steps = list(map(lambda x: x.step, results))
+            steps = score_path.get_step_results(self.request.user)
 
         ctx.update({
             'steps': steps,
@@ -424,6 +423,9 @@ class StepDetailView(LoginRequiredMixin, DetailView):
             step_result, _ = StepResult.objects.get_or_create(
                 step=step, student=request.user)
             step_result.result = result
+            # Check for loops
+            if step.next_step and step.next_step.path < step.path:
+                step_result.loop = step_result.loop + 1
             step_result.save()
 
             # Update student's ScorePath with this result.

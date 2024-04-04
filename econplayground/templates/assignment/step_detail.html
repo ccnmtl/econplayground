@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static econ_auth %}
 
-{% block title %}Step {{ object.pk }} | {{assignment.title}}{% endblock %}
+{% block title %}{% if object.name %}{{ object.name }}{% else %}Step {{ object.pk }}{% endif %} | {{assignment.title}}{% endblock %}
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'css/loaders.min.css' %}">
@@ -24,14 +24,14 @@
                 {% endif %}
             </li>
             <li class="breadcrumb-item">
-                Step {{object.pk}}
+                {% if object.name %}{{ object.name }}{% else %}Step {{ object.pk }}{% endif %}
             </li>
         </ol>
     </nav>
 {% endblock %}
 
 {% block pagetitle %}
-<h1>Step {{object.pk}}</h1>
+<h1>{% if object.name %}{{ object.name }}{% else %}Step {{ object.pk }}{% endif %}</h1>
 {% endblock %}
 
 {% block js %}
