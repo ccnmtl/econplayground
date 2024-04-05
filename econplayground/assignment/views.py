@@ -150,6 +150,66 @@ class AssignmentDetailStudentView(LoginRequiredMixin, DetailView):
         return ctx
 
 
+class AssignmentEmbedPublicView(DetailView):
+    model = Assignment
+    template_name = 'assignment/assignment_embed_public.html'
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+
+        root = self.object.get_root()
+        bulk_tree = Step.dump_bulk(parent=root)
+        root = bulk_tree[0]
+
+        score_path = None
+        try:
+            score_path = ScorePath.objects.get(
+                assignment=self.object,
+                student=self.request.user)
+        except ScorePath.DoesNotExist:
+            pass
+
+        steps = []
+        if score_path:
+            steps = score_path.get_step_results(self.request.user)
+
+        ctx.update({
+            'steps': steps,
+            'graph': render_assignment_graph(root),
+        })
+        return ctx
+
+
+class AssignmentEmbedPublicMinimalView(DetailView):
+    model = Assignment
+    template_name = 'assignment/assignment_embed_public_minimal.html'
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+
+        root = self.object.get_root()
+        bulk_tree = Step.dump_bulk(parent=root)
+        root = bulk_tree[0]
+
+        score_path = None
+        try:
+            score_path = ScorePath.objects.get(
+                assignment=self.object,
+                student=self.request.user)
+        except ScorePath.DoesNotExist:
+            pass
+
+        steps = []
+        if score_path:
+            steps = score_path.get_step_results(self.request.user)
+
+        ctx.update({
+            'steps': steps,
+            'graph': render_assignment_graph(root),
+        })
+        return ctx
+
+
 class AssignmentTreeUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):
     """
     Add and remove nodes from the assignment tree.
