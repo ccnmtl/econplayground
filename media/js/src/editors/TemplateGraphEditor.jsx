@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { MathComponent } from 'mathjax-react';
+import { MathJaxProvider, MathJaxFormula } from 'mathjax3-react';
 import { create, all } from 'mathjs';
 
 import EditableControl from '../form-components/EditableControl.js';
@@ -28,7 +28,9 @@ export default class TemplateGraphEditor extends React.Component {
                             <label
                                 className="form-check-label me-2"
                                 htmlFor="gExpression">
-                                <MathComponent tex="y = " />
+                                <MathJaxProvider>
+                                    <MathJaxFormula formula="$$y = $$" />
+                                </MathJaxProvider>
                             </label>
                             <EditableControl
                                 id="gExpression"
@@ -52,7 +54,10 @@ export default class TemplateGraphEditor extends React.Component {
                             <label
                                 className="form-check-label me-2"
                                 htmlFor="gExpression2">
-                                <MathComponent tex="y = " />
+                                <MathJaxProvider>
+                                    <MathJaxFormula formula="$$y = $$" />
+                                </MathJaxProvider>
+
                             </label>
                             <EditableControl
                                 id="gExpression2"
@@ -76,7 +81,10 @@ export default class TemplateGraphEditor extends React.Component {
                             <label
                                 className="form-check-label me-2"
                                 htmlFor="gExpression3">
-                                <MathComponent tex="y = " />
+                                <MathJaxProvider>
+                                    <MathJaxFormula formula="$$y = $$" />
+                                </MathJaxProvider>
+
                             </label>
                             <EditableControl
                                 id="gExpression3"
