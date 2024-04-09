@@ -363,7 +363,6 @@ class AssignmentStudentFlowViewTest(
             'action_name': 'line_1',
             'action_value': 'down',
         }, follow=True)
-
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, 'Correct!')
 

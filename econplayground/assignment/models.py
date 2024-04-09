@@ -30,12 +30,18 @@ class Question(models.Model):
     def __str__(self) -> str:
         return self.title or 'Question {}'.format(self.pk)
 
-    def evaluate_action(self, action_name: str, action_value: str) -> bool:
-        if self.assessmentrule_set.count() == 0:
-            return None
-
-        return self.assessmentrule_set.first().evaluate_action(
-            action_name, action_value)
+    def evaluate_action(self, actions) -> bool:
+        rule_set = self.assessmentrule_set.filter(
+            ~models.Q(assessment_name=''))
+        if rule_set.count() == 0:
+            return [True]
+        for action in list(actions.keys()):
+            actions[convert_action_name(
+                action)] = actions.pop(action)
+        return [rule.evaluate_action(actions[rule.assessment_name])
+                if rule.assessment_name and
+                actions.get(rule.assessment_name)
+                else False for rule in rule_set.all()]
 
     def first_rule(self) -> 'AssessmentRule':
         return self.assessmentrule_set.first()
@@ -82,8 +88,7 @@ def convert_action_name(s: str) -> str:
     """
     if s and len(s) > 1 and s.startswith('g') and s[1].isupper():
         s = s[1:]
-        return re.sub(r'(?<!^)(?=[A-Z])', '_', s).lower()
-
+        return re.sub(r'(?<!^)(?=[A-Z]|\d)', '_', s).lower()
     return s or ''
 
 
@@ -138,27 +143,22 @@ class AssessmentRule(models.Model):
     def has_feedback(self) -> bool:
         return self.has_fulfilled_feedback() or self.has_unfulfilled_feedback()
 
-    def evaluate_action(self, action_name: str, action_value: str) -> bool:
+    def evaluate_action(self, action_value: str) -> bool:
         """
         Evaluate a user action, based on action type and value.
 
         Returns a boolean: True for success, False for failure.
         """
-        # Remove underscores and lower-case both names for more lax comparison.
-        action_name = convert_action_name(action_name).lower().replace('_', '')
-        self.assessment_name = self.assessment_name.lower().replace('_', '')
-
-        if self.assessment_name and self.assessment_value:
-            return action_name == self.assessment_name and \
-                action_value.lower() == self.assessment_value.lower()
-
-        if self.assessment_name:
-            return action_name == self.assessment_name
-
-        if not self.assessment_name and not self.assessment_value:
+        if self.assessment_name != '' and self.assessment_value != '':
+            # Remove underscores and lower-case both names for more lax
+            # comparison.
+            action_value = convert_action_name(
+                action_value).lower().replace('_', '')
+            self.assessment_value = self.assessment_value.lower(
+                ).replace('_', '')
+            return action_value == self.assessment_value
+        else:
             return True
-
-        return False
 
 
 class Assignment(models.Model):
