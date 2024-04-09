@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { MathComponent } from 'mathjax-react';
+import { MathJaxProvider, MathJaxFormula } from 'mathjax3-react';
 import RangeEditor from '../form-components/RangeEditor.js';
 import EditableControl from '../form-components/EditableControl.js';
 import AreaConfiguration from './AreaConfiguration.jsx';
@@ -26,7 +26,9 @@ export default class NonLinearDemandSupplyEditor extends React.Component {
                                 checked={this.props.gFunctionChoice === 0} />
 
                             <label className="form-check-label" htmlFor="gFunctionChoice1">
-                                <MathComponent tex={func1} />
+                                <MathJaxProvider>
+                                    <MathJaxFormula formula={'$$' + func1 + '$$'} />
+                                </MathJaxProvider>
                             </label>
                         </div>
                         <div className="form-check">
@@ -38,7 +40,9 @@ export default class NonLinearDemandSupplyEditor extends React.Component {
                                 value={1}
                                 checked={this.props.gFunctionChoice === 1} />
                             <label className="form-check-label" htmlFor="gFunctionChoice2">
-                                <MathComponent tex={func2} />
+                                <MathJaxProvider>
+                                    <MathJaxFormula formula={'$$' + func2 + '$$'} />
+                                </MathJaxProvider>
                             </label>
                         </div>
                         <hr />

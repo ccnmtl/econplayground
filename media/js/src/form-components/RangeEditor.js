@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { MathComponent } from 'mathjax-react';
+import { MathJaxProvider, MathJaxFormula } from 'mathjax3-react';
 import { btnStep } from '../utils.js';
 
 /**
@@ -18,7 +18,9 @@ export default class RangeEditor extends React.Component {
                             <label key="dataId" className="w-100" htmlFor={this.props.id}>
                                 {this.props.itemlabel && (
                                     <div style={{display: 'flex'}}>
-                                        <MathComponent tex={this.props.itemlabel} />
+                                        <MathJaxProvider>
+                                            <MathJaxFormula formula={'$$' + this.props.itemlabel + '$$'} />
+                                        </MathJaxProvider>
                                     </div>
                                 )}
 

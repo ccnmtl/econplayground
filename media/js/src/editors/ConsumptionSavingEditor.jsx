@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { MathComponent } from 'mathjax-react';
+import { MathJaxProvider, MathJaxFormula } from 'mathjax3-react';
 import RangeEditor from '../form-components/RangeEditor.js';
 import EditableControl from '../form-components/EditableControl.js';
 import { handleFormUpdate } from '../utils.js';
@@ -15,7 +15,9 @@ export default class ConsumptionSavingEditor extends React.Component {
                     <React.Fragment>
                         <h2>Function</h2>
                         <div className="row ml-2 mb-2">
-                            <MathComponent tex={tex} />
+                            <MathJaxProvider>
+                                <MathJaxFormula formula={'$$' + tex + '$$'} />
+                            </MathJaxProvider>
                         </div>
                     </React.Fragment>
                 }
