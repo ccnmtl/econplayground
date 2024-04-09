@@ -388,6 +388,8 @@ class Viewer extends Component {
         let data = exportGraph(this.state);
         data.author = window.EconPlayground.user;
         data.expression = window.EconPlayground.fallback;
+        data.expression_2 = window.EconPlayground.fallback2;
+        data.expression_3 = window.EconPlayground.fallback3;
 
         const me = this;
         return authedFetch(

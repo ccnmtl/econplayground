@@ -339,6 +339,8 @@ class Graph(OrderedModel):
 
     # A graph may use a custon formula to define the x-function
     expression = models.TextField(default='x', blank=True)
+    expression_2 = models.TextField(default='', blank=True)
+    expression_3 = models.TextField(default='', blank=True)
 
     def __str__(self):
         return self.title
