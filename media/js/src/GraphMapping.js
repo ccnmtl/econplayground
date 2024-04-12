@@ -107,8 +107,8 @@ const exportGraph = function(state) {
         area_c_name: state.gAreaCName,
 
         expression: state.gExpression,
-        expression2: state.gExpression2,
-        expression3: state.gExpression3
+        expression_2: state.gExpression2,
+        expression_3: state.gExpression3
     };
 
     if (state.gType === 3 || state.gType === 12) {
@@ -222,8 +222,8 @@ const convertGraph = function(json) {
         gAreaCName: json.area_c_name,
 
         gExpression: json.expression,
-        gExpression2: json.expression2,
-        gExpression3: json.expression3
+        gExpression2: json.expression_2,
+        gExpression3: json.expression_3
     };
 };
 
@@ -326,8 +326,8 @@ const importGraph = function(json, obj, callback=null) {
         gAreaCName: json.area_c_name,
 
         gExpression: json.expression,
-        gExpression2: json.expression2,
-        gExpression3: json.expression3
+        gExpression2: json.expression_2,
+        gExpression3: json.expression_3
     };
 
     // When importing a graph for display, save the initial state of
@@ -585,8 +585,8 @@ const defaultGraph = {
     gAreaCName: 'C',
 
     gExpression: 'x',
-    gExpression2: 'x',
-    gExpression3: 'x',
+    gExpression2: '',
+    gExpression3: '',
 
     // Use a hard-coded proof-of-concept assessment spreadsheet for
     // now. Eventually, this will be defined using a Google

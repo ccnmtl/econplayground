@@ -30,9 +30,9 @@ export class TemplateGraph extends Graph {
             let func = function() {};
             try {
                 func = math.evaluate(me.options.gExpression2, scope);
-                window.EconPlayground.fallback = me.options.gExpression2;
+                window.EconPlayground.fallback2 = me.options.gExpression2;
             } catch (e) {
-                func = math.evaluate(window.EconPlayground.fallback, scope);
+                func = math.evaluate(window.EconPlayground.fallback2, scope);
             }
 
             return func;
@@ -46,9 +46,9 @@ export class TemplateGraph extends Graph {
             let func = function() {};
             try {
                 func = math.evaluate(me.options.gExpression3, scope);
-                window.EconPlayground.fallback = me.options.gExpression3;
+                window.EconPlayground.fallback3 = me.options.gExpression3;
             } catch (e) {
-                func = math.evaluate(window.EconPlayground.fallback, scope);
+                func = math.evaluate(window.EconPlayground.fallback3, scope);
             }
 
             return func;

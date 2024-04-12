@@ -158,7 +158,9 @@ class GraphSerializer(serializers.ModelSerializer):
             'area_a_name',
             'area_b_name',
             'area_c_name',
-            'expression'
+            'expression',
+            'expression_2',
+            'expression_3',
         )
 
     def create(self, validated_data):
