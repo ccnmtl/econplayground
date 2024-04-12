@@ -1,0 +1,71 @@
+{% load static econ_auth %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>{{object.title}} | Assignment | EconPractice</title>
+        <link href="{% static 'css/main.css' %}" rel="stylesheet">
+        <link href="{% static 'css/embed.css' %}" rel="stylesheet">
+        <link href="{% static 'css/octicons.css' %}" rel="stylesheet">
+        <link href="{% static 'css/econplayground.css' %}" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'css/loaders.min.css' %}">
+        <meta id="csrf-token" name="csrf-token" content="{{csrf_token}}">
+    </head>
+
+{% block js %}
+    <script>
+    if (!window.EconPlayground) {
+        window.EconPlayground = {};
+    }
+
+    window.EconPlayground['isInstructor'] = false;
+    window.EconPlayground['hideTitleAndInstructions'] = false;
+    </script>
+{% endblock %}
+
+{% user_is_instructor request.user as i_am_instructor %}
+    <body>
+        <p class="accessibility-note">
+            This is an interactive line graph. Please ask your instructor
+            for an alternative format for this exercise if necessary.
+        </p>
+        <div class="row align-items-center">
+            <div class="col-auto mx-md-0 mx-auto ep-assignment-graph p-2">
+                {{ graph | safe }}
+            </div>
+
+            <div class="col-auto mx-md-0 mx-auto p-2">
+                Your path:
+                <div class="ep-score-path">
+                    {% for step in steps %}
+                        <div class="assignment-step">
+                            {{forloop.counter}}.
+                            <a href="{% url 'step_detail' object.pk step.0.pk %}">
+                                {% if step.0.name %}
+                                    {{ step.0.name }}
+                                {% else %}
+                                    Step {{step.0.pk}}
+                                {% endif %}
+                                - {{ step.1 }} attempt{% if step.1 != 1 %}s{% endif %}
+                            </a>
+                            {% if step.0.is_last_step %}
+                                (End)
+                            {% endif %}
+                        </div>
+                    {% empty %}
+                        (Empty)
+                    {% endfor %}
+                </div>
+                
+                {% if object.first_step %}
+                <a href="{% url 'step_detail' object.pk object.first_step.pk %}"
+                    class="btn btn-primary mt-2"
+                    role="button"
+                    title="Begin assignment">
+                    Begin assignment
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </body>
+</html>
