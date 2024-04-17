@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import EditableControl from '../form-components/EditableControl.js';
+import EditableControl from '../form-components/EditableControl.jsx';
 import RangeEditor from '../form-components/RangeEditor.js';
 import AreaConfiguration from './AreaConfiguration.jsx';
 import { handleFormUpdate } from '../utils.js';

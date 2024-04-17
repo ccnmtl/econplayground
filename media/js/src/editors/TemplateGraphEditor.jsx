@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { MathJaxProvider, MathJaxFormula } from 'mathjax3-react';
 import { create, all } from 'mathjs';
 
-import EditableControl from '../form-components/EditableControl.js';
+import EditableControl from '../form-components/EditableControl.jsx';
 
 
 const math = create(all, {});
