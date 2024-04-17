@@ -37,6 +37,7 @@ export default class TemplateGraphEditor extends React.Component {
                                 name="Expression"
                                 value={this.props.gExpression}
                                 valueEditable={true}
+                                onBlur={true}
                                 isInstructor={this.props.isInstructor}
                                 disabled={this.props.disabled}
                                 updateGraph={this.props.updateGraph} />
@@ -64,6 +65,7 @@ export default class TemplateGraphEditor extends React.Component {
                                 name="Expression 2"
                                 value={this.props.gExpression2}
                                 valueEditable={true}
+                                onBlur={true}
                                 isInstructor={this.props.isInstructor}
                                 disabled={this.props.disabled}
                                 updateGraph={this.props.updateGraph} />
@@ -91,6 +93,7 @@ export default class TemplateGraphEditor extends React.Component {
                                 name="Expression 3"
                                 value={this.props.gExpression3}
                                 valueEditable={true}
+                                onBlur={true}
                                 isInstructor={this.props.isInstructor}
                                 disabled={this.props.disabled}
                                 updateGraph={this.props.updateGraph} />

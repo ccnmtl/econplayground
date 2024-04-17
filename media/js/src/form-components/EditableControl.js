@@ -10,20 +10,38 @@ import {handleFormUpdate} from '../utils.js';
  * student as well.
  */
 export default class EditableControl extends React.Component {
+
     render() {
+        let input = (
+            <input
+                name={this.props.id}
+                className="form-control"
+                type="text"
+                maxLength={this.props.maxLength || 60}
+                disabled={this.props.disabled}
+                value={this.props.value}
+                onChange={handleFormUpdate.bind(this)} />
+        );
+
+        if (this.props.onBlur) {
+            input = (
+                <input
+                    name={this.props.id}
+                    className="form-control"
+                    type="text"
+                    maxLength={this.props.maxLength || 60}
+                    disabled={this.props.disabled}
+                    defaultValue={this.props.value}
+                    onBlur={handleFormUpdate.bind(this)} />
+            );
+        }
+
         return (
             <React.Fragment>
                 {(this.props.isInstructor || this.props.valueEditable) && (
                     <label>
                         {this.props.name}
-                        <input
-                            name={this.props.id}
-                            className="form-control"
-                            type="text"
-                            maxLength={this.props.maxLength || 60}
-                            disabled={this.props.disabled}
-                            value={this.props.value}
-                            onChange={handleFormUpdate.bind(this)} />
+                        {input}
                     </label>
                 )}
             </React.Fragment>
@@ -42,6 +60,7 @@ EditableControl.propTypes = {
     isInstructor: PropTypes.bool.isRequired,
     value: PropTypes.string,
     valueEditable: PropTypes.bool.isRequired,
+    onBlur: PropTypes.bool,
     disabled: PropTypes.bool,
     maxLength: PropTypes.number
 };
