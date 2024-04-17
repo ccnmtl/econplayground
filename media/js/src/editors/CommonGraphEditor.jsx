@@ -15,8 +15,8 @@ export default class CommonGraphEditor extends React.Component {
                         Summary
                     </label>
                     <textarea id="gSummary"
-                        onChange={handleFormUpdate.bind(this)}
-                        value={this.props.gSummary}
+                        onBlur={handleFormUpdate.bind(this)}
+                        defaultValue={this.props.gSummary}
                         rows={4}
                         className="form-control form-control-sm" />
                 </div>
@@ -25,8 +25,8 @@ export default class CommonGraphEditor extends React.Component {
                         Instructions
                     </label>
                     <textarea id="gInstructions"
-                        onChange={handleFormUpdate.bind(this)}
-                        value={this.props.gInstructions}
+                        onBlur={handleFormUpdate.bind(this)}
+                        defaultValue={this.props.gInstructions}
                         rows={4}
                         className="form-control form-control-sm" />
                 </div>
@@ -35,8 +35,8 @@ export default class CommonGraphEditor extends React.Component {
                         Instructor Notes
                     </label>
                     <textarea id="gInstructorNotes"
-                        onChange={handleFormUpdate.bind(this)}
-                        value={this.props.gInstructorNotes}
+                        onBlur={handleFormUpdate.bind(this)}
+                        defaultValue={this.props.gInstructorNotes}
                         className="form-control form-control-sm" />
                 </div>
             </div>
