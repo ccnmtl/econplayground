@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import RangeEditor from '../form-components/RangeEditor.js';
-import EditableControl from '../form-components/EditableControl.js';
+import EditableControl from '../form-components/EditableControl.jsx';
 import { handleFormUpdate } from '../utils.js';
 import Checkbox from '../form-components/Checkbox.js';
 

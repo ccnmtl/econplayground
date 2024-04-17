@@ -2,7 +2,7 @@
 
 import React from 'react';
 import TestRenderer from 'react-test-renderer';
-import EditableControl from './EditableControl.js';
+import EditableControl from './EditableControl.jsx';
 
 it('renders without crashing', () => {
     const el = TestRenderer.create(
