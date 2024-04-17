@@ -34,6 +34,11 @@ export default class EditableControl extends React.Component {
 EditableControl.propTypes = {
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
+
+    // updateGraph is required by handleFormUpdate, bound to this with
+    // onChange.
+    updateGraph: PropTypes.func.isRequired,
+
     isInstructor: PropTypes.bool.isRequired,
     value: PropTypes.string,
     valueEditable: PropTypes.bool.isRequired,
