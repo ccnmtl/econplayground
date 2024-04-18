@@ -3,58 +3,53 @@ import {Graph} from './Graph.js';
 
 const math = create(all, {});
 
+/**
+ * getFunc
+ *
+ * Function representing the evaluation of a math expression input
+ * by the user, to be used for rendering a functiongraph object in
+ * jsxgraph.
+ *
+ * expression: a string containing a math function on the x scope.
+ *
+ * fallback: a string to name the variable to place the expression
+ * fallback, i.e. latest valid state of the expression.
+ *
+ * Returns a function.
+ */
+const getFunc = function(expression, fallback='fallback', x) {
+    const scope = {
+        x: x
+    };
+
+    let func = function() {};
+    try {
+        func = math.evaluate(expression, scope);
+        window.EconPlayground[fallback] = expression;
+    } catch (e) {
+        func = math.evaluate(window.EconPlayground[fallback], scope);
+    }
+
+    return func;
+};
+
 export class TemplateGraph extends Graph {
     make() {
         const me = this;
-        const f = function(x) {
-            const scope = {
-                x: x
-            };
 
-            let func = function() {};
-            try {
-                func = math.evaluate(me.options.gExpression, scope);
-                window.EconPlayground.fallback = me.options.gExpression;
-            } catch (e) {
-                func = math.evaluate(window.EconPlayground.fallback, scope);
-            }
-
-            return func;
+        const f1 = function(x) {
+            return getFunc(me.options.gExpression, 'fallback', x);
         };
 
         const f2 = function(x) {
-            const scope = {
-                x: x
-            };
-
-            let func = function() {};
-            try {
-                func = math.evaluate(me.options.gExpression2, scope);
-                window.EconPlayground.fallback2 = me.options.gExpression2;
-            } catch (e) {
-                func = math.evaluate(window.EconPlayground.fallback2, scope);
-            }
-
-            return func;
+            return getFunc(me.options.gExpression2, 'fallback2', x);
         };
 
         const f3 = function(x) {
-            const scope = {
-                x: x
-            };
-
-            let func = function() {};
-            try {
-                func = math.evaluate(me.options.gExpression3, scope);
-                window.EconPlayground.fallback3 = me.options.gExpression3;
-            } catch (e) {
-                func = math.evaluate(window.EconPlayground.fallback3, scope);
-            }
-
-            return func;
+            return getFunc(me.options.gExpression3, 'fallback3', x);
         };
 
-        this.board.create('functiongraph', [f], {
+        this.board.create('functiongraph', [f1], {
             name: 'expression',
             withLabel: true,
             strokeWidth: 2,
