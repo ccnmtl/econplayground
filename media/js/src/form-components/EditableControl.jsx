@@ -39,7 +39,7 @@ export default class EditableControl extends React.Component {
         return (
             <React.Fragment>
                 {(this.props.isInstructor || this.props.valueEditable) && (
-                    <label>
+                    <label className={this.props.className}>
                         {this.props.name}
                         {input}
                     </label>
@@ -60,6 +60,10 @@ EditableControl.propTypes = {
     isInstructor: PropTypes.bool.isRequired,
     value: PropTypes.string,
     valueEditable: PropTypes.bool.isRequired,
+
+    // Custom classes for the parent element of this component.
+    className: PropTypes.string,
+
     onBlur: PropTypes.bool,
     disabled: PropTypes.bool,
     maxLength: PropTypes.number

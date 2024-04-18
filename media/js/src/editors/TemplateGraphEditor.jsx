@@ -22,11 +22,11 @@ export default class TemplateGraphEditor extends React.Component {
     render() {
         return (
             <>
-                <div className="d-flex flex-wrap">
+                <div className="d-flex flex-column">
                     <div className="row">
-                        <div className="col">
+                        <div className="col d-flex">
                             <label
-                                className="form-check-label me-2"
+                                className="form-check-label me-2 flex-shrink-1 d-flex align-self-center"
                                 htmlFor="gExpression">
                                 <MathJaxProvider>
                                     <MathJaxFormula formula="$$y = $$" />
@@ -35,6 +35,7 @@ export default class TemplateGraphEditor extends React.Component {
                             <EditableControl
                                 id="gExpression"
                                 name="Expression"
+                                className="w-100"
                                 value={this.props.gExpression}
                                 valueEditable={true}
                                 onBlur={true}
@@ -49,11 +50,11 @@ export default class TemplateGraphEditor extends React.Component {
                     </div>
                 </div>
 
-                <div className="d-flex flex-wrap mt-2">
+                <div className="d-flex flex-column mt-2">
                     <div className="row">
-                        <div className="col">
+                        <div className="col d-flex">
                             <label
-                                className="form-check-label me-2"
+                                className="form-check-label me-2 flex-shrink-1 d-flex align-self-center"
                                 htmlFor="gExpression2">
                                 <MathJaxProvider>
                                     <MathJaxFormula formula="$$y = $$" />
@@ -63,6 +64,7 @@ export default class TemplateGraphEditor extends React.Component {
                             <EditableControl
                                 id="gExpression2"
                                 name="Expression 2"
+                                className="w-100"
                                 value={this.props.gExpression2}
                                 valueEditable={true}
                                 onBlur={true}
@@ -77,11 +79,11 @@ export default class TemplateGraphEditor extends React.Component {
                     </div>
                 </div>
 
-                <div className="d-flex flex-wrap mt-2">
+                <div className="d-flex flex-column mt-2">
                     <div className="row">
-                        <div className="col">
+                        <div className="col d-flex">
                             <label
-                                className="form-check-label me-2"
+                                className="form-check-label me-2 flex-shrink-1 d-flex align-self-center"
                                 htmlFor="gExpression3">
                                 <MathJaxProvider>
                                     <MathJaxFormula formula="$$y = $$" />
@@ -91,6 +93,7 @@ export default class TemplateGraphEditor extends React.Component {
                             <EditableControl
                                 id="gExpression3"
                                 name="Expression 3"
+                                className="w-100"
                                 value={this.props.gExpression3}
                                 valueEditable={true}
                                 onBlur={true}
