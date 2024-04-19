@@ -3,110 +3,77 @@ import PropTypes from 'prop-types';
 import { MathJaxProvider, MathJaxFormula } from 'mathjax3-react';
 import { create, all } from 'mathjs';
 
-import EditableControl from '../form-components/EditableControl.jsx';
+import {handleFormUpdate} from '../utils.js';
 
 
 const math = create(all, {});
 
 
 export default class TemplateGraphEditor extends React.Component {
+    /**
+     * checkFormula()
+     *
+     * Check that the given expression (as a string) is a valid
+     * expression with the x scope.
+     *
+     * Returns a boolean, true if valid.
+     */
     checkFormula(expression) {
         try {
             math.evaluate(expression, { x: 1 });
-            return false;
-        } catch (e) {
             return true;
+        } catch (e) {
+            return false;
         }
+    }
+
+    renderExpressionInput(index=1, value) {
+        let name = 'Expression';
+        if (index > 1) {
+            name = `Expression${index}`;
+        }
+
+        const isInvalid = !this.checkFormula(value);
+        let invalidClass = '';
+        if (isInvalid) {
+            invalidClass = 'is-invalid';
+        }
+
+        return (
+            <div className="d-flex flex-column mb-2">
+                <div className="row">
+                    <label className="w-100" htmlFor={`g${name}`}>
+                        {`Expression ${index}`}
+                    </label>
+                    <div className="col d-flex">
+
+                        <label
+                            className="form-check-label me-2 flex-shrink-1 d-flex align-self-center"
+                            htmlFor={`g${name}`}>
+                            <MathJaxProvider>
+                                <MathJaxFormula formula="$$y = $$" />
+                            </MathJaxProvider>
+                        </label>
+                        <input
+                            type="text"
+                            className={`form-control ${invalidClass}`}
+                            id={`g${name}`}
+                            name={name}
+                            defaultValue={value}
+                            onBlur={handleFormUpdate.bind(this)}
+                            disabled={this.props.disabled} />
+                    </div>
+                </div>
+            </div>
+        );
     }
 
     render() {
         return (
             <>
-                <div className="d-flex flex-column">
-                    <div className="row">
-                        <div className="col d-flex">
-                            <label
-                                className="form-check-label me-2 flex-shrink-1 d-flex align-self-center"
-                                htmlFor="gExpression">
-                                <MathJaxProvider>
-                                    <MathJaxFormula formula="$$y = $$" />
-                                </MathJaxProvider>
-                            </label>
-                            <EditableControl
-                                id="gExpression"
-                                name="Expression"
-                                className="w-100"
-                                value={this.props.gExpression}
-                                valueEditable={true}
-                                onBlur={true}
-                                isInstructor={this.props.isInstructor}
-                                disabled={this.props.disabled}
-                                updateGraph={this.props.updateGraph} />
-                            {
-                                this.checkFormula(this.props.gExpression) &&
-                                <p className='text-danger mt-2'>Formula Error</p>
-                            }
-                        </div>
-                    </div>
-                </div>
-
-                <div className="d-flex flex-column mt-2">
-                    <div className="row">
-                        <div className="col d-flex">
-                            <label
-                                className="form-check-label me-2 flex-shrink-1 d-flex align-self-center"
-                                htmlFor="gExpression2">
-                                <MathJaxProvider>
-                                    <MathJaxFormula formula="$$y = $$" />
-                                </MathJaxProvider>
-
-                            </label>
-                            <EditableControl
-                                id="gExpression2"
-                                name="Expression 2"
-                                className="w-100"
-                                value={this.props.gExpression2}
-                                valueEditable={true}
-                                onBlur={true}
-                                isInstructor={this.props.isInstructor}
-                                disabled={this.props.disabled}
-                                updateGraph={this.props.updateGraph} />
-                            {
-                                this.checkFormula(this.props.gExpression2) &&
-                                <p className='text-danger mt-2'>Formula Error</p>
-                            }
-                        </div>
-                    </div>
-                </div>
-
-                <div className="d-flex flex-column mt-2">
-                    <div className="row">
-                        <div className="col d-flex">
-                            <label
-                                className="form-check-label me-2 flex-shrink-1 d-flex align-self-center"
-                                htmlFor="gExpression3">
-                                <MathJaxProvider>
-                                    <MathJaxFormula formula="$$y = $$" />
-                                </MathJaxProvider>
-
-                            </label>
-                            <EditableControl
-                                id="gExpression3"
-                                name="Expression 3"
-                                className="w-100"
-                                value={this.props.gExpression3}
-                                valueEditable={true}
-                                onBlur={true}
-                                isInstructor={this.props.isInstructor}
-                                disabled={this.props.disabled}
-                                updateGraph={this.props.updateGraph} />
-                            {
-                                this.checkFormula(this.props.gExpression3) &&
-                                <p className='text-danger mt-2'>Formula Error</p>
-                            }
-                        </div>
-                    </div>
-                </div>
+                {this.renderExpressionInput(1, this.props.gExpression)}
+                {this.renderExpressionInput(2, this.props.gExpression2)}
+                {this.renderExpressionInput(3, this.props.gExpression3)}
             </>
         );
     }
@@ -115,7 +82,6 @@ export default class TemplateGraphEditor extends React.Component {
 TemplateGraphEditor.propTypes = {
     gType: PropTypes.number,
     updateGraph: PropTypes.func.isRequired,
-    isInstructor: PropTypes.bool.isRequired,
     disabled: PropTypes.bool,
 
     gExpression: PropTypes.string,
