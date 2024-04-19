@@ -12,13 +12,17 @@ import {handleFormUpdate} from '../utils.js';
 export default class EditableControl extends React.Component {
 
     render() {
+        const commonAttrs = {
+            name: this.props.id,
+            className: `form-control ${this.props.inputClass}`,
+            type: 'text',
+            maxLength: this.props.maxLength || 60,
+            disabled: this.props.disabled,
+        };
+
         let input = (
             <input
-                name={this.props.id}
-                className="form-control"
-                type="text"
-                maxLength={this.props.maxLength || 60}
-                disabled={this.props.disabled}
+                {...commonAttrs}
                 value={this.props.value}
                 onChange={handleFormUpdate.bind(this)} />
         );
@@ -26,11 +30,7 @@ export default class EditableControl extends React.Component {
         if (this.props.onBlur) {
             input = (
                 <input
-                    name={this.props.id}
-                    className="form-control"
-                    type="text"
-                    maxLength={this.props.maxLength || 60}
-                    disabled={this.props.disabled}
+                    {...commonAttrs}
                     defaultValue={this.props.value}
                     onBlur={handleFormUpdate.bind(this)} />
             );
@@ -63,6 +63,9 @@ EditableControl.propTypes = {
 
     // Custom classes for the parent element of this component.
     className: PropTypes.string,
+
+    // Custom classes for the input element of this component.
+    inputClass: PropTypes.string,
 
     onBlur: PropTypes.bool,
     disabled: PropTypes.bool,
