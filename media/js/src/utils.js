@@ -343,6 +343,9 @@ const displayGraphType = function(gType) {
         case 16:
             name = 'Template Graph';
             break;
+        case 17:
+            name = 'Optimal Choice Consumption';
+            break;
         default:
             break;
     }

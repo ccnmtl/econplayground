@@ -10,6 +10,7 @@ import DemandSupplyEditor from './editors/DemandSupplyEditor.jsx';
 import TemplateGraphEditor from './editors/TemplateGraphEditor.jsx';
 import CommonGraphEditor from './editors/CommonGraphEditor.jsx';
 import CommonGraphSettings from './editors/CommonGraphSettings.jsx';
+import OptimalChoiceConsumptionEditor from './editors/OptimalChoiceConsumption.jsx';
 import JXGBoard from './JXGBoard.jsx';
 import {
     displayGraphType, handleFormUpdate, getCohortId, BOARD_HEIGHT, BOARD_WIDTH
@@ -253,6 +254,13 @@ export default class GraphEditor extends React.Component {
                     {...commonEditorProps}
                     {...this.props}
                 />;
+        } else if (this.props.gType === 17) {
+            //Optimal Choice Consumption
+            rightSide =
+                <OptimalChoiceConsumptionEditor
+                    {...commonEditorProps}
+                    {...this.props}
+                />;
         }
 
         return (
@@ -375,6 +383,7 @@ GraphEditor.propTypes = {
     gA2: PropTypes.number,
     gA3: PropTypes.number,
     gA4: PropTypes.number,
+    gA5: PropTypes.number,
 
     gCobbDouglasA: PropTypes.number,
     gCobbDouglasAName: PropTypes.string,

@@ -676,7 +676,7 @@ const linearDemandSupplyTwoDiagramsOptions = [
 ];
 
 // Type 14
-const inputMarketsTwoDiagramsOptions = [
+const optimalChoiceConsumptionOptions = [
     {
         name: 'Orange line',
         value: 'line1',
@@ -727,6 +727,50 @@ const inputMarketsTwoDiagramsOptions = [
     },
 ];
 
+// Type 17
+const inputMarketsTwoDiagramsOptions = [
+    {
+        name: 'px',
+        value: 'a1',
+    },
+    {
+        name: 'py',
+        value: 'a2',
+    },
+    {
+        name: 'R',
+        value: 'a3'
+    },
+    {
+        name: 'α (alpha)',
+        value: 'a4'
+    },
+    {
+        name: 'β (beta)',
+        value: 'a5'
+    },
+    {
+        name: 'Budget Line',
+        value: 'line_1_label'
+    },
+    {
+        name: 'U_star',
+        value: 'line_2_label'
+    },
+    {
+        name: 'Optimal Bundle',
+        value: 'intersection_label'
+    },
+    {
+        name: 'x_star',
+        value: 'intersection_horiz_line_label'
+    },
+    {
+        name: 'y_star',
+        value: 'intersection_vert_line_label'
+    },
+];
+
 /**
  * getRuleOptions
  *
@@ -764,6 +808,8 @@ const getRuleOptions = (graphType) => {
             return linearDemandSupplyTwoDiagramsOptions;
         case 14:
             return inputMarketsTwoDiagramsOptions;
+        case 17:
+            return optimalChoiceConsumptionOptions;
 
         default:
             return [];

@@ -18,6 +18,7 @@ import Feedback from './Feedback.jsx';
 import {
     forceFloat, getOrCreateSubmission, BOARD_WIDTH, BOARD_HEIGHT
 } from './utils';
+import OptimalChoiceConsumptionEditor from './editors/OptimalChoiceConsumption.jsx';
 
 /**
  * This component is used to view an econgraph object.
@@ -192,6 +193,13 @@ export default class GraphViewer extends React.Component {
                 // Template Graph: free-form equations
                 rightSide =
                     <TemplateGraphEditor
+                        {...commonViewerProps}
+                        {...this.props}
+                    />;
+            } else if (this.props.gType === 17) {
+                //Optimal Choice Consumption
+                rightSide =
+                    <OptimalChoiceConsumptionEditor
                         {...commonViewerProps}
                         {...this.props}
                     />;

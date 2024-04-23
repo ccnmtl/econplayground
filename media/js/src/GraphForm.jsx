@@ -6,6 +6,7 @@ import ConsumptionLeisureEditor from './editors/ConsumptionLeisureEditor.jsx';
 import ConsumptionSavingEditor from './editors/ConsumptionSavingEditor.jsx';
 import DemandSupplyEditor from './editors/DemandSupplyEditor.jsx';
 import NonLinearDemandSupplyEditor from './editors/NonLinearDemandSupplyEditor.jsx';
+import OptimalChoiceConsumptionEditor from './editors/OptimalChoiceConsumption.jsx';
 
 /**
  * GraphForm
@@ -100,6 +101,14 @@ export default function GraphForm({ gType, updateGraph, props }) {
                     {...props}
                 />;
         }
+    } else if (gType === 17) {
+        // Optimal Choice Consumption Graph
+        graphForm =
+            <OptimalChoiceConsumptionEditor
+                updateGraph={updateGraph}
+                {...commonViewerProps}
+                {...props}
+            />;
     }
 
     return graphForm;
