@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { MathJaxProvider, MathJaxFormula } from 'mathjax3-react';
+import { MathJax } from 'better-react-mathjax';
 import { create, all } from 'mathjs';
 
 import {handleFormUpdate} from '../utils.js';
@@ -50,9 +50,9 @@ export default class TemplateGraphEditor extends React.Component {
                         <label
                             className="form-check-label me-2 flex-shrink-1 d-flex align-self-center"
                             htmlFor={`g${name}`}>
-                            <MathJaxProvider>
-                                <MathJaxFormula formula="$$y = $$" />
-                            </MathJaxProvider>
+                            <MathJax>
+                                {'$$y = $$'}
+                            </MathJax>
                         </label>
                         <input
                             type="text"

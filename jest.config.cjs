@@ -8,8 +8,8 @@ const config = {
     },
     transformIgnorePatterns: [],
     testPathIgnorePatterns: [
-        // Temporary workaround for mathjax3-react issue:
-        // https://github.com/asnunes/mathjax3-react/issues/30
+        // Temporary workaround for better-react-mathjax issue:
+        // https://github.com/fast-reflexes/better-react-mathjax/issues/62
         "media/js/src/form-components/RangeEditor.test.js",
         "media/js/src/JXGBoard.test.js",
         "media/js/src/GraphEditor.test.js",

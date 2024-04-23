@@ -2,7 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { MathJaxProvider, MathJaxFormula } from 'mathjax3-react';
+import { MathJax } from 'better-react-mathjax';
 import JXG from 'jsxgraph';
 import {graphTypes} from './graphs/graphTypes.js';
 import {mkNonLinearDemandSupply} from './graphs/NonLinearDemandSupplyGraph.js';
@@ -589,14 +589,14 @@ export default class JXGBoard extends React.Component {
                 const func1 = String.raw`MP_${this.props.gNName} = (1 - \alpha)${this.props.gCobbDouglasAName}${this.props.gCobbDouglasKName}^\alpha ${this.props.gNName}^{-\alpha}`;
                 const func2 = String.raw`MP_${this.props.gCobbDouglasKName} = \alpha ${this.props.gCobbDouglasAName}${this.props.gCobbDouglasKName}^{\alpha - 1} ${this.props.gNName}^{1 - \alpha}`;
                 math1 = (
-                    <MathJaxProvider>
-                        <MathJaxFormula formula={'$$' + func1 + '$$'} />
-                    </MathJaxProvider>
+                    <MathJax>
+                        {'$$' + func1 + '$$'}
+                    </MathJax>
                 );
                 math2 = (
-                    <MathJaxProvider>
-                        <MathJaxFormula formula={'$$' + func2 + '$$'} />
-                    </MathJaxProvider>
+                    <MathJax>
+                        {'$$' + func2 + '$$'}
+                    </MathJax>
                 );
             }
             figure2 = false;
