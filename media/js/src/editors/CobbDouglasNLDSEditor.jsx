@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { MathJaxProvider, MathJaxFormula } from 'mathjax3-react';
+import { MathJax } from 'better-react-mathjax';
 import RangeEditor from '../form-components/RangeEditor.js';
 import EditableControl from '../form-components/EditableControl.jsx';
 import { handleFormUpdate } from '../utils.js';
@@ -39,9 +39,9 @@ export default class CobbDouglasNLDSEditor extends React.Component {
                         </div>
                     )}
                     <div className="col">
-                        <MathJaxProvider>
-                            <MathJaxFormula formula={'$$' + tex + '$$'} />
-                        </MathJaxProvider>
+                        <MathJax>
+                            {'$$' + tex + '$$'}
+                        </MathJax>
                     </div>
                 </div>
 
@@ -63,9 +63,9 @@ export default class CobbDouglasNLDSEditor extends React.Component {
                                     value={0}
                                     checked={this.props.gFunctionChoice === 0} />
                                 <label className="form-check-label" htmlFor="gFunctionChoice1">
-                                    <MathJaxProvider>
-                                        <MathJaxFormula formula={'$$' + func1 + '$$'} />
-                                    </MathJaxProvider>
+                                    <MathJax>
+                                        {'$$' + func1 + '$$'}
+                                    </MathJax>
                                 </label>
                             </div>
                         </div>
@@ -81,9 +81,9 @@ export default class CobbDouglasNLDSEditor extends React.Component {
                                     value={1}
                                     checked={this.props.gFunctionChoice === 1} />
                                 <label className="form-check-label" htmlFor="gFunctionChoice2">
-                                    <MathJaxProvider>
-                                        <MathJaxFormula formula={'$$' + func2 + '$$'} />
-                                    </MathJaxProvider>
+                                    <MathJax>
+                                        {'$$' + func2 + '$$'}
+                                    </MathJax>
                                 </label>
                             </div>
                         </div>

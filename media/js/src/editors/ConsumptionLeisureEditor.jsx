@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { MathJaxProvider, MathJaxFormula } from 'mathjax3-react';
+import { MathJax } from 'better-react-mathjax';
 import RangeEditor from '../form-components/RangeEditor.js';
 import EditableControl from '../form-components/EditableControl.jsx';
 import { handleFormUpdate } from '../utils.js';
@@ -21,9 +21,9 @@ export default class ConsumptionLeisureEditor extends React.Component {
                         <h2>Function</h2>
                         <div className="row">
                             <div className="col-auto">
-                                <MathJaxProvider>
-                                    <MathJaxFormula formula={'$$' + tex + '$$'} />
-                                </MathJaxProvider>
+                                <MathJax>
+                                    {'$$' + tex + '$$'}
+                                </MathJax>
                             </div>
                         </div>
                         <hr />
