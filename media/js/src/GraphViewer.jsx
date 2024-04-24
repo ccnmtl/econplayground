@@ -10,6 +10,8 @@ import ConsumptionSavingEditor from './editors/ConsumptionSavingEditor.jsx';
 import DemandSupplyEditor from './editors/DemandSupplyEditor.jsx';
 import NonLinearDemandSupplyEditor from './editors/NonLinearDemandSupplyEditor.jsx';
 import TemplateGraphEditor from './editors/TemplateGraphEditor.jsx';
+import OptimalChoiceConsumptionEditor from './editors/OptimalChoiceConsumption.jsx';
+import CostFunctionsTotalEditor from './editors/CostFunctionsTotalEditor.jsx';
 import ExportGraphButton from './buttons/ExportGraphButton.jsx';
 import ResetGraphButton from './buttons/ResetGraphButton.jsx';
 import SubmitButton from './buttons/SubmitButton.jsx';
@@ -18,7 +20,7 @@ import Feedback from './Feedback.jsx';
 import {
     forceFloat, getOrCreateSubmission, BOARD_WIDTH, BOARD_HEIGHT
 } from './utils';
-import OptimalChoiceConsumptionEditor from './editors/OptimalChoiceConsumption.jsx';
+
 
 /**
  * This component is used to view an econgraph object.
@@ -203,7 +205,13 @@ export default class GraphViewer extends React.Component {
                         {...commonViewerProps}
                         {...this.props}
                     />;
-            }
+            } else if (this.props.gType === 18) {
+                rightSide =
+                    <CostFunctionsTotalEditor
+                        {...commonViewerProps}
+                        {...this.props}
+                    />;
+            }            
 
             // Show side-by-side view here.
             return (

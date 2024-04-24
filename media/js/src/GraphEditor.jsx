@@ -11,6 +11,7 @@ import TemplateGraphEditor from './editors/TemplateGraphEditor.jsx';
 import CommonGraphEditor from './editors/CommonGraphEditor.jsx';
 import CommonGraphSettings from './editors/CommonGraphSettings.jsx';
 import OptimalChoiceConsumptionEditor from './editors/OptimalChoiceConsumption.jsx';
+import CostFunctionsTotalEditor from './editors/CostFunctionsTotalEditor.jsx';
 import JXGBoard from './JXGBoard.jsx';
 import {
     displayGraphType, handleFormUpdate, getCohortId, BOARD_HEIGHT, BOARD_WIDTH
@@ -258,6 +259,12 @@ export default class GraphEditor extends React.Component {
             //Optimal Choice Consumption
             rightSide =
                 <OptimalChoiceConsumptionEditor
+                    {...commonEditorProps}
+                    {...this.props}
+                />;
+        } else if (this.props.gType === 18) {
+            rightSide =
+                <CostFunctionsTotalEditor
                     {...commonEditorProps}
                     {...this.props}
                 />;

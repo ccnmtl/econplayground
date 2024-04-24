@@ -32,7 +32,8 @@ GRAPH_TYPES = (
 
     (16, 'Template Graph'),
 
-    (17, 'Optimal Choice Consumption')
+    (17, 'Optimal Choice Consumption'),
+    (18, 'Cost Functions: Total'),
 )
 
 ASSIGNMENT_TYPES = (

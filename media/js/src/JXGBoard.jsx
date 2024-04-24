@@ -452,6 +452,11 @@ export default class JXGBoard extends React.Component {
                 break;
         }
 
+        let boundingBox = [-0.02, 5, 5, -0.02];
+        if (options.gType === 18) {
+            boundingBox = [0, 12000, 500, 0];
+        }
+
         this.board = JXG.JSXGraph.initBoard(
             this.id, {
                 axis: true,
@@ -484,7 +489,7 @@ export default class JXGBoard extends React.Component {
                 showZoom: false,
                 showReload: false,
                 showNavigation: false,
-                boundingBox: [-0.02, 5, 5, -0.02]
+                boundingBox: boundingBox
             });
         this.board.renderer.svgRoot.style.backgroundColor = 'white';
         this.board1InitObjects = this.board.numObjects;
@@ -545,7 +550,7 @@ export default class JXGBoard extends React.Component {
                 showZoom: false,
                 showReload: false,
                 showNavigation: false,
-                boundingBox: [-0.02, 5, 5, -0.02]
+                boundingBox: boundingBox
             });
         this.board2.renderer.svgRoot.style.backgroundColor = 'white';
 
