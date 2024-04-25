@@ -9,6 +9,7 @@ import {mkConsumptionSaving} from './ConsumptionSavingGraph.js';
 import {mkOptimalChoice} from './OptimalChoiceGraph.js';
 import {mkADAS} from './ADASGraph.js';
 import {mkTemplate} from './TemplateGraph.js';
+import { mkOptimalChoiceConsumption } from './OptimalChoiceConsumption.js';
 
 export const graphTypes = [
     // There are some null graph types here because the number of
@@ -33,4 +34,6 @@ export const graphTypes = [
     mkConsumptionLeisureOptimalChoice,
 
     mkTemplate,
+
+    mkOptimalChoiceConsumption,
 ];

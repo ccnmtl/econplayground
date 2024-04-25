@@ -31,6 +31,8 @@ GRAPH_TYPES = (
     (14, 'Input Markets: 2 Diagrams'),
 
     (16, 'Template Graph'),
+
+    (17, 'Optimal Choice Consumption')
 )
 
 ASSIGNMENT_TYPES = (
