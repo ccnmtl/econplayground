@@ -346,6 +346,9 @@ const displayGraphType = function(gType) {
         case 17:
             name = 'Optimal Choice Consumption';
             break;
+        case 18:
+            name = 'Cost Functions: Total';
+            break;
         default:
             break;
     }
