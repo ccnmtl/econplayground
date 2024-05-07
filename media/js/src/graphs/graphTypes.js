@@ -8,6 +8,7 @@ import {mkConsumptionLeisureOptimalChoice} from './ConsumptionLeisureOptimalChoi
 import {mkConsumptionSaving} from './ConsumptionSavingGraph.js';
 import {mkOptimalChoice} from './OptimalChoiceGraph.js';
 import {mkCostFunctionsTotal} from './CostFunctionsTotalGraph.js';
+import {mkCostFunctionsUnit} from './CostFunctionsUnitGraph.js';
 import {mkADAS} from './ADASGraph.js';
 import {mkTemplate} from './TemplateGraph.js';
 import { mkOptimalChoiceConsumption } from './OptimalChoiceConsumption.js';
@@ -38,5 +39,5 @@ export const graphTypes = [
 
     mkOptimalChoiceConsumption,
 
-    mkCostFunctionsTotal,
+    mkCostFunctionsTotal, mkCostFunctionsUnit,
 ];

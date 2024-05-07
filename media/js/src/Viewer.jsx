@@ -84,7 +84,9 @@ class Viewer extends Component {
                     gLine2Dashed={this.state.gLine2Dashed}
                     gLine3Dashed={this.state.gLine3Dashed}
                     gXAxisLabel={this.state.gXAxisLabel}
+                    gXAxisMax={this.state.gXAxisMax}
                     gYAxisLabel={this.state.gYAxisLabel}
+                    gYAxisMax={this.state.gYAxisMax}
                     gXAxis2Label={this.state.gXAxis2Label}
                     gYAxis2Label={this.state.gYAxis2Label}
                     gLine1OffsetX={this.state.gLine1OffsetX}
@@ -98,10 +100,20 @@ class Viewer extends Component {
                     gAlpha={this.state.gAlpha}
 
                     gA1={this.state.gA1}
+                    gA1Max={this.state.gA1Max}
+                    gA1Min={this.state.gA1Min}
                     gA2={this.state.gA2}
+                    gA2Max={this.state.gA2Max}
+                    gA2Min={this.state.gA2Min}
                     gA3={this.state.gA3}
+                    gA3Max={this.state.gA3Max}
+                    gA3Min={this.state.gA3Min}
                     gA4={this.state.gA4}
+                    gA4Max={this.state.gA4Max}
+                    gA4Min={this.state.gA4Min}
                     gA5={this.state.gA5}
+                    gA5Max={this.state.gA5Max}
+                    gA5Min={this.state.gA5Min}
 
                     gA={this.state.gA}
                     gK={this.state.gK}
@@ -205,7 +217,9 @@ class Viewer extends Component {
                     gLine2Dashed={this.state.gLine2Dashed}
                     gLine3Dashed={this.state.gLine3Dashed}
                     gXAxisLabel={this.state.gXAxisLabel}
+                    gXAxisMax={this.state.gXAxisMax}
                     gYAxisLabel={this.state.gYAxisLabel}
+                    gYAxisMax={this.state.gYAxisMax}
                     gXAxisLabelInitial={this.state.gXAxisLabelInitial}
                     gYAxisLabelInitial={this.state.gYAxisLabelInitial}
                     gXAxis2Label={this.state.gXAxis2Label}
@@ -231,14 +245,24 @@ class Viewer extends Component {
                     gAlpha={this.state.gAlpha}
 
                     gA1={this.state.gA1}
+                    gA1Max={this.state.gA1Max}
+                    gA1Min={this.state.gA1Min}
                     gA1Initial={this.state.gA1Initial}
                     gA2={this.state.gA2}
+                    gA2Max={this.state.gA2Max}
+                    gA2Min={this.state.gA2Min}
                     gA2Initial={this.state.gA2Initial}
                     gA3={this.state.gA3}
+                    gA3Max={this.state.gA3Max}
+                    gA3Min={this.state.gA3Min}
                     gA3Initial={this.state.gA3Initial}
                     gA4={this.state.gA4}
+                    gA4Max={this.state.gA4Max}
+                    gA4Min={this.state.gA4Min}
                     gA4Initial={this.state.gA4Initial}
                     gA5={this.state.gA5}
+                    gA5Max={this.state.gA5Max}
+                    gA5Min={this.state.gA5Min}
                     gA5Initial={this.state.gA5Initial}
 
                     gA={this.state.gA}

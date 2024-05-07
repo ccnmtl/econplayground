@@ -20,6 +20,7 @@ import Feedback from './Feedback.jsx';
 import {
     forceFloat, getOrCreateSubmission, BOARD_WIDTH, BOARD_HEIGHT
 } from './utils';
+import CostFunctionsUnitEditor from './editors/CostFunctionsUnitEditor.jsx';
 
 
 /**
@@ -211,7 +212,13 @@ export default class GraphViewer extends React.Component {
                         {...commonViewerProps}
                         {...this.props}
                     />;
-            }            
+            } else if (this.props.gType === 19) {
+                rightSide =
+                    <CostFunctionsUnitEditor
+                        {...commonViewerProps}
+                        {...this.props}
+                    />;
+            }     
 
             // Show side-by-side view here.
             return (
