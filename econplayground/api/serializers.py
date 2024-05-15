@@ -120,11 +120,11 @@ class GraphSerializer(serializers.ModelSerializer):
             'alpha',
             'omega',
 
-            'a1', 'a1_name',
-            'a2', 'a2_name',
-            'a3', 'a3_name',
-            'a4', 'a4_name',
-            'a5',
+            'a1', 'a1_name', 'a1_min', 'a1_max',
+            'a2', 'a2_name', 'a2_min', 'a2_max',
+            'a3', 'a3_name', 'a3_min', 'a3_max',
+            'a4', 'a4_name', 'a4_min', 'a4_max',
+            'a5', 'a5_min', 'a5_max',
 
             'a',
             'k',
@@ -133,7 +133,9 @@ class GraphSerializer(serializers.ModelSerializer):
             'y2',
 
             'x_axis_label',
+            'x_axis_max',
             'y_axis_label',
+            'y_axis_max',
 
             'x_axis_2_label',
             'y_axis_2_label',

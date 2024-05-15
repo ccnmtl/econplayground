@@ -349,6 +349,9 @@ const displayGraphType = function(gType) {
         case 18:
             name = 'Cost Functions: Total';
             break;
+        case 19:
+            name = 'Cost Functions: Unit';
+            break;
         default:
             break;
     }

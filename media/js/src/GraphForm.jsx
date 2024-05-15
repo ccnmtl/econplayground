@@ -7,6 +7,7 @@ import ConsumptionSavingEditor from './editors/ConsumptionSavingEditor.jsx';
 import DemandSupplyEditor from './editors/DemandSupplyEditor.jsx';
 import NonLinearDemandSupplyEditor from './editors/NonLinearDemandSupplyEditor.jsx';
 import OptimalChoiceConsumptionEditor from './editors/OptimalChoiceConsumption.jsx';
+import CostFunctionsUnitEditor from './editors/CostFunctionsUnitEditor.jsx';
 
 /**
  * GraphForm
@@ -105,6 +106,14 @@ export default function GraphForm({ gType, updateGraph, props }) {
         // Optimal Choice Consumption Graph
         graphForm =
             <OptimalChoiceConsumptionEditor
+                updateGraph={updateGraph}
+                {...commonViewerProps}
+                {...props}
+            />;
+    } else if (gType === 19) {
+        // Cost Function: Unit
+        graphForm =
+            <CostFunctionsUnitEditor
                 updateGraph={updateGraph}
                 {...commonViewerProps}
                 {...props}

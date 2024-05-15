@@ -267,7 +267,8 @@ export default class JXGBoard extends React.Component {
             'gExpression2',
             'gExpression3',
             'gNeedsSubmit', 'submission',
-            'shadow'
+            'shadow',
+            'gXAxisMax', 'gYAxisMax',
         ];
 
         let needsUpdate = false;
@@ -280,6 +281,12 @@ export default class JXGBoard extends React.Component {
         }
 
         if (needsUpdate) {
+            let boundingBox = [-0.02, this.props.gYAxisMax, this.props.gXAxisMax, -0.02];
+            if (this.props.gType === 18) {
+                boundingBox = [0, 12000, 500, 0];
+            }
+            this.board.setBoundingBox(boundingBox);
+            this.board2.update();
             this.renderJXBoard({
                 l1SubmissionOffset: getL1SubmissionOffset(this.props.submission),
                 l2SubmissionOffset: getL2SubmissionOffset(this.props.submission),
@@ -392,6 +399,8 @@ export default class JXGBoard extends React.Component {
 
         let xAxisLabel = '';
         let yAxisLabel = '';
+        let xTicks = {visible: false};
+        let yTicks = {visible: false};
         switch (options.gType) {
             case 1:
             case 10:
@@ -446,13 +455,17 @@ export default class JXGBoard extends React.Component {
                 yAxisLabel = getNLDSYLabel(
                     0, options.gCobbDouglasKName, options.gNName);
                 break;
+            case 19:
+                xTicks = {visible: false};
+                yTicks = {visible: false};
+                break;
             default:
                 xAxisLabel = options.gXAxisLabel ? options.gXAxisLabel : 'x';
                 yAxisLabel = options.gYAxisLabel ? options.gYAxisLabel : 'y';
                 break;
         }
 
-        let boundingBox = [-0.02, 5, 5, -0.02];
+        let boundingBox = [-0.02, this.props.gYAxisMax, this.props.gXAxisMax, -0.02];
         if (options.gType === 18) {
             boundingBox = [0, 12000, 500, 0];
         }
@@ -467,9 +480,7 @@ export default class JXGBoard extends React.Component {
                             offset: [400, 0]
                         },
                         withLabel: xAxisLabel ? true : false,
-                        ticks: {
-                            visible: false
-                        },
+                        ticks: xTicks,
                         layer: 9
                     },
                     y: {
@@ -478,9 +489,7 @@ export default class JXGBoard extends React.Component {
                             offset: [0, 260]
                         },
                         withLabel: yAxisLabel ? true : false,
-                        ticks: {
-                            visible: false
-                        },
+                        ticks: yTicks,
                         layer: 9
                     }
                 },
@@ -688,6 +697,9 @@ JXGBoard.propTypes = {
     gA4Initial: PropTypes.number,
     gA5: PropTypes.number,
     gA5Initial: PropTypes.number,
+
+    gXAxisMax: PropTypes.number,
+    gYAxisMax: PropTypes.number,
 
     gA: PropTypes.number,
     gK: PropTypes.number,

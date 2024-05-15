@@ -12,6 +12,7 @@ import CommonGraphEditor from './editors/CommonGraphEditor.jsx';
 import CommonGraphSettings from './editors/CommonGraphSettings.jsx';
 import OptimalChoiceConsumptionEditor from './editors/OptimalChoiceConsumption.jsx';
 import CostFunctionsTotalEditor from './editors/CostFunctionsTotalEditor.jsx';
+import CostFunctionsUnitEditor from './editors/CostFunctionsUnitEditor.jsx';
 import JXGBoard from './JXGBoard.jsx';
 import {
     displayGraphType, handleFormUpdate, getCohortId, BOARD_HEIGHT, BOARD_WIDTH
@@ -268,6 +269,14 @@ export default class GraphEditor extends React.Component {
                     {...commonEditorProps}
                     {...this.props}
                 />;
+        } else if (this.props.gType === 19) {
+            rightSide =
+                <CostFunctionsUnitEditor
+                    isEditing={true}
+                    updateGraph={this.props.updateGraph}
+                    {...commonEditorProps}
+                    {...this.props}
+                />;
         }
 
         return (
@@ -387,10 +396,20 @@ GraphEditor.propTypes = {
     gAlpha: PropTypes.number,
 
     gA1: PropTypes.number,
+    gA1Max: PropTypes.number,
+    gA1Min: PropTypes.number,
     gA2: PropTypes.number,
+    gA2Max: PropTypes.number,
+    gA2Min: PropTypes.number,
     gA3: PropTypes.number,
+    gA3Max: PropTypes.number,
+    gA3Min: PropTypes.number,
     gA4: PropTypes.number,
+    gA4Max: PropTypes.number,
+    gA4Min: PropTypes.number,
     gA5: PropTypes.number,
+    gA5Max: PropTypes.number,
+    gA5Min: PropTypes.number,
 
     gCobbDouglasA: PropTypes.number,
     gCobbDouglasAName: PropTypes.string,
@@ -410,6 +429,9 @@ GraphEditor.propTypes = {
 
     gAreaConfiguration: PropTypes.number,
     gIsAreaDisplayed: PropTypes.bool,
+    
+    gXAxisMax: PropTypes.number,
+    gYAxisMax: PropTypes.number,
 
     updateGraph: PropTypes.func.isRequired,
     saveGraph: PropTypes.func.isRequired,

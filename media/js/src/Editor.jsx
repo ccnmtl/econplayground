@@ -47,6 +47,7 @@ class Editor extends Component {
         });
     }
     render() {
+        console.log('In Editor: ', this.state);
         return (
             <div className="Editor">
                 <div className="Editor-container">
@@ -113,15 +114,28 @@ class Editor extends Component {
                         gLine4OffsetY={this.state.gLine4OffsetY}
                         gAlpha={this.state.gAlpha}
                         gA1={this.state.gA1}
+                        gA1Max={this.state.gA1Max}
+                        gA1Min={this.state.gA1Min}
                         gA2={this.state.gA2}
+                        gA2Max={this.state.gA2Max}
+                        gA2Min={this.state.gA2Min}
                         gA3={this.state.gA3}
+                        gA3Max={this.state.gA3Max}
+                        gA3Min={this.state.gA3Min}
                         gA4={this.state.gA4}
+                        gA4Max={this.state.gA4Max}
+                        gA4Min={this.state.gA4Min}
                         gA5={this.state.gA5}
+                        gA5Max={this.state.gA5Max}
+                        gA5Min={this.state.gA5Min}
                         gA={this.state.gA}
                         gK={this.state.gK}
                         gR={this.state.gR}
                         gY1={this.state.gY1}
                         gY2={this.state.gY2}
+
+                        gXAxisMax={this.state.gXAxisMax}
+                        gYAxisMax={this.state.gYAxisMax}
 
                         gCobbDouglasA={this.state.gCobbDouglasA}
                         gCobbDouglasAName={this.state.gCobbDouglasAName}
