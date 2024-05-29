@@ -49,6 +49,7 @@ module.exports = {
     appBuild: resolveApp(JS_PATH + 'build'),
     appPublic: resolveApp(JS_PATH + 'public'),
     appHtml: resolveApp(JS_PATH + 'public/index.html'),
+    appPickerJs: resolveApp(JS_PATH + 'src/picker-main.js'),
     appEditorJs: resolveApp(JS_PATH + 'src/editor-main.js'),
     appViewerJs: resolveApp(JS_PATH + 'src/viewer-main.js'),
     appStepGraphViewerJs: resolveApp(JS_PATH + 'src/stepGraphViewer-main.js'),

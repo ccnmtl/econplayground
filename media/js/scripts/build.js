@@ -39,8 +39,8 @@ const WARN_AFTER_CHUNK_GZIP_SIZE = 1024 * 1024;
 
 // Warn and crash if required files are missing
 if (!checkRequiredFiles([
-    paths.appHtml, paths.appEditorJs, paths.appQuestionJs, paths.appViewerJs,
-    paths.appStepGraphViewerJs
+    paths.appHtml, paths.appEditorJs, paths.appPickerJs, paths.appQuestionJs,
+    paths.appViewerJs, paths.appStepGraphViewerJs
 ])) {
     process.exit(1);
 }

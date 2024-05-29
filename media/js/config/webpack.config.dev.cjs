@@ -32,6 +32,7 @@ module.exports = {
     devtool: shouldUseSourceMap ? 'source-map' : false,
     entry: {
         assignment: [paths.appAssignmentJs],
+        picker: [paths.appPickerJs],
         editor: [paths.appEditorJs],
         question: [paths.appQuestionJs],
         multipleChoice: [paths.appMultipleChoiceJs],

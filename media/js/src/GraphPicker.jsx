@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { displayGraphType } from './utils.js';
 
 export default class GraphPicker extends React.Component {
@@ -15,14 +14,12 @@ export default class GraphPicker extends React.Component {
     renderGraphOption(n, imgname, isBeta, idx) {
         return (
             <div className="col" key={idx}>
-                <div
+                <a
                     className="card"
-                    title={displayGraphType(n)}
-                    onClick={() => this.props.onSelectGraph(n)}>
+                    href={location.pathname + n}
+                    title={displayGraphType(n)}>
                     <div className="card-img-top">
-                        <a href="#" onClick={() => this.props.onSelectGraph(n)}>
-                            <img className="img-fluid" alt="" src={this.mediaPrefix + imgname} />
-                        </a>
+                        <img className="img-fluid" alt="" src={this.mediaPrefix + imgname} />
                     </div>
                     <div className="card-body">
                         <h2 className="card-title">
@@ -31,21 +28,15 @@ export default class GraphPicker extends React.Component {
                                     Beta
                                 </span>
                             )}
-                            <a href="#" onClick={() => this.props.onSelectGraph(n)}>
-                                {displayGraphType(n)}
-                            </a>
+                            {displayGraphType(n)}
                         </h2>
                     </div>
-                </div>
+                </a>
             </div>
         );
     }
 
     render() {
-        if (!this.props.showing) {
-            return null;
-        }
-
         const me = this;
         const graphs = [
             [8, 'ADAS.png', false],
@@ -77,23 +68,19 @@ export default class GraphPicker extends React.Component {
                 <p className="lead mb-4">Build illustrations or assignments for EconPractice assessment (local) or CourseWorks assessment (LTI).</p>
                 <div className="row row-cols-3 g-4">
                     <div className="col">
-                        <div
+                        <a
                             className="card"
-                            title="Linear Demand and Supply"
-                            ref={this.b1}>
+                            href={location.pathname + '0'}
+                            title="Linear Demand and Supply">
                             <div className="card-img-top">
-                                <a href="#" onClick={() => this.props.onSelectGraph(0)}>
-                                    <img alt="" className="img-fluid" src={this.mediaPrefix + 'linear_demand_supply.png'} />
-                                </a>
+                                <img className="img-fluid" alt="" src={this.mediaPrefix + 'linear_demand_supply.png'} />
                             </div>
                             <div className="card-body">
                                 <h2 className="card-title">
-                                    <a href="#" onClick={() => this.props.onSelectGraph(0)}>
-                                        {displayGraphType(0)}
-                                    </a>
+                                    {displayGraphType(0)}
                                 </h2>
                             </div>
-                        </div>
+                        </a>
                     </div>
 
                     {
@@ -107,8 +94,3 @@ export default class GraphPicker extends React.Component {
         );
     }
 }
-
-GraphPicker.propTypes = {
-    onSelectGraph: PropTypes.func.isRequired,
-    showing: PropTypes.bool.isRequired
-};

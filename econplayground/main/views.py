@@ -46,10 +46,32 @@ class EnsureCsrfCookieMixin(object):
         return super(EnsureCsrfCookieMixin, self).dispatch(*args, **kwargs)
 
 
+class CohortGraphPickView(
+        EnsureCsrfCookieMixin, UserPassesTestMixin, CreateView):
+    model = Graph
+    fields = []
+    template_name = 'main/graph_picker.html'
+
+    def get(self, request, *args, **kwargs):
+        pk = kwargs.get('pk')
+        self.cohort = get_object_or_404(Cohort, pk=pk)
+        return super(CohortGraphPickView, self).get(request, *args, **kwargs)
+
+    def get_context_data(self, *args, **kwargs):
+        ctx = super(CohortGraphPickView, self).get_context_data(
+            *args, **kwargs)
+        ctx.update({'cohort': self.cohort})
+        return ctx
+
+    def test_func(self):
+        return user_is_instructor(self.request.user)
+
+
 class CohortGraphCreateView(
         EnsureCsrfCookieMixin, UserPassesTestMixin, CreateView):
     model = Graph
-    fields = ['title', 'summary', 'instructions', 'graph_type']
+    fields = ['title', 'summary', 'instructions']
+    template_name = 'main/graph_form.html'
 
     def get(self, request, *args, **kwargs):
         pk = kwargs.get('pk')
