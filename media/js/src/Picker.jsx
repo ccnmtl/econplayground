@@ -6,43 +6,14 @@ class Picker extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            step: 0,
             user: null,
             alertText: null,
-            inGraph: null,
-            lastGraphVisited: null,
         };
 
         Object.assign(this.state, defaultGraph);
 
         this.gp = React.createRef();
         this.ge = React.createRef();
-
-        // Back/Forward navigation work-around
-        //      Refresh still messes with the state,
-        //      but it's much less of a problem
-        window.addEventListener('hashchange', () => {
-            if (this.state.gType === null) {
-                this.setState({
-                    step: 0,
-                    inGraph: false,
-                });
-            } else if (this.state.inGraph) {
-                this.setState({
-                    lastGraphVisited: this.state.gType,
-                    step: 0,
-                    inGraph: false,
-                });
-            } else {
-                // Copy defaultGraph object
-                let newState = Object.assign({}, defaultGraph);
-                newState.step = 1;
-                newState.gType = (this.state.gType !== null ? this.state.gType : this.state.lastGraphVisited);
-                newState.inGraph = true;
-
-                this.setState(newState);
-            }
-        });
     }
     render() {
         return (
