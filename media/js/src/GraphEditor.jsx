@@ -15,7 +15,7 @@ import CostFunctionsTotalEditor from './editors/CostFunctionsTotalEditor.jsx';
 import CostFunctionsUnitEditor from './editors/CostFunctionsUnitEditor.jsx';
 import JXGBoard from './JXGBoard.jsx';
 import {
-    displayGraphType, handleFormUpdate, getCohortId, BOARD_HEIGHT, BOARD_WIDTH
+    displayGraphType, handleFormUpdate, getCohortId, BOARD_HEIGHT, BOARD_WIDTH,
 } from './utils';
 
 
@@ -31,10 +31,6 @@ export default class GraphEditor extends React.Component {
         );
     }
     render() {
-        if (!this.props.showing) {
-            return null;
-        }
-
         const courseId = getCohortId(window.location.pathname);
 
         const editRow = (
@@ -436,5 +432,4 @@ GraphEditor.propTypes = {
     updateGraph: PropTypes.func.isRequired,
     saveGraph: PropTypes.func.isRequired,
     saveAndViewGraph: PropTypes.func.isRequired,
-    showing: PropTypes.bool.isRequired
 };
