@@ -11,12 +11,12 @@ export default class CostFunctionsUnitEditor extends React.Component {
             <div>
                 {this.props.isInstructor && this.props.isEditing && (
                     <div className="row">
-                        {[ // [dataId, label, noMin?]
-                            ['gXAxis', '\\text{x-axis}', true],
-                            ['gYAxis', '\\text{y-axis}', true],
-                            ['gA1', 'a', false],
-                            ['gA2', 'b', false],
-                            ['gA3', 'c', false]
+                        {[ // [dataId, label]
+                            ['gXAxis', '\\text{x-axis}'],
+                            ['gYAxis', '\\text{y-axis}'],
+                            ['gA1', 'a'],
+                            ['gA2', 'b'],
+                            ['gA3', 'c']
                         ].map((i, key) => {
                             return (
                                 <DefineRange
@@ -25,10 +25,9 @@ export default class CostFunctionsUnitEditor extends React.Component {
                                     id={i[0]}
                                     itemlabel={i[1]}
                                     dataId={i[0]}
-                                    min={i[2] ? this.props[i[0] + 'Min'] : 0}
+                                    min={this.props[i[0] + 'Min']}
                                     max={this.props[i[0] + 'Max']}
-                                    handler={handleFormUpdate.bind(this)}
-                                    noMin={i[2]}/>
+                                    handler={handleFormUpdate.bind(this)}/>
                             );
                         })}
                     </div>
@@ -73,7 +72,9 @@ CostFunctionsUnitEditor.propTypes = {
     gA3Max: PropTypes.number.isRequired,
     gA3Min: PropTypes.number.isRequired,
     gXAxisMax: PropTypes.number.isRequired,
+    gXAxisMin: PropTypes.number.isRequired,
     gYAxisMax: PropTypes.number.isRequired,
+    gYAxisMin: PropTypes.number.isRequired,
 
     displaySliders: PropTypes.bool.isRequired,
     isInstructor: PropTypes.bool.isRequired,

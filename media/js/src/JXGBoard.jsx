@@ -268,7 +268,7 @@ export default class JXGBoard extends React.Component {
             'gExpression3',
             'gNeedsSubmit', 'submission',
             'shadow',
-            'gXAxisMax', 'gYAxisMax',
+            'gXAxisMax', 'gXAxisMin', 'gYAxisMax', 'gYAxisMin',
         ];
 
         let needsUpdate = false;
@@ -281,7 +281,9 @@ export default class JXGBoard extends React.Component {
         }
 
         if (needsUpdate) {
-            let boundingBox = [-0.02, this.props.gYAxisMax, this.props.gXAxisMax, -0.02];
+            let boundingBox = [
+                this.props.gYAxisMin-0.02, this.props.gYAxisMax,
+                this.props.gXAxisMax, this.props.gXAxisMin-0.02];
             if (this.props.gType === 18) {
                 boundingBox = [0, 12000, 500, 0];
             }
@@ -465,7 +467,9 @@ export default class JXGBoard extends React.Component {
                 break;
         }
 
-        let boundingBox = [-0.02, this.props.gYAxisMax, this.props.gXAxisMax, -0.02];
+        let boundingBox = [
+            this.props.gYAxisMin-0.02, this.props.gYAxisMax,
+            this.props.gXAxisMax, this.props.gXAxisMin-0.02];
         if (options.gType === 18) {
             boundingBox = [0, 12000, 500, 0];
         }
@@ -699,7 +703,9 @@ JXGBoard.propTypes = {
     gA5Initial: PropTypes.number,
 
     gXAxisMax: PropTypes.number,
+    gXAxisMin: PropTypes.number,
     gYAxisMax: PropTypes.number,
+    gYAxisMin: PropTypes.number,
 
     gA: PropTypes.number,
     gK: PropTypes.number,

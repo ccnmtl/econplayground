@@ -21,11 +21,16 @@ class GraphTest(TestCase):
     def test_default_ranges(self):
         default = GraphFactory()
         self.assertEqual(default.x_axis_max, 5)
+        self.assertEqual(default.x_axis_min, 0)
         self.assertEqual(default.y_axis_max, 5)
+        self.assertEqual(default.y_axis_min, 0)
 
-        basic = GraphFactory(x_axis_max=10, y_axis_max=15)
+        basic = GraphFactory(x_axis_max=10, x_axis_min=2,
+                             y_axis_max=15, y_axis_min=3)
         self.assertEqual(basic.x_axis_max, 10)
+        self.assertEqual(basic.x_axis_min, 2)
         self.assertEqual(basic.y_axis_max, 15)
+        self.assertEqual(basic.y_axis_min, 3)
 
     def test_clone(self):
         original = GraphFactory(title='cloned graph')

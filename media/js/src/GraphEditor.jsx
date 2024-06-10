@@ -427,7 +427,9 @@ GraphEditor.propTypes = {
     gIsAreaDisplayed: PropTypes.bool,
     
     gXAxisMax: PropTypes.number,
+    gXAxisMin: PropTypes.number,
     gYAxisMax: PropTypes.number,
+    gYAxisMin: PropTypes.number,
 
     updateGraph: PropTypes.func.isRequired,
     saveGraph: PropTypes.func.isRequired,

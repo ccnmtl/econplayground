@@ -85,8 +85,10 @@ class Viewer extends Component {
                     gLine3Dashed={this.state.gLine3Dashed}
                     gXAxisLabel={this.state.gXAxisLabel}
                     gXAxisMax={this.state.gXAxisMax}
+                    gXAxisMin={this.state.gXAxisMin}
                     gYAxisLabel={this.state.gYAxisLabel}
                     gYAxisMax={this.state.gYAxisMax}
+                    gYAxisMin={this.state.gYAxisMin}
                     gXAxis2Label={this.state.gXAxis2Label}
                     gYAxis2Label={this.state.gYAxis2Label}
                     gLine1OffsetX={this.state.gLine1OffsetX}
@@ -218,8 +220,10 @@ class Viewer extends Component {
                     gLine3Dashed={this.state.gLine3Dashed}
                     gXAxisLabel={this.state.gXAxisLabel}
                     gXAxisMax={this.state.gXAxisMax}
+                    gXAxisMin={this.state.gXAxisMin}
                     gYAxisLabel={this.state.gYAxisLabel}
                     gYAxisMax={this.state.gYAxisMax}
+                    gYAxisMin={this.state.gYAxisMin}
                     gXAxisLabelInitial={this.state.gXAxisLabelInitial}
                     gYAxisLabelInitial={this.state.gYAxisLabelInitial}
                     gXAxis2Label={this.state.gXAxis2Label}

@@ -134,8 +134,10 @@ class GraphSerializer(serializers.ModelSerializer):
 
             'x_axis_label',
             'x_axis_max',
+            'x_axis_min',
             'y_axis_label',
             'y_axis_max',
+            'y_axis_min',
 
             'x_axis_2_label',
             'y_axis_2_label',
