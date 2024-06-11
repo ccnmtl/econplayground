@@ -4,6 +4,7 @@ import RangeEditor from '../form-components/RangeEditor.js';
 import EditableControl from '../form-components/EditableControl.jsx';
 import { handleFormUpdate } from '../utils.js';
 import Checkbox from '../form-components/Checkbox.js';
+import { MathJax } from 'better-react-mathjax';
 
 export default class ADASEditor extends React.Component {
 
@@ -25,6 +26,22 @@ export default class ADASEditor extends React.Component {
     render() {
         return (
             <div>
+                <h2>Function</h2>
+                <div className="col">
+                    <MathJax>
+                        {`$$\\text{Orange: }y=mx+b
+                            =${this.props.gLine1Slope}(x-2.5)+2.5$$`}
+                    </MathJax>
+                    <MathJax>
+                        {`$$\\text{Blue: }y=mx+b
+                            =${this.props.gLine2Slope}(x-2.5)+2.5$$`}
+                    </MathJax>
+                    <MathJax>
+                        {`$$\\text{Red: }y=mx+b
+                            =${this.props.gLine3Slope}(x-2.5)+2.5$$`}
+                    </MathJax>
+                </div>
+                <hr />
                 {this.props.displaySliders && (
                     <React.Fragment>
                         <h2>Slope</h2>
