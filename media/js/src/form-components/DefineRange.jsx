@@ -23,8 +23,8 @@ export default class DefineRange extends React.Component {
                         </div>
                     </label>
                     {[ // [label, id, value]
-                        ['minimum', 'Min', this.props.min, this.props.noMin],
-                        ['maximum', 'Max', this.props.max, false]
+                        ['minimum', 'Min', this.props.min],
+                        ['maximum', 'Max', this.props.max]
                     ].map((item, key) => {
                         return (
                             <input
@@ -37,7 +37,6 @@ export default class DefineRange extends React.Component {
                                 type="number"
                                 onChange={this.props.handler}
                                 value={item[2]}
-                                disabled={item[3]}
                             />
                         );
                     })}
@@ -61,5 +60,4 @@ DefineRange.propTypes = {
     min: PropTypes.number,
     max: PropTypes.number,
     itemlabel: PropTypes.string.isRequired,  // a LaTeX string
-    noMin: PropTypes.bool
 };

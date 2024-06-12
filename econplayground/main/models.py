@@ -231,8 +231,10 @@ class Graph(OrderedModel):
 
     x_axis_label = models.TextField(blank=True, null=True, default='')
     x_axis_max = models.PositiveIntegerField(default=5)
+    x_axis_min = models.PositiveIntegerField(default=0)
     y_axis_label = models.TextField(blank=True, null=True, default='')
     y_axis_max = models.PositiveIntegerField(default=5)
+    y_axis_min = models.PositiveIntegerField(default=0)
 
     x_axis_2_label = models.TextField(blank=True, null=True, default='')
     y_axis_2_label = models.TextField(blank=True, null=True, default='')

@@ -83,7 +83,9 @@ const exportGraph = function(state) {
         a5_min: forceFloat(state.gA5Min),
 
         x_axis_max: forceFloat(state.gXAxisMax),
+        x_axis_min: forceFloat(state.gXAxisMin),
         y_axis_max: forceFloat(state.gYAxisMax),
+        y_axis_min: forceFloat(state.gYAxisMin),
 
         a: forceFloat(state.gA),
         k: forceFloat(state.gK),
@@ -212,7 +214,9 @@ const convertGraph = function(json) {
         gA5Min: forceFloat(json.a5_min),
 
         gXAxisMax: forceFloat(json.x_axis_max),
+        gXAxisMin: forceFloat(json.x_axis_min),
         gYAxisMax: forceFloat(json.y_axis_max),
+        gYAxisMin: forceFloat(json.y_axis_min),
 
         gA: forceFloat(json.a),
         gK: forceFloat(json.k),
@@ -336,8 +340,10 @@ const importGraph = function(json, obj, callback=null) {
 
         gXAxisLabel: json.x_axis_label,
         gXAxisMax: forceFloat(json.x_axis_max),
+        gXAxisMin: forceFloat(json.x_axis_min),
         gYAxisLabel: json.y_axis_label,
         gYAxisMax: forceFloat(json.y_axis_max),
+        gYAxisMin: forceFloat(json.y_axis_min),
 
         gXAxis2Label: json.x_axis_2_label,
         gYAxis2Label: json.y_axis_2_label,
@@ -427,8 +433,10 @@ const defaultEvaluation = {
     line_4_label: '',
     x_axis_label: '',
     x_axis_max: 5,
+    x_axis_min: 0,
     y_axis_label: '',
     y_axis_max: 5,
+    y_axis_min: 0,
     x_axis_2_label: '',
     y_axis_2_label: '',
 
@@ -619,7 +627,9 @@ const defaultGraph = {
     gA5Max: 10,
 
     gXAxisMax: 5,
+    gXAxisMin: 0,
     gYAxisMax: 5,
+    gYAxisMin: 0,
 
     gA: 3,
     gK: 2,
