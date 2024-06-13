@@ -99,7 +99,7 @@ rich==13.7.1  # bandit
 pbr==6.0.0  # bandit
 pyyaml==6.0.1  # bandit
 stevedore==5.2.0  # bandit
-bandit==1.7.8
+bandit==1.7.9
 django-ordered-model==3.6
 
 entrypoints==0.4
