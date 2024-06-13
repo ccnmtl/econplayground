@@ -8,7 +8,9 @@ import {graphTypes} from './graphs/graphTypes.js';
 import {mkNonLinearDemandSupply} from './graphs/NonLinearDemandSupplyGraph.js';
 import {mkDemandSupply} from './graphs/DemandSupplyGraph.js';
 import AreaDisplay from './AreaDisplay.jsx';
-import {getL1SubmissionOffset, getL2SubmissionOffset} from './utils.js';
+import {
+    getL1SubmissionOffset, getL2SubmissionOffset, GRID_MAJOR, GRID_MINOR
+} from './utils.js';
 
 const getNLDSYLabel = function(functionChoice, kName, nName) {
     let label = `MP<sub>${nName}</sub>, w`;
@@ -286,6 +288,7 @@ export default class JXGBoard extends React.Component {
             'gNeedsSubmit', 'submission',
             'shadow',
             'gXAxisMax', 'gXAxisMin', 'gYAxisMax', 'gYAxisMin',
+            'gMajorGridType', 'gMinorGridType'
         ];
 
         let needsUpdate = false;
@@ -333,6 +336,18 @@ export default class JXGBoard extends React.Component {
                 this.board.defaultAxes.y.name = this.props.gYAxisLabel;
                 this.board.update();
             }
+        }
+
+        if (this.board && (prevProps.gMajorGridType !== this.props.gMajorGridType ||
+            prevProps.gMinorGridType !== this.props.gMinorGridType)) {
+            this.board.removeGrids();
+            this.board.create('grid', [],
+                {
+                    major: GRID_MAJOR[this.props.gMajorGridType],
+                    minor: GRID_MINOR[this.props.gMinorGridType],
+                    minorElements: 1,
+                });
+            this.board.fullUpdate();
         }
 
         if (this.props.gType === 13) {
@@ -513,6 +528,12 @@ export default class JXGBoard extends React.Component {
                         ticks: yTicks,
                         layer: 9
                     }
+                },
+                grid: {
+                    major: GRID_MAJOR[this.props.gMajorGridType],
+                    minor: GRID_MINOR[this.props.gMinorGridType],
+                    minorElements: 1,
+                    visible: true,
                 },
                 keepAspectRatio: false,
                 showCopyright: false,
@@ -759,6 +780,9 @@ JXGBoard.propTypes = {
     gExpression: PropTypes.string,
     gExpression2: PropTypes.string,
     gExpression3: PropTypes.string,
+
+    gMajorGridType: PropTypes.number,
+    gMinorGridType: PropTypes.number,
 
     id: PropTypes.string.isRequired,
     locked: PropTypes.bool
