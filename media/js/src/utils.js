@@ -384,11 +384,54 @@ const btnStep = function(val, sign, strength, min, max) {
     return forceFloat(val);
 };
 
+const GRID_MAJOR = [
+    {
+        face: 'line',
+        strokeWidth: 5,
+        strokeColor: '#ffffff',
+    },
+    {
+        face: 'point',
+        strokeWidth: 4,
+        strokeColor: '#bfbfbf',
+        strokeOpacity: 1,
+    },
+    {
+        face: 'line',
+        strokeWidth: 2,
+        strokeColor: '#bfbfbf',
+        strokeOpacity: 1,
+    }
+];
+
+// In case we end up using minor grid markers
+// const GRID_MINOR = [
+//     {
+//         face: 'line',
+//         strokeWidth: 1,
+//         strokeColor: '#ffffff',
+//     },
+//     {
+//         face: 'point',
+//         size: 0,
+//         strokeWidth: 3,
+//         strokeColor: '#efefef',
+//         strokeOpacity: 1,
+//     },
+//     {
+//         face: 'line',
+//         size: 0,
+//         strokeWidth: 1,
+//         strokeColor: '#efefef',
+//         strokeOpacity: 1,
+//     }
+// ];
+
 export {
     authedFetch, getAssessment, getQuestion, getMultipleChoice, getEvaluations,
     getGraph, getGraphId, getCohortId, getTopics, getSubmission,
     getUserAssignment, createSubmission, getOrCreateSubmission,
     getL1SubmissionOffset, getL2SubmissionOffset, handleFormUpdate, getOffset,
     getXIntercept, getYIntercept, forceFloat, forceNumber, displayGraphType,
-    getError, btnStep, BOARD_HEIGHT, BOARD_WIDTH,
+    getError, btnStep, BOARD_HEIGHT, BOARD_WIDTH, GRID_MAJOR //, GRID_MINOR
 };

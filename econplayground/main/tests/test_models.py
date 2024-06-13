@@ -32,6 +32,22 @@ class GraphTest(TestCase):
         self.assertEqual(basic.y_axis_max, 15)
         self.assertEqual(basic.y_axis_min, 3)
 
+    def test_default_grid(self):
+        self.assertEqual(self.x.major_grid, 0)
+        # self.assertEqual(self.x.minor_grid, 'none')
+
+        self.x.major_grid = 1
+        # self.x.minor_grid = 'line'
+        self.x.save()
+        self.x.refresh_from_db()
+
+        self.assertEqual(self.x.major_grid, 1)
+        # self.assertEqual(self.x.minor_grid, 'line')
+
+        basic = GraphFactory(major_grid=1)  # , minor_grid='point')
+        self.assertEqual(basic.major_grid, 1)
+        # self.assertEqual(basic.minor_grid, 'point')
+
     def test_clone(self):
         original = GraphFactory(title='cloned graph')
 

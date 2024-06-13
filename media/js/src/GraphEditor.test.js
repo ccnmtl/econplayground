@@ -51,6 +51,8 @@ it('renders without crashing', () => {
             gIntersectionLabel={''}
             gIntersection2Label={''}
             gIntersection3Label={''}
+            gMajorGrid={'none'}
+            gMinorGrid={'none'}
             saveGraph={function() {}}
             saveAndViewGraph={function() {}} />
     );

@@ -148,6 +148,9 @@ class Viewer extends Component {
                     gExpression2={this.state.gExpression2}
                     gExpression3={this.state.gExpression3}
 
+                    gMajorGrid={this.state.gMajorGrid}
+                    gMinorGrid={this.state.gMinorGrid}
+
                     updateDisplayIntersection={this.updateDisplayIntersection.bind(this)}
                     updateGraph={this.handleGraphUpdate.bind(this)}
                     saveGraph={this.handleSaveGraph.bind(this)}
@@ -303,6 +306,9 @@ class Viewer extends Component {
                     gExpression={this.state.gExpression}
                     gExpression2={this.state.gExpression2}
                     gExpression3={this.state.gExpression3}
+
+                    gMajorGrid={this.state.gMajorGrid}
+                    gMinorGrid={this.state.gMinorGrid}
 
                     assessment={this.state.assessment}
                     submission={this.state.submission}

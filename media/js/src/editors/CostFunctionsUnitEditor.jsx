@@ -4,6 +4,7 @@ import RangeEditor from '../form-components/RangeEditor.js';
 import DefineRange from '../form-components/DefineRange.jsx';
 import { handleFormUpdate } from '../utils.js';
 import { MathJax } from 'better-react-mathjax';
+import GridOption from '../form-components/gridOptions.jsx';
 
 
 export default class CostFunctionsUnitEditor extends React.Component {
@@ -26,6 +27,20 @@ export default class CostFunctionsUnitEditor extends React.Component {
                     </MathJax>
                 </div>
                 <hr />
+                {[
+                    ['gMajorGrid', 'major'],
+                    // ['gMinorGrid', 'minor']
+                ].map((item, key) => {
+                    return (
+                        <GridOption
+                            key={key}
+                            id={item[0]}
+                            itemlabel={item[1]}
+                            dataId={item[1]}
+                            handler={handleFormUpdate.bind(this)}
+                            value={this.props[item[0]]}/>
+                    );
+                })}
                 {this.props.isInstructor && this.props.isEditing && (
                     <div className="row">
                         {[ // [dataId, label]
@@ -92,6 +107,8 @@ CostFunctionsUnitEditor.propTypes = {
     gXAxisMin: PropTypes.number.isRequired,
     gYAxisMax: PropTypes.number.isRequired,
     gYAxisMin: PropTypes.number.isRequired,
+    gMajorGrid: PropTypes.number.isRequired,
+    gMinorGrid: PropTypes.number.isRequired,
 
     displaySliders: PropTypes.bool.isRequired,
     isInstructor: PropTypes.bool.isRequired,

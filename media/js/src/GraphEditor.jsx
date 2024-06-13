@@ -431,6 +431,9 @@ GraphEditor.propTypes = {
     gYAxisMax: PropTypes.number,
     gYAxisMin: PropTypes.number,
 
+    gMajorGrid: PropTypes.number,
+    gMinorGrid: PropTypes.number,
+
     updateGraph: PropTypes.func.isRequired,
     saveGraph: PropTypes.func.isRequired,
     saveAndViewGraph: PropTypes.func.isRequired,

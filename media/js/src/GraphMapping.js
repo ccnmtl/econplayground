@@ -123,7 +123,10 @@ const exportGraph = function(state) {
 
         expression: state.gExpression,
         expression_2: state.gExpression2,
-        expression_3: state.gExpression3
+        expression_3: state.gExpression3,
+
+        major_grid: state.gMajorGrid,
+        minor_grid: state.gMinorGrid
     };
 
     if (state.gType === 3 || state.gType === 12) {
@@ -253,7 +256,10 @@ const convertGraph = function(json) {
 
         gExpression: json.expression,
         gExpression2: json.expression_2,
-        gExpression3: json.expression_3
+        gExpression3: json.expression_3,
+
+        gMajorGrid: json.major_grid,
+        gMinorGrid: json.minor_grid
     };
 };
 
@@ -371,7 +377,10 @@ const importGraph = function(json, obj, callback=null) {
 
         gExpression: json.expression,
         gExpression2: json.expression_2,
-        gExpression3: json.expression_3
+        gExpression3: json.expression_3,
+
+        gMajorGrid: json.major_grid,
+        gMinorGrid: json.minor_grid
     };
 
     // When importing a graph for display, save the initial state of
@@ -660,6 +669,9 @@ const defaultGraph = {
     gExpression: 'x',
     gExpression2: '',
     gExpression3: '',
+
+    gMajorGrid: 0,
+    gMinorGrid: 0,
 
     // Use a hard-coded proof-of-concept assessment spreadsheet for
     // now. Eventually, this will be defined using a Google

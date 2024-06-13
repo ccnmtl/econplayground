@@ -165,6 +165,8 @@ class GraphSerializer(serializers.ModelSerializer):
             'expression',
             'expression_2',
             'expression_3',
+            'major_grid',
+            'minor_grid',
         )
 
     def create(self, validated_data):
