@@ -60,6 +60,7 @@ export default class GraphPicker extends React.Component {
             [17, 'consumption_leisure_optimal.png', true],
             [18, 'cost_functions_total.png', true],
             [19, 'cost_functions_total.png', true],
+            [20, null, true],
         ];
 
         return (
