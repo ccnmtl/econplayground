@@ -56,6 +56,23 @@ export default class JXGBoard extends React.Component {
         this.handleAreaUpdate = this.handleAreaUpdate.bind(this);
     }
 
+    visibleTicks = {
+        drawLabels: true,
+        includeBoundaries: true,
+        label: {
+            anchorX: 'left',
+            anchorY: 'btm',
+            offset: [2, 2],
+            strokeColor: '#7f7f7f',
+        },
+        minorTicks: 1,
+        majorHeight: 25,
+        minorHeight: 10,
+        strokeWidth: 1,
+        ticksDistance: 2,
+        tickEndings: [1, 1],
+    };
+
     handleAreaUpdate(areaA, areaB, areaC) {
         // Handles area updates for all types of AUC graphs
         this.setState({
@@ -282,8 +299,8 @@ export default class JXGBoard extends React.Component {
 
         if (needsUpdate) {
             let boundingBox = [
-                this.props.gYAxisMin-0.02, this.props.gYAxisMax,
-                this.props.gXAxisMax, this.props.gXAxisMin-0.02];
+                this.props.gYAxisMin-0.07, this.props.gYAxisMax,
+                this.props.gXAxisMax, this.props.gXAxisMin-0.11];
             if (this.props.gType === 18) {
                 boundingBox = [0, 12000, 500, 0];
             }
@@ -458,8 +475,8 @@ export default class JXGBoard extends React.Component {
                     0, options.gCobbDouglasKName, options.gNName);
                 break;
             case 19:
-                xTicks = {visible: false};
-                yTicks = {visible: false};
+                xTicks = this.visibleTicks;
+                yTicks = xTicks;
                 break;
             default:
                 xAxisLabel = options.gXAxisLabel ? options.gXAxisLabel : 'x';
@@ -468,8 +485,8 @@ export default class JXGBoard extends React.Component {
         }
 
         let boundingBox = [
-            this.props.gYAxisMin-0.02, this.props.gYAxisMax,
-            this.props.gXAxisMax, this.props.gXAxisMin-0.02];
+            this.props.gYAxisMin-0.07, this.props.gYAxisMax,
+            this.props.gXAxisMax, this.props.gXAxisMin-0.11];
         if (options.gType === 18) {
             boundingBox = [0, 12000, 500, 0];
         }
