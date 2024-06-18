@@ -30,8 +30,6 @@ export class CostFunctionsUnitGraph extends Graph {
         };
 
         this.l1 = this.board.create('functiongraph', [f1, 0, 500], {
-            name: 'TC',
-            withLabel: true,
             strokeWidth: 2,
             strokeColor: this.l1Color,
             fixed: true,

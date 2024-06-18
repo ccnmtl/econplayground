@@ -17,6 +17,7 @@ import JXGBoard from './JXGBoard.jsx';
 import {
     displayGraphType, handleFormUpdate, getCohortId, BOARD_HEIGHT, BOARD_WIDTH,
 } from './utils';
+import RevenueElasticityEditor from './editors/RevenueElasticityEditor.jsx';
 
 
 export default class GraphEditor extends React.Component {
@@ -269,6 +270,13 @@ export default class GraphEditor extends React.Component {
             rightSide =
                 <CostFunctionsUnitEditor
                     isEditing={true}
+                    updateGraph={this.props.updateGraph}
+                    {...commonEditorProps}
+                    {...this.props}
+                />;
+        } else if (this.props.gType === 20) {
+            rightSide =
+                <RevenueElasticityEditor
                     updateGraph={this.props.updateGraph}
                     {...commonEditorProps}
                     {...this.props}

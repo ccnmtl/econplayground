@@ -148,6 +148,11 @@ class CohortGraphPickView(
                     'title': 'Cost Functions: Unit',
                     'image': 'cost_functions_total.png',
                 },
+                {
+                    'graph_type': 20,
+                    'title': 'Price Elasticity of Demand and Revenue',
+                    'image': 'elasticity_demand_revenue.png',
+                },
             ]
             })
         return ctx
