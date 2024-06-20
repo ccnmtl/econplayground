@@ -60,7 +60,96 @@ class CohortGraphPickView(
     def get_context_data(self, *args, **kwargs):
         ctx = super(CohortGraphPickView, self).get_context_data(
             *args, **kwargs)
-        ctx.update({'cohort': self.cohort})
+        ctx.update({
+            'cohort': self.cohort,
+            'graph_list': [
+                {
+                    'graph_type': 0,
+                    'title': 'Linear Demand and Supply',
+                    'image': 'linear_demand_supply.png',
+                },
+                {
+                    'graph_type': 8,
+                    'title': 'Linear Demand and Supply: 3 Functions',
+                    'image': 'ADAS.png',
+                },
+                {
+                    'graph_type': 9,
+                    'title': 'Linear Demand and Supply: Areas',
+                    'image': 'linear_demand_supply.png',
+                },
+                {
+                    'graph_type': 13,
+                    'title': 'Linear Demand and Supply: 2 Diagrams',
+                    'image': 'linear_demand_supply_2.png',
+                },
+                {
+                    'graph_type': 3,
+                    'title': 'Cobb-Douglas Production Graph',
+                    'image': 'cobb_douglas.png',
+                },
+                {
+                    'graph_type': 1,
+                    'title': 'Input Markets',
+                    'image': 'non-linear_demand_supply.png',
+                },
+                {
+                    'graph_type': 10,
+                    'title': 'Input Markets: Areas',
+                    'image': 'non-linear_demand_supply_area.png',
+                },
+                {
+                    'graph_type': 14,
+                    'title': 'Input Markets: 2 Diagrams',
+                    'image': 'non-linear_demand_supply.png',
+                },
+                {
+                    'graph_type': 12,
+                    'title': 'Input-Output Illustrations',
+                    'image': 'cobb_douglas.png',
+                },
+                {
+                    'graph_type': 5,
+                    'title': 'Consumption-Leisure: Constraint',
+                    'image': 'consumption_leisure.png',
+                },
+                {
+                    'graph_type': 15,
+                    'title': 'Consumption-Leisure: Optimal Choice',
+                    'image': 'consumption_leisure_optimal.png',
+                },
+                {
+                    'graph_type': 7,
+                    'title': 'Consumption-Saving: Constraint',
+                    'image': 'consumption_saving.png',
+                },
+                {
+                    'graph_type': 11,
+                    'title': 'Consumption-Saving: Optimal Choice',
+                    'image': 'consumption_saving_optimal.png',
+                },
+                {
+                    'graph_type': 16,
+                    'title': 'Template Graph',
+                    'image': 'template_graph.png',
+                },
+                {
+                    'graph_type': 17,
+                    'title': 'Optimal Choice Consumption',
+                    'image': 'consumption_leisure_optimal.png',
+                },
+                {
+                    'graph_type': 18,
+                    'title': 'Cost Functions: Total',
+                    'image': 'cost_functions_total.png',
+                },
+                {
+                    'graph_type': 19,
+                    'title': 'Cost Functions: Unit',
+                    'image': 'cost_functions_total.png',
+                },
+            ]
+            })
         return ctx
 
     def test_func(self):

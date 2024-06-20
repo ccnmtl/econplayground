@@ -28,6 +28,11 @@
                     {{ cohort.title|truncatewords:5 }}
                 </a>
             </li>
+            <li class="breadcrumb-item">
+                <a href="{% url 'cohort_graph_pick' cohort.pk %}" title="Pick a Graph">
+                    Pick a Graph
+                </a>
+            </li>
             <li class="breadcrumb-item">Create Graph</li>
         </ol>
     </nav>
