@@ -8,8 +8,7 @@ class Editor extends Component {
         super(props);
         this.state = {
             alertText: null,
-            gType: location.pathname.replaceAll(/\D+/g, ' ')
-                .trim().split(' ')[1]
+            gType: window.EconPlayground.graphType,
         };
 
         Object.assign(this.state, defaultGraph);
@@ -45,6 +44,7 @@ class Editor extends Component {
      */
     handleSaveGraph(studentView=false) {
         let data = exportGraph(this.state);
+        data.graph_type = window.EconPlayground.graphType;
         data.author = window.EconPlayground.user;
         data.expression = window.EconPlayground.fallback;
         data.expression_2 = window.EconPlayground.fallback2;

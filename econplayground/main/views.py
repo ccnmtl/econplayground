@@ -81,7 +81,11 @@ class CohortGraphCreateView(
     def get_context_data(self, *args, **kwargs):
         ctx = super(CohortGraphCreateView, self).get_context_data(
             *args, **kwargs)
-        ctx.update({'cohort': self.cohort})
+        graph_type = self.kwargs.get('graph_type')
+        ctx.update({
+            'cohort': self.cohort,
+            'graph_type': graph_type,
+            })
         return ctx
 
     def test_func(self):
