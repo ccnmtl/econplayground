@@ -10,6 +10,12 @@
 {% endblock %}
 
 {% block js %}
+    <script>
+        if (!window.EconPlayground) {
+            window.EconPlayground = {};
+        }
+        window.EconPlayground[graphType] =  {{graph_type}};
+    </script>
     <script src="{% static 'js/build/editor.js' %}"></script>
 {% endblock %}
 

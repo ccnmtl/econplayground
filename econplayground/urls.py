@@ -49,7 +49,7 @@ urlpatterns = [
     path('course/<int:pk>/graph/create/',
          views.CohortGraphPickView.as_view(),
          name='cohort_graph_pick'),
-    path('course/<int:pk>/graph/create/<int:type>/',
+    path('course/<int:pk>/graph/create/<int:graph_type>/',
          views.CohortGraphCreateView.as_view(),
          name='cohort_graph_create'),
 
