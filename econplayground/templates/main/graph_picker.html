@@ -9,10 +9,6 @@
 <meta id="csrf-token" name="csrf-token" content="{{csrf_token}}">
 {% endblock %}
 
-{% block js %}
-    <script src="{% static 'js/build/picker.js' %}"></script>
-{% endblock %}
-
 {% block title %}Create Graph{% endblock %}
 
 {% block breadcrumb %}
@@ -34,11 +30,25 @@
 {% endblock %}
 
 {% block content %}
-    <div id="root">
-        <div class="loader-inner ball-pulse">
-            <div></div>
-            <div></div>
-            <div></div>
+<div class="Picker">
+    <div class="Picker-container">
+        <div class="alert alert-danger" hidden="" role="alert"></div>
+        <div class="GraphPicker container">
+            <h1>Create a Graph</h1>
+            <p class="lead mb-4">Build illustrations or assignments for EconPractice assessment (local) or CourseWorks assessment (LTI).</p>
+            <div class="row row-cols-3 g-4">
+                {% for graph in graph_list %}
+                    <div class="col">
+                        <a class="card" href="{% url 'cohort_graph_create' cohort.pk graph.graph_type %}" title="{{ graph.title }}">
+                        <div class="card-img-top"><img class="img-fluid" alt="" src="{% static '/img/'|add:graph.image %}"></div>
+                        <div class="card-body">
+                            <h2 class="card-title">{{ graph.title }}</h2>
+                        </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
+  </div>
 {% endblock %}
