@@ -60,7 +60,7 @@ django-appconf==1.0.6
 django-statsd-mozilla==0.4.0
 sentry-sdk==2.6.0
 django-bootstrap5==24.2
-django-debug-toolbar==4.3.0
+django-debug-toolbar==4.4.2
 django-smoketest==1.2.1
 
 webencodings==0.5.1  # django-markdownify
