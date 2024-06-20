@@ -16,7 +16,6 @@ from django.views.generic.edit import (
     CreateView, FormView, UpdateView, DeleteView
 )
 from django.views.generic.detail import SingleObjectMixin
-from django.shortcuts import get_object_or_404
 from lti_provider.mixins import LTIAuthMixin
 from lti_provider.views import LTILandingPage
 from s3sign.views import SignS3View
@@ -46,20 +45,13 @@ class EnsureCsrfCookieMixin(object):
         return super(EnsureCsrfCookieMixin, self).dispatch(*args, **kwargs)
 
 
-class CohortGraphPickView(
-        EnsureCsrfCookieMixin, UserPassesTestMixin, CreateView):
+class GraphPickView(EnsureCsrfCookieMixin, CohortInstructorMixin, CreateView):
     model = Graph
     fields = []
     template_name = 'main/graph_picker.html'
 
-    def get(self, request, *args, **kwargs):
-        pk = kwargs.get('pk')
-        self.cohort = get_object_or_404(Cohort, pk=pk)
-        return super(CohortGraphPickView, self).get(request, *args, **kwargs)
-
     def get_context_data(self, *args, **kwargs):
-        ctx = super(CohortGraphPickView, self).get_context_data(
-            *args, **kwargs)
+        ctx = super().get_context_data(*args, **kwargs)
         ctx.update({
             'cohort': self.cohort,
             'graph_list': [
@@ -149,36 +141,24 @@ class CohortGraphPickView(
                     'image': 'cost_functions_total.png',
                 },
             ]
-            })
+        })
         return ctx
 
-    def test_func(self):
-        return user_is_instructor(self.request.user)
 
-
-class CohortGraphCreateView(
-        EnsureCsrfCookieMixin, UserPassesTestMixin, CreateView):
+class GraphCreateView(
+        EnsureCsrfCookieMixin, CohortInstructorMixin, CreateView):
     model = Graph
     fields = ['title', 'summary', 'instructions']
     template_name = 'main/graph_form.html'
 
-    def get(self, request, *args, **kwargs):
-        pk = kwargs.get('pk')
-        self.cohort = get_object_or_404(Cohort, pk=pk)
-        return super(CohortGraphCreateView, self).get(request, *args, **kwargs)
-
     def get_context_data(self, *args, **kwargs):
-        ctx = super(CohortGraphCreateView, self).get_context_data(
-            *args, **kwargs)
+        ctx = super().get_context_data(*args, **kwargs)
         graph_type = self.kwargs.get('graph_type')
         ctx.update({
             'cohort': self.cohort,
             'graph_type': graph_type,
-            })
+        })
         return ctx
-
-    def test_func(self):
-        return user_is_instructor(self.request.user)
 
 
 class GraphCloneDisplay(LoginRequiredMixin, CohortInstructorMixin, DetailView):

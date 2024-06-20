@@ -46,11 +46,12 @@ urlpatterns = [
          name='cohort_edit'),
     path('course/<int:pk>/clone/', views.CohortCloneView.as_view(),
          name='cohort_clone'),
-    path('course/<int:pk>/graph/create/',
-         views.CohortGraphPickView.as_view(),
+
+    path('course/<int:cohort_pk>/graph/create/',
+         views.GraphPickView.as_view(),
          name='cohort_graph_pick'),
-    path('course/<int:pk>/graph/create/<int:graph_type>/',
-         views.CohortGraphCreateView.as_view(),
+    path('course/<int:cohort_pk>/graph/create/<int:graph_type>/',
+         views.GraphCreateView.as_view(),
          name='cohort_graph_create'),
 
     path('course/<int:cohort_pk>/graph/<int:pk>/',
