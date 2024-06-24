@@ -35,6 +35,7 @@ GRAPH_TYPES = (
     (17, 'Optimal Choice Consumption'),
     (18, 'Cost Functions: Total'),
     (19, 'Cost Functions: Unit'),
+    (20, 'Price Elasticity of Demand and Revenue'),
 )
 
 ASSIGNMENT_TYPES = (

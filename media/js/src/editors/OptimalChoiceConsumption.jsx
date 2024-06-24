@@ -92,7 +92,7 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
                             id="gA4"
                             dataId="gA4"
                             value={this.props.gA4}
-                            min={0.01}
+                            min={0}
                             max={2}
                             handler={handleFormUpdate.bind(this)} />
                         <RangeEditor
@@ -100,7 +100,7 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
                             id="gA5"
                             dataId="gA5"
                             value={this.props.gA5}
-                            min={0.01}
+                            min={0}
                             max={2}
                             handler={handleFormUpdate.bind(this)} />
                         <hr />

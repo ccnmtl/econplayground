@@ -63,7 +63,7 @@ export default class JXGBoard extends React.Component {
             anchorX: 'left',
             anchorY: 'btm',
             offset: [2, 2],
-            strokeColor: '#7f7f7f',
+            strokeColor: '#afafaf',
         },
         minorTicks: 1,
         majorHeight: 25,
@@ -477,6 +477,12 @@ export default class JXGBoard extends React.Component {
             case 19:
                 xTicks = this.visibleTicks;
                 yTicks = xTicks;
+                break;
+            case 20:
+                xTicks = this.visibleTicks;
+                yTicks = xTicks;
+                xAxisLabel = 'Quantity';
+                yAxisLabel = 'Price';
                 break;
             default:
                 xAxisLabel = options.gXAxisLabel ? options.gXAxisLabel : 'x';

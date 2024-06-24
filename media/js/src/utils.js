@@ -352,6 +352,9 @@ const displayGraphType = function(gType) {
         case 19:
             name = 'Cost Functions: Unit';
             break;
+        case 20:
+            name = 'Price Elasticity of Demand and Revenue';
+            break;
         default:
             break;
     }

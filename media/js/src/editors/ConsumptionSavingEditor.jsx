@@ -75,7 +75,7 @@ export default class ConsumptionSavingEditor extends React.Component {
                                 id="gA5"
                                 dataId="gA5"
                                 value={this.props.gA5}
-                                min={0.01}
+                                min={0}
                                 max={1}
                                 handler={handleFormUpdate.bind(this)} />
                         )}

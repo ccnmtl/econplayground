@@ -46,7 +46,7 @@ export default class ConsumptionLeisureEditor extends React.Component {
                             id="gA2"
                             dataId="gA2"
                             value={this.props.gA2}
-                            min={0.01}
+                            min={0}
                             max={5}
                             handler={handleFormUpdate.bind(this)} />
                         {this.props.gType === 15 && (
@@ -55,7 +55,7 @@ export default class ConsumptionLeisureEditor extends React.Component {
                                 id="gA3"
                                 dataId="gA3"
                                 value={this.props.gA3}
-                                min={0.00001}
+                                min={0}
                                 max={0.99999}
                                 handler={handleFormUpdate.bind(this)} />
                         )}
