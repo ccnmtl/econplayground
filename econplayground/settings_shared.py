@@ -31,9 +31,6 @@ if 'test' in sys.argv or 'jenkins' in sys.argv:
     }
 
 USE_TZ = True
-STATICFILES_DIRS = [
-    "./media",
-]
 
 REST_FRAMEWORK = {
     'TEST_REQUEST_DEFAULT_FORMAT': 'json',
