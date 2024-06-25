@@ -41,7 +41,7 @@
                     <div class="col">
                         <a class="card" href="{% url 'cohort_graph_create' cohort.pk graph.graph_type %}" title="{{ graph.title }}">
                             <div class="card-img-top">
-                                <img class="img-fluid" alt="Thumbnail for {% graph.title %}"
+                                <img class="img-fluid" alt="Thumbnail for {{ graph.title }}"
                                      src="{% static 'img/'|add:graph.image %}" />
                             </div>
                         <div class="card-body">
