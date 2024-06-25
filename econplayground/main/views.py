@@ -31,6 +31,7 @@ from econplayground.main.models import (
     Cohort, Graph, Submission, Topic
 )
 from econplayground.main.utils import user_is_instructor
+from econplayground.main.utils import get_graph_name
 
 
 class EnsureCsrfCookieMixin(object):
@@ -144,6 +145,11 @@ class GraphPickView(EnsureCsrfCookieMixin, CohortInstructorMixin, CreateView):
                     'graph_type': 20,
                     'title': 'Price Elasticity of Demand and Revenue',
                     'image': 'elasticity_demand_revenue.png',
+                },
+                {
+                    'graph_type': 21,
+                    'title': get_graph_name(21),
+                    'image': None,
                 },
             ]
         })

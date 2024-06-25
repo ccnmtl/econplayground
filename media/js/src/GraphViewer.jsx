@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as commonmark from 'commonmark';
 import Assessment from './Assessment.js';
+
 import ADASEditor from './editors/ADASEditor.jsx';
 import CobbDouglasEditor from './editors/CobbDouglasEditor.jsx';
 import CobbDouglasNLDSEditor from './editors/CobbDouglasNLDSEditor.jsx';
@@ -12,6 +13,9 @@ import NonLinearDemandSupplyEditor from './editors/NonLinearDemandSupplyEditor.j
 import TemplateGraphEditor from './editors/TemplateGraphEditor.jsx';
 import OptimalChoiceConsumptionEditor from './editors/OptimalChoiceConsumption.jsx';
 import CostFunctionsTotalEditor from './editors/CostFunctionsTotalEditor.jsx';
+import CostFunctionsUnitEditor from './editors/CostFunctionsUnitEditor.jsx';
+import OptimalChoiceCostMinimizingEditor from './editors/OptimalChoiceCostMinimizingEditor.jsx';
+
 import ExportGraphButton from './buttons/ExportGraphButton.jsx';
 import ResetGraphButton from './buttons/ResetGraphButton.jsx';
 import SubmitButton from './buttons/SubmitButton.jsx';
@@ -20,7 +24,6 @@ import Feedback from './Feedback.jsx';
 import {
     forceFloat, getOrCreateSubmission, BOARD_WIDTH, BOARD_HEIGHT
 } from './utils';
-import CostFunctionsUnitEditor from './editors/CostFunctionsUnitEditor.jsx';
 
 
 /**
@@ -218,7 +221,14 @@ export default class GraphViewer extends React.Component {
                         {...commonViewerProps}
                         {...this.props}
                     />;
-            }     
+            } else if (this.props.gType === 21) {
+                rightSide =
+                    <OptimalChoiceCostMinimizingEditor
+                        updateGraph={this.props.updateGraph}
+                        {...commonViewerProps}
+                        {...this.props}
+                    />;
+            }
 
             // Show side-by-side view here.
             return (

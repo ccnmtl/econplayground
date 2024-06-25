@@ -36,6 +36,7 @@ GRAPH_TYPES = (
     (18, 'Cost Functions: Total'),
     (19, 'Cost Functions: Unit'),
     (20, 'Price Elasticity of Demand and Revenue'),
+    (21, 'Optimal Choice: Cost-Minimizing Production Inputs'),
 )
 
 ASSIGNMENT_TYPES = (

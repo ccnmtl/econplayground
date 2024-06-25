@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib.auth.models import Group
+from econplayground.main.models import GRAPH_TYPES
 
 INSTRUCTOR_LIST = ['tg2451']
 
@@ -20,3 +21,15 @@ def user_is_instructor(user: object) -> bool:
             (instructors_group in user.groups.all())) or \
         (user.username in instructor_list) or \
         user.is_staff
+
+
+def get_graph_name(graph_type: int) -> str:
+    """
+    Given a graph type, return its name.
+    """
+    result = [x[1] for x in GRAPH_TYPES if x[0] == graph_type]
+
+    if len(result) < 1:
+        raise ValueError('graph type not found')
+
+    return result[0]

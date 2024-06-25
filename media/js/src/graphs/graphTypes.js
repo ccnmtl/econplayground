@@ -4,7 +4,9 @@ import {mkNonLinearDemandSupply} from './NonLinearDemandSupplyGraph.js';
 import {mkNonLinearDemandSupplyAUC} from './NonLinearDemandSupplyGraphAUC.js';
 import {mkCobbDouglas} from './CobbDouglasGraph.js';
 import {mkConsumptionLeisure} from './ConsumptionLeisureGraph.js';
-import {mkConsumptionLeisureOptimalChoice} from './ConsumptionLeisureOptimalChoiceGraph.js';
+import {
+    mkConsumptionLeisureOptimalChoice
+} from './ConsumptionLeisureOptimalChoiceGraph.js';
 import {mkConsumptionSaving} from './ConsumptionSavingGraph.js';
 import {mkOptimalChoice} from './OptimalChoiceGraph.js';
 import {mkCostFunctionsTotal} from './CostFunctionsTotalGraph.js';
@@ -13,6 +15,7 @@ import {mkADAS} from './ADASGraph.js';
 import {mkTemplate} from './TemplateGraph.js';
 import { mkOptimalChoiceConsumption } from './OptimalChoiceConsumption.js';
 import { mkRevenueElasticity } from './RevenueElasticityGraph.js';
+import {mkOptimalChoiceCostMinimizing} from './OptimalChoiceCostMinimizing.js';
 
 export const graphTypes = [
     // There are some null graph types here because the number of
@@ -41,5 +44,6 @@ export const graphTypes = [
     mkOptimalChoiceConsumption,
 
     mkCostFunctionsTotal, mkCostFunctionsUnit,
-    mkRevenueElasticity
+    mkRevenueElasticity,
+    mkOptimalChoiceCostMinimizing
 ];
