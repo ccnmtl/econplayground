@@ -512,6 +512,19 @@ export default class JXGBoard extends React.Component {
             boundingBox = [0, 12000, 500, 0];
         }
 
+        let grid = false;
+        if (
+            typeof this.props.gMajorGridType !== 'undefined' &&
+                typeof this.props.gMinorGridType !== 'undefined'
+        ) {
+            grid = {
+                major: GRID_MAJOR[this.props.gMajorGridType],
+                minor: GRID_MINOR[this.props.gMinorGridType],
+                minorElements: 1,
+                visible: true
+            };
+        }
+
         this.board = JXG.JSXGraph.initBoard(
             this.id, {
                 axis: true,
@@ -535,12 +548,7 @@ export default class JXGBoard extends React.Component {
                         layer: 9
                     }
                 },
-                grid: {
-                    major: GRID_MAJOR[this.props.gMajorGridType],
-                    minor: GRID_MINOR[this.props.gMinorGridType],
-                    minorElements: 1,
-                    visible: true,
-                },
+                grid: grid,
                 keepAspectRatio: false,
                 showCopyright: false,
                 showZoom: false,
