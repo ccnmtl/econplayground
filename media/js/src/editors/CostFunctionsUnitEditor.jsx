@@ -4,7 +4,7 @@ import RangeEditor from '../form-components/RangeEditor.js';
 import DefineRange from '../form-components/DefineRange.jsx';
 import { handleFormUpdate } from '../utils.js';
 import { MathJax } from 'better-react-mathjax';
-import GridOption from '../form-components/gridOptions.jsx';
+import GridOption from '../form-components/GridOption.jsx';
 
 
 export default class CostFunctionsUnitEditor extends React.Component {
