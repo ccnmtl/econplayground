@@ -361,7 +361,11 @@ class Graph(OrderedModel):
     expression_2 = models.TextField(default='', blank=True)
     expression_3 = models.TextField(default='', blank=True)
 
-    # A graph may display different grid types
+    # A graph may display different grid types.
+    # Grid types:
+    #   0: none
+    #   1: point
+    #   2: line
     major_grid_type = models.PositiveIntegerField(default=0)
     minor_grid_type = models.PositiveIntegerField(default=0)
 
