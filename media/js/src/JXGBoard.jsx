@@ -506,8 +506,10 @@ export default class JXGBoard extends React.Component {
         }
 
         let boundingBox = [
-            this.props.gYAxisMin-0.07, this.props.gYAxisMax,
-            this.props.gXAxisMax, this.props.gXAxisMin-0.11];
+            this.props.gYAxisMin - 0.07, this.props.gYAxisMax,
+            this.props.gXAxisMax, this.props.gXAxisMin - 0.11
+        ];
+
         if (options.gType === 18) {
             boundingBox = [0, 12000, 500, 0];
         }

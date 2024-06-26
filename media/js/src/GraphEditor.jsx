@@ -13,11 +13,13 @@ import CommonGraphSettings from './editors/CommonGraphSettings.jsx';
 import OptimalChoiceConsumptionEditor from './editors/OptimalChoiceConsumption.jsx';
 import CostFunctionsTotalEditor from './editors/CostFunctionsTotalEditor.jsx';
 import CostFunctionsUnitEditor from './editors/CostFunctionsUnitEditor.jsx';
+import RevenueElasticityEditor from './editors/RevenueElasticityEditor.jsx';
+import OptimalChoiceCostMinimizingEditor from './editors/OptimalChoiceCostMinimizingEditor.jsx';
+
 import JXGBoard from './JXGBoard.jsx';
 import {
     displayGraphType, handleFormUpdate, getCohortId, BOARD_HEIGHT, BOARD_WIDTH,
 } from './utils';
-import RevenueElasticityEditor from './editors/RevenueElasticityEditor.jsx';
 
 
 export default class GraphEditor extends React.Component {
@@ -277,6 +279,13 @@ export default class GraphEditor extends React.Component {
         } else if (this.props.gType === 20) {
             rightSide =
                 <RevenueElasticityEditor
+                    updateGraph={this.props.updateGraph}
+                    {...commonEditorProps}
+                    {...this.props}
+                />;
+        } else if (this.props.gType === 21) {
+            rightSide =
+                <OptimalChoiceCostMinimizingEditor
                     updateGraph={this.props.updateGraph}
                     {...commonEditorProps}
                     {...this.props}

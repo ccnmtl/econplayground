@@ -355,6 +355,9 @@ const displayGraphType = function(gType) {
         case 20:
             name = 'Price Elasticity of Demand and Revenue';
             break;
+        case 21:
+            name = 'Optimal Choice: Cost-Minimizing Production Inputs';
+            break;
         default:
             break;
     }
