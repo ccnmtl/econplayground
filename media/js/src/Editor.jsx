@@ -8,7 +8,7 @@ class Editor extends Component {
         super(props);
         this.state = {
             alertText: null,
-            gType: window.EconPlayground.graphType,
+            gType: null
         };
 
         Object.assign(this.state, defaultGraph);
@@ -28,8 +28,7 @@ class Editor extends Component {
                     </div>
                     <GraphEditor
                         {...this.state}
-                        gType={parseInt(location.pathname
-                            .replaceAll(/\D+/g, ' ').trim().split(' ')[1])}
+                        gType={this.state.gType}
                         ref={this.ge}
                         updateGraph={this.handleGraphUpdate.bind(this)}
                         saveGraph={this.handleSaveGraph.bind(this)}
@@ -83,6 +82,11 @@ class Editor extends Component {
     }
     componentDidMount() {
         const me = this;
+
+        if (typeof window.EconPlayground.graphType !== 'undefined') {
+            this.setState({gType: window.EconPlayground.graphType});
+        }
+
         document.addEventListener('l1offset', function(e) {
             const offset = e.detail;
             let line = 1;
