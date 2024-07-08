@@ -1,20 +1,9 @@
 import {Graph} from './Graph.js';
 
-const cost = function(l, k, w, r) {
-    return w * l + r * k;
-};
-
-const isocost = function(w, r, c, x) {
-    const k = 1;
-    // TODO: This function is incorrect.
-    //
-    // Here is the mathematica code:
-    // isoc[w, r, c] := k /. Solve[cost[l, k, w, r] == c, k]
-    //
-    // Need to adjust this to include c (the gA2 range variable in the
-    // frontend) as a solved variable.
-    //
-    return k / cost(x, k, w, r);
+const isocost = function(w, r, c, k) {
+    // c = w * l + r * k
+    // Solve for l
+    return (-(k * r) + c) / w;
 };
 
 export class OptimalChoiceCostMinimizingGraph extends Graph {
@@ -27,7 +16,7 @@ export class OptimalChoiceCostMinimizingGraph extends Graph {
 
         this.l1 = this.board.create(
             'functiongraph',
-            [f1, 0, 100], {
+            [f1, 0, 1000], {
                 strokeWidth: 2,
                 strokeColor: this.l1Color,
                 fixed: true,
