@@ -358,6 +358,9 @@ const displayGraphType = function(gType) {
         case 21:
             name = 'Optimal Choice: Cost-Minimizing Production Inputs';
             break;
+        case 22:
+            name = 'Tax Rate and Revenue';
+            break;
         default:
             break;
     }

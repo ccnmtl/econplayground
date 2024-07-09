@@ -151,6 +151,11 @@ class GraphPickView(EnsureCsrfCookieMixin, CohortInstructorMixin, CreateView):
                     'title': get_graph_name(21),
                     'image': None,
                 },
+                {
+                    'graph_type': 22,
+                    'title': get_graph_name(22),
+                    'image': 'tax_revenue.png',
+                }
             ]
         })
         return ctx
