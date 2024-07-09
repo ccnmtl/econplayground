@@ -11,7 +11,14 @@ class Editor extends Component {
             gType: null
         };
 
+        this.defaults = {
+            gA1: 2.5,
+            gA2: 2,
+            gA3: 0.5
+        };
+
         Object.assign(this.state, defaultGraph);
+        Object.assign(this.state, this.defaults);
 
         this.gp = React.createRef();
         this.ge = React.createRef();
@@ -84,7 +91,19 @@ class Editor extends Component {
         const me = this;
 
         if (typeof window.EconPlayground.graphType !== 'undefined') {
-            this.setState({gType: window.EconPlayground.graphType});
+            let updateObj = {
+                gType: window.EconPlayground.graphType
+            };
+
+            Object.assign(updateObj, this.defaults);
+
+            if (window.EconPlayground.graphType === 21) {
+                updateObj.gA1 = 5;
+                updateObj.gA2 = 10;
+                updateObj.gA3 = 2500;
+            }
+
+            this.setState(updateObj);
         }
 
         document.addEventListener('l1offset', function(e) {

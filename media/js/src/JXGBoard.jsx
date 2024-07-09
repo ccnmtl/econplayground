@@ -301,13 +301,14 @@ export default class JXGBoard extends React.Component {
         }
 
         if (needsUpdate) {
-            let boundingBox = [
-                this.props.gYAxisMin-0.07, this.props.gYAxisMax,
-                this.props.gXAxisMax, this.props.gXAxisMin-0.11];
-            if (this.props.gType === 18) {
-                boundingBox = [0, 12000, 500, 0];
+            if (this.props.gType !== 18 && this.props.gType !== 21) {
+                let boundingBox = [
+                    this.props.gYAxisMin - 0.07, this.props.gYAxisMax,
+                    this.props.gXAxisMax, this.props.gXAxisMin - 0.11
+                ];
+                this.board.setBoundingBox(boundingBox);
             }
-            this.board.setBoundingBox(boundingBox);
+
             this.board2.update();
             this.renderJXBoard({
                 l1SubmissionOffset: getL1SubmissionOffset(this.props.submission),
@@ -499,6 +500,12 @@ export default class JXGBoard extends React.Component {
                 xAxisLabel = 'Quantity';
                 yAxisLabel = 'Price';
                 break;
+            case 21:
+                xTicks = this.visibleTicks;
+                yTicks = xTicks;
+                xAxisLabel = 'Labor';
+                yAxisLabel = 'Capital';
+                break;
             default:
                 xAxisLabel = options.gXAxisLabel ? options.gXAxisLabel : 'x';
                 yAxisLabel = options.gYAxisLabel ? options.gYAxisLabel : 'y';
@@ -512,6 +519,8 @@ export default class JXGBoard extends React.Component {
 
         if (options.gType === 18) {
             boundingBox = [0, 12000, 500, 0];
+        } else if (options.gType === 21) {
+            boundingBox = [0, 1000, 1000, 0];
         }
 
         let grid = false;

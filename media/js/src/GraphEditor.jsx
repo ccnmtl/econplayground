@@ -33,6 +33,7 @@ export default class GraphEditor extends React.Component {
             </div>
         );
     }
+
     render() {
         const courseId = getCohortId(window.location.pathname);
 
@@ -442,7 +443,7 @@ GraphEditor.propTypes = {
 
     gAreaConfiguration: PropTypes.number,
     gIsAreaDisplayed: PropTypes.bool,
-    
+
     gXAxisMax: PropTypes.number,
     gXAxisMin: PropTypes.number,
     gYAxisMax: PropTypes.number,
