@@ -127,7 +127,10 @@ export default class GraphViewer extends React.Component {
         }
         let rightSide = null;
 
-        if (this.props.gType === 0 || this.props.gType === 9) {
+        if (
+            this.props.gType === 0 || this.props.gType === 9 ||
+                this.props.gType === 23
+        ) {
             // Demand-Supply, possibly AUC (area under curve)
             rightSide =
                 <DemandSupplyEditor

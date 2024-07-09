@@ -25,7 +25,7 @@ export default function GraphForm({ gType, updateGraph, props }) {
 
     let graphForm = null;
 
-    if (gType === 0 || gType === 9) {
+    if (gType === 0 || gType === 9 || gType === 23) {
         // Demand-Supply, possibly AUC (area under curve)
         graphForm =
             <DemandSupplyEditor
