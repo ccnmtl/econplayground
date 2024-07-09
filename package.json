@@ -41,7 +41,6 @@
     "bfj": "^8.0.0",
     "canvas": "~2.11.0",
     "eslint": "~8.57.0",
-    "eslint-plugin-jsx-a11y": "~6.9.0",
     "eslint-plugin-react": "~7.34.0",
     "eslint-plugin-security": "~3.0.0",
     "file-loader": "~6.2.0",
