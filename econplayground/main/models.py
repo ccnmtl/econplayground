@@ -37,7 +37,9 @@ GRAPH_TYPES = (
     (19, 'Cost Functions: Unit'),
     (20, 'Price Elasticity of Demand and Revenue'),
     (21, 'Optimal Choice: Cost-Minimizing Production Inputs'),
+
     (22, 'Tax Rate and Revenue'),
+    (23, 'Taxation in Linear Demand and Supply'),
 )
 
 ASSIGNMENT_TYPES = (

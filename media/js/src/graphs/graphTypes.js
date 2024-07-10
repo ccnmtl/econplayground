@@ -47,5 +47,7 @@ export const graphTypes = [
     mkCostFunctionsTotal, mkCostFunctionsUnit,
     mkRevenueElasticity,
     mkOptimalChoiceCostMinimizing,
-    mkTaxRevenue
+
+    mkTaxRevenue,
+    mkDemandSupplyAUC
 ];
