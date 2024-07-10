@@ -628,7 +628,7 @@ const defaultGraph = {
     gA3: null,
     gA3min: 0,
     gA3Max: 10,
-    gA4: 0,
+    gA4: null,
     gA4min: 0,
     gA4Max: 10,
     gA5: 0.5, // Used in graph type 11 - beta value

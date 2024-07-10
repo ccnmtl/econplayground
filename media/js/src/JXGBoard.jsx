@@ -253,6 +253,7 @@ export default class JXGBoard extends React.Component {
             }
         }
     }
+    
 
     componentDidUpdate(prevProps) {
         const updateProps = [
@@ -290,7 +291,6 @@ export default class JXGBoard extends React.Component {
             'gXAxisMax', 'gXAxisMin', 'gYAxisMax', 'gYAxisMin',
             'gMajorGridType', 'gMinorGridType'
         ];
-
         let needsUpdate = false;
         for (let i = 0; i < updateProps.length; i++) {
             let prop = updateProps[i];
@@ -301,7 +301,7 @@ export default class JXGBoard extends React.Component {
         }
 
         if (needsUpdate) {
-            if (this.props.gType !== 18 && this.props.gType !== 21) {
+            if (![18, 21, 22].includes(this.props.gType)) {
                 let boundingBox = [
                     this.props.gYAxisMin - 0.07, this.props.gYAxisMax,
                     this.props.gXAxisMax, this.props.gXAxisMin - 0.11
@@ -316,6 +316,17 @@ export default class JXGBoard extends React.Component {
                 isSubmitted: !!this.props.submission,
                 ...this.props
             });
+        }
+        if (this.props.gType === 22) {
+            if (this.props.gFunctionChoice === 0) {
+                this.board.setBoundingBox(
+                    [this.props.gYAxisMin - 17, this.props.gYAxisMax,
+                        this.props.gXAxisMax, this.props.gXAxisMin - 11000]);
+            } else {
+                this.board.setBoundingBox(
+                    [this.props.gYAxisMin - 0.07, this.props.gYAxisMax,
+                        this.props.gXAxisMax, this.props.gXAxisMin - 600]);
+            }
         }
 
         if (prevProps.gXAxisLabel !== this.props.gXAxisLabel) {
@@ -506,6 +517,12 @@ export default class JXGBoard extends React.Component {
                 xAxisLabel = 'Labor';
                 yAxisLabel = 'Capital';
                 break;
+            case 22:
+                xTicks = this.visibleTicks;
+                yTicks = xTicks;
+                xAxisLabel = 'Unit Tax';
+                yAxisLabel = 'Tax Revenue';
+                break;
             default:
                 xAxisLabel = options.gXAxisLabel ? options.gXAxisLabel : 'x';
                 yAxisLabel = options.gYAxisLabel ? options.gYAxisLabel : 'y';
@@ -513,14 +530,22 @@ export default class JXGBoard extends React.Component {
         }
 
         let boundingBox = [
-            this.props.gYAxisMin - 0.07, this.props.gYAxisMax,
-            this.props.gXAxisMax, this.props.gXAxisMin - 0.11
+            options.gYAxisMin - 0.07, options.gYAxisMax,
+            options.gXAxisMax, options.gXAxisMin - 0.11
         ];
 
         if (options.gType === 18) {
             boundingBox = [0, 12000, 500, 0];
         } else if (options.gType === 21) {
             boundingBox = [0, 1000, 1000, 0];
+        } else if (options.gType === 22) {
+            if (options.gFunctionChoice === 0) {
+                boundingBox = [options.gYAxisMin - 17, options.gYAxisMax,
+                    options.gXAxisMax, options.gXAxisMin - 11000];
+            } else {
+                boundingBox = [options.gYAxisMin - 0.07, options.gYAxisMax,
+                    options.gXAxisMax, options.gXAxisMin - 600];
+            }
         }
 
         let grid = false;

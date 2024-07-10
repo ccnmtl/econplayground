@@ -14,7 +14,8 @@ class Editor extends Component {
         this.defaults = {
             gA1: 2.5,
             gA2: 2,
-            gA3: 0.5
+            gA3: 0.5,
+            gA4: 2,
         };
 
         Object.assign(this.state, defaultGraph);

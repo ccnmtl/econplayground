@@ -20,6 +20,7 @@ import JXGBoard from './JXGBoard.jsx';
 import {
     displayGraphType, handleFormUpdate, getCohortId, BOARD_HEIGHT, BOARD_WIDTH,
 } from './utils';
+import TaxRevenueEditor from './editors/TaxRevenueEditor.jsx';
 
 
 export default class GraphEditor extends React.Component {
@@ -33,7 +34,6 @@ export default class GraphEditor extends React.Component {
             </div>
         );
     }
-
     render() {
         const courseId = getCohortId(window.location.pathname);
 
@@ -291,6 +291,13 @@ export default class GraphEditor extends React.Component {
                     {...commonEditorProps}
                     {...this.props}
                 />;
+        } else if (this.props.gType === 22) {
+            rightSide =
+                <TaxRevenueEditor
+                    updateGraph={this.props.updateGraph}
+                    {...commonEditorProps}
+                    {...this.props}
+                />;
         }
 
         return (
@@ -443,7 +450,7 @@ GraphEditor.propTypes = {
 
     gAreaConfiguration: PropTypes.number,
     gIsAreaDisplayed: PropTypes.bool,
-
+    
     gXAxisMax: PropTypes.number,
     gXAxisMin: PropTypes.number,
     gYAxisMax: PropTypes.number,

@@ -37,6 +37,7 @@ GRAPH_TYPES = (
     (19, 'Cost Functions: Unit'),
     (20, 'Price Elasticity of Demand and Revenue'),
     (21, 'Optimal Choice: Cost-Minimizing Production Inputs'),
+    (22, 'Tax Rate and Revenue'),
 )
 
 ASSIGNMENT_TYPES = (
@@ -286,27 +287,32 @@ class Graph(OrderedModel):
     a1 = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('0'))
     a1_max = models.IntegerField(default=10)
-    a1_min = models.IntegerField(default=0)
+    a1_min = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0'))
     a1_name = models.TextField(default='', blank=True,)
     a2 = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('0'))
     a2_max = models.IntegerField(default=10)
-    a2_min = models.IntegerField(default=0)
+    a2_min = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0'))
     a2_name = models.TextField(default='', blank=True)
     a3 = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('0'))
     a3_max = models.IntegerField(default=10)
-    a3_min = models.IntegerField(default=0)
+    a3_min = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0'))
     a3_name = models.TextField(default='', blank=True)
     a4 = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('0'))
     a4_max = models.IntegerField(default=10)
-    a4_min = models.IntegerField(default=0)
+    a4_min = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0'))
     a4_name = models.TextField(default='', blank=True)
     a5 = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('0'))
     a5_max = models.IntegerField(default=10)
-    a5_min = models.IntegerField(default=0)
+    a5_min = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0'))
 
     # TODO: migrate these to a1, a2, etc.
     a = models.DecimalField(

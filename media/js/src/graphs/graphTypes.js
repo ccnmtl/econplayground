@@ -16,6 +16,7 @@ import {mkTemplate} from './TemplateGraph.js';
 import { mkOptimalChoiceConsumption } from './OptimalChoiceConsumption.js';
 import { mkRevenueElasticity } from './RevenueElasticityGraph.js';
 import {mkOptimalChoiceCostMinimizing} from './OptimalChoiceCostMinimizing.js';
+import { mkTaxRevenue } from './TaxRevenueGraph.js';
 
 export const graphTypes = [
     // There are some null graph types here because the number of
@@ -45,5 +46,6 @@ export const graphTypes = [
 
     mkCostFunctionsTotal, mkCostFunctionsUnit,
     mkRevenueElasticity,
-    mkOptimalChoiceCostMinimizing
+    mkOptimalChoiceCostMinimizing,
+    mkTaxRevenue
 ];
