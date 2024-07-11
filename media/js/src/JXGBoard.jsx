@@ -8,6 +8,7 @@ import { getKatexEl } from './katexUtils.jsx';
 import { graphTypes } from './graphs/graphTypes.js';
 import { mkNonLinearDemandSupply } from './graphs/NonLinearDemandSupplyGraph.js';
 import { mkDemandSupply } from './graphs/DemandSupplyGraph.js';
+import { mkTaxationLinearDemandSupply } from './graphs/TaxationLinearDemandSupplyGraph.js';
 import AreaDisplay from './AreaDisplay.jsx';
 import {
     getL1SubmissionOffset, getL2SubmissionOffset, GRID_MAJOR, GRID_MINOR
@@ -187,6 +188,9 @@ export default class JXGBoard extends React.Component {
             } else if (options.gType === 14) {
                 // Render a Non-Linear Demand-Supply graph
                 graphId = 1;
+            } else if (options.gType === 24) {
+                // Render a Tax Revenue graph
+                graphId = 22;
             }
 
             graphTypes[graphId](this.board, graphParams);
@@ -261,6 +265,19 @@ export default class JXGBoard extends React.Component {
                     shadow: this.props.shadow,
                     ...options
                 });
+            } else if (options.gType === 24) {
+                mkTaxationLinearDemandSupply(this.board2, {
+                    ...options,
+                    gA1: options.gFunctionChoice === 0 ? options.gA3 : options.gA32,
+                    gA2: options.gFunctionChoice === 0 ? options.gA1 : options.gA12,
+                    gLine1Slope: options.gFunctionChoice === 0 ? options.gA2 : options.gA22,
+                    gLine2Slope: options.gFunctionChoice === 0 ? options.gA4 : options.gA42,
+                    isBoard2: true,
+                    l1SubmissionOffset: getL1SubmissionOffset(options.submission),
+                    l2SubmissionOffset: getL2SubmissionOffset(options.submission),
+                    locked: this.props.locked,
+                    shadow: this.props.shadow,
+                });
             }
         }
     }
@@ -325,10 +342,10 @@ export default class JXGBoard extends React.Component {
         }
 
         if (needsUpdate) {
-            if (![18, 22].includes(this.props.gType)) {
+            if (![18, 22, 24].includes(this.props.gType)) {
                 let boundingBox = calculateBoundingBox(
                     this.props.gXAxisMin, this.props.gYAxisMin,
-                    this.props.gXAxisMax, this.props.gXAxisMax);
+                    this.props.gXAxisMax, this.props.gYAxisMax);
                 this.board.setBoundingBox(boundingBox);
             }
 
@@ -340,11 +357,13 @@ export default class JXGBoard extends React.Component {
                 ...this.props
             });
         }
-        if (this.props.gType === 22) {
+        if (this.props.gType === 22 || this.props.gType === 24) {
             if (this.props.gFunctionChoice === 0) {
                 this.board.setBoundingBox(
                     [this.props.gXAxisMin - 18, this.props.gYAxisMax,
                         this.props.gXAxisMax, this.props.gYAxisMin - 11000]);
+                this.board.defaultAxes.x.name = 'Unit Tax';
+                this.board.update();
             } else {
                 this.board.setBoundingBox(
                     [this.props.gXAxisMin2 - 0.07, this.props.gYAxisMax2,
@@ -404,16 +423,11 @@ export default class JXGBoard extends React.Component {
             }
         }
 
-        if (
-            (this.props.gType === 1 ||
-             this.props.gType === 10 ||
-             this.props.gType === 12 ||
-             this.props.gType === 14
-            ) && (
-                prevProps.gFunctionChoice !== this.props.gFunctionChoice ||
-                    prevProps.gCobbDouglasKName !== this.props.gCobbDouglasKName ||
-                    prevProps.gNName !== this.props.gNName
-            )
+        if ([1, 10, 12, 14, 24].includes(this.props.gType) && (
+            prevProps.gFunctionChoice !== this.props.gFunctionChoice ||
+            prevProps.gCobbDouglasKName !== this.props.gCobbDouglasKName ||
+            prevProps.gNName !== this.props.gNName
+        )
         ) {
             const yLabel = getNLDSYLabel(
                 this.props.gType === 14 ? 1 : this.props.gFunctionChoice,
@@ -425,21 +439,32 @@ export default class JXGBoard extends React.Component {
                 this.props.gCobbDouglasKName,
                 this.props.gNName
             );
-
+            
             let board;
             if (this.board) {
                 board = this.board;
             }
 
-            if (this.board2 && (
-                this.props.gType === 12 || this.props.gType === 14
-            )) {
+            if (this.board2 && [12, 14, 24].includes(this.props.gType)
+            ) {
                 board = this.board2;
             }
 
             if (board.defaultAxes) {
-                board.defaultAxes.y.name = yLabel;
-                board.defaultAxes.x.name = xLabel;
+                if (this.props.gType === 24) {
+                    if (this.props.gFunctionChoice === 0) {
+                        board.setBoundingBox(
+                            [this.props.gXAxisMin2 - 12, 2500,
+                                1000, this.props.gYAxisMin2 - 52]);
+                    } else {
+                        board.setBoundingBox(
+                            [this.props.gXAxisMin2 - 12, 2500,
+                                1000, this.props.gYAxisMin2 - 52]);
+                    }
+                } else {
+                    board.defaultAxes.y.name = yLabel;
+                    board.defaultAxes.x.name = xLabel;
+                }
                 board.update();
             }
         }
@@ -545,12 +570,18 @@ export default class JXGBoard extends React.Component {
             case 22:
                 xTicks = this.visibleTicks;
                 yTicks = xTicks;
-                xAxisLabel = 'Unit Tax';
+                xAxisLabel = options.gFunctionChoice === 0 ? 'Unit Tax' : 'Ad Valorem Tax';
                 yAxisLabel = 'Tax Revenue';
                 break;
             case 23:
                 xTicks = this.visibleTicks;
                 yTicks = xTicks;
+                break;
+            case 24:
+                xTicks = this.visibleTicks;
+                yTicks = xTicks;
+                xAxisLabel = options.gFunctionChoice === 0 ? 'Unit Tax' : 'Ad Valorem Tax';
+                yAxisLabel = 'Tax Revenue';
                 break;
             default:
                 xAxisLabel = options.gXAxisLabel ? options.gXAxisLabel : 'x';
@@ -560,11 +591,11 @@ export default class JXGBoard extends React.Component {
 
         let boundingBox = calculateBoundingBox(
             options.gXAxisMin, options.gYAxisMin,
-            options.gXAxisMax, options.gXAxisMax);
+            options.gXAxisMax, options.gYAxisMax);
 
         if (options.gType === 18) {
             boundingBox = [0, 12000, 500, 0];
-        } else if (options.gType === 22) {
+        } else if (options.gType === 22 || options.gType === 24) {
             if (options.gFunctionChoice === 0) {
                 boundingBox = [options.gXAxisMin - 17, options.gYAxisMax,
                     options.gXAxisMax, options.gYAxisMin - 11000];
@@ -625,6 +656,19 @@ export default class JXGBoard extends React.Component {
 
         let xLabel = '';
         let yLabel = '';
+        if (options.gType === 22 || options.gType === 24) {
+            if (options.gFunctionChoice === 0) {
+                boundingBox = [options.gXAxisMin - 12, 2500,
+                    1000, options.gYAxisMin - 52];
+            } else {
+                boundingBox = [options.gXAxisMin2 - 12, 2500,
+                    1000, options.gYAxisMin2 - 52];
+            }
+            if (options.gType === 24) {
+                xLabel = 'Quantity';
+                yLabel = 'Price';
+            }
+        }
 
         if (options.gType >= 12 && options.gType <= 14) {
             yLabel = yAxisLabel;
@@ -655,9 +699,7 @@ export default class JXGBoard extends React.Component {
                             offset: [400, 0]
                         },
                         withLabel: xLabel ? true : false,
-                        ticks: {
-                            visible: false
-                        },
+                        ticks: xTicks,
                         layer: 9
                     },
                     y: {
@@ -666,9 +708,7 @@ export default class JXGBoard extends React.Component {
                             offset: [0, 260]
                         },
                         withLabel: yLabel ? true : false,
-                        ticks: {
-                            visible: false
-                        },
+                        ticks: yTicks,
                         layer: 9
                     }
                 },
@@ -716,7 +756,7 @@ export default class JXGBoard extends React.Component {
                 areaA={this.state.areaA}
                 areaB={this.state.areaB}
                 areaC={this.state.areaC} />;
-        } else if ([12,13,14].includes(this.props.gType)) {
+        } else if ([12, 13, 14, 24].includes(this.props.gType)) {
             if (this.props.gType === 14) {
                 const func1 = String.raw`MP_${this.props.gNName} = (1 - \alpha)${this.props.gCobbDouglasAName}${this.props.gCobbDouglasKName}^\alpha ${this.props.gNName}^{-\alpha}`;
                 const func2 = String.raw`MP_${this.props.gCobbDouglasKName} = \alpha ${this.props.gCobbDouglasAName}${this.props.gCobbDouglasKName}^{\alpha - 1} ${this.props.gNName}^{1 - \alpha}`;

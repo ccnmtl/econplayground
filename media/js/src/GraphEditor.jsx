@@ -148,7 +148,7 @@ export default class GraphEditor extends React.Component {
             </>
         );
 
-        if (this.props.gType === 0 || this.props.gType === 9) {
+        if ([0, 9, 23].includes(this.props.gType)) {
             // Demand-Supply, possibly AUC (area under curve)
             rightSide =
                 <DemandSupplyEditor
@@ -308,6 +308,29 @@ export default class GraphEditor extends React.Component {
                     {...commonEditorProps}
                     {...this.props}
                 />;
+        } else if (this.props.gType === 24) {
+            return (
+                <div className="GraphEditor">
+                    {this.title()}
+                    <form>
+                        <div className="row">
+                            {common2Graph}
+                            <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                                <TaxRevenueEditor
+                                    showAUC={this.props.gType === 9}
+                                    {...commonEditorProps}
+                                    {...this.props}
+                                />
+                                <CommonGraphSettings
+                                    {...this.props}
+                                />
+                            </div>
+                        </div>
+                        <hr/>
+                        {editRow}
+                    </form>
+                </div>
+            );
         }
 
         const hasIntersection = ![

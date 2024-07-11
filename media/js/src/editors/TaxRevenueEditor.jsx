@@ -68,9 +68,8 @@ export default class TaxRevenueEditor extends React.Component {
     };
 
     render() {
-        const eqNum = this.props.gFunctionChoice > 0
-            ? this.props.gFunctionChoice + 1
-            : '';
+        const eqNum = this.props.gFunctionChoice == 0 ?
+            '' : `${this.props.gFunctionChoice + 1}`;
         return (
             <div>
 
@@ -101,7 +100,7 @@ export default class TaxRevenueEditor extends React.Component {
                 {this.default1 && (
                     <button
                         id="resetFunctionValues"
-                        className="btn btn-primary mb-2"
+                        className="btn btn-primary my-2"
                         onClick={this.handleReset}>
                             Reset
                     </button>
@@ -130,7 +129,8 @@ export default class TaxRevenueEditor extends React.Component {
                                     max={this.props[i[0] + 'Max' + eqNum]}
                                     handler={handleFormUpdate.bind(this)}/>
                             );
-                        })}
+                        })
+                        }
                     </div>
                 )}
                 {this.props.displaySliders && (
@@ -148,7 +148,7 @@ export default class TaxRevenueEditor extends React.Component {
                                     rawLabel={true}
                                     id={i[0] + eqNum}
                                     dataId={i[0] + eqNum}
-                                    value={this.props[i[0]+ eqNum]}
+                                    value={this.props[i[0] + eqNum]}
                                     min={this.props[i[0] + 'Min' + eqNum]}
                                     max={this.props[i[0] + 'Max' + eqNum]}
                                     handler={handleFormUpdate.bind(this)}
