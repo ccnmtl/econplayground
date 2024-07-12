@@ -444,6 +444,7 @@ GraphEditor.propTypes = {
     gNName: PropTypes.string,
 
     gFunctionChoice: PropTypes.number,
+    gToggle: PropTypes.bool,
     gExpression: PropTypes.string,
     gExpression2: PropTypes.string,
     gExpression3: PropTypes.string,

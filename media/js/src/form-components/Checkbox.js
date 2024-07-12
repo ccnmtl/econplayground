@@ -11,7 +11,7 @@ export default class Checkbox extends React.Component {
                         className="form-check-input"
                         type="checkbox"
                         onChange={this.props.onChange}
-                        checked={this.props.checked}/>
+                        checked={this.props.checked} />
                     {this.props.text}
                 </label>
             </div>
@@ -22,6 +22,6 @@ export default class Checkbox extends React.Component {
 Checkbox.propTypes = {
     checked: PropTypes.bool.isRequired,
     id: PropTypes.string.isRequired,
-    onChange:PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
     text: PropTypes.string.isRequired
 };

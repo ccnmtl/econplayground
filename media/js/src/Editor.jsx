@@ -16,6 +16,9 @@ class Editor extends Component {
             gA2: 2,
             gA3: 0.5,
             gA4: 2,
+
+            // Used in graph type 11 - beta value
+            gA5: 0.5
         };
 
         Object.assign(this.state, defaultGraph);
@@ -102,6 +105,8 @@ class Editor extends Component {
                 updateObj.gA1 = 5;
                 updateObj.gA2 = 10;
                 updateObj.gA3 = 2500;
+                updateObj.gA4 = 0.5;
+                updateObj.gA5 = 0.5;
             }
 
             this.setState(updateObj);

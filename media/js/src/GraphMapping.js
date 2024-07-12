@@ -112,6 +112,7 @@ const exportGraph = function(state) {
         n_name: state.gNName,
 
         function_choice: forceNumber(state.gFunctionChoice),
+        toggle: state.gToggle,
 
         // AUC features
         area_configuration: forceNumber(state.gAreaConfiguration),
@@ -245,6 +246,7 @@ const convertGraph = function(json) {
         gNName: json.n_name,
 
         gFunctionChoice: json.function_choice,
+        gToggle: json.toggle,
 
         // AUC features
         gAreaConfiguration: json.area_configuration,
@@ -366,6 +368,7 @@ const importGraph = function(json, obj, callback=null) {
         gNName: json.n_name,
 
         gFunctionChoice: json.function_choice,
+        gToggle: json.toggle,
 
         // AUC features
         gAreaConfiguration: json.area_configuration,
@@ -631,7 +634,7 @@ const defaultGraph = {
     gA4: null,
     gA4min: 0,
     gA4Max: 10,
-    gA5: 0.5, // Used in graph type 11 - beta value
+    gA5: null,
     gA5min: 0,
     gA5Max: 10,
 
@@ -658,6 +661,8 @@ const defaultGraph = {
     gNName: 'N',
 
     gFunctionChoice: 0,
+    // General toggle value used by some graphs
+    gToggle: false,
 
     gAreaConfiguration: 0,
     gIsAreaDisplayed: true,
