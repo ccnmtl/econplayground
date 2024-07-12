@@ -253,9 +253,13 @@ export default class JXGBoard extends React.Component {
             }
         }
     }
-    
 
     componentDidUpdate(prevProps) {
+        // This is the list of properties that will be available to
+        // the graph code within the jsxgraph context, in the graphs/
+        // directory. The jsxgraph scene will be re-rendered and
+        // therefore up to date whenever any of these properties
+        // change.
         const updateProps = [
             'gType', 'gShowIntersection', 'gDisplayIntersection1',
             'gDisplayIntersection1Initial', 'gIntersectionLabel',
@@ -280,7 +284,7 @@ export default class JXGBoard extends React.Component {
             'gCobbDouglasL', 'gCobbDouglasLInitial', 'gCobbDouglasLName',
             'gCobbDouglasK', 'gCobbDouglasKInitial', 'gCobbDouglasKName',
             'gCobbDouglasAlpha', 'gCobbDouglasAlphaInitial', 'gNName',
-            'gFunctionChoice', 'gAreaConfiguration',
+            'gFunctionChoice', 'gToggle', 'gAreaConfiguration',
             'gAreaConfigurationInitial', 'gIsAreaDisplayed', 'gAreaAName',
             'gAreaBName', 'gAreaCName',
             'gExpression',
@@ -537,7 +541,11 @@ export default class JXGBoard extends React.Component {
         if (options.gType === 18) {
             boundingBox = [0, 12000, 500, 0];
         } else if (options.gType === 21) {
-            boundingBox = [0, 1000, 1000, 0];
+            if (options.gToggle) {
+                boundingBox = [0, 10000, 10000, 0];
+            } else {
+                boundingBox = [0, 1000, 1000, 0];
+            }
         } else if (options.gType === 22) {
             if (options.gFunctionChoice === 0) {
                 boundingBox = [options.gYAxisMin - 17, options.gYAxisMax,
@@ -819,6 +827,7 @@ JXGBoard.propTypes = {
     gNName: PropTypes.string,
 
     gFunctionChoice: PropTypes.number,
+    gToggle: PropTypes.bool,
 
     gAreaConfiguration: PropTypes.number,
     gAreaConfigurationInitial: PropTypes.number,
