@@ -15,6 +15,7 @@ import OptimalChoiceConsumptionEditor from './editors/OptimalChoiceConsumption.j
 import CostFunctionsTotalEditor from './editors/CostFunctionsTotalEditor.jsx';
 import CostFunctionsUnitEditor from './editors/CostFunctionsUnitEditor.jsx';
 import OptimalChoiceCostMinimizingEditor from './editors/OptimalChoiceCostMinimizingEditor.jsx';
+import TaxationLinearDemandEditor from './editors/TaxationLinearDemandEditor.jsx';
 
 import ExportGraphButton from './buttons/ExportGraphButton.jsx';
 import ResetGraphButton from './buttons/ResetGraphButton.jsx';
@@ -127,10 +128,7 @@ export default class GraphViewer extends React.Component {
         }
         let rightSide = null;
 
-        if (
-            this.props.gType === 0 || this.props.gType === 9 ||
-                this.props.gType === 23
-        ) {
+        if (this.props.gType === 0 || this.props.gType === 9) {
             // Demand-Supply, possibly AUC (area under curve)
             rightSide =
                 <DemandSupplyEditor
@@ -148,7 +146,7 @@ export default class GraphViewer extends React.Component {
                 />;
         } else if (this.props.gType === 3 || this.props.gType === 12) {
             if (this.props.gType === 3) {
-                rightSide = 
+                rightSide =
                     <CobbDouglasEditor
                         {...commonViewerProps}
                         {...this.props}
@@ -156,7 +154,7 @@ export default class GraphViewer extends React.Component {
             } else if (this.props.gType === 12) {
                 rightSide =
                     <CobbDouglasNLDSEditor
-                        showAUC={false}                
+                        showAUC={false}
                         {...commonViewerProps}
                         {...this.props}
                     />;
@@ -227,6 +225,13 @@ export default class GraphViewer extends React.Component {
             } else if (this.props.gType === 21) {
                 rightSide =
                     <OptimalChoiceCostMinimizingEditor
+                        updateGraph={this.props.updateGraph}
+                        {...commonViewerProps}
+                        {...this.props}
+                    />;
+            } else if (this.props.gType === 23) {
+                rightSide =
+                    <TaxationLinearDemandEditor
                         updateGraph={this.props.updateGraph}
                         {...commonViewerProps}
                         {...this.props}
@@ -494,7 +499,7 @@ GraphViewer.propTypes = {
     gToggle: PropTypes.bool,
     gExpression: PropTypes.string,
     gExpression2: PropTypes.string,
-    gExpression3: PropTypes.string,    
+    gExpression3: PropTypes.string,
 
     assessment: PropTypes.array,
     submission: PropTypes.object,

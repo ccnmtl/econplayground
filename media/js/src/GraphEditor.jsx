@@ -15,6 +15,7 @@ import CostFunctionsTotalEditor from './editors/CostFunctionsTotalEditor.jsx';
 import CostFunctionsUnitEditor from './editors/CostFunctionsUnitEditor.jsx';
 import RevenueElasticityEditor from './editors/RevenueElasticityEditor.jsx';
 import OptimalChoiceCostMinimizingEditor from './editors/OptimalChoiceCostMinimizingEditor.jsx';
+import TaxationLinearDemandEditor from './editors/TaxationLinearDemandEditor.jsx';
 
 import JXGBoard from './JXGBoard.jsx';
 import {
@@ -145,7 +146,7 @@ export default class GraphEditor extends React.Component {
             </>
         );
 
-        if (this.props.gType === 0 || this.props.gType === 9 || this.props.gType === 23) {
+        if (this.props.gType === 0 || this.props.gType === 9) {
             // Demand-Supply, possibly AUC (area under curve)
             rightSide =
                 <DemandSupplyEditor
@@ -294,6 +295,13 @@ export default class GraphEditor extends React.Component {
         } else if (this.props.gType === 22) {
             rightSide =
                 <TaxRevenueEditor
+                    updateGraph={this.props.updateGraph}
+                    {...commonEditorProps}
+                    {...this.props}
+                />;
+        } else if (this.props.gType === 23) {
+            rightSide =
+                <TaxationLinearDemandEditor
                     updateGraph={this.props.updateGraph}
                     {...commonEditorProps}
                     {...this.props}
