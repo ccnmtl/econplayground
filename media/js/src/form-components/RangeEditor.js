@@ -16,7 +16,13 @@ export default class RangeEditor extends React.Component {
                     <div className="col">
                         <div className="form-row">
                             <label key="dataId" className="w-100" htmlFor={this.props.id}>
-                                {this.props.itemlabel && (
+
+                                {this.props.itemlabel && this.props.rawItemLabel && (
+                                    <label htmlFor={this.props.id}>
+                                        {this.props.itemlabel}
+                                    </label>
+                                )}
+                                {this.props.itemlabel && !this.props.rawItemLabel && (
                                     <div style={{display: 'flex'}}>
                                         <MathJax>
                                             {'$$' + this.props.itemlabel + '$$'}
@@ -150,6 +156,7 @@ export default class RangeEditor extends React.Component {
 
 RangeEditor.defaultProps = {
     itemlabel: null,
+    rawItemLabel: false,
     min: -5,
     max: 5,
     showOverrideButton: false,
@@ -172,7 +179,11 @@ RangeEditor.propTypes = {
     min: PropTypes.number,
     max: PropTypes.number,
     showOverrideButton: PropTypes.bool,
+
     itemlabel: PropTypes.string,  // a LaTeX string
+    // If true, don't format itemlabel with LaTeX.
+    rawItemLabel: PropTypes.bool,
+
     overrideLabel: PropTypes.string,
     overrideValue: PropTypes.number,
     showOverride2Button: PropTypes.bool,

@@ -9,6 +9,7 @@ import NonLinearDemandSupplyEditor from './editors/NonLinearDemandSupplyEditor.j
 import OptimalChoiceConsumptionEditor from './editors/OptimalChoiceConsumption.jsx';
 import CostFunctionsUnitEditor from './editors/CostFunctionsUnitEditor.jsx';
 import OptimalChoiceCostMinimizingEditor from './editors/OptimalChoiceCostMinimizingEditor.jsx';
+import TaxationLinearDemandEditor from './editors/TaxationLinearDemandEditor.jsx';
 
 /**
  * GraphForm
@@ -25,7 +26,7 @@ export default function GraphForm({ gType, updateGraph, props }) {
 
     let graphForm = null;
 
-    if (gType === 0 || gType === 9 || gType === 23) {
+    if (gType === 0 || gType === 9) {
         // Demand-Supply, possibly AUC (area under curve)
         graphForm =
             <DemandSupplyEditor
@@ -123,6 +124,13 @@ export default function GraphForm({ gType, updateGraph, props }) {
         // Optimal Choice: Cost-Minimizing Production Inputs
         graphForm =
             <OptimalChoiceCostMinimizingEditor
+                updateGraph={updateGraph}
+                {...commonViewerProps}
+                {...props}
+            />;
+    } else if (gType === 23) {
+        graphForm =
+            <TaxationLinearDemandEditor
                 updateGraph={updateGraph}
                 {...commonViewerProps}
                 {...props}

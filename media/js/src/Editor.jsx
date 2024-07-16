@@ -101,12 +101,19 @@ class Editor extends Component {
 
             Object.assign(updateObj, this.defaults);
 
+            // Specific defaults based on graph type.
             if (window.EconPlayground.graphType === 21) {
                 updateObj.gA1 = 5;
                 updateObj.gA2 = 10;
                 updateObj.gA3 = 2500;
                 updateObj.gA4 = 0.5;
                 updateObj.gA5 = 0.5;
+            } else if (window.EconPlayground.graphType === 23) {
+                updateObj.gA1 = 1500;
+                updateObj.gA2 = 100;
+                updateObj.gA3 = 0;
+                updateObj.gLine1Slope = 2;
+                updateObj.gLine2Slope = -2;
             }
 
             this.setState(updateObj);
