@@ -46,7 +46,7 @@ export default class OptimalChoiceCostMinimizingEditor extends React.Component {
                     {this.props.displaySliders && (
                         <>
                             <RangeEditor
-                                itemlabel="w"
+                                label="w"
                                 id="gA1"
                                 dataId="gA1"
                                 value={this.props.gA1}
@@ -55,7 +55,7 @@ export default class OptimalChoiceCostMinimizingEditor extends React.Component {
                                 handler={handleFormUpdate.bind(this)} />
 
                             <RangeEditor
-                                itemlabel="r"
+                                label="r"
                                 id="gA2"
                                 dataId="gA2"
                                 value={this.props.gA2}
@@ -64,7 +64,7 @@ export default class OptimalChoiceCostMinimizingEditor extends React.Component {
                                 handler={handleFormUpdate.bind(this)} />
 
                             <RangeEditor
-                                itemlabel={this.props.gToggle ? 'q' : 'c'}
+                                label={this.props.gToggle ? 'q' : 'c'}
                                 id="gA3"
                                 dataId="gA3"
                                 value={this.props.gA3}
@@ -75,7 +75,7 @@ export default class OptimalChoiceCostMinimizingEditor extends React.Component {
                             {this.props.gToggle && (
                                 <>
                                     <RangeEditor
-                                        itemlabel="\alpha"
+                                        label="\alpha"
                                         id="gA4"
                                         dataId="gA4"
                                         value={this.props.gA4}
@@ -83,7 +83,7 @@ export default class OptimalChoiceCostMinimizingEditor extends React.Component {
                                         max={1}
                                         handler={handleFormUpdate.bind(this)} />
                                     <RangeEditor
-                                        itemlabel="\beta"
+                                        label="\beta"
                                         id="gA5"
                                         dataId="gA5"
                                         value={this.props.gA5}

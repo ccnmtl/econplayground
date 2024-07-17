@@ -86,7 +86,7 @@ export default class CobbDouglasEditor extends React.Component {
                             handler={handleFormUpdate.bind(this)}
                             min={0} />
                         <RangeEditor
-                            itemlabel="\alpha"
+                            label="\alpha"
                             dataId="gCobbDouglasAlpha"
                             value={this.props.gCobbDouglasAlpha}
                             handler={handleFormUpdate.bind(this)}

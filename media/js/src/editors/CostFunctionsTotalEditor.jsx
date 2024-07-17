@@ -27,7 +27,7 @@ export default class CostFunctionsTotalEditor extends React.Component {
                 {this.props.displaySliders && (
                     <React.Fragment>
                         <RangeEditor
-                            itemlabel="a"
+                            label="a"
                             id="gA1"
                             dataId="gA1"
                             value={this.props.gA1}
@@ -35,7 +35,7 @@ export default class CostFunctionsTotalEditor extends React.Component {
                             max={4000}
                             handler={handleFormUpdate.bind(this)} />
                         <RangeEditor
-                            itemlabel="b"
+                            label="b"
                             id="gA2"
                             dataId="gA2"
                             value={this.props.gA2}
@@ -43,7 +43,7 @@ export default class CostFunctionsTotalEditor extends React.Component {
                             max={1}
                             handler={handleFormUpdate.bind(this)} />
                         <RangeEditor
-                            itemlabel="c"
+                            label="c"
                             id="gA3"
                             dataId="gA3"
                             value={this.props.gA3}

@@ -64,7 +64,7 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
                     <React.Fragment>
                         <h2>Slope</h2>
                         <RangeEditor
-                            itemlabel="p_x"
+                            label="p_x"
                             id="gA1"
                             dataId="gA1"
                             value={this.props.gA1}
@@ -72,7 +72,7 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
                             max={25}
                             handler={handleFormUpdate.bind(this)} />
                         <RangeEditor
-                            itemlabel="p_y"
+                            label="p_y"
                             id="gA2"
                             dataId="gA2"
                             value={this.props.gA2}
@@ -80,7 +80,7 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
                             max={25}
                             handler={handleFormUpdate.bind(this)} />
                         <RangeEditor
-                            itemlabel="R"
+                            label="R"
                             id="gA3"
                             dataId="gA3"
                             value={this.props.gA3}
@@ -88,7 +88,7 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
                             max={25}
                             handler={handleFormUpdate.bind(this)} />
                         <RangeEditor
-                            itemlabel="\alpha"
+                            label="\alpha"
                             id="gA4"
                             dataId="gA4"
                             value={this.props.gA4}
@@ -96,7 +96,7 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
                             max={2}
                             handler={handleFormUpdate.bind(this)} />
                         <RangeEditor
-                            itemlabel="\beta"
+                            label="\beta"
                             id="gA5"
                             dataId="gA5"
                             value={this.props.gA5}
