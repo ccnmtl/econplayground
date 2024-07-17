@@ -56,7 +56,6 @@ module.exports = {
     appQuestionJs: resolveApp(JS_PATH + 'src/question-main.js'),
     appMultipleChoiceJs: resolveApp(JS_PATH + 'src/multiple-choice-main.js'),
     appGraphPreviewJs: resolveApp(JS_PATH + 'src/graph-preview-main.js'),
-    appAssignmentJs: resolveApp(JS_PATH + 'src/assignment-main.js'),
     appPackageJson: resolveApp('package.json'),
     appSrc: resolveApp(JS_PATH + 'src'),
     yarnLockFile: resolveApp('yarn.lock'),

@@ -31,7 +31,6 @@ module.exports = {
     // You can exclude the *.map files from the build during deployment.
     devtool: shouldUseSourceMap ? 'source-map' : false,
     entry: {
-        assignment: [paths.appAssignmentJs],
         editor: [paths.appEditorJs],
         question: [paths.appQuestionJs],
         multipleChoice: [paths.appMultipleChoiceJs],
