@@ -32,22 +32,16 @@ export default class TaxRevenueEditor extends React.Component {
     }
 
     render() {
-        const p = this.props;
         return (
             <div>
                 <h2>Function</h2>
                 <ul className="col">
                     {[
                         [
-                            `$$y_1 = (x * (${p.gA3} - ${p.gA1}) - x^2) /
-                                (${p.gA2} + ${p.gA4})$$`
+                            '$$Unit\\ Tax$$'
                         ],
                         [
-                            '$$y_2 = x * eqat * epat$$',
-                            `$$eqat = (${p.gA3} - ${p.gA1} * (1 + x)) /
-                                (${p.gA2} + ${p.gA4} * (1 + x))$$`,
-                            `$$epat = (${p.gA1} * ${p.gA2} + ${p.gA3} * ${p.gA4}) /
-                                (${p.gA2} + ${p.gA4} * (1 + x))$$`
+                            '$$Ad\\ Valorem\\ Tax$$'
                         ]
                     ].map((formula, key) => {
                         return (
