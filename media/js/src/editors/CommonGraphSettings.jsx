@@ -47,7 +47,7 @@ export default class CommonGraphSettings extends React.Component {
                             </label>
                             <select
                                 id="gAssignmentType"
-                                className="form-select form-control-sm"
+                                className="form-select"
                                 onChange={handleFormUpdate.bind(this)}
                                 value={this.props.gAssignmentType}>
                                 <option value="0">Template assignment</option>
@@ -63,7 +63,7 @@ export default class CommonGraphSettings extends React.Component {
                             </label>
                             <select
                                 id="gTopic"
-                                className="form-select form-control-sm"
+                                className="form-select"
                                 onChange={handleFormUpdate.bind(this)}
                                 value={this.props.gTopic || 0}>
                                 {this.state.topics.map(e => (
