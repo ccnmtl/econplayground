@@ -10,12 +10,12 @@ export default class GridOption extends React.Component {
         return (
             <React.Fragment>
                 <div className="col-6">
-                    <label className="col-auto" key="dataId" htmlFor={this.props.itemlabel}>
+                    <label className="col-auto" key="dataId" htmlFor={this.props.label}>
                         <em>
-                            {this.props.itemlabel + ' grid'}
+                            {this.props.label + ' grid'}
                         </em>
                     </label>
-                    <ul id={this.props.itemlabel} className="input-group mb-0 col-auto">
+                    <ul id={this.props.label} className="input-group mb-0 col-auto">
                         {['none', 'point', 'line'].map((item, key) => {
                             return (
                                 <li key={key} className="list-group-item mx-1 mb-2">
@@ -23,13 +23,13 @@ export default class GridOption extends React.Component {
                                         className={`btn btn-${
                                             key === this.props.value ?
                                                 'primary' : 'light'}`}
-                                        htmlFor={this.props.itemlabel + '-' + item}
+                                        htmlFor={this.props.label + '-' + item}
                                     >{item}</label>
                                     <input
                                         className="btn-check"
-                                        aria-label={this.props.itemlabel + '-' + item}
-                                        id={this.props.itemlabel + '-' + item}
-                                        data-id={this.props.itemlabel + '-' + item}
+                                        aria-label={this.props.label + '-' + item}
+                                        id={this.props.label + '-' + item}
+                                        data-id={this.props.label + '-' + item}
                                         name={this.props.id}
                                         type="radio"
                                         onChange={this.props.handler}
@@ -50,6 +50,6 @@ GridOption.propTypes = {
     id: PropTypes.string,
     dataId: PropTypes.string.isRequired,
     handler: PropTypes.func.isRequired,
-    itemlabel: PropTypes.string.isRequired,  // a LaTeX string
+    label: PropTypes.string.isRequired,  // a LaTeX string
     value: PropTypes.number.isRequired,
 };

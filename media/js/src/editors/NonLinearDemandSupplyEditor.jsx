@@ -54,7 +54,7 @@ export default class NonLinearDemandSupplyEditor extends React.Component {
                         <React.Fragment>
                             <h2>Slope</h2>
                             <RangeEditor
-                                itemlabel="\text{Orange line slope}"
+                                label="\text{Orange line slope}"
                                 dataId="gLine1Slope"
                                 value={this.props.gLine1Slope}
                                 showOverrideButton={true}

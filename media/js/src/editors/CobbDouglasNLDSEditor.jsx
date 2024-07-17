@@ -135,7 +135,7 @@ export default class CobbDouglasNLDSEditor extends React.Component {
                                 handler={handleFormUpdate.bind(this)}
                                 min={0} />
                             <RangeEditor
-                                itemlabel="\alpha"
+                                label="\alpha"
                                 dataId="gCobbDouglasAlpha"
                                 value={this.props.gCobbDouglasAlpha}
                                 handler={handleFormUpdate.bind(this)}
@@ -164,7 +164,7 @@ export default class CobbDouglasNLDSEditor extends React.Component {
                                 min={0}
                                 max={10} />
                             <RangeEditor
-                                itemlabel="\text{Orange line slope}"
+                                label="\text{Orange line slope}"
                                 dataId="gLine1Slope"
                                 value={this.props.gLine1Slope}
                                 min={0}

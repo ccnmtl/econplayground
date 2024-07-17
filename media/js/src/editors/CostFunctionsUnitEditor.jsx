@@ -36,7 +36,7 @@ export default class CostFunctionsUnitEditor extends React.Component {
                             <GridOption
                                 key={key}
                                 id={item[0]}
-                                itemlabel={item[1]}
+                                label={item[1]}
                                 dataId={item[1]}
                                 handler={handleFormUpdate.bind(this)}
                                 value={this.props[item[0]]}/>
@@ -57,7 +57,7 @@ export default class CostFunctionsUnitEditor extends React.Component {
                                     key={key}
                                     className="col-6"
                                     id={i[0]}
-                                    itemlabel={i[1]}
+                                    label={i[1]}
                                     dataId={i[0]}
                                     min={this.props[i[0] + 'Min']}
                                     max={this.props[i[0] + 'Max']}
@@ -76,7 +76,7 @@ export default class CostFunctionsUnitEditor extends React.Component {
                             return (
                                 <RangeEditor
                                     key={key}
-                                    itemlabel={i[1]}
+                                    label={i[1]}
                                     id={i[0]}
                                     dataId={i[0]}
                                     value={this.props[i[0]]}

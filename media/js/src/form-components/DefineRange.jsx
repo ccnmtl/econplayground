@@ -18,7 +18,7 @@ export default class DefineRange extends React.Component {
                     <label className="input-group-text" key="dataId" htmlFor={this.props.id + 'Min'}>
                         <div>
                             <MathJax>
-                                {'$$' + this.props.itemlabel + '$$'}
+                                {'$$' + this.props.label + '$$'}
                             </MathJax>
                         </div>
                     </label>
@@ -30,7 +30,7 @@ export default class DefineRange extends React.Component {
                             <input
                                 key={key}    
                                 className="form-control"
-                                aria-label={this.props.itemlabel + ' ' + item[0]}
+                                aria-label={this.props.label + ' ' + item[0]}
                                 id={this.props.id + item[1]}
                                 data-id={this.props.id + item[1]}
                                 name={this.props.id + item[1]}
@@ -47,7 +47,7 @@ export default class DefineRange extends React.Component {
 }
 
 DefineRange.defaultProps = {
-    itemlabel: null,
+    label: null,
     min: 0,
     max: 10,
     disabled: false
@@ -59,5 +59,5 @@ DefineRange.propTypes = {
     handler: PropTypes.func.isRequired,
     min: PropTypes.number,
     max: PropTypes.number,
-    itemlabel: PropTypes.string.isRequired,  // a LaTeX string
+    label: PropTypes.string.isRequired,  // a LaTeX string
 };

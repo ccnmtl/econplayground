@@ -38,7 +38,7 @@ export default class DemandSupplyEditor extends React.Component {
                 <div>
                     <h2>Slope</h2>
                     <RangeEditor
-                        itemlabel="\text{Orange line slope}"
+                        label="\text{Orange line slope}"
                         dataId="gLine1Slope"
                         value={this.props.gLine1Slope}
                         min={0}
@@ -52,7 +52,7 @@ export default class DemandSupplyEditor extends React.Component {
                         disabled={this.props.disabled}
                         handler={handleFormUpdate.bind(this)} />
                     <RangeEditor
-                        itemlabel="\text{Blue line slope}"
+                        label="\text{Blue line slope}"
                         dataId="gLine2Slope"
                         min={-5}
                         max={0}
@@ -68,7 +68,7 @@ export default class DemandSupplyEditor extends React.Component {
                     {this.props.gType === 13 && (
                         <>
                             <RangeEditor
-                                itemlabel="\text{Right graph: Orange line slope}"
+                                label="\text{Right graph: Orange line slope}"
                                 dataId="gLine3Slope"
                                 value={this.props.gLine3Slope}
                                 min={0}
@@ -82,7 +82,7 @@ export default class DemandSupplyEditor extends React.Component {
                                 disabled={this.props.disabled}
                                 handler={handleFormUpdate.bind(this)} />
                             <RangeEditor
-                                itemlabel="\text{Right graph: Blue line slope}"
+                                label="\text{Right graph: Blue line slope}"
                                 dataId="gLine4Slope"
                                 min={-5}
                                 max={0}

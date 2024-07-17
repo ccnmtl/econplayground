@@ -8,8 +8,8 @@ export default class TaxationLinearDemandEditor extends React.Component {
         return (
             <>
                 <RangeEditor
-                    itemlabel="Choke Price"
-                    rawItemLabel={true}
+                    label="Choke Price"
+                    rawLabel={true}
                     id="gA1"
                     dataId="gA1"
                     value={this.props.gA1}
@@ -18,8 +18,8 @@ export default class TaxationLinearDemandEditor extends React.Component {
                     handler={handleFormUpdate.bind(this)} />
 
                 <RangeEditor
-                    itemlabel="Demand Slope"
-                    rawItemLabel={true}
+                    label="Demand Slope"
+                    rawLabel={true}
                     id="gLine1Slope"
                     dataId="gLine1Slope"
                     value={this.props.gLine1Slope}
@@ -28,8 +28,8 @@ export default class TaxationLinearDemandEditor extends React.Component {
                     handler={handleFormUpdate.bind(this)} />
 
                 <RangeEditor
-                    itemlabel="Reservation Price"
-                    rawItemLabel={true}
+                    label="Reservation Price"
+                    rawLabel={true}
                     id="gA2"
                     dataId="gA2"
                     value={this.props.gA2}
@@ -38,8 +38,8 @@ export default class TaxationLinearDemandEditor extends React.Component {
                     handler={handleFormUpdate.bind(this)} />
 
                 <RangeEditor
-                    itemlabel="Supply Slope"
-                    rawItemLabel={true}
+                    label="Supply Slope"
+                    rawLabel={true}
                     id="gLine2Slope"
                     dataId="gLine2Slope"
                     value={this.props.gLine2Slope}
@@ -47,8 +47,8 @@ export default class TaxationLinearDemandEditor extends React.Component {
                     max={-0.01}
                     handler={handleFormUpdate.bind(this)} />
                 <RangeEditor
-                    itemlabel="Unit Tax"
-                    rawItemLabel={true}
+                    label="Unit Tax"
+                    rawLabel={true}
                     id="gA3"
                     dataId="gA3"
                     value={this.props.gA3}
