@@ -77,67 +77,75 @@ export default class CommonGraphSettings extends React.Component {
                         <option value={1}>LTI Assessment</option>
                     </select>
                 </div>
-                <div className="form-check">
-                    <label className="form-check-label">
-                        <input
-                            id="gDisplayFeedback"
-                            className="form-check-input"
-                            type="checkbox"
-                            onChange={handleFormUpdate.bind(this)}
-                            checked={this.props.gDisplayFeedback} />
-                        Display feedback
-                    </label>
+
+                <div className="row">
+                    <div className="col">
+                        <div className="form-check">
+                            <label className="form-check-label">
+                                <input
+                                    id="gDisplayFeedback"
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    onChange={handleFormUpdate.bind(this)}
+                                    checked={this.props.gDisplayFeedback} />
+                                Display feedback
+                            </label>
+                        </div>
+                        <div className="form-check">
+                            <label className="form-check-label">
+                                <input
+                                    id="gShowIntersection"
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    onChange={handleFormUpdate.bind(this)}
+                                    checked={this.props.gShowIntersection} />
+                                Display intersection
+                            </label>
+                        </div>
+                        <div className="form-check">
+                            <label className="form-check-label">
+                                <input
+                                    id="gIsPublished"
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    onChange={handleFormUpdate.bind(this)}
+                                    checked={this.props.gIsPublished} />
+                                Published
+                            </label>
+                        </div>
+                    </div>
+                    <div className="col">
+                        <div className="form-check">
+                            <label className="form-check-label">
+                                <input
+                                    id="gIsFeatured"
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    onChange={handleFormUpdate.bind(this)}
+                                    checked={this.props.gIsFeatured} />
+                                Featured
+                            </label>
+                        </div>
+                        <div className="form-check">
+                            <label className="form-check-label">
+                                <input
+                                    id="gDisplayShadow"
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    onChange={handleFormUpdate.bind(this)}
+                                    checked={this.props.gDisplayShadow} />
+                                Display shadow on student view
+                            </label>
+                        </div>
+                    </div>
                 </div>
-                <div className="form-check">
-                    <label className="form-check-label">
-                        <input
-                            id="gShowIntersection"
-                            className="form-check-input"
-                            type="checkbox"
-                            onChange={handleFormUpdate.bind(this)}
-                            checked={this.props.gShowIntersection} />
-                        Display intersection
-                    </label>
-                </div>
-                <div className="form-check">
-                    <label className="form-check-label">
-                        <input
-                            id="gIsPublished"
-                            className="form-check-input"
-                            type="checkbox"
-                            onChange={handleFormUpdate.bind(this)}
-                            checked={this.props.gIsPublished} />
-                        Published
-                    </label>
-                </div>
-                <div className="form-check">
-                    <label className="form-check-label">
-                        <input
-                            id="gIsFeatured"
-                            className="form-check-input"
-                            type="checkbox"
-                            onChange={handleFormUpdate.bind(this)}
-                            checked={this.props.gIsFeatured} />
-                        Featured
-                    </label>
-                </div>
-                <div className="form-check">
-                    <label className="form-check-label">
-                        <input
-                            id="gDisplayShadow"
-                            className="form-check-input"
-                            type="checkbox"
-                            onChange={handleFormUpdate.bind(this)}
-                            checked={this.props.gDisplayShadow} />
-                        Display shadow on student view
-                    </label>
-                </div>
+
                 <div>
                     <a
                         target="_blank"
                         rel="noreferrer"
                         role="button"
-                        className="btn btn-sm btn-primary mt-2 me-2"
+                        className="btn btn-sm btn-primary me-2"
                         title="Feedback and Assessment editor"
                         href={assessmentUrl}>
                         Feedback and Assessment editor
