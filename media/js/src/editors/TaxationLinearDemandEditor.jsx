@@ -20,11 +20,11 @@ export default class TaxationLinearDemandEditor extends React.Component {
                 <RangeEditor
                     label="Demand Slope"
                     rawLabel={true}
-                    id="gLine1Slope"
-                    dataId="gLine1Slope"
-                    value={this.props.gLine1Slope}
-                    min={0.01}
-                    max={35}
+                    id="gLine2Slope"
+                    dataId="gLine2Slope"
+                    value={this.props.gLine2Slope}
+                    min={-35}
+                    max={-0.01}
                     handler={handleFormUpdate.bind(this)} />
 
                 <RangeEditor
@@ -40,11 +40,11 @@ export default class TaxationLinearDemandEditor extends React.Component {
                 <RangeEditor
                     label="Supply Slope"
                     rawLabel={true}
-                    id="gLine2Slope"
-                    dataId="gLine2Slope"
-                    value={this.props.gLine2Slope}
-                    min={-35}
-                    max={-0.01}
+                    id="gLine1Slope"
+                    dataId="gLine1Slope"
+                    value={this.props.gLine1Slope}
+                    min={0.01}
+                    max={35}
                     handler={handleFormUpdate.bind(this)} />
                 <RangeEditor
                     label="Unit Tax"
