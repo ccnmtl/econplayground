@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { MathJax } from 'better-react-mathjax';
+import katex from 'katex';
 import { btnStep } from '../utils.js';
 
 /**
@@ -9,6 +9,26 @@ import { btnStep } from '../utils.js';
  * to allow the user to override that value.
  */
 export default class RangeEditor extends React.Component {
+    label() {
+        if (!this.props.label) {
+            return null;
+        }
+
+        if (!this.props.rawLabel) {
+            const renderedLatex = katex.renderToString(this.props.label, {
+                throwOnError: false
+            });
+            return (
+                <span dangerouslySetInnerHTML={{__html: renderedLatex}}>
+                </span>
+            );
+        } else {
+            return (
+                <span>{this.props.label}</span>
+            );
+        }
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -17,18 +37,7 @@ export default class RangeEditor extends React.Component {
                         <div className="form-row">
                             <label key="dataId" className="w-100" htmlFor={this.props.id}>
 
-                                {this.props.label && this.props.rawLabel && (
-                                    <label htmlFor={this.props.id}>
-                                        {this.props.label}
-                                    </label>
-                                )}
-                                {this.props.label && !this.props.rawLabel && (
-                                    <div style={{display: 'flex'}}>
-                                        <MathJax>
-                                            {'$$' + this.props.label + '$$'}
-                                        </MathJax>
-                                    </div>
-                                )}
+                                {this.label()}
 
                                 <div className="d-inline w-100">
                                     {this.props.showMinMax && (

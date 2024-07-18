@@ -81,7 +81,11 @@ module.exports = {
         ],
     },
     module: {
-        strictExportPresence: true,
+        parser: {
+            javascript: {
+                exportsPresence: 'warn'
+            }
+        },
         rules: [
             // TODO: Disable require.ensure as it's not a standard language feature.
             // We are waiting for https://github.com/facebookincubator/create-react-app/issues/2176.
@@ -106,11 +110,13 @@ module.exports = {
                     {
                         test: /\.(js|jsx)$/,
                         include: paths.appSrc,
-                        loader: require.resolve('babel-loader'),
-                        options: {
-
-                            compact: true,
-                        },
+                        exclude: /node_modules/,
+                        use: {
+                            loader: 'babel-loader',
+                            options: {
+                                presets: ['@babel/preset-env', '@babel/preset-react']
+                            }
+                        }
                     },
                     // "file" loader makes sure assets end up in the `build` folder.
                     // When you `import` an asset, you get its filename.
@@ -122,7 +128,7 @@ module.exports = {
                         // it's runtime that would otherwise processed through "file" loader.
                         // Also exclude `html` and `json` extensions so they get processed
                         // by webpacks internal loaders.
-                        exclude: [/\.js$/, /\.html$/, /\.json$/],
+                        exclude: [/\.js$/, /\.mjs$/, /\.html$/, /\.json$/, /node_modules/],
                         options: {
                             name: '[name].[ext]',
                         },
