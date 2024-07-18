@@ -24,6 +24,7 @@
     {% endif %}
     window.EconPlayground['LTIPostGrade'] = '{% url 'lti-post-grade' %}';
     </script>
+    <script src="{% static 'js/build/vendor.js' %}"></script>
     <script src="{% static 'js/build/viewer.js' %}"></script>
 {% endblock %}
 

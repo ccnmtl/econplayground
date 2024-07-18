@@ -49,6 +49,7 @@
     {% endif %}
     </script>
     {% if object.question.graph %}
+        <script src="{% static 'js/build/vendor.js' %}"></script>
         <script src="{% static 'js/build/stepGraphViewer.js' %}"></script>
     {% endif %}
 {% endblock %}
