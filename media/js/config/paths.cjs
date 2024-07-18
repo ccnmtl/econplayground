@@ -48,7 +48,6 @@ module.exports = {
     dotenv: resolveApp('.env'),
     appBuild: resolveApp(JS_PATH + 'build'),
     appPublic: resolveApp(JS_PATH + 'public'),
-    appHtml: resolveApp(JS_PATH + 'public/index.html'),
     appEditorJs: resolveApp(JS_PATH + 'src/editor-main.js'),
     appViewerJs: resolveApp(JS_PATH + 'src/viewer-main.js'),
     appStepGraphViewerJs: resolveApp(JS_PATH + 'src/stepGraphViewer-main.js'),
