@@ -25,8 +25,8 @@
   },
   "scripts": {
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
-    "build-scss": "node-sass --output media/css media/scss/main.scss --output-style compressed",
-    "watch-scss": "nodemon --watch media/scss --verbose -e scss -x 'npm run build-scss'",
+    "build-scss": "sass --style compressed ./media/scss/main.scss ./media/css/main.css",
+    "watch-scss": "sass --watch --update --verbose ./media/scss/main.scss ./media/css/main.css",
     "dev": "webpack --mode development --watch --config media/js/config/webpack.config.dev.cjs",
     "build": "NODE_ENV=production webpack --mode production --config media/js/config/webpack.config.prod.cjs",
     "eslint": "eslint media/js/src/*.js media/js/src/**/*.js media/js/src/*.jsx media/js/src/**/*.jsx media/js/config/*.cjs"
@@ -50,12 +50,11 @@
     "jest-environment-jsdom": "29.7.0",
     "jsdom": "~24.1.0",
     "lodash": "^4.17.20",
-    "node-sass": "~9.0.0",
-    "nodemon": "~3.1.0",
     "postcss-cli": "~11.0.0",
     "react-dev-utils": "~12.0.0",
     "react-test-renderer": "~18.3.1",
     "requirejs": "~2.3.6",
+    "sass": "^1.77.8",
     "style-loader": "~4.0.0",
     "url-loader": "~4.1.0"
   },
