@@ -37,7 +37,6 @@ module.exports = {
     devtool: shouldUseSourceMap ? 'source-map' : false,
     entry: {
         editor: [paths.appEditorJs],
-        question: [paths.appQuestionJs],
         multipleChoice: [paths.appMultipleChoiceJs],
         graphPreview: [paths.appGraphPreviewJs],
         stepGraphViewer: [paths.appStepGraphViewerJs],
