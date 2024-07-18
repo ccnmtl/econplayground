@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { MathJax } from 'better-react-mathjax';
+import { getKatexEl } from '../katexUtils.jsx';
 import RangeEditor from '../form-components/RangeEditor.js';
 import EditableControl from '../form-components/EditableControl.jsx';
 import { handleFormUpdate } from '../utils.js';
@@ -39,9 +39,7 @@ export default class CobbDouglasNLDSEditor extends React.Component {
                         </div>
                     )}
                     <div className="col">
-                        <MathJax>
-                            {'$$' + tex + '$$'}
-                        </MathJax>
+                        {getKatexEl(tex)}
                     </div>
                 </div>
 
@@ -63,9 +61,7 @@ export default class CobbDouglasNLDSEditor extends React.Component {
                                     value={0}
                                     checked={this.props.gFunctionChoice === 0} />
                                 <label className="form-check-label" htmlFor="gFunctionChoice1">
-                                    <MathJax>
-                                        {'$$' + func1 + '$$'}
-                                    </MathJax>
+                                    {getKatexEl(func1)}
                                 </label>
                             </div>
                         </div>
@@ -81,9 +77,7 @@ export default class CobbDouglasNLDSEditor extends React.Component {
                                     value={1}
                                     checked={this.props.gFunctionChoice === 1} />
                                 <label className="form-check-label" htmlFor="gFunctionChoice2">
-                                    <MathJax>
-                                        {'$$' + func2 + '$$'}
-                                    </MathJax>
+                                    {getKatexEl(func2)}
                                 </label>
                             </div>
                         </div>

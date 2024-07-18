@@ -4,32 +4,30 @@ import EditableControl from '../form-components/EditableControl.jsx';
 import RangeEditor from '../form-components/RangeEditor.js';
 import AreaConfiguration from './AreaConfiguration.jsx';
 import { handleFormUpdate } from '../utils.js';
-import { MathJax } from 'better-react-mathjax';
+import { getKatexEl } from '../katexUtils.jsx';
 
 export default class DemandSupplyEditor extends React.Component {
     render() {
         return <React.Fragment>
             <h2>Function</h2>
             <div className="row">
-                <MathJax>
-                    {'$$y=mx+b$$'}
-                </MathJax>
+                {getKatexEl('y=mx+b')}
                 <div className="col-6">
-                    <MathJax>
-                        {`$$\\text{Orange: }y=${this.props.gLine1Slope}(x-2.5)+2.5$$`}
-                    </MathJax>
-                    <MathJax>
-                        {`$$\\text{Blue: }y=${this.props.gLine2Slope}(x-2.5)+2.5$$`}
-                    </MathJax>
+                    <div>
+                        {getKatexEl(`\\text{Orange: }y=${this.props.gLine1Slope}(x-2.5)+2.5`)}
+                    </div>
+                    <div>
+                        {getKatexEl(`\\text{Blue: }y=${this.props.gLine2Slope}(x-2.5)+2.5`)}
+                    </div>
                 </div>
                 {this.props.gType === 13 && (
                     <div className='col-6'>
-                        <MathJax>
-                            {`$$\\text{Right Orange: }y=${this.props.gLine3Slope}(x-2.5)+2.5$$`}
-                        </MathJax>
-                        <MathJax>
-                            {`$$\\text{Right Blue: }y=${this.props.gLine4Slope}(x-2.5)+2.5$$`}
-                        </MathJax>
+                        <div>
+                            {getKatexEl(`\\text{Right Orange: }y=${this.props.gLine3Slope}(x-2.5)+2.5`)}
+                        </div>
+                        <div>
+                            {getKatexEl(`\\text{Right Blue: }y=${this.props.gLine4Slope}(x-2.5)+2.5`)}
+                        </div>
                     </div>
                 )}
             </div>

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import RangeEditor from '../form-components/RangeEditor.js';
 import DefineRange from '../form-components/DefineRange.jsx';
 import { handleFormUpdate } from '../utils.js';
-import { MathJax } from 'better-react-mathjax';
+import { getKatexEl } from '../katexUtils.jsx';
 
 
 export default class RevenueElasticityEditor extends React.Component {
@@ -24,25 +24,23 @@ export default class RevenueElasticityEditor extends React.Component {
                 <h2>Function</h2>
                 <ul className="col">
                     {[ 
-                        `$$y_1
+                        `y_1
                             =(-1/b)x+c
                             =-x / ${this.props.gA1} +
-                            ${this.props.gA2}$$`,
-                        `$$y_2
+                            ${this.props.gA2}`,
+                        `y_2
                             =cx-x^2/b
-                            =${this.props.gA2}x-x^2/${this.props.gA1}$$`,
-                        `$$y_3
+                            =${this.props.gA2}x-x^2/${this.props.gA1}`,
+                        `y_3
                             =x / a
-                            =x / ${this.props.gA1}$$`
+                            =x / ${this.props.gA1}`
                     ].map((i, key) => {
                         return (
                             <li key={key} className='form-check'>
                                 <label htmlFor={`formula-${key}`}
                                     className='form-check-label'
                                 >
-                                    <MathJax>
-                                        {i}
-                                    </MathJax>
+                                    {getKatexEl(i)}
                                 </label>
                                 <input type="radio" id={`formula-${key}`}
                                     className='form-check-input'

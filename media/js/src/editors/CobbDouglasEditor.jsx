@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { MathJax } from 'better-react-mathjax';
+import { getKatexEl } from '../katexUtils.jsx';
 import RangeEditor from '../form-components/RangeEditor.js';
 import EditableControl from '../form-components/EditableControl.jsx';
 import { handleFormUpdate } from '../utils.js';
@@ -37,9 +37,7 @@ export default class CobbDouglasEditor extends React.Component {
                         </div>
                     )}
                     <div className="col">
-                        <MathJax>
-                            {'$$' + tex + '$$'}
-                        </MathJax>
+                        {getKatexEl(tex)}
                     </div>
                 </div>
                 <hr />

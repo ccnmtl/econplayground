@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { MathJax } from 'better-react-mathjax';
+import { getKatexEl } from '../katexUtils.jsx';
 import RangeEditor from '../form-components/RangeEditor.js';
 import EditableControl from '../form-components/EditableControl.jsx';
 import AreaConfiguration from './AreaConfiguration.jsx';
@@ -26,9 +26,7 @@ export default class NonLinearDemandSupplyEditor extends React.Component {
                                 checked={this.props.gFunctionChoice === 0} />
 
                             <label className="form-check-label" htmlFor="gFunctionChoice1">
-                                <MathJax>
-                                    {'$$' + func1 + '$$'}
-                                </MathJax>
+                                {getKatexEl(func1)}
                             </label>
                         </div>
                         <div className="form-check">
@@ -40,9 +38,7 @@ export default class NonLinearDemandSupplyEditor extends React.Component {
                                 value={1}
                                 checked={this.props.gFunctionChoice === 1} />
                             <label className="form-check-label" htmlFor="gFunctionChoice2">
-                                <MathJax>
-                                    {'$$' + func2 + '$$'}
-                                </MathJax>
+                                {getKatexEl(func2)}
                             </label>
                         </div>
                         <hr />

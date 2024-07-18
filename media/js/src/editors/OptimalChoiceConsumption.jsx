@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { MathJax } from 'better-react-mathjax';
+import { getKatexEl } from '../katexUtils.jsx';
 import RangeEditor from '../form-components/RangeEditor.js';
 import EditableControl from '../form-components/EditableControl.jsx';
 import { handleFormUpdate } from '../utils.js';
@@ -21,21 +21,20 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
         const uStar = function() {
             return ((nStar(prop.gA4, prop.gA1) ** prop.gA4) * (nStar(prop.gA5, prop.gA2) ** prop.gA5)).toFixed(4);
         };
-        
+
         const formulae = [
-            String.raw`y_1 
+            String.raw`y_1
                 = (R - p_x)x_1 / p_y = (${prop.gA3} - ${prop.gA1}) * x_1 / ${prop.gA2}`,
-            String.raw`x^* 
-                = \alpha / (\alpha + \beta) * R / p_x 
-                = ${prop.gA4} / (${prop.gA4} + ${prop.gA5}) * ${prop.gA3} / ${prop.gA1} 
+            String.raw`x^*
+                = \alpha / (\alpha + \beta) * R / p_x
+                = ${prop.gA4} / (${prop.gA4} + ${prop.gA5}) * ${prop.gA3} / ${prop.gA1}
                 = ${nStar(prop.gA4, prop.gA1)}`,
-            String.raw`y^* 
+            String.raw`y^*
                 = \beta / (\alpha + \beta) * R / p_y
-                = ${prop.gA5} / (${prop.gA4} + ${prop.gA5}) * ${prop.gA3} / ${prop.gA2} 
+                = ${prop.gA5} / (${prop.gA4} + ${prop.gA5}) * ${prop.gA3} / ${prop.gA2}
                 = ${nStar(prop.gA5, prop.gA2)}`,
-            String.raw`U^* 
-                = (x^*)^\alpha(y^*)^\beta = ${nStar(prop.gA4, prop.gA1)}^${prop.gA4} * ${nStar(prop.gA5, prop.gA2)}^${prop.gA5} = ${uStar()}`,
-            String.raw`y_2 
+            String.raw`U^* = (x^*)^\alpha(y^*)^\beta = ${nStar(prop.gA4, prop.gA1)}^${prop.gA4} * ${nStar(prop.gA5, prop.gA2)}^${prop.gA5} = ${uStar()}`,
+            String.raw`y_2
                 = (U^*/x_2^\alpha)^{1/\beta}
                 = (${uStar()} / x_2^{${prop.gA4}})^{1/${prop.gA5}}`,
         ];
@@ -44,7 +43,7 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
             return (
                 <div className="row" key={index}>
                     <div className="col-auto">
-                        <MathJax>{'$$' + fx + '$$'}</MathJax>
+                        {getKatexEl(fx)}
                     </div>
                 </div>
             );

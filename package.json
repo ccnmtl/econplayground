@@ -10,7 +10,6 @@
   },
   "homepage": "https://github.com/ccnmtl/econplayground#readme",
   "dependencies": {
-    "better-react-mathjax": "~2.0.3",
     "commonmark": "0.31.0",
     "decimal.js": "nikolas/decimal.js#export-fix",
     "jsxgraph": "~1.9.0",
