@@ -135,6 +135,7 @@ class Viewer extends Component {
                     gNName={this.state.gNName}
 
                     gFunctionChoice={this.state.gFunctionChoice}
+                    gToggle={this.state.gToggle}
 
                     gAreaConfiguration={this.state.gAreaConfiguration}
 
