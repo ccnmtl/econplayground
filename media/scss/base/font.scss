@@ -1,5 +1,6 @@
-* {
-    font-family: 'Quattrocento Sans', sans-serif;
+:root,
+[data-bs-theme=light] {
+    --bs-font-sans-serif: 'Quattrocento Sans';
 }
 
 .visually-hidden {
