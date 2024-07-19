@@ -455,6 +455,17 @@ class Viewer extends Component {
     }
 
     handleGraphUpdate(obj) {
+        if (this.state.gType === 21 && Object.hasOwn(obj, 'gToggle')) {
+            // Update axis dynamically based on this toggle.
+            if (obj.gToggle) {
+                obj.gXAxisMax = 10000;
+                obj.gYAxisMax = 10000;
+            } else {
+                obj.gXAxisMax = 1000;
+                obj.gYAxisMax = 1000;
+            }
+        }
+
         this.setState(obj);
     }
     updateDisplayIntersection(checked) {
