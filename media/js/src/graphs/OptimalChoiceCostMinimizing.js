@@ -26,6 +26,17 @@ const lStar = function(w, r, q, alpha, beta) {
     );
 };
 
+const isocost2 = function(w, r, c, l, alpha, beta) {
+    // See doc/minimization_problem.py for how we got this complicated
+    // solution.
+    //
+    // Solving for k
+    return -l * w / r + c ** (1 / (alpha + beta)) /
+        (beta * r / (alpha * w)) ** (beta / (alpha + beta)) +
+        c ** (1 / (alpha + beta)) *
+        w * (beta * r / (alpha * w)) ** (alpha / (alpha + beta)) / r;
+};
+
 const kStar = function(w, r, q, alpha, beta) {
     return q ** (
         1 / (alpha + beta)
@@ -36,9 +47,6 @@ const kStar = function(w, r, q, alpha, beta) {
     );
 };
 
-/**
- * Optimal bundle
- */
 /*const opt1 = function(w, r, q, alpha, beta) {
     return [
         lStar(w, r, q, alpha, beta),
@@ -47,7 +55,7 @@ const kStar = function(w, r, q, alpha, beta) {
 };*/
 
 /*const f1s = function(w, r, q, alpha, beta) {
-    cost(opt1(w, r, q, alpha, beta)
+    return cost(opt1(w, r, q, alpha, beta));
 };*/
 
 /*const cStar = function(w, r) {
@@ -60,24 +68,27 @@ export class OptimalChoiceCostMinimizingGraph extends Graph {
     make() {
         const me = this;
 
-        const isocostLine = function(x) {
-            return isocost(me.options.gA1, me.options.gA2, me.options.gA3, x);
+        let isocostLine = function(l) {
+            return isocost(me.options.gA1, me.options.gA2, me.options.gA3, l);
         };
-
-        this.l1 = this.board.create(
-            'functiongraph',
-            [isocostLine, 0, 1000], {
-                strokeWidth: 2,
-                strokeColor: this.l1Color,
-                fixed: true,
-                highlight: false,
-                recursionDepthLow: 8,
-                recursionDepthHigh: 15
-            }
-        );
 
         if (this.options.gToggle) {
             // General Cobb-Douglas Production Function
+            const lStarVal = lStar(
+                this.options.gA1, this.options.gA2, this.options.gA3,
+                this.options.gA4, this.options.gA5);
+            const kStarVal = kStar(
+                this.options.gA1, this.options.gA2, this.options.gA3,
+                this.options.gA4, this.options.gA5);
+
+            // Adapt the isocost line to touch the optimal bundle
+            // at the isoquant.
+            isocostLine = function(l) {
+                return isocost2(
+                    me.options.gA1, me.options.gA2,
+                    me.options.gA3, l, me.options.gA4, me.options.gA5);
+            };
+
             const isoquantLine = function(x) {
                 return isoquant(
                     me.options.gA3, me.options.gA4,
@@ -86,7 +97,7 @@ export class OptimalChoiceCostMinimizingGraph extends Graph {
 
             this.l2 = this.board.create(
                 'functiongraph',
-                [isoquantLine, 0, 10000], {
+                [isoquantLine, 0, this.options.gXAxisMax], {
                     name: 'Isoquant Q^* = ' + this.options.gA3,
                     withLabel: true,
                     label: {
@@ -95,18 +106,9 @@ export class OptimalChoiceCostMinimizingGraph extends Graph {
                     strokeWidth: 2,
                     strokeColor: this.l2Color,
                     fixed: true,
-                    highlight: false,
-                    recursionDepthLow: 8,
-                    recursionDepthHigh: 15
+                    highlight: false
                 }
             );
-
-            const lStarVal = lStar(
-                this.options.gA1, this.options.gA2, this.options.gA3,
-                this.options.gA4, this.options.gA5);
-            const kStarVal = kStar(
-                this.options.gA1, this.options.gA2, this.options.gA3,
-                this.options.gA4, this.options.gA5);
 
             const optimalBundlePoint = this.board.create('point', [
                 lStarVal, kStarVal
@@ -153,6 +155,16 @@ export class OptimalChoiceCostMinimizingGraph extends Graph {
                 straightLast: false
             });
         }
+
+        this.l1 = this.board.create(
+            'functiongraph',
+            [isocostLine, 0, this.options.gXAxisMax], {
+                strokeWidth: 2,
+                strokeColor: this.l1Color,
+                fixed: true,
+                highlight: false
+            }
+        );
     }
 }
 

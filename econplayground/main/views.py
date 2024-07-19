@@ -149,7 +149,7 @@ class GraphPickView(EnsureCsrfCookieMixin, CohortInstructorMixin, CreateView):
                 {
                     'graph_type': 21,
                     'title': get_graph_name(21),
-                    'image': None,
+                    'image': 'graph_types/optimal_choice_cost_minimizing.png',
                 },
                 {
                     'graph_type': 22,
