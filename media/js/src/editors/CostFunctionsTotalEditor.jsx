@@ -10,13 +10,18 @@ export default class CostFunctionsTotalEditor extends React.Component {
             <div>
                 <h2>Function</h2>
                 <div className="col">
-
-                    {getKatexEl(`Cost=a+bx+cx^2=
+                    <div>
+                        {getKatexEl(`Cost=a+bx+cx^2=
                             ${this.props.gA1}+
                             ${this.props.gA2}x+
                             ${this.props.gA3}x^2`)}
-                    {getKatexEl(`F_{cost}=a=${this.props.gA1}`)}
-                    {getKatexEl('V_{cost}=Cost - F_{cost}')}
+                    </div>
+                    <div>
+                        {getKatexEl(`F_{cost}=a=${this.props.gA1}`)}
+                    </div>
+                    <div>
+                        {getKatexEl('V_{cost}=Cost - F_{cost}')}
+                    </div>
                 </div>
                 <hr />
                 {this.props.displaySliders && (
