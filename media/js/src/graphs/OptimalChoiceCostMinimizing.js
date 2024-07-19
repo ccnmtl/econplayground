@@ -85,6 +85,8 @@ export class OptimalChoiceCostMinimizingGraph extends Graph {
             this.l2 = this.board.create(
                 'functiongraph',
                 [isoquantLine, 0, 10000], {
+                    name: 'Isoquant Q^* = ' + this.options.gA3,
+                    withLabel: true,
                     strokeWidth: 2,
                     strokeColor: this.l2Color,
                     fixed: true,
