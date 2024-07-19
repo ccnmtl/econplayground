@@ -54,6 +54,8 @@ const kStar = function(w, r, q, alpha, beta) {
     w * lStar + r * kStar;
 };*/
 
+const optimalBundleColor = 'red';
+
 export class OptimalChoiceCostMinimizingGraph extends Graph {
     make() {
         const me = this;
@@ -87,6 +89,9 @@ export class OptimalChoiceCostMinimizingGraph extends Graph {
                 [isoquantLine, 0, 10000], {
                     name: 'Isoquant Q^* = ' + this.options.gA3,
                     withLabel: true,
+                    label: {
+                        strokeColor: this.l2Color
+                    },
                     strokeWidth: 2,
                     strokeColor: this.l2Color,
                     fixed: true,
@@ -103,14 +108,30 @@ export class OptimalChoiceCostMinimizingGraph extends Graph {
                 this.options.gA1, this.options.gA2, this.options.gA3,
                 this.options.gA4, this.options.gA5);
 
+            const optimalBundlePoint = this.board.create('point', [
+                lStarVal, kStarVal
+            ], {
+                name: 'Optimal Bundle',
+                withLabel: true,
+                label: {
+                    strokeColor: optimalBundleColor
+                },
+                fixed: true,
+                strokeColor: optimalBundleColor,
+                fillColor: optimalBundleColor
+            });
+
             this.board.create('line', [
                 [lStarVal, 0],
-                [lStarVal, kStarVal]
+                optimalBundlePoint
             ], {
                 name: 'l^*',
                 withLabel: true,
+                label: {
+                    strokeColor: optimalBundleColor
+                },
                 fixed: true,
-                strokeColor: 'red',
+                strokeColor: optimalBundleColor,
                 dash: 2,
                 straightFirst: false,
                 straightLast: false
@@ -118,12 +139,15 @@ export class OptimalChoiceCostMinimizingGraph extends Graph {
 
             this.board.create('line', [
                 [0, kStarVal],
-                [lStarVal, kStarVal]
+                optimalBundlePoint
             ], {
                 name: 'k^*',
                 withLabel: true,
+                label: {
+                    strokeColor: optimalBundleColor
+                },
                 fixed: true,
-                strokeColor: 'red',
+                strokeColor: optimalBundleColor,
                 dash: 2,
                 straightFirst: false,
                 straightLast: false
