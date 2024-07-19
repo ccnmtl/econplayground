@@ -4,7 +4,7 @@ import RangeEditor from '../form-components/RangeEditor.js';
 import EditableControl from '../form-components/EditableControl.jsx';
 import { handleFormUpdate } from '../utils.js';
 import Checkbox from '../form-components/Checkbox.js';
-import { MathJax } from 'better-react-mathjax';
+import { getKatexEl } from '../katexUtils.jsx';
 
 export default class ADASEditor extends React.Component {
 
@@ -24,22 +24,23 @@ export default class ADASEditor extends React.Component {
     }
 
     render() {
+        const func1 = `\\text{Orange: } y = mx + b = ${this.props.gLine1Slope} (x - 2.5) + 2.5)`;
+        const func2 = `\\text{Blue: } y = mx + b = ${this.props.gLine2Slope} (x - 2.5) + 2.5`;
+        const func3 = `\\text{Red: } y = mx + b = ${this.props.gLine3Slope} (x - 2.5) + 2.5)`;
+
         return (
             <div>
                 <h2>Function</h2>
                 <div className="col">
-                    <MathJax>
-                        {`$$\\text{Orange: }y=mx+b
-                            =${this.props.gLine1Slope}(x-2.5)+2.5$$`}
-                    </MathJax>
-                    <MathJax>
-                        {`$$\\text{Blue: }y=mx+b
-                            =${this.props.gLine2Slope}(x-2.5)+2.5$$`}
-                    </MathJax>
-                    <MathJax>
-                        {`$$\\text{Red: }y=mx+b
-                            =${this.props.gLine3Slope}(x-2.5)+2.5$$`}
-                    </MathJax>
+                    <div>
+                        {getKatexEl(func1)}
+                    </div>
+                    <div>
+                        {getKatexEl(func2)}
+                    </div>
+                    <div>
+                        {getKatexEl(func3)}
+                    </div>
                 </div>
                 <hr />
                 {this.props.displaySliders && (

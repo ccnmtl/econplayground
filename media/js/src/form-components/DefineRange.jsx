@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { MathJax } from 'better-react-mathjax';
+import { getKatexEl } from '../katexUtils.jsx';
 
 /**
  * DefineRange is a re-usable component that creates <input> elements with
@@ -17,9 +17,7 @@ export default class DefineRange extends React.Component {
                 <div className="input-group mb-2 w-50">
                     <label className="input-group-text" key="dataId" htmlFor={this.props.id + 'Min'}>
                         <div>
-                            <MathJax>
-                                {'$$' + this.props.label + '$$'}
-                            </MathJax>
+                            {getKatexEl(this.props.label)}
                         </div>
                     </label>
                     {[ // [label, id, value]
@@ -28,7 +26,7 @@ export default class DefineRange extends React.Component {
                     ].map((item, key) => {
                         return (
                             <input
-                                key={key}    
+                                key={key}
                                 className="form-control"
                                 aria-label={this.props.label + ' ' + item[0]}
                                 id={this.props.id + item[1]}

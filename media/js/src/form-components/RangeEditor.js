@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import katex from 'katex';
+import { getKatexEl } from '../katexUtils.jsx';
 import { btnStep } from '../utils.js';
 
 /**
@@ -15,13 +15,7 @@ export default class RangeEditor extends React.Component {
         }
 
         if (!this.props.rawLabel) {
-            const renderedLatex = katex.renderToString(this.props.label, {
-                throwOnError: false
-            });
-            return (
-                <span dangerouslySetInnerHTML={{__html: renderedLatex}}>
-                </span>
-            );
+            return getKatexEl(this.props.label);
         } else {
             return (
                 <span>{this.props.label}</span>

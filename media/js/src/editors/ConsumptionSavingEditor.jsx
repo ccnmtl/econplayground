@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { MathJax } from 'better-react-mathjax';
+import { getKatexEl } from '../katexUtils.jsx';
 import RangeEditor from '../form-components/RangeEditor.js';
 import EditableControl from '../form-components/EditableControl.jsx';
 import { handleFormUpdate } from '../utils.js';
@@ -15,9 +15,7 @@ export default class ConsumptionSavingEditor extends React.Component {
                     <React.Fragment>
                         <h2>Function</h2>
                         <div className="row ml-2 mb-2">
-                            <MathJax>
-                                {'$$' + tex + '$$'}
-                            </MathJax>
+                            {getKatexEl(tex)}
                         </div>
                     </React.Fragment>
                 }

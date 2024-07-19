@@ -2,11 +2,12 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { MathJax } from 'better-react-mathjax';
+
 import JXG from 'jsxgraph';
-import {graphTypes} from './graphs/graphTypes.js';
-import {mkNonLinearDemandSupply} from './graphs/NonLinearDemandSupplyGraph.js';
-import {mkDemandSupply} from './graphs/DemandSupplyGraph.js';
+import { getKatexEl } from './katexUtils.jsx';
+import { graphTypes } from './graphs/graphTypes.js';
+import { mkNonLinearDemandSupply } from './graphs/NonLinearDemandSupplyGraph.js';
+import { mkDemandSupply } from './graphs/DemandSupplyGraph.js';
 import AreaDisplay from './AreaDisplay.jsx';
 import {
     getL1SubmissionOffset, getL2SubmissionOffset, GRID_MAJOR, GRID_MINOR
@@ -702,16 +703,9 @@ export default class JXGBoard extends React.Component {
             if (this.props.gType === 14) {
                 const func1 = String.raw`MP_${this.props.gNName} = (1 - \alpha)${this.props.gCobbDouglasAName}${this.props.gCobbDouglasKName}^\alpha ${this.props.gNName}^{-\alpha}`;
                 const func2 = String.raw`MP_${this.props.gCobbDouglasKName} = \alpha ${this.props.gCobbDouglasAName}${this.props.gCobbDouglasKName}^{\alpha - 1} ${this.props.gNName}^{1 - \alpha}`;
-                math1 = (
-                    <MathJax>
-                        {'$$' + func1 + '$$'}
-                    </MathJax>
-                );
-                math2 = (
-                    <MathJax>
-                        {'$$' + func2 + '$$'}
-                    </MathJax>
-                );
+
+                math1 = getKatexEl(func1);
+                math2 = getKatexEl(func2);
             }
             figure2 = false;
         }

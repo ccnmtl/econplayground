@@ -3,23 +3,16 @@
 import React from 'react';
 import TestRenderer from 'react-test-renderer';
 import ReactTestUtils from 'react-dom/test-utils';
-import { MathJaxContext } from 'better-react-mathjax';
 import Editor from './Editor.jsx';
 import { exportGraph } from './GraphMapping.js';
 
 it('renders without crashing', () => {
-    TestRenderer.create(
-        <MathJaxContext>
-            <Editor />
-        </MathJaxContext>
-    );
+    TestRenderer.create(<Editor />);
 });
 
 it('renders with children in the expected visibility state', () => {
     TestRenderer.create(
-        <MathJaxContext>
-            <Editor />
-        </MathJaxContext>,
+        <Editor />,
         function() {
             expect(this.gp.current.props.showing).toBe(true);
             expect(this.ge.current.props.showing).toBe(false);
@@ -36,9 +29,7 @@ it('renders with children in the expected visibility state', () => {
 
 it('exports its graph state', () => {
     TestRenderer.create(
-        <MathJaxContext>
-            <Editor />
-        </MathJaxContext>,
+        <Editor />,
         function() {
             let o = exportGraph(this.state);
             expect(o.graph_type).toBe(null);

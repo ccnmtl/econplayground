@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import RangeEditor from '../form-components/RangeEditor.js';
 import DefineRange from '../form-components/DefineRange.jsx';
 import { handleFormUpdate } from '../utils.js';
-import { MathJax } from 'better-react-mathjax';
+import { getKatexEl } from '../katexUtils.jsx';
 
 
 export default class TaxRevenueEditor extends React.Component {
@@ -38,10 +38,10 @@ export default class TaxRevenueEditor extends React.Component {
                 <ul className="col">
                     {[
                         [
-                            '$$Unit\\ Tax$$'
+                            '\\text{Unit Tax}'
                         ],
                         [
-                            '$$Ad\\ Valorem\\ Tax$$'
+                            '\\text{Ad Valorem Tax}'
                         ]
                     ].map((formula, key) => {
                         return (
@@ -51,9 +51,9 @@ export default class TaxRevenueEditor extends React.Component {
                                 >
                                     {formula.map((i, key) => {
                                         return (
-                                            <MathJax key={key}>
-                                                {i}
-                                            </MathJax>
+                                            <div key={key}>
+                                                {getKatexEl(i)}
+                                            </div>
                                         );
                                     })}
                                 </label>

@@ -3,28 +3,32 @@ import PropTypes from 'prop-types';
 import RangeEditor from '../form-components/RangeEditor.js';
 import DefineRange from '../form-components/DefineRange.jsx';
 import { handleFormUpdate } from '../utils.js';
-import { MathJax } from 'better-react-mathjax';
+import { getKatexEl } from '../katexUtils.jsx';
 import GridOption from '../form-components/GridOption.jsx';
 
 
 export default class CostFunctionsUnitEditor extends React.Component {
     render() {
+        const func1 = `Cost=a+bx+cx^2=
+                            ${this.props.gA1}+
+                            ${this.props.gA2}x+
+                            ${this.props.gA3}x^2`;
+        const func2 = `F_{cost}=a=${this.props.gA1}`;
+        const func3 = 'V_{cost} = Cost - F_{cost}';
+
         return (
             <div>
                 <h2>Function</h2>
                 <div className="col">
-                    <MathJax>
-                        {`$$Cost=a+bx+cx^2=
-                            ${this.props.gA1}+
-                            ${this.props.gA2}x+
-                            ${this.props.gA3}x^2$$`}
-                    </MathJax>
-                    <MathJax>
-                        {`$$F_{cost}=a=${this.props.gA1}$$`}
-                    </MathJax>
-                    <MathJax>
-                        {'$$V_{cost}=Cost - F_{cost}$$'}
-                    </MathJax>
+                    <div>
+                        {getKatexEl(func1)}
+                    </div>
+                    <div>
+                        {getKatexEl(func2)}
+                    </div>
+                    <div>
+                        {getKatexEl(func3)}
+                    </div>
                 </div>
                 <hr />
                 <div className="row">
@@ -95,7 +99,7 @@ export default class CostFunctionsUnitEditor extends React.Component {
 
 CostFunctionsUnitEditor.propTypes = {
     gType: PropTypes.number.isRequired,
-    
+
     gA1: PropTypes.number.isRequired,
     gA1Max: PropTypes.number.isRequired,
     gA1Min: PropTypes.number.isRequired,
