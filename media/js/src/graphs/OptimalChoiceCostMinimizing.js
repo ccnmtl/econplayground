@@ -109,7 +109,9 @@ export class OptimalChoiceCostMinimizingGraph extends Graph {
                 withLabel: true,
                 fixed: true,
                 strokeColor: 'red',
-                dash: 2
+                dash: 2,
+                straightFirst: false,
+                straightLast: false
             });
 
             this.board.create('line', [
@@ -120,7 +122,9 @@ export class OptimalChoiceCostMinimizingGraph extends Graph {
                 withLabel: true,
                 fixed: true,
                 strokeColor: 'red',
-                dash: 2
+                dash: 2,
+                straightFirst: false,
+                straightLast: false
             });
         }
     }
