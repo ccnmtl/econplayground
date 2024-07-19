@@ -4,10 +4,10 @@ import {Graph} from './Graph.js';
     return w * l + r * k;
 };*/
 
-const isocost = function(w, r, c, k) {
+const isocost = function(w, r, c, l) {
     // c = w * l + r * k
-    // Solve for l
-    return (-(k * r) + c) / w;
+    // Solve for k
+    return (-(l * w) + c) / r;
 };
 
 const isoquant = function(q, alpha, beta, l) {
