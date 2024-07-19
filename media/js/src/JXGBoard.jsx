@@ -306,7 +306,7 @@ export default class JXGBoard extends React.Component {
         }
 
         if (needsUpdate) {
-            if (![18, 21, 22].includes(this.props.gType)) {
+            if (![18, 22].includes(this.props.gType)) {
                 let boundingBox = [
                     this.props.gYAxisMin - 0.07, this.props.gYAxisMax,
                     this.props.gXAxisMax, this.props.gXAxisMin - 0.11
@@ -541,12 +541,6 @@ export default class JXGBoard extends React.Component {
 
         if (options.gType === 18) {
             boundingBox = [0, 12000, 500, 0];
-        } else if (options.gType === 21) {
-            if (options.gToggle) {
-                boundingBox = [0, 10000, 10000, 0];
-            } else {
-                boundingBox = [0, 1000, 1000, 0];
-            }
         } else if (options.gType === 22) {
             if (options.gFunctionChoice === 0) {
                 boundingBox = [options.gYAxisMin - 17, options.gYAxisMax,

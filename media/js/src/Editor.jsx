@@ -89,6 +89,17 @@ class Editor extends Component {
     }
 
     handleGraphUpdate(obj) {
+        if (this.state.gType === 21 && Object.hasOwn(obj, 'gToggle')) {
+            // Update axis dynamically based on this toggle.
+            if (obj.gToggle) {
+                obj.gXAxisMax = 10000;
+                obj.gYAxisMax = 10000;
+            } else {
+                obj.gXAxisMax = 1000;
+                obj.gYAxisMax = 1000;
+            }
+        }
+
         this.setState(obj);
     }
     componentDidMount() {
@@ -108,6 +119,8 @@ class Editor extends Component {
                 updateObj.gA3 = 2500;
                 updateObj.gA4 = 0.5;
                 updateObj.gA5 = 0.5;
+                updateObj.gXAxisMax = 1000;
+                updateObj.gYAxisMax = 1000;
             } else if (window.EconPlayground.graphType === 23) {
                 updateObj.gA1 = 1500;
                 updateObj.gA2 = 100;
