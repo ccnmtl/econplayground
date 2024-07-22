@@ -9,7 +9,7 @@ import {
     AREA_A_COLOR, AREA_B_COLOR, AREA_C_COLOR
 } from './Graph.js';
 
-class DemandSupplyGraphAUC extends DemandSupplyGraph {
+export class DemandSupplyGraphAUC extends DemandSupplyGraph {
     drawAreaA(shadow=false, areaConf, intersection, l2) {
         if (!l2) {
             console.error('error: l2 is missing!');

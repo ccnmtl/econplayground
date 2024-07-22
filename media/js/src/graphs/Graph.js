@@ -146,7 +146,9 @@ export class Graph {
         const me = this;
 
         if (
-            this.l1 && (typeof this.l1.getRise === 'function') &&
+            this.l1 &&
+                !this.options.locked &&
+                typeof this.l1.getRise === 'function' &&
                 !this.options.isSubmitted
         ) {
             this.initialL1Y = this.l1.getRise();
@@ -186,7 +188,9 @@ export class Graph {
         }
 
         if (
-            this.l2 && (typeof this.l2.getRise === 'function') &&
+            this.l2 &&
+                !this.options.locked &&
+                typeof this.l2.getRise === 'function' &&
                 !this.options.isSubmitted
         ) {
             this.initialL2Y = this.l2.getRise();

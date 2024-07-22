@@ -122,11 +122,15 @@ class Editor extends Component {
                 updateObj.gXAxisMax = 1000;
                 updateObj.gYAxisMax = 1000;
             } else if (window.EconPlayground.graphType === 23) {
-                updateObj.gA1 = 1500;
-                updateObj.gA2 = 100;
-                updateObj.gA3 = 0;
-                updateObj.gLine1Slope = 2;
-                updateObj.gLine2Slope = -2;
+                Object.assign(updateObj, {
+                    gA1: 1500,
+                    gA2: 100,
+                    gA3: 0,
+                    gLine1Slope: 2,
+                    gLine2Slope: -2,
+                    gXAxisMax: 1000,
+                    gYAxisMax: 2500
+                });
             }
 
             this.setState(updateObj);
