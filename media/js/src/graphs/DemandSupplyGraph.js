@@ -1,15 +1,29 @@
 import {Graph} from './Graph.js';
 
 export class DemandSupplyGraph extends Graph {
+    constructor(board, options, defaults) {
+        super(board, options, defaults);
+
+        // Arbitrary center of graph, which depends on
+        // gXAxisMax/gYAxisMax.
+        this.center = 2.5;
+    }
+
     make() {
         if (this.options.shadow && this.options.gDisplayShadow) {
             // Display the initial curves set by the instructor.
             this.l1fShadow = this.board.create(
                 'line',
                 [
-                    [2.5, 2.5 + this.options.gLine1OffsetYInitial],
-                    [3.5, 2.5 + this.options.gLine1OffsetYInitial +
-                     this.options.gLine1SlopeInitial]
+                    [
+                        this.center,
+                        this.center + this.options.gLine1OffsetYInitial
+                    ],
+                    [
+                        this.center + 1,
+                        this.center + this.options.gLine1OffsetYInitial +
+                            this.options.gLine1SlopeInitial
+                    ]
                 ], {
                     withLabel: false,
                     strokeWidth: 2,
@@ -22,9 +36,15 @@ export class DemandSupplyGraph extends Graph {
             this.l2fShadow = this.board.create(
                 'line',
                 [
-                    [2.5, 2.5 + this.options.gLine2OffsetYInitial],
-                    [3.5, 2.5 + this.options.gLine2OffsetYInitial +
-                     this.options.gLine2SlopeInitial]
+                    [
+                        this.center,
+                        this.center + this.options.gLine2OffsetYInitial
+                    ],
+                    [
+                        this.center + 1,
+                        this.center + this.options.gLine2OffsetYInitial +
+                            this.options.gLine2SlopeInitial
+                    ]
                 ], {
                     withLabel: false,
                     strokeWidth: 2,
@@ -40,10 +60,16 @@ export class DemandSupplyGraph extends Graph {
         this.l1 = this.board.create(
             'line',
             [
-                [2.5, 2.5 + this.options.gLine1OffsetY +
-                 this.options.l1SubmissionOffset],
-                [3.5, 2.5 + this.options.gLine1OffsetY +
-                 this.options.gLine1Slope + this.options.l1SubmissionOffset]
+                [
+                    this.center,
+                    this.center + this.options.gLine1OffsetY +
+                        this.options.l1SubmissionOffset
+                ],
+                [
+                    this.center + 1,
+                    this.center + this.options.gLine1OffsetY +
+                        this.options.gLine1Slope + this.options.l1SubmissionOffset
+                ]
             ], {
                 name: this.options.gLine1Label,
                 withLabel: true,
@@ -59,10 +85,16 @@ export class DemandSupplyGraph extends Graph {
         this.l2 = this.board.create(
             'line',
             [
-                [2.5, 2.5 + this.options.gLine2OffsetY +
-                 this.options.l2SubmissionOffset],
-                [3.5, 2.5 + this.options.gLine2OffsetY +
-                 this.options.gLine2Slope + this.options.l2SubmissionOffset]
+                [
+                    this.center,
+                    this.center + this.options.gLine2OffsetY +
+                        this.options.l2SubmissionOffset
+                ],
+                [
+                    this.center + 1,
+                    this.center + this.options.gLine2OffsetY +
+                        this.options.gLine2Slope + this.options.l2SubmissionOffset
+                ]
             ], {
                 name: this.options.gLine2Label,
                 withLabel: true,
