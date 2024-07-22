@@ -12,7 +12,7 @@ export default class DemandSupplyEditor extends React.Component {
             <h2>Function</h2>
             <div className="row">
                 {getKatexEl('y=mx+b')}
-                <div className="col-6">
+                <div className="col">
                     <div>
                         {getKatexEl(`\\text{Orange: }y=${this.props.gLine1Slope}(x-2.5)+2.5`)}
                     </div>
@@ -21,7 +21,7 @@ export default class DemandSupplyEditor extends React.Component {
                     </div>
                 </div>
                 {this.props.gType === 13 && (
-                    <div className='col-6'>
+                    <div className="col">
                         <div>
                             {getKatexEl(`\\text{Right Orange: }y=${this.props.gLine3Slope}(x-2.5)+2.5`)}
                         </div>
