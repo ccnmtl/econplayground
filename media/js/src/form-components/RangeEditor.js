@@ -23,6 +23,16 @@ export default class RangeEditor extends React.Component {
         }
     }
 
+    validateInput(e) {
+        if (e.target.value === null || e.target.value === '') {
+            return;
+        }
+
+        if (!isNaN(Number(e.target.value))) {
+            return this.props.handler(e);
+        }
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -107,8 +117,8 @@ export default class RangeEditor extends React.Component {
                                 id={this.props.id}
                                 data-id={this.props.dataId}
                                 value={this.props.value}
+                                onChange={this.validateInput.bind(this)}
                                 step={Number(this.props.step) || 0.01}
-                                onChange={this.props.handler}
                                 disabled={this.props.disabled}
                                 min={this.props.min}
                                 max={this.props.max}>
