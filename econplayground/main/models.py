@@ -357,6 +357,9 @@ class Graph(OrderedModel):
     # can be toggled.
     function_choice = models.PositiveSmallIntegerField(default=0)
 
+    # Generic boolean field for use in some graph types
+    toggle = models.BooleanField(default=False)
+
     # An Area under Curve (AUC) graph has different cases handling
     # which areas are displayed.
     area_configuration = models.PositiveSmallIntegerField(default=0)

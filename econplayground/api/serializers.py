@@ -155,6 +155,7 @@ class GraphSerializer(serializers.ModelSerializer):
             'n_name',
 
             'function_choice',
+            'toggle',
 
             'area_configuration',
             'is_area_displayed',
