@@ -16,8 +16,6 @@ class Editor extends Component {
             gA2: 2,
             gA3: 0.5,
             gA4: 2,
-
-            // Used in graph type 11 - beta value
             gA5: 0.5
         };
 
@@ -113,7 +111,9 @@ class Editor extends Component {
             Object.assign(updateObj, this.defaults);
 
             // Specific defaults based on graph type.
-            if (window.EconPlayground.graphType === 21) {
+            if (window.EconPlayground.graphType === 15) {
+                updateObj.gA4 = 0.5;
+            } else if (window.EconPlayground.graphType === 21) {
                 updateObj.gA1 = 5;
                 updateObj.gA2 = 10;
                 updateObj.gA3 = 2500;
