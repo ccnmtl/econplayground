@@ -87,17 +87,19 @@ export default class CommonGraphSettings extends React.Component {
                                 Display feedback
                             </label>
                         </div>
-                        <div className="form-check">
-                            <label className="form-check-label">
-                                <input
-                                    id="gShowIntersection"
-                                    className="form-check-input"
-                                    type="checkbox"
-                                    onChange={handleFormUpdate.bind(this)}
-                                    checked={this.props.gShowIntersection} />
-                                Display intersection
-                            </label>
-                        </div>
+                        {this.props.enableIntersectionToggle && (
+                            <div className="form-check">
+                                <label className="form-check-label">
+                                    <input
+                                        id="gShowIntersection"
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        onChange={handleFormUpdate.bind(this)}
+                                        checked={this.props.gShowIntersection} />
+                                    Display intersection
+                                </label>
+                            </div>
+                        )}
                         <div className="form-check">
                             <label className="form-check-label">
                                 <input
@@ -171,7 +173,13 @@ export default class CommonGraphSettings extends React.Component {
     }
 }
 
+CommonGraphSettings.defaultProps = {
+    enableIntersectionToggle: true
+};
+
 CommonGraphSettings.propTypes = {
+    enableIntersectionToggle: PropTypes.bool,
+
     gAssignmentType: PropTypes.number.isRequired,
     gNeedsSubmit: PropTypes.bool.isRequired,
     gDisplayFeedback: PropTypes.bool.isRequired,
