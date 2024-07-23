@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import RangeEditor from '../form-components/RangeEditor.js';
 import DefineRange from '../form-components/DefineRange.jsx';
 import { handleFormUpdate } from '../utils.js';
-import { getKatexEl } from '../katexUtils.jsx';
 
 
 export default class TaxRevenueEditor extends React.Component {
@@ -34,44 +33,37 @@ export default class TaxRevenueEditor extends React.Component {
     render() {
         return (
             <div>
-                <h3>Function</h3>
-                <ul className="col">
-                    {[
-                        [
-                            '\\text{Unit Tax}'
-                        ],
-                        [
-                            '\\text{Ad Valorem Tax}'
-                        ]
-                    ].map((formula, key) => {
-                        return (
-                            <li key={key} className='form-check'>
-                                <label htmlFor={`formula-${key}`}
-                                    className='form-check-label'
-                                >
-                                    {formula.map((i, key) => {
-                                        return (
-                                            <div key={key}>
-                                                {getKatexEl(i)}
-                                            </div>
-                                        );
-                                    })}
-                                </label>
-                                <input type="radio" id={`formula-${key}`}
-                                    className='form-check-input'
-                                    value={key} name="gFunctionChoice"
-                                    checked={this.props.gFunctionChoice === key} 
-                                    onChange={handleFormUpdate.bind(this)} />
-                            </li>
-                        );
-                    })}
-                </ul>
-                <hr />
+
+                <div className="form-check form-check-inline">
+                    <input
+                        type="radio" id="functionChoice-0"
+                        className="form-check-input"
+                        value={0}
+                        name="gFunctionChoice"
+                        checked={this.props.gFunctionChoice === 0}
+                        onChange={handleFormUpdate.bind(this)} />
+                    <label className="form-check-label" htmlFor="functionChoice-0">
+                        Unit Tax
+                    </label>
+                </div>
+                <div className="form-check form-check-inline">
+                    <input
+                        type="radio" id="functionChoice-1"
+                        className="form-check-input"
+                        value={1}
+                        name="gFunctionChoice"
+                        checked={this.props.gFunctionChoice === 1}
+                        onChange={handleFormUpdate.bind(this)} />
+                    <label className="form-check-label" htmlFor="functionChoice-1">
+                        Ad Valorem Tax
+                    </label>
+                </div>
+
                 {this.props.isInstructor && (
                     <div className="row">
                         {[ // [dataId, label]
-                            ['gXAxis', 'X\\ Axis'],
-                            ['gYAxis', 'Y\\ Axis'],
+                            ['gXAxis', 'X Axis'],
+                            ['gYAxis', 'Y Axis'],
                             ['gA1', 'Reserv.'],
                             ['gA2', 'Demand'],
                             ['gA3', 'Choke'],
@@ -83,6 +75,7 @@ export default class TaxRevenueEditor extends React.Component {
                                     className="col-6"
                                     id={i[0]}
                                     label={i[1]}
+                                    rawLabel={true}
                                     dataId={i[0]}
                                     min={this.props[i[0] + 'Min']}
                                     max={this.props[i[0] + 'Max']}
@@ -94,15 +87,16 @@ export default class TaxRevenueEditor extends React.Component {
                 {this.props.displaySliders && (
                     <React.Fragment>
                         {[
-                            ['gA1', 'Reservation\\ Price'],
-                            ['gA2', 'Demand\\ Slope'],
-                            ['gA3', 'Choke\\ Price'],
-                            ['gA4', 'Supply\\ Slope'],
+                            ['gA1', 'Reservation Price'],
+                            ['gA2', 'Demand Slope'],
+                            ['gA3', 'Choke Price'],
+                            ['gA4', 'Supply Slope'],
                         ].map((i, key) => {
                             return (
                                 <RangeEditor
                                     key={key}
                                     label={i[1]}
+                                    rawLabel={true}
                                     id={i[0]}
                                     dataId={i[0]}
                                     value={this.props[i[0]]}
@@ -122,7 +116,7 @@ export default class TaxRevenueEditor extends React.Component {
 TaxRevenueEditor.propTypes = {
     gId: PropTypes.number,
     gType: PropTypes.number.isRequired,
-    
+
     gA1: PropTypes.number,
     gA1Max: PropTypes.number,
     gA1Min: PropTypes.number,
