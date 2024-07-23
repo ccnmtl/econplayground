@@ -17,7 +17,12 @@ export default class DefineRange extends React.Component {
                 <div className="input-group mb-2 w-50">
                     <label className="input-group-text" key="dataId" htmlFor={this.props.id + 'Min'}>
                         <div>
-                            {getKatexEl(this.props.label)}
+                            {this.props.rawLabel && (
+                                this.props.label
+                            )}
+                            {!this.props.rawLabel && (
+                                getKatexEl(this.props.label)
+                            )}
                         </div>
                     </label>
                     {[ // [label, id, value]
@@ -46,6 +51,7 @@ export default class DefineRange extends React.Component {
 
 DefineRange.defaultProps = {
     label: null,
+    rawLabel: false,
     min: 0,
     max: 10,
     disabled: false
@@ -58,4 +64,5 @@ DefineRange.propTypes = {
     min: PropTypes.number,
     max: PropTypes.number,
     label: PropTypes.string.isRequired,  // a LaTeX string
+    rawLabel: PropTypes.bool
 };

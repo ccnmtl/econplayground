@@ -51,7 +51,7 @@ export default class RevenueElasticityEditor extends React.Component {
                         );
                     })}
                 </ul>
-                <hr />
+
                 {this.props.isInstructor && (
                     <div className="row">
                         {[ // [dataId, label]
