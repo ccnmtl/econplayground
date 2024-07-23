@@ -36,8 +36,17 @@ export const tos = function(c, b, a, d) {
     return cos(c, b, a, d) + pos(c, b, a, d);
 };
 
-/*const equt = function(c, b, a, d, t) {
-};*/
+const equt = function(c, b, a, d, t) {
+    return (-a + c - t) / (b + d);
+};
+
+export const taxur = function(c, b, a, d, t) {
+    return equt(c, b, a, d, t) * t;
+};
+
+export const dwlu = function(c, b, a, d, t) {
+    return (eq(c, b, a, d) - equt(c, b, a, d, t)) * t / 2;
+};
 
 class TaxationLinearDemandSupplyGraph extends Graph {
     make() {

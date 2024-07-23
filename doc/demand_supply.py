@@ -12,7 +12,7 @@
 #
 
 from sympy import Eq, solve
-from sympy.abc import c, b, p, a, d, q
+from sympy.abc import c, b, p, a, d, q, t
 
 
 ep = Eq(
@@ -20,16 +20,23 @@ ep = Eq(
     -(a / d) + p / d
 )
 
-eq = Eq(
+eq1 = Eq(
     c - b * q,
+    a + d * q
+)
+
+eq2 = Eq(
+    c - b * q - t,
     a + d * q
 )
 
 
 solutions = solve(ep, p, dict=True)
-solutions_eq = solve(eq, q, dict=True)
+solutions_eq1 = solve(eq1, q, dict=True)
+solutions_eq2 = solve(eq2, q, dict=True)
 
 
 if __name__ == '__main__':
     print(solutions)
-    print(solutions_eq)
+    print(solutions_eq1)
+    print(solutions_eq2)
