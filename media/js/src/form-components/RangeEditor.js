@@ -37,7 +37,7 @@ export default class RangeEditor extends React.Component {
         return (
             <React.Fragment>
                 <div className="row">
-                    <div className="col">
+                    <div className="col-7">
                         <div className="form-row">
                             <label key="dataId" className="w-100" htmlFor={this.props.id}>
 
@@ -72,7 +72,7 @@ export default class RangeEditor extends React.Component {
                             </label>
                         </div>
                     </div>
-                    <div className="col">
+                    <div className="col-5">
                         <div className="mb-2 input-group">
                             <button
                                 className="btn btn-primary ms-1"
