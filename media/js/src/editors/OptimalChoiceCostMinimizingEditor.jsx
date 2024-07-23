@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import RangeEditor from '../form-components/RangeEditor.js';
 import Checkbox from '../form-components/Checkbox.js';
 import { handleFormUpdate } from '../utils.js';
+import { getKatexEl } from '../katexUtils.jsx';
 
 export default class OptimalChoiceCostMinimizingEditor extends React.Component {
     render() {
@@ -14,6 +15,14 @@ export default class OptimalChoiceCostMinimizingEditor extends React.Component {
             'Perfect Substitutes',
             'Perfect Complements'
         ];
+        const cobbDouglasKatexFunctions = [
+            'f(l,k) = k^\\alpha l^\\beta',
+            'f(l,k) = k^\\alpha l^{1 - \\alpha}',
+            'f(l,k) = k^\\alpha l^{1 - \\alpha}',
+            'f(l,k) = (k^\\rho + l^\\rho)^{1 / \\rho}',
+            'f(l,k) = ak + bl',
+            'f(l,k) = min \\{ ak + bl \\}',
+        ];
         const radioButtons = cobbDouglasOptions.map((optionTitle, idx) =>
             <div key={idx} className="form-check">
                 <input
@@ -24,8 +33,10 @@ export default class OptimalChoiceCostMinimizingEditor extends React.Component {
                     name="gFunctionChoice"
                     checked={this.props.gFunctionChoice === idx}
                     onChange={handleFormUpdate.bind(this)} />
-                <label className="form-check-label" htmlFor={`functionChoice-${idx}`}>
-                    {optionTitle}
+                <label
+                    className="form-check-label"
+                    htmlFor={`functionChoice-${idx}`}>
+                    {optionTitle}: {getKatexEl(cobbDouglasKatexFunctions[idx])}
                 </label>
             </div>
         );
