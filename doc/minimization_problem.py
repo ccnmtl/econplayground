@@ -11,7 +11,7 @@
 # https://docs.sympy.org/latest/guides/solving/solve-equation-algebraically.html
 #
 
-from sympy import Eq, solve, solveset
+from sympy import Eq, solve
 from sympy.abc import w, l, r, k, q, alpha, beta
 
 # This example equation specifies the isocost line for a complex set

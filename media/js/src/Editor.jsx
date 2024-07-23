@@ -127,7 +127,7 @@ class Editor extends Component {
                     gA2: 100,
                     gA3: 0,
                     gLine1Slope: 2,
-                    gLine2Slope: -2,
+                    gLine2Slope: 2,
                     gXAxisMax: 1000,
                     gYAxisMax: 2500
                 });

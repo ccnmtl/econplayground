@@ -36,6 +36,9 @@ export const getIntersectionPointOptions = function(
     return {
         name: label || '',
         withLabel: !isShadow,
+        label: {
+            strokeColor: color
+        },
         fixed: true,
         highlight: false,
         showInfobox: false,
