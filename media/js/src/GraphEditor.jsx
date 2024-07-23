@@ -449,6 +449,9 @@ GraphEditor.propTypes = {
     gA5: PropTypes.number,
     gA5Max: PropTypes.number,
     gA5Min: PropTypes.number,
+    gA6: PropTypes.number,
+    gA7: PropTypes.number,
+    gA8: PropTypes.number,
 
     gCobbDouglasA: PropTypes.number,
     gCobbDouglasAName: PropTypes.string,
