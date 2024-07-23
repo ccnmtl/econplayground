@@ -114,13 +114,18 @@ class Editor extends Component {
             if (window.EconPlayground.graphType === 15) {
                 updateObj.gA4 = 0.5;
             } else if (window.EconPlayground.graphType === 21) {
-                updateObj.gA1 = 5;
-                updateObj.gA2 = 10;
-                updateObj.gA3 = 2500;
-                updateObj.gA4 = 0.5;
-                updateObj.gA5 = 0.5;
-                updateObj.gXAxisMax = 1000;
-                updateObj.gYAxisMax = 1000;
+                Object.assign(updateObj, {
+                    gA1: 5,
+                    gA2: 10,
+                    gA3: 2500,
+                    gA4: 0.5,
+                    gA5: 0.5,
+                    gA6: 0,
+                    gA7: 0,
+                    gA8: 0,
+                    gXAxisMax: 1000,
+                    gYAxisMax: 1000
+                });
             } else if (window.EconPlayground.graphType === 23) {
                 Object.assign(updateObj, {
                     gA1: 1500,

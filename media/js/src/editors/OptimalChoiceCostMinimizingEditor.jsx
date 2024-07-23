@@ -51,8 +51,6 @@ export default class OptimalChoiceCostMinimizingEditor extends React.Component {
 
                 {radioButtons}
 
-                <hr />
-
                 <div>
                     {this.props.displaySliders && (
                         <>
@@ -83,7 +81,7 @@ export default class OptimalChoiceCostMinimizingEditor extends React.Component {
                                 max={5000}
                                 handler={handleFormUpdate.bind(this)} />
 
-                            {this.props.gToggle && (
+                            {this.props.gToggle && this.props.gFunctionChoice === 0 && (
                                 <>
                                     <RangeEditor
                                         label="\alpha"
@@ -95,6 +93,109 @@ export default class OptimalChoiceCostMinimizingEditor extends React.Component {
                                         handler={handleFormUpdate.bind(this)} />
                                     <RangeEditor
                                         label="\beta"
+                                        id="gA5"
+                                        dataId="gA5"
+                                        value={this.props.gA5}
+                                        min={0.01}
+                                        max={1}
+                                        handler={handleFormUpdate.bind(this)} />
+                                </>
+                            )}
+
+                            {this.props.gToggle && this.props.gFunctionChoice === 1 && (
+                                <>
+                                    <RangeEditor
+                                        label="\alpha"
+                                        id="gA4"
+                                        dataId="gA4"
+                                        value={this.props.gA4}
+                                        min={0.01}
+                                        max={1}
+                                        handler={handleFormUpdate.bind(this)} />
+                                </>
+                            )}
+
+                            {this.props.gToggle && this.props.gFunctionChoice === 2 && (
+                                <>
+                                    <RangeEditor
+                                        label="\alpha"
+                                        id="gA4"
+                                        dataId="gA4"
+                                        value={this.props.gA4}
+                                        min={0}
+                                        max={2}
+                                        handler={handleFormUpdate.bind(this)} />
+
+                                    <RangeEditor
+                                        label="Input Tax Rate"
+                                        rawLabel={true}
+                                        id="gA5"
+                                        dataId="gA5"
+                                        value={this.props.gA5}
+                                        min={0}
+                                        max={2}
+                                        handler={handleFormUpdate.bind(this)} />
+
+                                    <RangeEditor
+                                        label="Labor Tax Rate"
+                                        rawLabel={true}
+                                        id="gA6"
+                                        dataId="gA6"
+                                        value={this.props.gA6}
+                                        min={0}
+                                        max={2}
+                                        handler={handleFormUpdate.bind(this)} />
+
+                                    <RangeEditor
+                                        label="Capital Tax Rate"
+                                        rawLabel={true}
+                                        id="gA7"
+                                        dataId="gA7"
+                                        value={this.props.gA7}
+                                        min={0}
+                                        max={2}
+                                        handler={handleFormUpdate.bind(this)} />
+
+                                    <RangeEditor
+                                        label="Business License"
+                                        rawLabel={true}
+                                        id="gA8"
+                                        dataId="gA8"
+                                        value={this.props.gA8}
+                                        min={0}
+                                        max={2}
+                                        handler={handleFormUpdate.bind(this)} />
+                                </>
+                            )}
+
+                            {this.props.gToggle && this.props.gFunctionChoice === 3 && (
+                                <>
+                                    <RangeEditor
+                                        label="\rho"
+                                        id="gA4"
+                                        dataId="gA4"
+                                        value={this.props.gA4}
+                                        min={0.01}
+                                        max={1}
+                                        handler={handleFormUpdate.bind(this)} />
+                                </>
+                            )}
+
+                            {this.props.gToggle && (
+                                this.props.gFunctionChoice === 4 ||
+                                    this.props.gFunctionChoice === 5
+                            ) && (
+                                <>
+                                    <RangeEditor
+                                        label="a"
+                                        id="gA4"
+                                        dataId="gA4"
+                                        value={this.props.gA4}
+                                        min={0.01}
+                                        max={1}
+                                        handler={handleFormUpdate.bind(this)} />
+                                    <RangeEditor
+                                        label="b"
                                         id="gA5"
                                         dataId="gA5"
                                         value={this.props.gA5}
@@ -119,6 +220,9 @@ OptimalChoiceCostMinimizingEditor.propTypes = {
     gA3: PropTypes.number.isRequired,
     gA4: PropTypes.number.isRequired,
     gA5: PropTypes.number.isRequired,
+    gA6: PropTypes.number.isRequired,
+    gA7: PropTypes.number.isRequired,
+    gA8: PropTypes.number.isRequired,
 
     gFunctionChoice: PropTypes.number.isRequired,
     gToggle: PropTypes.bool.isRequired,

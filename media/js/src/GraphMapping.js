@@ -82,6 +82,10 @@ const exportGraph = function(state) {
         a5_max: forceFloat(state.gA5Max),
         a5_min: forceFloat(state.gA5Min),
 
+        a6: forceFloat(state.gA6),
+        a7: forceFloat(state.gA7),
+        a8: forceFloat(state.gA8),
+
         x_axis_max: forceFloat(state.gXAxisMax),
         x_axis_min: forceFloat(state.gXAxisMin),
         y_axis_max: forceFloat(state.gYAxisMax),
@@ -217,6 +221,10 @@ const convertGraph = function(json) {
         gA5Max: forceFloat(json.a5_max),
         gA5Min: forceFloat(json.a5_min),
 
+        gA6: forceFloat(json.a6),
+        gA7: forceFloat(json.a7),
+        gA8: forceFloat(json.a8),
+
         gXAxisMax: forceFloat(json.x_axis_max),
         gXAxisMin: forceFloat(json.x_axis_min),
         gYAxisMax: forceFloat(json.y_axis_max),
@@ -339,6 +347,10 @@ const importGraph = function(json, obj, callback=null) {
         gA5: forceFloat(json.a5),
         gA5Max: forceFloat(json.a5_max),
         gA5Min: forceFloat(json.a5_min),
+
+        gA6: forceFloat(json.a6),
+        gA7: forceFloat(json.a7),
+        gA8: forceFloat(json.a8),
 
         gA: forceFloat(json.a),
         gK: forceFloat(json.k),
@@ -467,9 +479,13 @@ const defaultEvaluation = {
     a4: 0,
     a4_max: 10,
     a4_min: 0,
-    a5: 0.5, // used in graph type 11 - beta value
+    a5: 0.5,
     a5_max: 10,
     a5_min: 0,
+
+    a6: 0,
+    a7: 0,
+    a8: 0,
 
     a: 3,
     k: 2,
@@ -515,7 +531,10 @@ const defaultModificationEvaluation = {
     a2: 2,
     a3: 0.5,
     a4: 0,
-    a5: 0.5, // used in graph type 11 - beta value
+    a5: 0.5,
+    a6: 0,
+    a7: 0,
+    a8: 0,
 
     a: 3,
     k: 2,
@@ -637,6 +656,10 @@ const defaultGraph = {
     gA5: null,
     gA5Min: 0,
     gA5Max: 10,
+
+    gA6: null,
+    gA7: null,
+    gA8: null,
 
     gXAxisMax: 5,
     gXAxisMin: 0,

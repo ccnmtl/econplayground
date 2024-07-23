@@ -116,6 +116,9 @@ class Viewer extends Component {
                     gA5={this.state.gA5}
                     gA5Max={this.state.gA5Max}
                     gA5Min={this.state.gA5Min}
+                    gA6={this.state.gA6}
+                    gA7={this.state.gA7}
+                    gA8={this.state.gA8}
 
                     gA={this.state.gA}
                     gK={this.state.gK}
@@ -272,6 +275,9 @@ class Viewer extends Component {
                     gA5Max={this.state.gA5Max}
                     gA5Min={this.state.gA5Min}
                     gA5Initial={this.state.gA5Initial}
+                    gA6={this.state.gA6}
+                    gA7={this.state.gA7}
+                    gA8={this.state.gA8}
 
                     gA={this.state.gA}
                     gK={this.state.gK}
