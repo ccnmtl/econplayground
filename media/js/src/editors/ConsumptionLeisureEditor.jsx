@@ -18,7 +18,7 @@ export default class ConsumptionLeisureEditor extends React.Component {
             <div>
                 {this.props.isInstructor &&
                     <React.Fragment>
-                        <h2>Function</h2>
+                        <h3>Function</h3>
                         <div className="row">
                             <div className="col-auto">
                                 {getKatexEl(tex)}
@@ -30,7 +30,7 @@ export default class ConsumptionLeisureEditor extends React.Component {
 
                 {this.props.displaySliders && (
                     <React.Fragment>
-                        <h2>Slope</h2>
+                        <h3>Slope</h3>
                         <RangeEditor
                             label="\text{Horizontal intercept value: }T"
                             id="gA1"

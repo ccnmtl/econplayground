@@ -53,7 +53,7 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
             <div>
                 {this.props.isInstructor &&
                     <React.Fragment>
-                        <h2>Function</h2>
+                        <h3>Function</h3>
                         {formulae.map(renderFormula)}
                         <hr />
                     </React.Fragment>
@@ -61,7 +61,7 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
 
                 {this.props.displaySliders && (
                     <React.Fragment>
-                        <h2>Slope</h2>
+                        <h3>Slope</h3>
                         <RangeEditor
                             label="p_x"
                             id="gA1"

@@ -21,7 +21,7 @@ export default class RevenueElasticityEditor extends React.Component {
         }
         return (
             <div>
-                <h2>Function</h2>
+                <h3>Function</h3>
                 <ul className="col">
                     {[ 
                         `y_1

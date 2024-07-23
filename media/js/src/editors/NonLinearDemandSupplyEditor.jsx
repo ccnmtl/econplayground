@@ -15,7 +15,7 @@ export default class NonLinearDemandSupplyEditor extends React.Component {
             <>
                 {this.props.isInstructor && !this.props.hideFunctionChoice && (
                     <React.Fragment>
-                        <h2>Function</h2>
+                        <h3>Function</h3>
                         <div className="form-check mb-4">
                             <input className="form-check-input"
                                 type="radio"
@@ -48,7 +48,7 @@ export default class NonLinearDemandSupplyEditor extends React.Component {
                 {
                     this.props.displaySliders && (
                         <React.Fragment>
-                            <h2>Slope</h2>
+                            <h3>Slope</h3>
                             <RangeEditor
                                 label="\text{Orange line slope}"
                                 dataId="gLine1Slope"
@@ -121,7 +121,7 @@ export default class NonLinearDemandSupplyEditor extends React.Component {
                 {
                     this.props.displayLabels && (
                         <React.Fragment>
-                            <h2>Labels</h2>
+                            <h3>Labels</h3>
                             <div className="d-flex flex-wrap">
                                 <div className="row">
                                     <div className="col">

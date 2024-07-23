@@ -8,7 +8,7 @@ export default class CostFunctionsTotalEditor extends React.Component {
     render() {
         return (
             <div>
-                <h2>Function</h2>
+                <h3>Function</h3>
                 <div className="col">
                     <div>
                         {getKatexEl(`Cost=a+bx+cx^2=

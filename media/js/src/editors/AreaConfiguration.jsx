@@ -8,7 +8,7 @@ export default class AreaConfiguration extends React.Component {
         const me = this;
         return (
             <>
-                <h2>Areas</h2>
+                <h3>Areas</h3>
                 {this.props.displayLabels && (
                     <>
                         <div className="form-row">

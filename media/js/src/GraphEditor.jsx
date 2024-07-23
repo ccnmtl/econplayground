@@ -113,7 +113,7 @@ export default class GraphEditor extends React.Component {
                 {jxgBoard}
 
                 <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                    <h2>Scenario</h2>
+                    <h3>Scenario</h3>
                     <div className="form-group">
                         <label htmlFor="gTitle">
                             Title
@@ -319,7 +319,7 @@ export default class GraphEditor extends React.Component {
                     <div className="row">
                         <div className="col-lg-6">
                             <div className="sticky-top">
-                                <h2>Scenario</h2>
+                                <h3>Scenario</h3>
                                 <div className="form-group">
                                     <label htmlFor="gTitle">
                                         Title
