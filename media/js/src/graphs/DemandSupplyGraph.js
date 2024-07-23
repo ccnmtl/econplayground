@@ -79,7 +79,8 @@ export class DemandSupplyGraph extends Graph {
                 },
                 strokeColor: this.l1Color,
                 strokeWidth: 2,
-                fixed: this.areLinesFixed
+                fixed: this.areLinesFixed,
+                highlight: !this.areLinesFixed
             });
 
         this.l2 = this.board.create(
@@ -107,7 +108,8 @@ export class DemandSupplyGraph extends Graph {
                 },
                 strokeColor: this.l2Color,
                 strokeWidth: 2,
-                fixed: this.areLinesFixed
+                fixed: this.areLinesFixed,
+                highlight: !this.areLinesFixed
             });
 
         if (this.options.gShowIntersection) {

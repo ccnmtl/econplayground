@@ -17,6 +17,9 @@ import { mkOptimalChoiceConsumption } from './OptimalChoiceConsumption.js';
 import { mkRevenueElasticity } from './RevenueElasticityGraph.js';
 import {mkOptimalChoiceCostMinimizing} from './OptimalChoiceCostMinimizing.js';
 import { mkTaxRevenue } from './TaxRevenueGraph.js';
+import {
+    mkTaxationLinearDemandSupply
+} from './TaxationLinearDemandSupplyGraph.js';
 
 export const graphTypes = [
     // There are some null graph types here because the number of
@@ -49,5 +52,5 @@ export const graphTypes = [
     mkOptimalChoiceCostMinimizing,
 
     mkTaxRevenue,
-    mkDemandSupplyAUC
+    mkTaxationLinearDemandSupply
 ];
