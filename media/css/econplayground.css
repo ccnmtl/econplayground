@@ -24,3 +24,15 @@ figure#editing-graph {
 .ep-score-path {
     border: dashed;
 }
+
+.ep-text-red {
+    color: red;
+}
+
+.ep-text-blue {
+    color: blue;
+}
+
+.ep-text-orange {
+    color: darkorange;
+}

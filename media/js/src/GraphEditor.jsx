@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import ADASEditor from './editors/ADASEditor.jsx';
 import CobbDouglasEditor from './editors/CobbDouglasEditor.jsx';
 import CobbDouglasNLDSEditor from './editors/CobbDouglasNLDSEditor.jsx';
@@ -16,12 +17,13 @@ import CostFunctionsUnitEditor from './editors/CostFunctionsUnitEditor.jsx';
 import RevenueElasticityEditor from './editors/RevenueElasticityEditor.jsx';
 import OptimalChoiceCostMinimizingEditor from './editors/OptimalChoiceCostMinimizingEditor.jsx';
 import TaxationLinearDemandEditor from './editors/TaxationLinearDemandEditor.jsx';
+import TaxRevenueEditor from './editors/TaxRevenueEditor.jsx';
 
 import JXGBoard from './JXGBoard.jsx';
+import GraphPane from './GraphPane.jsx';
 import {
     displayGraphType, handleFormUpdate, getCohortId, BOARD_HEIGHT, BOARD_WIDTH,
 } from './utils';
-import TaxRevenueEditor from './editors/TaxRevenueEditor.jsx';
 
 
 export default class GraphEditor extends React.Component {
@@ -309,7 +311,7 @@ export default class GraphEditor extends React.Component {
         }
 
         const hasIntersection = ![
-            5, 16, 18, 19, 20, 22, 23
+            5, 16, 18, 19, 20, 22
         ].includes(this.props.gType);
 
         return (
@@ -333,11 +335,14 @@ export default class GraphEditor extends React.Component {
                                         maxLength="140"
                                     />
                                 </div>
+
                                 {/* leftSide */}
                                 {jxgBoard}
-                                <CommonGraphEditor
-                                    {...this.props}
-                                />
+
+                                <GraphPane {...this.props} />
+
+                                <CommonGraphEditor {...this.props} />
+
                                 {this.props.gId &&
                                     <div className="form-group">
                                         <a href={`/course/${courseId}/graph/` + this.props.gId + '/public/'}
@@ -464,7 +469,7 @@ GraphEditor.propTypes = {
 
     gAreaConfiguration: PropTypes.number,
     gIsAreaDisplayed: PropTypes.bool,
-    
+
     gXAxisMax: PropTypes.number,
     gXAxisMin: PropTypes.number,
     gYAxisMax: PropTypes.number,

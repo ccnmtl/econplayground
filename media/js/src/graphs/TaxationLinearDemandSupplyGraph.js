@@ -1,10 +1,77 @@
-import {DemandSupplyGraphAUC} from './DemandSupplyGraphAUC.js';
+import { Graph } from './Graph.js';
 
-class TaxationLinearDemandSupplyGraph extends DemandSupplyGraphAUC {
-    constructor(board, options, defaults) {
-        super(board, options, defaults);
+/*const dq = function(c, b, p) {
+    return c / b - p / b;
+};*/
 
-        this.center = options.gXAxisMax / 2;
+const dp = function(c, b, q) {
+    return c - b * q;
+};
+
+/*const sq = function(a, d, p) {
+    return -(a / d) + p / d;
+};*/
+
+const sp = function(a, d, q) {
+    return a + d * q;
+};
+
+export const ep = function(c, b, a, d) {
+    return (a * b + c * d) / (b + d);
+};
+
+export const eq = function(c, b, a, d) {
+    return (-a + c) / (b + d);
+};
+
+export const cos = function(c, b, a, d) {
+    return (c - ep(c, b, a, d)) * eq(c, b, a, d) / 2;
+};
+
+export const pos = function(c, b, a, d) {
+    return ep(c, b, a, d) * eq(c, b, a, d) / 2;
+};
+
+export const tos = function(c, b, a, d) {
+    return cos(c, b, a, d) + pos(c, b, a, d);
+};
+
+/*const equt = function(c, b, a, d, t) {
+};*/
+
+class TaxationLinearDemandSupplyGraph extends Graph {
+    make() {
+        const me = this;
+
+        const l1func = function(x) {
+            return sp(me.options.gA2, me.options.gLine1Slope, x);
+        };
+        this.l1 = this.board.create(
+            'functiongraph',
+            [l1func, 0, this.options.gXAxisMax], {
+                strokeWidth: 2,
+                strokeColor: this.l1Color,
+                fixed: true,
+                highlight: false
+            }
+        );
+
+        const l2func = function(x) {
+            return dp(me.options.gA1, me.options.gLine2Slope, x);
+        };
+        this.l2 = this.board.create(
+            'functiongraph',
+            [l2func, 0, this.options.gXAxisMax], {
+                strokeWidth: 2,
+                strokeColor: this.l2Color,
+                fixed: true,
+                highlight: false
+            }
+        );
+
+        if (this.options.gShowIntersection) {
+            this.showIntersection(this.l1, this.l2);
+        }
     }
 }
 
@@ -14,10 +81,15 @@ export const mkTaxationLinearDemandSupply = function(board, options) {
     // Shade in the two left areas.
     options.gAreaConfiguration = 3;
 
-    options.gShowIntersection = true;
-    options.gIntersectionLabel = '(Q^t, p^d)';
-    options.gIntersectionHorizLineLabel = 'p^d';
-    options.gIntersectionVertLineLabel = 'Q^t';
+    options.gIntersectionLabel = 'Equilibrium';
+    options.gIntersectionHorizLineLabel = 'P^*';
+    options.gIntersectionVertLineLabel = 'Q^*';
+
+    if (options.gToggle) {
+        options.gIntersectionLabel = '(Q^t, p^d)';
+        options.gIntersectionHorizLineLabel = 'p^d';
+        options.gIntersectionVertLineLabel = 'Q^t';
+    }
 
     let g = new TaxationLinearDemandSupplyGraph(board, options);
     g.make();
