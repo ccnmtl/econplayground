@@ -35,9 +35,17 @@ equation = Eq(
     )
 )
 
+f2s_equation = Eq(
+    w * l + r * k,
+    w * (q * ((1 - alpha) * r / (alpha * w)) ** alpha) +
+    r * (q * (alpha * w / ((1 - alpha) * r)) ** (1 - alpha))
+)
+
 
 solutions = solve(equation, k, dict=True)
+solutions_2 = solve(f2s_equation, k, dict=True)
 
 
 if __name__ == '__main__':
     print(solutions)
+    print(solutions_2)
