@@ -115,6 +115,7 @@ export class OptimalChoiceCostMinimizingGraph extends Graph {
             ], {
                 name: 'Optimal Bundle',
                 withLabel: true,
+                visible: this.options.gShowIntersection,
                 label: {
                     strokeColor: optimalBundleColor
                 },
@@ -129,6 +130,7 @@ export class OptimalChoiceCostMinimizingGraph extends Graph {
             ], {
                 name: 'l^*',
                 withLabel: true,
+                visible: this.options.gShowIntersection,
                 label: {
                     strokeColor: optimalBundleColor
                 },
@@ -145,6 +147,7 @@ export class OptimalChoiceCostMinimizingGraph extends Graph {
             ], {
                 name: 'k^*',
                 withLabel: true,
+                visible: this.options.gShowIntersection,
                 label: {
                     strokeColor: optimalBundleColor
                 },
