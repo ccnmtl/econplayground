@@ -26,6 +26,16 @@ const lStar = function(w, r, q, alpha, beta) {
     );
 };
 
+const kStar = function(w, r, q, alpha, beta) {
+    return q ** (
+        1 / (alpha + beta)
+    ) * (
+        (beta * r) / (alpha * w)
+    ) ** (
+        -(beta / (alpha + beta))
+    );
+};
+
 const isocost2 = function(w, r, c, l, alpha, beta) {
     // See doc/minimization_problem.py for how we got this complicated
     // solution.
@@ -35,16 +45,6 @@ const isocost2 = function(w, r, c, l, alpha, beta) {
         (beta * r / (alpha * w)) ** (beta / (alpha + beta)) +
         c ** (1 / (alpha + beta)) *
         w * (beta * r / (alpha * w)) ** (alpha / (alpha + beta)) / r;
-};
-
-const kStar = function(w, r, q, alpha, beta) {
-    return q ** (
-        1 / (alpha + beta)
-    ) * (
-        (alpha * r) / (beta * w)
-    ) ** (
-        -(beta / (alpha + beta))
-    );
 };
 
 /*const opt1 = function(w, r, q, alpha, beta) {
