@@ -308,12 +308,16 @@ export default class GraphEditor extends React.Component {
                 />;
         }
 
+        const hasIntersection = ![
+            5, 16, 18, 19, 20, 22, 23
+        ].includes(this.props.gType);
+
         return (
             <div className="GraphEditor">
                 {this.title()}
                 <form>
                     <div className="row">
-                        <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                        <div className="col-lg-6">
                             <div className="sticky-top">
                                 <h2>Scenario</h2>
                                 <div className="form-group">
@@ -346,9 +350,10 @@ export default class GraphEditor extends React.Component {
                                 }
                             </div>
                         </div>
-                        <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                        <div className="col-lg-6">
                             <CommonGraphSettings
                                 {...this.props}
+                                enableIntersectionToggle={hasIntersection}
                             />
                             {rightSide}
                         </div>
