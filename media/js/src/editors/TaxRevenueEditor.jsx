@@ -34,7 +34,7 @@ export default class TaxRevenueEditor extends React.Component {
     render() {
         return (
             <div>
-                <h2>Function</h2>
+                <h3>Function</h3>
                 <ul className="col">
                     {[
                         [

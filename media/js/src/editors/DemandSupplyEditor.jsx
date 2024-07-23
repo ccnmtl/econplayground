@@ -9,7 +9,7 @@ import { getKatexEl } from '../katexUtils.jsx';
 export default class DemandSupplyEditor extends React.Component {
     render() {
         return <React.Fragment>
-            <h2>Function</h2>
+            <h3>Function</h3>
             <div className="row">
                 {getKatexEl('y=mx+b')}
                 <div className="col">
@@ -34,7 +34,7 @@ export default class DemandSupplyEditor extends React.Component {
             <hr />
             {this.props.displaySliders && (
                 <div>
-                    <h2>Slope</h2>
+                    <h3>Slope</h3>
                     <RangeEditor
                         label="\text{Orange line slope}"
                         dataId="gLine1Slope"
@@ -100,7 +100,7 @@ export default class DemandSupplyEditor extends React.Component {
 
             {this.props.displayLabels && (
                 <React.Fragment>
-                    <h2>Labels</h2>
+                    <h3>Labels</h3>
                     <div className="d-flex flex-wrap">
                         <div className="row">
                             <div className="col">
@@ -184,7 +184,7 @@ export default class DemandSupplyEditor extends React.Component {
 
             {this.props.displayLabels && this.props.gType === 13 && (
                 <>
-                    <h2>Right-hand graph labels</h2>
+                    <h3>Right-hand graph labels</h3>
                     <div className="d-flex flex-wrap justify-content-between align-items-end">
                         <div className="col-6">
                             <EditableControl

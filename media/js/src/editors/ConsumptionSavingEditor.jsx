@@ -13,7 +13,7 @@ export default class ConsumptionSavingEditor extends React.Component {
             <div>
                 {this.props.isInstructor &&
                     <React.Fragment>
-                        <h2>Function</h2>
+                        <h3>Function</h3>
                         <div className="row ml-2 mb-2">
                             {getKatexEl(tex)}
                         </div>
@@ -34,7 +34,7 @@ export default class ConsumptionSavingEditor extends React.Component {
 
                 {this.props.displaySliders && (
                     <React.Fragment>
-                        <h2>Slope</h2>
+                        <h3>Slope</h3>
                         <RangeEditor
                             label="y_1"
                             id="gA1"
@@ -82,7 +82,7 @@ export default class ConsumptionSavingEditor extends React.Component {
                 )}
                 {this.props.displayLabels && (
                     <React.Fragment>
-                        <h2>Labels</h2>
+                        <h3>Labels</h3>
                         <div className="row">
                             <div className="col">
                                 <EditableControl

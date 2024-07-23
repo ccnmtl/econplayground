@@ -37,7 +37,7 @@ export default class CommonGraphSettings extends React.Component {
 
         return (
             <div>
-                <h2>Assignment</h2>
+                <h3>Assignment</h3>
 
                 <div className="row">
                     <div className="col">

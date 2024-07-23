@@ -18,7 +18,7 @@ export default class CobbDouglasNLDSEditor extends React.Component {
 
         return (
             <div>
-                <h2>Functions</h2>
+                <h3>Functions</h3>
                 <blockquote className="ml-2"><em>
                     This is a projection of the Cobb-Douglas function
                     with {this.props.gCobbDouglasLName} plotted along
@@ -89,7 +89,7 @@ export default class CobbDouglasNLDSEditor extends React.Component {
                 {
                     this.props.displaySliders && (
                         <React.Fragment>
-                            <h2>Slope</h2>
+                            <h3>Slope</h3>
                             <label className="m-0" htmlFor="gCobbDouglasA">
                                 {this.props.isInstructor ? (
                                     <input type="text"
@@ -179,7 +179,7 @@ export default class CobbDouglasNLDSEditor extends React.Component {
                 {
                     this.props.displayLabels && (
                         <React.Fragment>
-                            <h2>Labels</h2>
+                            <h3>Labels</h3>
                             <div className="row">
                                 <div className="col">
                                     <EditableControl

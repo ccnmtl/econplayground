@@ -30,7 +30,7 @@ export default class ADASEditor extends React.Component {
 
         return (
             <div>
-                <h2>Function</h2>
+                <h3>Function</h3>
                 <div className="col">
                     <div>
                         {getKatexEl(func1)}
@@ -45,7 +45,7 @@ export default class ADASEditor extends React.Component {
                 <hr />
                 {this.props.displaySliders && (
                     <React.Fragment>
-                        <h2>Slope</h2>
+                        <h3>Slope</h3>
                         <RangeEditor
                             label="\text{Orange line slope}"
                             dataId="gLine1Slope"
@@ -89,7 +89,7 @@ export default class ADASEditor extends React.Component {
                     </React.Fragment>
                 )}
 
-                <h2>Lines</h2>
+                <h3>Lines</h3>
                 <Checkbox
                     id="gDisplayIntersection1"
                     checked={this.props.gDisplayIntersection1}
@@ -135,7 +135,7 @@ export default class ADASEditor extends React.Component {
 
                 {this.props.displayLabels && (
                     <React.Fragment>
-                        <h2>Labels</h2>
+                        <h3>Labels</h3>
                         <div className="d-flex flex-wrap">
                             <div className="row">
                                 {this.formatControlStd(
