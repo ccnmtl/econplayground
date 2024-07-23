@@ -13,7 +13,7 @@ import {
 export default function GraphPane({
     gType, gA1, gLine2Slope, gA2, gLine1Slope
 }) {
-    if (gType !== 23) {
+    if (typeof gType === 'undefined' || gType === null || gType !== 23) {
         return null;
     }
 
@@ -50,7 +50,7 @@ export default function GraphPane({
 
 
 GraphPane.propTypes = {
-    gType: PropTypes.number.isRequired,
+    gType: PropTypes.number,
     gA1: PropTypes.number.isRequired,
     gA2: PropTypes.number.isRequired,
     gLine1Slope: PropTypes.number.isRequired,
