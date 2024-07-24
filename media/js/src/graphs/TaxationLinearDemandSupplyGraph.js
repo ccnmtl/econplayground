@@ -1,4 +1,5 @@
-import { Graph } from './Graph.js';
+import { Graph, AREA_A_COLOR, AREA_B_COLOR } from './Graph.js';
+import {drawPolygon} from '../jsxgraphUtils.js';
 
 /*const dq = function(c, b, p) {
     return c / b - p / b;
@@ -79,7 +80,18 @@ class TaxationLinearDemandSupplyGraph extends Graph {
         );
 
         if (this.options.gShowIntersection) {
-            this.showIntersection(this.l1, this.l2);
+            const intersection = this.showIntersection(this.l1, this.l2);
+
+            drawPolygon(this.board, [
+                intersection,
+                [0, this.options.gA1],
+                [0, intersection.Y()]
+            ], null, AREA_A_COLOR);
+            drawPolygon(this.board, [
+                intersection,
+                [0, intersection.Y()],
+                [0, this.l1.Y(0)]
+            ], null, AREA_B_COLOR);
         }
     }
 }

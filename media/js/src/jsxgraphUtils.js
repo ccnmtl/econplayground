@@ -41,7 +41,7 @@ const drawPolygon = function(board, points, name, color, visible=true) {
         ...shapeOptions
     });
 
-    if (visible) {
+    if (visible && name) {
         drawLabel(board, points, name);
     }
 
