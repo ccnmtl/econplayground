@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Checkbox from '../form-components/Checkbox.js';
+import Checkbox from '../form-components/Checkbox.jsx';
 import RangeEditor from '../form-components/RangeEditor.js';
 import { handleFormUpdate } from '../utils.js';
 

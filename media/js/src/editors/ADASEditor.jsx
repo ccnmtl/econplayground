@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import RangeEditor from '../form-components/RangeEditor.js';
 import EditableControl from '../form-components/EditableControl.jsx';
 import { handleFormUpdate } from '../utils.js';
-import Checkbox from '../form-components/Checkbox.js';
+import Checkbox from '../form-components/Checkbox.jsx';
 import { getKatexEl } from '../katexUtils.jsx';
 
 export default class ADASEditor extends React.Component {

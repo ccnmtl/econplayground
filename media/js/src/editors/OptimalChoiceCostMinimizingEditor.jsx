@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import RangeEditor from '../form-components/RangeEditor.js';
-import Checkbox from '../form-components/Checkbox.js';
+import Checkbox from '../form-components/Checkbox.jsx';
 import { handleFormUpdate } from '../utils.js';
 import { getKatexEl } from '../katexUtils.jsx';
 
