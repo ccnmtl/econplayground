@@ -18,7 +18,7 @@ export default class RangeEditor extends React.Component {
             return getKatexEl(this.props.label);
         } else {
             return (
-                <span>{this.props.label}</span>
+                <div>{this.props.label}</div>
             );
         }
     }
