@@ -125,6 +125,7 @@ class GraphSerializer(serializers.ModelSerializer):
             'a3', 'a3_name', 'a3_min', 'a3_max',
             'a4', 'a4_name', 'a4_min', 'a4_max',
             'a5', 'a5_min', 'a5_max',
+            'a6', 'a7', 'a8',
 
             'a',
             'k',

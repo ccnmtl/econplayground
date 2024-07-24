@@ -284,8 +284,13 @@ class Graph(OrderedModel):
     omega = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('0'))
 
-    # Arbitrary float storage to be used as needed for the altering
+    # Arbitrary number storage to be used as needed for the altering
     # functions of the various graph types.
+    #
+    # These intentionally use Python's decimal type instead of the
+    # more typical float type, for fixed precision:
+    # https://docs.python.org/3/library/decimal.html#module-decimal
+    #
     a1 = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('0'))
     a1_max = models.IntegerField(default=10)
@@ -314,6 +319,13 @@ class Graph(OrderedModel):
         max_digits=12, decimal_places=4, default=Decimal('0'))
     a5_max = models.IntegerField(default=10)
     a5_min = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0'))
+
+    a6 = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0'))
+    a7 = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0'))
+    a8 = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('0'))
 
     # TODO: migrate these to a1, a2, etc.
