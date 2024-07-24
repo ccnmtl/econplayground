@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-    eq, ep, cos, pos, tos, taxur, dwlu
+    eq, ep, cos, pos, tos, taxur, taxar, dwlu
 } from './graphs/TaxationLinearDemandSupplyGraph.js';
 
 /**
@@ -16,6 +16,13 @@ export default function GraphPane({
 }) {
     if (typeof gType === 'undefined' || gType === null || gType !== 23) {
         return null;
+    }
+
+    let taxRevenue = null;
+    if (gToggle && gFunctionChoice === 0) {
+        taxRevenue = taxur(gA1, gLine2Slope, gA2, gLine1Slope, gA3).toFixed(2);
+    } else if (gToggle && gFunctionChoice === 1) {
+        taxRevenue = taxar(gA1, gLine2Slope, gA2, gLine1Slope, gA3).toFixed(2);
     }
 
     return (
@@ -43,9 +50,7 @@ export default function GraphPane({
             {gToggle && (
                 <>
                     <div className="ep-text-green">
-                        Tax Revenue T = {
-                            taxur(gA1, gLine2Slope, gA2, gLine1Slope, gA3).toFixed(2)
-                        }
+                        Tax Revenue T = {taxRevenue}
                     </div>
 
                     <div className="ep-text-red">

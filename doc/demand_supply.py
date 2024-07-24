@@ -30,13 +30,20 @@ eq2 = Eq(
     a + d * q
 )
 
+eqat = Eq(
+    (c - b * q) / (1 + t),
+    a + d * q
+)
+
 
 solutions = solve(ep, p, dict=True)
 solutions_eq1 = solve(eq1, q, dict=True)
 solutions_eq2 = solve(eq2, q, dict=True)
+solutions_eqat = solve(eqat, q, dict=True)
 
 
 if __name__ == '__main__':
     print(solutions)
     print(solutions_eq1)
     print(solutions_eq2)
+    print(solutions_eqat)
