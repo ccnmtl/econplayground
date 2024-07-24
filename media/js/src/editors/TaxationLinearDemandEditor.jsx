@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Checkbox from '../form-components/Checkbox.jsx';
-import RangeEditor from '../form-components/RangeEditor.js';
+import RangeEditor from '../form-components/RangeEditor.jsx';
 import { handleFormUpdate } from '../utils.js';
 
 export default class TaxationLinearDemandEditor extends React.Component {
