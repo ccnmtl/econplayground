@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import EditableControl from '../form-components/EditableControl.jsx';
-import RangeEditor from '../form-components/RangeEditor.js';
+import RangeEditor from '../form-components/RangeEditor.jsx';
 import AreaConfiguration from './AreaConfiguration.jsx';
 import { handleFormUpdate } from '../utils.js';
 import { getKatexEl } from '../katexUtils.jsx';
