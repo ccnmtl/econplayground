@@ -301,6 +301,7 @@ class Viewer extends Component {
                     gNName={this.state.gNName}
 
                     gFunctionChoice={this.state.gFunctionChoice}
+                    gToggle={this.state.gToggle}
 
                     gAreaConfiguration={this.state.gAreaConfiguration}
                     gAreaConfigurationInitial={this.state.gAreaConfigurationInitial}
@@ -419,7 +420,10 @@ class Viewer extends Component {
         return authedFetch(`/api/graphs/${this.graphId}/`).then(
             function(response) {
                 return response.json();
-            }).then(function(json) {importGraph(json, me);});
+            })
+            .then(function(json) {
+                importGraph(json, me);
+            });
     }
 
     /**

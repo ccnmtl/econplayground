@@ -126,7 +126,10 @@ export default class GraphViewer extends React.Component {
                 />
             );
         }
-        let rightSide = null;
+
+        let rightSide = (
+            <p>Loading...</p>
+        );
 
         if (this.props.gType === 0 || this.props.gType === 9) {
             // Demand-Supply, possibly AUC (area under curve)
@@ -196,46 +199,6 @@ export default class GraphViewer extends React.Component {
                         {...commonViewerProps}
                         {...this.props}
                     />;
-            } else if (this.props.gType === 16) {
-                // Template Graph: free-form equations
-                rightSide =
-                    <TemplateGraphEditor
-                        {...commonViewerProps}
-                        {...this.props}
-                    />;
-            } else if (this.props.gType === 17) {
-                //Optimal Choice Consumption
-                rightSide =
-                    <OptimalChoiceConsumptionEditor
-                        {...commonViewerProps}
-                        {...this.props}
-                    />;
-            } else if (this.props.gType === 18) {
-                rightSide =
-                    <CostFunctionsTotalEditor
-                        {...commonViewerProps}
-                        {...this.props}
-                    />;
-            } else if (this.props.gType === 19) {
-                rightSide =
-                    <CostFunctionsUnitEditor
-                        {...commonViewerProps}
-                        {...this.props}
-                    />;
-            } else if (this.props.gType === 21) {
-                rightSide =
-                    <OptimalChoiceCostMinimizingEditor
-                        updateGraph={this.props.updateGraph}
-                        {...commonViewerProps}
-                        {...this.props}
-                    />;
-            } else if (this.props.gType === 23) {
-                rightSide =
-                    <TaxationLinearDemandEditor
-                        updateGraph={this.props.updateGraph}
-                        {...commonViewerProps}
-                        {...this.props}
-                    />;
             }
 
             // Show side-by-side view here.
@@ -271,6 +234,46 @@ export default class GraphViewer extends React.Component {
                     </form>
                 </div>
             );
+        } else if (this.props.gType === 16) {
+            // Template Graph: free-form equations
+            rightSide =
+                <TemplateGraphEditor
+                    {...commonViewerProps}
+                    {...this.props}
+                />;
+        } else if (this.props.gType === 17) {
+            //Optimal Choice Consumption
+            rightSide =
+                <OptimalChoiceConsumptionEditor
+                    {...commonViewerProps}
+                    {...this.props}
+                />;
+        } else if (this.props.gType === 18) {
+            rightSide =
+                <CostFunctionsTotalEditor
+                    {...commonViewerProps}
+                    {...this.props}
+                />;
+        } else if (this.props.gType === 19) {
+            rightSide =
+                <CostFunctionsUnitEditor
+                    {...commonViewerProps}
+                    {...this.props}
+                />;
+        } else if (this.props.gType === 21) {
+            rightSide =
+                <OptimalChoiceCostMinimizingEditor
+                    updateGraph={this.props.updateGraph}
+                    {...commonViewerProps}
+                    {...this.props}
+                />;
+        } else if (this.props.gType === 23) {
+            rightSide =
+                <TaxationLinearDemandEditor
+                    updateGraph={this.props.updateGraph}
+                    {...commonViewerProps}
+                    {...this.props}
+                />;
         }
 
         return (
@@ -284,7 +287,7 @@ export default class GraphViewer extends React.Component {
                     <input type="hidden" name="launchUrl" value={launchUrl} />
 
                     <div className="row">
-                        <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                        <div className="col-lg-6">
                             <div className="sticky-top">
                                 {leftSide}
 
@@ -292,7 +295,7 @@ export default class GraphViewer extends React.Component {
                             </div>
                         </div>
 
-                        <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                        <div className="col-lg-6">
                             {rightSide}
 
                             <ResetGraphButton
