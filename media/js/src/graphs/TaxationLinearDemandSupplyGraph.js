@@ -49,6 +49,14 @@ export const dwlu = function(c, b, a, d, t) {
     return (eq(c, b, a, d) - equt(c, b, a, d, t)) * t / 2;
 };
 
+const eqat = function(c, b, a, d, t) {
+    return (-a * t - a + c) / (b + d * t + d);
+};
+
+export const taxar = function(c, b, a, d, t) {
+    return eqat(c, b, a, d, t) * t;
+};
+
 class TaxationLinearDemandSupplyGraph extends Graph {
     make() {
         const me = this;
