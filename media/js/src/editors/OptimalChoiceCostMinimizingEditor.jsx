@@ -127,8 +127,7 @@ export default class OptimalChoiceCostMinimizingEditor extends React.Component {
                                         handler={handleFormUpdate.bind(this)} />
 
                                     <RangeEditor
-                                        label="Input Tax Rate"
-                                        rawLabel={true}
+                                        label="\text{Input Tax Rate, }t"
                                         id="gA5"
                                         dataId="gA5"
                                         value={this.props.gA5}
@@ -137,8 +136,7 @@ export default class OptimalChoiceCostMinimizingEditor extends React.Component {
                                         handler={handleFormUpdate.bind(this)} />
 
                                     <RangeEditor
-                                        label="Labor Tax Rate"
-                                        rawLabel={true}
+                                        label="\text{Labor Tax Rate, }t_w"
                                         id="gA6"
                                         dataId="gA6"
                                         value={this.props.gA6}
@@ -147,8 +145,7 @@ export default class OptimalChoiceCostMinimizingEditor extends React.Component {
                                         handler={handleFormUpdate.bind(this)} />
 
                                     <RangeEditor
-                                        label="Capital Tax Rate"
-                                        rawLabel={true}
+                                        label="\text{Capital Tax Rate, }t_r"
                                         id="gA7"
                                         dataId="gA7"
                                         value={this.props.gA7}
@@ -157,8 +154,7 @@ export default class OptimalChoiceCostMinimizingEditor extends React.Component {
                                         handler={handleFormUpdate.bind(this)} />
 
                                     <RangeEditor
-                                        label="Business License"
-                                        rawLabel={true}
+                                        label="\text{Business License, }f"
                                         id="gA8"
                                         dataId="gA8"
                                         value={this.props.gA8}

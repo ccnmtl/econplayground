@@ -36,6 +36,7 @@ const kStar = function(w, r, q, alpha, beta) {
     );
 };
 
+// Function choice: 0
 const isocost0 = function(w, r, c, l, alpha, beta) {
     // See doc/minimization_problem.py for how we got this complicated
     // solution.
@@ -72,6 +73,46 @@ const isoq2 = function(l, q, alpha) {
     // q = k ** alpha * l ** (1 - alpha);
     // Solve for k.
     return (l ** (alpha - 1) * q) ** (1 / alpha);
+};
+
+// Function choice: 2
+/*const f3 = function(l, k, alpha) {
+    return k ** alpha * l ** (1 - alpha);
+};*/
+
+const isoq3 = function(l, q, alpha) {
+    return (l ** (alpha - 1) * q) ** (1 / alpha);
+};
+
+/*const cost3 = function(l, k, w, r, t, tw, tr, f) {
+    return (1 + t + tw) * w * l + (1 + t + tr) * r * k - f;
+};*/
+
+const lStarValue3 = function(w, r, q, alpha, t, tw, tr) {
+    return q * (
+        (1 - alpha) * (1 + t + tr) * r / (alpha * (1 + t + tw) * w)
+    ) ** alpha;
+};
+
+const kStarValue3 = function(w, r, q, alpha, t, tw, tr) {
+    return q * (
+        alpha * (1 + t + tw) * w / ((1 - alpha) * (1 + t + tr) * r)
+    ) ** (1 - alpha);
+};
+
+/**
+ * See doc/minimization_problem.f3s for context.
+ */
+const f3s = function(l, w, r, q, alpha, t, tw, tr) {
+    return (-tw*l*w + tw*q*w*(r*(-alpha*tr - alpha*t - alpha + tr + t
+    + 1)/(alpha*w*(tw + t + 1)))**alpha + tr*q*r*(alpha*w*(-tw - t -
+    1)/(r*(alpha*tr + alpha*t + alpha - tr - t - 1)))**(1 - alpha) -
+    l*t*w - l*w + q*r*t*(alpha*w*(-tw - t - 1)/(r*(alpha*tr + alpha*t
+    + alpha - tr - t - 1)))**(1 - alpha) + q*r*(alpha*w*(-tw - t -
+    1)/(r*(alpha*tr + alpha*t + alpha - tr - t - 1)))**(1 - alpha) +
+    q*t*w*(r*(-alpha*tr - alpha*t - alpha + tr + t + 1)/(alpha*w*(tw +
+    t + 1)))**alpha + q*w*(r*(-alpha*tr - alpha*t - alpha + tr + t +
+    1)/(alpha*w*(tw + t + 1)))**alpha)/(r*(tr + t + 1));
 };
 
 const optimalBundleColor = 'red';
@@ -129,7 +170,6 @@ export class OptimalChoiceCostMinimizingGraph extends Graph {
                     this.options.gA4);
 
                 isocostLine = function(l) {
-
                     return isocost1(
                         me.options.gA1, me.options.gA2,
                         me.options.gA3, l, me.options.gA4, me.options.gA5);
@@ -137,6 +177,30 @@ export class OptimalChoiceCostMinimizingGraph extends Graph {
 
                 isoquantLine = function(x) {
                     return isoq2(x, me.options.gA3, me.options.gA4);
+                };
+            } else if (this.options.gFunctionChoice === 2) {
+                lStarVal = lStarValue3(
+                    this.options.gA1, this.options.gA2, this.options.gA3,
+                    this.options.gA4, this.options.gA5, this.options.gA6,
+                    this.options.gA7);
+                kStarVal = kStarValue3(
+                    this.options.gA1, this.options.gA2, this.options.gA3,
+                    this.options.gA4, this.options.gA5, this.options.gA6,
+                    this.options.gA7);
+
+                isocostLine = function(l) {
+                    return f3s(
+                        l,
+                        me.options.gA1, me.options.gA2,
+                        me.options.gA3, me.options.gA4,
+                        me.options.gA5,
+                        me.options.gA6,
+                        me.options.gA7
+                    );
+                };
+
+                isoquantLine = function(x) {
+                    return isoq3(x, me.options.gA3, me.options.gA4);
                 };
             }
 
