@@ -793,9 +793,13 @@ JXGBoard.propTypes = {
     gA5Initial: PropTypes.number,
 
     gXAxisMax: PropTypes.number,
+    gXAxisMax2: PropTypes.number,
     gXAxisMin: PropTypes.number,
+    gXAxisMin2: PropTypes.number,
     gYAxisMax: PropTypes.number,
+    gYAxisMax2: PropTypes.number,
     gYAxisMin: PropTypes.number,
+    gYAxisMin2: PropTypes.number,
 
     gA: PropTypes.number,
     gK: PropTypes.number,

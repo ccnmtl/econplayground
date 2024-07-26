@@ -241,6 +241,11 @@ class Graph(OrderedModel):
     y_axis_max = models.PositiveIntegerField(default=5)
     y_axis_min = models.PositiveIntegerField(default=0)
 
+    x_axis_max_2 = models.PositiveIntegerField(default=5)
+    x_axis_min_2 = models.PositiveIntegerField(default=0)
+    y_axis_max_2 = models.PositiveIntegerField(default=5)
+    y_axis_min_2 = models.PositiveIntegerField(default=0)
+
     x_axis_2_label = models.TextField(blank=True, null=True, default='')
     y_axis_2_label = models.TextField(blank=True, null=True, default='')
 
@@ -319,6 +324,32 @@ class Graph(OrderedModel):
         max_digits=12, decimal_places=4, default=Decimal('0'))
     a5_max = models.IntegerField(default=10)
     a5_min = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0'))
+
+    a1_2 = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0'))
+    a1_max_2 = models.IntegerField(default=10)
+    a1_min_2 = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0'))
+    a2_2 = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0'))
+    a2_max_2 = models.IntegerField(default=10)
+    a2_min_2 = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0'))
+    a3_2 = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0'))
+    a3_max_2 = models.IntegerField(default=10)
+    a3_min_2 = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0'))
+    a4_2 = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0'))
+    a4_max_2 = models.IntegerField(default=10)
+    a4_min_2 = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0'))
+    a5_2 = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0'))
+    a5_max_2 = models.IntegerField(default=10)
+    a5_min_2 = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('0'))
 
     a6 = models.DecimalField(

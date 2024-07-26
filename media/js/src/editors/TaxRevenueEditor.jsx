@@ -26,6 +26,23 @@ export default class TaxRevenueEditor extends React.Component {
                 gXAxisMin: 0,
                 gYAxisMax: 500000,
                 gYAxisMin: 0,
+
+                gA12: 100,
+                gA1Max2: 10000,
+                gA1Min2: 0,
+                gA22: 2,
+                gA2Max2: 35,
+                gA2Min2: 0.1,
+                gA32: 650,
+                gA3Max2: 10000,
+                gA3Min2: 0,
+                gA42: 6,
+                gA4Max2: 35,
+                gA4Min2: 0.1,
+                gXAxisMax2: 6,
+                gXAxisMin2: 0,
+                gYAxisMax2: 25000,
+                gYAxisMin2: 0,
             });
         }
     }
@@ -134,6 +151,24 @@ TaxRevenueEditor.propTypes = {
     gXAxisMin: PropTypes.number,
     gYAxisMax: PropTypes.number,
     gYAxisMin: PropTypes.number,
+
+    gA12: PropTypes.number,
+    gA1Max2: PropTypes.number,
+    gA1Min2: PropTypes.number,
+    gA22: PropTypes.number,
+    gA2Max2: PropTypes.number,
+    gA2Min2: PropTypes.number,
+    gA32: PropTypes.number,
+    gA3Max2: PropTypes.number,
+    gA3Min2: PropTypes.number,
+    gA42: PropTypes.number,
+    gA4Max2: PropTypes.number,
+    gA4Min2: PropTypes.number,
+    gXAxisMax2: PropTypes.number,
+    gXAxisMin2: PropTypes.number,
+    gYAxisMax2: PropTypes.number,
+    gYAxisMin2: PropTypes.number,
+    
     gFunctionChoice: PropTypes.number.isRequired,
 
     displaySliders: PropTypes.bool.isRequired,
