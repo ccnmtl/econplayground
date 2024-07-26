@@ -52,5 +52,6 @@ export const graphTypes = [
     mkOptimalChoiceCostMinimizing,
 
     mkTaxRevenue,
-    mkTaxationLinearDemandSupply
+    mkTaxationLinearDemandSupply,
+    mkTaxRevenue
 ];
