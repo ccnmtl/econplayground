@@ -36,6 +36,12 @@ const kStar = function(w, r, q, alpha, beta) {
     );
 };
 
+const f4s = function(l, w, r, q, rho) {
+    return (-l*r*w*(r**(rho/(rho - 1)) + w**(rho/(rho - 1)))**(1/rho)
+    + q*r*w**(rho/(rho - 1)) + q*r**((2*rho - 1)/(rho -
+    1)))/(r**2*(r**(rho/(rho - 1)) + w**(rho/(rho - 1)))**(1/rho));
+};
+
 // Function choice: 0
 const isocost0 = function(w, r, c, l, alpha, beta) {
     // See doc/minimization_problem.py for how we got this complicated
@@ -98,6 +104,27 @@ const kStarValue3 = function(w, r, q, alpha, t, tw, tr) {
     return q * (
         alpha * (1 + t + tw) * w / ((1 - alpha) * (1 + t + tr) * r)
     ) ** (1 - alpha);
+};
+
+// Function choice: 3
+/*const f4 = function(l, k, rho) {
+    return (k ** rho + l ** rho) ** (1 / rho);
+};*/
+
+const isoq4 = function(l, q, rho) {
+    return (-(l ** rho) + q ** rho) ** (1 / rho);
+};
+
+const xInt = function(w, r, rho) {
+    return (w ** (rho / (rho - 1)) + r ** (rho / (rho - 1))) ** (1 / rho);
+};
+
+const lStarValue4 = function(w, r, q, rho) {
+    return w ** (1 / (rho - 1)) * q / xInt(w, r, rho);
+};
+
+const kStarValue4 = function(w, r, q, rho) {
+    return r ** (1 / (rho - 1)) * q / xInt(w, r, rho);
 };
 
 /**
@@ -201,6 +228,23 @@ export class OptimalChoiceCostMinimizingGraph extends Graph {
 
                 isoquantLine = function(x) {
                     return isoq3(x, me.options.gA3, me.options.gA4);
+                };
+            } else if (this.options.gFunctionChoice === 3) {
+                lStarVal = lStarValue4(
+                    this.options.gA1, this.options.gA2, this.options.gA3,
+                    this.options.gA4);
+                kStarVal = kStarValue4(
+                    this.options.gA1, this.options.gA2, this.options.gA3,
+                    this.options.gA4);
+
+                isoquantLine = function(x) {
+                    return isoq4(x, me.options.gA3, me.options.gA4);
+                };
+
+                isocostLine = function(x) {
+                    return f4s(
+                        x, me.options.gA1, me.options.gA2,
+                        me.options.gA3, me.options.gA4);
                 };
             }
 
