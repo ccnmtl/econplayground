@@ -296,56 +296,70 @@ class Graph(OrderedModel):
     # more typical float type, for fixed precision:
     # https://docs.python.org/3/library/decimal.html#module-decimal
     #
+    # A1
     a1 = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('0'))
     a1_max = models.IntegerField(default=10)
     a1_min = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('0'))
     a1_name = models.TextField(default='', blank=True,)
+    # Alternate value for a1
+    a1_2 = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0'))
+    a1_max_2 = models.IntegerField(default=10)
+    a1_min_2 = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0'))
+
+    # A2
     a2 = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('0'))
     a2_max = models.IntegerField(default=10)
     a2_min = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('0'))
+    # Alternate value for a2
     a2_name = models.TextField(default='', blank=True)
+    a2_2 = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0'))
+    a2_max_2 = models.IntegerField(default=10)
+    a2_min_2 = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0'))
+
+    # A3
     a3 = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('0'))
     a3_max = models.IntegerField(default=10)
     a3_min = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('0'))
     a3_name = models.TextField(default='', blank=True)
+    # Alternate value for a3
+    a3_2 = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0'))
+    a3_max_2 = models.IntegerField(default=10)
+    a3_min_2 = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0'))
+
+    # A4
     a4 = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('0'))
     a4_max = models.IntegerField(default=10)
     a4_min = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('0'))
     a4_name = models.TextField(default='', blank=True)
-    a5 = models.DecimalField(
-        max_digits=12, decimal_places=4, default=Decimal('0'))
-    a5_max = models.IntegerField(default=10)
-    a5_min = models.DecimalField(
-        max_digits=12, decimal_places=4, default=Decimal('0'))
-
-    a1_2 = models.DecimalField(
-        max_digits=12, decimal_places=4, default=Decimal('0'))
-    a1_max_2 = models.IntegerField(default=10)
-    a1_min_2 = models.DecimalField(
-        max_digits=12, decimal_places=4, default=Decimal('0'))
-    a2_2 = models.DecimalField(
-        max_digits=12, decimal_places=4, default=Decimal('0'))
-    a2_max_2 = models.IntegerField(default=10)
-    a2_min_2 = models.DecimalField(
-        max_digits=12, decimal_places=4, default=Decimal('0'))
-    a3_2 = models.DecimalField(
-        max_digits=12, decimal_places=4, default=Decimal('0'))
-    a3_max_2 = models.IntegerField(default=10)
-    a3_min_2 = models.DecimalField(
-        max_digits=12, decimal_places=4, default=Decimal('0'))
+    # Alternate value for a4
     a4_2 = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('0'))
     a4_max_2 = models.IntegerField(default=10)
     a4_min_2 = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('0'))
+
+    # A5
+    a5 = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0'))
+    a5_max = models.IntegerField(default=10)
+    a5_min = models.DecimalField(
+        max_digits=12, decimal_places=4, default=Decimal('0'))
+    a5_name = models.TextField(default='', blank=True)
+    # Alternate value for a5
     a5_2 = models.DecimalField(
         max_digits=12, decimal_places=4, default=Decimal('0'))
     a5_max_2 = models.IntegerField(default=10)

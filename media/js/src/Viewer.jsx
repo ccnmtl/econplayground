@@ -102,20 +102,30 @@ class Viewer extends Component {
                     gAlpha={this.state.gAlpha}
 
                     gA1={this.state.gA1}
+                    gA1Name={this.state.gA1Name}
                     gA1Max={this.state.gA1Max}
                     gA1Min={this.state.gA1Min}
+
                     gA2={this.state.gA2}
+                    gA2Name={this.state.gA2Name}
                     gA2Max={this.state.gA2Max}
                     gA2Min={this.state.gA2Min}
+
                     gA3={this.state.gA3}
+                    gA3Name={this.state.gA3Name}
                     gA3Max={this.state.gA3Max}
                     gA3Min={this.state.gA3Min}
+
                     gA4={this.state.gA4}
+                    gA4Name={this.state.gA4Name}
                     gA4Max={this.state.gA4Max}
                     gA4Min={this.state.gA4Min}
+
                     gA5={this.state.gA5}
+                    gA5Name={this.state.gA5Name}
                     gA5Max={this.state.gA5Max}
                     gA5Min={this.state.gA5Min}
+
                     gA6={this.state.gA6}
                     gA7={this.state.gA7}
                     gA8={this.state.gA8}

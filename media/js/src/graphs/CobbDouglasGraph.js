@@ -4,14 +4,14 @@ class CobbDouglasGraph extends Graph {
     make() {
         const me = this;
         const f = function(x) {
-            return me.options.gCobbDouglasA *
-                (me.options.gCobbDouglasK ** me.options.gCobbDouglasAlpha) *
-                (x ** (1 - me.options.gCobbDouglasAlpha));
+            return me.options.gA1 *
+                (me.options.gA3 ** me.options.gA4) *
+                (x ** (1 - me.options.gA4));
         };
 
-        const lineLabel = 'F(' + this.options.gCobbDouglasAName + ',' +
-              this.options.gCobbDouglasKName + ',' +
-              this.options.gCobbDouglasLName + ')';
+        const lineLabel = 'F(' + this.options.gA1Name + ',' +
+              this.options.gA3Name + ',' +
+              this.options.gA2Name + ')';
 
         this.board.create('functiongraph', [f], {
             name: lineLabel,
@@ -26,10 +26,10 @@ class CobbDouglasGraph extends Graph {
         if (this.options.shadow && this.options.gDisplayShadow) {
             // Display the initial curve set by the instructor.
             const fShadow = function(x) {
-                return me.options.gCobbDouglasAInitial *
-                    (me.options.gCobbDouglasKInitial **
-                     me.options.gCobbDouglasAlphaInitial) *
-                    (x ** (1 - me.options.gCobbDouglasAlphaInitial));
+                return me.options.gA1Initial *
+                    (me.options.gA3Initial **
+                     me.options.gA4Initial) *
+                    (x ** (1 - me.options.gA4Initial));
             };
 
             this.board.create('functiongraph', [fShadow, -30, 30], {
@@ -46,8 +46,8 @@ class CobbDouglasGraph extends Graph {
         }
 
         const p = this.board.create('point', [
-            this.options.gCobbDouglasL,
-            f(this.options.gCobbDouglasL)
+            this.options.gA2,
+            f(this.options.gA2)
         ], getIntersectionPointOptions(
             this.options.gIntersectionLabel, false));
 
