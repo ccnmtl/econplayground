@@ -19,7 +19,7 @@ export class ConsumptionLeisureGraph extends Graph {
                 return (me.options.gA1Initial - x) * me.options.gA2Initial;
             };
 
-            this.board.create('functiongraph', [f1Shadow, -30, 30], {
+            this.board.create('functiongraph', [f1Shadow, 0, 30], {
                 name: this.options.gLine1Label,
                 withLabel: false,
                 strokeWidth: 2,
@@ -39,15 +39,27 @@ export class ConsumptionLeisureGraph extends Graph {
         let f1;
         if (me.options.gType === 15) {
             f1 = function(x) {
-                return (T - x) * w * (1 - t);
+                const result = (T - x) * w * (1 - t);
+
+                if (result < 0) {
+                    return NaN;
+                }
+
+                return result;
             };
         } else {
             f1 = function(x) {
-                return (T - t - x) * w;
+                const result = (T - t - x) * w;
+
+                if (result < 0) {
+                    return NaN;
+                }
+
+                return result;
             };
         }
 
-        this.l1 = this.board.create('functiongraph', [f1, -30, 30], {
+        this.l1 = this.board.create('functiongraph', [f1, 0, 30], {
             name: this.options.gLine1Label,
             withLabel: true,
             strokeWidth: 2,
@@ -62,8 +74,8 @@ export class ConsumptionLeisureGraph extends Graph {
 
         if (this.options.gShowIntersection) {
             this.board.create(
-                'intersection',
-                [this.l1, this.board.defaultAxes.x, 0], {
+                'point',
+                [this.options.gA1, 0], {
                     name: this.options.gIntersectionHorizLineLabel || '',
                     withLabel: true,
                     fixed: true,
