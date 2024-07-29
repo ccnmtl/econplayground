@@ -38,42 +38,54 @@ export class TemplateGraph extends Graph {
         const me = this;
 
         const f1 = function(x) {
-            return getFunc(me.options.gExpression, 'fallback', x);
+            const result = getFunc(me.options.gExpression, 'fallback', x);
+
+            if (result < 0) {
+                return NaN;
+            }
+
+            return result;
         };
 
         const f2 = function(x) {
-            return getFunc(me.options.gExpression2, 'fallback2', x);
+            const result =  getFunc(me.options.gExpression2, 'fallback2', x);
+
+            if (result < 0) {
+                return NaN;
+            }
+
+            return result;
         };
 
         const f3 = function(x) {
-            return getFunc(me.options.gExpression3, 'fallback3', x);
+            const result =  getFunc(me.options.gExpression3, 'fallback3', x);
+
+            if (result < 0) {
+                return NaN;
+            }
+
+            return result;
         };
 
-        this.board.create('functiongraph', [f1], {
+        this.board.create('functiongraph', [f1, 0, 5], {
             name: 'expression',
             withLabel: true,
             strokeWidth: 2,
-            strokeColor: this.l1Color,
-            recursionDepthLow: 8,
-            recursionDepthHigh: 15
+            strokeColor: this.l1Color
         });
 
-        this.board.create('functiongraph', [f2], {
+        this.board.create('functiongraph', [f2, 0, 5], {
             name: 'expression2',
             withLabel: true,
             strokeWidth: 2,
-            strokeColor: this.l2Color,
-            recursionDepthLow: 8,
-            recursionDepthHigh: 15
+            strokeColor: this.l2Color
         });
 
-        this.board.create('functiongraph', [f3], {
+        this.board.create('functiongraph', [f3, 0, 5], {
             name: 'expression3',
             withLabel: true,
             strokeWidth: 2,
-            strokeColor: this.l3Color,
-            recursionDepthLow: 8,
-            recursionDepthHigh: 15
+            strokeColor: this.l3Color
         });
     }
 }
