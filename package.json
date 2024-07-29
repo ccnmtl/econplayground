@@ -10,7 +10,7 @@
   },
   "homepage": "https://github.com/ccnmtl/econplayground#readme",
   "dependencies": {
-    "commonmark": "0.31.0",
+    "commonmark": "0.31.1",
     "decimal.js": "nikolas/decimal.js#export-fix",
     "jsxgraph": "~1.9.0",
     "katex": "^0.16.11",
