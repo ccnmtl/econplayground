@@ -7,10 +7,10 @@ import { handleFormUpdate } from '../utils.js';
 
 export default class CobbDouglasEditor extends React.Component {
     render() {
-        let tex = String.raw`= ${this.props.gCobbDouglasAName}${this.props.gCobbDouglasKName}^\alpha ${this.props.gCobbDouglasLName}^{1 - \alpha}`;
+        let tex = String.raw`= ${this.props.gA1Name}${this.props.gA3Name}^\alpha ${this.props.gA2Name}^{1 - \alpha}`;
 
         if (!this.props.isInstructor) {
-            tex = String.raw`${this.props.gCobbDouglasYName} ${tex}`;
+            tex = String.raw`${this.props.gA5Name} ${tex}`;
         }
 
         return (
@@ -18,7 +18,7 @@ export default class CobbDouglasEditor extends React.Component {
                 <h3>Function</h3>
                 <blockquote className="ml-2"><em>
                     This is a projection of the Cobb-Douglas function
-                    with {this.props.gCobbDouglasLName} plotted along
+                    with {this.props.gA2Name} plotted along
                     the X-axis.
                 </em></blockquote>
                 <div className="row">
@@ -28,8 +28,8 @@ export default class CobbDouglasEditor extends React.Component {
                                 type="text"
                                 aria-label={'Function variable for ' + tex}
                                 className="form-control form-control-sm mr-2"
-                                name="gCobbDouglasYName"
-                                value={this.props.gCobbDouglasYName}
+                                name="gA5Name"
+                                value={this.props.gA5Name}
                                 maxLength="1"
                                 size="1"
                                 onChange={handleFormUpdate.bind(this)}
@@ -45,70 +45,70 @@ export default class CobbDouglasEditor extends React.Component {
                 {this.props.displaySliders && (
                     <React.Fragment>
                         <h3>Slope</h3>
-                        <label className="m-0" htmlFor="gCobbDouglasA">
+                        <label className="m-0" htmlFor="gA1">
                             {this.props.isInstructor ? (
                                 <input type="text"
-                                    name="gCobbDouglasAName"
+                                    name="gA1Name"
                                     maxLength="1"
                                     size="1"
                                     className="form-control form-control-sm"
-                                    value={this.props.gCobbDouglasAName}
+                                    value={this.props.gA1Name}
                                     onChange={handleFormUpdate.bind(this)}
                                 />
                             ) : (
-                                this.props.gCobbDouglasAName
+                                this.props.gA1Name
                             )}
                         </label>
                         <RangeEditor
-                            dataId="gCobbDouglasA"
-                            value={this.props.gCobbDouglasA}
+                            dataId="gA1"
+                            value={this.props.gA1}
                             handler={handleFormUpdate.bind(this)}
                             min={0} />
-                        <label className="m-0" htmlFor="gCobbDouglasK">
+                        <label className="m-0" htmlFor="gA3">
                             {this.props.isInstructor ? (
                                 <input type="text"
-                                    name="gCobbDouglasKName"
+                                    name="gA3Name"
                                     maxLength="1"
                                     size="1"
                                     className="form-control form-control-sm"
-                                    value={this.props.gCobbDouglasKName}
+                                    value={this.props.gA3Name}
                                     onChange={handleFormUpdate.bind(this)}
                                 />
                             ) : (
-                                this.props.gCobbDouglasKName
+                                this.props.gA3Name
                             )}
                         </label>
                         <RangeEditor
-                            dataId="gCobbDouglasK"
-                            value={this.props.gCobbDouglasK}
+                            dataId="gA3"
+                            value={this.props.gA3}
                             handler={handleFormUpdate.bind(this)}
                             min={0} />
                         <RangeEditor
                             label="\alpha"
-                            dataId="gCobbDouglasAlpha"
-                            value={this.props.gCobbDouglasAlpha}
+                            dataId="gA4"
+                            value={this.props.gA4}
                             handler={handleFormUpdate.bind(this)}
                             min={0}
                             max={1}
                             showMinMax={true}
                         />
-                        <label className="m-0" htmlFor="gCobbDouglasL">
+                        <label className="m-0" htmlFor="gA2">
                             {this.props.isInstructor ? (
                                 <input type="text"
-                                    name="gCobbDouglasLName"
+                                    name="gA2Name"
                                     maxLength="1"
                                     size="1"
                                     className="form-control form-control-sm"
-                                    value={this.props.gCobbDouglasLName}
+                                    value={this.props.gA2Name}
                                     onChange={handleFormUpdate.bind(this)}
                                 />
                             ) : (
-                                this.props.gCobbDouglasLName
+                                this.props.gA2Name
                             )}
                         </label>
                         <RangeEditor
-                            dataId="gCobbDouglasL"
-                            value={this.props.gCobbDouglasL}
+                            dataId="gA2"
+                            value={this.props.gA2}
                             handler={handleFormUpdate.bind(this)}
                             min={0}
                             max={10}
@@ -143,14 +143,14 @@ export default class CobbDouglasEditor extends React.Component {
 CobbDouglasEditor.propTypes = {
     updateGraph: PropTypes.func.isRequired,
 
-    gCobbDouglasA: PropTypes.number.isRequired,
-    gCobbDouglasAName: PropTypes.string.isRequired,
-    gCobbDouglasL: PropTypes.number.isRequired,
-    gCobbDouglasLName: PropTypes.string.isRequired,
-    gCobbDouglasK: PropTypes.number.isRequired,
-    gCobbDouglasKName: PropTypes.string.isRequired,
-    gCobbDouglasAlpha: PropTypes.number.isRequired,
-    gCobbDouglasYName: PropTypes.string.isRequired,
+    gA1: PropTypes.number.isRequired,
+    gA1Name: PropTypes.string.isRequired,
+    gA2: PropTypes.number.isRequired,
+    gA2Name: PropTypes.string.isRequired,
+    gA3: PropTypes.number.isRequired,
+    gA3Name: PropTypes.string.isRequired,
+    gA4: PropTypes.number.isRequired,
+    gA5Name: PropTypes.string.isRequired,
     gIntersectionLabel: PropTypes.string.isRequired,
 
     displayLabels: PropTypes.bool.isRequired,

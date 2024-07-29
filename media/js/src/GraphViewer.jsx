@@ -467,15 +467,28 @@ GraphViewer.propTypes = {
     gAlpha: PropTypes.number,
 
     gA1: PropTypes.number,
+    gA1Name: PropTypes.string,
     gA1Initial: PropTypes.number,
+
     gA2: PropTypes.number,
+    gA2Name: PropTypes.string,
     gA2Initial: PropTypes.number,
+
     gA3: PropTypes.number,
+    gA3Name: PropTypes.string,
     gA3Initial: PropTypes.number,
+
     gA4: PropTypes.number,
+    gA4Name: PropTypes.string,
     gA4Initial: PropTypes.number,
+
     gA5: PropTypes.number,
+    gA5Name: PropTypes.string,
     gA5Initial: PropTypes.number,
+
+    gA6: PropTypes.number,
+    gA7: PropTypes.number,
+    gA8: PropTypes.number,
 
     gA: PropTypes.number,
     gK: PropTypes.number,
