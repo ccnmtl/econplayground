@@ -8,8 +8,7 @@ import { handleFormUpdate } from '../utils.js';
 export default class TaxRevenueEditor extends React.Component {
     componentDidMount() {
         if (!this.props.gId) {
-            this.props.updateGraph({
-                ...this.props,
+            this.default1 = {
                 gA1: 100,
                 gA1Max: 10000,
                 gA1Min: 0,
@@ -25,8 +24,9 @@ export default class TaxRevenueEditor extends React.Component {
                 gXAxisMax: 1500,
                 gXAxisMin: 0,
                 gYAxisMax: 500000,
-                gYAxisMin: 0,
-
+                gYAxisMin: 0
+            };
+            this.default2 = {
                 gA12: 100,
                 gA1Max2: 10000,
                 gA1Min2: 0,
@@ -43,11 +43,34 @@ export default class TaxRevenueEditor extends React.Component {
                 gXAxisMin2: 0,
                 gYAxisMax2: 25000,
                 gYAxisMin2: 0,
+            };
+            this.props.updateGraph({
+                ...this.props,
+                ...this.default1,
+                ...this.default2
             });
         }
     }
 
+    handleReset = (e) => {
+        e.preventDefault();
+        if (this.props.gFunctionChoice === 0) {
+            this.props.updateGraph({
+                ...this.props,
+                ...this.default1
+            });
+        } else {
+            this.props.updateGraph({
+                ...this.props,
+                ...this.default2
+            });
+        }
+    };
+
     render() {
+        const eqNum = this.props.gFunctionChoice > 0
+            ? this.props.gFunctionChoice + 1
+            : '';
         return (
             <div>
 
@@ -75,6 +98,14 @@ export default class TaxRevenueEditor extends React.Component {
                         Ad Valorem Tax
                     </label>
                 </div>
+                {this.default1 && (
+                    <button
+                        id="resetFunctionValues"
+                        className="btn btn-primary"
+                        onClick={this.handleReset}>
+                            Reset
+                    </button>
+                )}
 
                 {this.props.isInstructor && (
                     <div className="row">
@@ -90,12 +121,12 @@ export default class TaxRevenueEditor extends React.Component {
                                 <DefineRange
                                     key={key}
                                     className="col-6"
-                                    id={i[0]}
+                                    id={i[0] + eqNum}
                                     label={i[1]}
                                     rawLabel={true}
-                                    dataId={i[0]}
-                                    min={this.props[i[0] + 'Min']}
-                                    max={this.props[i[0] + 'Max']}
+                                    dataId={i[0] + eqNum}
+                                    min={this.props[i[0] + 'Min' + eqNum]}
+                                    max={this.props[i[0] + 'Max' + eqNum]}
                                     handler={handleFormUpdate.bind(this)}/>
                             );
                         })}
@@ -103,7 +134,7 @@ export default class TaxRevenueEditor extends React.Component {
                 )}
                 {this.props.displaySliders && (
                     <React.Fragment>
-                        {[
+                        {[ // [dataId, label]
                             ['gA1', 'Reservation Price'],
                             ['gA2', 'Demand Slope'],
                             ['gA3', 'Choke Price'],
@@ -114,11 +145,11 @@ export default class TaxRevenueEditor extends React.Component {
                                     key={key}
                                     label={i[1]}
                                     rawLabel={true}
-                                    id={i[0]}
-                                    dataId={i[0]}
-                                    value={this.props[i[0]]}
-                                    min={this.props[i[0] + 'Min']}
-                                    max={this.props[i[0] + 'Max']}
+                                    id={i[0] + eqNum}
+                                    dataId={i[0] + eqNum}
+                                    value={this.props[i[0]+ eqNum]}
+                                    min={this.props[i[0] + 'Min' + eqNum]}
+                                    max={this.props[i[0] + 'Max' + eqNum]}
                                     handler={handleFormUpdate.bind(this)}
                                 />
                             );

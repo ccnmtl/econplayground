@@ -67,8 +67,8 @@ export class TaxRevenueGraph extends Graph {
                     recursionDepthHigh: 15
                 });
         } else if (me.gFunctionChoice === 1) {
-            const taStar = tastar(me.gA1, me.gA2, me.gA3, me.gA4);
-            const taxPeak = [taStar, ta(me.gA1, me.gA2, me.gA3, me.gA4, taStar)];
+            const taStar = tastar(me.gA12, me.gA22, me.gA32, me.gA42);
+            const taxPeak = [taStar, ta(me.gA12, me.gA22, me.gA32, me.gA42, taStar)];
             this.p1 = this.board.create('point', taxPeak, {
                 name: taxPeak[0].toFixed(2),
                 withLabel: true,
@@ -101,11 +101,11 @@ export class TaxRevenueGraph extends Graph {
             });
     
             const f1 = function(q) {
-                return ta(me.gA1, me.gA2, me.gA3, me.gA4, q);
+                return ta(me.gA12, me.gA22, me.gA32, me.gA42, q);
             };
 
             this.l1 = this.board.create('functiongraph',
-                [f1, me.gXAxisMin, Math.min(me.gXAxisMax, (me.gA3 - me.gA1) / me.gA1)],
+                [f1, me.gXAxisMin, Math.min(me.gXAxisMax, (me.gA32 - me.gA12) / me.gA12)],
                 {
                     strokeWidth: 2,
                     strokeColor: this.l2Color,

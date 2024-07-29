@@ -331,8 +331,10 @@ export default class JXGBoard extends React.Component {
                         this.props.gXAxisMax, this.props.gXAxisMin - 11000]);
             } else {
                 this.board.setBoundingBox(
-                    [this.props.gYAxisMin - 0.07, this.props.gYAxisMax,
-                        this.props.gXAxisMax, this.props.gXAxisMin - 600]);
+                    [this.props.gYAxisMin2 - 0.07, this.props.gYAxisMax2,
+                        this.props.gXAxisMax2, this.props.gXAxisMin2 - 600]);
+                this.board.defaultAxes.x.name = 'Ad Valorem Tax';
+                this.board.update();
             }
         }
 
