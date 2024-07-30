@@ -33,6 +33,16 @@ const getNLDSXLabel = function(functionChoice, kName, nName) {
     return label;
 };
 
+const calculateBoundingBox = function(xAxisMin, yAxisMin, xAxisMax, yAxisMax) {
+    return [
+        // Margins depend on graph scale
+        yAxisMin - (yAxisMax * 0.014),
+        yAxisMax,
+        xAxisMax,
+        xAxisMin - (xAxisMax * 0.022)
+    ];
+};
+
 /**
  * The JXGBoard component manages JSXGraph's Board class, which
  * is used to create the graph scene.
@@ -314,10 +324,9 @@ export default class JXGBoard extends React.Component {
 
         if (needsUpdate) {
             if (![18, 22].includes(this.props.gType)) {
-                let boundingBox = [
-                    this.props.gYAxisMin - 0.07, this.props.gYAxisMax,
-                    this.props.gXAxisMax, this.props.gXAxisMin - 0.11
-                ];
+                let boundingBox = calculateBoundingBox(
+                    this.props.gXAxisMin, this.props.gYAxisMin,
+                    this.props.gXAxisMax, this.props.gXAxisMax);
                 this.board.setBoundingBox(boundingBox);
             }
 
@@ -547,10 +556,9 @@ export default class JXGBoard extends React.Component {
                 break;
         }
 
-        let boundingBox = [
-            options.gYAxisMin - 0.07, options.gYAxisMax,
-            options.gXAxisMax, options.gXAxisMin - 0.11
-        ];
+        let boundingBox = calculateBoundingBox(
+            options.gXAxisMin, options.gYAxisMin,
+            options.gXAxisMax, options.gXAxisMax);
 
         if (options.gType === 18) {
             boundingBox = [0, 12000, 500, 0];
