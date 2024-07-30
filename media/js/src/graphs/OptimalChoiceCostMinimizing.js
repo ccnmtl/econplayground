@@ -1,5 +1,63 @@
 import {Graph} from './Graph.js';
 
+// defaults based on function type
+export const defaults = [
+    {
+        gXAxisMax: 10000,
+        gYAxisMax: 10000,
+        gA1: 5,
+        gA2: 10,
+        gA3: 2500,
+        gA4: 0.5,
+        gA5: 0.5,
+    },
+    {
+        gXAxisMax: 10000,
+        gYAxisMax: 10000,
+        gA1: 5,
+        gA2: 10,
+        gA3: 2500,
+        gA4: 0.5,
+        gA5: 0.5,
+    },
+    {
+        gXAxisMax: 10000,
+        gYAxisMax: 10000,
+        gA1: 5,
+        gA2: 10,
+        gA3: 2500,
+        gA4: 0.5,
+        gA5: 0.5,
+    },
+    {
+        gXAxisMax: 2500,
+        gYAxisMax: 2500,
+        gA1: 5,
+        gA2: 10,
+        gA3: 2500,
+        gA4: 0.5,
+        gA5: 0.5,
+    },
+    {
+        gXAxisMax: 5000,
+        gYAxisMax: 5000,
+        gA1: 5,
+        gA2: 10,
+        gA3: 2500,
+        gA4: 1,
+        gA5: 1
+    },
+    {
+        gXAxisMax: 1000,
+        gYAxisMax: 1000,
+        gA1: 5,
+        gA2: 10,
+        gA3: 200,
+        gA4: 1,
+        gA5: 1
+    }
+];
+
 /*const cost = function(l, k, w, r) {
     return w * l + r * k;
 };*/
@@ -106,6 +164,21 @@ const kStarValue3 = function(w, r, q, alpha, t, tw, tr) {
     ) ** (1 - alpha);
 };
 
+/**
+ * See doc/minimization_problem.f3s for context.
+ */
+const f3s = function(l, w, r, q, alpha, t, tw, tr) {
+    return (-tw*l*w + tw*q*w*(r*(-alpha*tr - alpha*t - alpha + tr + t
+    + 1)/(alpha*w*(tw + t + 1)))**alpha + tr*q*r*(alpha*w*(-tw - t -
+    1)/(r*(alpha*tr + alpha*t + alpha - tr - t - 1)))**(1 - alpha) -
+    l*t*w - l*w + q*r*t*(alpha*w*(-tw - t - 1)/(r*(alpha*tr + alpha*t
+    + alpha - tr - t - 1)))**(1 - alpha) + q*r*(alpha*w*(-tw - t -
+    1)/(r*(alpha*tr + alpha*t + alpha - tr - t - 1)))**(1 - alpha) +
+    q*t*w*(r*(-alpha*tr - alpha*t - alpha + tr + t + 1)/(alpha*w*(tw +
+    t + 1)))**alpha + q*w*(r*(-alpha*tr - alpha*t - alpha + tr + t +
+    1)/(alpha*w*(tw + t + 1)))**alpha)/(r*(tr + t + 1));
+};
+
 // Function choice: 3
 /*const f4 = function(l, k, rho) {
     return (k ** rho + l ** rho) ** (1 / rho);
@@ -127,20 +200,60 @@ const kStarValue4 = function(w, r, q, rho) {
     return r ** (1 / (rho - 1)) * q / xInt(w, r, rho);
 };
 
-/**
- * See doc/minimization_problem.f3s for context.
- */
-const f3s = function(l, w, r, q, alpha, t, tw, tr) {
-    return (-tw*l*w + tw*q*w*(r*(-alpha*tr - alpha*t - alpha + tr + t
-    + 1)/(alpha*w*(tw + t + 1)))**alpha + tr*q*r*(alpha*w*(-tw - t -
-    1)/(r*(alpha*tr + alpha*t + alpha - tr - t - 1)))**(1 - alpha) -
-    l*t*w - l*w + q*r*t*(alpha*w*(-tw - t - 1)/(r*(alpha*tr + alpha*t
-    + alpha - tr - t - 1)))**(1 - alpha) + q*r*(alpha*w*(-tw - t -
-    1)/(r*(alpha*tr + alpha*t + alpha - tr - t - 1)))**(1 - alpha) +
-    q*t*w*(r*(-alpha*tr - alpha*t - alpha + tr + t + 1)/(alpha*w*(tw +
-    t + 1)))**alpha + q*w*(r*(-alpha*tr - alpha*t - alpha + tr + t +
-    1)/(alpha*w*(tw + t + 1)))**alpha)/(r*(tr + t + 1));
+// Function choice: 4
+// Perfect Substitutes
+/*const f5 = function(l, k, a, b) {
+    return a * k + b * l;
+};*/
+
+const isoq5 = function(l, q, a, b) {
+    return (-b * l + q) / a;
 };
+
+const f5s = function(l, w, r, q, a, b) {
+    return -l * w / r + q * w / (b * r) + q / a;
+};
+
+const kStarValue5 = function(q, w, r, a, b) {
+    if (a * w < b * r) {
+        return q / b;
+    } else {
+        return 0;
+    }
+};
+
+const lStarValue5 = function(q, w, r, a, b) {
+    if (a * w > b * r) {
+        return q / a;
+    } else {
+        return 0;
+    }
+};
+
+// Function choice: 5
+// Perfect Complements
+/*const f6 = function(l, k, a, b) {
+    return Math.min(a * k, b * l);
+};*/
+
+const isoq6 = function(l, q, a, b) {
+    if (
+        (l > 0 && b > (q / l)) ||
+            (l < 0 && b < q / l)
+    ) {
+        return q / a;
+    }
+};
+
+const kStarValue6 = function(q, w, r, a, b) {
+    return q / b;
+};
+
+const lStarValue6 = function(q, w, r, a, b) {
+    return q / a;
+};
+
+
 
 const optimalBundleColor = 'red';
 
@@ -246,6 +359,42 @@ export class OptimalChoiceCostMinimizingGraph extends Graph {
                         x, me.options.gA1, me.options.gA2,
                         me.options.gA3, me.options.gA4);
                 };
+            } else if (this.options.gFunctionChoice === 4) {
+                lStarVal = lStarValue5(
+                    this.options.gA3, this.options.gA1, this.options.gA2,
+                    this.options.gA4, this.options.gA5);
+                kStarVal = kStarValue5(
+                    this.options.gA3, this.options.gA1, this.options.gA2,
+                    this.options.gA4, this.options.gA5);
+
+                isoquantLine = function(x) {
+                    return isoq5(
+                        x, me.options.gA3, me.options.gA4, me.options.gA5);
+                };
+
+                isocostLine = function(x) {
+                    return f5s(
+                        x, me.options.gA1, me.options.gA2, me.options.gA3,
+                        me.options.gA4, me.options.gA5);
+                };
+            } else if (this.options.gFunctionChoice === 5) {
+                lStarVal = lStarValue6(
+                    this.options.gA3, this.options.gA1, this.options.gA2,
+                    this.options.gA4, this.options.gA5);
+                kStarVal = kStarValue6(
+                    this.options.gA3, this.options.gA1, this.options.gA2,
+                    this.options.gA4, this.options.gA5);
+
+                isoquantLine = function(x) {
+                    return isoq6(
+                        x, me.options.gA3, me.options.gA4, me.options.gA5);
+                };
+
+                isocostLine = function(x) {
+                    return f5s(
+                        x, me.options.gA1, me.options.gA2, me.options.gA3,
+                        me.options.gA4, me.options.gA5);
+                };
             }
 
             this.l2 = this.board.create(
@@ -263,7 +412,10 @@ export class OptimalChoiceCostMinimizingGraph extends Graph {
                 }
             );
 
-            if (lStarVal && kStarVal) {
+            if (
+                typeof lStarVal !== 'undefined' &&
+                    typeof kStarVal !== 'undefined'
+            ) {
                 const optimalBundlePoint = this.board.create('point', [
                     lStarVal, kStarVal
                 ], {
