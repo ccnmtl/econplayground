@@ -11,7 +11,7 @@
 # https://docs.sympy.org/latest/guides/solving/solve-equation-algebraically.html
 #
 
-from sympy import Eq, solve
+from sympy import Eq, Min, solve
 from sympy.abc import w, l, r, k, q, alpha, beta, rho, t, a, b, f
 
 # This example equation specifies the isocost line for a complex set
@@ -93,19 +93,48 @@ f4s = Eq(
     w * l + r * k
 )
 
+f5 = Eq(
+    a * k + b * l,
+    q
+)
 
-solutions = solve(equation, k, dict=True)
-solutions_1 = solve(f2s_equation, k, dict=True)
-solutions_isoq3 = solve(isoq3, k, dict=True)
-solutions_f3s = solve(f3s, k, dict=True)
-solutions_f4 = solve(f4, k, dict=True)
-solutions_f4s = solve(f4s, k, dict=True)
+f5s = Eq(
+    w *
+    (q / b) +
+    r *
+    (q / a),
+    w * l + r * k
+)
 
+isoq6 = Eq(
+    Min(a * k, b * l),
+    q
+)
 
 if __name__ == '__main__':
-    print(solutions)
-    print(solutions_1)
-    print(solutions_isoq3)
-    print(solutions_f3s)
-    print(solutions_f4)
-    print(solutions_f4s)
+    # solutions = solve(equation, k, dict=True)
+    # print(solutions)
+
+    # solutions_1 = solve(f2s_equation, k, dict=True)
+    # print(solutions_1)
+
+    # solutions_isoq3 = solve(isoq3, k, dict=True)
+    # print(solutions_isoq3)
+
+    # solutions_f3s = solve(f3s, k, dict=True)
+    # print(solutions_f3s)
+
+    # solutions_f4 = solve(f4, k, dict=True)
+    # print(solutions_f4)
+
+    # solutions_f4s = solve(f4s, k, dict=True)
+    # print(solutions_f4s)
+
+    solutions_f5 = solve(f5, k, dict=True)
+    print(solutions_f5)
+
+    solutions_f5s = solve(f5s, k, dict=True)
+    print(solutions_f5s)
+
+    solutions_isoq6 = solve(isoq6, k, dict=True)
+    print(solutions_isoq6)

@@ -4,6 +4,9 @@ import GraphEditor from './GraphEditor.jsx';
 import GraphViewer from './GraphViewer.jsx';
 import { exportGraph, importGraph, defaultGraph } from './GraphMapping.js';
 import {
+    defaults as costMinimizingDefaults
+} from './graphs/OptimalChoiceCostMinimizing.js';
+import {
     authedFetch, getGraphId, getCohortId, getAssessment,
     getSubmission, getError
 } from './utils.js';
@@ -476,14 +479,23 @@ class Viewer extends Component {
     }
 
     handleGraphUpdate(obj) {
-        if (this.state.gType === 21 && Object.hasOwn(obj, 'gToggle')) {
-            // Update axis dynamically based on this toggle.
-            if (obj.gToggle) {
-                obj.gXAxisMax = 10000;
-                obj.gYAxisMax = 10000;
-            } else {
-                obj.gXAxisMax = 1000;
-                obj.gYAxisMax = 1000;
+        if (this.state.gType === 21) {
+            if (Object.hasOwn(obj, 'gFunctionChoice')) {
+                Object.assign(
+                    obj,
+                    costMinimizingDefaults[obj.gFunctionChoice]);
+            }
+
+            if (Object.hasOwn(obj, 'gToggle')) {
+                // Update axis dynamically based on this toggle.
+                if (obj.gToggle) {
+                    Object.assign(
+                        obj,
+                        costMinimizingDefaults[this.state.gFunctionChoice]);
+                } else {
+                    obj.gXAxisMax = 1000;
+                    obj.gYAxisMax = 1000;
+                }
             }
         }
 

@@ -187,16 +187,16 @@ export default class OptimalChoiceCostMinimizingEditor extends React.Component {
                                         id="gA4"
                                         dataId="gA4"
                                         value={this.props.gA4}
-                                        min={0.01}
-                                        max={1}
+                                        min={0}
+                                        max={25}
                                         handler={handleFormUpdate.bind(this)} />
                                     <RangeEditor
                                         label="b"
                                         id="gA5"
                                         dataId="gA5"
                                         value={this.props.gA5}
-                                        min={0.01}
-                                        max={1}
+                                        min={0}
+                                        max={25}
                                         handler={handleFormUpdate.bind(this)} />
                                 </>
                             )}

@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import GraphEditor from './GraphEditor.jsx';
 import { exportGraph, defaultGraph } from './GraphMapping.js';
 import {authedFetch, getError, getCohortId} from './utils.js';
+import {
+    defaults as costMinimizingDefaults
+} from './graphs/OptimalChoiceCostMinimizing.js';
 
 class Editor extends Component {
     constructor(props) {
@@ -87,14 +90,23 @@ class Editor extends Component {
     }
 
     handleGraphUpdate(obj) {
-        if (this.state.gType === 21 && Object.hasOwn(obj, 'gToggle')) {
-            // Update axis dynamically based on this toggle.
-            if (obj.gToggle) {
-                obj.gXAxisMax = 10000;
-                obj.gYAxisMax = 10000;
-            } else {
-                obj.gXAxisMax = 1000;
-                obj.gYAxisMax = 1000;
+        if (this.state.gType === 21) {
+            if (Object.hasOwn(obj, 'gFunctionChoice')) {
+                Object.assign(
+                    obj,
+                    costMinimizingDefaults[obj.gFunctionChoice]);
+            }
+
+            if (Object.hasOwn(obj, 'gToggle')) {
+                // Update axis dynamically based on this toggle.
+                if (obj.gToggle) {
+                    Object.assign(
+                        obj,
+                        costMinimizingDefaults[this.state.gFunctionChoice]);
+                } else {
+                    obj.gXAxisMax = 1000;
+                    obj.gYAxisMax = 1000;
+                }
             }
         }
 
