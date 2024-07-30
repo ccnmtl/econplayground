@@ -5,7 +5,7 @@ export class OptimalChoiceConsumptionGraph extends Graph {
      * This graph displays the function:
      *
      * Line 1: y_1 = (R-px*x_1)/py
-     * 
+     *
      * Line 2: y_2 = (U_star/x^alpha)^(1/beta)
      * Where:
      *   U_star = U(x, y) = x_star^alpha * y_star^beta
@@ -28,7 +28,13 @@ export class OptimalChoiceConsumptionGraph extends Graph {
          */
         const f1 = function(x) {
             // y_1 = (R-px*x_1)/py
-            return (opt.gA3 - (opt.gA1 * x)) / opt.gA2;
+            const result = (opt.gA3 - (opt.gA1 * x)) / opt.gA2;
+
+            if (result < 0) {
+                return NaN;
+            }
+
+            return result;
         };
         const nStar = function(nu, pn) {
             // n_star = (nu/(alpha+beta)) * R/pn
@@ -43,7 +49,7 @@ export class OptimalChoiceConsumptionGraph extends Graph {
             return (UStar / (x ** opt.gA4)) ** (1 / opt.gA5);
         };
 
-        this.l1 = this.board.create('functiongraph', [f1, -30, 30], {
+        this.l1 = this.board.create('functiongraph', [f1, 0, 30], {
             name: this.options.gLine1Label,
             withLabel: true,
             strokeWidth: 2,
@@ -56,7 +62,7 @@ export class OptimalChoiceConsumptionGraph extends Graph {
             recursionDepthHigh: 15
         });
 
-        this.l2 = this.board.create('functiongraph', [f2, -30, 30], {
+        this.l2 = this.board.create('functiongraph', [f2, 0, 30], {
             name: this.options.gLine2Label,
             withLabel: true,
             strokeWidth: 2,
@@ -68,7 +74,7 @@ export class OptimalChoiceConsumptionGraph extends Graph {
             recursionDepthLow: 8,
             recursionDepthHigh: 15
         });
-        
+
         if (this.options.gShowIntersection) {
             const p1 = this.board.create(
                 'point', [nStar(opt.gA4, opt.gA1), 0],
