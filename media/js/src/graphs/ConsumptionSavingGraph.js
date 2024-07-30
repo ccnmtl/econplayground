@@ -19,11 +19,18 @@ export class ConsumptionSavingGraph extends Graph {
 
         if (this.options.shadow && this.options.gDisplayShadow) {
             const f1Shadow = function(x) {
-                return me.options.gA2Initial + (1 + me.options.gA4Initial) *
-                    (me.options.gA1Initial + me.options.gA3Initial - x);
+                const result =  me.options.gA2Initial +
+                      (1 + me.options.gA4Initial) *
+                      (me.options.gA1Initial + me.options.gA3Initial - x);
+
+                if (result < 0) {
+                    return NaN;
+                }
+
+                return result;
             };
 
-            this.board.create('functiongraph', [f1Shadow, -30, 30], {
+            this.board.create('functiongraph', [f1Shadow, 0, 30], {
                 withLabel: false,
                 strokeWidth: 2,
                 strokeColor: this.shadowColor,
@@ -75,11 +82,17 @@ export class ConsumptionSavingGraph extends Graph {
 
         const f1 = function(c1) {
             // c2 = y2 + (1 + r)(y1 + W - c1)
-            return me.options.gA2 + (1 + me.options.gA4) *
-                (me.options.gA1 + me.options.gA3 - c1);
+            const result = me.options.gA2 + (1 + me.options.gA4) *
+                  (me.options.gA1 + me.options.gA3 - c1);
+
+            if (result < 0) {
+                return NaN;
+            }
+
+            return result;
         };
 
-        this.l1 = this.board.create('functiongraph', [f1, -30, 30], {
+        this.l1 = this.board.create('functiongraph', [f1, 0, 30], {
             name: this.options.gLine1Label,
             withLabel: true,
             strokeWidth: 2,
