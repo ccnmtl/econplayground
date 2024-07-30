@@ -13,8 +13,10 @@ export default class CostFunctionsUnitEditor extends React.Component {
                             ${this.props.gA1}+
                             ${this.props.gA2}x+
                             ${this.props.gA3}x^2`;
+
         const func2 = `F_{cost}=a=${this.props.gA1}`;
-        const func3 = 'V_{cost} = Cost - F_{cost}';
+
+        const func3 = 'V_{cost} = bx + cx^2';
 
         return (
             <div>
