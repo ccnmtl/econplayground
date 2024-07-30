@@ -101,7 +101,7 @@ export default class TaxRevenueEditor extends React.Component {
                 {this.default1 && (
                     <button
                         id="resetFunctionValues"
-                        className="btn btn-primary"
+                        className="btn btn-primary mb-2"
                         onClick={this.handleReset}>
                             Reset
                     </button>
@@ -121,10 +121,11 @@ export default class TaxRevenueEditor extends React.Component {
                                 <DefineRange
                                     key={key}
                                     className="col-6"
-                                    id={i[0] + eqNum}
+                                    eqNum={eqNum}
+                                    id={i[0]}
                                     label={i[1]}
                                     rawLabel={true}
-                                    dataId={i[0] + eqNum}
+                                    dataId={i[0]}
                                     min={this.props[i[0] + 'Min' + eqNum]}
                                     max={this.props[i[0] + 'Max' + eqNum]}
                                     handler={handleFormUpdate.bind(this)}/>
