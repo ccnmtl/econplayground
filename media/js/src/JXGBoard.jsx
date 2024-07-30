@@ -296,6 +296,7 @@ export default class JXGBoard extends React.Component {
             'gA4', 'gA4Initial', 'gA4Name',
             'gA5', 'gA5Initial', 'gA5Name',
             'gA6', 'gA7', 'gA8',
+            'gA12', 'gA22', 'gA32', 'gA42', 'gA52',
 
             'gA', 'gK', 'gR', 'gY1', 'gY2',
             'gCobbDouglasA', 'gCobbDouglasAInitial', 'gCobbDouglasAName',
@@ -311,6 +312,7 @@ export default class JXGBoard extends React.Component {
             'gNeedsSubmit', 'submission',
             'shadow',
             'gXAxisMax', 'gXAxisMin', 'gYAxisMax', 'gYAxisMin',
+            'gXAxisMax2', 'gXAxisMin2', 'gYAxisMax2', 'gYAxisMin2',
             'gMajorGridType', 'gMinorGridType'
         ];
         let needsUpdate = false;
@@ -341,12 +343,12 @@ export default class JXGBoard extends React.Component {
         if (this.props.gType === 22) {
             if (this.props.gFunctionChoice === 0) {
                 this.board.setBoundingBox(
-                    [this.props.gYAxisMin - 17, this.props.gYAxisMax,
-                        this.props.gXAxisMax, this.props.gXAxisMin - 11000]);
+                    [this.props.gXAxisMin - 18, this.props.gYAxisMax,
+                        this.props.gXAxisMax, this.props.gYAxisMin - 11000]);
             } else {
                 this.board.setBoundingBox(
-                    [this.props.gYAxisMin2 - 0.07, this.props.gYAxisMax2,
-                        this.props.gXAxisMax2, this.props.gXAxisMin2 - 600]);
+                    [this.props.gXAxisMin2 - 0.07, this.props.gYAxisMax2,
+                        this.props.gXAxisMax2, this.props.gYAxisMin2 - 600]);
                 this.board.defaultAxes.x.name = 'Ad Valorem Tax';
                 this.board.update();
             }
@@ -564,11 +566,11 @@ export default class JXGBoard extends React.Component {
             boundingBox = [0, 12000, 500, 0];
         } else if (options.gType === 22) {
             if (options.gFunctionChoice === 0) {
-                boundingBox = [options.gYAxisMin - 17, options.gYAxisMax,
-                    options.gXAxisMax, options.gXAxisMin - 11000];
+                boundingBox = [options.gXAxisMin - 17, options.gYAxisMax,
+                    options.gXAxisMax, options.gYAxisMin - 11000];
             } else {
-                boundingBox = [options.gYAxisMin - 0.07, options.gYAxisMax,
-                    options.gXAxisMax, options.gXAxisMin - 600];
+                boundingBox = [options.gXAxisMin - 0.07, options.gYAxisMax,
+                    options.gXAxisMax, options.gYAxisMin - 600];
             }
         }
 
