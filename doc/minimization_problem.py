@@ -12,7 +12,7 @@
 #
 
 from sympy import Eq, solve
-from sympy.abc import w, l, r, k, q, alpha, beta, t, a, b, f
+from sympy.abc import w, l, r, k, q, alpha, beta, rho, t, a, b, f
 
 # This example equation specifies the isocost line for a complex set
 # of inputs, described in the ContourPlot section of this answer:
@@ -74,11 +74,32 @@ f3s = Eq(
     (1 + t + a) * w * l + (1 + t + b) * r * k - f
 )
 
+f4 = Eq(
+    (k ** rho + l ** rho) ** (1 / rho),
+    q
+)
+
+f4s = Eq(
+    w *
+    # lStar
+    w ** (1 / (rho - 1)) * q /
+    # x()
+    ((w ** (rho / (rho - 1)) + r ** (rho / (rho - 1))) ** (1 / rho))
+    + r *
+    # kStar
+    r ** (1 / (rho - 1)) * q /
+    # x()
+    ((w ** (rho / (rho - 1)) + r ** (rho / (rho - 1))) ** (1 / rho)),
+    w * l + r * k
+)
+
 
 solutions = solve(equation, k, dict=True)
 solutions_1 = solve(f2s_equation, k, dict=True)
 solutions_isoq3 = solve(isoq3, k, dict=True)
 solutions_f3s = solve(f3s, k, dict=True)
+solutions_f4 = solve(f4, k, dict=True)
+solutions_f4s = solve(f4s, k, dict=True)
 
 
 if __name__ == '__main__':
@@ -86,3 +107,5 @@ if __name__ == '__main__':
     print(solutions_1)
     print(solutions_isoq3)
     print(solutions_f3s)
+    print(solutions_f4)
+    print(solutions_f4s)
