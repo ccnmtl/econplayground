@@ -48,35 +48,6 @@ ASSIGNMENT_TYPES = (
     (2, 'Modification'),
 )
 
-DIRECTION = (
-    (-1, 'Negative'),
-    (0, 'None'),
-    (1, 'Positive'),
-)
-
-QUESTION_FACTORS = [
-    'intersection_label', 'intersection_2_label', 'intersection_3_label',
-    'intersection_horiz_line_label', 'intersection_vert_line_label',
-    'intersection_2_horiz_line_label', 'intersection_2_vert_line_label',
-    'intersection_3_horiz_line_label', 'intersection_3_vert_line_label',
-    'x_axis_label', 'y_axis_label', 'x_axis_2_label', 'y_axis_2_label',
-    'line_1_label', 'line_2_label', 'line_3_label', 'line_4_label',
-    'line_1_slope', 'line_2_slope', 'line_3_slope', 'line_4_slope',
-    'line_1_offset_x', 'line_1_offset_y',
-    'line_2_offset_x', 'line_2_offset_y',
-    'line_3_offset_x', 'line_3_offset_y',
-    'line_4_offset_x', 'line_4_offset_y',
-    'a1', 'a1_name', 'a2', 'a2_name', 'a3', 'a3_name', 'a4', 'a4_name', 'a5',
-    'alpha', 'omega', 'a', 'k', 'r', 'y1', 'y2',
-    'cobb_douglas_a', 'cobb_douglas_a_name',
-    'cobb_douglas_l', 'cobb_douglas_l_name',
-    'cobb_douglas_k', 'cobb_douglas_k_name',
-    'cobb_douglas_alpha', 'cobb_douglas_alpha_name',
-    'cobb_douglas_y_name',
-    'n_name', 'function_choice',
-    'area_a_name', 'area_b_name', 'area_c_name'
-]
-
 
 class Cohort(models.Model):
     """A Cohort is a grouping of instructors and students.
