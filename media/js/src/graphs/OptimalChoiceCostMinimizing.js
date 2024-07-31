@@ -212,7 +212,7 @@ const isoq5 = function(l, q, a, b) {
 
 const f5s = function(l, w, r, q, a, b) {
     let qaStar = 0;
-    if (a * w < b * r) {
+    if (a * w > b * r) {
         qaStar = q / a;
     }
 
@@ -221,11 +221,11 @@ const f5s = function(l, w, r, q, a, b) {
         qbStar = q / b;
     }
 
-    return ((-l) * w + r * (qaStar) + w * (qbStar)) / r;
+    return (-l * w + r * qaStar + w * qbStar) / r;
 };
 
 const lStarValue5 = function(q, w, r, a, b) {
-    if (a * w > b * r) {
+    if (a * w < b * r) {
         return q / b;
     } else {
         return 0;
@@ -233,7 +233,7 @@ const lStarValue5 = function(q, w, r, a, b) {
 };
 
 const kStarValue5 = function(q, w, r, a, b) {
-    if (a * w < b * r) {
+    if (a * w > b * r) {
         return q / a;
     } else {
         return 0;
@@ -261,6 +261,10 @@ const lStarValue6 = function(q, w, r, a, b) {
 
 const kStarValue6 = function(q, w, r, a, b) {
     return q / a;
+};
+
+const f6s = function(l, w, r, q, a, b) {
+    return (b * q * r - a * b * l * w + a * q * w) / (a * b * r);
 };
 
 const optimalBundleColor = 'red';
@@ -399,7 +403,7 @@ export class OptimalChoiceCostMinimizingGraph extends Graph {
                 };
 
                 isocostLine = function(x) {
-                    return f5s(
+                    return f6s(
                         x, me.options.gA1, me.options.gA2, me.options.gA3,
                         me.options.gA4, me.options.gA5);
                 };
