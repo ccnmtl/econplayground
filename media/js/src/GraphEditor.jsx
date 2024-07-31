@@ -114,7 +114,7 @@ export default class GraphEditor extends React.Component {
             <>
                 {jxgBoard}
 
-                <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                <div className="col-lg-6">
                     <h3>Scenario</h3>
                     <div className="form-group">
                         <label htmlFor="gTitle">
@@ -164,7 +164,7 @@ export default class GraphEditor extends React.Component {
                     <form>
                         <div className="row">
                             {common2Graph}
-                            <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                            <div className="col-lg-6">
                                 <DemandSupplyEditor
                                     showAUC={this.props.gType === 9}
                                     {...commonEditorProps}
@@ -188,7 +188,7 @@ export default class GraphEditor extends React.Component {
                     <form>
                         <div className="row">
                             {common2Graph}
-                            <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                            <div className="col-lg-6">
                                 <NonLinearDemandSupplyEditor
                                     hideFunctionChoice={true}
                                     showAUC={this.props.gType === 10}
@@ -315,7 +315,7 @@ export default class GraphEditor extends React.Component {
                     <form>
                         <div className="row">
                             {common2Graph}
-                            <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                            <div className="col-lg-6">
                                 <TaxRevenueEditor
                                     showAUC={this.props.gType === 9}
                                     {...commonEditorProps}
