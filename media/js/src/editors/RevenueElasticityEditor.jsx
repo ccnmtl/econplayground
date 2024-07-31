@@ -24,16 +24,16 @@ export default class RevenueElasticityEditor extends React.Component {
                 <h3>Function</h3>
                 <ul className="col">
                     {[ 
-                        `y_1
+                        `\\text{Linear}
                             =(-1/b)x+c
                             =-x / ${this.props.gA1} +
                             ${this.props.gA2}`,
-                        `y_2
+                        `\\text{Quadratic}
                             =cx-x^2/b
                             =${this.props.gA2}x-x^2/${this.props.gA1}`,
-                        `y_3
-                            =x / a
-                            =x / ${this.props.gA1}`
+                        `\\text{Inverse}
+                            =a / x
+                            =${this.props.gA1} / x`
                     ].map((i, key) => {
                         return (
                             <li key={key} className='form-check'>
