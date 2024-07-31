@@ -211,19 +211,29 @@ const isoq5 = function(l, q, a, b) {
 };
 
 const f5s = function(l, w, r, q, a, b) {
-    return -l * w / r + q * w / (b * r) + q / a;
+    let qaStar = 0;
+    if (a * w < b * r) {
+        qaStar = q / a;
+    }
+
+    let qbStar = 0;
+    if (a * w < b * r) {
+        qbStar = q / b;
+    }
+
+    return ((-l) * w + r * (qaStar) + w * (qbStar)) / r;
 };
 
-const kStarValue5 = function(q, w, r, a, b) {
-    if (a * w < b * r) {
+const lStarValue5 = function(q, w, r, a, b) {
+    if (a * w > b * r) {
         return q / b;
     } else {
         return 0;
     }
 };
 
-const lStarValue5 = function(q, w, r, a, b) {
-    if (a * w > b * r) {
+const kStarValue5 = function(q, w, r, a, b) {
+    if (a * w < b * r) {
         return q / a;
     } else {
         return 0;
@@ -245,15 +255,13 @@ const isoq6 = function(l, q, a, b) {
     }
 };
 
-const kStarValue6 = function(q, w, r, a, b) {
+const lStarValue6 = function(q, w, r, a, b) {
     return q / b;
 };
 
-const lStarValue6 = function(q, w, r, a, b) {
+const kStarValue6 = function(q, w, r, a, b) {
     return q / a;
 };
-
-
 
 const optimalBundleColor = 'red';
 
@@ -399,7 +407,19 @@ export class OptimalChoiceCostMinimizingGraph extends Graph {
 
             this.l2 = this.board.create(
                 'functiongraph',
-                [isoquantLine, 0, this.options.gXAxisMax], {
+                [function(x) {
+                    const result = isoquantLine(x);
+
+                    // Don't render line below 0.
+                    // In jsxgraph we can restrict a functiongraph
+                    // (i.e. a Curve object) by returning NaN.
+                    // https://groups.google.com/g/jsxgraph/c/jhEaxh225VA/m/75LAkgTdBQAJ
+                    if (result < 0) {
+                        return NaN;
+                    }
+
+                    return result;
+                }, 0, this.options.gXAxisMax], {
                     name: 'Isoquant Q^* = ' + this.options.gA3,
                     withLabel: true,
                     label: {
@@ -468,7 +488,19 @@ export class OptimalChoiceCostMinimizingGraph extends Graph {
 
         this.l1 = this.board.create(
             'functiongraph',
-            [isocostLine, 0, this.options.gXAxisMax], {
+            [function(x) {
+                const result = isocostLine(x);
+
+                // Don't render line below 0.
+                // In jsxgraph we can restrict a functiongraph
+                // (i.e. a Curve object) by returning NaN.
+                // https://groups.google.com/g/jsxgraph/c/jhEaxh225VA/m/75LAkgTdBQAJ
+                if (result < 0) {
+                    return NaN;
+                }
+
+                return result;
+            }, 0, this.options.gXAxisMax], {
                 strokeWidth: 2,
                 strokeColor: this.l1Color,
                 fixed: true,
