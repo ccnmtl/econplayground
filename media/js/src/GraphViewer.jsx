@@ -25,6 +25,7 @@ import Feedback from './Feedback.jsx';
 import {
     forceFloat, getOrCreateSubmission, BOARD_WIDTH, BOARD_HEIGHT
 } from './utils';
+import RevenueElasticityEditor from './editors/RevenueElasticityEditor.jsx';
 
 
 /**
@@ -257,6 +258,12 @@ export default class GraphViewer extends React.Component {
         } else if (this.props.gType === 19) {
             rightSide =
                 <CostFunctionsUnitEditor
+                    {...commonViewerProps}
+                    {...this.props}
+                />;
+        } else if (this.props.gType === 20) {
+            rightSide =
+                <RevenueElasticityEditor
                     {...commonViewerProps}
                     {...this.props}
                 />;
