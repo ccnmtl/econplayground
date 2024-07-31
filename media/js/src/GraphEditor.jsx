@@ -148,7 +148,7 @@ export default class GraphEditor extends React.Component {
             </>
         );
 
-        if ([0, 9, 23].includes(this.props.gType)) {
+        if (this.props.gType === 0 || this.props.gType === 9) {
             // Demand-Supply, possibly AUC (area under curve)
             rightSide =
                 <DemandSupplyEditor
