@@ -40,6 +40,7 @@ GRAPH_TYPES = (
 
     (22, 'Tax Rate and Revenue'),
     (23, 'Taxation in Linear Demand and Supply'),
+    (24, 'Tax Supply and Demand vs. Tax Revenue'),
 )
 
 ASSIGNMENT_TYPES = (

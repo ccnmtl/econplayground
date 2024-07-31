@@ -161,6 +161,11 @@ class GraphPickView(EnsureCsrfCookieMixin, CohortInstructorMixin, CreateView):
                     'title': get_graph_name(23),
                     'image': 'graph_types/taxation_linear_demand_supply.png',
                 },
+                {
+                    'graph_type': 24,
+                    'title': get_graph_name(24),
+                    'image': 'tax_revenue.png',
+                },
             ]
         })
         return ctx

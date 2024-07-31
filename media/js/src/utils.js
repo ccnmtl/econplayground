@@ -364,6 +364,9 @@ const displayGraphType = function(gType) {
         case 23:
             name = 'Taxation in Linear Demand and Supply';
             break;
+        case 24:
+            name = 'Tax Supply and Demand vs. Tax Revenue';
+            break;
         default:
             break;
     }
