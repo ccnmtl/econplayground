@@ -21,7 +21,7 @@ class Question(models.Model):
     prompt = models.TextField(blank=True, default='')
 
     graph = models.ForeignKey(
-        Graph, on_delete=models.CASCADE,
+        Graph, on_delete=models.SET_NULL,
         blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
