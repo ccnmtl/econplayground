@@ -10,6 +10,8 @@ import OptimalChoiceConsumptionEditor from './editors/OptimalChoiceConsumption.j
 import CostFunctionsUnitEditor from './editors/CostFunctionsUnitEditor.jsx';
 import OptimalChoiceCostMinimizingEditor from './editors/OptimalChoiceCostMinimizingEditor.jsx';
 import TaxationLinearDemandEditor from './editors/TaxationLinearDemandEditor.jsx';
+import TaxRevenueEditor from './editors/TaxRevenueEditor.jsx';
+import RevenueElasticityEditor from './editors/RevenueElasticityEditor.jsx';
 
 /**
  * GraphForm
@@ -17,6 +19,7 @@ import TaxationLinearDemandEditor from './editors/TaxationLinearDemandEditor.jsx
  * Based on graph type and attributes, display graph form inputs.
  */
 export default function GraphForm({ gType, updateGraph, props }) {
+    console.log('GraphForm', gType, props);
     const commonViewerProps = {
         isInstructor: false,
         displayLabels: true,
@@ -120,7 +123,15 @@ export default function GraphForm({ gType, updateGraph, props }) {
                 {...commonViewerProps}
                 {...props}
             />;
-    } else if (gType === 21) {
+    }else if (gType === 20) {
+        // Cost Function: Unit
+        graphForm =
+            <RevenueElasticityEditor
+                updateGraph={updateGraph}
+                {...commonViewerProps}
+                {...props}
+            />;
+    }  else if (gType === 21) {
         // Optimal Choice: Cost-Minimizing Production Inputs
         graphForm =
             <OptimalChoiceCostMinimizingEditor
@@ -128,9 +139,25 @@ export default function GraphForm({ gType, updateGraph, props }) {
                 {...commonViewerProps}
                 {...props}
             />;
+    } else if (gType === 22) {
+        // Taxation: Linear Demand
+        graphForm =
+            <TaxRevenueEditor
+                updateGraph={updateGraph}
+                {...commonViewerProps}
+                {...props}
+            />;
     } else if (gType === 23) {
         graphForm =
             <TaxationLinearDemandEditor
+                updateGraph={updateGraph}
+                {...commonViewerProps}
+                {...props}
+            />;
+    } else if (gType === 24) {
+        // Taxation: Linear Demand
+        graphForm =
+            <TaxRevenueEditor
                 updateGraph={updateGraph}
                 {...commonViewerProps}
                 {...props}
