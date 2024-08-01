@@ -26,6 +26,7 @@ import {
     forceFloat, getOrCreateSubmission, BOARD_WIDTH, BOARD_HEIGHT
 } from './utils';
 import RevenueElasticityEditor from './editors/RevenueElasticityEditor.jsx';
+import TaxRevenueEditor from './editors/TaxRevenueEditor.jsx';
 
 
 /**
@@ -274,6 +275,13 @@ export default class GraphViewer extends React.Component {
                     {...commonViewerProps}
                     {...this.props}
                 />;
+        } else if (this.props.gType === 22) {
+            rightSide =
+                <TaxRevenueEditor
+                    updateGraph={this.props.updateGraph}
+                    {...commonViewerProps}
+                    {...this.props}
+                />;
         } else if (this.props.gType === 23) {
             rightSide =
                 <TaxationLinearDemandEditor
@@ -281,6 +289,46 @@ export default class GraphViewer extends React.Component {
                     {...commonViewerProps}
                     {...this.props}
                 />;
+        } else if (this.props.gType === 24) {
+            rightSide =
+                <TaxRevenueEditor
+                    updateGraph={this.props.updateGraph}
+                    {...commonViewerProps}
+                    {...this.props}
+                />;
+                
+            return (
+                <div className="GraphViewer">
+                    {titleEl}
+                    {instructionsEl}
+                    <form onSubmit={this.handleSubmit.bind(this)} action={action} method="post">
+                        <input type="hidden" name="csrfmiddlewaretoken" value={token} />
+                        <input type="hidden" name="score" value={this.state.score} />
+                        <input type="hidden" name="next" value={successUrl} />
+                        <input type="hidden" name="launchUrl" value={launchUrl} />
+
+                        <div className="row">
+                            {leftSide}
+                        </div>
+
+                        <Feedback feedback={this.state.currentFeedback} />
+
+                        {rightSide}
+
+                        <ResetGraphButton
+                            initialState={initialState}
+                            updateGraph={this.updateGraph} />
+
+                        <ExportGraphButton />
+
+                        <SubmitButton
+                            assessment={this.props.assessment}
+                            gNeedsSubmit={this.props.gNeedsSubmit}
+                            submission={this.props.submission}
+                            isInstructor={isInstructor} />
+                    </form>
+                </div>
+            );
         }
 
         return (
@@ -489,6 +537,11 @@ GraphViewer.propTypes = {
     gA4Name: PropTypes.string,
     gA4Initial: PropTypes.number,
 
+    gA12: PropTypes.number,
+    gA22: PropTypes.number,
+    gA32: PropTypes.number,
+    gA42: PropTypes.number,
+
     gA5: PropTypes.number,
     gA5Name: PropTypes.string,
     gA5Initial: PropTypes.number,
@@ -502,6 +555,17 @@ GraphViewer.propTypes = {
     gR: PropTypes.number,
     gY1: PropTypes.number,
     gY2: PropTypes.number,
+
+    gXAxisMax: PropTypes.number,
+    gXAxisMin: PropTypes.number,
+    gYAxisMax: PropTypes.number,
+    gYAxisMin: PropTypes.number,
+    
+    gXAxisMax2: PropTypes.number,
+    gXAxisMin2: PropTypes.number,
+    gYAxisMax2: PropTypes.number,
+    gYAxisMin2: PropTypes.number,
+
 
     gCobbDouglasA: PropTypes.number,
     gCobbDouglasAInitial: PropTypes.number,
