@@ -19,7 +19,6 @@ import RevenueElasticityEditor from './editors/RevenueElasticityEditor.jsx';
  * Based on graph type and attributes, display graph form inputs.
  */
 export default function GraphForm({ gType, updateGraph, props }) {
-    console.log('GraphForm', gType, props);
     const commonViewerProps = {
         isInstructor: false,
         displayLabels: true,
