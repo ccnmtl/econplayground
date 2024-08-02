@@ -21,6 +21,9 @@ export default class TaxRevenueEditor extends React.Component {
                 gA4: 2,
                 gA4Max: 35,
                 gA4Min: 0.1,
+                gA5: 0.5,
+                gA5Max: 1,
+                gA5Min: 0,
                 gXAxisMax: 1500,
                 gXAxisMin: 0,
                 gYAxisMax: 500000,
@@ -39,6 +42,9 @@ export default class TaxRevenueEditor extends React.Component {
                 gA42: 6,
                 gA4Max2: 35,
                 gA4Min2: 0.1,
+                gA45: 0.5,
+                gA5Max2: 1,
+                gA5Min2: 0,
                 gXAxisMax2: 6,
                 gXAxisMin2: 0,
                 gYAxisMax2: 25000,
@@ -129,8 +135,19 @@ export default class TaxRevenueEditor extends React.Component {
                                     max={this.props[i[0] + 'Max' + eqNum]}
                                     handler={handleFormUpdate.bind(this)}/>
                             );
-                        })
-                        }
+                        })}
+                        {this.props.gType === 24 && (
+                            <DefineRange
+                                className="col-6"
+                                eqNum={eqNum}
+                                id={'gA5' + eqNum}
+                                label={'Unit Tax'}
+                                rawLabel={true}
+                                dataId={'gA5' + eqNum}
+                                min={this.props['gA5Min' + eqNum]}
+                                max={this.props['gA5Max' + eqNum]}
+                                handler={handleFormUpdate.bind(this)}/>
+                        )}
                     </div>
                 )}
                 {this.props.displaySliders && (
@@ -155,6 +172,18 @@ export default class TaxRevenueEditor extends React.Component {
                                 />
                             );
                         })}
+                        {this.props.gType === 24 && (
+                            <RangeEditor
+                                className="col-6"
+                                label={'Unit Tax'}
+                                rawLabel={true}
+                                id={'gA5' + eqNum}
+                                dataId={'gA5' + eqNum}
+                                value={this.props['gA5' + eqNum]}
+                                min={this.props['gA5Min' + eqNum]}
+                                max={this.props['gA5Max' + eqNum]}
+                                handler={handleFormUpdate.bind(this)}/>
+                        )}
                     </React.Fragment>
                 )}
             </div >
