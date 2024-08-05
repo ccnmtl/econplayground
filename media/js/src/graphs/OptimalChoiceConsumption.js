@@ -1,5 +1,13 @@
 import {Graph, invisiblePointOptions} from './Graph.js';
 
+export const defaults = {
+    gA1: 5,
+    gA2: 10,
+    gA3: 10,
+    gA4: 1,
+    gA5: 1
+};
+
 export class OptimalChoiceConsumptionGraph extends Graph {
     /**
      * This graph displays the function:
@@ -19,7 +27,7 @@ export class OptimalChoiceConsumptionGraph extends Graph {
      * beta -> gA5
      */
     make() {
-        const opt = this.options;
+        const me = this;
 
         /**
          * Derives the y-value for the 'Budget Line' at a given x-value.
@@ -28,7 +36,7 @@ export class OptimalChoiceConsumptionGraph extends Graph {
          */
         const f1 = function(x) {
             // y_1 = (R-px*x_1)/py
-            const result = (opt.gA3 - (opt.gA1 * x)) / opt.gA2;
+            const result = (me.options.gA3 - (me.options.gA1 * x)) / me.options.gA2;
 
             if (result < 0) {
                 return NaN;
@@ -38,50 +46,52 @@ export class OptimalChoiceConsumptionGraph extends Graph {
         };
         const nStar = function(nu, pn) {
             // n_star = (nu/(alpha+beta)) * R/pn
-            return nu/(opt.gA4+opt.gA5) * opt.gA3/pn;
+            return nu / (me.options.gA4+me.options.gA5) * me.options.gA3/pn;
         };
 
         const f2 = function(x) {
             // y_2 = (U_star/x^alpha)^(1/beta)
-            const xStar = nStar(opt.gA4, opt.gA1);
-            const yStar = nStar(opt.gA5, opt.gA2);
-            const UStar = (xStar ** opt.gA4) * (yStar ** opt.gA5);
-            return (UStar / (x ** opt.gA4)) ** (1 / opt.gA5);
+            const xStar = nStar(me.options.gA4, me.options.gA1);
+            const yStar = nStar(me.options.gA5, me.options.gA2);
+            const UStar = (xStar ** me.options.gA4) * (yStar ** me.options.gA5);
+            return (UStar / (x ** me.options.gA4)) ** (1 / me.options.gA5);
         };
 
-        this.l1 = this.board.create('functiongraph', [f1, 0, 30], {
+        this.l2 = this.board.create('functiongraph', [f1, 0, 30], {
+            name: 'IBL',
+            withLabel: true,
+            strokeWidth: 2,
+            strokeColor: this.l2Color,
+            label: {
+                strokeColor: this.l2Color
+            },
+            // This graph is only moved by its RangeEditors, not by
+            // dragging.
+            fixed: true,
+            highlight: false
+        });
+
+        this.l1 = this.board.create('functiongraph', [f2, 0, 30], {
             name: this.options.gLine1Label,
             withLabel: true,
             strokeWidth: 2,
             strokeColor: this.l1Color,
+            label: {
+                strokeColor: this.l2Color
+            },
             // This graph is only moved by its RangeEditors, not by
             // dragging.
             fixed: true,
-            highlight: false,
-            recursionDepthLow: 8,
-            recursionDepthHigh: 15
-        });
-
-        this.l2 = this.board.create('functiongraph', [f2, 0, 30], {
-            name: this.options.gLine2Label,
-            withLabel: true,
-            strokeWidth: 2,
-            strokeColor: this.l2Color,
-            // This graph is only moved by its RangeEditors, not by
-            // dragging.
-            fixed: true,
-            highlight: false,
-            recursionDepthLow: 8,
-            recursionDepthHigh: 15
+            highlight: false
         });
 
         if (this.options.gShowIntersection) {
             const p1 = this.board.create(
-                'point', [nStar(opt.gA4, opt.gA1), 0],
+                'point', [nStar(this.options.gA4, this.options.gA1), 0],
                 invisiblePointOptions);
 
             const p2 = this.board.create(
-                'point', [0, nStar(opt.gA5, opt.gA2)],
+                'point', [0, nStar(this.options.gA5, this.options.gA2)],
                 invisiblePointOptions);
 
             // Make this line invisible - it's actually rendered from

@@ -32,7 +32,7 @@ GRAPH_TYPES = (
 
     (16, 'Template Graph'),
 
-    (17, 'Optimal Choice Consumption'),
+    (17, 'Optimal Choice: Consumption with 2 Goods'),
     (18, 'Cost Functions: Total'),
     (19, 'Cost Functions: Unit'),
     (20, 'Price Elasticity of Demand and Revenue'),

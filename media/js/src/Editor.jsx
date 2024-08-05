@@ -3,6 +3,9 @@ import GraphEditor from './GraphEditor.jsx';
 import { exportGraph, defaultGraph } from './GraphMapping.js';
 import {authedFetch, getError, getCohortId} from './utils.js';
 import {
+    defaults as optimalChoiceConsumptionDefaults
+} from './graphs/OptimalChoiceConsumption.js';
+import {
     defaults as costMinimizingDefaults
 } from './graphs/OptimalChoiceCostMinimizing.js';
 
@@ -123,7 +126,9 @@ class Editor extends Component {
             Object.assign(updateObj, this.defaults);
 
             // Specific defaults based on graph type.
-            if (window.EconPlayground.graphType === 15) {
+            if (window.EconPlayground.graphType === 17) {
+                Object.assign(updateObj, optimalChoiceConsumptionDefaults);
+            } else if (window.EconPlayground.graphType === 15) {
                 updateObj.gA4 = 0.5;
             } else if (window.EconPlayground.graphType === 21) {
                 Object.assign(updateObj, {

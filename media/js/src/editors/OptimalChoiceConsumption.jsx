@@ -2,68 +2,94 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { getKatexEl } from '../katexUtils.jsx';
 import RangeEditor from '../form-components/RangeEditor.jsx';
+import Checkbox from '../form-components/Checkbox.jsx';
 import EditableControl from '../form-components/EditableControl.jsx';
 import { handleFormUpdate } from '../utils.js';
 
 export default class OptimalChoiceConsumptionEditor extends React.Component {
-    constructor(props) {
-        super(props);
-        //set initial state
-        this.props.updateGraph({gA1: 5, gA2: 10, gA3: 10, gA4: 1, gA5: 1});
-    }
-
     render() {
-        const prop = this.props;
-        const nStar = function(nu, pn) {
-            // n_star = (nu/(alpha+beta)) * R/pn
-            return (nu/(prop.gA4+prop.gA5) * prop.gA3/pn).toFixed(4);
-        };
-        const uStar = function() {
-            return ((nStar(prop.gA4, prop.gA1) ** prop.gA4) * (nStar(prop.gA5, prop.gA2) ** prop.gA5)).toFixed(4);
-        };
+        const me = this;
 
-        const formulae = [
-            String.raw`y_1
-                = (R - p_x)x_1 / p_y = (${prop.gA3} - ${prop.gA1}) * x_1 / ${prop.gA2}`,
-            String.raw`x^*
-                = \alpha / (\alpha + \beta) * R / p_x
-                = ${prop.gA4} / (${prop.gA4} + ${prop.gA5}) * ${prop.gA3} / ${prop.gA1}
-                = ${nStar(prop.gA4, prop.gA1)}`,
-            String.raw`y^*
-                = \beta / (\alpha + \beta) * R / p_y
-                = ${prop.gA5} / (${prop.gA4} + ${prop.gA5}) * ${prop.gA3} / ${prop.gA2}
-                = ${nStar(prop.gA5, prop.gA2)}`,
-            String.raw`U^* = (x^*)^\alpha(y^*)^\beta = ${nStar(prop.gA4, prop.gA1)}^${prop.gA4} * ${nStar(prop.gA5, prop.gA2)}^${prop.gA5} = ${uStar()}`,
-            String.raw`y_2
-                = (U^*/x_2^\alpha)^{1/\beta}
-                = (${uStar()} / x_2^{${prop.gA4}})^{1/${prop.gA5}}`,
+        const formula = 'y_1 = \\frac{R - px * x_1}{py}';
+
+        const functionOptionsLeft = [
+            'U(x, y) = x^\\alpha y^\\beta',
+            'U(x, y) = x^\\alpha y^{1 - \\alpha}',
+            'U(x, y) = (x^\\rho + y^\\rho)^{1 / \\rho}',
+            'U(x, y) = \\frac{x^\\rho}{\\rho} + \\frac{y^\\rho}{\\rho}',
         ];
+        const functionOptionsRight = [
+            'U(x, y) = lnx + lny',
+            'U(x, y) = ax + by',
+            'U(x, y) = \\min\\{ax, by\\}',
+            'U(x, y) = a * lnx + by',
+        ];
+        const radioButtons = functionOptionsLeft.map((functionKatex, idx) =>
+            <div key={idx} className="form-check">
+                <input
+                    type="radio" id={`functionChoice-${idx}`}
+                    className="form-check-input"
+                    value={idx}
+                    disabled={this.props.gToggle ? false : true}
+                    name="gFunctionChoice"
+                    checked={this.props.gFunctionChoice === idx}
+                    onChange={handleFormUpdate.bind(this)} />
+                <label
+                    className="form-check-label"
+                    htmlFor={`functionChoice-${idx}`}>
+                    {getKatexEl(functionKatex)}
+                </label>
+            </div>
+        );
 
-        const renderFormula = function(fx, index) {
+        const radioButtons2 = functionOptionsRight.map(function(functionKatex, idx) {
+            const newIdx = idx + functionOptionsLeft.length;
             return (
-                <div className="row" key={index}>
-                    <div className="col-auto">
-                        {getKatexEl(fx)}
-                    </div>
+                <div key={newIdx} className="form-check">
+                    <input
+                        type="radio" id={`functionChoice-${newIdx}`}
+                        className="form-check-input"
+                        value={newIdx}
+                        disabled={me.props.gToggle ? false : true}
+                        name="gFunctionChoice"
+                        checked={me.props.gFunctionChoice === newIdx}
+                        onChange={handleFormUpdate.bind(me)} />
+                    <label
+                        className="form-check-label"
+                        htmlFor={`functionChoice-${newIdx}`}>
+                        {getKatexEl(functionKatex)}
+                    </label>
                 </div>
             );
-        };
+        });
 
         return (
             <div>
                 {this.props.isInstructor &&
-                    <React.Fragment>
-                        <h3>Function</h3>
-                        {formulae.map(renderFormula)}
-                        <hr />
-                    </React.Fragment>
+                    <>
+                        {getKatexEl(formula)}
+                    </>
                 }
+
+                <Checkbox
+                    checked={this.props.gToggle}
+                    id="gToggle"
+                    onChange={handleFormUpdate.bind(this)}
+                    text="Enable Utility Function" />
+
+                <div className="row">
+                    <div className="col">
+                        {radioButtons}
+                    </div>
+                    <div className="col">
+                        {radioButtons2}
+                    </div>
+                </div>
 
                 {this.props.displaySliders && (
                     <React.Fragment>
-                        <h3>Slope</h3>
                         <RangeEditor
-                            label="p_x"
+                            label="px"
                             id="gA1"
                             dataId="gA1"
                             value={this.props.gA1}
@@ -71,7 +97,7 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
                             max={25}
                             handler={handleFormUpdate.bind(this)} />
                         <RangeEditor
-                            label="p_y"
+                            label="py"
                             id="gA2"
                             dataId="gA2"
                             value={this.props.gA2}
@@ -205,6 +231,9 @@ OptimalChoiceConsumptionEditor.propTypes = {
     gA3: PropTypes.number.isRequired,
     gA4: PropTypes.number.isRequired,
     gA5: PropTypes.number.isRequired,
+
+    gToggle: PropTypes.bool.isRequired,
+    gFunctionChoice: PropTypes.number.isRequired,
 
     gLine1Label: PropTypes.string.isRequired,
     gLine2Label: PropTypes.string.isRequired,
