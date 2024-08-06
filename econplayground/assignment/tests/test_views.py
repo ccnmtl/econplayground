@@ -377,6 +377,27 @@ class AssignmentStudentFlowViewTest(
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, 'Correct!')
 
+        # Viewing a question without an assessment
+        r = self.client.get(reverse('step_detail', kwargs={
+            'assignment_pk': assignment.pk,
+            'pk': first_step.pk
+        }))
+
+        self.assertEqual(r.status_code, 200)
+        self.assertNotContains(r, 'Submit')
+        self.assertContains(r, 'Next')
+
+        # Viewing a question with an assessment
+        second_step = first_step.get_next()
+        r = self.client.get(reverse('step_detail', kwargs={
+            'assignment_pk': assignment.pk,
+            'pk': second_step.pk
+        }))
+
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, 'Submit')
+        self.assertNotContains(r, 'Next')
+
     def test_assignment_step_empty_submission(self):
         assignment = self.setup_sample_assignment()
 

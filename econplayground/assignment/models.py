@@ -77,6 +77,13 @@ class Question(models.Model):
     def first_rule(self) -> 'AssessmentRule':
         return self.assessmentrule_set.first()
 
+    @property
+    def has_assessment(self) -> bool:
+        return self.multiplechoice_set.count() > 0 or \
+            self.assessmentrule_set.filter(
+                ~models.Q(assessment_name='')
+            ).count() > 0
+
 
 class QuestionAnalysis(models.Model):
     class Meta:
