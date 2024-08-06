@@ -4,11 +4,18 @@ import GraphEditor from './GraphEditor.jsx';
 import GraphViewer from './GraphViewer.jsx';
 import { exportGraph, importGraph, defaultGraph } from './GraphMapping.js';
 import {
+    defaults as optimalChoiceConsumptionDefaults,
+    untoggledDefaults as untoggledOptimalChoiceConsumptionDefaults
+} from './graphs/OptimalChoiceConsumption.js';
+import {
+    defaults as costFunctionsDefaults
+} from './graphs/CostFunctionsTotalGraph.js';
+import {
     defaults as costMinimizingDefaults
 } from './graphs/OptimalChoiceCostMinimizing.js';
 import {
     authedFetch, getGraphId, getCohortId, getAssessment,
-    getSubmission, getError
+    getSubmission, getError, setDefaults
 } from './utils.js';
 
 class Viewer extends Component {
@@ -214,24 +221,22 @@ class Viewer extends Component {
     }
 
     handleGraphUpdate(obj) {
-        if (this.state.gType === 21) {
-            if (Object.hasOwn(obj, 'gFunctionChoice')) {
-                Object.assign(
-                    obj,
-                    costMinimizingDefaults[obj.gFunctionChoice]);
-            }
-
-            if (Object.hasOwn(obj, 'gToggle')) {
-                // Update axis dynamically based on this toggle.
-                if (obj.gToggle) {
-                    Object.assign(
-                        obj,
-                        costMinimizingDefaults[this.state.gFunctionChoice]);
-                } else {
-                    obj.gXAxisMax = 1000;
-                    obj.gYAxisMax = 1000;
-                }
-            }
+        if (this.state.gType === 17) {
+            obj = setDefaults(
+                obj, optimalChoiceConsumptionDefaults,
+                untoggledOptimalChoiceConsumptionDefaults,
+                this.state.gFunctionChoice);
+        } else if (this.state.gType === 18) {
+            obj = setDefaults(
+                obj, costFunctionsDefaults,
+                costFunctionsDefaults,
+                this.state.gFunctionChoice);
+        } else if (this.state.gType === 21) {
+            obj = setDefaults(
+                obj,
+                costMinimizingDefaults,
+                {gXAxisMax: 1000, gYAxisMax: 1000},
+                this.state.gFunctionChoice);
         }
 
         this.setState(obj);

@@ -1,5 +1,21 @@
 import {Graph} from './Graph.js';
 
+export const defaults = [
+    {
+        gA1: 4000,
+        gA2: 1,
+        gA3: 1,
+        gXAxisMax: 500,
+        gYAxisMax: 10000
+    },
+    {
+        gA1: 2000,
+        gA2: 10,
+        gA3: 2,
+        gXAxisMax: 500,
+        gYAxisMax: 25000
+    }
+];
 
 const cost = function(q, a, b, c) {
     return a + (b * q) + (c * (q ** 2));
@@ -29,37 +45,37 @@ export class CostFunctionsTotalGraph extends Graph {
             return vcost(q, me.options.gA1, me.options.gA2, me.options.gA3);
         };
 
-        this.l1 = this.board.create('functiongraph', [f1, 0, 500], {
+        this.l1 = this.board.create('functiongraph', [
+            f1, 0, this.options.gXAxisMax
+        ], {
             name: 'TC',
             withLabel: true,
             strokeWidth: 2,
             strokeColor: this.l1Color,
             fixed: true,
-            highlight: false,
-            recursionDepthLow: 8,
-            recursionDepthHigh: 15
+            highlight: false
         });
 
-        this.l2 = this.board.create('functiongraph', [f2, 0, 500], {
+        this.l2 = this.board.create('functiongraph', [
+            f2, 0, this.options.gXAxisMax
+        ], {
             name: 'FC',
             withLabel: true,
             strokeWidth: 2,
             strokeColor: this.l2Color,
             fixed: true,
-            highlight: false,
-            recursionDepthLow: 8,
-            recursionDepthHigh: 15
+            highlight: false
         });
 
-        this.l3 = this.board.create('functiongraph', [f3, 0, 500], {
+        this.l3 = this.board.create('functiongraph', [
+            f3, 0, this.options.gXAxisMax
+        ], {
             name: 'VC',
             withLabel: true,
             strokeWidth: 2,
             strokeColor: this.l3Color,
             fixed: true,
-            highlight: false,
-            recursionDepthLow: 8,
-            recursionDepthHigh: 15
+            highlight: false
         });
     }
 }

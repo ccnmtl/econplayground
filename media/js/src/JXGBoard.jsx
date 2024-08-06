@@ -37,10 +37,10 @@ const getNLDSXLabel = function(functionChoice, kName, nName) {
 const calculateBoundingBox = function(xAxisMin, yAxisMin, xAxisMax, yAxisMax) {
     return [
         // Margins depend on graph scale
-        yAxisMin - (yAxisMax * 0.014),
+        xAxisMin - (xAxisMax * 0.014),
         yAxisMax,
         xAxisMax,
-        xAxisMin - (xAxisMax * 0.022)
+        yAxisMin - (yAxisMax * 0.022)
     ];
 };
 
@@ -342,7 +342,7 @@ export default class JXGBoard extends React.Component {
         }
 
         if (needsUpdate) {
-            if (![18, 22, 24].includes(this.props.gType)) {
+            if (![22, 24].includes(this.props.gType)) {
                 let boundingBox = calculateBoundingBox(
                     this.props.gXAxisMin, this.props.gYAxisMin,
                     this.props.gXAxisMax, this.props.gYAxisMax);
@@ -551,6 +551,10 @@ export default class JXGBoard extends React.Component {
                 yAxisLabel = getNLDSYLabel(
                     0, options.gCobbDouglasKName, options.gNName);
                 break;
+            case 18:
+                xTicks = this.visibleTicks;
+                yTicks = xTicks;
+                break;
             case 19:
                 xTicks = this.visibleTicks;
                 yTicks = xTicks;
@@ -593,9 +597,7 @@ export default class JXGBoard extends React.Component {
             options.gXAxisMin, options.gYAxisMin,
             options.gXAxisMax, options.gYAxisMax);
 
-        if (options.gType === 18) {
-            boundingBox = [0, 12000, 500, 0];
-        } else if (options.gType === 22 || options.gType === 24) {
+        if (options.gType === 22 || options.gType === 24) {
             if (options.gFunctionChoice === 0) {
                 boundingBox = [options.gXAxisMin - 17, options.gYAxisMax,
                     options.gXAxisMax, options.gYAxisMin - 11000];
