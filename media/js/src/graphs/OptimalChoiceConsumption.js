@@ -1,11 +1,97 @@
 import {Graph, invisiblePointOptions} from './Graph.js';
 
-export const defaults = {
+export const untoggledDefaults = {
     gA1: 5,
     gA2: 10,
-    gA3: 10,
-    gA4: 1,
-    gA5: 1
+    gA3: 2500,
+    gLine1Label: 'U*',
+    gLine2Label: 'IBL',
+    gIntersectionLabel: 'Optimal Bundle',
+    gXAxisMax: 1000,
+    gYAxisMax: 1000
+};
+
+export const defaults = [
+    {
+        gA1: 5,
+        gA2: 10,
+        gA3: 2500,
+        gA4: 1,
+        gA5: 1
+    },
+    {
+        gA1: 5,
+        gA2: 10,
+        gA3: 2500,
+        gA4: 0.5
+    },
+    {
+        gA1: 5,
+        gA2: 10,
+        gA3: 2500,
+        gA4: 0.5
+    },
+    {
+        gA1: 5,
+        gA2: 10,
+        gA3: 2500,
+        gA4: 0.5
+    },
+    {
+        gA1: 5,
+        gA2: 10,
+        gA3: 2500
+    },
+    {
+        gA1: 5,
+        gA2: 10,
+        gA3: 2500,
+        gA4: 5,
+        gA5: 1
+    },
+    {
+        gA1: 5,
+        gA2: 10,
+        gA3: 2500,
+        gA4: 1,
+        gA5: 1
+    },
+    {
+        gA1: 5,
+        gA2: 10,
+        gA3: 2500,
+        gA4: 50,
+        gA5: 1
+    }
+];
+
+/**
+ * Derives the y-value for the 'Budget Line' at a given x-value.
+ * @param {number} x - The 'Budget Line' x-value.
+ * @returns The corresponding y-value for the 'Budget Line'.
+ */
+const f1 = function(x, R, px, py) {
+    // y_1 = (R-px*x_1)/py
+    const result = (R - (px * x)) / py;
+
+    if (result < 0) {
+        return NaN;
+    }
+
+    return result;
+};
+
+const nStar = function(nu, pn, R, alpha, beta) {
+    return nu / (alpha + beta) * R / pn;
+};
+
+const f2 = function(x, px, py, R, alpha, beta) {
+    const xStar = nStar(alpha, px, R, alpha, beta);
+    const yStar = nStar(beta, py, R, alpha, beta);
+    const UStar = (xStar ** alpha) * (yStar ** beta);
+
+    // y_2 = (U_star/x^alpha)^(1/beta)
+    return (UStar / (x ** alpha)) ** (1 / beta);
 };
 
 export class OptimalChoiceConsumptionGraph extends Graph {
@@ -29,69 +115,65 @@ export class OptimalChoiceConsumptionGraph extends Graph {
     make() {
         const me = this;
 
-        /**
-         * Derives the y-value for the 'Budget Line' at a given x-value.
-         * @param {number} x - The 'Budget Line' x-value.
-         * @returns The corresponding y-value for the 'Budget Line'.
-         */
-        const f1 = function(x) {
-            // y_1 = (R-px*x_1)/py
-            const result = (me.options.gA3 - (me.options.gA1 * x)) / me.options.gA2;
-
-            if (result < 0) {
-                return NaN;
-            }
-
-            return result;
-        };
-        const nStar = function(nu, pn) {
-            // n_star = (nu/(alpha+beta)) * R/pn
-            return nu / (me.options.gA4+me.options.gA5) * me.options.gA3/pn;
+        const iblLine = function(x) {
+            return f1(x, me.options.gA3, me.options.gA1, me.options.gA2);
         };
 
-        const f2 = function(x) {
-            // y_2 = (U_star/x^alpha)^(1/beta)
-            const xStar = nStar(me.options.gA4, me.options.gA1);
-            const yStar = nStar(me.options.gA5, me.options.gA2);
-            const UStar = (xStar ** me.options.gA4) * (yStar ** me.options.gA5);
-            return (UStar / (x ** me.options.gA4)) ** (1 / me.options.gA5);
-        };
-
-        this.l2 = this.board.create('functiongraph', [f1, 0, 30], {
-            name: 'IBL',
+        this.l2 = this.board.create('functiongraph', [iblLine, 0, 1000], {
+            name: this.options.gLine2Label,
             withLabel: true,
             strokeWidth: 2,
             strokeColor: this.l2Color,
             label: {
                 strokeColor: this.l2Color
             },
-            // This graph is only moved by its RangeEditors, not by
-            // dragging.
             fixed: true,
             highlight: false
         });
 
-        this.l1 = this.board.create('functiongraph', [f2, 0, 30], {
-            name: this.options.gLine1Label,
-            withLabel: true,
-            strokeWidth: 2,
-            strokeColor: this.l1Color,
-            label: {
-                strokeColor: this.l2Color
-            },
-            // This graph is only moved by its RangeEditors, not by
-            // dragging.
-            fixed: true,
-            highlight: false
-        });
+        if (this.options.gToggle) {
+            let uStarLine = function() {};
 
-        if (this.options.gShowIntersection) {
+            if (this.options.gFunctionChoice === 0) {
+                uStarLine = function(x) {
+                    return f2(
+                        x, me.options.gA1, me.options.gA2,
+                        me.options.gA3, me.options.gA4, me.options.gA5);
+                };
+            }
+
+            this.l1 = this.board.create('functiongraph', [uStarLine, 0, 1000], {
+                name: this.options.gLine1Label,
+                withLabel: true,
+                strokeWidth: 2,
+                strokeColor: this.l1Color,
+                label: {
+                    strokeColor: this.l1Color
+                },
+                fixed: true,
+                highlight: false
+            });
+        }
+
+        if (this.options.gShowIntersection && this.options.gToggle) {
             const p1 = this.board.create(
-                'point', [nStar(this.options.gA4, this.options.gA1), 0],
+                'point', [
+                    nStar(
+                        this.options.gA4, this.options.gA1,
+                        this.options.gA3, this.options.gA4,
+                        this.options.gA5),
+                    0
+                ],
                 invisiblePointOptions);
 
             const p2 = this.board.create(
-                'point', [0, nStar(this.options.gA5, this.options.gA2)],
+                'point', [
+                    0,
+                    nStar(
+                        this.options.gA5, this.options.gA2,
+                        this.options.gA3, this.options.gA4,
+                        this.options.gA5)
+                ],
                 invisiblePointOptions);
 
             // Make this line invisible - it's actually rendered from
@@ -107,10 +189,7 @@ export class OptimalChoiceConsumptionGraph extends Graph {
             });
 
             this.intersection = this.showIntersection(
-                this.l1, l2, false,
-                this.options.gIntersectionLabel,
-                this.options.gIntersectionHorizLineLabel,
-                this.options.gIntersectionVertLineLabel);
+                this.l1, l2, false, this.options.gIntersectionLabel);
         }
     }
 }

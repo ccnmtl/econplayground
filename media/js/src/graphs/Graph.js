@@ -110,6 +110,8 @@ export class Graph {
         this.shadowColor = 'rgb(200, 200, 200)';
         this.shadowAreaColor = 'rgb(150, 150, 150)';
 
+        this.optimalBundleColor = 'red';
+
         this.options = applyDefaults(options, defaults);
 
         this.areLinesFixed = this.options.locked ||

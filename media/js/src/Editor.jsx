@@ -3,7 +3,8 @@ import GraphEditor from './GraphEditor.jsx';
 import { exportGraph, defaultGraph } from './GraphMapping.js';
 import {authedFetch, getError, getCohortId} from './utils.js';
 import {
-    defaults as optimalChoiceConsumptionDefaults
+    defaults as optimalChoiceConsumptionDefaults,
+    untoggledDefaults as untoggledOptimalChoiceConsumptionDefaults
 } from './graphs/OptimalChoiceConsumption.js';
 import {
     defaults as costMinimizingDefaults
@@ -93,7 +94,28 @@ class Editor extends Component {
     }
 
     handleGraphUpdate(obj) {
-        if (this.state.gType === 21) {
+        if (this.state.gType === 17) {
+            if (Object.hasOwn(obj, 'gFunctionChoice')) {
+                Object.assign(
+                    obj,
+                    optimalChoiceConsumptionDefaults[obj.gFunctionChoice]);
+            }
+
+            if (Object.hasOwn(obj, 'gToggle')) {
+                // Update axis dynamically based on this toggle.
+                if (obj.gToggle) {
+                    Object.assign(
+                        obj,
+                        optimalChoiceConsumptionDefaults[
+                            this.state.gFunctionChoice]);
+                } else {
+                    Object.assign(
+                        obj,
+                        untoggledOptimalChoiceConsumptionDefaults[
+                            this.state.gFunctionChoice]);
+                }
+            }
+        } else if (this.state.gType === 21) {
             if (Object.hasOwn(obj, 'gFunctionChoice')) {
                 Object.assign(
                     obj,
@@ -127,7 +149,8 @@ class Editor extends Component {
 
             // Specific defaults based on graph type.
             if (window.EconPlayground.graphType === 17) {
-                Object.assign(updateObj, optimalChoiceConsumptionDefaults);
+                Object.assign(
+                    updateObj, untoggledOptimalChoiceConsumptionDefaults);
             } else if (window.EconPlayground.graphType === 15) {
                 updateObj.gA4 = 0.5;
             } else if (window.EconPlayground.graphType === 21) {
