@@ -8,7 +8,6 @@ export default class CostFunctionsTotalEditor extends React.Component {
     render() {
         return (
             <div>
-                <h3>Function</h3>
                 <div className="col">
                     <div>
                         {getKatexEl(`Cost=a+bx+cx^2=
@@ -32,7 +31,7 @@ export default class CostFunctionsTotalEditor extends React.Component {
                             dataId="gA1"
                             value={this.props.gA1}
                             min={0}
-                            max={4000}
+                            max={10000}
                             handler={handleFormUpdate.bind(this)} />
                         <RangeEditor
                             label="b"
@@ -40,7 +39,7 @@ export default class CostFunctionsTotalEditor extends React.Component {
                             dataId="gA2"
                             value={this.props.gA2}
                             min={0}
-                            max={1}
+                            max={30}
                             handler={handleFormUpdate.bind(this)} />
                         <RangeEditor
                             label="c"
@@ -48,7 +47,7 @@ export default class CostFunctionsTotalEditor extends React.Component {
                             dataId="gA3"
                             value={this.props.gA3}
                             min={0}
-                            max={1}
+                            max={30}
                             handler={handleFormUpdate.bind(this)} />
 
                     </React.Fragment>

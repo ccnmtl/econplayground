@@ -2,6 +2,46 @@
 
 const BOARD_WIDTH = 540;
 const BOARD_HEIGHT = 300;
+const GRID_MAJOR = [
+    {
+        face: 'line',
+        size: 5,
+        strokeColor: '#ffffff',
+    },
+    {
+        face: 'point',
+        size: 4,
+        strokeColor: '#bfbfbf',
+        strokeOpacity: 1,
+    },
+    {
+        face: 'line',
+        size: 2,
+        strokeColor: '#bfbfbf',
+        strokeOpacity: 1,
+    }
+];
+
+// In case we end up using minor grid markers
+const GRID_MINOR = [
+    {
+        face: 'line',
+        size: 0,
+        strokeColor: '#ffffff',
+    },
+    {
+        face: 'point',
+        size: 3,
+        strokeColor: '#efefef',
+        strokeOpacity: 1,
+    },
+    {
+        face: 'line',
+        size: 1,
+        strokeColor: '#efefef',
+        strokeOpacity: 1,
+    }
+];
 
 /**
  * A wrapper for `fetch` that passes along auth credentials.
@@ -399,52 +439,41 @@ const btnStep = function(val, sign, strength, min, max) {
     return forceFloat(val);
 };
 
-const GRID_MAJOR = [
-    {
-        face: 'line',
-        size: 5,
-        strokeColor: '#ffffff',
-    },
-    {
-        face: 'point',
-        size: 4,
-        strokeColor: '#bfbfbf',
-        strokeOpacity: 1,
-    },
-    {
-        face: 'line',
-        size: 2,
-        strokeColor: '#bfbfbf',
-        strokeOpacity: 1,
+/**
+ * Set defaults to the given state object based on toggle and function
+ * choice.
+ *
+ * Returns an object.
+ */
+const setDefaults = function(
+    obj, defaults, untoggledDefaults, functionChoice
+) {
+    if (Object.hasOwn(obj, 'gFunctionChoice')) {
+        Object.assign(
+            obj,
+            defaults[obj.gFunctionChoice]);
     }
-];
 
-// In case we end up using minor grid markers
-const GRID_MINOR = [
-    {
-        face: 'line',
-        size: 0,
-        strokeColor: '#ffffff',
-    },
-    {
-        face: 'point',
-        size: 3,
-        strokeColor: '#efefef',
-        strokeOpacity: 1,
-    },
-    {
-        face: 'line',
-        size: 1,
-        strokeColor: '#efefef',
-        strokeOpacity: 1,
+    if (Object.hasOwn(obj, 'gToggle')) {
+        if (obj.gToggle) {
+            Object.assign(
+                obj,
+                defaults[functionChoice]);
+        } else {
+            Object.assign(obj, untoggledDefaults);
+        }
     }
-];
+
+    return obj;
+};
 
 export {
+    BOARD_HEIGHT, BOARD_WIDTH, GRID_MAJOR, GRID_MINOR,
+
     authedFetch, getAssessment, getQuestion, getMultipleChoice, getEvaluations,
     getGraph, getGraphId, getCohortId, getTopics, getSubmission,
     getUserAssignment, createSubmission, getOrCreateSubmission,
     getL1SubmissionOffset, getL2SubmissionOffset, handleFormUpdate, getOffset,
     getXIntercept, getYIntercept, forceFloat, forceNumber, displayGraphType,
-    getError, btnStep, BOARD_HEIGHT, BOARD_WIDTH, GRID_MAJOR, GRID_MINOR
+    getError, btnStep, setDefaults
 };

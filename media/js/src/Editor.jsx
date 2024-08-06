@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
 import GraphEditor from './GraphEditor.jsx';
 import { exportGraph, defaultGraph } from './GraphMapping.js';
-import {authedFetch, getError, getCohortId} from './utils.js';
 import {
     defaults as optimalChoiceConsumptionDefaults,
     untoggledDefaults as untoggledOptimalChoiceConsumptionDefaults
 } from './graphs/OptimalChoiceConsumption.js';
 import {
+    defaults as costFunctionsDefaults
+} from './graphs/CostFunctionsTotalGraph.js';
+import {
     defaults as costMinimizingDefaults
 } from './graphs/OptimalChoiceCostMinimizing.js';
+import {
+    authedFetch, getError, getCohortId, setDefaults
+} from './utils.js';
 
 class Editor extends Component {
     constructor(props) {
@@ -95,44 +100,21 @@ class Editor extends Component {
 
     handleGraphUpdate(obj) {
         if (this.state.gType === 17) {
-            if (Object.hasOwn(obj, 'gFunctionChoice')) {
-                Object.assign(
-                    obj,
-                    optimalChoiceConsumptionDefaults[obj.gFunctionChoice]);
-            }
-
-            if (Object.hasOwn(obj, 'gToggle')) {
-                // Update axis dynamically based on this toggle.
-                if (obj.gToggle) {
-                    Object.assign(
-                        obj,
-                        optimalChoiceConsumptionDefaults[
-                            this.state.gFunctionChoice]);
-                } else {
-                    Object.assign(
-                        obj,
-                        untoggledOptimalChoiceConsumptionDefaults[
-                            this.state.gFunctionChoice]);
-                }
-            }
+            obj = setDefaults(
+                obj, optimalChoiceConsumptionDefaults,
+                untoggledOptimalChoiceConsumptionDefaults,
+                this.state.gFunctionChoice);
+        } else if (this.state.gType === 18) {
+            obj = setDefaults(
+                obj, costFunctionsDefaults,
+                costFunctionsDefaults,
+                this.state.gFunctionChoice);
         } else if (this.state.gType === 21) {
-            if (Object.hasOwn(obj, 'gFunctionChoice')) {
-                Object.assign(
-                    obj,
-                    costMinimizingDefaults[obj.gFunctionChoice]);
-            }
-
-            if (Object.hasOwn(obj, 'gToggle')) {
-                // Update axis dynamically based on this toggle.
-                if (obj.gToggle) {
-                    Object.assign(
-                        obj,
-                        costMinimizingDefaults[this.state.gFunctionChoice]);
-                } else {
-                    obj.gXAxisMax = 1000;
-                    obj.gYAxisMax = 1000;
-                }
-            }
+            obj = setDefaults(
+                obj,
+                costMinimizingDefaults,
+                {gXAxisMax: 1000, gYAxisMax: 1000},
+                this.state.gFunctionChoice);
         }
 
         this.setState(obj);
@@ -148,11 +130,13 @@ class Editor extends Component {
             Object.assign(updateObj, this.defaults);
 
             // Specific defaults based on graph type.
-            if (window.EconPlayground.graphType === 17) {
+            if (window.EconPlayground.graphType === 15) {
+                updateObj.gA4 = 0.5;
+            } else if (window.EconPlayground.graphType === 17) {
                 Object.assign(
                     updateObj, untoggledOptimalChoiceConsumptionDefaults);
-            } else if (window.EconPlayground.graphType === 15) {
-                updateObj.gA4 = 0.5;
+            } else if (window.EconPlayground.graphType === 18) {
+                Object.assign(updateObj, costFunctionsDefaults[0]);
             } else if (window.EconPlayground.graphType === 21) {
                 Object.assign(updateObj, {
                     gA1: 5,
