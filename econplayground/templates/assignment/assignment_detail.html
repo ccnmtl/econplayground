@@ -20,18 +20,27 @@
 
 {% block pagetitle %}
     <div class="float-end">
-        <a class="btn btn-secondary display-inline mx-2"
-           role="button"
-           href="{% url 'assignment_detail_student' object.pk %}"
-           title="Student preview of {{ object.title }}">
-            Student Preview
-        </a>
-        <a class="btn btn-secondary display-inline"
-           role="button"
-           href="{% url 'assignment_assignment_edit' object.pk %}"
-           title="Edit {{ object.title }}">
-            Edit
-        </a>
+        <form name="save" method="post"
+            action="{% url 'tree_edit' object.pk %}">
+            {% csrf_token %}
+            <input name="action" value="save" type="hidden" />
+            <button type="submit" class="btn btn-primary"
+                    title="Save step state">
+                Save
+            </button>
+            <a class="btn btn-secondary display-inline mx-2"
+               role="button"
+               href="{% url 'assignment_detail_student' object.pk %}"
+               title="Student preview of {{ object.title }}">
+                Student Preview
+            </a>
+            <a class="btn btn-secondary display-inline"
+               role="button"
+               href="{% url 'assignment_assignment_edit' object.pk %}"
+               title="Edit {{ object.title }}">
+                Edit
+            </a>
+        </form>
     </div>
 
     <h1>{{ object.title }}</h1>
