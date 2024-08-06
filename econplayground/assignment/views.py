@@ -377,13 +377,16 @@ class StepDetailView(LoginRequiredMixin, DetailView):
             self.object.assignment.pk, self.object.pk)
         submission = self.request.session.get(step_name)
 
+        assessment = False
         if self.object.question:
             multiple_choice = self.object.question.multiplechoice_set.all()
+            assessment = len(self.object.question.assessmentrule_set.all()) > 0
         else:
             multiple_choice = []
 
         ctx.update({
             'assignment': assignment,
+            'has_assessment': assessment,
             'next_url': next_url,
             'next_incorrect_url': next_incorrect_url,
             'prev_url': prev_url,
