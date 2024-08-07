@@ -551,6 +551,10 @@ export default class JXGBoard extends React.Component {
                 yAxisLabel = getNLDSYLabel(
                     0, options.gCobbDouglasKName, options.gNName);
                 break;
+            case 17:
+                xTicks = this.visibleTicks;
+                yTicks = xTicks;
+                break;
             case 18:
                 xTicks = this.visibleTicks;
                 yTicks = xTicks;
