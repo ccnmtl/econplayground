@@ -519,8 +519,6 @@ GraphViewer.propTypes = {
     gLine2Dashed: PropTypes.bool.isRequired,
     gLine3Dashed: PropTypes.bool.isRequired,
 
-    gAlpha: PropTypes.number,
-
     gA1: PropTypes.number,
     gA1Name: PropTypes.string,
     gA1Initial: PropTypes.number,

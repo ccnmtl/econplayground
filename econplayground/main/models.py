@@ -255,12 +255,6 @@ class Graph(OrderedModel):
     line_4_label = models.TextField(blank=True, null=True, default='')
     line_4_dashed = models.BooleanField(default=False)
 
-    # TODO: migrate these to a1, a2, etc.
-    alpha = models.DecimalField(
-        max_digits=12, decimal_places=4, default=Decimal('0.3'))
-    omega = models.DecimalField(
-        max_digits=12, decimal_places=4, default=Decimal('0'))
-
     # Arbitrary number storage to be used as needed for the altering
     # functions of the various graph types.
     #

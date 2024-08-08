@@ -455,8 +455,6 @@ GraphEditor.propTypes = {
     gAssignmentType: PropTypes.number,
     gNeedsSubmit: PropTypes.bool,
 
-    gAlpha: PropTypes.number,
-
     gA1: PropTypes.number,
     gA1Name: PropTypes.string,
     gA1Max: PropTypes.number,

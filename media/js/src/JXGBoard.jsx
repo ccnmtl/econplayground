@@ -305,7 +305,7 @@ export default class JXGBoard extends React.Component {
             'gLine2OffsetYInitial', 'gLine3OffsetX', 'gLine3OffsetY',
             'gLine3OffsetXInitial', 'gLine3OffsetYInitial', 'gLine4OffsetX',
             'gLine4OffsetY', 'gLine4OffsetXInitial', 'gLine4OffsetYInitial',
-            'gLine1Dashed', 'gLine2Dashed', 'gLine3Dashed', 'gAlpha',
+            'gLine1Dashed', 'gLine2Dashed', 'gLine3Dashed',
 
             'gA1', 'gA1Initial', 'gA1Name',
             'gA2', 'gA2Initial', 'gA2Name',
@@ -841,8 +841,6 @@ JXGBoard.propTypes = {
     gLine1Dashed: PropTypes.bool,
     gLine2Dashed: PropTypes.bool,
     gLine3Dashed: PropTypes.bool,
-
-    gAlpha: PropTypes.number,
 
     gA1: PropTypes.number,
     gA1Initial: PropTypes.number,

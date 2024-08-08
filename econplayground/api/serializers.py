@@ -117,9 +117,6 @@ class GraphSerializer(serializers.ModelSerializer):
             'line_4_offset_y',
             'line_4_dashed',
 
-            'alpha',
-            'omega',
-
             'a1', 'a1_name', 'a1_min', 'a1_max',
             'a2', 'a2_name', 'a2_min', 'a2_max',
             'a3', 'a3_name', 'a3_min', 'a3_max',
