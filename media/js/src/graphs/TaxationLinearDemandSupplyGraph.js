@@ -66,7 +66,15 @@ class TaxationLinearDemandSupplyGraph extends Graph {
         };
         this.l1 = this.board.create(
             'functiongraph',
-            [l1func, 0, this.options.gXAxisMax], {
+            [function(x) {
+                const result = l1func(x);
+
+                if (result < 0) {
+                    return NaN;
+                }
+
+                return result;
+            }, 0, this.options.gXAxisMax], {
                 strokeWidth: 2,
                 strokeColor: this.l1Color,
                 fixed: true,
@@ -79,7 +87,15 @@ class TaxationLinearDemandSupplyGraph extends Graph {
         };
         this.l2 = this.board.create(
             'functiongraph',
-            [l2func, 0, this.options.gXAxisMax], {
+            [function(x) {
+                const result = l2func(x);
+
+                if (result < 0) {
+                    return NaN;
+                }
+
+                return result;
+            }, 0, this.options.gXAxisMax], {
                 strokeWidth: 2,
                 strokeColor: this.l2Color,
                 fixed: true,
