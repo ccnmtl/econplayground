@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import RangeEditor from '../form-components/RangeEditor.jsx';
-import MinMaxEditor from '../form-components/MinMaxEditor.jsx';
 import { handleFormUpdate } from '../utils.js';
 import { getKatexEl } from '../katexUtils.jsx';
 
@@ -44,15 +43,11 @@ export default class CostFunctionsTotalEditor extends React.Component {
                             </label>
                             <RangeEditor
                                 id="gA1"
+                                name={this.props.gA1Name}
                                 value={this.props.gA1}
                                 min={this.props.gA1Min}
                                 max={this.props.gA1Max}
-                                handler={handleFormUpdate.bind(this)} />
-                            <MinMaxEditor
-                                id="gA1"
-                                label={this.props.gA1Name}
-                                min={this.props.gA1Min}
-                                max={this.props.gA1Max}
+                                showMinMaxEditor={true}
                                 handler={handleFormUpdate.bind(this)} />
                         </div>
 
@@ -74,15 +69,11 @@ export default class CostFunctionsTotalEditor extends React.Component {
                             </label>
                             <RangeEditor
                                 id="gA2"
+                                name={this.props.gA2Name}
                                 value={this.props.gA2}
                                 min={this.props.gA2Min}
                                 max={this.props.gA2Max}
-                                handler={handleFormUpdate.bind(this)} />
-                            <MinMaxEditor
-                                id="gA2"
-                                label={this.props.gA2Name}
-                                min={this.props.gA2Min}
-                                max={this.props.gA2Max}
+                                showMinMaxEditor={true}
                                 handler={handleFormUpdate.bind(this)} />
                         </div>
 
@@ -104,15 +95,11 @@ export default class CostFunctionsTotalEditor extends React.Component {
                             </label>
                             <RangeEditor
                                 id="gA3"
+                                name={this.props.gA3Name}
                                 value={this.props.gA3}
                                 min={this.props.gA3Min}
                                 max={this.props.gA3Max}
-                                handler={handleFormUpdate.bind(this)} />
-                            <MinMaxEditor
-                                id="gA3"
-                                label={this.props.gA3Name}
-                                min={this.props.gA3Min}
-                                max={this.props.gA3Max}
+                                showMinMaxEditor={true}
                                 handler={handleFormUpdate.bind(this)} />
                         </div>
 
