@@ -3,15 +3,21 @@ import {Graph} from './Graph.js';
 export const defaults = [
     {
         gA1: 4000,
+        gA1Name: 'a',
         gA2: 1,
+        gA2Name: 'b',
         gA3: 1,
+        gA3Name: 'c',
         gXAxisMax: 500,
         gYAxisMax: 10000
     },
     {
         gA1: 2000,
+        gA1Name: 'a',
         gA2: 10,
+        gA2Name: 'b',
         gA3: 2,
+        gA3Name: 'c',
         gXAxisMax: 500,
         gYAxisMax: 25000
     }
