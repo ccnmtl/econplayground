@@ -63,9 +63,6 @@ const exportGraph = function(state) {
         line_3_dashed: state.gLine3Dashed,
         line_4_dashed: state.gLine4Dashed,
 
-        alpha: forceFloat(state.gAlpha),
-        omega: forceFloat(state.gOmega),
-
         a1: forceFloat(state.gA1),
         a1_name: state.gA1Name,
         a1_max: forceFloat(state.gA1Max),
@@ -231,9 +228,6 @@ const convertGraph = function(json) {
         gLine3Dashed: json.line_3_dashed,
         gLine4Dashed: json.line_4_dashed,
 
-        gAlpha: forceFloat(json.alpha),
-        gOmega: forceFloat(json.omega),
-
         gA1: forceFloat(json.a1),
         gA1Name: json.a1_name,
         gA1Max: forceFloat(json.a1_max),
@@ -386,9 +380,6 @@ const importGraph = function(json, obj, callback=null) {
         gLine2Dashed: json.line_2_dashed,
         gLine3Dashed: json.line_3_dashed,
         gLine4Dashed: json.line_4_dashed,
-
-        gAlpha: forceFloat(json.alpha),
-        gOmega: forceFloat(json.omega),
 
         gA1: forceFloat(json.a1),
         gA1Name: json.a1_name,
@@ -567,9 +558,6 @@ const defaultGraph = {
     gYAxisLabel: '',
     gXAxis2Label: '',
     gYAxis2Label: '',
-
-    gAlpha: 0.3,
-    gOmega: 1,
 
     gA1: null,
     gA1Name: '',
