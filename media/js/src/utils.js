@@ -439,34 +439,6 @@ const btnStep = function(val, sign, strength, min, max) {
     return forceFloat(val);
 };
 
-/**
- * Set defaults to the given state object based on toggle and function
- * choice.
- *
- * Returns an object.
- */
-const setDefaults = function(
-    obj, defaults, untoggledDefaults, functionChoice
-) {
-    if (Object.hasOwn(obj, 'gFunctionChoice')) {
-        Object.assign(
-            obj,
-            defaults[obj.gFunctionChoice]);
-    }
-
-    if (Object.hasOwn(obj, 'gToggle')) {
-        if (obj.gToggle) {
-            Object.assign(
-                obj,
-                defaults[functionChoice]);
-        } else {
-            Object.assign(obj, untoggledDefaults);
-        }
-    }
-
-    return obj;
-};
-
 export {
     BOARD_HEIGHT, BOARD_WIDTH, GRID_MAJOR, GRID_MINOR,
 
@@ -475,5 +447,5 @@ export {
     getUserAssignment, createSubmission, getOrCreateSubmission,
     getL1SubmissionOffset, getL2SubmissionOffset, handleFormUpdate, getOffset,
     getXIntercept, getYIntercept, forceFloat, forceNumber, displayGraphType,
-    getError, btnStep, setDefaults
+    getError, btnStep
 };

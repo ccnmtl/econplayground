@@ -1,5 +1,12 @@
 import {Graph, getIntersectionPointOptions} from './Graph.js';
 
+export const defaults = {
+    gA1Name: 'A',
+    gA2Name: 'L',
+    gA3Name: 'K',
+    gA5Name: 'Y'
+};
+
 class CobbDouglasGraph extends Graph {
     make() {
         const me = this;

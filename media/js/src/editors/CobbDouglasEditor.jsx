@@ -7,10 +7,10 @@ import { handleFormUpdate } from '../utils.js';
 
 export default class CobbDouglasEditor extends React.Component {
     render() {
-        let tex = String.raw`= ${this.props.gA1Name}${this.props.gA3Name}^\alpha ${this.props.gA2Name}^{1 - \alpha}`;
+        let tex = `= ${this.props.gA1Name}${this.props.gA3Name}^{\\alpha} ${this.props.gA2Name}^{1 - \\alpha}`;
 
         if (!this.props.isInstructor) {
-            tex = String.raw`${this.props.gA5Name} ${tex}`;
+            tex = `${this.props.gA5Name} ${tex}`;
         }
 
         return (

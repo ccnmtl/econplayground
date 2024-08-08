@@ -1,19 +1,10 @@
 import React, { Component } from 'react';
 import GraphEditor from './GraphEditor.jsx';
 import { exportGraph, defaultGraph } from './GraphMapping.js';
+import { authedFetch, getError, getCohortId } from './utils.js';
 import {
-    defaults as optimalChoiceConsumptionDefaults,
-    untoggledDefaults as untoggledOptimalChoiceConsumptionDefaults
-} from './graphs/OptimalChoiceConsumption.js';
-import {
-    defaults as costFunctionsDefaults
-} from './graphs/CostFunctionsTotalGraph.js';
-import {
-    defaults as costMinimizingDefaults
-} from './graphs/OptimalChoiceCostMinimizing.js';
-import {
-    authedFetch, getError, getCohortId, setDefaults
-} from './utils.js';
+    setDynamicGraphDefaults, getDefaultGraphState
+} from './graphUtils.js';
 
 class Editor extends Component {
     constructor(props) {
@@ -99,25 +90,9 @@ class Editor extends Component {
     }
 
     handleGraphUpdate(obj) {
-        if (this.state.gType === 17) {
-            obj = setDefaults(
-                obj, optimalChoiceConsumptionDefaults,
-                untoggledOptimalChoiceConsumptionDefaults,
-                this.state.gFunctionChoice);
-        } else if (this.state.gType === 18) {
-            obj = setDefaults(
-                obj, costFunctionsDefaults,
-                costFunctionsDefaults,
-                this.state.gFunctionChoice);
-        } else if (this.state.gType === 21) {
-            obj = setDefaults(
-                obj,
-                costMinimizingDefaults,
-                {gXAxisMax: 1000, gYAxisMax: 1000},
-                this.state.gFunctionChoice);
-        }
+        const updateObj = setDynamicGraphDefaults(this.state, obj);
 
-        this.setState(obj);
+        this.setState(updateObj);
     }
     componentDidMount() {
         const me = this;
@@ -129,38 +104,8 @@ class Editor extends Component {
 
             Object.assign(updateObj, this.defaults);
 
-            // Specific defaults based on graph type.
-            if (window.EconPlayground.graphType === 15) {
-                updateObj.gA4 = 0.5;
-            } else if (window.EconPlayground.graphType === 17) {
-                Object.assign(
-                    updateObj, untoggledOptimalChoiceConsumptionDefaults);
-            } else if (window.EconPlayground.graphType === 18) {
-                Object.assign(updateObj, costFunctionsDefaults[0]);
-            } else if (window.EconPlayground.graphType === 21) {
-                Object.assign(updateObj, {
-                    gA1: 5,
-                    gA2: 10,
-                    gA3: 2500,
-                    gA4: 0.5,
-                    gA5: 0.5,
-                    gA6: 0,
-                    gA7: 0,
-                    gA8: 0,
-                    gXAxisMax: 1000,
-                    gYAxisMax: 1000
-                });
-            } else if (window.EconPlayground.graphType === 23) {
-                Object.assign(updateObj, {
-                    gA1: 1500,
-                    gA2: 100,
-                    gA3: 0,
-                    gLine1Slope: 2,
-                    gLine2Slope: 2,
-                    gXAxisMax: 1000,
-                    gYAxisMax: 2500
-                });
-            }
+            updateObj = getDefaultGraphState(
+                window.EconPlayground.graphType, updateObj);
 
             this.setState(updateObj);
         }

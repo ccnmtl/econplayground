@@ -4,19 +4,12 @@ import GraphEditor from './GraphEditor.jsx';
 import GraphViewer from './GraphViewer.jsx';
 import { exportGraph, importGraph, defaultGraph } from './GraphMapping.js';
 import {
-    defaults as optimalChoiceConsumptionDefaults,
-    untoggledDefaults as untoggledOptimalChoiceConsumptionDefaults
-} from './graphs/OptimalChoiceConsumption.js';
-import {
-    defaults as costFunctionsDefaults
-} from './graphs/CostFunctionsTotalGraph.js';
-import {
-    defaults as costMinimizingDefaults
-} from './graphs/OptimalChoiceCostMinimizing.js';
-import {
-    authedFetch, getGraphId, getCohortId, getAssessment,
-    getSubmission, getError, setDefaults
+    authedFetch, getGraphId, getCohortId, getAssessment, getSubmission,
+    getError
 } from './utils.js';
+import {
+    setDynamicGraphDefaults
+} from './graphUtils.js';
 
 class Viewer extends Component {
     constructor(props) {
@@ -221,25 +214,9 @@ class Viewer extends Component {
     }
 
     handleGraphUpdate(obj) {
-        if (this.state.gType === 17) {
-            obj = setDefaults(
-                obj, optimalChoiceConsumptionDefaults,
-                untoggledOptimalChoiceConsumptionDefaults,
-                this.state.gFunctionChoice);
-        } else if (this.state.gType === 18) {
-            obj = setDefaults(
-                obj, costFunctionsDefaults,
-                costFunctionsDefaults,
-                this.state.gFunctionChoice);
-        } else if (this.state.gType === 21) {
-            obj = setDefaults(
-                obj,
-                costMinimizingDefaults,
-                {gXAxisMax: 1000, gYAxisMax: 1000},
-                this.state.gFunctionChoice);
-        }
+        const updateObj = setDynamicGraphDefaults(this.state, obj);
 
-        this.setState(obj);
+        this.setState(updateObj);
     }
     updateDisplayIntersection(checked) {
         this.setState({gShowIntersection: checked});
