@@ -84,7 +84,6 @@ export default class CostFunctionsUnitEditor extends React.Component {
                                     key={key}
                                     label={i[1]}
                                     id={i[0]}
-                                    dataId={i[0]}
                                     value={this.props[i[0]]}
                                     min={this.props[i[0] + 'Min']}
                                     max={this.props[i[0] + 'Max']}

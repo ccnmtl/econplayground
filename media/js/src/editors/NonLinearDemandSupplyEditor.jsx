@@ -51,7 +51,7 @@ export default class NonLinearDemandSupplyEditor extends React.Component {
                             <h3>Slope</h3>
                             <RangeEditor
                                 label="\text{Orange line slope}"
-                                dataId="gLine1Slope"
+                                id="gLine1Slope"
                                 value={this.props.gLine1Slope}
                                 showOverrideButton={true}
                                 overrideLabel='Vertical'
@@ -76,7 +76,7 @@ export default class NonLinearDemandSupplyEditor extends React.Component {
                                 )}
                             </label>
                             <RangeEditor
-                                dataId="gCobbDouglasA"
+                                id="gCobbDouglasA"
                                 value={this.props.gCobbDouglasA}
                                 handler={handleFormUpdate.bind(this)}
                                 step={0.1}
@@ -96,7 +96,7 @@ export default class NonLinearDemandSupplyEditor extends React.Component {
                                 ) : this.props.gCobbDouglasKName)}
                             </label>
                             <RangeEditor
-                                dataId="gCobbDouglasK"
+                                id="gCobbDouglasK"
                                 value={this.props.gCobbDouglasK}
                                 handler={handleFormUpdate.bind(this)}
                                 min={0}

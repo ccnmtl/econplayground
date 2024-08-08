@@ -51,7 +51,6 @@ export default class TaxationLinearDemandEditor extends React.Component {
                     label="Choke Price"
                     rawLabel={true}
                     id="gA1"
-                    dataId="gA1"
                     value={this.props.gA1}
                     min={0}
                     max={10000}
@@ -61,7 +60,6 @@ export default class TaxationLinearDemandEditor extends React.Component {
                     label="Demand Slope"
                     rawLabel={true}
                     id="gLine2Slope"
-                    dataId="gLine2Slope"
                     value={this.props.gLine2Slope}
                     min={0.01}
                     max={35}
@@ -71,7 +69,6 @@ export default class TaxationLinearDemandEditor extends React.Component {
                     label="Reservation Price"
                     rawLabel={true}
                     id="gA2"
-                    dataId="gA2"
                     value={this.props.gA2}
                     min={0}
                     max={10000}
@@ -81,7 +78,6 @@ export default class TaxationLinearDemandEditor extends React.Component {
                     label="Supply Slope"
                     rawLabel={true}
                     id="gLine1Slope"
-                    dataId="gLine1Slope"
                     value={this.props.gLine1Slope}
                     min={0.01}
                     max={35}
@@ -92,7 +88,6 @@ export default class TaxationLinearDemandEditor extends React.Component {
                         label="Unit Tax"
                         rawLabel={true}
                         id="gA3"
-                        dataId="gA3"
                         value={this.props.gA3}
                         min={0}
                         max={1500}
@@ -104,7 +99,6 @@ export default class TaxationLinearDemandEditor extends React.Component {
                         label="Tax Rate"
                         rawLabel={true}
                         id="gA3"
-                        dataId="gA3"
                         value={this.props.gA3}
                         min={0}
                         max={2}

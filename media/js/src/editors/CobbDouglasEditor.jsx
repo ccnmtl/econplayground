@@ -60,7 +60,7 @@ export default class CobbDouglasEditor extends React.Component {
                             )}
                         </label>
                         <RangeEditor
-                            dataId="gA1"
+                            id="gA1"
                             value={this.props.gA1}
                             handler={handleFormUpdate.bind(this)}
                             min={0} />
@@ -79,13 +79,13 @@ export default class CobbDouglasEditor extends React.Component {
                             )}
                         </label>
                         <RangeEditor
-                            dataId="gA3"
+                            id="gA3"
                             value={this.props.gA3}
                             handler={handleFormUpdate.bind(this)}
                             min={0} />
                         <RangeEditor
                             label="\alpha"
-                            dataId="gA4"
+                            id="gA4"
                             value={this.props.gA4}
                             handler={handleFormUpdate.bind(this)}
                             min={0}
@@ -107,7 +107,7 @@ export default class CobbDouglasEditor extends React.Component {
                             )}
                         </label>
                         <RangeEditor
-                            dataId="gA2"
+                            id="gA2"
                             value={this.props.gA2}
                             handler={handleFormUpdate.bind(this)}
                             min={0}
