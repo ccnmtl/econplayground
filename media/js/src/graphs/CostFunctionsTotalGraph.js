@@ -4,20 +4,32 @@ export const defaults = [
     {
         gA1: 4000,
         gA1Name: 'a',
+        gA1Min: 0,
+        gA1Max: 10000,
         gA2: 1,
         gA2Name: 'b',
+        gA2Min: 0,
+        gA2Max: 30,
         gA3: 1,
         gA3Name: 'c',
+        gA3Min: 0,
+        gA3Max: 30,
         gXAxisMax: 500,
         gYAxisMax: 10000
     },
     {
         gA1: 2000,
         gA1Name: 'a',
+        gA1Min: 0,
+        gA1Max: 10000,
         gA2: 10,
         gA2Name: 'b',
+        gA2Min: 0,
+        gA2Max: 30,
         gA3: 2,
         gA3Name: 'c',
+        gA3Min: 0,
+        gA3Max: 30,
         gXAxisMax: 500,
         gYAxisMax: 25000
     }

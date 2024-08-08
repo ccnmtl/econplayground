@@ -53,8 +53,8 @@ export default class RangeEditor extends React.Component {
                                         className="d-inline form-range w-90"
                                         aria-label={this.props.note}
                                         id={this.props.id}
-                                        data-id={this.props.dataId}
-                                        name={this.props.dataId}
+                                        data-id={this.props.id}
+                                        name={this.props.id}
                                         type="range"
                                         onChange={this.props.handler}
                                         value={this.props.value}
@@ -78,7 +78,7 @@ export default class RangeEditor extends React.Component {
                                 className="btn btn-primary ms-1"
                                 aria-label={'Decrease by ' + (Number(this.props.step) * 10 || 0.1)}
                                 id={this.props.id}
-                                data-id={this.props.dataId}
+                                data-id={this.props.id}
                                 type="button"
                                 onClick={this.props.handler}
                                 disabled={this.props.disabled}
@@ -96,7 +96,7 @@ export default class RangeEditor extends React.Component {
                                 className="btn btn-primary ms-1"
                                 aria-label={'Increase by ' + (Number(this.props.step) * 10 || 0.1)}
                                 id={this.props.id}
-                                data-id={this.props.dataId}
+                                data-id={this.props.id}
                                 type="button"
                                 onClick={this.props.handler}
                                 disabled={this.props.disabled}
@@ -115,7 +115,7 @@ export default class RangeEditor extends React.Component {
                                 aria-label={'Input: ' + this.props.value}
                                 type="number"
                                 id={this.props.id}
-                                data-id={this.props.dataId}
+                                data-id={this.props.id}
                                 value={this.props.value}
                                 onChange={this.validateInput.bind(this)}
                                 step={Number(this.props.step) || 0.01}
@@ -131,7 +131,7 @@ export default class RangeEditor extends React.Component {
                             <div className="form-check form-check-inline">
                                 <label className="form-check-label">
                                     <input
-                                        data-id={this.props.dataId}
+                                        data-id={this.props.id}
                                         data-override={this.props.overrideValue}
                                         className="form-check-input override"
                                         type="radio"
@@ -146,7 +146,7 @@ export default class RangeEditor extends React.Component {
                             <div className="form-check form-check-inline">
                                 <label className="form-check-label">
                                     <input
-                                        data-id={this.props.dataId}
+                                        data-id={this.props.id}
                                         data-override={this.props.override2Value}
                                         className="form-check-input override"
                                         type="radio"
@@ -184,8 +184,7 @@ RangeEditor.defaultProps = {
 };
 
 RangeEditor.propTypes = {
-    id: PropTypes.string,
-    dataId: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
     handler: PropTypes.func.isRequired,
     value: PropTypes.number.isRequired,
     step: PropTypes.number,
