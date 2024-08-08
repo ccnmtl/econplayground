@@ -25,7 +25,7 @@
     {% for step in tree %}
         <div class="assignment-step">
             <div class="mb-1 row">
-                <div class="col-sm-7">
+                <div class="col-auto">
                     <a class="ep-step-name"
                        href="{% url 'step_detail' object.pk step.id %}">
                         {% step_name step.id %}
@@ -49,16 +49,19 @@
                         <input name="action" value="rename_step" type="hidden" />
                         <input name="step_id" value="{{step.id}}" type="hidden" />
                         <input name="step_name" value="" type="hidden" />
+
                         <button type="button"
                                 class="btn btn-sm btn-secondary ep-step-rename"
                                 title="Rename step">
                             <i class="bi bi-pencil"></i>
-                            <button type="submit"
-                                    class="btn btn-sm btn-primary ep-step-rename-save"
-                                    style="display: none;"
-                                    title="Save">
-                                <i class="bi bi-floppy"></i>
-                            </button>
+                        </button>
+
+                        <button type="submit"
+                                class="btn btn-sm btn-primary ep-step-rename-save"
+                                style="display: none;"
+                                title="Save">
+                            <i class="bi bi-floppy"></i>
+                        </button>
                     </form>
 
                     <form name="remove_step" method="post"
