@@ -451,27 +451,27 @@ export class OptimalChoiceConsumptionGraph extends Graph {
                 fixed: true,
                 highlight: false
             });
-
-            this.l2 = this.board.create('functiongraph', [function(x) {
-                const result = iblLine(x);
-
-                if (result < 0) {
-                    return NaN;
-                }
-
-                return result;
-            }, 0, 1000], {
-                name: this.options.gLine2Label,
-                withLabel: true,
-                strokeWidth: 2,
-                strokeColor: this.l2Color,
-                label: {
-                    strokeColor: this.l2Color
-                },
-                fixed: true,
-                highlight: false
-            });
         }
+
+        this.l2 = this.board.create('functiongraph', [function(x) {
+            const result = iblLine(x);
+
+            if (result < 0) {
+                return NaN;
+            }
+
+            return result;
+        }, 0, 1000], {
+            name: this.options.gLine2Label,
+            withLabel: true,
+            strokeWidth: 2,
+            strokeColor: this.l2Color,
+            label: {
+                strokeColor: this.l2Color
+            },
+            fixed: true,
+            highlight: false
+        });
 
         if (
             this.options.gShowIntersection && this.options.gToggle &&
