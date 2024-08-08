@@ -130,7 +130,6 @@ export default class TaxRevenueEditor extends React.Component {
                                     id={i[0]}
                                     label={i[1]}
                                     rawLabel={true}
-                                    dataId={i[0]}
                                     min={this.props[i[0] + 'Min' + eqNum]}
                                     max={this.props[i[0] + 'Max' + eqNum]}
                                     handler={handleFormUpdate.bind(this)}/>
@@ -143,7 +142,6 @@ export default class TaxRevenueEditor extends React.Component {
                                 id={'gA5' + eqNum}
                                 label={'Unit Tax'}
                                 rawLabel={true}
-                                dataId={'gA5' + eqNum}
                                 min={this.props['gA5Min' + eqNum]}
                                 max={this.props['gA5Max' + eqNum]}
                                 handler={handleFormUpdate.bind(this)}/>
@@ -164,7 +162,6 @@ export default class TaxRevenueEditor extends React.Component {
                                     label={i[1]}
                                     rawLabel={true}
                                     id={i[0] + eqNum}
-                                    dataId={i[0] + eqNum}
                                     value={this.props[i[0] + eqNum]}
                                     min={this.props[i[0] + 'Min' + eqNum]}
                                     max={this.props[i[0] + 'Max' + eqNum]}
@@ -178,7 +175,6 @@ export default class TaxRevenueEditor extends React.Component {
                                 label={'Unit Tax'}
                                 rawLabel={true}
                                 id={'gA5' + eqNum}
-                                dataId={'gA5' + eqNum}
                                 value={this.props['gA5' + eqNum]}
                                 min={this.props['gA5Min' + eqNum]}
                                 max={this.props['gA5Max' + eqNum]}

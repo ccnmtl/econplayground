@@ -38,7 +38,6 @@ export default class ConsumptionSavingEditor extends React.Component {
                         <RangeEditor
                             label="y_1"
                             id="gA1"
-                            dataId="gA1"
                             value={this.props.gA1}
                             min={0}
                             max={5}
@@ -46,7 +45,6 @@ export default class ConsumptionSavingEditor extends React.Component {
                         <RangeEditor
                             label="y_2"
                             id="gA2"
-                            dataId="gA2"
                             value={this.props.gA2}
                             min={0}
                             max={5}
@@ -54,7 +52,6 @@ export default class ConsumptionSavingEditor extends React.Component {
                         <RangeEditor
                             label="W"
                             id="gA3"
-                            dataId="gA3"
                             value={this.props.gA3}
                             min={-5}
                             max={5}
@@ -62,7 +59,6 @@ export default class ConsumptionSavingEditor extends React.Component {
                         <RangeEditor
                             label="r"
                             id="gA4"
-                            dataId="gA4"
                             value={this.props.gA4}
                             min={-1}
                             max={10}
@@ -71,7 +67,6 @@ export default class ConsumptionSavingEditor extends React.Component {
                             <RangeEditor
                                 label="\beta"
                                 id="gA5"
-                                dataId="gA5"
                                 value={this.props.gA5}
                                 min={0}
                                 max={1}

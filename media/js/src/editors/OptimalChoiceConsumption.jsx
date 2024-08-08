@@ -70,7 +70,6 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
                     <RangeEditor
                         label="\alpha"
                         id="gA4"
-                        dataId="gA4"
                         value={this.props.gA4}
                         min={0.01}
                         max={5}
@@ -79,7 +78,6 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
                     <RangeEditor
                         label="\beta"
                         id="gA5"
-                        dataId="gA5"
                         value={this.props.gA5}
                         min={0.01}
                         max={5}
@@ -89,7 +87,6 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
                     <RangeEditor
                         label="\alpha"
                         id="gA4"
-                        dataId="gA4"
                         value={this.props.gA4}
                         min={0.01}
                         max={0.99}
@@ -99,7 +96,6 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
                     <RangeEditor
                         label="\rho"
                         id="gA4"
-                        dataId="gA4"
                         value={this.props.gA4}
                         min={-10}
                         max={0.99}
@@ -109,7 +105,6 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
                     <RangeEditor
                         label="\delta"
                         id="gA4"
-                        dataId="gA4"
                         value={this.props.gA4}
                         min={-10}
                         max={0.99}
@@ -120,7 +115,6 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
                     <RangeEditor
                         label="a"
                         id="gA4"
-                        dataId="gA4"
                         value={this.props.gA4}
                         min={0}
                         max={25}
@@ -129,7 +123,6 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
                     <RangeEditor
                         label="b"
                         id="gA5"
-                        dataId="gA5"
                         value={this.props.gA5}
                         min={0}
                         max={25}
@@ -139,7 +132,6 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
                     <RangeEditor
                         label="a"
                         id="gA4"
-                        dataId="gA4"
                         value={this.props.gA4}
                         min={0.01}
                         max={25}
@@ -148,7 +140,6 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
                     <RangeEditor
                         label="b"
                         id="gA5"
-                        dataId="gA5"
                         value={this.props.gA5}
                         min={0.01}
                         max={25}
@@ -158,7 +149,6 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
                     <RangeEditor
                         label="a"
                         id="gA4"
-                        dataId="gA4"
                         value={this.props.gA4}
                         min={0}
                         max={500}
@@ -167,7 +157,6 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
                     <RangeEditor
                         label="b"
                         id="gA5"
-                        dataId="gA5"
                         value={this.props.gA5}
                         min={0.01}
                         max={25}
@@ -206,7 +195,6 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
                         <RangeEditor
                             label="px"
                             id="gA1"
-                            dataId="gA1"
                             value={this.props.gA1}
                             min={0}
                             max={30}
@@ -215,7 +203,6 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
                         <RangeEditor
                             label="py"
                             id="gA2"
-                            dataId="gA2"
                             value={this.props.gA2}
                             min={0.01}
                             max={30}
@@ -224,7 +211,6 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
                         <RangeEditor
                             label="R"
                             id="gA3"
-                            dataId="gA3"
                             value={this.props.gA3}
                             min={0}
                             max={5000}

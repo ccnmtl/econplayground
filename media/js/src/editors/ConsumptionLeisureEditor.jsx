@@ -34,7 +34,6 @@ export default class ConsumptionLeisureEditor extends React.Component {
                         <RangeEditor
                             label="\text{Horizontal intercept value: }T"
                             id="gA1"
-                            dataId="gA1"
                             value={this.props.gA1}
                             min={0}
                             max={9}
@@ -42,7 +41,6 @@ export default class ConsumptionLeisureEditor extends React.Component {
                         <RangeEditor
                             label="\text{Real Wage: }w"
                             id="gA2"
-                            dataId="gA2"
                             value={this.props.gA2}
                             min={0}
                             max={5}
@@ -51,7 +49,6 @@ export default class ConsumptionLeisureEditor extends React.Component {
                             <RangeEditor
                                 label="\text{Rel. Preference: }\alpha"
                                 id="gA3"
-                                dataId="gA3"
                                 value={this.props.gA3}
                                 min={0}
                                 max={0.99999}
@@ -60,7 +57,6 @@ export default class ConsumptionLeisureEditor extends React.Component {
                         <RangeEditor
                             label="\text{Tax Rate: }t"
                             id="gA4"
-                            dataId="gA4"
                             value={this.props.gA4}
                             min={0}
                             max={0.99999}

@@ -48,7 +48,7 @@ export default class ADASEditor extends React.Component {
                         <h3>Slope</h3>
                         <RangeEditor
                             label="\text{Orange line slope}"
-                            dataId="gLine1Slope"
+                            id="gLine1Slope"
                             value={this.props.gLine1Slope}
                             min={0}
                             max={5}
@@ -61,7 +61,7 @@ export default class ADASEditor extends React.Component {
                             handler={handleFormUpdate.bind(this)} />
                         <RangeEditor
                             label="\text{Blue line slope}"
-                            dataId="gLine2Slope"
+                            id="gLine2Slope"
                             min={-5}
                             max={0}
                             value={this.props.gLine2Slope}
@@ -74,7 +74,7 @@ export default class ADASEditor extends React.Component {
                             handler={handleFormUpdate.bind(this)} />
                         <RangeEditor
                             label="\text{Red line slope}"
-                            dataId="gLine3Slope"
+                            id="gLine3Slope"
                             value={this.props.gLine3Slope}
                             min={-5}
                             max={5}

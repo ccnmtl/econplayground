@@ -105,7 +105,7 @@ export default class CobbDouglasNLDSEditor extends React.Component {
                                 )}
                             </label>
                             <RangeEditor
-                                dataId="gCobbDouglasA"
+                                id="gCobbDouglasA"
                                 value={this.props.gCobbDouglasA}
                                 handler={handleFormUpdate.bind(this)}
                                 min={0} />
@@ -124,13 +124,13 @@ export default class CobbDouglasNLDSEditor extends React.Component {
                                 )}
                             </label>
                             <RangeEditor
-                                dataId="gCobbDouglasK"
+                                id="gCobbDouglasK"
                                 value={this.props.gCobbDouglasK}
                                 handler={handleFormUpdate.bind(this)}
                                 min={0} />
                             <RangeEditor
                                 label="\alpha"
-                                dataId="gCobbDouglasAlpha"
+                                id="gCobbDouglasAlpha"
                                 value={this.props.gCobbDouglasAlpha}
                                 handler={handleFormUpdate.bind(this)}
                                 min={0}
@@ -152,14 +152,14 @@ export default class CobbDouglasNLDSEditor extends React.Component {
                                 )}
                             </label>
                             <RangeEditor
-                                dataId="gCobbDouglasL"
+                                id="gCobbDouglasL"
                                 value={this.props.gCobbDouglasL}
                                 handler={handleFormUpdate.bind(this)}
                                 min={0}
                                 max={10} />
                             <RangeEditor
                                 label="\text{Orange line slope}"
-                                dataId="gLine1Slope"
+                                id="gLine1Slope"
                                 value={this.props.gLine1Slope}
                                 min={0}
                                 showOverrideButton={true}
