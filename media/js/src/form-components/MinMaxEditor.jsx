@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 export default class MinMaxEditor extends React.Component {
     render() {
         return (
-            <div className="input-group w-50">
+            <div className="input-group">
                 <label
                     className="input-group-text"
                     htmlFor={this.props.id + 'Min'}>

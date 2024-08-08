@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { getKatexEl } from '../katexUtils.jsx';
 import { btnStep } from '../utils.js';
+import MinMaxEditor from './MinMaxEditor.jsx';
 
 /**
  * RangeEditor is a re-usable component that creates an <input> with
@@ -71,6 +72,14 @@ export default class RangeEditor extends React.Component {
                                 </div>
                             </label>
                         </div>
+                        {this.props.showMinMaxEditor && (
+                            <MinMaxEditor
+                                id={this.props.id}
+                                label={this.props.name}
+                                min={this.props.min}
+                                max={this.props.max}
+                                handler={this.props.handler} />
+                        )}
                     </div>
                     <div className="col-5">
                         <div className="mb-2 input-group">
@@ -179,6 +188,7 @@ RangeEditor.defaultProps = {
     override2Label: '',
     override2Value: 0,
     showMinMax: false,
+    showMinMaxEditor: false,
     showValue: true,
     disabled: false
 };
@@ -186,6 +196,7 @@ RangeEditor.defaultProps = {
 RangeEditor.propTypes = {
     id: PropTypes.string.isRequired,
     handler: PropTypes.func.isRequired,
+    name: PropTypes.string,
     value: PropTypes.number.isRequired,
     step: PropTypes.number,
     min: PropTypes.number,
@@ -202,6 +213,7 @@ RangeEditor.propTypes = {
     override2Label: PropTypes.string,
     override2Value: PropTypes.number,
     showMinMax: PropTypes.bool,
+    showMinMaxEditor: PropTypes.bool,
     note: PropTypes.string,
     showNote: PropTypes.bool,
     showValue: PropTypes.bool,
