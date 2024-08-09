@@ -18,7 +18,6 @@ export default class GraphPreview extends React.Component {
         const me = this;
 
         getGraph(this.props.gId).then(json => {
-            console.log('loaded', json);
             if (json) {
                 importGraph(json, me);
             }
@@ -45,7 +44,7 @@ export default class GraphPreview extends React.Component {
 
         let graph = <p>No Graph Found.</p>;
 
-        if (this.props.gId) {
+        if (this.props.gId && this.state.gType) {
             graph = (
                 <JXGBoard
                     className='row'
@@ -56,12 +55,13 @@ export default class GraphPreview extends React.Component {
                     {...this.state}
                 />
             );
+        } else {
+            graph = <p>Loading...</p>;
         }
+
         return (
             <div className="GraphPreview p-2">
-                <h4><strong>{
-                    this.state.gTitle ? this.state.gTitle : 'No graph selected'
-                }</strong></h4>
+                <h4>{this.state.gTitle ? this.state.gTitle : 'No graph selected'}</h4>
                 <p>{this.state.gInstructions}</p>
                 <div className="row bg-white mb-2 overflow-hidden">
                     {graph}
