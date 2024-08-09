@@ -4,7 +4,7 @@ import GraphPreview from './GraphPreview.jsx';
 
 const rootMC = {};
 
-function initGraphPreview(domElement, gId= null) {
+function initGraphPreview(domElement, gId=null) {
     const container = domElement;
     if (container) {
         if (!(container.id in rootMC)) {

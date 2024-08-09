@@ -92,8 +92,8 @@
                                     {% endfor %}
                                 </select>
                             </div>
-                            
-                            <div class="container mb-2 accordion">
+
+                            <div class="mb-2 accordion">
                                 <div class="accordion-item">
                                     <div class="accordion-header"
                                         id="heading-{{question.pk}}">
@@ -116,7 +116,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>                            
+                            </div>
 
                             <!-- Rubric React component -->
                             <div id="question-rubric-{{question.pk}}"></div>
@@ -125,8 +125,8 @@
                                 Save
                             </button>
                             <button type="submit" class="btn btn-info"
-                                formaction="{% url 'assignment_question_preview' assignment.pk question.pk %}"    
-                                id="question-preview" value="preview" 
+                                formaction="{% url 'assignment_question_preview' assignment.pk question.pk %}"
+                                id="question-preview" value="preview"
                             >
                                 Save and Preview
                             </button>
@@ -157,7 +157,7 @@ function selectQuestion(selectEl, questionId) {
         console.error(
             'Multiple Choice could not be initialized for question ' + questionId);
     }
-    
+
     if (window.initGraphPreview) {
         const containerId = `graph-preview-${questionId}`;
         const container = document.getElementById(containerId);
