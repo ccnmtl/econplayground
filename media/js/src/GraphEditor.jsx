@@ -12,8 +12,7 @@ import TemplateGraphEditor from './editors/TemplateGraphEditor.jsx';
 import CommonGraphEditor from './editors/CommonGraphEditor.jsx';
 import CommonGraphSettings from './editors/CommonGraphSettings.jsx';
 import OptimalChoiceConsumptionEditor from './editors/OptimalChoiceConsumption.jsx';
-import CostFunctionsTotalEditor from './editors/CostFunctionsTotalEditor.jsx';
-import CostFunctionsUnitEditor from './editors/CostFunctionsUnitEditor.jsx';
+import CostFunctionsEditor from './editors/CostFunctionsEditor.jsx';
 import RevenueElasticityEditor from './editors/RevenueElasticityEditor.jsx';
 import OptimalChoiceCostMinimizingEditor from './editors/OptimalChoiceCostMinimizingEditor.jsx';
 import TaxationLinearDemandEditor from './editors/TaxationLinearDemandEditor.jsx';
@@ -268,15 +267,7 @@ export default class GraphEditor extends React.Component {
                 />;
         } else if (this.props.gType === 18) {
             rightSide =
-                <CostFunctionsTotalEditor
-                    {...commonEditorProps}
-                    {...this.props}
-                />;
-        } else if (this.props.gType === 19) {
-            rightSide =
-                <CostFunctionsUnitEditor
-                    isEditing={true}
-                    updateGraph={this.props.updateGraph}
+                <CostFunctionsEditor
                     {...commonEditorProps}
                     {...this.props}
                 />;

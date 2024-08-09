@@ -4,7 +4,7 @@ import {
 } from './graphs/OptimalChoiceConsumption.js';
 import {
     defaults as costFunctionsDefaults
-} from './graphs/CostFunctionsTotalGraph.js';
+} from './graphs/CostFunctionsGraph.js';
 import {
     defaults as costMinimizingDefaults
 } from './graphs/OptimalChoiceCostMinimizing.js';

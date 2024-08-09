@@ -4,10 +4,30 @@ import RangeEditor from '../form-components/RangeEditor.jsx';
 import { handleFormUpdate } from '../utils.js';
 import { getKatexEl } from '../katexUtils.jsx';
 
-export default class CostFunctionsTotalEditor extends React.Component {
+export default class CostFunctionsEditor extends React.Component {
     render() {
+        const modes = ['Total', 'Unit'];
+        const radioButtons = modes.map((mode, idx) =>
+            <div key={idx} className="form-check form-check-inline">
+                <input
+                    type="radio" id={`functionChoice-${idx}`}
+                    className="form-check-input"
+                    value={idx}
+                    name="gFunctionChoice"
+                    checked={this.props.gFunctionChoice === idx}
+                    onChange={handleFormUpdate.bind(this)} />
+                <label
+                    className="form-check-label"
+                    htmlFor={`functionChoice-${idx}`}>
+                    {mode}
+                </label>
+            </div>
+        );
+
         return (
             <div>
+                {radioButtons}
+
                 <div className="col">
                     <div>
                         {getKatexEl(`Cost= ${this.props.gA1Name} + ${this.props.gA2Name}x + ${this.props.gA3Name}x^2=
@@ -110,7 +130,7 @@ export default class CostFunctionsTotalEditor extends React.Component {
     }
 }
 
-CostFunctionsTotalEditor.propTypes = {
+CostFunctionsEditor.propTypes = {
     gType: PropTypes.number.isRequired,
 
     gA1: PropTypes.number.isRequired,
@@ -125,6 +145,8 @@ CostFunctionsTotalEditor.propTypes = {
     gA3Name: PropTypes.string.isRequired,
     gA3Min: PropTypes.number.isRequired,
     gA3Max: PropTypes.number.isRequired,
+
+    gFunctionChoice: PropTypes.number.isRequired,
 
     displaySliders: PropTypes.bool.isRequired,
     isInstructor: PropTypes.bool.isRequired,
