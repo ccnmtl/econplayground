@@ -48,7 +48,7 @@ class AssignmentListStudentView(LoginRequiredMixin, ListView):
     template_name = 'assignment/assignment_list_student.html'
 
     def get_queryset(self):
-        return Assignment.objects.order_by('created_at')
+        return Assignment.objects.filter(published=True).order_by('created_at')
 
 
 class AssignmentCreateView(

@@ -53,8 +53,10 @@
             <td>
                 {% if assignment.published %}
                     <i class="bi bi-bookmark-check-fill text-primary"></i>
+                    Published
                 {% else %}
-                    <p class="text-secondary">--</p>
+                    <i class="bi bi-bookmark-dash"></i>
+                    Unpublished
                 {% endif %}
             </td>
             <td>
@@ -70,6 +72,20 @@
                    href="{% url 'assignment_assignment_delete' assignment.pk %}">
                     <i class="bi bi-x-lg"></i>
                 </a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td>
+                No assignments
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
             </td>
         </tr>
         {% endfor %}
