@@ -62,6 +62,12 @@
                                 title="Save">
                             <i class="bi bi-floppy"></i>
                         </button>
+                        <button type="button"
+                                class="btn btn-sm btn-secondary ep-step-rename-cancel"
+                                style="display: none;"
+                                title="Cancel">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
                     </form>
 
                     <form name="remove_step" method="post"
@@ -71,7 +77,7 @@
                         <input name="action" value="remove_step" type="hidden" />
                         <input name="step_id" value="{{step.id}}" type="hidden" />
                         <button type="submit"
-                                class="btn btn-sm btn-danger"
+                                class="btn btn-sm btn-danger ep-step-remove"
                                 title="Remove step">
                             <i class="bi bi-x-lg"></i>
                         </button>
@@ -297,8 +303,10 @@ $(document).ready(function() {
 
         // Prepare rename form for input
         $target.closest('button').hide();
-        $form = $target.closest('form');
+        const $form = $target.closest('form');
         $form.find('.ep-step-rename-save').show();
+        $form.find('.ep-step-rename-cancel').show();
+        $form.closest('.assignment-step').find('.ep-step-remove').hide();
 
         const $row = $target.closest('.row');
         $row.find('.ep-step-name').hide();
@@ -308,6 +316,25 @@ $(document).ready(function() {
         $input.on('change', function(e) {
             $hiddenInput.val(e.target.value);
         });
+    });
+
+    $('.ep-step-rename-cancel').on('click', function(e) {
+        e.preventDefault();
+
+        const $target = $(e.target);
+
+        // Reset to default state
+        $target.closest('button').hide();
+        const $form = $target.closest('form');
+        $form.find('.ep-step-rename').show();
+        $form.find('.ep-step-rename-save').hide();
+        $form.find('.ep-step-rename-cancel').hide();
+        $form.closest('.assignment-step').find('.ep-step-remove').show();
+
+        const $row = $target.closest('.row');
+        $row.find('.ep-step-name').show();
+        $input = $row.find('.ep-step-name-input');
+        $input.hide();
     });
 });
 </script>
