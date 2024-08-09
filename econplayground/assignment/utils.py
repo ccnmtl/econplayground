@@ -89,7 +89,7 @@ def render_assignment_graph(root: object) -> str:
                   })
     steps = root.get('children')
 
-    graph.node(str(1), style='filled', color='blue',
+    graph.node(str(1), style='filled', color='#0e48a1',
                shape='circle', fontcolor='white')
     for x in range(1, len(steps)):
         step = steps[x]
