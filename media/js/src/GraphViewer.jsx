@@ -12,8 +12,7 @@ import DemandSupplyEditor from './editors/DemandSupplyEditor.jsx';
 import NonLinearDemandSupplyEditor from './editors/NonLinearDemandSupplyEditor.jsx';
 import TemplateGraphEditor from './editors/TemplateGraphEditor.jsx';
 import OptimalChoiceConsumptionEditor from './editors/OptimalChoiceConsumption.jsx';
-import CostFunctionsTotalEditor from './editors/CostFunctionsTotalEditor.jsx';
-import CostFunctionsUnitEditor from './editors/CostFunctionsUnitEditor.jsx';
+import CostFunctionsEditor from './editors/CostFunctionsEditor.jsx';
 import OptimalChoiceCostMinimizingEditor from './editors/OptimalChoiceCostMinimizingEditor.jsx';
 import TaxationLinearDemandEditor from './editors/TaxationLinearDemandEditor.jsx';
 
@@ -252,13 +251,7 @@ export default class GraphViewer extends React.Component {
                 />;
         } else if (this.props.gType === 18) {
             rightSide =
-                <CostFunctionsTotalEditor
-                    {...commonViewerProps}
-                    {...this.props}
-                />;
-        } else if (this.props.gType === 19) {
-            rightSide =
-                <CostFunctionsUnitEditor
+                <CostFunctionsEditor
                     {...commonViewerProps}
                     {...this.props}
                 />;

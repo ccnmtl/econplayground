@@ -137,11 +137,6 @@ class GraphPickView(EnsureCsrfCookieMixin, CohortInstructorMixin, CreateView):
                     'image': 'cost_functions_total.png',
                 },
                 {
-                    'graph_type': 19,
-                    'title': get_graph_name(19),
-                    'image': 'cost_functions_total.png',
-                },
-                {
                     'graph_type': 20,
                     'title': get_graph_name(20),
                     'image': 'elasticity_demand_revenue.png',

@@ -107,6 +107,7 @@ export class Graph {
         this.l2Color = 'steelblue';
         this.l3 = null;
         this.l3Color = 'rgb(228, 87, 86)';
+        this.l4Color = 'rgb(87, 200, 86)';
         this.shadowColor = 'rgb(200, 200, 200)';
         this.shadowAreaColor = 'rgb(150, 150, 150)';
 

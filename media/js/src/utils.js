@@ -387,10 +387,7 @@ const displayGraphType = function(gType) {
             name = 'Optimal Choice: Consumption with 2 Goods';
             break;
         case 18:
-            name = 'Cost Functions: Total';
-            break;
-        case 19:
-            name = 'Cost Functions: Unit';
+            name = 'Cost Functions';
             break;
         case 20:
             name = 'Price Elasticity of Demand and Revenue';

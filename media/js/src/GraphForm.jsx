@@ -7,7 +7,7 @@ import ConsumptionSavingEditor from './editors/ConsumptionSavingEditor.jsx';
 import DemandSupplyEditor from './editors/DemandSupplyEditor.jsx';
 import NonLinearDemandSupplyEditor from './editors/NonLinearDemandSupplyEditor.jsx';
 import OptimalChoiceConsumptionEditor from './editors/OptimalChoiceConsumption.jsx';
-import CostFunctionsUnitEditor from './editors/CostFunctionsUnitEditor.jsx';
+import CostFunctionsEditor from './editors/CostFunctionsEditor.jsx';
 import OptimalChoiceCostMinimizingEditor from './editors/OptimalChoiceCostMinimizingEditor.jsx';
 import TaxationLinearDemandEditor from './editors/TaxationLinearDemandEditor.jsx';
 import TaxRevenueEditor from './editors/TaxRevenueEditor.jsx';
@@ -114,10 +114,10 @@ export default function GraphForm({ gType, updateGraph, props }) {
                 {...commonViewerProps}
                 {...props}
             />;
-    } else if (gType === 19) {
-        // Cost Function: Unit
+    } else if (gType === 18) {
+        // Cost Functions
         graphForm =
-            <CostFunctionsUnitEditor
+            <CostFunctionsEditor
                 updateGraph={updateGraph}
                 {...commonViewerProps}
                 {...props}
