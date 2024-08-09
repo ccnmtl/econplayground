@@ -59,8 +59,7 @@ DefineRange.defaultProps = {
 };
 
 DefineRange.propTypes = {
-    id: PropTypes.string,
-    dataId: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
     handler: PropTypes.func.isRequired,
     min: PropTypes.number,
     max: PropTypes.number,
