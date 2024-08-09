@@ -6,76 +6,7 @@ import { handleFormUpdate } from '../utils.js';
 
 
 export default class TaxRevenueEditor extends React.Component {
-    componentDidMount() {
-        if (!this.props.gId) {
-            this.default1 = {
-                gA1: 100,
-                gA1Max: 10000,
-                gA1Min: 0,
-                gA2: 2,
-                gA2Max: 35,
-                gA2Min: 0.1,
-                gA3: 1500,
-                gA3Max: 10000,
-                gA3Min: 0,
-                gA4: 2,
-                gA4Max: 35,
-                gA4Min: 0.1,
-                gA5: 0.5,
-                gA5Max: 1,
-                gA5Min: 0,
-                gXAxisMax: 1500,
-                gXAxisMin: 0,
-                gYAxisMax: 500000,
-                gYAxisMin: 0
-            };
-            this.default2 = {
-                gA12: 100,
-                gA1Max2: 10000,
-                gA1Min2: 0,
-                gA22: 2,
-                gA2Max2: 35,
-                gA2Min2: 0.1,
-                gA32: 650,
-                gA3Max2: 10000,
-                gA3Min2: 0,
-                gA42: 6,
-                gA4Max2: 35,
-                gA4Min2: 0.1,
-                gA45: 0.5,
-                gA5Max2: 1,
-                gA5Min2: 0,
-                gXAxisMax2: 6,
-                gXAxisMin2: 0,
-                gYAxisMax2: 25000,
-                gYAxisMin2: 0,
-            };
-            this.props.updateGraph({
-                ...this.props,
-                ...this.default1,
-                ...this.default2
-            });
-        }
-    }
-
-    handleReset = (e) => {
-        e.preventDefault();
-        if (this.props.gFunctionChoice === 0) {
-            this.props.updateGraph({
-                ...this.props,
-                ...this.default1
-            });
-        } else {
-            this.props.updateGraph({
-                ...this.props,
-                ...this.default2
-            });
-        }
-    };
-
     render() {
-        const eqNum = this.props.gFunctionChoice == 0 ?
-            '' : `${this.props.gFunctionChoice + 1}`;
         return (
             <div>
 
@@ -103,14 +34,6 @@ export default class TaxRevenueEditor extends React.Component {
                         Ad Valorem Tax
                     </label>
                 </div>
-                {this.default1 && (
-                    <button
-                        id="resetFunctionValues"
-                        className="btn btn-primary my-2"
-                        onClick={this.handleReset}>
-                            Reset
-                    </button>
-                )}
 
                 {this.props.isInstructor && (
                     <div className="row">
@@ -122,12 +45,11 @@ export default class TaxRevenueEditor extends React.Component {
                                 <DefineRange
                                     key={key}
                                     className="col-6"
-                                    eqNum={eqNum}
                                     id={i[0]}
                                     label={i[1]}
                                     rawLabel={true}
-                                    min={this.props[i[0] + 'Min' + eqNum]}
-                                    max={this.props[i[0] + 'Max' + eqNum]}
+                                    min={this.props[i[0] + 'Min']}
+                                    max={this.props[i[0] + 'Max']}
                                     handler={handleFormUpdate.bind(this)}/>
                             );
                         })}
@@ -136,9 +58,9 @@ export default class TaxRevenueEditor extends React.Component {
                 {this.props.displaySliders && (
                     <React.Fragment>
                         {[ // [dataId, label]
-                            ['gA1', 'Reservation Price'],
+                            ['gA1', 'Choke Price'],
                             ['gA2', 'Demand Slope'],
-                            ['gA3', 'Choke Price'],
+                            ['gA3', 'Reservation Price'],
                             ['gA4', 'Supply Slope'],
                         ].map((i, key) => {
                             return (
@@ -146,10 +68,10 @@ export default class TaxRevenueEditor extends React.Component {
                                     key={key}
                                     label={i[1]}
                                     rawLabel={true}
-                                    id={i[0] + eqNum}
-                                    value={this.props[i[0] + eqNum]}
-                                    min={this.props[i[0] + 'Min' + eqNum]}
-                                    max={this.props[i[0] + 'Max' + eqNum]}
+                                    id={i[0]}
+                                    value={this.props[i[0]]}
+                                    min={this.props[i[0] + 'Min']}
+                                    max={this.props[i[0] + 'Max']}
                                     showMinMaxEditor={true}
                                     handler={handleFormUpdate.bind(this)}
                                 />
@@ -158,12 +80,12 @@ export default class TaxRevenueEditor extends React.Component {
                         {this.props.gType === 24 && (
                             <RangeEditor
                                 className="col-6"
-                                label={'Unit Tax'}
+                                label="Unit Tax"
                                 rawLabel={true}
-                                id={'gA5' + eqNum}
-                                value={this.props['gA5' + eqNum]}
-                                min={this.props['gA5Min' + eqNum]}
-                                max={this.props['gA5Max' + eqNum]}
+                                id="gA5"
+                                value={this.props['gA5']}
+                                min={this.props['gA5Min']}
+                                max={this.props['gA5Max']}
                                 showMinMaxEditor={true}
                                 handler={handleFormUpdate.bind(this)}/>
                         )}
@@ -179,40 +101,27 @@ TaxRevenueEditor.propTypes = {
     gType: PropTypes.number.isRequired,
 
     gA1: PropTypes.number,
-    gA1Max: PropTypes.number,
     gA1Min: PropTypes.number,
+    gA1Max: PropTypes.number,
     gA2: PropTypes.number,
-    gA2Max: PropTypes.number,
     gA2Min: PropTypes.number,
+    gA2Max: PropTypes.number,
     gA3: PropTypes.number,
-    gA3Max: PropTypes.number,
     gA3Min: PropTypes.number,
+    gA3Max: PropTypes.number,
     gA4: PropTypes.number,
-    gA4Max: PropTypes.number,
     gA4Min: PropTypes.number,
+    gA4Max: PropTypes.number,
+    gA5: PropTypes.number,
+    gA5Min: PropTypes.number,
+    gA5Max: PropTypes.number,
+
     gDisplayShadow: PropTypes.bool.isRequired,
     gXAxisMax: PropTypes.number,
     gXAxisMin: PropTypes.number,
     gYAxisMax: PropTypes.number,
     gYAxisMin: PropTypes.number,
 
-    gA12: PropTypes.number,
-    gA1Max2: PropTypes.number,
-    gA1Min2: PropTypes.number,
-    gA22: PropTypes.number,
-    gA2Max2: PropTypes.number,
-    gA2Min2: PropTypes.number,
-    gA32: PropTypes.number,
-    gA3Max2: PropTypes.number,
-    gA3Min2: PropTypes.number,
-    gA42: PropTypes.number,
-    gA4Max2: PropTypes.number,
-    gA4Min2: PropTypes.number,
-    gXAxisMax2: PropTypes.number,
-    gXAxisMin2: PropTypes.number,
-    gYAxisMax2: PropTypes.number,
-    gYAxisMin2: PropTypes.number,
-    
     gFunctionChoice: PropTypes.number.isRequired,
 
     displaySliders: PropTypes.bool.isRequired,

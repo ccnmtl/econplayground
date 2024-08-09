@@ -528,11 +528,6 @@ GraphViewer.propTypes = {
     gA4Name: PropTypes.string,
     gA4Initial: PropTypes.number,
 
-    gA12: PropTypes.number,
-    gA22: PropTypes.number,
-    gA32: PropTypes.number,
-    gA42: PropTypes.number,
-
     gA5: PropTypes.number,
     gA5Name: PropTypes.string,
     gA5Initial: PropTypes.number,
@@ -552,12 +547,6 @@ GraphViewer.propTypes = {
     gYAxisMax: PropTypes.number,
     gYAxisMin: PropTypes.number,
     
-    gXAxisMax2: PropTypes.number,
-    gXAxisMin2: PropTypes.number,
-    gYAxisMax2: PropTypes.number,
-    gYAxisMin2: PropTypes.number,
-
-
     gCobbDouglasA: PropTypes.number,
     gCobbDouglasAInitial: PropTypes.number,
     gCobbDouglasAName: PropTypes.string,
