@@ -152,7 +152,16 @@ export class TaxRevenueGraph extends Graph {
         }
 
         this.l1 = this.board.create('functiongraph', [
-            f1, this.options.gXAxisMin, this.options.gXAxisMax
+            function(x) {
+                const result = f1(x);
+
+                if (result < 0) {
+                    return NaN;
+                }
+
+                return result;
+            },
+            this.options.gXAxisMin, this.options.gXAxisMax
         ], {
             strokeWidth: 2,
             strokeColor: this.l2Color,
