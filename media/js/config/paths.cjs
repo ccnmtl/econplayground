@@ -53,7 +53,7 @@ module.exports = {
     appStepGraphViewerJs: resolveApp(JS_PATH + 'src/stepGraphViewer-main.js'),
     appRubricJs: resolveApp(JS_PATH + 'src/rubric-main.js'),
     appMultipleChoiceJs: resolveApp(JS_PATH + 'src/multiple-choice-main.js'),
-    appGraphPreviewJs: resolveApp(JS_PATH + 'src/graph-preview-main.js'),
+    appGraphPreviewJs: resolveApp(JS_PATH + 'src/graphPreview-main.js'),
     appPackageJson: resolveApp('package.json'),
     appSrc: resolveApp(JS_PATH + 'src'),
     yarnLockFile: resolveApp('yarn.lock'),
