@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import JXG from 'jsxgraph';
 import { getKatexEl } from './katexUtils.jsx';
-import { graphTypes } from './graphs/graphTypes.js';
+import { graphTypes, isJointGraph } from './graphs/graphTypes.js';
 import { mkNonLinearDemandSupply } from './graphs/NonLinearDemandSupplyGraph.js';
 import { mkDemandSupply } from './graphs/DemandSupplyGraph.js';
 import { mkTaxationLinearDemandSupply } from './graphs/TaxationLinearDemandSupplyGraph.js';
@@ -268,6 +268,10 @@ export default class JXGBoard extends React.Component {
             } else if (options.gType === 24) {
                 mkTaxationLinearDemandSupply(this.board2, {
                     ...options,
+                    gXAxisMax: 1000,
+                    gYAxisMax: 2500,
+                    gLine1Slope: options.gA2,
+                    gLine2Slope: options.gA4,
                     isBoard2: true,
                     l1SubmissionOffset: getL1SubmissionOffset(options.submission),
                     l2SubmissionOffset: getL2SubmissionOffset(options.submission),
@@ -416,14 +420,13 @@ export default class JXGBoard extends React.Component {
                 this.props.gCobbDouglasKName,
                 this.props.gNName
             );
-            
+
             let board;
             if (this.board) {
                 board = this.board;
             }
 
-            if (this.board2 && [12, 14, 24].includes(this.props.gType)
-            ) {
+            if (this.board2 && isJointGraph(this.props.gType)) {
                 board = this.board2;
             }
 
@@ -637,6 +640,11 @@ export default class JXGBoard extends React.Component {
                 yLabel = options.gYAxis2Label;
             }
         }
+
+        if (this.props.gType === 24) {
+            boundingBox = calculateBoundingBox(0, 0, 1000, 2500);
+        }
+
         this.board2 = JXG.JSXGraph.initBoard(
             this.id + '-2', {
                 axis: true,

@@ -35,7 +35,7 @@ export default class TaxRevenueEditor extends React.Component {
                     </label>
                 </div>
 
-                {this.props.isInstructor && (
+                {this.props.isInstructor && this.props.gType !== 24 && (
                     <div className="row">
                         {[ // [dataId, label]
                             ['gXAxis', 'X Axis'],
@@ -80,7 +80,9 @@ export default class TaxRevenueEditor extends React.Component {
                         {this.props.gType === 24 && (
                             <RangeEditor
                                 className="col-6"
-                                label="Unit Tax"
+                                label={
+                                    this.props.gFunctionChoice === 0 ?
+                                        'Unit Tax' : 'Ad Valorem Tax'}
                                 rawLabel={true}
                                 id="gA5"
                                 value={this.props['gA5']}

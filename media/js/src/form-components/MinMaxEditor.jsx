@@ -12,10 +12,12 @@ export default class MinMaxEditor extends React.Component {
                 </label>
                 <input
                     className="form-control form-control-sm"
-                    aria-label={this.props.label + ' min'}
+                    aria-label={
+                        this.props.label ?
+                            this.props.label + ' min' : 'min'}
                     id={this.props.id + 'Min'}
                     data-id={this.props.id + 'Min'}
-                    name={this.props.label}
+                    name={this.props.id}
                     type="number"
                     onChange={this.props.handler}
                     value={this.props.min}
@@ -27,10 +29,12 @@ export default class MinMaxEditor extends React.Component {
                 </label>
                 <input
                     className="form-control form-control-sm"
-                    aria-label={this.props.label + ' max'}
+                    aria-label={
+                        this.props.label ?
+                            this.props.label + ' max' : 'max'}
                     id={this.props.id + 'Max'}
                     data-id={this.props.id + 'Max'}
-                    name={this.props.label}
+                    name={this.props.id}
                     type="number"
                     onChange={this.props.handler}
                     value={this.props.max}
@@ -42,7 +46,7 @@ export default class MinMaxEditor extends React.Component {
 
 MinMaxEditor.propTypes = {
     id: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired,
+    label: PropTypes.string,
     handler: PropTypes.func.isRequired,
     min: PropTypes.number.isRequired,
     max: PropTypes.number.isRequired,
