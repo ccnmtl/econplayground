@@ -7,9 +7,7 @@ import {
     authedFetch, getGraphId, getCohortId, getAssessment, getSubmission,
     getError
 } from './utils.js';
-import {
-    setDynamicGraphDefaults
-} from './graphUtils.js';
+import { setDynamicGraphDefaults } from './graphUtils.js';
 
 class Viewer extends Component {
     constructor(props) {

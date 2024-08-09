@@ -6,6 +6,7 @@ import JXGBoard from './JXGBoard.jsx';
 import {
     authedFetch, BOARD_WIDTH, BOARD_HEIGHT
 } from './utils.js';
+import { setDynamicGraphDefaults } from './graphUtils.js';
 
 /**
  * StepGraphViewer
@@ -115,6 +116,24 @@ export default class StepGraphViewer extends Component {
 
         // TODO: Only if we have line 3
         this.setupLineEventHandlers(3);
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (
+            prevState.gFunctionChoice !== this.state.gFunctionChoice ||
+                prevState.gToggle !== this.state.gToggle
+        ) {
+            const updateObj = {};
+            if (prevState.gFunctionChoice !== this.state.gFunctionChoice) {
+                updateObj.gFunctionChoice = this.state.gFunctionChoice;
+            }
+            if (prevState.gToggle !== this.state.gToggle) {
+                updateObj.gToggle = this.state.gToggle;
+            }
+
+            const newState = setDynamicGraphDefaults(this.state, updateObj);
+            this.setState(newState);
+        }
     }
 
     render() {
