@@ -268,10 +268,6 @@ export default class JXGBoard extends React.Component {
             } else if (options.gType === 24) {
                 mkTaxationLinearDemandSupply(this.board2, {
                     ...options,
-                    gA1: options.gFunctionChoice === 0 ? options.gA3 : options.gA32,
-                    gA2: options.gFunctionChoice === 0 ? options.gA1 : options.gA12,
-                    gLine1Slope: options.gFunctionChoice === 0 ? options.gA2 : options.gA22,
-                    gLine2Slope: options.gFunctionChoice === 0 ? options.gA4 : options.gA42,
                     isBoard2: true,
                     l1SubmissionOffset: getL1SubmissionOffset(options.submission),
                     l2SubmissionOffset: getL2SubmissionOffset(options.submission),
@@ -313,7 +309,6 @@ export default class JXGBoard extends React.Component {
             'gA4', 'gA4Initial', 'gA4Name',
             'gA5', 'gA5Initial', 'gA5Name',
             'gA6', 'gA7', 'gA8',
-            'gA12', 'gA22', 'gA32', 'gA42', 'gA52',
 
             'gA', 'gK', 'gR', 'gY1', 'gY2',
             'gCobbDouglasA', 'gCobbDouglasAInitial', 'gCobbDouglasAName',
@@ -329,7 +324,6 @@ export default class JXGBoard extends React.Component {
             'gNeedsSubmit', 'submission',
             'shadow',
             'gXAxisMax', 'gXAxisMin', 'gYAxisMax', 'gYAxisMin',
-            'gXAxisMax2', 'gXAxisMin2', 'gYAxisMax2', 'gYAxisMin2',
             'gMajorGridType', 'gMinorGridType'
         ];
         let needsUpdate = false;
@@ -342,12 +336,10 @@ export default class JXGBoard extends React.Component {
         }
 
         if (needsUpdate) {
-            if (![22, 24].includes(this.props.gType)) {
-                let boundingBox = calculateBoundingBox(
-                    this.props.gXAxisMin, this.props.gYAxisMin,
-                    this.props.gXAxisMax, this.props.gYAxisMax);
-                this.board.setBoundingBox(boundingBox);
-            }
+            let boundingBox = calculateBoundingBox(
+                this.props.gXAxisMin, this.props.gYAxisMin,
+                this.props.gXAxisMax, this.props.gYAxisMax);
+            this.board.setBoundingBox(boundingBox);
 
             this.board2.update();
             this.renderJXBoard({
@@ -356,21 +348,6 @@ export default class JXGBoard extends React.Component {
                 isSubmitted: !!this.props.submission,
                 ...this.props
             });
-        }
-        if (this.props.gType === 22 || this.props.gType === 24) {
-            if (this.props.gFunctionChoice === 0) {
-                this.board.setBoundingBox(
-                    [this.props.gXAxisMin - 18, this.props.gYAxisMax,
-                        this.props.gXAxisMax, this.props.gYAxisMin - 11000]);
-                this.board.defaultAxes.x.name = 'Unit Tax';
-                this.board.update();
-            } else {
-                this.board.setBoundingBox(
-                    [this.props.gXAxisMin2 - 0.07, this.props.gYAxisMax2,
-                        this.props.gXAxisMax2, this.props.gYAxisMin2 - 600]);
-                this.board.defaultAxes.x.name = 'Ad Valorem Tax';
-                this.board.update();
-            }
         }
 
         if (prevProps.gXAxisLabel !== this.props.gXAxisLabel) {
@@ -451,20 +428,8 @@ export default class JXGBoard extends React.Component {
             }
 
             if (board.defaultAxes) {
-                if (this.props.gType === 24) {
-                    if (this.props.gFunctionChoice === 0) {
-                        board.setBoundingBox(
-                            [this.props.gXAxisMin2 - 12, 2500,
-                                1000, this.props.gYAxisMin2 - 52]);
-                    } else {
-                        board.setBoundingBox(
-                            [this.props.gXAxisMin2 - 12, 2500,
-                                1000, this.props.gYAxisMin2 - 52]);
-                    }
-                } else {
-                    board.defaultAxes.y.name = yLabel;
-                    board.defaultAxes.x.name = xLabel;
-                }
+                board.defaultAxes.y.name = yLabel;
+                board.defaultAxes.x.name = xLabel;
                 board.update();
             }
         }
@@ -601,16 +566,6 @@ export default class JXGBoard extends React.Component {
             options.gXAxisMin, options.gYAxisMin,
             options.gXAxisMax, options.gYAxisMax);
 
-        if (options.gType === 22 || options.gType === 24) {
-            if (options.gFunctionChoice === 0) {
-                boundingBox = [options.gXAxisMin - 17, options.gYAxisMax,
-                    options.gXAxisMax, options.gYAxisMin - 11000];
-            } else {
-                boundingBox = [options.gXAxisMin - 0.07, options.gYAxisMax,
-                    options.gXAxisMax, options.gYAxisMin - 600];
-            }
-        }
-
         let grid = false;
         if (
             typeof this.props.gMajorGridType !== 'undefined' &&
@@ -662,19 +617,6 @@ export default class JXGBoard extends React.Component {
 
         let xLabel = '';
         let yLabel = '';
-        if (options.gType === 22 || options.gType === 24) {
-            if (options.gFunctionChoice === 0) {
-                boundingBox = [options.gXAxisMin - 12, 2500,
-                    1000, options.gYAxisMin - 52];
-            } else {
-                boundingBox = [options.gXAxisMin2 - 12, 2500,
-                    1000, options.gYAxisMin2 - 52];
-            }
-            if (options.gType === 24) {
-                xLabel = 'Quantity';
-                yLabel = 'Price';
-            }
-        }
 
         if (options.gType >= 12 && options.gType <= 14) {
             yLabel = yAxisLabel;
@@ -854,13 +796,9 @@ JXGBoard.propTypes = {
     gA5Initial: PropTypes.number,
 
     gXAxisMax: PropTypes.number,
-    gXAxisMax2: PropTypes.number,
     gXAxisMin: PropTypes.number,
-    gXAxisMin2: PropTypes.number,
     gYAxisMax: PropTypes.number,
-    gYAxisMax2: PropTypes.number,
     gYAxisMin: PropTypes.number,
-    gYAxisMin2: PropTypes.number,
 
     gA: PropTypes.number,
     gK: PropTypes.number,

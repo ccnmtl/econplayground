@@ -35,9 +35,9 @@ export default class DefineRange extends React.Component {
                                 key={key}
                                 className="form-control"
                                 aria-label={this.props.label + ' ' + item[0]}
-                                id={this.props.id + item[1] + this.props.eqNum}
-                                data-id={this.props.id + item[1] + this.props.eqNum}
-                                name={this.props.id + item[1] + this.props.eqNum}
+                                id={this.props.id + item[1]}
+                                data-id={this.props.id + item[1]}
+                                name={this.props.id + item[1]}
                                 type="number"
                                 onChange={this.props.handler}
                                 value={item[2]}
@@ -61,7 +61,6 @@ DefineRange.defaultProps = {
 DefineRange.propTypes = {
     id: PropTypes.string,
     dataId: PropTypes.string.isRequired,
-    eqNum: PropTypes.string,
     handler: PropTypes.func.isRequired,
     min: PropTypes.number,
     max: PropTypes.number,

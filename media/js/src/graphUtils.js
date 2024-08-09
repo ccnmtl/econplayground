@@ -1,3 +1,4 @@
+import {defaults as taxRevenueDefaults} from './graphs/TaxRevenueGraph.js';
 import {
     defaults as optimalChoiceConsumptionDefaults,
     untoggledDefaults as untoggledOptimalChoiceConsumptionDefaults
@@ -64,6 +65,12 @@ export const setDynamicGraphDefaults = function(state, updateObj) {
             costMinimizingDefaults,
             {gXAxisMax: 1000, gYAxisMax: 1000},
             state.gFunctionChoice);
+    } else if (state.gType === 22) {
+        updateObj = setDefaults(
+            updateObj,
+            taxRevenueDefaults,
+            taxRevenueDefaults,
+            state.gFunctionChoice);
     }
 
     return updateObj;
@@ -99,6 +106,9 @@ export const getDefaultGraphState = function(graphType, state) {
             gXAxisMax: 1000,
             gYAxisMax: 1000
         });
+    } else if (graphType === 22) {
+        Object.assign(
+            state, taxRevenueDefaults[0]);
     } else if (graphType === 23) {
         Object.assign(state, {
             gA1: 1500,
