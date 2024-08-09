@@ -1,5 +1,5 @@
 import {forceFloat} from '../utils.js';
-import {Graph} from './Graph.js';
+import {Graph, positiveRange} from './Graph.js';
 
 /**
  * Aggregate Demand - Aggregate Supply graph.
@@ -16,7 +16,7 @@ class ADASGraph extends Graph {
             };
 
             const l1fShadow = this.board.create(
-                'functiongraph', [f1Shadow, -20, 20], {
+                'functiongraph', [positiveRange(f1Shadow), 0, 20], {
                     withLabel: false,
                     strokeWidth: 2,
                     strokeColor: this.shadowColor,
@@ -34,7 +34,7 @@ class ADASGraph extends Graph {
             };
 
             const l2fShadow = this.board.create(
-                'functiongraph', [f2Shadow, -20, 20], {
+                'functiongraph', [positiveRange(f2Shadow), 0, 20], {
                     withLabel: false,
                     strokeWidth: 2,
                     strokeColor: this.shadowColor,
@@ -52,7 +52,7 @@ class ADASGraph extends Graph {
             };
 
             const l3fShadow = this.board.create(
-                'functiongraph', [f3Shadow, -20, 20], {
+                'functiongraph', [f3Shadow, 0, 20], {
                     withLabel: false,
                     strokeWidth: 2,
                     strokeColor: this.shadowColor,
@@ -101,7 +101,9 @@ class ADASGraph extends Graph {
             return (x - 2.5) * slope + 2.5;
         };
 
-        this.l1 = this.board.create('functiongraph', [f1, -20, 20], {
+        this.l1 = this.board.create('functiongraph', [
+            positiveRange(f1), 0, 20
+        ], {
             name: this.options.gLine1Label,
             withLabel: true,
             dash: this.options.gLine1Dashed ? 2 : 0,
@@ -117,7 +119,9 @@ class ADASGraph extends Graph {
             return (x - 2.5) * slope + 2.5;
         };
 
-        this.l2 = this.board.create('functiongraph', [f2, -20, 20], {
+        this.l2 = this.board.create('functiongraph', [
+            positiveRange(f2), 0, 20
+        ], {
             name: this.options.gLine2Label,
             withLabel: true,
             dash: this.options.gLine2Dashed ? 2 : 0,
@@ -133,7 +137,9 @@ class ADASGraph extends Graph {
             return (x - 2.5) * slope + 2.5;
         };
 
-        this.l3 = this.board.create('functiongraph', [f3, -20, 20], {
+        this.l3 = this.board.create('functiongraph', [
+            f3, 0, 20
+        ], {
             name: this.options.gLine3Label,
             withLabel: true,
             dash: this.options.gLine3Dashed ? 2 : 0,

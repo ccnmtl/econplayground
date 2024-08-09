@@ -1,4 +1,4 @@
-import {Graph} from './Graph.js';
+import {Graph, positiveRange} from './Graph.js';
 
 export class ConsumptionLeisureGraph extends Graph {
     /**
@@ -39,27 +39,17 @@ export class ConsumptionLeisureGraph extends Graph {
         let f1;
         if (me.options.gType === 15) {
             f1 = function(x) {
-                const result = (T - x) * w * (1 - t);
-
-                if (result < 0) {
-                    return NaN;
-                }
-
-                return result;
+                return (T - x) * w * (1 - t);
             };
         } else {
             f1 = function(x) {
-                const result = (T - t - x) * w;
-
-                if (result < 0) {
-                    return NaN;
-                }
-
-                return result;
+                return (T - t - x) * w;
             };
         }
 
-        this.l1 = this.board.create('functiongraph', [f1, 0, 30], {
+        this.l1 = this.board.create('functiongraph', [
+            positiveRange(f1), 0, 30
+        ], {
             name: this.options.gLine1Label,
             withLabel: true,
             strokeWidth: 2,

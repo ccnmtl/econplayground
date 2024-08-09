@@ -179,7 +179,7 @@ export default class JXGBoard extends React.Component {
             // If this is a joint graph, alter the graph ID constructor
             // to be that of the top graph we're rendering.
             let graphId = options.gType;
-            if (options.gType == 12) {
+            if (options.gType === 12) {
                 // Render a Cobb-Douglas graph
                 graphId = 3;
             } else if (options.gType === 13) {

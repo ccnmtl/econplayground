@@ -1,4 +1,4 @@
-import {Graph, getIntersectionPointOptions} from './Graph.js';
+import {Graph, getIntersectionPointOptions, positiveRange} from './Graph.js';
 
 export const defaults = {
     gA1Name: 'A',
@@ -20,7 +20,7 @@ class CobbDouglasGraph extends Graph {
               this.options.gA3Name + ',' +
               this.options.gA2Name + ')';
 
-        this.board.create('functiongraph', [f], {
+        this.board.create('functiongraph', [positiveRange(f)], {
             name: lineLabel,
             withLabel: true,
             strokeWidth: 2,
@@ -39,7 +39,7 @@ class CobbDouglasGraph extends Graph {
                     (x ** (1 - me.options.gA4Initial));
             };
 
-            this.board.create('functiongraph', [fShadow, -30, 30], {
+            this.board.create('functiongraph', [positiveRange(fShadow), 0, 30], {
                 name: this.options.gLine1Label,
                 withLabel: false,
                 strokeWidth: 2,

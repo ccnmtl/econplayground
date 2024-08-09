@@ -1,4 +1,4 @@
-import {Graph} from './Graph.js';
+import {Graph, positiveRange} from './Graph.js';
 import {getYIntercept} from '../utils.js';
 
 export class NonLinearDemandSupplyGraph extends Graph {
@@ -18,7 +18,7 @@ export class NonLinearDemandSupplyGraph extends Graph {
 
             const l1fShadow = this.board.create(
                 'functiongraph',
-                [f1Shadow, -30, 30], {
+                [positiveRange(f1Shadow), 0, 30], {
                     withLabel: false,
                     strokeWidth: 2,
                     strokeColor: this.shadowColor,
@@ -53,7 +53,7 @@ export class NonLinearDemandSupplyGraph extends Graph {
 
             const l2fShadow = this.board.create(
                 'functiongraph',
-                [f2Shadow, -30, 30], {
+                [positiveRange(f2Shadow), 0, 30], {
                     withLabel: false,
                     strokeWidth: 2,
                     strokeColor: this.shadowColor,
@@ -121,7 +121,9 @@ export class NonLinearDemandSupplyGraph extends Graph {
                 return result + me.options.gLine1OffsetY;
             };
 
-            this.l1 = this.board.create('functiongraph', [l1func, -30, 30], {
+            this.l1 = this.board.create('functiongraph', [
+                positiveRange(l1func), 0, 30
+            ], {
                 name: this.options.gLine1Label,
                 withLabel: true,
                 strokeWidth: 2,
@@ -132,7 +134,9 @@ export class NonLinearDemandSupplyGraph extends Graph {
             });
         }
 
-        this.l2 = this.board.create('functiongraph', [l2func, -30, 30], {
+        this.l2 = this.board.create('functiongraph', [
+            positiveRange(l2func), 0, 30
+        ], {
             name: this.options.gLine2Label,
             withLabel: true,
             strokeWidth: 2,

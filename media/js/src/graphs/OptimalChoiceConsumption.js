@@ -1,4 +1,4 @@
-import {Graph, invisiblePointOptions} from './Graph.js';
+import {Graph, invisiblePointOptions, positiveRange} from './Graph.js';
 
 export const untoggledDefaults = {
     gA1: 5,
@@ -453,15 +453,9 @@ export class OptimalChoiceConsumptionGraph extends Graph {
             });
         }
 
-        this.l2 = this.board.create('functiongraph', [function(x) {
-            const result = iblLine(x);
-
-            if (result < 0) {
-                return NaN;
-            }
-
-            return result;
-        }, 0, 1000], {
+        this.l2 = this.board.create('functiongraph', [
+            positiveRange(iblLine), 0, 1000
+        ], {
             name: this.options.gLine2Label,
             withLabel: true,
             strokeWidth: 2,

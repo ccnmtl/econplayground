@@ -1,4 +1,4 @@
-import { Graph, AREA_A_COLOR, AREA_B_COLOR } from './Graph.js';
+import { Graph, positiveRange, AREA_A_COLOR, AREA_B_COLOR } from './Graph.js';
 import {drawPolygon} from '../jsxgraphUtils.js';
 
 /*const dq = function(c, b, p) {
@@ -66,15 +66,7 @@ class TaxationLinearDemandSupplyGraph extends Graph {
         };
         this.l1 = this.board.create(
             'functiongraph',
-            [function(x) {
-                const result = l1func(x);
-
-                if (result < 0) {
-                    return NaN;
-                }
-
-                return result;
-            }, 0, this.options.gXAxisMax], {
+            [positiveRange(l1func), 0, this.options.gXAxisMax], {
                 strokeWidth: 2,
                 strokeColor: this.l1Color,
                 fixed: true,
