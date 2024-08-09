@@ -20,6 +20,10 @@ import {
     mkTaxationLinearDemandSupply
 } from './TaxationLinearDemandSupplyGraph.js';
 
+export const isJointGraph = function(graphType) {
+    return [12, 13, 14, 24].includes(graphType);
+};
+
 export const graphTypes = [
     // There are some null graph types here because the number of
     // total graphs in the system has been reduced since it was
