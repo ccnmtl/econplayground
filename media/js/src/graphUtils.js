@@ -65,7 +65,7 @@ export const setDynamicGraphDefaults = function(state, updateObj) {
             costMinimizingDefaults,
             {gXAxisMax: 1000, gYAxisMax: 1000},
             state.gFunctionChoice);
-    } else if (state.gType === 22) {
+    } else if (state.gType === 22 || state.gType === 24) {
         updateObj = setDefaults(
             updateObj,
             taxRevenueDefaults,
@@ -106,7 +106,7 @@ export const getDefaultGraphState = function(graphType, state) {
             gXAxisMax: 1000,
             gYAxisMax: 1000
         });
-    } else if (graphType === 22) {
+    } else if (graphType === 22 || graphType === 24) {
         Object.assign(
             state, taxRevenueDefaults[0]);
     } else if (graphType === 23) {
