@@ -57,10 +57,6 @@ export default class RevenueElasticityEditor extends React.Component {
                         {[ // [dataId, label]
                             ['gXAxis', '\\text{x-axis}'],
                             ['gYAxis', '\\text{y-axis}'],
-                            ['gA1', 'b'],
-                            ['gA2', 'c'],
-                            ['gA3', 'p'],
-                            ['gA4', 'q']
                         ].map((i, key) => {
                             return (
                                 <DefineRange
@@ -86,6 +82,7 @@ export default class RevenueElasticityEditor extends React.Component {
                                     value={this.props[i[0]]}
                                     min={this.props[i[0] + 'Min']}
                                     max={this.props[i[0] + 'Max']}
+                                    showMinMaxEditor={true}
                                     handler={handleFormUpdate.bind(this)}
                                 />
                             );

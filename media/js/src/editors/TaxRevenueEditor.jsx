@@ -117,10 +117,6 @@ export default class TaxRevenueEditor extends React.Component {
                         {[ // [dataId, label]
                             ['gXAxis', 'X Axis'],
                             ['gYAxis', 'Y Axis'],
-                            ['gA1', 'Reserv.'],
-                            ['gA2', 'Demand'],
-                            ['gA3', 'Choke'],
-                            ['gA4', 'Supply']
                         ].map((i, key) => {
                             return (
                                 <DefineRange
@@ -135,17 +131,6 @@ export default class TaxRevenueEditor extends React.Component {
                                     handler={handleFormUpdate.bind(this)}/>
                             );
                         })}
-                        {this.props.gType === 24 && (
-                            <DefineRange
-                                className="col-6"
-                                eqNum={eqNum}
-                                id={'gA5' + eqNum}
-                                label={'Unit Tax'}
-                                rawLabel={true}
-                                min={this.props['gA5Min' + eqNum]}
-                                max={this.props['gA5Max' + eqNum]}
-                                handler={handleFormUpdate.bind(this)}/>
-                        )}
                     </div>
                 )}
                 {this.props.displaySliders && (
@@ -165,6 +150,7 @@ export default class TaxRevenueEditor extends React.Component {
                                     value={this.props[i[0] + eqNum]}
                                     min={this.props[i[0] + 'Min' + eqNum]}
                                     max={this.props[i[0] + 'Max' + eqNum]}
+                                    showMinMaxEditor={true}
                                     handler={handleFormUpdate.bind(this)}
                                 />
                             );
@@ -178,6 +164,7 @@ export default class TaxRevenueEditor extends React.Component {
                                 value={this.props['gA5' + eqNum]}
                                 min={this.props['gA5Min' + eqNum]}
                                 max={this.props['gA5Max' + eqNum]}
+                                showMinMaxEditor={true}
                                 handler={handleFormUpdate.bind(this)}/>
                         )}
                     </React.Fragment>
