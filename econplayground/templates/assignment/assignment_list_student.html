@@ -15,7 +15,6 @@
     </thead>
     <tbody class="table-group-divider">
         {% for assignment in assignment_list %}
-        {% if assignment.published %}
         <tr>
             <th scope="row">
                 <a href="{% url 'assignment_detail_student' assignment.pk %}"
@@ -30,7 +29,16 @@
             </td>
             <td>{{assignment.updated_at}}</td>
         </tr>
-        {% endif %}
+        {% empty %}
+        <tr>
+            <td>
+                No assignments
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+        </tr>
         {% endfor %}
     </tbody>
 </table>
