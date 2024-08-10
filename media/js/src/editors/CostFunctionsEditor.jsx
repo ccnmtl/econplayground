@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import EditableControl from '../form-components/EditableControl.jsx';
 import RangeEditor from '../form-components/RangeEditor.jsx';
 import { handleFormUpdate } from '../utils.js';
 import { getKatexEl } from '../katexUtils.jsx';
@@ -125,7 +126,74 @@ export default class CostFunctionsEditor extends React.Component {
 
                     </React.Fragment>
                 )}
-            </div >
+                {this.props.displayLabels && (
+                    <>
+                        <h3>Labels</h3>
+                        <div className="d-flex flex-wrap">
+                            <div className="row">
+                                <div className="col">
+                                    <EditableControl
+                                        id="gLine1Label"
+                                        name="Orange line label"
+                                        value={this.props.gLine1Label}
+                                        valueEditable={true}
+                                        isInstructor={true}
+                                        updateGraph={this.props.updateGraph} />
+                                </div>
+                                <div className="col">
+                                    <EditableControl
+                                        id="gLine2Label"
+                                        name="Blue line label"
+                                        value={this.props.gLine2Label}
+                                        valueEditable={true}
+                                        isInstructor={true}
+                                        updateGraph={this.props.updateGraph} />
+                                </div>
+                                <div className="col">
+                                    <EditableControl
+                                        id="gLine3Label"
+                                        name="Red line label"
+                                        value={this.props.gLine3Label}
+                                        valueEditable={true}
+                                        isInstructor={true}
+                                        updateGraph={this.props.updateGraph} />
+                                </div>
+                                {this.props.gFunctionChoice === 1 && (
+                                    <div className="col">
+                                        <EditableControl
+                                            id="gLine4Label"
+                                            name="Green line label"
+                                            value={this.props.gLine4Label}
+                                            valueEditable={true}
+                                            isInstructor={true}
+                                            updateGraph={this.props.updateGraph} />
+                                    </div>
+                                )}
+                            </div>
+                            <div className="row">
+                                <div className="col">
+                                    <EditableControl
+                                        id="gXAxisLabel"
+                                        name="X-axis label"
+                                        value={this.props.gXAxisLabel}
+                                        valueEditable={true}
+                                        isInstructor={true}
+                                        updateGraph={this.props.updateGraph} />
+                                </div>
+                                <div className="col">
+                                    <EditableControl
+                                        id="gYAxisLabel"
+                                        name="Y-axis label"
+                                        value={this.props.gYAxisLabel}
+                                        valueEditable={true}
+                                        isInstructor={true}
+                                        updateGraph={this.props.updateGraph} />
+                                </div>
+                            </div>
+                        </div>
+                    </>
+                )}
+            </div>
         );
     }
 }
@@ -145,6 +213,15 @@ CostFunctionsEditor.propTypes = {
     gA3Name: PropTypes.string.isRequired,
     gA3Min: PropTypes.number.isRequired,
     gA3Max: PropTypes.number.isRequired,
+
+    displayLabels: PropTypes.bool.isRequired,
+    gLine1Label: PropTypes.string.isRequired,
+    gLine2Label: PropTypes.string.isRequired,
+    gLine3Label: PropTypes.string.isRequired,
+    gLine4Label: PropTypes.string.isRequired,
+
+    gXAxisLabel: PropTypes.string.isRequired,
+    gYAxisLabel: PropTypes.string.isRequired,
 
     gFunctionChoice: PropTypes.number.isRequired,
 

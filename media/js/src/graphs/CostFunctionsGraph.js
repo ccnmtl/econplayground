@@ -2,6 +2,9 @@ import {Graph} from './Graph.js';
 
 export const defaults = [
     {
+        gLine1Label: 'TC',
+        gLine2Label: 'VC',
+        gLine3Label: 'FC',
         gA1: 4000,
         gA1Name: 'a',
         gA1Min: 0,
@@ -18,6 +21,10 @@ export const defaults = [
         gYAxisMax: 10000
     },
     {
+        gLine1Label: 'MC',
+        gLine2Label: 'AC',
+        gLine3Label: 'AFC',
+        gLine4Label: 'AVC',
         gA1: 2000,
         gA1Name: 'a',
         gA1Min: 0,
@@ -85,8 +92,11 @@ export class CostFunctionsGraph extends Graph {
             this.l1 = this.board.create('functiongraph', [
                 f1, 0, this.options.gXAxisMax
             ], {
-                name: 'TC',
+                name: this.options.gLine1Label,
                 withLabel: true,
+                label: {
+                    autoPosition: true
+                },
                 strokeWidth: 2,
                 strokeColor: this.l1Color,
                 fixed: true,
@@ -96,8 +106,11 @@ export class CostFunctionsGraph extends Graph {
             this.l2 = this.board.create('functiongraph', [
                 f2, 0, this.options.gXAxisMax
             ], {
-                name: 'FC',
+                name: this.options.gLine2Label,
                 withLabel: true,
+                label: {
+                    autoPosition: true
+                },
                 strokeWidth: 2,
                 strokeColor: this.l2Color,
                 fixed: true,
@@ -107,8 +120,11 @@ export class CostFunctionsGraph extends Graph {
             this.l3 = this.board.create('functiongraph', [
                 f3, 0, this.options.gXAxisMax
             ], {
-                name: 'VC',
+                name: this.options.gLine3Label,
                 withLabel: true,
+                label: {
+                    autoPosition: true
+                },
                 strokeWidth: 2,
                 strokeColor: this.l3Color,
                 fixed: true,
@@ -134,8 +150,11 @@ export class CostFunctionsGraph extends Graph {
             this.l1 = this.board.create('functiongraph', [
                 f1, 0, this.options.gXAxisMax
             ], {
-                name: 'MC',
+                name: this.options.gLine1Label,
                 withLabel: true,
+                label: {
+                    autoPosition: true
+                },
                 strokeWidth: 2,
                 strokeColor: this.l1Color,
                 fixed: true,
@@ -145,7 +164,7 @@ export class CostFunctionsGraph extends Graph {
             this.l2 = this.board.create('functiongraph', [
                 f2, 0, this.options.gXAxisMax
             ], {
-                name: 'AC',
+                name: this.options.gLine2Label,
                 withLabel: true,
                 strokeWidth: 2,
                 strokeColor: this.l2Color,
@@ -156,8 +175,11 @@ export class CostFunctionsGraph extends Graph {
             this.l3 = this.board.create('functiongraph', [
                 f3, 0, this.options.gXAxisMax
             ], {
-                name: 'AFC',
+                name: this.options.gLine3Label,
                 withLabel: true,
+                label: {
+                    autoPosition: true
+                },
                 strokeWidth: 2,
                 strokeColor: this.l3Color,
                 fixed: true,
@@ -167,8 +189,11 @@ export class CostFunctionsGraph extends Graph {
             this.l4 = this.board.create('functiongraph', [
                 f4, 0, this.options.gXAxisMax
             ], {
-                name: 'AVC',
+                name: this.options.gLine4Label,
                 withLabel: true,
+                label: {
+                    autoPosition: true
+                },
                 strokeWidth: 2,
                 strokeColor: this.l4Color,
                 fixed: true,
