@@ -215,7 +215,7 @@ class QuestionTest(TestCase):
             assessment_name='name1', assessment_value='value')
         self.rule_2 = AssessmentRuleFactory(
             question=self.x,
-            assessment_name='name2', assessment_value='value')
+            assessment_name='name2', assessment_value='value2')
 
         # TODO Ensure that different Assessment Rules with the same
         #   assessment_name cannot be assigned to the same question.
@@ -229,7 +229,14 @@ class QuestionTest(TestCase):
 
     def test_eval_with_no_rules(self):
         q = QuestionFactory()
-        self.assertTrue(q.evaluate_action({'line1': 'up'}))
+        self.assertTrue(q.evaluate_action('line1', 'up'))
+
+    def test_eval_correct_incorrect(self):
+        self.assertTrue(self.x.evaluate_action('name1', 'value'))
+        self.assertTrue(self.x.evaluate_action('name2', 'value2'))
+
+        self.assertFalse(self.x.evaluate_action('name1', 'false'))
+        self.assertFalse(self.x.evaluate_action('name2', 'incorrect'))
 
 
 class MultipleChoiceTest(TestCase):
@@ -311,7 +318,6 @@ class AssignmentTest(TestCase):
         self.d2 = Step(assignment=self.root.assignment)
         self.d1.add_child(instance=self.d2)
 
-        # TODO Low Priority -- Allow for multiple AssessmentRules
         # Populate it with questions
         q1 = QuestionFactory()
         AssessmentRuleFactory(
@@ -361,42 +367,32 @@ class AssignmentTest(TestCase):
         self.assertIsInstance(step.question.graph, Graph)
 
     def test_assignment_flow(self):
-        result1 = self.a1.question.evaluate_action({'line_2': 'down'})
-        self.assertFalse(all(result1))
+        result1 = self.a1.question.evaluate_action('line_2', 'down')
+        self.assertFalse(result1)
 
-        result2 = self.a1.question.evaluate_action({'line_1': 'up'})
-        self.assertTrue(all(result2))
+        result2 = self.a1.question.evaluate_action('line_1', 'up')
+        self.assertTrue(result2)
 
         step2 = self.a1.get_next()
-        result3 = step2.question.evaluate_action({'line_1': 'increase'})
-        self.assertTrue(all(result3))
+        result3 = step2.question.evaluate_action('line_1', 'increase')
+        self.assertTrue(result3)
 
         step3 = step2.get_next()
-        result4 = step3.question.evaluate_action({
-            'line_1_label': 'demand',
-            'line_2_label': 'supply'})
-        self.assertTrue(all(result4))
-
-        AssessmentRuleFactory(
-            question=step3.question,
-            assessment_name='line_1', assessment_value='up')
-
-        result5 = step3.question.evaluate_action({'line_1_label': 'demand'})
-        self.assertFalse(all(result5))
+        result4 = step3.question.evaluate_action('line_1_label', 'demand')
+        self.assertTrue(result4)
 
         step4 = step3.get_next()
-        self.assertFalse(all(
-            step4.question.evaluate_action({'alpha': '0.5'})))
-        self.assertTrue(all(
-            step4.question.evaluate_action({'alpha': '0.6'})))
+        self.assertFalse(step4.question.evaluate_action('alpha', '0.5'))
+        self.assertTrue(
+            step4.question.evaluate_action('alpha', '0.6'))
 
     def test_assignment_flow_2(self):
-        result = self.a1.question.evaluate_action({'': 'down'})
-        self.assertFalse(all(result))
-        result = self.a1.question.evaluate_action({'line_2': ''})
-        self.assertFalse(all(result))
-        result = self.a1.question.evaluate_action({'line_2': 2})
-        self.assertFalse(all(result))
+        result = self.a1.question.evaluate_action('', 'down')
+        self.assertFalse(result)
+        result = self.a1.question.evaluate_action('line_2', '')
+        self.assertFalse(result)
+        result = self.a1.question.evaluate_action('line_2', 2)
+        self.assertFalse(result)
 
         self.assertIsNone(self.a2.question)
 
@@ -429,26 +425,6 @@ class AssignmentTest(TestCase):
         self.assertTrue(c1_rules)
         self.assertIsInstance(c1_rules.first(), AssessmentRule)
         self.assertGreater(len(c1_rules.all()), 1)
-
-        # TODO Low Priority -- Allow for the evaluation of multiple rules
-        # self.assertTrue(self.c1.question.evaluate_action([
-        #     ['line_1_label', 'Demand'],
-        #     ['line_2_label', 'Supply']
-        # ]))
-        # self.assertFalse(self.c1.question.evaluate_action([
-        #     ['line_1_label', ''],
-        #     ['line_2_label', 'Supply']
-        # ]))
-        # self.assertFalse(self.c1.question.evaluate_action([
-        #     ['line_1_label', 'Demand'],
-        #     ['', 'Supply']
-        # ]))
-        # self.assertFalse(self.c1.question.evaluate_action([
-        #     ['line_1_label', 'Demand']
-        # ]))
-        # self.assertFalse(self.c1.question.evaluate_action(
-        #     'line_1_label', 'Demand'
-        # ))
 
     def test_eval_type(self):
         # Remove pass when the implementation is ready for testing

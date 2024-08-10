@@ -405,7 +405,7 @@ class StepDetailView(LoginRequiredMixin, DetailView):
             if request.POST.get(field):
                 action_name = field
                 action_value = request.POST.get(field)
-                actions[action_name] = action_value
+                actions.append((action_name, action_value))
 
         return actions
 
@@ -461,19 +461,19 @@ class StepDetailView(LoginRequiredMixin, DetailView):
 
         question = step.question
 
-        actions = {}
+        actions = []
         action_name = request.POST.get('action_name')
         action_value = request.POST.get('action_value')
-        if action_name and len(action_name) > 0:
-            actions[action_name] = action_value
+        actions.append((action_name, action_value))
 
         actions = self.append_graph_form_fields(request, actions)
 
         if question:
             # Check all actions for a success.
-            results = question.evaluate_action(actions)
-            results += self.evaluate_mc(request)
-            result = all(results)
+            results = [
+                question.evaluate_action(x[0], x[1]) for x in actions if x
+            ]
+            result = any(results)
 
             # Store the result in the user's session.
             step_name = 'step_{}_{}'.format(step.assignment.pk, step.pk)
@@ -483,6 +483,7 @@ class StepDetailView(LoginRequiredMixin, DetailView):
             step_result, _ = StepResult.objects.get_or_create(
                 step=step, student=request.user)
             step_result.result = result
+
             # Check for loops
             if step.next_step and step.next_step.path < step.path:
                 step_result.loop = step_result.loop + 1
