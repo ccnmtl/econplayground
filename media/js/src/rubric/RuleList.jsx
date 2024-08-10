@@ -147,21 +147,21 @@ function Rule({ rule, graphType }) {
             <div className="accordion-item">
                 <div className="accordion-header">
                     <div className="accordion-button py-2" type="button" data-bs-toggle="collapse"
-                        data-bs-target={`#rule-${rule.id}`}
-                    >
+                        data-bs-target={`#rule-${rule.id}`}>
                         <label>
-                            {rule.name || 'Select an assessment name'} = {rule.value || 'Select a value'}
+                            {rule.name || 'Select an assessment name'} = {
+                                rule.value || 'Select a value'}
                         </label>
-                        <button
-                            type="button"
-                            className="btn btn-sm btn-danger float-end mx-4"
-                            title="Remove rule"
-                            onClick={onClickRemoveRule}>
-                            <i className="bi bi-x-lg"></i>
-                        </button>
                     </div>
                 </div>
                 <div id={`rule-${rule.id}`} className="accordion-collapse collapse show p-2">
+                    <button
+                        type="button"
+                        className="btn btn-sm btn-danger float-end"
+                        title="Remove rule"
+                        onClick={onClickRemoveRule}>
+                        <i className="bi bi-x-lg"></i>
+                    </button>
                     <div className="row mb-3">
                         <div className="col">
                             <label
