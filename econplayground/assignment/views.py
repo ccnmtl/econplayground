@@ -483,10 +483,6 @@ class StepDetailView(LoginRequiredMixin, DetailView):
             step_result, _ = StepResult.objects.get_or_create(
                 step=step, student=request.user)
             step_result.result = result
-
-            # Check for loops
-            if step.next_step and step.next_step.path < step.path:
-                step_result.loop = step_result.loop + 1
             step_result.save()
 
             # Update student's ScorePath with this result.

@@ -352,7 +352,6 @@ class StepResult(models.Model):
     # For now, score is either correct or incorrect. This may change
     # in the future.
     result = models.BooleanField(blank=True, null=True)
-    loop = models.IntegerField(default=0)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
