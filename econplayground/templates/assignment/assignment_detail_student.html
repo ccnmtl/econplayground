@@ -23,17 +23,17 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
+    <div class="container mb-2">
         Welcome to assignment {{object.pk}}!
     </div>
 
-    <div class="ep-assignment-graph">
+    <h3>Assignment steps</h3>
+    <div class="ep-assignment-graph mb-2">
         {{ graph | safe }}
     </div>
 
-    Your path:
-
-    <div class="ep-score-path w-50">
+    <h3>Your path:</h3>
+    <div class="ep-score-path border p-2 w-50 mb-2">
         {% for step in steps %}
             <div class="assignment-step">
                 {{forloop.counter}}.
