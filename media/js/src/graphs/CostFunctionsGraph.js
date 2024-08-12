@@ -18,7 +18,9 @@ export const defaults = [
         gA3Min: 0,
         gA3Max: 30,
         gXAxisMax: 500,
-        gYAxisMax: 10000
+        gYAxisMax: 10000,
+        gXAxisLabel: 'Output, q',
+        gYAxisLabel: '',
     },
     {
         gLine1Label: 'MC',
@@ -38,7 +40,9 @@ export const defaults = [
         gA3Min: 0,
         gA3Max: 30,
         gXAxisMax: 500,
-        gYAxisMax: 25000
+        gYAxisMax: 25000,
+        gXAxisLabel: 'Output, q',
+        gYAxisLabel: '',
     }
 ];
 
