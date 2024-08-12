@@ -1,4 +1,4 @@
-import {Graph} from './Graph.js';
+import {Graph, positiveRange} from './Graph.js';
 
 // defaults based on function type
 export const defaults = [
@@ -411,19 +411,7 @@ export class OptimalChoiceCostMinimizingGraph extends Graph {
 
             this.l2 = this.board.create(
                 'functiongraph',
-                [function(x) {
-                    const result = isoquantLine(x);
-
-                    // Don't render line below 0.
-                    // In jsxgraph we can restrict a functiongraph
-                    // (i.e. a Curve object) by returning NaN.
-                    // https://groups.google.com/g/jsxgraph/c/jhEaxh225VA/m/75LAkgTdBQAJ
-                    if (result < 0) {
-                        return NaN;
-                    }
-
-                    return result;
-                }, 0, this.options.gXAxisMax], {
+                [positiveRange(isoquantLine), 0, this.options.gXAxisMax], {
                     name: 'Isoquant Q^* = ' + this.options.gA3,
                     withLabel: true,
                     label: {
@@ -492,19 +480,7 @@ export class OptimalChoiceCostMinimizingGraph extends Graph {
 
         this.l1 = this.board.create(
             'functiongraph',
-            [function(x) {
-                const result = isocostLine(x);
-
-                // Don't render line below 0.
-                // In jsxgraph we can restrict a functiongraph
-                // (i.e. a Curve object) by returning NaN.
-                // https://groups.google.com/g/jsxgraph/c/jhEaxh225VA/m/75LAkgTdBQAJ
-                if (result < 0) {
-                    return NaN;
-                }
-
-                return result;
-            }, 0, this.options.gXAxisMax], {
+            [positiveRange(isocostLine), 0, this.options.gXAxisMax], {
                 strokeWidth: 2,
                 strokeColor: this.l1Color,
                 fixed: true,

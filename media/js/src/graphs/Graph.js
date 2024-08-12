@@ -83,6 +83,27 @@ export const drawAreaBC = function(
         color);
 };
 
+
+/**
+ * Restrict the given function f to a positive number, otherwise
+ * return NaN.
+ *
+ * The given function is expected to return a number.
+ *
+ * https://groups.google.com/g/jsxgraph/c/jhEaxh225VA/m/75LAkgTdBQAJ
+ */
+export const positiveRange = function(f) {
+    return function() {
+        const result = f.apply(this, arguments);
+
+        if (result < 0) {
+            return NaN;
+        }
+
+        return result;
+    };
+};
+
 /**
  * Graph
  *

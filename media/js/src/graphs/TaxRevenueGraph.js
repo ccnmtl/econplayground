@@ -1,4 +1,4 @@
-import {Graph} from './Graph.js';
+import {Graph, positiveRange} from './Graph.js';
 
 export const defaults = [
     {
@@ -152,7 +152,7 @@ export class TaxRevenueGraph extends Graph {
         }
 
         this.l1 = this.board.create('functiongraph', [
-            f1, this.options.gXAxisMin, this.options.gXAxisMax
+            positiveRange(f1), this.options.gXAxisMin, this.options.gXAxisMax
         ], {
             strokeWidth: 2,
             strokeColor: this.l2Color,

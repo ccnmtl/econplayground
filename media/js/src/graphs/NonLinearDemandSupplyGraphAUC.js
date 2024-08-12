@@ -15,7 +15,9 @@ class NonLinearDemandSupplyGraphAUC extends NonLinearDemandSupplyGraph {
               areaConf === 5;
 
         const invisibleFunc = this.board.create(
-            'functiongraph', [this.l2func, 0, this.intersection.X()], {
+            'functiongraph', [
+                this.l2func, 0, this.intersection.X()
+            ], {
                 visible: false,
                 withLabel: false,
                 strokeWidth: 0,
