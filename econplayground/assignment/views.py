@@ -429,7 +429,7 @@ class StepDetailView(LoginRequiredMixin, DetailView):
             'pk': step.pk,
         }))
 
-    def get_avg_diff(self, curr) -> str:
+    def get_avg_diff(self, curr_step: Step) -> tuple:
         """
         Return the average time difference between the student's time taken
         on Steps related to a given Question
@@ -437,7 +437,7 @@ class StepDetailView(LoginRequiredMixin, DetailView):
         avg = 0
         steplist = StepResult.objects.filter(
             student=self.request.user,
-            step__in=Step.objects.filter(question=curr.question)).all()
+            step__in=Step.objects.filter(question=curr_step.question)).all()
         qty = len(steplist)
         for step in steplist:
             end = mktime(step.updated_at.timetuple())
