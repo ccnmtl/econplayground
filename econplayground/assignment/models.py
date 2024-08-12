@@ -16,6 +16,27 @@ from econplayground.main.models import Cohort, Graph
 from econplayground.assignment.custom_storage import MediaStorage
 
 
+def compare_names(name1: str, name2: str) -> bool:
+    """
+    Remove underscores and lower-case both names for more lax comparison.
+
+    Returns a boolean, True if the strings match.
+    """
+    return name1.lower().replace('_', '') == name2.lower().replace('_', '')
+
+
+def convert_action_name(s: str) -> str:
+    """
+    Convert a string from the form: gLine1Label
+
+    To: line_1_label
+    """
+    if s and len(s) > 1 and s.startswith('g') and s[1].isupper():
+        s = s[1:]
+        return re.sub(r'(?<!^)(?=[A-Z]|\d)', '_', s).lower()
+    return s or ''
+
+
 class Question(models.Model):
     title = models.TextField(blank=True, default='')
     prompt = models.TextField(blank=True, default='')
@@ -30,18 +51,28 @@ class Question(models.Model):
     def __str__(self) -> str:
         return self.title or 'Question {}'.format(self.pk)
 
-    def evaluate_action(self, actions) -> bool:
-        rule_set = self.assessmentrule_set.filter(
-            ~models.Q(assessment_name=''))
-        if rule_set.count() == 0:
-            return [True]
-        for action in list(actions.keys()):
-            actions[convert_action_name(
-                action)] = actions.pop(action)
-        return [rule.evaluate_action(actions[rule.assessment_name])
-                if rule.assessment_name and
-                actions.get(rule.assessment_name)
-                else False for rule in rule_set.all()]
+    def evaluate_action(self, action_name: str, action_value: str) -> bool:
+        """
+        Evaluate the given action.
+
+        This method evaluates the given action with this question's
+        AssessmentRules.
+
+        Returns True or False.
+        """
+        rules = self.assessmentrule_set.filter(~models.Q(assessment_name=''))
+
+        if rules.count() == 0:
+            # This question has no rules, so return success.
+            return True
+
+        action_name = convert_action_name(action_name)
+        for rule in rules:
+            if compare_names(rule.assessment_name, action_name):
+                return rule.evaluate_action(action_name, action_value)
+
+        # No rules matched, so return failure.
+        return False
 
     def first_rule(self) -> 'AssessmentRule':
         return self.assessmentrule_set.first()
@@ -78,18 +109,6 @@ class QuestionAnalysis(models.Model):
             avg = 0.0
 
         return avg
-
-
-def convert_action_name(s: str) -> str:
-    """
-    Convert a string from the form: gLine1Label
-
-    To: line_1_label
-    """
-    if s and len(s) > 1 and s.startswith('g') and s[1].isupper():
-        s = s[1:]
-        return re.sub(r'(?<!^)(?=[A-Z]|\d)', '_', s).lower()
-    return s or ''
 
 
 class MultipleChoice(models.Model):
@@ -143,22 +162,26 @@ class AssessmentRule(models.Model):
     def has_feedback(self) -> bool:
         return self.has_fulfilled_feedback() or self.has_unfulfilled_feedback()
 
-    def evaluate_action(self, action_value: str) -> bool:
+    def evaluate_action(self, action_name: str, action_value: str) -> bool:
         """
         Evaluate a user action, based on action type and value.
 
         Returns a boolean: True for success, False for failure.
         """
-        if self.assessment_name != '' and self.assessment_value != '':
-            # Remove underscores and lower-case both names for more lax
-            # comparison.
-            action_value = convert_action_name(
-                action_value).lower().replace('_', '')
-            self.assessment_value = self.assessment_value.lower(
-                ).replace('_', '')
-            return action_value == self.assessment_value
-        else:
+        action_name = convert_action_name(action_name)
+        self.assessment_name = convert_action_name(self.assessment_name)
+
+        if self.assessment_name and self.assessment_value:
+            return compare_names(action_name, self.assessment_name) and \
+                action_value.lower() == self.assessment_value.lower()
+
+        if self.assessment_name:
+            return compare_names(action_name, self.assessment_name)
+
+        if not self.assessment_name and not self.assessment_value:
             return True
+
+        return False
 
 
 class Assignment(models.Model):
