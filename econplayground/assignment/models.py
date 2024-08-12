@@ -291,6 +291,8 @@ class Step(MP_Node):
         This is probably the result of a correct answer on the student
         side.
         """
+        if self.next_step:
+            return self.next_step
 
         node = self.get_next_sibling()
         if node:
