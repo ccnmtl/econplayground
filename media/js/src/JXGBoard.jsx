@@ -5,11 +5,15 @@ import PropTypes from 'prop-types';
 
 import JXG from 'jsxgraph';
 import { getKatexEl } from './katexUtils.jsx';
+import {
+    LINE_1_COLOR, LINE_2_COLOR, LINE_3_COLOR, LINE_4_COLOR
+} from './graphs/Graph.js';
 import { graphTypes, isJointGraph } from './graphs/graphTypes.js';
 import { mkNonLinearDemandSupply } from './graphs/NonLinearDemandSupplyGraph.js';
 import { mkDemandSupply } from './graphs/DemandSupplyGraph.js';
 import { mkTaxationLinearDemandSupply } from './graphs/TaxationLinearDemandSupplyGraph.js';
 import AreaDisplay from './AreaDisplay.jsx';
+import Legend from './Legend.jsx';
 import {
     getL1SubmissionOffset, getL2SubmissionOffset, GRID_MAJOR, GRID_MINOR
 } from './utils.js';
@@ -705,7 +709,11 @@ export default class JXGBoard extends React.Component {
     // called only if shouldComponentUpdate returns true
     // for rendering the JSXGraph board div and any child elements
     render() {
-        let math1 = null, math2 = null, area = null, figure2 = true;
+        let math1 = null;
+        let math2 = null;
+        let area = null;
+        let figure2 = true;
+
         if (this.props.gType === 9 || this.props.gType === 10) {
             area = <AreaDisplay
                 areaConf={this.props.gAreaConfiguration}
@@ -722,10 +730,28 @@ export default class JXGBoard extends React.Component {
             }
             figure2 = false;
         }
+
+        let legend = null;
+        if (this.props.gType === 18) {
+            legend = (
+                <Legend
+                    gLine1Label={this.props.gLine1Label}
+                    line1Color={LINE_1_COLOR}
+                    gLine2Label={this.props.gLine2Label}
+                    line2Color={LINE_2_COLOR}
+                    gLine3Label={this.props.gLine3Label}
+                    line3Color={LINE_3_COLOR}
+                    gLine4Label={this.props.gLine4Label}
+                    line4Color={LINE_4_COLOR}
+                />
+            );
+        }
+
         return (
             <>
                 {this.makeFigure(this.id, false, math1)}
                 {this.makeFigure(this.id + '-2', figure2, math2)}
+                {legend}
                 {area}
             </>
         );

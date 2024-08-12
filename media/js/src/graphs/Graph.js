@@ -2,6 +2,10 @@ import { defaultGraph } from '../GraphMapping.js';
 import {getOffset} from '../utils.js';
 import {drawPolygon} from '../jsxgraphUtils.js';
 
+export const LINE_1_COLOR = 'rgb(255, 127, 14)';
+export const LINE_2_COLOR = 'steelblue';
+export const LINE_3_COLOR = 'rgb(228, 87, 86)';
+export const LINE_4_COLOR = 'rgb(87, 200, 86)';
 
 const applyDefaults = function(obj, defaults) {
     let o = {};
@@ -123,12 +127,13 @@ export class Graph {
 
         // Line 1 and line 2
         this.l1 = null;
-        this.l1Color = 'rgb(255, 127, 14)';
+        this.l1Color = LINE_1_COLOR;
         this.l2 = null;
-        this.l2Color = 'steelblue';
+        this.l2Color = LINE_2_COLOR;
         this.l3 = null;
-        this.l3Color = 'rgb(228, 87, 86)';
-        this.l4Color = 'rgb(87, 200, 86)';
+        this.l3Color = LINE_3_COLOR;
+        this.l4Color = LINE_4_COLOR;
+
         this.shadowColor = 'rgb(200, 200, 200)';
         this.shadowAreaColor = 'rgb(150, 150, 150)';
 
