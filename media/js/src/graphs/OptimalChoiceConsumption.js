@@ -293,24 +293,77 @@ const u8f1 = function(x, px, py, R, a, b) {
     ) / b;
 };
 
+/**
+ * This graph displays the function:
+ *
+ * Line 1: y_1 = (R-px*x_1)/py
+ *
+ * Line 2: y_2 = (U_star/x^alpha)^(1/beta)
+ * Where:
+ *   U_star = U(x, y) = x_star^alpha * y_star^beta
+ *   x_star = (alpha/(alpha+beta)) * R/px
+ *   y_star = (beta/(alpha+beta)) * R/py
+ *
+ * px -> gA1
+ * py -> gA2
+ * R -> gA3
+ * alpha -> gA4
+ * beta -> gA5
+ */
 export class OptimalChoiceConsumptionGraph extends Graph {
-    /**
-     * This graph displays the function:
-     *
-     * Line 1: y_1 = (R-px*x_1)/py
-     *
-     * Line 2: y_2 = (U_star/x^alpha)^(1/beta)
-     * Where:
-     *   U_star = U(x, y) = x_star^alpha * y_star^beta
-     *   x_star = (alpha/(alpha+beta)) * R/px
-     *   y_star = (beta/(alpha+beta)) * R/py
-     *
-     * px -> gA1
-     * py -> gA2
-     * R -> gA3
-     * alpha -> gA4
-     * beta -> gA5
-     */
+    static getRuleOptions() {
+        return [
+            {
+                name: 'Orange line',
+                value: 'line1',
+            },
+            {
+                name: 'Blue line',
+                value: 'line2',
+            },
+            {
+                name: 'Orange line 2',
+                value: 'line3',
+            },
+            {
+                name: 'Blue line 2',
+                value: 'line4',
+            },
+            {
+                name: 'Orange line slope',
+                value: 'line_1_slope'
+            },
+            {
+                name: 'Cobb-Douglas A',
+                value: 'cobb_douglas_a'
+            },
+            {
+                name: 'Cobb-Douglas K',
+                value: 'cobb_douglas_k'
+            },
+            {
+                name: 'Orange line label',
+                value: 'line_1_label'
+            },
+            {
+                name: 'Blue line label',
+                value: 'line_2_label'
+            },
+            {
+                name: 'Intersection point label',
+                value: 'intersection_label'
+            },
+            {
+                name: 'Intersection\'s horizontal line label',
+                value: 'intersection_horiz_line_label'
+            },
+            {
+                name: 'Intersection\'s vertical line label',
+                value: 'intersection_vert_line_label'
+            }
+        ];
+    }
+
     make() {
         const me = this;
 

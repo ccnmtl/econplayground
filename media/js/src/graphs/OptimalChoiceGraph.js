@@ -3,7 +3,72 @@ import {
     getIntersectionPointOptions, invisiblePointOptions
 } from './Graph.js';
 
-class OptimalChoiceGraph extends ConsumptionSavingGraph {
+export class OptimalChoiceGraph extends ConsumptionSavingGraph {
+    static getRuleOptions() {
+        return [
+            {
+                name: 'y1',
+                value: 'a1'
+            },
+            {
+                name: 'y2',
+                value: 'a2'
+            },
+            {
+                name: 'W',
+                value: 'a3'
+            },
+            {
+                name: 'r',
+                value: 'a4'
+            },
+            {
+                name: 'β (beta)',
+                value: 'a5'
+            },
+            {
+                name: 'Orange line label',
+                value: 'line_1_label'
+            },
+            {
+                name: 'Blue line label',
+                value: 'line_2_label'
+            },
+            {
+                name: 'Endowment point label',
+                value: 'intersection_label'
+            },
+            {
+                name: 'Endowment point\'s horizontal line label',
+                value: 'intersection_horiz_line_label'
+            },
+            {
+                name: 'Endowment point\'s vertical line label',
+                value: 'intersection_vert_line_label'
+            },
+            {
+                name: 'Optimal point label',
+                value: 'intersection_2_label'
+            },
+            {
+                name: 'Optimal point\'s horizontal line label',
+                value: 'intersection_2_horiz_line_label'
+            },
+            {
+                name: 'Optimal point\'s vertical line label',
+                value: 'intersection_2_vert_line_label'
+            },
+            {
+                name: 'Orange point\'s horizontal line label',
+                value: 'intersection_3_horiz_line_label'
+            },
+            {
+                name: 'Orange point\'s vertical line label',
+                value: 'intersection_3_vert_line_label'
+            },
+        ];
+    }
+
     U(c1, c2, beta) {
         return Math.log(c1) + beta * Math.log(c2);
     }

@@ -7,7 +7,48 @@ export const defaults = {
     gA5Name: 'Y'
 };
 
-class CobbDouglasGraph extends Graph {
+export class CobbDouglasGraph extends Graph {
+    static getRuleOptions() {
+        return [
+            {
+                name: 'Intersection point label',
+                value: 'intersection_label'
+            },
+            {
+                name: 'Y label',
+                value: 'a5_name'
+            },
+            {
+                name: 'A label',
+                value: 'a1_name'
+            },
+            {
+                name: 'K label',
+                value: 'a3_name'
+            },
+            {
+                name: 'L label',
+                value: 'a2_name'
+            },
+            {
+                name: 'A',
+                value: 'a1'
+            },
+            {
+                name: 'K',
+                value: 'a3'
+            },
+            {
+                name: 'Alpha (α)',
+                value: 'a4'
+            },
+            {
+                name: 'L',
+                value: 'a2'
+            }
+        ];
+    }
+
     make() {
         const me = this;
         const f = function(x) {
