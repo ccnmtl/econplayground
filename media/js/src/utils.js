@@ -108,10 +108,10 @@ const getQuestion = function(questionId) {
 };
 
 
-const getMultipleChoice = function(qId) {
+const getMultipleChoice = function(questionId) {
     const elt = document.getElementById('csrf-token');
     const token = elt ? elt.getAttribute('content') : '';
-    return fetch(`/api/multiple_choice/?format=json&qId=${qId}`, {
+    return fetch(`/api/multiple_choice/?format=json&questionId=${questionId}`, {
         method: 'get',
         headers: {
             'Accept': 'application/json, text/plain, */*',
@@ -130,10 +130,10 @@ const getMultipleChoice = function(qId) {
 };
 
 
-const getEvaluations = function(qId) {
+const getEvaluations = function(questionId) {
     const elt = document.getElementById('csrf-token');
     const token = elt ? elt.getAttribute('content') : '';
-    return fetch(`/api/evaluations/?format=json&qId=${qId}`, {
+    return fetch(`/api/evaluations/?format=json&questionId=${questionId}`, {
         method: 'get',
         headers: {
             'Accept': 'application/json, text/plain, */*',

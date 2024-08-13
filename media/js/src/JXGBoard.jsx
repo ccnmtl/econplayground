@@ -180,24 +180,25 @@ export default class JXGBoard extends React.Component {
                 };
             }
 
-            // If this is a joint graph, alter the graph ID constructor
-            // to be that of the top graph we're rendering.
-            let graphId = options.gType;
+            // If this is a joint graph, alter the graph type
+            // constructor to be that of the top graph we're
+            // rendering.
+            let graphType = options.gType;
             if (options.gType === 12) {
                 // Render a Cobb-Douglas graph
-                graphId = 3;
+                graphType = 3;
             } else if (options.gType === 13) {
                 // Render a Linear Demand-Supply graph
-                graphId = 0;
+                graphType = 0;
             } else if (options.gType === 14) {
                 // Render a Non-Linear Demand-Supply graph
-                graphId = 1;
+                graphType = 1;
             } else if (options.gType === 24) {
                 // Render a Tax Revenue graph
-                graphId = 22;
+                graphType = 22;
             }
 
-            graphTypes[graphId](this.board, graphParams);
+            graphTypes[graphType](this.board, graphParams);
 
             // On the Cobb-Douglas NLDS joint graph type, also
             // initialize the second board to be a NLDS graph.

@@ -2,16 +2,10 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import MultipleChoice from './MultipleChoice.jsx';
 
-const rootMC = {};
-
-function initMultipleChoice(domElement, qId=null) {
+function initMultipleChoice(domElement, questionId=null) {
     const container = domElement;
-    if (container) {
-        if (!(container.id in rootMC)) {
-            rootMC[domElement.id] = createRoot(domElement);
-        }
-        rootMC[domElement.id].render(<MultipleChoice qId={qId} />);
-    }
+    const root = createRoot(container);
+    root.render(<MultipleChoice questionId={questionId} />);
 }
 
 window.initMultipleChoice = initMultipleChoice;

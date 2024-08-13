@@ -131,7 +131,7 @@ urlpatterns = [
          name='step_detail'),
 
     path('assignment/<int:assignment_pk>/question/',
-         assignment_views.AssignmentQuestionView.as_view(),
+         assignment_views.AssignmentQuestionListView.as_view(),
          name='assignment_question_list'),
     path('assignment/<int:assignment_pk>/question/create/',
          assignment_views.QuestionCreateView.as_view(),

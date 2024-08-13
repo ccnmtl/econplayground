@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { getMultipleChoice } from './utils';
 
-export default function MultipleChoice({qId}) {
+export default function MultipleChoice({questionId}) {
     const [mcSet, setMcSet] = useState([]);
 
     useEffect(() => {
-        if (qId) {
-            getMultipleChoice(qId).then(data => {
+        if (questionId) {
+            getMultipleChoice(questionId).then(data => {
                 if (data) {
                     setMcSet(data);
                 }});
@@ -17,7 +17,7 @@ export default function MultipleChoice({qId}) {
     const handleAddMC = function(e) {
         e.preventDefault();
         setMcSet([...mcSet, {
-            'question': qId,
+            'question': questionId,
             'choices': [''],
             'correct': 0,
             'text': '',
@@ -85,12 +85,8 @@ export default function MultipleChoice({qId}) {
     };
 
     return (
-        <div className="mb-3">
-            <label htmlFor="multiple-choice"
-                className="form-label"
-            >
-                Multiple Choice
-            </label>
+        <div>
+            <h3>Multiple Choice</h3>
             <div id="multiple-choice" className="mb-2 accordion">
                 {mcSet.map((set, i) => {
                     if (i >= 10) {
@@ -188,6 +184,7 @@ export default function MultipleChoice({qId}) {
                     <button
                         className="btn btn-primary mt-2"
                         onClick={handleAddMC}>
+                        <i className="bi bi-plus-lg"></i>
                         Add multiple choice
                     </button>
                 )}
@@ -197,5 +194,7 @@ export default function MultipleChoice({qId}) {
 }
 
 MultipleChoice.propTypes = {
-    qId: PropTypes.number
+    // This is required for updating an existing question, but not
+    // present when making a new question.
+    questionId: PropTypes.number
 };

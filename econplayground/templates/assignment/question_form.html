@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block js %}
+{% include "./question_form_js.html" %}
+{% endblock %}
+
+{% block title %}Question Form | {{ assignment.title }}{% endblock %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{% url 'assignment_list' %}" title="Assignment List">
+                {% include 'main/your_assignments_snippet.html' %}
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'assignment_detail' assignment.pk %}">
+                {{ assignment.title|truncatewords:5 }}
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            {{ question.title|truncatewords:5 }}
+        </li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block pagetitle %}
+<h1>{{question.title}}</h1>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a href="{% url 'assignment_detail' assignment.pk %}"
+               class="nav-link"
+               type="button" role="tab" aria-selected="false">
+                Assignment
+            </a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a href="{% url 'assignment_question_list' assignment.pk %}"
+               class="nav-link active" type="button" role="tab"
+               aria-selected="true">
+                Questions
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="questions-tab-pane"
+             role="tabpanel" tabindex="0">
+            <form method="post"
+                  {% if question %}
+                  action="{% url 'assignment_question_edit' assignment.pk question.pk %}"
+                  {% else %}
+                  action="."
+                  {% endif %}
+                  >
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label for="questionTitle-{{question.pk}}"
+                           class="form-label">
+                        Title
+                    </label>
+                    <input type="text" class="form-control"
+                           id="questionTitle-{{question.pk}}"
+                           name="title"
+                           value="{{question.title}}" />
+                </div>
+                <div class="mb-3">
+                    <label for="questionPrompt-{{question.pk}}"
+                           class="form-label">
+                        Prompt
+                    </label>
+                    <textarea class="form-control"
+                              name="prompt"
+                              id="questionPrompt-{{question.pk}}">{{question.prompt}}</textarea>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="questionGraph" class="form-label">
+                                Graph
+                            </label>
+                            <select class="form-select ep-graph"
+                                    name="graph" id="questionGraph">
+                                <option value="">--</option>
+                                {% for graph in graphs %}
+                                <option data-graphtype="{{graph.graph_type}}"
+                                        value="{{graph.pk}}"
+                                        {% if question.graph.pk == graph.pk %}selected{% endif %}>
+                                    {{graph.title}}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="mb-2 accordion">
+                            <div class="accordion-item">
+                                <div class="accordion-header"
+                                     id="heading">
+                                    <button class="accordion-button py-2 collapsed"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#collapse-graph"
+                                            aria-expanded="false"
+                                            aria-controls="collapse-graph">
+                                        Graph Preview
+                                    </button>
+                                </div>
+                                <div id="collapse-graph"
+                                     class="accordion-collapse show"
+                                     aria-labelledby="heading"
+                                     data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <!-- Graph Preview React Component -->
+                                        <div id="graph-preview"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <!-- Multiple Choice React Component -->
+                        <div id="multiple-choice"></div>
+                    </div>
+                    <div class="col">
+                        <!-- Rubric React component -->
+                        <div id="question-rubric"></div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    Save
+                </button>
+
+                {% if question %}
+                <button type="submit" class="btn btn-info"
+                        formaction="{% url 'assignment_question_preview' assignment.pk question.pk %}"
+                        id="question-preview" value="preview">
+                    Save and Preview
+                </button>
+
+                <a role="button"
+                   class="btn btn-danger float-end"
+                   href="{% url 'assignment_question_delete' assignment.pk question.pk %}">
+                    Delete question
+                </a>
+                {% endif %}
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

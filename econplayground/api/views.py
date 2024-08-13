@@ -104,5 +104,5 @@ class MultipleChoiceViewSet(viewsets.ModelViewSet):
     permission_classes = (IsInstructor,)
 
     def get_queryset(self):
-        q_id = self.request.query_params.get('qId')
+        q_id = self.request.query_params.get('questionId')
         return MultipleChoice.objects.filter(question=q_id)
