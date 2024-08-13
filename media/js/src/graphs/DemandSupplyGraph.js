@@ -9,6 +9,55 @@ export class DemandSupplyGraph extends Graph {
         this.center = 2.5;
     }
 
+    static getRuleOptions() {
+        return [
+            {
+                name: 'Orange line',
+                value: 'line1',
+            },
+            {
+                name: 'Blue line',
+                value: 'line2',
+            },
+            {
+                name: 'Orange line label',
+                value: 'line_1_label'
+            },
+            {
+                name: 'Blue line label',
+                value: 'line_2_label'
+            },
+            {
+                name: 'X-axis label',
+                value: 'x_axis_label'
+            },
+            {
+                name: 'Y-axis label',
+                value: 'y_axis_label'
+            },
+            {
+                name: 'Intersection point label',
+                value: 'intersection_label'
+            },
+            {
+                name: 'Intersection\'s horizontal line label',
+                value: 'intersection_horiz_line_label'
+            },
+            {
+                name: 'Intersection\'s vertical line label',
+                value: 'intersection_vert_line_label'
+            },
+            {
+                name: 'Orange line slope',
+                value: 'line_1_slope'
+            },
+            {
+                name: 'Blue line slope',
+                value: 'line_2_slope'
+            }
+        ];
+    }
+
     make() {
         if (this.options.shadow && this.options.gDisplayShadow) {
             // Display the initial curves set by the instructor.

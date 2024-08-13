@@ -4,7 +4,88 @@ import {Graph, positiveRange} from './Graph.js';
 /**
  * Aggregate Demand - Aggregate Supply graph.
  */
-class ADASGraph extends Graph {
+export class ADASGraph extends Graph {
+    static getRuleOptions() {
+        return [
+            {
+                name: 'Orange line',
+                value: 'line1',
+            },
+            {
+                name: 'Blue line',
+                value: 'line2',
+            },
+            {
+                name: 'Red line',
+                value: 'line3',
+            },
+            {
+                name: 'Orange line label',
+                value: 'line_1_label'
+            },
+            {
+                name: 'Blue line label',
+                value: 'line_2_label'
+            },
+            {
+                name: 'X-axis label',
+                value: 'x_axis_label'
+            },
+            {
+                name: 'Y-axis label',
+                value: 'y_axis_label'
+            },
+            {
+                name: 'Orange-Blue Intersection label',
+                value: 'intersection_1_label'
+            },
+            {
+                name: 'Orange-Blue Intersection\'s horizontal line label',
+                value: 'intersection_1_horiz_line_label'
+            },
+            {
+                name: 'Orange-Blue Intersection\'s vertical line label',
+                value: 'intersection_1_vert_line_label'
+            },
+            {
+                name: 'Blue-Red Intersection point label',
+                value: 'intersection_2_label'
+            },
+            {
+                name: 'Blue-Red Intersection\'s horizontal line label',
+                value: 'intersection_2_horiz_line_label'
+            },
+            {
+                name: 'Blue-Red Intersection\'s vertical line label',
+                value: 'intersection_2_vert_line_label'
+            },
+            {
+                name: 'Orange-Red Intersection point label',
+                value: 'intersection_3_label'
+            },
+            {
+                name: 'Orange-Red Intersection\'s horizontal line label',
+                value: 'intersection_3_horiz_line_label'
+            },
+            {
+                name: 'Orange-Red Intersection\'s vertical line label',
+                value: 'intersection_3_vert_line_label'
+            },
+            {
+                name: 'Orange line slope',
+                value: 'line_1_slope'
+            },
+            {
+                name: 'Blue line slope',
+                value: 'line_2_slope'
+            },
+            {
+                name: 'Red line slope',
+                value: 'line_3_slope'
+            },
+        ];
+    }
+
     make() {
         const me = this;
 

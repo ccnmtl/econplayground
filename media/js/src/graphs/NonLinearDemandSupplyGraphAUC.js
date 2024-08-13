@@ -9,7 +9,76 @@ import {
     AREA_A_COLOR, AREA_B_COLOR, AREA_C_COLOR
 } from './Graph.js';
 
-class NonLinearDemandSupplyGraphAUC extends NonLinearDemandSupplyGraph {
+export class NonLinearDemandSupplyGraphAUC extends NonLinearDemandSupplyGraph {
+    static getRuleOptions() {
+        return [
+            {
+                name: 'Function',
+                value: 'function_choice'
+            },
+            {
+                name: 'Orange line slope',
+                value: 'line_1_slope'
+            },
+            {
+                name: 'A label',
+                value: 'cobb_douglas_a_name'
+            },
+            {
+                name: 'K label',
+                value: 'cobb_douglas_k_name'
+            },
+            {
+                name: 'N label',
+                value: 'n_name'
+            },
+            {
+                name: 'Orange line label',
+                value: 'line_1_label'
+            },
+            {
+                name: 'Blue line label',
+                value: 'line_2_label'
+            },
+            {
+                name: 'Intersection point label',
+                value: 'intersection_label'
+            },
+            {
+                name: 'Intersection\'s horizontal line label',
+                value: 'intersection_horiz_line_label'
+            },
+            {
+                name: 'Intersection\'s vertical line label',
+                value: 'intersection_vert_line_label'
+            },
+            {
+                name: 'A',
+                value: 'cobb_douglas_a'
+            },
+            {
+                name: 'K',
+                value: 'cobb_douglas_k'
+            },
+            {
+                name: 'Area A label',
+                value: 'area_a_name'
+            },
+            {
+                name: 'Area B label',
+                value: 'area_b_name'
+            },
+            {
+                name: 'Area C label',
+                value: 'area_c_name'
+            },
+            {
+                name: 'Area configuration',
+                value: 'area_configuration'
+            }
+        ];
+    }
+
     drawAreaA(areaConf) {
         const isVisible = areaConf === 0 || areaConf === 3 ||
               areaConf === 5;

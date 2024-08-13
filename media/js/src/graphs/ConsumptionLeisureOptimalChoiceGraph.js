@@ -1,7 +1,60 @@
 import {ConsumptionLeisureGraph} from './ConsumptionLeisureGraph.js';
 import {invisiblePointOptions} from './Graph.js';
 
-class ConsumptionLeisureOptimalChoiceGraph extends ConsumptionLeisureGraph {
+export class ConsumptionLeisureOptimalChoiceGraph extends ConsumptionLeisureGraph {
+    static getRuleOptions() {
+        return [
+            {
+                name: 'Horizontal intercept value: T',
+                value: 'a1'
+            },
+            {
+                name: 'Real Wage: w',
+                value: 'a2'
+            },
+            {
+                name: 'Rel. Preference: α',
+                value: 'a3'
+            },
+            {
+                name: 'Tax Rate: t',
+                value: 'a4'
+            },
+            {
+                name: 'Budget line label',
+                value: 'line_1_label'
+            },
+            {
+                name: 'X-axis label',
+                value: 'x_axis_label'
+            },
+            {
+                name: 'Y-axis label',
+                value: 'y_axis_label'
+            },
+            {
+                name: 'Intersection\'s horizontal line label',
+                value: 'intersection_horiz_line_label'
+            },
+            {
+                name: 'Intersection\'s vertical line label',
+                value: 'intersection_vert_line_label'
+            },
+            {
+                name: 'Optimal point label',
+                value: 'intersection_label'
+            },
+            {
+                name: 'Optimal point\'s horizontal line label',
+                value: 'intersection_horiz_line_label'
+            },
+            {
+                name: 'Optimal point\'s vertical line label',
+                value: 'intersection_vert_line_label'
+            }
+        ];
+    }
+
     /**
      * U(f,c) = f^α * c^(1 - α)
      */

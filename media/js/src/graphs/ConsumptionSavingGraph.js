@@ -1,19 +1,56 @@
 import {Graph, invisiblePointOptions, positiveRange} from './Graph.js';
 
+/**
+ * This graph displays the function:
+ *
+ *   c2 = y2 + (1 + r)(y1 + W - c1)
+ *
+ * With c1 plotted as X. To store these values,
+ * I'm using:
+ *
+ *   y1 -> gA1
+ *   y2 -> gA2
+ *   W -> gA3
+ *   r -> gA4
+ */
 export class ConsumptionSavingGraph extends Graph {
-    /**
-     * This graph displays the function:
-     *
-     *   c2 = y2 + (1 + r)(y1 + W - c1)
-     *
-     * With c1 plotted as X. To store these values,
-     * I'm using:
-     *
-     *   y1 -> gA1
-     *   y2 -> gA2
-     *   W -> gA3
-     *   r -> gA4
-     */
+    static getRuleOptions() {
+        return [
+            {
+                name: 'y1',
+                value: 'a1'
+            },
+            {
+                name: 'y2',
+                value: 'a2'
+            },
+            {
+                name: 'W',
+                value: 'a3'
+            },
+            {
+                name: 'r',
+                value: 'a4'
+            },
+            {
+                name: 'Orange line label',
+                value: 'line_1_label'
+            },
+            {
+                name: 'Endowment point label',
+                value: 'intersection_label'
+            },
+            {
+                name: 'Endowment point\'s horizontal line label',
+                value: 'intersection_horiz_line_label'
+            },
+            {
+                name: 'Endowment point\'s vertical line label',
+                value: 'intersection_vert_line_label'
+            }
+        ];
+    }
+
     make() {
         const me = this;
 

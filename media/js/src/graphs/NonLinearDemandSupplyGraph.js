@@ -2,6 +2,59 @@ import {Graph, positiveRange} from './Graph.js';
 import {getYIntercept} from '../utils.js';
 
 export class NonLinearDemandSupplyGraph extends Graph {
+    static getRuleOptions() {
+        return [
+            {
+                name: 'Function',
+                value: 'function_choice'
+            },
+            {
+                name: 'Orange line slope',
+                value: 'line_1_slope'
+            },
+            {
+                name: 'A label',
+                value: 'cobb_douglas_a_name'
+            },
+            {
+                name: 'K label',
+                value: 'cobb_douglas_k_name'
+            },
+            {
+                name: 'N label',
+                value: 'n_name'
+            },
+            {
+                name: 'Orange line label',
+                value: 'line_1_label'
+            },
+            {
+                name: 'Blue line label',
+                value: 'line_2_label'
+            },
+            {
+                name: 'Intersection point label',
+                value: 'intersection_label'
+            },
+            {
+                name: 'Intersection\'s horizontal line label',
+                value: 'intersection_horiz_line_label'
+            },
+            {
+                name: 'Intersection\'s vertical line label',
+                value: 'intersection_vert_line_label'
+            },
+            {
+                name: 'A',
+                value: 'cobb_douglas_a'
+            },
+            {
+                name: 'K',
+                value: 'cobb_douglas_k'
+            }
+        ];
+    }
+
     make() {
         const me = this;
         const alpha =

@@ -358,6 +358,26 @@ export class Graph {
 
         return i;
     }
+
+    /**
+     * Get assessment rules for this graph type.
+     *
+     * Returns an array of objects of the form:
+     * [
+     *     {
+     *         name: 'Orange line',
+     *         value: 'line1',
+     *     },
+     *     ...
+     * ]
+     */
+    static getRuleOptions() {
+        // unimplemented
+    }
+
+    /**
+     *
+     */
     make() {
         // unimplemented
     }

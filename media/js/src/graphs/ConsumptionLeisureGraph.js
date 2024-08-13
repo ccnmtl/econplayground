@@ -1,16 +1,53 @@
 import {Graph, positiveRange} from './Graph.js';
 
+/**
+ * This graph displays the function:
+ *
+ *   y = (n - x)w
+ *
+ * To store these values, I'm using:
+ *
+ *   n -> gA1
+ *   w -> gA2
+ */
 export class ConsumptionLeisureGraph extends Graph {
-    /**
-     * This graph displays the function:
-     *
-     *   y = (n - x)w
-     *
-     * To store these values, I'm using:
-     *
-     *   n -> gA1
-     *   w -> gA2
-     */
+    static getRuleOptions() {
+        return [
+            {
+                name: 'Horizontal intercept value: T',
+                value: 'a1'
+            },
+            {
+                name: 'Real Wage: w',
+                value: 'a2'
+            },
+            {
+                name: 'Tax Rate: t',
+                value: 'a4'
+            },
+            {
+                name: 'Budget line label',
+                value: 'line_1_label'
+            },
+            {
+                name: 'X-axis label',
+                value: 'x_axis_label'
+            },
+            {
+                name: 'Y-axis label',
+                value: 'y_axis_label'
+            },
+            {
+                name: 'Intersection\'s horizontal line label',
+                value: 'intersection_horiz_line_label'
+            },
+            {
+                name: 'Intersection\'s vertical line label',
+                value: 'intersection_vert_line_label'
+            }
+        ];
+    }
+
     make() {
         const me = this;
 
