@@ -17,7 +17,7 @@ export default class GraphPreview extends React.Component {
     componentDidMount() {
         const me = this;
 
-        getGraph(this.props.gId).then(json => {
+        getGraph(this.props.graphId).then(json => {
             if (json) {
                 importGraph(json, me);
             }
@@ -25,10 +25,10 @@ export default class GraphPreview extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.gId !== prevProps.gId) {
+        if (this.props.graphId !== prevProps.graphId) {
             const me = this;
 
-            getGraph(this.props.gId).then(json => {
+            getGraph(this.props.graphId).then(json => {
                 if (json) {
                     importGraph(json, me);
                 }
@@ -43,25 +43,31 @@ export default class GraphPreview extends React.Component {
         }
 
         let graph = <p>No Graph Found.</p>;
+        let title = null;
 
-        if (this.props.gId && this.state.gType) {
+        if (this.props.graphId && typeof this.state.gType !== 'undefined') {
+            title = this.state.gTitle;
             graph = (
                 <JXGBoard
                     className='row'
                     id={'editing-graph'}
-                    width={BOARD_WIDTH}
-                    height={BOARD_HEIGHT}
+                    width={BOARD_WIDTH * 0.75}
+                    height={BOARD_HEIGHT * 0.75}
                     shadow={!isInstructor}
                     {...this.state}
                 />
             );
+        } else if (!this.props.graphId) {
+            // No graph selected.
+            title = 'No graph selected';
+            graph = null;
         } else {
             graph = <p>Loading...</p>;
         }
 
         return (
             <div className="GraphPreview p-2">
-                <h4>{this.state.gTitle ? this.state.gTitle : 'No graph selected'}</h4>
+                <h6>{title}</h6>
                 <p>{this.state.gInstructions}</p>
                 <div className="row bg-white mb-2 overflow-hidden">
                     {graph}
@@ -72,5 +78,5 @@ export default class GraphPreview extends React.Component {
 }
 
 GraphPreview.propTypes = {
-    gId: PropTypes.number
+    graphId: PropTypes.number.isRequired
 };

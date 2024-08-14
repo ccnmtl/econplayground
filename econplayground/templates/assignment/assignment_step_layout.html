@@ -93,7 +93,7 @@
                     {% for question in questions %}
                         <option {% if step.data.question == question.pk %}selected{% endif %}
                                 value="{{question.pk}}">
-                            {{question.title}}
+                            {{question|truncatewords:5}}
                         </option>
                     {% endfor %}
                 </select>
@@ -156,7 +156,7 @@
                                     {% for question in questions %}
                                         <option {% if substep.data.question == question.pk %}selected{% endif %}
                                                 value="{{question.pk}}">
-                                            {{question.title}}
+                                            {{question}}
                                         </option>
                                     {% endfor %}
                                 </select>

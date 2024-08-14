@@ -2,18 +2,11 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import GraphPreview from './GraphPreview.jsx';
 
-const rootMC = {};
+const container = document.getElementById('graph-preview');
+const root = createRoot(container);
 
-function initGraphPreview(domElement, gId=null) {
-    const container = domElement;
-    if (container) {
-        if (!(container.id in rootMC)) {
-            rootMC[domElement.id] = createRoot(domElement);
-        }
-    }
-    if (gId) {
-        rootMC[domElement.id].render(<GraphPreview gId={gId} />);
-    }
+function initGraphPreview(domElement, graphId=null) {
+    root.render(<GraphPreview graphId={graphId} />);
 }
 
 window.initGraphPreview = initGraphPreview;

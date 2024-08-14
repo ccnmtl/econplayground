@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Questions | {{ assignment.title }}{% endblock %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{% url 'assignment_list' %}" title="Assignment List">
+                {% include 'main/your_assignments_snippet.html' %}
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            {{ assignment.title|truncatewords:5 }}
+        </li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block pagetitle %}
+    <h1>Questions</h1>
+{% endblock %}
+
+{% block pagedescription %}
+
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a href="{% url 'assignment_detail' assignment.pk %}"
+                   class="nav-link"
+                   type="button" role="tab" aria-selected="false">
+                    Assignment
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active"
+                   type="button" role="tab" aria-selected="true">
+                    Questions
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="questions-tab-pane"
+                 role="tabpanel" tabindex="0">
+
+                <div class="my-1">
+                    <a href="{% url 'assignment_question_create' assignment.pk %}"
+                       type="submit" class="btn btn-primary">
+                        <i class="bi bi-plus-lg"></i> Add question
+                    </a>
+                </div>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Prompt</th>
+                            <th scope="col">Graph</th>
+                            <th scope="col">Updated at</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for question in questions %}
+                        <tr>
+                            <th scope="row">{{question.pk}}</th>
+                            <td title="{{question}}">
+                                <a title="Edit {{question}}"
+                                   href="{% url 'assignment_question_edit' assignment.pk question.pk %}">
+                                    {{question|truncatewords:5}}
+                                </a>
+                            </td>
+                            <td title="{{question.prompt}}">
+                                {{question.prompt|truncatewords:5}}
+                            </td>
+                            <td>{{question.graph}}</td>
+                            <td>{{question.updated_at}}</td>
+                            <td>
+                                <a role="button"
+                                   class="btn btn-sm btn-secondary"
+                                   title="Edit {{question}}"
+                                   href="{% url 'assignment_question_edit' assignment.pk question.pk %}">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a role="button"
+                                   class="btn btn-sm btn-danger"
+                                   title="Remove {{question}}"
+                                   href="{% url 'assignment_question_delete' assignment.pk question.pk %}">
+                                    <i class="bi bi-x-lg"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <th>No questions.</th>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

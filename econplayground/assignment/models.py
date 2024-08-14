@@ -49,7 +49,7 @@ class Question(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
-        return self.title or 'Question {}'.format(self.pk)
+        return self.title or '(Untitled) {}'.format(self.pk)
 
     def evaluate_action(self, action_name: str, action_value: str) -> bool:
         """

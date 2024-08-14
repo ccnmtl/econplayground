@@ -11,7 +11,7 @@ import { RulesProvider } from './RulesContext.jsx';
  */
 export default function Rubric({ questionId }) {
     return (
-        <div className="mb-2">
+        <div>
             <h3>Rubric</h3>
 
             <RulesProvider>
@@ -23,5 +23,7 @@ export default function Rubric({ questionId }) {
 }
 
 Rubric.propTypes = {
+    // This is required for updating an existing question, but not
+    // present when making a new question.
     questionId: PropTypes.number
 };

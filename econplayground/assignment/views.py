@@ -517,35 +517,24 @@ class StepDetailView(LoginRequiredMixin, DetailView):
         }))
 
 
-class AssignmentQuestionView(
-        EnsureCsrfCookieMixin, UserPassesTestMixin,
-        LoginRequiredMixin, ListView):
-    model = Assignment
-    template_name = 'assignment/questions_list.html'
+class AssignmentQuestionListView(
+        UserPassesTestMixin, LoginRequiredMixin, ListView):
+    model = Question
+    template_name = 'assignment/assignment_question_list.html'
 
     def test_func(self):
         return user_is_instructor(self.request.user)
 
-    def get_object(self):
-        return Assignment.objects.get(
-            pk=self.kwargs.get('assignment_pk'))
-
-    def get_queryset(self):
-        return Question.objects.order_by('created_at')
-
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
 
-        assignment = Assignment.objects.get(
-            pk=self.kwargs.get('assignment_pk'))
-
-        graphs = []
-        for cohort in assignment.cohorts.all():
-            graphs += cohort.get_graphs()
+        assignment = get_object_or_404(
+            Assignment, pk=self.kwargs.get('assignment_pk'))
+        questions = Question.objects.order_by('title')
 
         ctx.update({
             'assignment': assignment,
-            'graphs': graphs,
+            'questions': questions,
         })
         return ctx
 
@@ -557,7 +546,6 @@ class QuestionCreateView(
     fields = [
         'title', 'prompt', 'graph',
     ]
-    template_name = 'assignment/assignment_question_create.html'
 
     def test_func(self):
         return user_is_instructor(self.request.user)
@@ -597,11 +585,17 @@ class QuestionCreateView(
         if not title:
             title = self.object.pk
 
-        onclick = 'selectQuestionTab({})'.format(self.object.pk)
+        question_url = reverse(
+            'assignment_question_edit',
+            kwargs={
+                'assignment_pk': self.assignment_pk,
+                'pk': self.object.pk,
+            })
+
         messages.add_message(
             self.request, messages.SUCCESS,
-            'Question <a href="#" onclick="{}">{}</a> created.'.format(
-                onclick, title),
+            'Question <a href="{}">{}</a> created.'.format(
+                question_url, title),
             extra_tags='safe'
         )
 
@@ -609,8 +603,11 @@ class QuestionCreateView(
 
     def get_success_url(self):
         return reverse(
-            'assignment_question_list',
-            kwargs={'assignment_pk': self.assignment_pk})
+            'assignment_question_edit',
+            kwargs={
+                'assignment_pk': self.assignment_pk,
+                'pk': self.object.pk,
+            })
 
 
 class QuestionUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -626,16 +623,31 @@ class QuestionUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         self.assignment_pk = kwargs.get('assignment_pk')
         return super().dispatch(*args, **kwargs)
 
-    def get_success_url(self):
-        if (self.request.POST.get('action') == 'save' or
-                self.request.POST.get('action') == 'save_and_continue'):
-            return reverse(
-                'assignment_question_list',
-                kwargs={'assignment_pk': self.assignment_pk})
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
 
+        assignment = get_object_or_404(
+            Assignment, pk=self.kwargs.get('assignment_pk'))
+
+        graphs = []
+        for cohort in assignment.cohorts.all():
+            graphs += cohort.get_graphs()
+
+        ctx.update({
+            'question_id': self.object.pk,
+            'assignment': assignment,
+            'graphs': graphs,
+        })
+
+        return ctx
+
+    def get_success_url(self):
         return reverse(
-            'assignment_question_list',
-            kwargs={'assignment_pk': self.assignment_pk})
+            'assignment_question_edit',
+            kwargs={
+                'assignment_pk': self.assignment_pk,
+                'pk': self.object.pk,
+            })
 
     def post(self, request, *args, **kwargs):
         result = super().post(request, *args, **kwargs)
@@ -654,11 +666,17 @@ class QuestionUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def form_valid(self, form):
         result = super().form_valid(form)
 
-        onclick = 'selectQuestionTab({})'.format(self.object.pk)
+        question_url = reverse(
+            'assignment_question_edit',
+            kwargs={
+                'assignment_pk': self.assignment_pk,
+                'pk': self.object.pk,
+            })
+
         messages.add_message(
             self.request, messages.SUCCESS,
-            'Question <a href="#" onclick="{}">{}</a> updated.'.format(
-                onclick, self.object.title),
+            'Question <a href="{}">{}</a> updated.'.format(
+                question_url, self.object),
             extra_tags='safe'
         )
 
