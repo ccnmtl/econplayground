@@ -6,11 +6,11 @@
 
 {% block content %}
     <p>
-        Removing <strong>{{object.title}}</strong>  &mdash; Are you sure?
+        Removing question: <strong>{{object}}</strong> &mdash; Are you sure?
     </p>
 
-    <div class="row">
-        <div class="col-md-3">
+    <div class="row row-cols-lg-auto g-3 align-items-center">
+        <div class="col">
             <form action="." method="post">{% csrf_token %}
                 <button class="btn btn-danger" type="submit">
                     Yes, delete this question
@@ -18,7 +18,7 @@
             </form>
         </div>
 
-        <div class="col-md-3">
+        <div class="col">
             <form action="{% url 'assignment_question_list' assignment_pk %}">
                 <button class="btn btn-secondary" type="submit">
                     Cancel
