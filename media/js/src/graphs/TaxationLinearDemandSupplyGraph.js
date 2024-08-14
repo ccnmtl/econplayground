@@ -57,7 +57,7 @@ export const taxar = function(c, b, a, d, t) {
     return eqat(c, b, a, d, t) * t;
 };
 
-class TaxationLinearDemandSupplyGraph extends Graph {
+export class TaxationLinearDemandSupplyGraph extends Graph {
     make() {
         const me = this;
 
