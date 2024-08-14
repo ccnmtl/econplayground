@@ -1,12 +1,19 @@
-.assignment-empty-step,
-.assignment-step {
-    padding: 0.5rem;
+.assignment-substep {
     border: solid 1px #bbb;
     border-radius: 0.25rem;
+}
+
+.assignment-step .card-body,
+.assignment-substep {
+    padding: 0.5rem;
+}
+
+.assignment-step,
+.assignment-substep {
     margin: 5px;
 }
 
-.assignment-empty-step {
+.assignment-substep {
     background-color: white;
 }
 

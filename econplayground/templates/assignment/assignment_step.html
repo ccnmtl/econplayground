@@ -1,0 +1,187 @@
+{% load assignment_tags %}
+
+<div class="assignment-step card" style="width: 15rem;">
+    <div class="card-body">
+        <div class="mb-1 row">
+            <div class="col-auto">
+                <a class="ep-step-name"
+                   href="{% url 'step_detail' object.pk step.id %}">
+                    {% step_name step.id %}
+                </a>
+                <input name="step_name"
+                       class="form-control form-control-sm ep-step-name-input mb-1"
+                       style="display: none;"
+                       value="{% step_name step.id %}"
+                       type="text" />
+
+                {% if step.id == last_step_id %}
+                (End)
+                {% endif %}
+            </div>
+
+            <div class="col-sm text-end">
+                <form name="rename_step" method="post"
+                      class="d-inline"
+                      action="{% url 'tree_edit' object.pk %}">
+                    {% csrf_token %}
+                    <input name="action" value="rename_step" type="hidden" />
+                    <input name="step_id" value="{{step.id}}" type="hidden" />
+                    <input name="step_name" value="" type="hidden" />
+
+                    <button type="button"
+                            class="btn btn-sm btn-secondary ep-step-rename"
+                            title="Rename step">
+                        <i class="bi bi-pencil"></i>
+                    </button>
+
+                    <button type="submit"
+                            class="btn btn-sm btn-primary ep-step-rename-save"
+                            style="display: none;"
+                            title="Save">
+                        <i class="bi bi-floppy"></i>
+                    </button>
+                    <button type="button"
+                            class="btn btn-sm btn-secondary ep-step-rename-cancel"
+                            style="display: none;"
+                            title="Cancel">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </form>
+
+                <form name="remove_step" method="post"
+                      class="d-inline"
+                      action="{% url 'tree_edit' object.pk %}">
+                    {% csrf_token %}
+                    <input name="action" value="remove_step" type="hidden" />
+                    <input name="step_id" value="{{step.id}}" type="hidden" />
+                    <button type="submit"
+                            class="btn btn-sm btn-danger ep-step-remove"
+                            title="Remove step">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </form>
+            </div>
+
+        </div><!-- end .row -->
+
+        <div class="mt-3">
+            <select class="form-select form-select-sm ep-question"
+                    name="question_step_{{step.id}}">
+                <option value="0">--</option>
+                {% for question in questions %}
+                <option {% if step.data.question == question.pk %}selected{% endif %}
+                        value="{{question.pk}}">
+                    {{question|truncatewords:5}}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <label for="step_next_{{step.id}}">
+            Next step:
+        </label>
+        <select class="form-select form-select-sm ep-nextstep"
+                id="step_next_{{step.id}}"
+                name="step_next_{{step.id}}">
+            <option value="0">(default)</option>
+            {% for my_step in steps %}
+            {% if not my_step.is_root and my_step.pk != step.id %}
+            <option {% if step.data.next_step == my_step.pk %}selected{% endif %}
+                    value="{{my_step.pk}}">
+                {% if my_step.name %}
+                {{my_step.name}}
+                {% else %}
+                Step {{my_step.pk}}
+                {% endif %}
+            </option>
+            {% endif %}
+            {% endfor %}
+        </select>
+
+        {% for substep in step.children %}
+        {% if step.id is not substep.id %}
+        <div class="assignment-subpath">
+            <div class="assignment-substep">
+                <a href="{% url 'step_detail' object.pk substep.id %}">
+                    Step {{substep.id}}
+                </a>
+
+                {% if substep.id == last_step_id %}
+                (End)
+                {% endif %}
+
+                <form name="remove_step" method="post"
+                      class="float-end mb-1"
+                      action="{% url 'tree_edit' object.pk %}">
+                    {% csrf_token %}
+                    <input type="hidden"
+                           name="action"
+                           value="remove_step" />
+                    <input type="hidden"
+                           name="step_id"
+                           value="{{substep.id}}" />
+                    <button type="submit"
+                            class="btn btn-sm btn-danger"
+                            title="Remove step">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </form>
+
+                <div class="mt-3">
+                    <select class="form-select form-select-sm ep-question"
+                            name="question_step_{{substep.id}}">
+                        <option value="0">--</option>
+                        {% for question in questions %}
+                        <option {% if substep.data.question == question.pk %}selected{% endif %}
+                                value="{{question.pk}}">
+                            {{question}}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <label for="step_next_{{substep.id}}">
+                    Next step:
+                </label>
+                <select class="form-select form-select-sm ep-nextstep"
+                        id="step_next_{{substep.id}}"
+                        name="step_next_{{substep.id}}">
+                    <option value="0">(default)</option>
+                    {% for my_step in steps %}
+                    {% if not my_step.is_root and my_step.pk != substep.id %}
+                    <option {% if substep.data.next_step == my_step.pk %}selected{% endif %}
+                            value="{{my_step.pk}}">
+                        {% if my_step.name %}
+                        {{my_step.name}}
+                        {% else %}
+                        Step {{my_step.pk}}
+                        {% endif %}
+                    </option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+
+        <div class="assignment-substep">
+            <form name="add_substep" method="post"
+                  action="{% url 'tree_edit' object.pk %}">
+                {% csrf_token %}
+                <input type="hidden"
+                       name="action"
+                       value="add_substep" />
+                <input type="hidden"
+                       name="step_id"
+                       value="{{step.id}}" />
+                <button class="btn btn-sm btn-primary"
+                        title="Add step">
+                    <i class="bi bi-plus-lg"></i>
+                    Add step
+                </button>
+            </form>
+        </div>
+
+    </div><!-- end .card-body -->
+</div>
