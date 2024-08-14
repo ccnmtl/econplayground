@@ -1,22 +1,44 @@
-import {mkDemandSupply} from './DemandSupplyGraph.js';
-import {mkDemandSupplyAUC} from './DemandSupplyGraphAUC.js';
-import {mkNonLinearDemandSupply} from './NonLinearDemandSupplyGraph.js';
-import {mkNonLinearDemandSupplyAUC} from './NonLinearDemandSupplyGraphAUC.js';
-import {mkCobbDouglas} from './CobbDouglasGraph.js';
-import {mkConsumptionLeisure} from './ConsumptionLeisureGraph.js';
+import { DemandSupplyGraph, mkDemandSupply } from './DemandSupplyGraph.js';
 import {
+    DemandSupplyGraphAUC, mkDemandSupplyAUC
+} from './DemandSupplyGraphAUC.js';
+import {
+    NonLinearDemandSupplyGraph, mkNonLinearDemandSupply
+} from './NonLinearDemandSupplyGraph.js';
+import {
+    NonLinearDemandSupplyGraphAUC,
+    mkNonLinearDemandSupplyAUC
+} from './NonLinearDemandSupplyGraphAUC.js';
+import { CobbDouglasGraph, mkCobbDouglas } from './CobbDouglasGraph.js';
+import {
+    ConsumptionLeisureGraph, mkConsumptionLeisure
+} from './ConsumptionLeisureGraph.js';
+import {
+    ConsumptionLeisureOptimalChoiceGraph,
     mkConsumptionLeisureOptimalChoice
 } from './ConsumptionLeisureOptimalChoiceGraph.js';
-import {mkConsumptionSaving} from './ConsumptionSavingGraph.js';
-import {mkOptimalChoice} from './OptimalChoiceGraph.js';
-import {mkCostFunctions} from './CostFunctionsGraph.js';
-import {mkADAS} from './ADASGraph.js';
-import {mkTemplate} from './TemplateGraph.js';
-import { mkOptimalChoiceConsumption } from './OptimalChoiceConsumption.js';
-import { mkRevenueElasticity } from './RevenueElasticityGraph.js';
-import {mkOptimalChoiceCostMinimizing} from './OptimalChoiceCostMinimizing.js';
-import { mkTaxRevenue } from './TaxRevenueGraph.js';
 import {
+    ConsumptionSavingGraph, mkConsumptionSaving
+} from './ConsumptionSavingGraph.js';
+import { OptimalChoiceGraph, mkOptimalChoice} from './OptimalChoiceGraph.js';
+import { CostFunctionsGraph, mkCostFunctions } from './CostFunctionsGraph.js';
+import { ADASGraph, mkADAS } from './ADASGraph.js';
+import { TemplateGraph, mkTemplate } from './TemplateGraph.js';
+import {
+    OptimalChoiceConsumptionGraph,
+    mkOptimalChoiceConsumption
+} from './OptimalChoiceConsumption.js';
+import {
+    RevenueElasticityGraph,
+    mkRevenueElasticity
+} from './RevenueElasticityGraph.js';
+import {
+    OptimalChoiceCostMinimizingGraph,
+    mkOptimalChoiceCostMinimizing
+} from './OptimalChoiceCostMinimizing.js';
+import { TaxRevenueGraph, mkTaxRevenue } from './TaxRevenueGraph.js';
+import {
+    TaxationLinearDemandSupplyGraph,
     mkTaxationLinearDemandSupply
 } from './TaxationLinearDemandSupplyGraph.js';
 
@@ -58,3 +80,39 @@ export const graphTypes = [
     mkTaxationLinearDemandSupply,
     mkTaxRevenue
 ];
+
+/**
+ * Given a graph type, return its class constructor.
+ */
+export const getGraphClass = function(graphType) {
+    const graphClass = [
+        DemandSupplyGraph, NonLinearDemandSupplyGraph,
+        null, CobbDouglasGraph,
+        null, ConsumptionLeisureGraph,
+        null, ConsumptionSavingGraph,
+        ADASGraph, DemandSupplyGraphAUC,
+        NonLinearDemandSupplyGraphAUC,
+        OptimalChoiceGraph,
+
+        // Joint graphs
+        // 12
+        NonLinearDemandSupplyGraph,
+        // 13
+        DemandSupplyGraph,
+        // 14
+        NonLinearDemandSupplyGraph,
+
+        ConsumptionLeisureOptimalChoiceGraph,
+        TemplateGraph,
+        OptimalChoiceConsumptionGraph,
+        CostFunctionsGraph,
+        RevenueElasticityGraph,
+        OptimalChoiceCostMinimizingGraph,
+
+        TaxRevenueGraph,
+        TaxationLinearDemandSupplyGraph,
+        TaxRevenueGraph
+    ][graphType];
+
+    return graphClass;
+};
