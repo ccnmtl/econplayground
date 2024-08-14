@@ -17,51 +17,67 @@ export const defaults = [
         gA2: 10,
         gA3: 2500,
         gA4: 1,
-        gA5: 1
+        gA5: 1,
+        gXAxisMax: 1000,
+        gYAxisMax: 1000
     },
     {
         gA1: 5,
         gA2: 10,
         gA3: 2500,
-        gA4: 0.5
+        gA4: 0.5,
+        gXAxisMax: 1000,
+        gYAxisMax: 1000
     },
     {
         gA1: 5,
         gA2: 10,
         gA3: 2500,
-        gA4: 0.5
+        gA4: 0.5,
+        gXAxisMax: 500,
+        gYAxisMax: 500
     },
     {
         gA1: 5,
         gA2: 10,
         gA3: 2500,
-        gA4: 0.5
+        gA4: 0.5,
+        gXAxisMax: 500,
+        gYAxisMax: 500
     },
     {
         gA1: 5,
         gA2: 10,
-        gA3: 2500
+        gA3: 2500,
+        gXAxisMax: 1000,
+        gYAxisMax: 1000
     },
     {
         gA1: 5,
         gA2: 10,
         gA3: 2500,
         gA4: 5,
-        gA5: 1
+        gA5: 1,
+        gXAxisMax: 1000,
+        gYAxisMax: 1000
     },
     {
         gA1: 5,
         gA2: 10,
         gA3: 2500,
         gA4: 1,
-        gA5: 1
+        gA5: 1,
+        gXAxisMax: 1000,
+        gYAxisMax: 1000
     },
     {
         gA1: 5,
         gA2: 10,
         gA3: 2500,
         gA4: 50,
-        gA5: 1
+        gA5: 1,
+        gXAxisMax: 1000,
+        gYAxisMax: 1000
     }
 ];
 
@@ -179,8 +195,7 @@ const u4f1 = function(x, px, py, R, delta) {
                 (
                     (
                         R / (
-                            px * (px / py) ** (1 / (-1 + delta)) +
-                                py
+                            px * (px / py) ** (1 / (-1 + delta)) + py
                         )
                     ) ** delta
                 ) / delta
@@ -188,7 +203,7 @@ const u4f1 = function(x, px, py, R, delta) {
                 (
                     (
                         R / (
-                            px + py *  (px / py) ** (1 - (-1 + delta))
+                            px + py * (py / px) ** (1 / (-1 + delta))
                         )
                     ) ** delta
                 ) / delta
