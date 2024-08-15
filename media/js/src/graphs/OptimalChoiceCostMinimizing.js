@@ -267,8 +267,6 @@ const f6s = function(l, w, r, q, a, b) {
     return (b * q * r - a * b * l * w + a * q * w) / (a * b * r);
 };
 
-const optimalBundleColor = 'red';
-
 export class OptimalChoiceCostMinimizingGraph extends Graph {
     make() {
         const me = this;
@@ -407,6 +405,16 @@ export class OptimalChoiceCostMinimizingGraph extends Graph {
                         x, me.options.gA1, me.options.gA2, me.options.gA3,
                         me.options.gA4, me.options.gA5);
                 };
+
+                this.board.create('line', [
+                    [lStarVal, kStarVal],
+                    [lStarVal, this.options.gYAxisMax]
+                ], {
+                    fixed: true,
+                    strokeColor: this.l2Color,
+                    straightFirst: false,
+                    straightLast: false
+                });
             }
 
             this.l2 = this.board.create(
@@ -435,11 +443,11 @@ export class OptimalChoiceCostMinimizingGraph extends Graph {
                     withLabel: true,
                     visible: this.options.gShowIntersection,
                     label: {
-                        strokeColor: optimalBundleColor
+                        strokeColor: this.optimalBundleColor
                     },
                     fixed: true,
-                    strokeColor: optimalBundleColor,
-                    fillColor: optimalBundleColor
+                    strokeColor: this.optimalBundleColor,
+                    fillColor: this.optimalBundleColor
                 });
 
                 this.board.create('line', [
@@ -450,10 +458,10 @@ export class OptimalChoiceCostMinimizingGraph extends Graph {
                     withLabel: true,
                     visible: this.options.gShowIntersection,
                     label: {
-                        strokeColor: optimalBundleColor
+                        strokeColor: this.optimalBundleColor
                     },
                     fixed: true,
-                    strokeColor: optimalBundleColor,
+                    strokeColor: this.optimalBundleColor,
                     dash: 2,
                     straightFirst: false,
                     straightLast: false
@@ -467,10 +475,10 @@ export class OptimalChoiceCostMinimizingGraph extends Graph {
                     withLabel: true,
                     visible: this.options.gShowIntersection,
                     label: {
-                        strokeColor: optimalBundleColor
+                        strokeColor: this.optimalBundleColor
                     },
                     fixed: true,
-                    strokeColor: optimalBundleColor,
+                    strokeColor: this.optimalBundleColor,
                     dash: 2,
                     straightFirst: false,
                     straightLast: false
