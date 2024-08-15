@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { getKatexEl } from '../katexUtils.jsx';
 import RangeEditor from '../form-components/RangeEditor.jsx';
 import EditableControl from '../form-components/EditableControl.jsx';
-import { handleFormUpdate } from '../utils.js';
+import { forceFloat, handleFormUpdate } from '../utils.js';
 
 export default class ConsumptionLeisureEditor extends React.Component {
     render() {
@@ -11,7 +11,8 @@ export default class ConsumptionLeisureEditor extends React.Component {
         if (this.props.gType === 15) {
             tex = String.raw`c = (${this.props.gA1} - f)w(1 - ${this.props.gA4})`;
         } else {
-            tex = String.raw`c = (${this.props.gA1} - x)w`;
+            const n = forceFloat(this.props.gA1 - this.props.gA4);
+            tex = `c = (${n} - x)w`;
         }
 
         return (
@@ -78,8 +79,8 @@ export default class ConsumptionLeisureEditor extends React.Component {
                                     updateGraph={this.props.updateGraph}
                                 />
                             </div>
-                            <div className="col">
-                                {this.props.gType === 15 && (
+                            {this.props.gType === 15 && (
+                                <div className="col">
                                     <EditableControl
                                         id="gIntersectionLabel"
                                         name="Optimal point label"
@@ -88,8 +89,8 @@ export default class ConsumptionLeisureEditor extends React.Component {
                                         isInstructor={this.props.isInstructor}
                                         updateGraph={this.props.updateGraph}
                                     />
-                                )}
-                            </div>
+                                </div>
+                            )}
                         </div>
                         <div className="row">
                             <div className="col">

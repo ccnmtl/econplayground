@@ -63,9 +63,7 @@ export class ConsumptionLeisureGraph extends Graph {
                 strokeColor: this.shadowColor,
                 highlight: false,
                 // Under the main line layer
-                layer: 4,
-                recursionDepthLow: 8,
-                recursionDepthHigh: 15
+                layer: 4
             });
         }
 
@@ -94,15 +92,13 @@ export class ConsumptionLeisureGraph extends Graph {
             // This graph is only moved by its RangeEditors, not by
             // dragging.
             fixed: true,
-            highlight: false,
-            recursionDepthLow: 8,
-            recursionDepthHigh: 15
+            highlight: false
         });
 
         if (this.options.gShowIntersection) {
             this.board.create(
                 'point',
-                [this.options.gA1, 0], {
+                [(-t + T), 0], {
                     name: this.options.gIntersectionHorizLineLabel || '',
                     withLabel: true,
                     fixed: true,
