@@ -141,7 +141,7 @@ class AssignmentDetailStudentView(LoginRequiredMixin, DetailView):
 
         steps = []
         if score_path:
-            steps = score_path.get_step_results(self.request.user)
+            steps = score_path.get_step_results()
 
         ctx.update({
             'steps': steps,
@@ -171,7 +171,7 @@ class AssignmentEmbedPublicView(DetailView):
 
         steps = []
         if score_path:
-            steps = score_path.get_step_results(self.request.user)
+            steps = score_path.get_step_results()
 
         ctx.update({
             'steps': steps,
@@ -201,7 +201,7 @@ class AssignmentEmbedPublicMinimalView(DetailView):
 
         steps = []
         if score_path:
-            steps = score_path.get_step_results(self.request.user)
+            steps = score_path.get_step_results()
 
         ctx.update({
             'steps': steps,

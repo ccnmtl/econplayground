@@ -266,6 +266,9 @@ class Step(MP_Node):
     def get_name(self) -> str:
         return self.name or 'Step {}'.format(self.pk)
 
+    def __str__(self) -> str:
+        return self.get_name()
+
     @property
     def is_last_step(self) -> bool:
         return self.next_step is None and \
@@ -353,6 +356,7 @@ class StepResult(models.Model):
     """
     class Meta:
         unique_together = ('step', 'student')
+
     step = models.ForeignKey(Step, on_delete=models.CASCADE)
     student = models.ForeignKey(User, on_delete=models.CASCADE)
 
@@ -362,6 +366,10 @@ class StepResult(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return '{}, {}: {}'.format(
+            self.step.pk, self.student.username, self.result)
 
 
 class ScorePath(models.Model):
@@ -386,25 +394,24 @@ class ScorePath(models.Model):
         return 'ScorePath: {} - {}'.format(
             self.assignment.title, self.student.username)
 
-    def get_step_results(self, user) -> list:
+    def get_step_results(self) -> list:
         """
-        Return the list of this path's StepResults.
-        """
-        results = {}
-        for x in self.steps:
-            if x:
-                try:
-                    step_result = StepResult.objects.get(pk=x, student=user)
-                    step = step_result.step
-                    if results.get(step) is None:
-                        results[step] = 1
-                    else:
-                        results[step] = results[step] + 1
-                except StepResult.DoesNotExist:
-                    pass
+        Get the step results based on this ScorePath.
 
-        # Return a list of tuples (Step object, attempt count)
-        return results.items()
+        Returns a list of StepResult objects.
+        """
+        results = []
+        for step_pk in self.steps:
+            step_result = None
+            try:
+                step_result = StepResult.objects.get(pk=step_pk)
+            except StepResult.DoesNotExist:
+                pass
+
+            if step_result:
+                results.append(step_result)
+
+        return results
 
     def get_avg_diff(self, step) -> float:
         """
@@ -427,12 +434,20 @@ class ScorePath(models.Model):
         Returns the percentage of correct results in this ScorePath as
         a float between 0 and 1.
         """
-        if len(self.steps) == 0:
-            return 0.0
+        valid_steps = []
+        for step_pk in self.steps:
+            step = None
+            try:
+                step = StepResult.objects.get(pk=step_pk)
+            except StepResult.DoesNotExist:
+                # Ignore steps that can't be found
+                pass
 
-        # Populate list with saved results
-        steps = list(map(
-            lambda x: StepResult.objects.get(pk=x).result,
-            self.steps))
+            if step:
+                valid_steps.append(step.result)
 
-        return len([x for x in steps if x is True]) / len(steps)
+        if len(valid_steps) == 0:
+            return 0
+
+        correct_results = [x for x in valid_steps if x is True]
+        return len(correct_results) / len(valid_steps)
