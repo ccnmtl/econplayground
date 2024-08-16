@@ -1,4 +1,4 @@
-import {Graph, invisiblePointOptions, positiveRange} from './Graph.js';
+import {Graph, positiveRange} from './Graph.js';
 
 export const untoggledDefaults = {
     gA1: 5,
@@ -491,6 +491,16 @@ export class OptimalChoiceConsumptionGraph extends Graph {
                         x, me.options.gA1, me.options.gA2,
                         me.options.gA3, me.options.gA4, me.options.gA5);
                 };
+
+                this.board.create('line', [
+                    [xStar, yStar],
+                    [xStar, this.options.gYAxisMax]
+                ], {
+                    fixed: true,
+                    strokeColor: this.l1Color,
+                    straightFirst: false,
+                    straightLast: false
+                });
             } else if (this.options.gFunctionChoice === 7) {
                 xStar = xstarvalue8(
                     this.options.gA1, this.options.gA2,
@@ -539,26 +549,48 @@ export class OptimalChoiceConsumptionGraph extends Graph {
             this.options.gShowIntersection && this.options.gToggle &&
                 xStar !== null && yStar !== null
         ) {
-            const p1 = this.board.create(
-                'point', [xStar, 0], invisiblePointOptions);
-
-            const p2 = this.board.create(
-                'point', [0, yStar], invisiblePointOptions);
-
-            // Make this line invisible - it's actually rendered from
-            // this.showIntersection().
-            const l2 = this.board.create('line', [p2, [p1.X(), p2.Y()]], {
-                withLabel: false,
-                straightFirst: false,
-                straightLast: false,
-                dash: 1,
-                highlight: false,
-                visible: false,
-                strokeWidth: 0
+            //
+            // TODO: make Graph.showIntersection() compatible with an
+            // arbitrary point as input, rather than two lines.
+            // Then much of this code can be unified there.
+            //
+            const optimalBundlePoint = this.board.create('point', [
+                xStar, yStar
+            ], {
+                name: 'Optimal Bundle',
+                withLabel: true,
+                visible: this.options.gShowIntersection,
+                label: {
+                    strokeColor: this.optimalBundleColor
+                },
+                fixed: true,
+                strokeColor: this.optimalBundleColor,
+                fillColor: this.optimalBundleColor
             });
 
-            this.intersection = this.showIntersection(
-                this.l1, l2, false, this.options.gIntersectionLabel);
+            this.board.create('line', [
+                [xStar, 0],
+                optimalBundlePoint
+            ], {
+                visible: this.options.gShowIntersection,
+                fixed: true,
+                strokeColor: this.optimalBundleColor,
+                dash: 2,
+                straightFirst: false,
+                straightLast: false
+            });
+
+            this.board.create('line', [
+                [0, yStar],
+                optimalBundlePoint
+            ], {
+                visible: this.options.gShowIntersection,
+                fixed: true,
+                strokeColor: this.optimalBundleColor,
+                dash: 2,
+                straightFirst: false,
+                straightLast: false
+            });
         }
     }
 }
