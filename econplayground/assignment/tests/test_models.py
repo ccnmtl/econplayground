@@ -474,13 +474,31 @@ class ScorePathTest(AssignmentMixin, TestCase):
     def test_score(self):
         self.setup_sample_assignment()
         self.x.steps.append(
-            StepResultFactory(step=self.a1, result=True).pk)
+            StepResultFactory(
+                step=self.a1, student=self.student, result=True).pk)
         self.x.steps.append(
-            StepResultFactory(step=self.b1, result=True).pk)
+            StepResultFactory(
+                step=self.b1, student=self.student, result=True).pk)
         self.x.steps.append(
-            StepResultFactory(step=self.c1, result=False).pk)
+            StepResultFactory(
+                step=self.c1, student=self.student, result=False).pk)
 
         self.assertEqual(self.x.score, 2 / 3)
+
+    def test_get_step_results(self):
+        self.setup_sample_assignment()
+        self.x.steps.append(
+            StepResultFactory(
+                step=self.a1, student=self.student, result=True).pk)
+        self.x.steps.append(
+            StepResultFactory(
+                step=self.b1, student=self.student, result=True).pk)
+        self.x.steps.append(
+            StepResultFactory(
+                step=self.c1, student=self.student, result=False).pk)
+
+        step_results = self.x.get_step_results()
+        self.assertEqual(len(step_results), 3)
 
 
 class QuestionAnalysisTest(TestCase):
