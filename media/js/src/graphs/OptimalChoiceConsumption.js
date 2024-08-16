@@ -518,7 +518,9 @@ export class OptimalChoiceConsumptionGraph extends Graph {
                 };
             }
 
-            this.l1 = this.board.create('functiongraph', [uStarLine, 0, 1000], {
+            this.l1 = this.board.create('functiongraph', [
+                positiveRange(uStarLine), 0, 1000
+            ], {
                 name: this.options.gLine1Label,
                 withLabel: true,
                 strokeWidth: 2,
