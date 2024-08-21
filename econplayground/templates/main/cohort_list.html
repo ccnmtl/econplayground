@@ -6,39 +6,36 @@
 {% block pagetitle %}<h1>My Courses</h1>{% endblock %}
 
 {% block content %}
-    <div id="cohort-listing" class="row">
-        <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
-            <div class="card-columns">
-                {% user_is_instructor request.user as i_am_instructor %}
-                {% if i_am_instructor %}
-                    <div class="card darkslate card-shadow">
-                        <a href="{% url 'cohort_create' %}" title="Create Course">
-                            <div class="card-body">
-                                <h2 class="card-title">
-                                    New Course
-                                </h2>
-                                <p class="card-text">
-                                    Create a new course.
-                                </p>
-                            </div>
-                        </a>
-                    </div>
-                {% endif %}
-
-                {% for cohort in request.user.cohort_set.all %}
-                    <div class="card lightslate card-shadow">
-                        <a href="{% url 'cohort_detail' cohort.pk %}" title="{{cohort.title}}">
-                            <div class="card-body">
-                                <h2 class="card-title">{{cohort.title}}</h2>
-                                <p class="card-text">
-                                    {{cohort.description}}
-                                </p>
-                            </div>
-                        </a>
-                    </div>
-                {% endfor %}
-            </div>
-
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% user_is_instructor request.user as i_am_instructor %}
+    {% if i_am_instructor %}
+    <div class="col">
+        <div class="card">
+            <a href="{% url 'cohort_create' %}" title="Create Course">
+                <div class="card-body">
+                    <h2 class="card-title">New Course</h2>
+                    <p class="card-text">
+                        Create a new course.
+                    </p>
+                </div>
+            </a>
         </div>
     </div>
+    {% endif %}
+
+    {% for cohort in request.user.cohort_set.all %}
+    <div class="col">
+        <div class="card h-100">
+            <a href="{% url 'cohort_detail' cohort.pk %}" title="{{cohort.title}}">
+                <div class="card-body">
+                    <h2 class="card-title">{{cohort.title}}</h2>
+                    <p class="card-text">
+                        {{cohort.description}}
+                    </p>
+                </div>
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}
