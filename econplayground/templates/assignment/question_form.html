@@ -62,27 +62,29 @@
                   >
                 {% csrf_token %}
 
-                <div class="mb-3">
-                    <label for="questionTitle-{{question.pk}}"
-                           class="form-label">
-                        Title
-                    </label>
-                    <input type="text" class="form-control"
-                           id="questionTitle-{{question.pk}}"
-                           name="title"
-                           value="{{question.title}}" />
-                </div>
-                <div class="mb-3">
-                    <label for="questionPrompt-{{question.pk}}"
-                           class="form-label">
-                        Prompt
-                    </label>
-                    <textarea class="form-control"
-                              name="prompt"
-                              id="questionPrompt-{{question.pk}}">{{question.prompt}}</textarea>
+                <div class="row mt-2">
+                    <div class="col-md-6">
+                        <label for="questionTitle-{{question.pk}}"
+                               class="form-label">
+                            Title
+                        </label>
+                        <input type="text" class="form-control"
+                               id="questionTitle-{{question.pk}}"
+                               name="title"
+                               value="{{question.title}}" />
+                    </div>
+                    <div class="col-md-6">
+                        <label for="questionPrompt-{{question.pk}}"
+                               class="form-label">
+                            Prompt
+                        </label>
+                        <textarea class="form-control"
+                                  name="prompt"
+                                  id="questionPrompt-{{question.pk}}">{{question.prompt}}</textarea>
+                    </div>
                 </div>
 
-                <div class="row">
+                <div class="row mt-2">
                     <div class="col">
                         <div class="mb-3">
                             <label for="questionGraph" class="form-label">
@@ -103,11 +105,11 @@
                     </div>
 
                     <div class="col">
-                        <div class="mb-2 accordion">
+                        <div class="accordion">
                             <div class="accordion-item">
                                 <div class="accordion-header"
                                      id="heading">
-                                    <button class="accordion-button py-2 collapsed"
+                                    <button class="accordion-button py-2"
                                             type="button"
                                             data-bs-toggle="collapse"
                                             data-bs-target="#collapse-graph"
@@ -130,16 +132,16 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col">
-                        <!-- Multiple Choice React Component -->
-                        <div id="multiple-choice"></div>
-                    </div>
+                <div class="row mt-2">
                     <div class="col">
                         <!-- Rubric React component -->
                         <div id="question-rubric"></div>
                     </div>
                 </div>
+
+                <!-- Divider between question configuration controls
+                     and main form controls like Save and Delete. -->
+                <hr />
 
                 <button type="submit" class="btn btn-primary">
                     Save

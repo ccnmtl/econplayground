@@ -5,7 +5,7 @@ import { useRules, useRulesDispatch } from './RulesContext.jsx';
 import { getRuleOptions } from './ruleOptions.js';
 import { getQuestion } from '../utils.js';
 
-export default function RuleList({ questionId }) {
+export default function RuleList({ questionId, assessmentType }) {
     const [isLoaded, setIsLoaded] = useState(false);
     const [graphType, setGraphType] = useState(null);
 
@@ -64,16 +64,20 @@ export default function RuleList({ questionId }) {
     }
 
     return (
-        <>
+        <div className="accordion">
             {rules.map(rule => (
-                <Rule key={rule.id} rule={rule} graphType={graphType} />
+                <Rule
+                    key={rule.id}
+                    rule={rule} graphType={graphType} assessmentType={assessmentType}
+                />
             ))}
-        </>
+        </div>
     );
 }
 
 RuleList.propTypes = {
-    questionId: PropTypes.number
+    questionId: PropTypes.number,
+    assessmentType: PropTypes.number.isRequired
 };
 
 function s3Upload(inputEl, onFinish) {
@@ -102,7 +106,48 @@ function getPath(url) {
     return '';
 }
 
-function Rule({ rule, graphType }) {
+function renderSelectField(name, id, defaultValue, label, options) {
+    return (
+        <>
+            <label htmlFor={id} className="form-label">
+                {label}
+            </label>
+            <select
+                className="form-select ep-question-assessment-name"
+                name={name} id={id} defaultValue={defaultValue}>
+                {options}
+            </select>
+        </>
+    );
+}
+
+function renderInputField(name, id, defaultValue, label) {
+    return (
+        <>
+            <label htmlFor={id} className="form-label">
+                {label}
+            </label>
+            <input
+                type="text" className="form-control"
+                name={name} id={id} defaultValue={defaultValue} />
+        </>
+    );
+}
+
+function renderRadioInputField(name, id, label) {
+    return (
+        <div className="form-check">
+            <label htmlFor={id} className="form-check-label">
+                {label}
+            </label>
+            <input
+                type="radio" className="form-check-input"
+                name={name} id={id} />
+        </div>
+    );
+}
+
+function Rule({ rule, graphType, assessmentType }) {
     const dispatch = useRulesDispatch();
 
     const [fulfilledMedia, setFulfilledMedia] = useState('');
@@ -142,132 +187,166 @@ function Rule({ rule, graphType }) {
         );
     });
 
+    const accordionItemLabel = function() {
+        let name = 'Select an assessment name';
+
+        if (assessmentType === 1) {
+            name = 'Create a choice name';
+        }
+
+        if (rule.name) {
+            name = rule.name;
+        }
+
+        let value = 'Select a value';
+
+        if (rule.value) {
+            value = rule.value;
+        }
+
+        return `${name} = ${value}`;
+    };
+
     return (
-        <fieldset className="accordion px-2 mb-1">
-            <div className="accordion-item">
-                <div className="accordion-header">
-                    <div className="accordion-button py-2" type="button" data-bs-toggle="collapse"
-                        data-bs-target={`#rule-${rule.id}`}>
-                        <label>
-                            {rule.name || 'Select an assessment name'} = {
-                                rule.value || 'Select a value'}
-                        </label>
-                    </div>
+        <fieldset className="accordion-item">
+            <div className="accordion-header">
+                <div
+                    className="accordion-button py-2" type="button" data-bs-toggle="collapse"
+                    data-bs-target={`#rule-${rule.id}`}>
+                    <label>{accordionItemLabel()}</label>
                 </div>
-                <div id={`rule-${rule.id}`} className="accordion-collapse collapse show p-2">
-                    <button
-                        type="button"
-                        className="btn btn-sm btn-danger float-end"
-                        title="Remove rule"
-                        onClick={onClickRemoveRule}>
-                        <i className="bi bi-x-lg"></i>
-                    </button>
-                    <div className="row mb-3">
-                        <div className="col">
-                            <label
-                                htmlFor={`questionAssessmentName-${rule.id}`}
-                                className="form-label">
-                                Assessment name
-                            </label>
-                            <select
-                                className="form-select ep-question-assessment-name"
-                                name={`rule_assessment_name_${rule.id}`}
-                                id={`questionAssessmentName-${rule.id}`}
-                                defaultValue={rule.name}>
-                                {renderedNames}
-                            </select>
-                        </div>
-
-                        <div className="col">
-                            <label
-                                htmlFor={`questionAssessmentValue-${rule.id}`}
-                                className="form-label">
-                                Assessment value
-                            </label>
-                            <input
-                                type="text" className="form-control"
-                                name={`rule_assessment_value_${rule.id}`}
-                                id={`questionAssessmentValue-${rule.id}`}
-                                defaultValue={rule.value} />
-                        </div>
-                    </div>
-
-                    <div className="mb-3">
-                        <label
-                            htmlFor={`feedbackFulfilled-${rule.id}`}
-                            className="form-label">
-                            Feedback (fulfilled)
-                        </label>
-                        <textarea
-                            className="form-control"
-                            name={`rule_feedback_fulfilled_${rule.id}`}
-                            id={`feedbackFulfilled-${rule.id}`}
-                            defaultValue={rule.feedback_fulfilled} />
-                    </div>
-
-                    <div className="mb-3">
-                        <label
-                            htmlFor={`mediaFulfilled-${rule.id}`}
-                            className="form-label">
-                            Media (fulfilled)
-                        </label>
-                        <input
-                            className="form-control"
-                            name={`rule_media_file_fulfilled_${rule.id}`}
-                            onChange={handleFulfilledMediaChange.bind(this)}
-                            type="file" />
-                        <input
-                            name={`rule_media_fulfilled_${rule.id}`}
-                            value={getPath(fulfilledMedia) || getPath(rule.media_fulfilled) || ''}
-                            type="hidden" />
-
-                        {(fulfilledMedia || rule.media_fulfilled) && (
-                            <img
-                                src={fulfilledMedia || rule.media_fulfilled}
-                                style={{maxHeight: '200px'}}
-                                className="img-thumbnail mt-1"
-                                alt="Fulfilled media" />
+            </div>
+            <div id={`rule-${rule.id}`} className="accordion-collapse collapse show p-2">
+                <button
+                    type="button"
+                    className="btn btn-sm btn-danger float-end"
+                    title="Remove rule"
+                    onClick={onClickRemoveRule}>
+                    <i className="bi bi-x-lg"></i>
+                </button>
+                <div className="row mb-3">
+                    <div className="col">
+                        {assessmentType === 0 && (
+                            renderSelectField(
+                                `rule_assessment_name_${rule.id}`,
+                                `questionAssessmentName-${rule.id}`,
+                                rule.name,
+                                'Assessment name',
+                                renderedNames
+                            )
+                        )}
+                        {assessmentType === 1 && (
+                            renderInputField(
+                                `rule_assessment_name_${rule.id}`,
+                                `questionAssessmentName-${rule.id}`,
+                                rule.name,
+                                'Choice name'
+                            )
                         )}
                     </div>
 
-                    <div className="mb-3">
-                        <label
-                            htmlFor={`feedbackUnfulfilled-${rule.id}`}
-                            className="form-label">
-                            Feedback (unfulfilled)
-                        </label>
-                        <textarea
-                            className="form-control"
-                            name={`rule_feedback_unfulfilled_${rule.id}`}
-                            id={`feedbackUnfulfilled-${rule.id}`}
-                            defaultValue={rule.feedback_unfulfilled} />
-                    </div>
-
-                    <div className="mb-3">
-                        <label
-                            htmlFor={`mediaUnfulfilled-${rule.id}`}
-                            className="form-label">
-                            Media (unfulfilled)
-                        </label>
-                        <input
-                            className="form-control"
-                            name={`rule_media_file_unfulfilled_${rule.id}`}
-                            onChange={handleUnfulfilledMediaChange.bind(this)}
-                            type="file" />
-                        <input
-                            name={`rule_media_unfulfilled_${rule.id}`}
-                            value={getPath(unfulfilledMedia) || getPath(rule.media_unfulfilled) || ''}
-                            type="hidden" />
-
-                        {(unfulfilledMedia || rule.media_unfulfilled) && (
-                            <img
-                                src={unfulfilledMedia || rule.media_unfulfilled}
-                                style={{maxHeight: '200px'}}
-                                className="img-thumbnail mt-1"
-                                alt="Unfulfilled media" />
+                    <div className="col">
+                        {assessmentType === 0 && (
+                            renderInputField(
+                                `rule_assessment_value_${rule.id}`,
+                                `questionAssessmentValue-${rule.id}`,
+                                rule.value,
+                                'Assessment value'
+                            )
+                        )}
+                        {assessmentType === 1 && (
+                            renderRadioInputField(
+                                'rule_assessment_value',
+                                `questionAssessmentValue-${rule.id}`,
+                                'Correct'
+                            )
                         )}
                     </div>
                 </div>
+
+                {assessmentType === 0 && (
+                    <div className="row">
+                        <div className="col bg-success-subtle">
+                            <div className="mb-3">
+                                <label
+                                    htmlFor={`feedbackFulfilled-${rule.id}`}
+                                    className="form-label">
+                                    Feedback (fulfilled)
+                                </label>
+                                <textarea
+                                    className="form-control"
+                                    name={`rule_feedback_fulfilled_${rule.id}`}
+                                    id={`feedbackFulfilled-${rule.id}`}
+                                    defaultValue={rule.feedback_fulfilled} />
+                            </div>
+
+                            <div className="mb-3">
+                                <label
+                                    htmlFor={`mediaFulfilled-${rule.id}`}
+                                    className="form-label">
+                                    Media (fulfilled)
+                                </label>
+                                <input
+                                    className="form-control"
+                                    name={`rule_media_file_fulfilled_${rule.id}`}
+                                    onChange={handleFulfilledMediaChange.bind(this)}
+                                    type="file" />
+                                <input
+                                    name={`rule_media_fulfilled_${rule.id}`}
+                                    value={getPath(fulfilledMedia) || getPath(rule.media_fulfilled) || ''}
+                                    type="hidden" />
+
+                                {(fulfilledMedia || rule.media_fulfilled) && (
+                                    <img
+                                        src={fulfilledMedia || rule.media_fulfilled}
+                                        style={{maxHeight: '200px'}}
+                                        className="img-thumbnail mt-1"
+                                        alt="Fulfilled media" />
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="col bg-danger-subtle">
+                            <div className="mb-3">
+                                <label
+                                    htmlFor={`feedbackUnfulfilled-${rule.id}`}
+                                    className="form-label">
+                                    Feedback (unfulfilled)
+                                </label>
+                                <textarea
+                                    className="form-control"
+                                    name={`rule_feedback_unfulfilled_${rule.id}`}
+                                    id={`feedbackUnfulfilled-${rule.id}`}
+                                    defaultValue={rule.feedback_unfulfilled} />
+                            </div>
+
+                            <div className="mb-3">
+                                <label
+                                    htmlFor={`mediaUnfulfilled-${rule.id}`}
+                                    className="form-label">
+                                    Media (unfulfilled)
+                                </label>
+                                <input
+                                    className="form-control"
+                                    name={`rule_media_file_unfulfilled_${rule.id}`}
+                                    onChange={handleUnfulfilledMediaChange.bind(this)}
+                                    type="file" />
+                                <input
+                                    name={`rule_media_unfulfilled_${rule.id}`}
+                                    value={getPath(unfulfilledMedia) || getPath(rule.media_unfulfilled) || ''}
+                                    type="hidden" />
+
+                                {(unfulfilledMedia || rule.media_unfulfilled) && (
+                                    <img
+                                        src={unfulfilledMedia || rule.media_unfulfilled}
+                                        style={{maxHeight: '200px'}}
+                                        className="img-thumbnail mt-1"
+                                        alt="Unfulfilled media" />
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </fieldset>
     );
@@ -275,5 +354,6 @@ function Rule({ rule, graphType }) {
 
 Rule.propTypes = {
     rule: PropTypes.object.isRequired,
-    graphType: PropTypes.number.isRequired
+    graphType: PropTypes.number.isRequired,
+    assessmentType: PropTypes.number.isRequired
 };

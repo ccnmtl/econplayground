@@ -34,11 +34,23 @@ export function useRulesDispatch() {
     return useContext(RulesDispatchContext);
 }
 
+/**
+ * Based on the list of rules, and a base case for an id
+ * (generally the length of the rules list), find a unique id.
+ */
+const getNextId = function(rules, id) {
+    if (rules && rules.some(r => r.id === id)) {
+        return getNextId(rules, id + 1);
+    }
+
+    return id;
+};
+
 function rulesReducer(rules, action) {
     switch (action.type) {
         case 'added': {
             return [...rules, {
-                id: rules.length,
+                id: getNextId(rules, rules.length),
                 name: action.name,
                 value: action.value,
                 feedback_fulfilled: action.feedback_fulfilled,
