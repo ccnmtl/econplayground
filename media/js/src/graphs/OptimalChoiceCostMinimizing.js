@@ -268,6 +268,43 @@ const f6s = function(l, w, r, q, a, b) {
 };
 
 export class OptimalChoiceCostMinimizingGraph extends Graph {
+    static getRuleOptions() {
+        return [
+            {
+                name: 'w value',
+                value: 'a1'
+            },
+            {
+                name: 'r value',
+                value: 'a2'
+            },
+            {
+                name: 'q value',
+                value: 'a3'
+            },
+            {
+                name: 'Variable 4 value',
+                value: 'a4'
+            },
+            {
+                name: 'Variable 5 value',
+                value: 'a5'
+            },
+            {
+                name: 'Variable 6 value',
+                value: 'a6'
+            },
+            {
+                name: 'Variable 7 value',
+                value: 'a7'
+            },
+            {
+                name: 'Variable 8 value',
+                value: 'a8'
+            }
+        ];
+    }
+
     make() {
         const me = this;
 
