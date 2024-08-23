@@ -53,21 +53,6 @@
                 'Graph Preview could not be initialized for question ' + questionId);
         }
 
-        if (window.initMultipleChoice) {
-            const containerId = 'multiple-choice';
-            const container = document.getElementById(containerId);
-
-            let questionId = null;
-            {% if question_id %}
-            questionId = {{question_id}};
-            {% endif %}
-
-            window.initMultipleChoice(container, questionId);
-        } else {
-            console.error(
-                'Multiple Choice could not be initialized for the new question');
-        }
-
         if (window.initRubric) {
             const containerId = 'question-rubric';
             const container = document.getElementById(containerId);

@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useRulesDispatch } from './RulesContext.jsx';
 
-export default function AddRule() {
+export default function AddRule({ assessmentType }) {
     const dispatch = useRulesDispatch();
 
     function onClickNewRule() {
@@ -16,13 +17,22 @@ export default function AddRule() {
         });
     }
 
+    let label = 'Add new rule';
+    if (assessmentType === 1) {
+        label = 'Add new choice';
+    }
+
     return (
         <button
             type="button"
-            className="btn btn-primary my-2"
+            className="btn btn-sm btn-primary my-2"
             onClick={onClickNewRule}>
             <i className="bi bi-plus-lg"></i>
-            Add new rule
+            {label}
         </button>
     );
 }
+
+AddRule.propTypes = {
+    assessmentType: PropTypes.number.isRequired
+};
