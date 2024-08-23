@@ -80,6 +80,30 @@ export class CostFunctionsGraph extends Graph {
     static getRuleOptions() {
         return [
             {
+                name: 'Variable 1 name',
+                value: 'a1_name'
+            },
+            {
+                name: 'Variable 1 value',
+                value: 'a1'
+            },
+            {
+                name: 'Variable 2 name',
+                value: 'a2_name'
+            },
+            {
+                name: 'Variable 2 value',
+                value: 'a2'
+            },
+            {
+                name: 'Variable 3 name',
+                value: 'a3_name'
+            },
+            {
+                name: 'Variable 3 value',
+                value: 'a3'
+            },
+            {
                 name: 'Orange line label',
                 value: 'line_1_label'
             },
@@ -90,6 +114,10 @@ export class CostFunctionsGraph extends Graph {
             {
                 name: 'Red line label',
                 value: 'line_3_label'
+            },
+            {
+                name: 'Green line label',
+                value: 'line_4_label'
             },
             {
                 name: 'X-axis label',
