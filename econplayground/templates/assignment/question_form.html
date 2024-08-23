@@ -3,6 +3,30 @@
 
 {% block js %}
 {% include "./question_form_js.html" %}
+<script>
+    const changed = {};
+
+    const beforeUnloadHandler = (e) => {
+        if (Object.values(changed).includes(true)) {
+            e.preventDefault();
+            return e.returnValue = "Are you sure you want to exit?";
+        }
+    };
+
+    const isChanged = (x) => {
+        return changed[x.name] = x.value !== x.defaultValue;
+    };
+
+    document.querySelectorAll('input, textarea').forEach((el) => {
+        el.addEventListener('change', (e) => {
+            if (isChanged(e.target)) {
+                window.addEventListener('beforeunload', beforeUnloadHandler);
+            } else {
+                window.removeEventListener('beforeunload', beforeUnloadHandler);
+            }
+        });
+    });
+</script>
 {% endblock %}
 
 {% block title %}Question Form | {{ assignment.title }}{% endblock %}
@@ -146,11 +170,11 @@
                 </button>
 
                 {% if question %}
-                <button type="submit" class="btn btn-info"
-                        formaction="{% url 'assignment_question_preview' assignment.pk question.pk %}"
-                        id="question-preview" value="preview">
-                    Save and Preview
-                </button>
+                <a class="btn btn-info" id="question-preview" value="preview"
+                    href="{% url 'assignment_question_preview' assignment.pk question.pk %}"
+                >
+                    Preview
+                </a>
 
                 <a role="button"
                    class="btn btn-danger float-end"
