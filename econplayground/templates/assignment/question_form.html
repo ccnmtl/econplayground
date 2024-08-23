@@ -4,18 +4,24 @@
 {% block js %}
 {% include "./question_form_js.html" %}
 <script>
+    let isDirty = false;
+
     const warnUnsavedChanges = (e) => {
-        e.preventDefault();
+        if (isDirty) {
+            e.preventDefault();
+        }
     };
 
-    document.addEventListener('DOMContentLoaded', () => {
+    window.addEventListener('beforeunload', warnUnsavedChanges);
 
-        document.querySelectorAll('form').forEach(e => {
-            e.onchange = () => {
-                window.addEventListener('beforeunload', warnUnsavedChanges);
-            }
+    document.addEventListener('DOMContentLoaded', () => {
+        $('form').on('change', () => {
+            isDirty = true;
         });
 
+        $('button[type="submit"]').click(() => {
+            isDirty = false;
+        });
     });
 </script>
 {% endblock %}
