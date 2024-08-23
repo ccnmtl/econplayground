@@ -329,32 +329,24 @@ export class OptimalChoiceConsumptionGraph extends Graph {
     static getRuleOptions() {
         return [
             {
-                name: 'Orange line',
-                value: 'line1',
+                name: 'px value',
+                value: 'a1'
             },
             {
-                name: 'Blue line',
-                value: 'line2',
+                name: 'py value',
+                value: 'a2'
             },
             {
-                name: 'Orange line 2',
-                value: 'line3',
+                name: 'R value',
+                value: 'a3'
             },
             {
-                name: 'Blue line 2',
-                value: 'line4',
+                name: 'Variable 4 value',
+                value: 'a4'
             },
             {
-                name: 'Orange line slope',
-                value: 'line_1_slope'
-            },
-            {
-                name: 'Cobb-Douglas A',
-                value: 'cobb_douglas_a'
-            },
-            {
-                name: 'Cobb-Douglas K',
-                value: 'cobb_douglas_k'
+                name: 'Variable 5 value',
+                value: 'a5'
             },
             {
                 name: 'Orange line label',
@@ -365,7 +357,7 @@ export class OptimalChoiceConsumptionGraph extends Graph {
                 value: 'line_2_label'
             },
             {
-                name: 'Intersection point label',
+                name: 'Optimal Bundle label',
                 value: 'intersection_label'
             },
             {
@@ -375,6 +367,14 @@ export class OptimalChoiceConsumptionGraph extends Graph {
             {
                 name: 'Intersection\'s vertical line label',
                 value: 'intersection_vert_line_label'
+            },
+            {
+                name: 'X-axis label',
+                value: 'x_axis_label'
+            },
+            {
+                name: 'Y-axis label',
+                value: 'y_axis_label'
             }
         ];
     }
