@@ -4,27 +4,18 @@
 {% block js %}
 {% include "./question_form_js.html" %}
 <script>
-    const changed = {};
-
-    const beforeUnloadHandler = (e) => {
-        if (Object.values(changed).includes(true)) {
-            e.preventDefault();
-            return e.returnValue = "Are you sure you want to exit?";
-        }
+    const warnUnsavedChanges = (e) => {
+        e.preventDefault();
     };
 
-    const isChanged = (x) => {
-        return changed[x.name] = x.value !== x.defaultValue;
-    };
+    document.addEventListener('DOMContentLoaded', () => {
 
-    document.querySelectorAll('input, textarea').forEach((el) => {
-        el.addEventListener('change', (e) => {
-            if (isChanged(e.target)) {
-                window.addEventListener('beforeunload', beforeUnloadHandler);
-            } else {
-                window.removeEventListener('beforeunload', beforeUnloadHandler);
+        document.querySelectorAll('form').forEach(e => {
+            e.onchange = () => {
+                window.addEventListener('beforeunload', warnUnsavedChanges);
             }
         });
+
     });
 </script>
 {% endblock %}
