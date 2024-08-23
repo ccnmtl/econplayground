@@ -12,6 +12,12 @@
 
 {% block pagetitle %}
 <div class="float-end">
+    <a class="btn btn-secondary display-inline my-4 me-2"
+       role="button"
+       href="{% url 'assignment_question_edit' assignment_pk question.pk %}"
+       title="Return to question editor">
+        Return to question editor
+    </a>
     <a class="btn btn-secondary display-inline my-4"
        role="button"
        href="{% url 'assignment_question_list' assignment_pk %}"
