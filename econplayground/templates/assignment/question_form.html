@@ -3,27 +3,6 @@
 
 {% block js %}
 {% include "./question_form_js.html" %}
-<script>
-    let isDirty = false;
-
-    const warnUnsavedChanges = (e) => {
-        if (isDirty) {
-            e.preventDefault();
-        }
-    };
-
-    window.addEventListener('beforeunload', warnUnsavedChanges);
-
-    document.addEventListener('DOMContentLoaded', () => {
-        $('form').on('change', () => {
-            isDirty = true;
-        });
-
-        $('button[type="submit"]').click(() => {
-            isDirty = false;
-        });
-    });
-</script>
 {% endblock %}
 
 {% block title %}Question Form | {{ assignment.title }}{% endblock %}
