@@ -724,12 +724,15 @@ class QuestionPreView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
 
+        assignment = get_object_or_404(Assignment, pk=self.assignment_pk)
+
         if self.object:
             multiple_choice = self.object.multiplechoice_set.all()
         else:
             multiple_choice = []
 
         ctx.update({
+            'assignment': assignment,
             'assignment_pk': self.kwargs.get('assignment_pk'),
             'multiple_choice': multiple_choice,
         })
