@@ -28,7 +28,7 @@
     "watch-scss": "sass --watch --update --verbose ./media/scss/main.scss ./media/css/main.css",
     "dev": "webpack --mode development --watch --config media/js/config/webpack.config.dev.cjs",
     "build": "NODE_ENV=production webpack --mode production --config media/js/config/webpack.config.prod.cjs",
-    "eslint": "eslint media/js/src/*.js media/js/src/**/*.js media/js/src/*.jsx media/js/src/**/*.jsx media/js/config/*.cjs"
+    "eslint": "eslint media/js/src/*.js media/js/src/**/*.js media/js/src/*.jsx media/js/src/**/*.jsx media/js/config/*.cjs media/js/static/*.js"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
