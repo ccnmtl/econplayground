@@ -191,7 +191,7 @@ function Rule({ rule, graphType, assessmentType }) {
         let name = 'Select an assessment name';
 
         if (assessmentType === 1) {
-            name = 'Create a choice name';
+            name = 'Create a choice';
         }
 
         if (rule.name) {
@@ -204,7 +204,11 @@ function Rule({ rule, graphType, assessmentType }) {
             value = rule.value;
         }
 
-        return `${name} = ${value}`;
+        if (assessmentType === 0) {
+            return `${name} - ${value}`;
+        } else {
+            return name;
+        }
     };
 
     return (
@@ -256,7 +260,7 @@ function Rule({ rule, graphType, assessmentType }) {
                         )}
                         {assessmentType === 1 && (
                             renderRadioInputField(
-                                'rule_assessment_value',
+                                `rule_assessment_value_${rule.id}`,
                                 `questionAssessmentValue-${rule.id}`,
                                 'Correct'
                             )
