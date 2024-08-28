@@ -23,7 +23,7 @@ from django.views.generic.edit import (
 )
 from django.shortcuts import get_object_or_404
 from econplayground.assignment.utils import (
-    make_rules, make_multiple_choice, render_assignment_graph
+    make_rules, render_assignment_graph
 )
 from econplayground.main.views import EnsureCsrfCookieMixin
 from econplayground.main.utils import user_is_instructor
@@ -409,18 +409,6 @@ class StepDetailView(LoginRequiredMixin, DetailView):
 
         return actions
 
-    def evaluate_mc(self, request):
-        """
-        Evaluate the multiple choice question.
-        """
-        mc_set = self.get_object().question.multiplechoice_set.all()
-        values = list(map(lambda c: ('mc_{}'.format(c.id), c.correct), mc_set))
-        responses = dict([(x, request.POST.get(x))
-                         for x in request.POST if x.startswith('mc_')])
-        results = [
-            value == int(responses.get(name) or -1) for name, value in values]
-        return results
-
     def unsubmit(self, request, step):
         step_name = 'step_{}_{}'.format(step.assignment.pk, step.pk)
         del request.session[step_name]
@@ -574,7 +562,6 @@ class QuestionCreateView(
         result = super().post(request, *args, **kwargs)
 
         make_rules(request, self.object)
-        make_multiple_choice(request, self.object)
 
         return result
 
@@ -656,10 +643,8 @@ class QuestionUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         # this better by updating existing rules, but this is simplest
         # for now.
         self.object.assessmentrule_set.all().delete()
-        self.object.multiplechoice_set.all().delete()
 
         make_rules(request, self.object)
-        make_multiple_choice(request, self.object)
 
         return result
 
