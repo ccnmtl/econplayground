@@ -289,11 +289,15 @@ class AssignmentManagementViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertEqual(Step.objects.count(), 5)
 
         r = self.client.post(
-            reverse(
-                'assignment_question_create',
-                kwargs={'assignment_pk': self.assignment.pk}), follow=True)
+            reverse('assignment_question_create', kwargs={
+                'assignment_pk': self.assignment.pk
+            }), {
+                'title': 'Question title',
+            }, follow=True)
 
-        self.assertContains(r, Question.objects.last().pk)
+        question = Question.objects.last()
+        self.assertEqual(question.title, 'Question title')
+        self.assertContains(r, question.pk)
         self.assertContains(r, 'created.')
         self.assertEqual(Question.objects.count(), 1)
 
