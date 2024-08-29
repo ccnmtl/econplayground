@@ -1,8 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useRulesDispatch } from './RulesContext.jsx';
 
-export default function AddRule({ assessmentType }) {
+export default function AddRule() {
     const dispatch = useRulesDispatch();
 
     function onClickNewRule() {
@@ -17,10 +16,7 @@ export default function AddRule({ assessmentType }) {
         });
     }
 
-    let label = 'Add new rule';
-    if (assessmentType === 1) {
-        label = 'Add new choice';
-    }
+    const label = 'Add new rule';
 
     return (
         <button
@@ -32,7 +28,3 @@ export default function AddRule({ assessmentType }) {
         </button>
     );
 }
-
-AddRule.propTypes = {
-    assessmentType: PropTypes.number.isRequired
-};

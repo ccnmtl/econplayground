@@ -8,9 +8,12 @@ def make_rules(request: object, question: object) -> None:
     AssessmentRule objects based on that, attached to the
     given Question.
     """
+    assessment_type = int(request.POST.get('assessment_type', 0))
 
-    # Limit to ten rules per question, for now. Should be more
-    # than enough.
+    correct_choice = None
+    if assessment_type == 1:
+        correct_choice = int(request.POST.get('rule_assessment_value'))
+
     for i in range(10):
         if 'rule_assessment_name_{}'.format(i) not in request.POST:
             break
@@ -20,12 +23,22 @@ def make_rules(request: object, question: object) -> None:
         feedback_unfulfilled = request.POST.get(
             'rule_feedback_unfulfilled_{}'.format(i), '')
 
+        assessment_value = request.POST.get(
+            'rule_assessment_value_{}'.format(i))
+
+        if assessment_type == 1:
+            # Multiple choice
+            assessment_value = 'false'
+            if i == correct_choice:
+                assessment_value = 'true'
+
         AssessmentRule.objects.create(
             question=question,
+
             assessment_name=request.POST.get(
                 'rule_assessment_name_{}'.format(i)),
-            assessment_value=request.POST.get(
-                'rule_assessment_value_{}'.format(i)),
+            assessment_value=assessment_value,
+
             feedback_fulfilled=feedback_fulfilled,
             media_fulfilled=request.POST.get(
                 'rule_media_fulfilled_{}'.format(i)),
@@ -76,3 +89,14 @@ def render_assignment_graph(root: object) -> str:
 
     # Output to string
     return graph.pipe().decode('utf-8')
+
+
+def apply_default_assessment_type(request: object) -> object:
+    if 'assessment_type' not in request.POST:
+        # Default this field to 0. Don't fail if it's not present,
+        # for whatever reason.
+        post_copy = request.POST.copy()
+        post_copy['assessment_type'] = 0
+        request.POST = post_copy
+
+    return request
