@@ -12,7 +12,9 @@ def make_rules(request: object, question: object) -> None:
 
     correct_choice = None
     if assessment_type == 1:
-        correct_choice = int(request.POST.get('rule_assessment_value'))
+        rule_assessment_value = request.POST.get('rule_assessment_value', None)
+        if rule_assessment_value:
+            correct_choice = int(rule_assessment_value)
 
     for i in range(10):
         if 'rule_assessment_name_{}'.format(i) not in request.POST:
