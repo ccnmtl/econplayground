@@ -7,6 +7,26 @@
     <link rel="stylesheet" href="{% static 'css/loaders.min.css' %}">
 {% endblock %}
 
+{% block js %}
+    <script>
+    if (!window.EconPlayground) {
+        window.EconPlayground = {};
+    }
+
+    {% if object and object.graph %}
+            window.GRAPH_ID = {{object.graph.pk}};
+    {% endif %}
+
+    {% if submission is not None %}
+        window.EconPlayground.submitted = true;
+    {% endif %}
+    </script>
+    {% if object.graph %}
+        <script src="{% static 'js/build/vendor.js' %}"></script>
+        <script src="{% static 'js/build/stepGraphViewer.js' %}"></script>
+    {% endif %}
+{% endblock %}
+
 {% block breadcrumb %}
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -38,26 +58,6 @@
 <h1 class="my-2">{{object}}</h1>
 {% endblock %}
 
-{% block js %}
-    <script>
-    if (!window.EconPlayground) {
-        window.EconPlayground = {};
-    }
-
-    {% if object and object.graph %}
-            window.GRAPH_ID = {{object.graph.pk}};
-    {% endif %}
-
-    {% if submission is not None %}
-        window.EconPlayground.submitted = true;
-    {% endif %}
-    </script>
-    {% if object.graph %}
-        <script src="{% static 'js/build/vendor.js' %}"></script>
-        <script src="{% static 'js/build/stepGraphViewer.js' %}"></script>
-    {% endif %}
-{% endblock %}
-
 {% block content %}
     <div class="container">
         {% if object %}
@@ -65,66 +65,28 @@
                 {{object.prompt}}
             </p>
 
-            <form method="post">
-                {% csrf_token %}
-
-                {% if object.graph %}
-                    <div id="root">
-                        <div class="loader-inner ball-pulse">
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                        </div>
-                    </div>
-                {% endif %}
-
-                <div id="multiple-choice" class="container my-4">
-                    {% for mc in multiple_choice %}
-                        <strong>{{forloop.counter}}. {{mc.text}}</strong>
-                        {% for choice in mc.choices %}
-                        <div class="form-check mx-4 mb-2">
-                            <input class="form-check-input" type="radio" id="mc_{{mc.pk}}_{{forloop.counter}}"
-                                name="mc_{{mc.pk}}" value="{{forloop.counter0}}">
-                            <label class="form-check-label" for="mc_{{mc.pk}}_{{forloop.counter}}">{{choice}}</label>
-                        </div>
-                        {% endfor %}
-                    {% endfor %}
+            {% if object.graph %}
+            <div id="root">
+                <div class="loader-inner ball-pulse">
+                    <div></div>
+                    <div></div>
+                    <div></div>
                 </div>
+            </div>
+            {% endif %}
 
-                {% if submission != None %}
-                    {% if object.first_rule.has_feedback %}
-                        <div class="alert alert-light" role="alert">
-                            {% if submission and object.first_rule.has_fulfilled_feedback %}
-                                <p>
-                                    {{object.first_rule.feedback_fulfilled}}
-                                </p>
-
-                                {% if object.first_rule.media_fulfilled %}
-                                    <img src="{{object.first_rule.media_fulfilled.url }}"
-                                         class="img-fluid" alt="Question fulfilled media"/>
-                                {% endif %}
-                            {% elif object.first_rule.has_unfulfilled_feedback %}
-                                <p>
-                                    {{object.first_rule.feedback_unfulfilled}}
-                                </p>
-
-                                {% if object.first_rule.media_unfulfilled %}
-                                    <img src="{{object.first_rule.media_unfulfilled.url }}"
-                                         class="img-fluid" alt="Question unfulfilled media"/>
-                                {% endif %}
-                            {% endif %}
-                        </div>
-                    {% endif %}
-                    <input type="hidden" name="unsubmit" value="true" />
-                    <button type="submit" class="btn btn-secondary">
-                        Un-submit
-                    </button>
-                {% else %}
-                    <button type="submit" class="btn btn-primary">
-                        Submit
-                    </button>
-                {% endif %}
-            </form>
+            <div id="multiple-choice" class="container my-4">
+                {% for mc in multiple_choice %}
+                <strong>{{forloop.counter}}. {{mc.text}}</strong>
+                {% for choice in mc.choices %}
+                <div class="form-check mx-4 mb-2">
+                    <input class="form-check-input" type="radio" id="mc_{{mc.pk}}_{{forloop.counter}}"
+                           name="mc_{{mc.pk}}" value="{{forloop.counter0}}">
+                    <label class="form-check-label" for="mc_{{mc.pk}}_{{forloop.counter}}">{{choice}}</label>
+                </div>
+                {% endfor %}
+                {% endfor %}
+            </div>
         {% else %}
             <p>
                 No question

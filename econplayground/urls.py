@@ -143,7 +143,7 @@ urlpatterns = [
          assignment_views.QuestionUpdateView.as_view(),
          name='assignment_question_edit'),
     path('assignment/<int:assignment_pk>/question/<int:pk>/preview/',
-         assignment_views.QuestionPreView.as_view(),
+         assignment_views.QuestionPreview.as_view(),
          name='assignment_question_preview'),
 
     path('stats/', TemplateView.as_view(template_name="stats.html")),
