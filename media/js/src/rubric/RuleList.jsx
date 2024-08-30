@@ -5,12 +5,18 @@ import { useRules, useRulesDispatch } from './RulesContext.jsx';
 import { getRuleOptions } from './ruleOptions.js';
 import { getQuestion } from '../utils.js';
 
-export default function RuleList({ questionId, assessmentType }) {
+export default function RuleList({ questionId }) {
     const [isLoaded, setIsLoaded] = useState(false);
     const [graphType, setGraphType] = useState(null);
+    const [assessmentType, setAssessmentType] = useState(0);
 
     const rules = useRules();
     const dispatch = useRulesDispatch();
+
+    function handleAssessmentTypeChange(e) {
+        const value = Number(e.target.value);
+        setAssessmentType(value);
+    }
 
     useEffect(() => {
         document.addEventListener('graphTypeUpdated', (e) => {
@@ -20,6 +26,8 @@ export default function RuleList({ questionId, assessmentType }) {
 
         if (questionId) {
             getQuestion(questionId).then((d) => {
+                setAssessmentType(d.assessment_type);
+
                 const rules = d.assessmentrule_set;
 
                 if (d.graph) {
@@ -64,20 +72,45 @@ export default function RuleList({ questionId, assessmentType }) {
     }
 
     return (
-        <div className="accordion">
-            {rules.map(rule => (
-                <Rule
-                    key={rule.id}
-                    rule={rule} graphType={graphType} assessmentType={assessmentType}
-                />
-            ))}
-        </div>
+        <>
+            <div className="form-check form-check-inline">
+                <input
+                    className="form-check-input"
+                    type="radio" name="assessment_type"
+                    id="inlineRadio1" value="0"
+                    onChange={handleAssessmentTypeChange}
+                    checked={assessmentType === 0} />
+                <label className="form-check-label" htmlFor="inlineRadio1">
+                    Graph Assessment
+                </label>
+            </div>
+
+            <div className="form-check form-check-inline">
+                <input
+                    className="form-check-input"
+                    type="radio" name="assessment_type"
+                    id="inlineRadio2" value="1"
+                    onChange={handleAssessmentTypeChange}
+                    checked={assessmentType === 1} />
+                <label className="form-check-label" htmlFor="inlineRadio2">
+                    Multiple Choice
+                </label>
+            </div>
+
+            <div className="accordion">
+                {rules.map(rule => (
+                    <Rule
+                        key={rule.id}
+                        rule={rule} graphType={graphType} assessmentType={assessmentType}
+                    />
+                ))}
+            </div>
+        </>
     );
 }
 
 RuleList.propTypes = {
-    questionId: PropTypes.number,
-    assessmentType: PropTypes.number.isRequired
+    questionId: PropTypes.number
 };
 
 function s3Upload(inputEl, onFinish) {
@@ -134,7 +167,8 @@ function renderInputField(name, id, defaultValue, label) {
     );
 }
 
-function renderRadioInputField(name, id, label) {
+function renderRadioInputField(name, ruleId, label, checked) {
+    const id = `questionAssessmentValue-${ruleId}`;
     return (
         <div className="form-check">
             <label htmlFor={id} className="form-check-label">
@@ -142,7 +176,11 @@ function renderRadioInputField(name, id, label) {
             </label>
             <input
                 type="radio" className="form-check-input"
-                name={name} id={id} />
+                data-rule-id={ruleId}
+                name={name} id={id}
+                value={ruleId}
+                defaultChecked={checked}
+            />
         </div>
     );
 }
@@ -260,9 +298,10 @@ function Rule({ rule, graphType, assessmentType }) {
                         )}
                         {assessmentType === 1 && (
                             renderRadioInputField(
-                                `rule_assessment_value_${rule.id}`,
-                                `questionAssessmentValue-${rule.id}`,
-                                'Correct'
+                                'rule_assessment_value',
+                                rule.id,
+                                'Correct',
+                                rule.value === 'true'
                             )
                         )}
                     </div>

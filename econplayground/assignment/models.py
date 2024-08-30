@@ -40,6 +40,7 @@ def convert_action_name(s: str) -> str:
 class Question(models.Model):
     title = models.CharField(max_length=1024)
     prompt = models.TextField(blank=True, default='')
+    assessment_type = models.PositiveSmallIntegerField(default=0)
 
     graph = models.ForeignKey(
         Graph, on_delete=models.SET_NULL,

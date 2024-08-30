@@ -272,7 +272,7 @@ class QuestionSerializer(serializers.ModelSerializer):
         model = Question
         fields = (
             'pk', 'title', 'prompt', 'assessmentrule_set',
-            'graph',
+            'graph', 'assessment_type',
         )
 
 

@@ -31,6 +31,7 @@ from econplayground.assignment.models import (
     Assignment, Step, Question,
     StepResult, ScorePath, QuestionAnalysis
 )
+from econplayground.assignment.utils import apply_default_assessment_type
 
 
 class AssignmentListView(LoginRequiredMixin, ListView):
@@ -532,7 +533,7 @@ class QuestionCreateView(
         LoginRequiredMixin, CreateView):
     model = Question
     fields = [
-        'title', 'prompt', 'graph',
+        'title', 'prompt', 'graph', 'assessment_type',
     ]
 
     def test_func(self):
@@ -559,6 +560,8 @@ class QuestionCreateView(
         return ctx
 
     def post(self, request, *args, **kwargs):
+        request = apply_default_assessment_type(request)
+
         result = super().post(request, *args, **kwargs)
 
         make_rules(request, self.object)
@@ -600,7 +603,7 @@ class QuestionCreateView(
 class QuestionUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Question
     fields = [
-        'title', 'prompt', 'graph',
+        'title', 'prompt', 'graph', 'assessment_type',
     ]
 
     def test_func(self):
@@ -637,6 +640,8 @@ class QuestionUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             })
 
     def post(self, request, *args, **kwargs):
+        request = apply_default_assessment_type(request)
+
         result = super().post(request, *args, **kwargs)
 
         # Clear this question's existing rules. TODO: we could make
