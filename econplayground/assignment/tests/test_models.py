@@ -473,13 +473,13 @@ class ScorePathTest(AssignmentMixin, TestCase):
 
     def test_score(self):
         self.setup_sample_assignment()
-        self.x.steps.append(
+        self.x.step_results.append(
             StepResultFactory(
                 step=self.a1, student=self.student, result=True).pk)
-        self.x.steps.append(
+        self.x.step_results.append(
             StepResultFactory(
                 step=self.b1, student=self.student, result=True).pk)
-        self.x.steps.append(
+        self.x.step_results.append(
             StepResultFactory(
                 step=self.c1, student=self.student, result=False).pk)
 
@@ -487,13 +487,13 @@ class ScorePathTest(AssignmentMixin, TestCase):
 
     def test_get_step_results(self):
         self.setup_sample_assignment()
-        self.x.steps.append(
+        self.x.step_results.append(
             StepResultFactory(
                 step=self.a1, student=self.student, result=True).pk)
-        self.x.steps.append(
+        self.x.step_results.append(
             StepResultFactory(
                 step=self.b1, student=self.student, result=True).pk)
-        self.x.steps.append(
+        self.x.step_results.append(
             StepResultFactory(
                 step=self.c1, student=self.student, result=False).pk)
 
