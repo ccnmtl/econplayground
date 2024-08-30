@@ -21,6 +21,11 @@
             </a>
         </li>
         <li class="breadcrumb-item">
+            <a href="{% url 'assignment_question_list' assignment.pk %}">
+                Questions
+            </a>
+        </li>
+        <li class="breadcrumb-item">
             {{ question.title|truncatewords:5 }}
         </li>
     </ol>

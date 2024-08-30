@@ -84,6 +84,14 @@
                                 <div class="row flex-nowrap g-1">
                                     <div class="col-auto">
                                         <a role="button"
+                                           class="btn btn-sm btn-info"
+                                           title="Preview {{question}}"
+                                           href="{% url 'assignment_question_preview' assignment.pk question.pk %}">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-auto">
+                                        <a role="button"
                                            class="btn btn-sm btn-secondary"
                                            title="Edit {{question}}"
                                            href="{% url 'assignment_question_edit' assignment.pk question.pk %}">
