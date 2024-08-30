@@ -139,7 +139,7 @@ function getPath(url) {
     return '';
 }
 
-function renderSelectField(name, id, defaultValue, label, options) {
+function renderSelectField(name, id, value, label, options, onChange) {
     return (
         <>
             <label htmlFor={id} className="form-label">
@@ -147,14 +147,14 @@ function renderSelectField(name, id, defaultValue, label, options) {
             </label>
             <select
                 className="form-select ep-question-assessment-name"
-                name={name} id={id} defaultValue={defaultValue}>
+                name={name} id={id} value={value} onChange={onChange}>
                 {options}
             </select>
         </>
     );
 }
 
-function renderInputField(name, id, defaultValue, label) {
+function renderInputField(name, id, value, label, onChange) {
     return (
         <>
             <label htmlFor={id} className="form-label">
@@ -162,7 +162,9 @@ function renderInputField(name, id, defaultValue, label) {
             </label>
             <input
                 type="text" className="form-control"
-                name={name} id={id} defaultValue={defaultValue} />
+                name={name} id={id}
+                value={value}
+                onChange={onChange} />
         </>
     );
 }
@@ -190,12 +192,22 @@ function Rule({ rule, graphType, assessmentType }) {
 
     const [fulfilledMedia, setFulfilledMedia] = useState('');
     const [unfulfilledMedia, setUnfulfilledMedia] = useState('');
+    const [ruleName, setRuleName] = useState(rule.name);
+    const [ruleValue, setRuleValue] = useState(rule.value);
 
     function onClickRemoveRule() {
         dispatch({
             type: 'deleted',
             id: rule.id
         });
+    }
+
+    function onChangeRuleName(e) {
+        setRuleName(e.target.value);
+    }
+
+    function onChangeRuleValue(e) {
+        setRuleValue(e.target.value);
     }
 
     function handleFulfilledMediaChange(e) {
@@ -226,34 +238,31 @@ function Rule({ rule, graphType, assessmentType }) {
     });
 
     const accordionItemLabel = function() {
-        let name = 'Select an assessment name';
+        let labelName = 'Select an assessment name';
 
         if (assessmentType === 1) {
-            name = 'Create a choice';
+            labelName = 'Create a choice';
         }
 
-        if (rule.name) {
-            name = rule.name;
+        if (ruleName) {
+            labelName = ruleName;
         }
 
-        let value = 'Select a value';
+        let labelValue = 'Select a value';
 
-        if (rule.value) {
-            value = rule.value;
+        if (ruleValue) {
+            labelValue = ruleValue;
         }
 
-        if (assessmentType === 0) {
-            return `${name} - ${value}`;
-        } else {
-            return name;
-        }
+        return `${labelName} - ${labelValue}`;
     };
 
     return (
         <fieldset className="accordion-item">
             <div className="accordion-header">
                 <div
-                    className="accordion-button py-2" type="button" data-bs-toggle="collapse"
+                    className="accordion-button py-2" type="button"
+                    data-bs-toggle="collapse"
                     data-bs-target={`#rule-${rule.id}`}>
                     <label>{accordionItemLabel()}</label>
                 </div>
@@ -272,17 +281,19 @@ function Rule({ rule, graphType, assessmentType }) {
                             renderSelectField(
                                 `rule_assessment_name_${rule.id}`,
                                 `questionAssessmentName-${rule.id}`,
-                                rule.name,
+                                ruleName,
                                 'Assessment name',
-                                renderedNames
+                                renderedNames,
+                                onChangeRuleName
                             )
                         )}
                         {assessmentType === 1 && (
                             renderInputField(
                                 `rule_assessment_name_${rule.id}`,
                                 `questionAssessmentName-${rule.id}`,
-                                rule.name,
-                                'Choice name'
+                                ruleName,
+                                'Choice name',
+                                onChangeRuleName
                             )
                         )}
                     </div>
@@ -292,8 +303,9 @@ function Rule({ rule, graphType, assessmentType }) {
                             renderInputField(
                                 `rule_assessment_value_${rule.id}`,
                                 `questionAssessmentValue-${rule.id}`,
-                                rule.value,
-                                'Assessment value'
+                                ruleValue,
+                                'Assessment value',
+                                onChangeRuleValue
                             )
                         )}
                         {assessmentType === 1 && (
