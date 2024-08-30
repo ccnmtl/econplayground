@@ -154,9 +154,8 @@
                 </button>
 
                 {% if question %}
-                <a class="btn btn-info" id="question-preview" value="preview"
-                    href="{% url 'assignment_question_preview' assignment.pk question.pk %}"
-                >
+                <a role="button" class="btn btn-info"
+                   href="{% url 'assignment_question_preview' assignment.pk question.pk %}">
                     Preview
                 </a>
 
