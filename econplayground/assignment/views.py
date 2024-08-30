@@ -697,12 +697,9 @@ class QuestionDeleteView(
             kwargs={'assignment_pk': self.assignment_pk})
 
 
-class QuestionPreView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class QuestionPreview(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Question
     template_name = 'assignment/assignment_question_preview.html'
-    fields = [
-        'title', 'prompt', 'graph',
-    ]
 
     def test_func(self):
         return user_is_instructor(self.request.user)
