@@ -1,0 +1,16 @@
+<fieldset id="multiple-choice" class="my-4">
+    <strong>Multiple Choice:</strong>
+    {% for rule in question.rules %}
+    <div class="form-check">
+        <input
+            class="form-check-input"
+            type="radio" id="mc_{{rule.pk}}"
+            name="multiple_choice_{{object.pk}}">
+        <label
+            class="form-check-label"
+            for="mc_{{rule.pk}}">
+            {{rule.assessment_name}}
+        </label>
+    </div>
+    {% endfor %}
+</fieldset>

@@ -75,18 +75,11 @@
             </div>
             {% endif %}
 
-            <div id="multiple-choice" class="container my-4">
-                {% for mc in multiple_choice %}
-                <strong>{{forloop.counter}}. {{mc.text}}</strong>
-                {% for choice in mc.choices %}
-                <div class="form-check mx-4 mb-2">
-                    <input class="form-check-input" type="radio" id="mc_{{mc.pk}}_{{forloop.counter}}"
-                           name="mc_{{mc.pk}}" value="{{forloop.counter0}}">
-                    <label class="form-check-label" for="mc_{{mc.pk}}_{{forloop.counter}}">{{choice}}</label>
-                </div>
-                {% endfor %}
-                {% endfor %}
-            </div>
+            {% if object.assessment_type == 1 %}
+                {% with question=object %}
+                {% include 'assignment/multiple_choice.html' %}
+                {% endwith %}
+            {% endif %}
         {% else %}
             <p>
                 No question
