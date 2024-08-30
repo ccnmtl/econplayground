@@ -1,4 +1,4 @@
-{% load static econ_auth %}
+{% load static econ_auth django_bootstrap5 %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -131,9 +131,7 @@
 
         <!-- Begin page content -->
         {% for message in messages %}
-        <div class="messages alert alert-primary {% if message.tags %}{{ message.tags }}{% endif %}" role="alert">
-            {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
-        </div>
+            {% bootstrap_alert message.message|safe alert_type=message|bootstrap_message_alert_type extra_classes=message.extra_tags %}
         {% endfor %}
 
         <main role="main" id="maincontent">
