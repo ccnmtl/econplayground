@@ -1,5 +1,5 @@
 from graphviz import Graph
-from econplayground.assignment.models import AssessmentRule
+from econplayground.assignment.models import AssessmentRule, ScorePath
 
 
 def make_rules(request: object, question: object) -> None:
@@ -102,3 +102,24 @@ def apply_default_assessment_type(request: object) -> object:
         request.POST = post_copy
 
     return request
+
+
+def update_score_path(
+        user: object, assignment: object, step_result: object
+) -> None:
+    """
+    Update the student's ScorePath with the given StepResult.
+    """
+    score_path, _ = ScorePath.objects.get_or_create(
+        student=user, assignment=assignment)
+    step_ids = score_path.step_ids
+
+    step = step_result.step
+
+    if step.pk not in step_ids:
+        score_path.step_results.append(step_result.pk)
+    else:
+        index = step_ids.index(step.pk)
+        score_path.step_results[index] = step_result.pk
+
+    score_path.save()

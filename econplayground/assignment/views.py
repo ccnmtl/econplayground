@@ -31,7 +31,9 @@ from econplayground.assignment.models import (
     Assignment, Step, Question,
     StepResult, ScorePath, QuestionAnalysis
 )
-from econplayground.assignment.utils import apply_default_assessment_type
+from econplayground.assignment.utils import (
+    apply_default_assessment_type, update_score_path
+)
 
 
 class AssignmentListView(LoginRequiredMixin, ListView):
@@ -140,12 +142,12 @@ class AssignmentDetailStudentView(LoginRequiredMixin, DetailView):
         except ScorePath.DoesNotExist:
             pass
 
-        steps = []
+        step_results = []
         if score_path:
-            steps = score_path.get_step_results()
+            step_results = score_path.get_step_results()
 
         ctx.update({
-            'steps': steps,
+            'step_results': step_results,
             'graph': render_assignment_graph(root),
         })
         return ctx
@@ -475,10 +477,7 @@ class StepDetailView(LoginRequiredMixin, DetailView):
             step_result.save()
 
             # Update student's ScorePath with this result.
-            score_path, _ = ScorePath.objects.get_or_create(
-                student=request.user, assignment=step.assignment)
-            score_path.steps.append(step_result.pk)
-            score_path.save()
+            update_score_path(request.user, step.assignment, step_result)
 
             if step.question:
                 curr, _ = QuestionAnalysis.objects.get_or_create(

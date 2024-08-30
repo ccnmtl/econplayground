@@ -78,7 +78,7 @@ class ScorePathFactory(DjangoModelFactory):
 
     assignment = factory.SubFactory(AssignmentFactory)
     student = factory.SubFactory(StudentFactory)
-    steps = []
+    step_results = []
 
 
 class AssignmentMixin(object):

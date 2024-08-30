@@ -388,7 +388,7 @@ class ScorePath(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     # Array of StepResult id's
-    steps = ArrayField(
+    step_results = ArrayField(
         models.PositiveBigIntegerField(),
         # Default to the empty list
         default=list,
@@ -399,6 +399,27 @@ class ScorePath(models.Model):
         return 'ScorePath: {} - {}'.format(
             self.assignment.title, self.student.username)
 
+    @property
+    def step_ids(self) -> list:
+        """
+        Get the list of Step ID's associated with the ScorePath's StepResults.
+        """
+        step_ids = []
+
+        for step_result_pk in self.step_results:
+            step_result = None
+            try:
+                step_result = StepResult.objects.get(pk=step_result_pk)
+            except StepResult.DoesNotExist:
+                pass
+
+            if step_result and step_result.step:
+                step_ids.append(step_result.step.pk)
+            else:
+                step_ids.append(None)
+
+        return step_ids
+
     def get_step_results(self) -> list:
         """
         Get the step results based on this ScorePath.
@@ -406,10 +427,10 @@ class ScorePath(models.Model):
         Returns a list of StepResult objects.
         """
         results = []
-        for step_pk in self.steps:
+        for step_result_pk in self.step_results:
             step_result = None
             try:
-                step_result = StepResult.objects.get(pk=step_pk)
+                step_result = StepResult.objects.get(pk=step_result_pk)
             except StepResult.DoesNotExist:
                 pass
 
@@ -440,10 +461,10 @@ class ScorePath(models.Model):
         a float between 0 and 1.
         """
         valid_steps = []
-        for step_pk in self.steps:
+        for step_result_pk in self.step_results:
             step = None
             try:
-                step = StepResult.objects.get(pk=step_pk)
+                step = StepResult.objects.get(pk=step_result_pk)
             except StepResult.DoesNotExist:
                 # Ignore steps that can't be found
                 pass
