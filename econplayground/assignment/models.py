@@ -79,6 +79,10 @@ class Question(models.Model):
         return self.assessmentrule_set.first()
 
     @property
+    def rules(self) -> list:
+        return self.assessmentrule_set.order_by('pk')
+
+    @property
     def has_assessment(self) -> bool:
         return self.multiplechoice_set.count() > 0 or \
             self.assessmentrule_set.filter(
