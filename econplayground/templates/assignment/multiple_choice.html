@@ -4,11 +4,12 @@
     <div class="form-check">
         <input
             class="form-check-input"
-            type="radio" id="mc_{{rule.pk}}"
-            name="multiple_choice_{{object.pk}}">
+            type="radio" id="multiple_choice_{{rule.pk}}"
+            value="{{rule.pk}}"
+            name="multiple_choice_{{rule.pk}}">
         <label
             class="form-check-label"
-            for="mc_{{rule.pk}}">
+            for="multiple_choice_{{rule.pk}}">
             {{rule.assessment_name}}
         </label>
     </div>

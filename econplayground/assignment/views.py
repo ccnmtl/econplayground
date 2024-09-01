@@ -398,12 +398,21 @@ class StepDetailView(LoginRequiredMixin, DetailView):
     @staticmethod
     def append_graph_form_fields(
             request: object,
-            actions: List[Tuple[str, str]]
+            actions: List[Tuple[str, str]],
+            assessment_type: int = 0
     ) -> List[Tuple[str, str]]:
         """
         Find the filled-in form fields.
         """
-        fields = [x for x in request.POST if x.startswith('g')]
+        fields = []
+
+        if assessment_type == 0:
+            fields = [x for x in request.POST if x.startswith('g')]
+        elif assessment_type == 1:
+            fields = [
+                x for x in request.POST if x.startswith('multiple_choice')
+            ]
+
         for field in fields:
             if request.POST.get(field):
                 action_name = field
@@ -457,13 +466,21 @@ class StepDetailView(LoginRequiredMixin, DetailView):
         action_value = request.POST.get('action_value')
         actions.append((action_name, action_value))
 
-        actions = self.append_graph_form_fields(request, actions)
+        actions = self.append_graph_form_fields(
+            request, actions, question.assessment_type)
 
         if question:
             # Check all actions for a success.
-            results = [
-                question.evaluate_action(x[0], x[1]) for x in actions if x
-            ]
+            if question.assessment_type == 0:
+                results = [
+                    question.evaluate_action(x[0], x[1]) for x in actions if x
+                ]
+            elif question.assessment_type == 1:
+                results = [
+                    question.evaluate_multiple_choice(x[0], x[1])
+                    for x in actions if x
+                ]
+
             result = any(results)
 
             # Store the result in the user's session.

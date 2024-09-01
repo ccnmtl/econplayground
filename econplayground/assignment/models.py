@@ -70,9 +70,35 @@ class Question(models.Model):
         action_name = convert_action_name(action_name)
         for rule in rules:
             if compare_names(rule.assessment_name, action_name):
-                return rule.evaluate_action(action_name, action_value)
+                return rule.evaluate_action(
+                    action_name, action_value, self.assessment_type)
 
         # No rules matched, so return failure.
+        return False
+
+    def evaluate_multiple_choice(
+            self, action_name: str, action_value: str
+    ) -> bool:
+        """
+        Evaluate the given multiple choice.
+
+        Determine whether the given choice is correct or not.
+
+        Returns True or False.
+        """
+        if not action_name or not action_value:
+            return False
+
+        rule_pk = int(action_value)
+        rule = None
+        try:
+            rule = AssessmentRule.objects.get(pk=rule_pk)
+        except AssessmentRule.DoesNotExist:
+            return False
+
+        if rule.assessment_value == 'true':
+            return True
+
         return False
 
     def first_rule(self) -> 'AssessmentRule':
@@ -174,7 +200,9 @@ class AssessmentRule(models.Model):
     def has_feedback(self) -> bool:
         return self.has_fulfilled_feedback() or self.has_unfulfilled_feedback()
 
-    def evaluate_action(self, action_name: str, action_value: str) -> bool:
+    def evaluate_action(
+            self, action_name: str, action_value: str, assessment_type: int = 0
+    ) -> bool:
         """
         Evaluate a user action, based on action type and value.
 
