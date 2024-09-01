@@ -130,10 +130,6 @@ class AssignmentDetailStudentView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
 
-        root = self.object.get_root()
-        bulk_tree = Step.dump_bulk(parent=root)
-        root = bulk_tree[0]
-
         score_path = None
         try:
             score_path = ScorePath.objects.get(
@@ -148,7 +144,7 @@ class AssignmentDetailStudentView(LoginRequiredMixin, DetailView):
 
         ctx.update({
             'step_results': step_results,
-            'graph': render_assignment_graph(root),
+            'graph': render_assignment_graph(self.object),
         })
         return ctx
 
@@ -159,10 +155,6 @@ class AssignmentEmbedPublicView(DetailView):
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-
-        root = self.object.get_root()
-        bulk_tree = Step.dump_bulk(parent=root)
-        root = bulk_tree[0]
 
         score_path = None
         try:
@@ -178,7 +170,7 @@ class AssignmentEmbedPublicView(DetailView):
 
         ctx.update({
             'steps': steps,
-            'graph': render_assignment_graph(root),
+            'graph': render_assignment_graph(self.object),
         })
         return ctx
 
@@ -208,7 +200,7 @@ class AssignmentEmbedPublicMinimalView(DetailView):
 
         ctx.update({
             'steps': steps,
-            'graph': render_assignment_graph(root),
+            'graph': render_assignment_graph(self.object),
         })
         return ctx
 
