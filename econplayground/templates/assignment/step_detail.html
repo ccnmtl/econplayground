@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static econ_auth %}
+{% load static econ_auth markdownify %}
 
 {% block title %}{% if object.name %}{{ object.name }}{% else %}Step {{ object.pk }}{% endif %} | {{assignment.title}}{% endblock %}
 
@@ -73,9 +73,7 @@
 
         {% if object.question %}
             <h2>{{object.question}}</h2>
-            <p>
-                {{object.question.prompt}}
-            </p>
+            {{object.question.prompt|markdownify}}
 
             <form method="post">
                 {% csrf_token %}

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static markdownify %}
 
 {% block title %}{{ object.title }}{% endblock %}
 
@@ -76,7 +76,7 @@
 
                 <hr />
 
-                <p>{{ object.prompt }}</p>
+                {{ object.prompt | markdownify }}
             </div>
         </div>
     </div>
