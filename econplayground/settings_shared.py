@@ -154,3 +154,23 @@ TEMPLATES = [
         },
     },
 ]
+
+# https://django-markdownify.readthedocs.io/en/latest/settings.html#whitelist-tags
+MARKDOWNIFY = {
+    'default': {
+        'WHITELIST_TAGS': [
+            'a',
+            'abbr',
+            'acronym',
+            'b',
+            'blockquote',
+            'em',
+            'i',
+            'li',
+            'ol',
+            'p',
+            'strong',
+            'ul'
+        ]
+    }
+}
