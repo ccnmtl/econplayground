@@ -35,12 +35,16 @@
     <h3>Your path:</h3>
     <div class="ep-score-path border p-2 w-50 mb-2">
         {% for step_result in step_results %}
-        <div class="assignment-step">
+        <div class="assignment-step p-1">
             {{forloop.counter}}.
 
             {% if step_result %}
                 <a href="{% url 'step_detail' object.pk step_result.step.pk %}">
-                    Step {{step_result.step.pk}}
+                    {% if step_result.step.name %}
+                        {{step_result.step.name}}
+                    {% else %}
+                        Step {{step_result.step.pk}}
+                    {% endif %}
                 </a>
                 {% if step_result.step.is_last_step %}
                     (End)
