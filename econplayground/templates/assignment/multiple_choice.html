@@ -4,12 +4,16 @@
     <div class="form-check">
         <input
             class="form-check-input"
-            type="radio" id="multiple_choice_{{rule.pk}}"
+            type="radio"
+            {% if submission != None and object.question.has_assessment %}
+            disabled
+            {% endif %}
+            id="multiple_choice_{{question.pk}}_{{rule.pk}}"
             value="{{rule.pk}}"
-            name="multiple_choice_{{rule.pk}}">
+            name="multiple_choice_{{question.pk}}">
         <label
             class="form-check-label"
-            for="multiple_choice_{{rule.pk}}">
+            for="multiple_choice_{{question.pk}}_{{rule.pk}}">
             {{rule.assessment_name}}
         </label>
     </div>
