@@ -17,7 +17,7 @@ export default class MinMaxEditor extends React.Component {
                             this.props.label + ' min' : 'min'}
                     id={this.props.id + 'Min'}
                     data-id={this.props.id + 'Min'}
-                    name={this.props.id}
+                    name={this.props.id + 'Min'}
                     type="number"
                     onChange={this.props.handler}
                     value={this.props.min}
@@ -34,7 +34,7 @@ export default class MinMaxEditor extends React.Component {
                             this.props.label + ' max' : 'max'}
                     id={this.props.id + 'Max'}
                     data-id={this.props.id + 'Max'}
-                    name={this.props.id}
+                    name={this.props.id + 'Max'}
                     type="number"
                     onChange={this.props.handler}
                     value={this.props.max}
