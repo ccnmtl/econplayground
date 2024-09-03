@@ -1,7 +1,8 @@
 from django.test import TestCase
 from django.urls import reverse
 from econplayground.assignment.tests.factories import (
-    AssignmentFactory, QuestionFactory, AssignmentMixin
+    AssignmentFactory, QuestionFactory, AssignmentMixin,
+    AssessmentRuleFactory
 )
 from econplayground.assignment.models import Step, Question, ScorePath
 from econplayground.main.tests.mixins import (
@@ -558,6 +559,73 @@ class AssignmentStudentFlowViewTest(
 
         score_path.refresh_from_db()
         self.assertEqual(score_path.score, 1.0)
+
+    def test_assignment_step_submit_multiple_choice(self):
+        assignment = self.setup_sample_assignment()
+
+        first_step = assignment.get_root().get_first_child()
+        first_step.question.assessment_type = 1
+        first_step.question.save()
+
+        second_step = self.b1
+        second_step.question.assessment_type = 1
+        second_step.question.save()
+
+        step1_rule1 = first_step.question.assessmentrule_set.first()
+        step1_rule1.assessment_name = 'Choice A'
+        step1_rule1.assessment_value = 'false'
+        step1_rule1.save()
+
+        step1_rule2 = AssessmentRuleFactory(
+            question=first_step.question,
+            assessment_name='Choice B',
+            assessment_value='true')
+        step1_rule2.save()
+
+        step2_rule1 = second_step.question.assessmentrule_set.first()
+        step2_rule1.assessment_name = 'Choice C'
+        step2_rule1.assessment_value = 'true'
+        step2_rule1.save()
+
+        step2_rule2 = AssessmentRuleFactory(
+            question=second_step.question,
+            assessment_name='Choice D',
+            assessment_value='false')
+        step2_rule2.save()
+
+        self.assertEqual(first_step.question.assessment_type, 1)
+        r = self.client.post(reverse('step_detail', kwargs={
+            'assignment_pk': assignment.pk,
+            'pk': first_step.pk
+        }), {
+            'action_name': 'multiple_choice_{}'.format(step1_rule1.pk),
+            'action_value': step1_rule1.pk,
+        }, follow=True)
+
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, 'Incorrect!')
+
+        session = self.client.session
+        self.assertEqual(
+            session['step_{}_{}'.format(assignment.pk, first_step.pk)],
+            False)
+
+        self.assertEqual(second_step.question.assessment_type, 1)
+        r = self.client.post(reverse('step_detail', kwargs={
+            'assignment_pk': assignment.pk,
+            'pk': second_step.pk
+        }), {
+            'action_name': 'multiple_choice_{}'.format(step2_rule1.pk),
+            'action_value': step2_rule1.pk,
+        }, follow=True)
+
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, 'Correct!')
+
+        session = self.client.session
+        self.assertEqual(
+            session['step_{}_{}'.format(assignment.pk, second_step.pk)],
+            True)
 
 
 class AssignmentDetailStudentViewTest(
