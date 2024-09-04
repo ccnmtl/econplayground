@@ -7,9 +7,7 @@ An assignment is a collection of steps organized by the
 instructor. Each step can have sub-steps attached to it.
 
 When completing a step, the student is navigated to the subsequent
-step in the assignment structure. If this step has a "Next step"
-override defined, the student is instead navigated to the step defined
-in this override.
+step in the assignment structure.
 
 ## Questions
 Each step of an assignment can optionally contain a question, with an

@@ -204,17 +204,13 @@ class AssignmentTreeTest(TestCase):
         self.x.delete()
         self.assertFalse(Step.objects.filter(assignment=pk).exists())
 
-    def test_assignment_custom_next_step(self):
+    def test_assignment_next_step_2(self):
         step_1 = self.make_test_assignment()
         self.assertEqual(step_1.get_depth(), 2)
         self.assertEqual(step_1, self.a1)
 
-        step_1.next_step = self.c1
-        step_1.save()
-        step_1.refresh_from_db()
-
         step_2 = step_1.get_next()
-        self.assertEqual(step_2.pk, self.c1.pk)
+        self.assertEqual(step_2.pk, self.b1.pk)
 
 
 class QuestionTest(TestCase):

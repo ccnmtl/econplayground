@@ -57,7 +57,6 @@
  */
 $(document).ready(function() {
     let stepQuestions = {};
-    let nextSteps = {};
 
     $('.assignment-grid select.ep-question').on('change', function(e) {
         const match = e.target.name.match(/\d+$/);
@@ -76,20 +75,6 @@ $(document).ready(function() {
         dropdownCSSClass: ':all:',
     });
 
-    $('.assignment-grid select.ep-nextstep').on('change', function(e) {
-        const match = e.target.name.match(/\d+$/);
-        let stepId = null;
-        if (match) {
-            stepId = Number(match);
-        }
-
-        const nextStepId = Number(e.target.value);
-
-        if (stepId) {
-            nextSteps[stepId] = nextStepId;
-        }
-    });
-
     $('form[name="save"]').submit(function(e) {
         let inputEls = [];
 
@@ -99,15 +84,6 @@ $(document).ready(function() {
                 '<input type="hidden"' +
                 ' name="step_question_' + stepId + '"' +
                 ' value="' + questionId + '" />'
-            );
-        }
-
-        for (const stepId in nextSteps) {
-            const nextStepId = nextSteps[stepId];
-            inputEls.push(
-                '<input type="hidden"' +
-                ' name="step_next_' + stepId + '"' +
-                ' value="' + nextStepId + '" />'
             );
         }
 

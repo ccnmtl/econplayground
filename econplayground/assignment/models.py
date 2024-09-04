@@ -289,13 +289,6 @@ class Step(MP_Node):
         Question, on_delete=models.SET_NULL,
         blank=True, null=True)
 
-    # Each step has an optional next_step attribute which overrides default
-    # navigation behavior. This is configured by the instructor and is blank
-    # by default.
-    next_step = models.ForeignKey(
-        'self', on_delete=models.SET_NULL,
-        blank=True, null=True)
-
     def get_name(self) -> str:
         return self.name or 'Step {}'.format(self.pk)
 
@@ -304,8 +297,7 @@ class Step(MP_Node):
 
     @property
     def is_last_step(self) -> bool:
-        return self.next_step is None and \
-            self.get_next_sibling() is None and \
+        return self.get_next_sibling() is None and \
             self.get_next() is None
 
     def get_prev(self) -> Self:
@@ -334,9 +326,6 @@ class Step(MP_Node):
         This is probably the result of a correct answer on the student
         side.
         """
-        if self.next_step:
-            return self.next_step
-
         node = self.get_next_sibling()
         if node:
             return node
