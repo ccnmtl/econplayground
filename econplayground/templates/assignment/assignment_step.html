@@ -77,27 +77,6 @@
             </select>
         </div>
 
-        <label for="step_next_{{step.id}}">
-            Next step:
-        </label>
-        <select class="form-select form-select-sm ep-nextstep"
-                id="step_next_{{step.id}}"
-                name="step_next_{{step.id}}">
-            <option value="0">(default)</option>
-            {% for my_step in steps %}
-            {% if not my_step.is_root and my_step.pk != step.id %}
-            <option {% if step.data.next_step == my_step.pk %}selected{% endif %}
-                    value="{{my_step.pk}}">
-                {% if my_step.name %}
-                {{my_step.name}}
-                {% else %}
-                Step {{my_step.pk}}
-                {% endif %}
-            </option>
-            {% endif %}
-            {% endfor %}
-        </select>
-
         {% for substep in step.children %}
         {% if step.id is not substep.id %}
         <div class="assignment-subpath">
@@ -139,27 +118,6 @@
                         {% endfor %}
                     </select>
                 </div>
-
-                <label for="step_next_{{substep.id}}">
-                    Next step:
-                </label>
-                <select class="form-select form-select-sm ep-nextstep"
-                        id="step_next_{{substep.id}}"
-                        name="step_next_{{substep.id}}">
-                    <option value="0">(default)</option>
-                    {% for my_step in steps %}
-                    {% if not my_step.is_root and my_step.pk != substep.id %}
-                    <option {% if substep.data.next_step == my_step.pk %}selected{% endif %}
-                            value="{{my_step.pk}}">
-                        {% if my_step.name %}
-                        {{my_step.name}}
-                        {% else %}
-                        Step {{my_step.pk}}
-                        {% endif %}
-                    </option>
-                    {% endif %}
-                    {% endfor %}
-                </select>
             </div>
         </div>
         {% endif %}

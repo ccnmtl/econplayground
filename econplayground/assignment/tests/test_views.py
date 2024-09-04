@@ -253,8 +253,6 @@ class AssignmentManagementViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, 'Steps updated.')
         self.assertEqual(Step.objects.count(), 3)
-        step.refresh_from_db()
-        self.assertEqual(step.next_step, new_step)
 
     def test_build_linear_assignment(self):
         r = self.client.post(

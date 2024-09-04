@@ -233,20 +233,6 @@ class AssignmentTreeUpdateView(LoginRequiredMixin, UserPassesTestMixin, View):
 
                 step.save()
 
-            elif key.startswith('step_next_'):
-                match = re.search(r'\d+$', key)
-                step_id = match.group()
-                next_step_id = request.POST.get(key)
-
-                step = Step.objects.get(pk=step_id)
-
-                if next_step_id and next_step_id != '0':
-                    step.next_step = Step.objects.get(pk=next_step_id)
-                else:
-                    step.next_step = None
-
-                step.save()
-
     def post(self, request, *args, **kwargs):
         pk = kwargs.get('pk')
         tree = Assignment.objects.get(pk=pk)
