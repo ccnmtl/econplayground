@@ -21,8 +21,8 @@ rubric type.
 A question's correctness can be defined in the form of graph values,
 i.e. "Graph Assessment", or with multiple choice.
 
-In both cases, a series of rules are created to define the rubric.  We
-will be fine-tuning exactly how the Graph Assessment rubric type
+In either case, a series of rules are created to define the rubric.
+We will be fine-tuning exactly how the Graph Assessment rubric type
 behaves as we use this tool, as building this kind of software is a
 process of discovery. In the "Multiple Choice" rubric type, a single
 choice can be defined as "Correct".
