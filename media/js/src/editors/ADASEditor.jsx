@@ -137,7 +137,7 @@ export default class ADASEditor extends React.Component {
                     <React.Fragment>
                         <h3>Labels</h3>
                         <div className="d-flex flex-wrap">
-                            <div className="row">
+                            <div className="row align-items-end">
                                 {this.formatControlStd(
                                     'gLine1Label',
                                     'Orange line',
@@ -154,7 +154,7 @@ export default class ADASEditor extends React.Component {
                                     this.props.gLine3Label
                                 )}
                             </div>
-                            <div className="row">
+                            <div className="row align-items-end">
                                 {this.formatControlStd(
                                     'gXAxisLabel',
                                     'X-Axis',
@@ -166,7 +166,7 @@ export default class ADASEditor extends React.Component {
                                     this.props.gYAxisLabel
                                 )}
                             </div>
-                            <div className="row">
+                            <div className="row align-items-end">
                                 {this.formatControlStd(
                                     'gIntersectionLabel',
                                     'Orange-Blue intersection',
@@ -183,7 +183,7 @@ export default class ADASEditor extends React.Component {
                                     this.props.gIntersection3Label
                                 )}
                             </div>
-                            <div className="row">
+                            <div className="row align-items-end">
                                 {this.formatControlStd(
                                     'gIntersectionHorizLineLabel',
                                     'Orange-Blue intersection horizontal',
@@ -195,7 +195,7 @@ export default class ADASEditor extends React.Component {
                                     this.props.gIntersectionVertLineLabel
                                 )}
                             </div>
-                            <div className="row">
+                            <div className="row align-items-end">
                                 {this.formatControlStd(
                                     'gIntersection2HorizLineLabel',
                                     'Blue-Red intersection horizontal',
@@ -207,7 +207,7 @@ export default class ADASEditor extends React.Component {
                                     this.props.gIntersection2VertLineLabel
                                 )}
                             </div>
-                            <div className="row">
+                            <div className="row align-items-end">
                                 {this.formatControlStd(
                                     'gIntersection3HorizLineLabel',
                                     'Orange-Red intersection horizontal',

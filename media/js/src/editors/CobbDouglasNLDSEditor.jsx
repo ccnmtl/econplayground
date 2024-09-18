@@ -180,7 +180,7 @@ export default class CobbDouglasNLDSEditor extends React.Component {
                     this.props.displayLabels && (
                         <React.Fragment>
                             <h3>Labels</h3>
-                            <div className="row">
+                            <div className="row align-items-end">
                                 <div className="col">
                                     <EditableControl
                                         id="gLine1Label"
@@ -208,7 +208,7 @@ export default class CobbDouglasNLDSEditor extends React.Component {
 
                 {
                     this.props.displayLabels && (
-                        <div className="row">
+                        <div className="row align-items-end">
                             <div className="col">
                                 <EditableControl
                                     id="gIntersectionLabel"

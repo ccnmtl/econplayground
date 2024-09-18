@@ -224,7 +224,7 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
 
                 {this.props.displayLabels && (
                     <div className="d-flex flex-wrap">
-                        <div className="row">
+                        <div className="row align-items-end">
                             <div className="col">
                                 <EditableControl
                                     id="gLine2Label"
@@ -246,7 +246,7 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
                                 />
                             </div>
                         </div>
-                        <div className="row">
+                        <div className="row align-items-end">
                             <div className="col">
                                 <EditableControl
                                     id="gIntersectionLabel"
@@ -258,7 +258,7 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
                                 />
                             </div>
                         </div>
-                        <div className="row">
+                        <div className="row align-items-end">
                             <div className="col">
                                 <EditableControl
                                     id="gXAxisLabel"
@@ -280,7 +280,7 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
                                 />
                             </div>
                         </div>
-                        <div className="row">
+                        <div className="row align-items-end">
                             <div className="col">
                                 <EditableControl
                                     id="gIntersectionLabel"

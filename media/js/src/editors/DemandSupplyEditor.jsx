@@ -102,7 +102,7 @@ export default class DemandSupplyEditor extends React.Component {
                 <React.Fragment>
                     <h3>Labels</h3>
                     <div className="d-flex flex-wrap">
-                        <div className="row">
+                        <div className="row align-items-end">
                             <div className="col">
                                 <EditableControl
                                     id="gLine1Label"
@@ -124,7 +124,7 @@ export default class DemandSupplyEditor extends React.Component {
                                     updateGraph={this.props.updateGraph} />
                             </div>
                         </div>
-                        <div className="row">
+                        <div className="row align-items-end">
                             <div className="col">
                                 <EditableControl
                                     id="gXAxisLabel"
@@ -146,7 +146,7 @@ export default class DemandSupplyEditor extends React.Component {
                                     updateGraph={this.props.updateGraph} />
                             </div>
                         </div>
-                        <div className="row">
+                        <div className="row align-items-end">
                             <div className="col">
                                 <EditableControl
                                     id="gIntersectionLabel"

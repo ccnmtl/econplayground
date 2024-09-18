@@ -68,7 +68,7 @@ export default class ConsumptionLeisureEditor extends React.Component {
 
                 {this.props.displayLabels && (
                     <div className="d-flex flex-wrap">
-                        <div className="row">
+                        <div className="row align-items-end">
                             <div className="col">
                                 <EditableControl
                                     id="gLine1Label"
@@ -92,7 +92,7 @@ export default class ConsumptionLeisureEditor extends React.Component {
                                 </div>
                             )}
                         </div>
-                        <div className="row">
+                        <div className="row align-items-end">
                             <div className="col">
                                 <EditableControl
                                     id="gXAxisLabel"
@@ -114,7 +114,7 @@ export default class ConsumptionLeisureEditor extends React.Component {
                                 />
                             </div>
                         </div>
-                        <div className="row">
+                        <div className="row align-items-end">
                             <div className="col">
                                 <EditableControl
                                     id="gIntersectionHorizLineLabel"
@@ -142,7 +142,7 @@ export default class ConsumptionLeisureEditor extends React.Component {
                 {
                     this.props.gType === 15 && this.props.displayLabels && (
                         <div className="d-flex flex-wrap">
-                            <div className="row">
+                            <div className="row align-items-end">
                                 <div className="col">
                                     <EditableControl
                                         id="gIntersection2HorizLineLabel"

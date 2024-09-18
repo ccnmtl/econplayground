@@ -11,7 +11,7 @@ export default class AreaConfiguration extends React.Component {
                 <h3>Areas</h3>
                 {this.props.displayLabels && (
                     <>
-                        <div className="form-row">
+                        <div className="form-row align-items-end">
                             <div className="col-4">
                                 <EditableControl
                                     id="gAreaAName"
