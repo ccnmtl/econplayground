@@ -130,7 +130,7 @@ export default class CostFunctionsEditor extends React.Component {
                     <>
                         <h3>Labels</h3>
                         <div className="d-flex flex-wrap">
-                            <div className="row">
+                            <div className="row align-items-end">
                                 <div className="col">
                                     <EditableControl
                                         id="gLine1Label"
@@ -170,7 +170,7 @@ export default class CostFunctionsEditor extends React.Component {
                                     </div>
                                 )}
                             </div>
-                            <div className="row">
+                            <div className="row align-items-end">
                                 <div className="col">
                                     <EditableControl
                                         id="gXAxisLabel"
