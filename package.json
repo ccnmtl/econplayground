@@ -12,7 +12,7 @@
   "dependencies": {
     "commonmark": "0.31.2",
     "decimal.js": "nikolas/decimal.js#export-fix",
-    "jsxgraph": "~1.9.0",
+    "jsxgraph": "~1.10.0",
     "katex": "^0.16.11",
     "mathjs": "^13.0.0",
     "object-assign": "~4.1.1",
