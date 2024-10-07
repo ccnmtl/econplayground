@@ -2,6 +2,7 @@
 import sys
 import os
 import os.path
+from corsheaders.defaults import default_headers
 from ctlsettings.shared import common
 
 project = 'econplayground'
@@ -45,6 +46,7 @@ REST_FRAMEWORK = {
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django_statsd.middleware.GraphiteRequestTimingMiddleware',
     'django_statsd.middleware.GraphiteMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
@@ -86,6 +88,7 @@ INSTALLED_APPS = [  # noqa
     's3sign',
     'treebeard',
     'markdownify.apps.MarkdownifyConfig',
+    'corsheaders',
 ]
 
 CONTACT_US_EMAIL = 'econpractice@columbia.edu'
@@ -174,3 +177,9 @@ MARKDOWNIFY = {
         ]
     }
 }
+
+CORS_ALLOW_HEADERS = (
+    *default_headers,
+    'sentry-trace',
+    'baggage',
+)
