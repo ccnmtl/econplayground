@@ -17,15 +17,17 @@ export default class GraphPreview extends React.Component {
     componentDidMount() {
         const me = this;
 
-        getGraph(this.props.graphId).then(json => {
-            if (json) {
-                importGraph(json, me);
-            }
-        });
+        if (this.props.graphId) {
+            getGraph(this.props.graphId).then(json => {
+                if (json) {
+                    importGraph(json, me);
+                }
+            });
+        }
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.graphId !== prevProps.graphId) {
+        if (this.props.graphId && this.props.graphId !== prevProps.graphId) {
             const me = this;
 
             getGraph(this.props.graphId).then(json => {
