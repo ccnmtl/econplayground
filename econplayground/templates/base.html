@@ -21,6 +21,8 @@
 
     <!-- meta property="og:image" content="https://econpractice.ctl.columbia.edu/img/og-image.png" /-->
 
+    {% include "ctlsettings/sentry_js.html" %}
+
     <script type="application/ld+json">
     {
         "@context": "http://schema.org",
@@ -189,29 +191,6 @@
             {% endif %}
         };
     </script>
-
-    {% if SENTRY_DSN %}
-    <script>
-        window.sentryOnLoad = function() {
-            Sentry.init({dsn: '{{SENTRY_DSN}}'});
-
-            {% if request.user.is_anonymous %}
-            Sentry.setUser({
-                email: 'none',
-                id: 'anonymous'
-            });
-            {% else %}
-            Sentry.setUser({
-                email: '{{ user.email }}',
-                id: '{{ user.username }}'
-            });
-            {% endif %}
-        };
-    </script>
-
-    <script src="https://js.sentry-cdn.com/228b00835993445782defce7ab192600.min.js"
-            crossorigin="anonymous"></script>
-    {% endif %}
 
     {% block js %}{% endblock %}
 
