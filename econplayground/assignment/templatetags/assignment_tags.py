@@ -5,17 +5,25 @@ register = template.Library()
 
 
 @register.simple_tag
-def step_name(step_id) -> str:
+def step_name(step_id: int, step_index: int) -> str:
     """
     TemplateTag to return a step's name attribute, with a graceful
     fallback.
 
-    This is necessary because we don't have direct access to the Step
-    object itself when rendering the tree in certain cases.
+    Default to using the step's index, i.e. position in the
+    assignment.
     """
+    step = None
+    name = 'Step {}'.format(step_index)
+
     try:
         step = Step.objects.get(pk=step_id)
     except Step.DoesNotExist:
-        return 'Step {}'.format(step_id)
+        pass
 
-    return step.get_name()
+    if step:
+        my_step_name = step.get_name()
+        if my_step_name:
+            name = my_step_name
+
+    return name
