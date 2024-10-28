@@ -290,7 +290,7 @@ class Step(MP_Node):
         blank=True, null=True)
 
     def get_name(self) -> str:
-        return self.name or 'Step {}'.format(self.pk)
+        return self.name or ''
 
     def __str__(self) -> str:
         return self.get_name()

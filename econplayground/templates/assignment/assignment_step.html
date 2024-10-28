@@ -6,12 +6,12 @@
             <div class="col-auto">
                 <a class="ep-step-name"
                    href="{% url 'step_detail' object.pk step.id %}">
-                    {% step_name step.id %}
+                    {% step_name step.id forloop.counter %}
                 </a>
                 <input name="step_name"
                        class="form-control form-control-sm ep-step-name-input mb-1"
                        style="display: none;"
-                       value="{% step_name step.id %}"
+                       value="{% step_name step.id forloop.counter %}"
                        type="text" />
 
                 {% if step.id == last_step_id %}
@@ -82,7 +82,7 @@
         <div class="assignment-subpath">
             <div class="assignment-substep">
                 <a href="{% url 'step_detail' object.pk substep.id %}">
-                    Step {{substep.id}}
+                    {% step_name step.id forloop.parentloop.counter %}.{{forloop.counter}}
                 </a>
 
                 {% if substep.id == last_step_id %}
