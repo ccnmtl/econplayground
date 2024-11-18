@@ -62,6 +62,11 @@ class GraphPickView(EnsureCsrfCookieMixin, CohortInstructorMixin, CreateView):
                     'image': 'linear_demand_supply.png',
                 },
                 {
+                    'graph_type': 25,
+                    'title': get_graph_name(25),
+                    'image': 'linear_demand_supply.png',
+                },
+                {
                     'graph_type': 8,
                     'title': get_graph_name(8),
                     'image': 'ADAS.png',
