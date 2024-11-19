@@ -8,6 +8,7 @@ import NonLinearDemandSupplyEditor from './editors/NonLinearDemandSupplyEditor.j
 import ConsumptionLeisureEditor from './editors/ConsumptionLeisureEditor.jsx';
 import ConsumptionSavingEditor from './editors/ConsumptionSavingEditor.jsx';
 import DemandSupplyEditor from './editors/DemandSupplyEditor.jsx';
+import LinearDemandSupplySurplusEditor from './editors/LinearDemandSupplySurplusEditor.jsx';
 import TemplateGraphEditor from './editors/TemplateGraphEditor.jsx';
 import CommonGraphEditor from './editors/CommonGraphEditor.jsx';
 import CommonGraphSettings from './editors/CommonGraphSettings.jsx';
@@ -322,6 +323,13 @@ export default class GraphEditor extends React.Component {
                     </form>
                 </div>
             );
+        } else if (this.props.gType === 25) {
+            rightSide =
+                <LinearDemandSupplySurplusEditor
+                    updateGraph={this.props.updateGraph}
+                    {...commonEditorProps}
+                    {...this.props}
+                />;
         }
 
         const hasIntersection = ![

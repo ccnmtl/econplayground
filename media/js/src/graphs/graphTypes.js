@@ -1,5 +1,8 @@
 import { DemandSupplyGraph, mkDemandSupply } from './DemandSupplyGraph.js';
 import {
+    LinearDemandSupplySurplus, mkLinearDemandSupplySurplus
+} from './LinearDemandSupplySurplus.js';
+import {
     DemandSupplyGraphAUC, mkDemandSupplyAUC
 } from './DemandSupplyGraphAUC.js';
 import {
@@ -78,7 +81,9 @@ export const graphTypes = [
 
     mkTaxRevenue,
     mkTaxationLinearDemandSupply,
-    mkTaxRevenue
+    mkTaxRevenue,
+
+    mkLinearDemandSupplySurplus
 ];
 
 /**
@@ -111,7 +116,9 @@ export const getGraphClass = function(graphType) {
 
         TaxRevenueGraph,
         TaxationLinearDemandSupplyGraph,
-        TaxRevenueGraph
+        TaxRevenueGraph,
+
+        LinearDemandSupplySurplus
     ][graphType];
 
     return graphClass;

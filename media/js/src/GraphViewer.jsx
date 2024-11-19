@@ -9,6 +9,7 @@ import CobbDouglasNLDSEditor from './editors/CobbDouglasNLDSEditor.jsx';
 import ConsumptionLeisureEditor from './editors/ConsumptionLeisureEditor.jsx';
 import ConsumptionSavingEditor from './editors/ConsumptionSavingEditor.jsx';
 import DemandSupplyEditor from './editors/DemandSupplyEditor.jsx';
+import LinearDemandSupplySurplusEditor from './editors/LinearDemandSupplySurplusEditor.jsx';
 import NonLinearDemandSupplyEditor from './editors/NonLinearDemandSupplyEditor.jsx';
 import TemplateGraphEditor from './editors/TemplateGraphEditor.jsx';
 import OptimalChoiceConsumptionEditor from './editors/OptimalChoiceConsumption.jsx';
@@ -322,6 +323,13 @@ export default class GraphViewer extends React.Component {
                     </form>
                 </div>
             );
+        } else if (this.props.gType === 25) {
+            rightSide =
+                <LinearDemandSupplySurplusEditor
+                    updateGraph={this.props.updateGraph}
+                    {...commonViewerProps}
+                    {...this.props}
+                />;
         }
 
         return (

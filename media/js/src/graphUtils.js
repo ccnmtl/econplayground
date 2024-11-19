@@ -1,3 +1,6 @@
+import {
+    defaults as linearDemandSupplySurplusDefaults
+} from './graphs/LinearDemandSupplySurplus.js';
 import {defaults as taxRevenueDefaults} from './graphs/TaxRevenueGraph.js';
 import {
     defaults as optimalChoiceConsumptionDefaults,
@@ -119,6 +122,8 @@ export const getDefaultGraphState = function(graphType, state) {
             gXAxisMax: 1000,
             gYAxisMax: 2500
         });
+    } else if (graphType === 25) {
+        Object.assign(state, linearDemandSupplySurplusDefaults[0]);
     }
 
     return state;
