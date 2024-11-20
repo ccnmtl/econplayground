@@ -9,6 +9,7 @@ export const defaults = [
         gA2: 2,
         gA3: 100,
         gA4: 2,
+        gA5: 500,
     },
 ];
 
@@ -38,6 +39,15 @@ export const ps = function(c, b, a, d) {
 
 export const ts = function(c, b, a, d) {
     return cs(c, b, a, d) + ps(c, b, a, d);
+};
+
+/* Equilibrium quantity and world market price */
+export const eqd = function(c, b, a, d, wp) {
+    return (c - wp) / b;
+};
+
+export const eqs = function(c, b, a, d, wp) {
+    return (-a + wp) / d;
 };
 
 export class LinearDemandSupplySurplus extends Graph {

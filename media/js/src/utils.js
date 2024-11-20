@@ -338,6 +338,13 @@ const forceNumber = function(n) {
     return n;
 };
 
+/**
+ * displayGraphType()
+ *
+ * This function is essentially duplicating the logic of
+ * econplayground.main.utils.get_graph_name on the back-end,
+ * and ideally we can refactor this out.
+ */
 const displayGraphType = function(gType) {
     let name = '';
     switch (gType) {
@@ -403,6 +410,9 @@ const displayGraphType = function(gType) {
             break;
         case 24:
             name = 'Tax Supply and Demand vs. Tax Revenue';
+            break;
+        case 25:
+            name = 'Linear Demand and Supply - Surplus Policies';
             break;
         default:
             break;
