@@ -4,7 +4,7 @@ import {
     eq, ep, cos, pos, tos, taxur, taxar, dwlu
 } from './graphs/TaxationLinearDemandSupplyGraph.js';
 import {
-    ep as ep2, eq as eq2, cs, ps, ts, eqd, eqs
+    LinearDemandSupplySurplus
 } from './graphs/LinearDemandSupplySurplus.js';
 
 /**
@@ -72,94 +72,9 @@ export default function GraphPane({
             </div>
         );
     } else if (gType === 25) {
-        let lineItems = [];
-
-        if (gFunctionChoice === 0 || gFunctionChoice === 1) {
-            lineItems = [
-                {
-                    label: 'Equilibrium Quantity Q*',
-                    color: 'red',
-                    value: eq2(gA1, gA2, gA3, gA4).toFixed(2)
-                },
-                {
-                    label: 'Equilibrium Price P*',
-                    color: 'red',
-                    value: ep2(gA1, gA2, gA3, gA4).toFixed(2)
-                }
-            ];
-
-            if (gFunctionChoice === 1) {
-                lineItems = lineItems.concat([
-                    {
-                        label: 'Consumer Surplus CS',
-                        color: 'blue',
-                        value: cs(gA1, gA2, gA3, gA4).toFixed(2)
-                    },
-                    {
-                        label: 'Producer Surplus PS',
-                        color: 'orange',
-                        value: ps(gA1, gA2, gA3, gA4).toFixed(2)
-                    },
-                    {
-                        label: 'Total Surplus TS',
-                        color: 'red',
-                        value: ts(gA1, gA2, gA3, gA4).toFixed(2)
-                    }
-                ]);
-            }
-        } else if (gFunctionChoice === 2) {
-            const eqdVal = eqd(gA1, gA2, gA3, gA4, gA5);
-            const eqsVal = eqs(gA1, gA2, gA3, gA4, gA5);
-
-            lineItems = [
-                {
-                    label: 'Domestic Quantity Bought',
-                    color: 'red',
-                    value: eqdVal.toFixed(2)
-                },
-                {
-                    label: 'Domestic Quantity Produced',
-                    color: 'red',
-                    value: eqsVal.toFixed(2)
-                },
-                {
-                    label: 'International Trade',
-                    color: 'red',
-                    value: (eqsVal - eqdVal).toFixed(2)
-                }
-            ];
-        } else if (gFunctionChoice === 3) {
-            lineItems = [
-                {
-                    label: 'Traded Quantity',
-                    color: 'red',
-                    value: null
-                },
-                {
-                    label: 'Quantity Supplied',
-                    color: 'red',
-                    value: null
-                },
-                {
-                    label: 'Surplus',
-                    color: 'red',
-                    value: null
-                }
-            ];
-        } else if (gFunctionChoice === 4) {
-            lineItems = [
-                {
-                    label: 'Traded Quantity',
-                    color: 'red',
-                    value: null
-                },
-                {
-                    label: 'Market Price',
-                    color: 'red',
-                    value: null
-                }
-            ];
-        }
+        const lineItems = LinearDemandSupplySurplus.getGraphPane(
+            gFunctionChoice, gA1, gA2, gA3, gA4, gA5
+        );
 
         return (
             <div className="mb-2">

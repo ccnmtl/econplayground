@@ -4,8 +4,8 @@ import {drawPolygon} from '../jsxgraphUtils.js';
 
 export const LINE_1_COLOR = 'rgb(255, 127, 14)';
 export const LINE_2_COLOR = 'steelblue';
-export const LINE_3_COLOR = 'rgb(228, 87, 86)';
-export const LINE_4_COLOR = 'rgb(87, 200, 86)';
+export const LINE_3_COLOR = 'rgb(87, 200, 86)';
+export const LINE_4_COLOR = 'rgb(228, 87, 86)';
 
 const applyDefaults = function(obj, defaults) {
     let o = {};
