@@ -74,6 +74,19 @@ export default class LinearDemandSupplySurplusEditor extends React.Component {
                                 handler={handleFormUpdate.bind(this)} />
                         </>
                     )}
+                    {(
+                        this.props.gFunctionChoice === 2 ||
+                            this.props.gFunctionChoice === 3
+                    ) && (
+                        <RangeEditor
+                            label="Global Price"
+                            rawLabel={true}
+                            id="gA5"
+                            value={this.props.gA5}
+                            min={0}
+                            max={this.props.gA1}
+                            handler={handleFormUpdate.bind(this)} />
+                    )}
                 </div>
             </>
         );
@@ -87,6 +100,7 @@ LinearDemandSupplySurplusEditor.propTypes = {
     gA2: PropTypes.number.isRequired,
     gA3: PropTypes.number.isRequired,
     gA4: PropTypes.number.isRequired,
+    gA5: PropTypes.number,
 
     gFunctionChoice: PropTypes.number.isRequired,
     gToggle: PropTypes.bool.isRequired,
