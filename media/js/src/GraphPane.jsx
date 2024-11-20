@@ -4,7 +4,7 @@ import {
     eq, ep, cos, pos, tos, taxur, taxar, dwlu
 } from './graphs/TaxationLinearDemandSupplyGraph.js';
 import {
-    ep as ep2, eq as eq2
+    ep as ep2, eq as eq2, cs, ps, ts
 } from './graphs/LinearDemandSupplySurplus.js';
 
 /**
@@ -72,18 +72,46 @@ export default function GraphPane({
             </div>
         );
     } else if (gType === 25) {
+        let lineItems = [
+            {
+                label: 'Equilibrium Quantity Q*',
+                color: 'red',
+                value: eq2(gA1, gA2, gA3, gA4).toFixed(2)
+            },
+            {
+                label: 'Equilibrium Price P*',
+                color: 'red',
+                value: ep2(gA1, gA2, gA3, gA4).toFixed(2)
+            }
+        ];
+
+        if (gFunctionChoice === 1) {
+            lineItems = lineItems.concat([
+                {
+                    label: 'Consumer Surplus CS',
+                    color: 'blue',
+                    value: cs(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'Producer Surplus PS',
+                    color: 'orange',
+                    value: ps(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'Total Surplus TS',
+                    color: 'red',
+                    value: ts(gA1, gA2, gA3, gA4).toFixed(2)
+                }
+            ]);
+        }
+
         return (
             <div className="mb-2">
-                <div className="ep-text-red">
-                    Equilibrium Quantity Q* = {
-                        eq2(gA1, gA2, gA3, gA4).toFixed(2)
-                    }
-                </div>
-                <div className="ep-text-red">
-                    Equilibrium Price P* = {
-                        ep2(gA1, gA2, gA3, gA4).toFixed(2)
-                    }
-                </div>
+                {lineItems.map((item, index) =>
+                    <div key={index} className={`ep-text-${item.color}`}>
+                        {item.label} = {item.value}
+                    </div>
+                )}
             </div>
         );
     }

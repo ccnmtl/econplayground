@@ -301,6 +301,9 @@ export class Graph {
             size: 0,
             name: horizLabel || '',
             withLabel: !isShadow,
+            label: {
+                strokeColor: color
+            },
             fixed: true,
             highlight: false,
             showInfobox: false
@@ -308,7 +311,7 @@ export class Graph {
         this.board.create('line', [p1, i3], {
             dash: 1,
             highlight: false,
-            strokeColor: 'black',
+            strokeColor: color,
             strokeWidth: isShadow ? 0.5 : 1,
             straightFirst: false,
             straightLast: false,
@@ -319,6 +322,9 @@ export class Graph {
             size: 0,
             name: vertLabel || '',
             withLabel: !isShadow,
+            label: {
+                strokeColor: color
+            },
             fixed: true,
             highlight: false,
             showInfobox: false
@@ -332,7 +338,7 @@ export class Graph {
         this.board.create('line', [p2, i2], {
             dash: 1,
             highlight: false,
-            strokeColor: 'black',
+            strokeColor: color,
             strokeWidth: isShadow ? 0.5 : 1,
             straightFirst: false,
             straightLast: false,

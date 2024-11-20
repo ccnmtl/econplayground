@@ -28,6 +28,18 @@ export const eq = function(c, b, a, d) {
     return (-a + c) / (b + d);
 };
 
+export const cs = function(c, b, a, d) {
+    return (c - ep(c, b, a, d)) * eq(c, b, a, d) / 2;
+};
+
+export const ps = function(c, b, a, d) {
+    return (ep(c, b, a, d) - a) * eq(c, b, a, d) / 2;
+};
+
+export const ts = function(c, b, a, d) {
+    return cs(c, b, a, d) + ps(c, b, a, d);
+};
+
 export class LinearDemandSupplySurplus extends Graph {
     static getRuleOptions() {
         return [
@@ -92,7 +104,8 @@ export class LinearDemandSupplySurplus extends Graph {
         );
 
         if (this.options.gShowIntersection) {
-            this.showIntersection(this.l1, this.l2);
+            this.showIntersection(
+                this.l1, this.l2, false, 'Equilibrium', 'P*', 'Q*');
         }
     }
 }
