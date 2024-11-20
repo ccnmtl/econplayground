@@ -5,23 +5,29 @@ import { handleFormUpdate } from '../utils.js';
 
 export default class LinearDemandSupplySurplusEditor extends React.Component {
     render() {
-        const demandSupplyOptions = [
+        const me = this;
+
+        const modesLeft = [
             'Linear Demand and Supply',
             'with Welfare Analysis',
             'Imports and Exports',
-            'Price Controls',
+            'Imports and Exports with Tariffs',
+        ];
+        const modesRight = [
+            'Price Controls - Minimum Price',
+            'Price Controls - Maximum Price',
             'Quantity Controls',
         ];
 
-        const radioButtons = demandSupplyOptions.map((optionTitle, idx) =>
+        const radioButtons1 = modesLeft.map((optionTitle, idx) =>
             <div key={idx} className="form-check">
                 <input
                     type="radio" id={`functionChoice-${idx}`}
                     className="form-check-input"
                     value={idx}
                     name="gFunctionChoice"
-                    checked={this.props.gFunctionChoice === idx}
-                    onChange={handleFormUpdate.bind(this)} />
+                    checked={me.props.gFunctionChoice === idx}
+                    onChange={handleFormUpdate.bind(me)} />
                 <label
                     className="form-check-label"
                     htmlFor={`functionChoice-${idx}`}>
@@ -30,9 +36,36 @@ export default class LinearDemandSupplySurplusEditor extends React.Component {
             </div>
         );
 
+        const radioButtons2 = modesRight.map(function(optionTitle, idx) {
+            const newIdx = idx + modesLeft.length;
+            return (
+                <div key={newIdx} className="form-check">
+                    <input
+                        type="radio" id={`functionChoice-${newIdx}`}
+                        className="form-check-input"
+                        value={newIdx}
+                        name="gFunctionChoice"
+                        checked={me.props.gFunctionChoice === newIdx}
+                        onChange={handleFormUpdate.bind(me)} />
+                    <label
+                        className="form-check-label"
+                        htmlFor={`functionChoice-${newIdx}`}>
+                        {optionTitle}
+                    </label>
+                </div>
+            );
+        });
+
         return (
             <>
-                {radioButtons}
+                <div className="row">
+                    <div className="col">
+                        {radioButtons1}
+                    </div>
+                    <div className="col">
+                        {radioButtons2}
+                    </div>
+                </div>
 
                 <div>
                     {this.props.displaySliders && (
@@ -87,6 +120,26 @@ export default class LinearDemandSupplySurplusEditor extends React.Component {
                             max={this.props.gA1}
                             handler={handleFormUpdate.bind(this)} />
                     )}
+                    {(this.props.gFunctionChoice === 3) && (
+                        <RangeEditor
+                            label="Tariff"
+                            rawLabel={true}
+                            id="gA6"
+                            value={this.props.gA6}
+                            min={0}
+                            max={this.props.gA1}
+                            handler={handleFormUpdate.bind(this)} />
+                    )}
+                    {(this.props.gFunctionChoice === 4) && (
+                        <RangeEditor
+                            label="Minimum Price"
+                            rawLabel={true}
+                            id="gA5"
+                            value={this.props.gA5}
+                            min={0}
+                            max={this.props.gA1}
+                            handler={handleFormUpdate.bind(this)} />
+                    )}
                 </div>
             </>
         );
@@ -101,6 +154,7 @@ LinearDemandSupplySurplusEditor.propTypes = {
     gA3: PropTypes.number.isRequired,
     gA4: PropTypes.number.isRequired,
     gA5: PropTypes.number,
+    gA6: PropTypes.number,
 
     gFunctionChoice: PropTypes.number.isRequired,
     gToggle: PropTypes.bool.isRequired,

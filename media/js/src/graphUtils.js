@@ -74,6 +74,12 @@ export const setDynamicGraphDefaults = function(state, updateObj) {
             taxRevenueDefaults,
             taxRevenueDefaults,
             state.gFunctionChoice);
+    } else if (state.gType === 25) {
+        updateObj = setDefaults(
+            updateObj,
+            linearDemandSupplySurplusDefaults,
+            linearDemandSupplySurplusDefaults,
+            state.gFunctionChoice);
     }
 
     return updateObj;

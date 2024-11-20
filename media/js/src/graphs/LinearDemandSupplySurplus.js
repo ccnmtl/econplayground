@@ -2,6 +2,7 @@ import {Graph, positiveRange} from './Graph.js';
 
 // defaults based on function type
 export const defaults = [
+    // Linear Demand and Supply
     {
         gXAxisMax: 1000,
         gYAxisMax: 2500,
@@ -10,6 +11,69 @@ export const defaults = [
         gA3: 100,
         gA4: 2,
         gA5: 500,
+        gA6: 0,
+    },
+    // with Welfare Analysis
+    {
+        gXAxisMax: 1000,
+        gYAxisMax: 2500,
+        gA1: 1500,
+        gA2: 2,
+        gA3: 100,
+        gA4: 2,
+        gA5: 500,
+        gA6: 0,
+    },
+    // Imports and Exports
+    {
+        gXAxisMax: 1000,
+        gYAxisMax: 2500,
+        gA1: 1500,
+        gA2: 2,
+        gA3: 100,
+        gA4: 2,
+        gA5: 500,
+    },
+    // with Tariffs
+    {
+        gXAxisMax: 1000,
+        gYAxisMax: 2500,
+        gA1: 1500,
+        gA2: 2,
+        gA3: 100,
+        gA4: 2,
+        gA5: 500,
+        gA6: 0,
+    },
+    // Minimum Price
+    {
+        gXAxisMax: 1000,
+        gYAxisMax: 2500,
+        gA1: 1500,
+        gA2: 2,
+        gA3: 100,
+        gA4: 2,
+        gA5: 800,
+    },
+    // Maximum Price
+    {
+        gXAxisMax: 1000,
+        gYAxisMax: 2500,
+        gA1: 1500,
+        gA2: 2,
+        gA3: 100,
+        gA4: 2,
+        gA5: 800,
+    },
+    // Quantity Controls
+    {
+        gXAxisMax: 1000,
+        gYAxisMax: 2500,
+        gA1: 1500,
+        gA2: 2,
+        gA3: 100,
+        gA4: 2,
+        gA5: 350,
     },
 ];
 
@@ -72,6 +136,102 @@ export class LinearDemandSupplySurplus extends Graph {
         ];
     }
 
+    /**
+     * Return textual graph pane info, as an array of objects.
+     */
+    static getGraphPane(gFunctionChoice, gA1, gA2, gA3, gA4, gA5) {
+        let lineItems = [];
+
+        if (gFunctionChoice === 0 || gFunctionChoice === 1) {
+            lineItems = [
+                {
+                    label: 'Equilibrium Quantity Q*',
+                    color: 'red',
+                    value: eq(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'Equilibrium Price P*',
+                    color: 'red',
+                    value: ep(gA1, gA2, gA3, gA4).toFixed(2)
+                }
+            ];
+
+            if (gFunctionChoice === 1) {
+                lineItems = lineItems.concat([
+                    {
+                        label: 'Consumer Surplus CS',
+                        color: 'blue',
+                        value: cs(gA1, gA2, gA3, gA4).toFixed(2)
+                    },
+                    {
+                        label: 'Producer Surplus PS',
+                        color: 'orange',
+                        value: ps(gA1, gA2, gA3, gA4).toFixed(2)
+                    },
+                    {
+                        label: 'Total Surplus TS',
+                        color: 'red',
+                        value: ts(gA1, gA2, gA3, gA4).toFixed(2)
+                    }
+                ]);
+            }
+        } else if (gFunctionChoice === 2) {
+            const eqdVal = eqd(gA1, gA2, gA3, gA4, gA5);
+            const eqsVal = eqs(gA1, gA2, gA3, gA4, gA5);
+
+            lineItems = [
+                {
+                    label: 'Domestic Quantity Bought',
+                    color: 'red',
+                    value: eqdVal.toFixed(2)
+                },
+                {
+                    label: 'Domestic Quantity Produced',
+                    color: 'red',
+                    value: eqsVal.toFixed(2)
+                },
+                {
+                    label: 'International Trade',
+                    color: 'red',
+                    value: (eqsVal - eqdVal).toFixed(2)
+                }
+            ];
+        } else if (gFunctionChoice === 3) {
+            lineItems = [
+                {
+                    label: 'Traded Quantity',
+                    color: 'red',
+                    value: null
+                },
+                {
+                    label: 'Quantity Supplied',
+                    color: 'red',
+                    value: null
+                },
+                {
+                    label: 'Surplus',
+                    color: 'red',
+                    value: null
+                }
+            ];
+        } else if (gFunctionChoice === 4) {
+            lineItems = [
+                {
+                    label: 'Traded Quantity',
+                    color: 'red',
+                    value: null
+                },
+                {
+                    label: 'Market Price',
+                    color: 'red',
+                    value: null
+                }
+            ];
+        }
+
+        return lineItems;
+    }
+
     make() {
         const me = this;
 
@@ -112,6 +272,81 @@ export class LinearDemandSupplySurplus extends Graph {
                 highlight: false
             }
         );
+
+        if (
+            this.options.gFunctionChoice === 2 ||
+                this.options.gFunctionChoice === 3
+        ) {
+            this.l3 = this.board.create(
+                'functiongraph',
+                [positiveRange(() => {
+                    return me.options.gA5;
+                }), 0, this.options.gXAxisMax], {
+                    name: 'Global Price',
+                    withLabel: true,
+                    label: {
+                        strokeColor: this.l3Color
+                    },
+                    strokeWidth: 2,
+                    strokeColor: this.l3Color,
+                    fixed: true,
+                    highlight: false
+                }
+            );
+
+            if (this.options.gFunctionChoice === 3) {
+                this.l4 = this.board.create(
+                    'functiongraph',
+                    [positiveRange(() => {
+                        return me.options.gA6;
+                    }), 0, this.options.gXAxisMax], {
+                        name: 'Tariff',
+                        withLabel: true,
+                        label: {
+                            strokeColor: this.l4Color
+                        },
+                        strokeWidth: 2,
+                        strokeColor: this.l4Color,
+                        fixed: true,
+                        highlight: false
+                    }
+                );
+            }
+        } else if (this.options.gFunctionChoice === 4) {
+            this.l3 = this.board.create(
+                'functiongraph',
+                [positiveRange(() => {
+                    return me.options.gA5;
+                }), 0, this.options.gXAxisMax], {
+                    name: 'Minimum Price',
+                    withLabel: true,
+                    label: {
+                        strokeColor: this.l3Color
+                    },
+                    strokeWidth: 2,
+                    strokeColor: this.l3Color,
+                    fixed: true,
+                    highlight: false
+                }
+            );
+        } else if (this.options.gFunctionChoice === 5) {
+            this.l3 = this.board.create(
+                'functiongraph',
+                [positiveRange(() => {
+                    return me.options.gA5;
+                }), 0, this.options.gXAxisMax], {
+                    name: 'Maximum Price',
+                    withLabel: true,
+                    label: {
+                        strokeColor: this.l3Color
+                    },
+                    strokeWidth: 2,
+                    strokeColor: this.l3Color,
+                    fixed: true,
+                    highlight: false
+                }
+            );
+        }
 
         if (this.options.gShowIntersection) {
             this.showIntersection(
