@@ -566,6 +566,10 @@ export default class JXGBoard extends React.Component {
                 xAxisLabel = options.gFunctionChoice === 0 ? 'Unit Tax' : 'Ad Valorem Tax';
                 yAxisLabel = 'Tax Revenue';
                 break;
+            case 25:
+                xTicks = this.visibleTicks;
+                yTicks = xTicks;
+                break;
             default:
                 xAxisLabel = options.gXAxisLabel ? options.gXAxisLabel : 'x';
                 yAxisLabel = options.gYAxisLabel ? options.gYAxisLabel : 'y';
