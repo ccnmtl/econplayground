@@ -43,7 +43,7 @@ sqlparse==0.5.2
 python-dateutil==2.9.0.post0
 
 # boto3 deps
-s3transfer==0.10.3
+s3transfer==0.10.4
 jmespath==1.0.1
 
 botocore>=1.12.198,<1.36.0
