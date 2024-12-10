@@ -45,6 +45,17 @@ export const defaults = [
         gA5: 500,
         gA6: 0,
     },
+    // No Tariffs, with Surplus Distribution
+    {
+        gXAxisMax: 1000,
+        gYAxisMax: 2500,
+        gA1: 1500,
+        gA2: 2,
+        gA3: 100,
+        gA4: 2,
+        gA5: 500,
+        gA6: 0,
+    },
     // Minimum Price
     {
         gXAxisMax: 1000,
@@ -114,6 +125,22 @@ export const eqs = function(c, b, a, d, wp) {
     return (-a + wp) / d;
 };
 
+const eqdmin = function(c, b, a, d, pmin) {
+    return (c - pmin) / b;
+};
+
+const eqsmin = function(c, b, a, d, pmin) {
+    return (-a + pmin) / d;
+};
+
+const eqdmax = function(c, b, a, d, pmax) {
+    return (c - pmax) / b;
+};
+
+const eqsmax = function(c, b, a, d, pmax) {
+    return (-a + pmax) / d;
+};
+
 export class LinearDemandSupplySurplus extends Graph {
     static getRuleOptions() {
         return [
@@ -175,7 +202,7 @@ export class LinearDemandSupplySurplus extends Graph {
                     }
                 ]);
             }
-        } else if (gFunctionChoice === 2) {
+        } else if (gFunctionChoice === 2 || gFunctionChoice === 3) {
             const eqdVal = eqd(gA1, gA2, gA3, gA4, gA5);
             const eqsVal = eqs(gA1, gA2, gA3, gA4, gA5);
 
@@ -196,25 +223,85 @@ export class LinearDemandSupplySurplus extends Graph {
                     value: (eqsVal - eqdVal).toFixed(2)
                 }
             ];
-        } else if (gFunctionChoice === 3) {
+        } else if (gFunctionChoice === 4) {
+            lineItems = [
+                {
+                    label: 'Domestic Quantity Bought, Qdom',
+                    color: 'red',
+                    value: eqd(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                },
+                {
+                    label: 'Domestic Quantity Produced, Qdom',
+                    color: 'red',
+                    value: eqs(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                },
+                {
+                    label: 'International Trade',
+                    color: 'red',
+                    value: (
+                        eqs(gA1, gA2, gA3, gA4, gA5) -
+                            eqd(gA1, gA2, gA3, gA4, gA5)
+                    ).toFixed(2)
+                },
+                {
+                    label: 'Consumer Surplus CS',
+                    color: 'blue',
+                    value: cs(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'Producer Surplus PS',
+                    color: 'orange',
+                    value: ps(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'Total Surplus TS',
+                    color: 'red',
+                    value: ts(gA1, gA2, gA3, gA4).toFixed(2)
+                }
+            ];
+        } else if (gFunctionChoice === 5) {
+            const eqdminVal = eqdmin(gA1, gA2, gA3, gA4, gA5);
+            const eqsminVal = eqsmin(gA1, gA2, gA3, gA4, gA5);
+
             lineItems = [
                 {
                     label: 'Traded Quantity',
                     color: 'red',
-                    value: null
+                    value: eqdminVal.toFixed(2)
                 },
                 {
-                    label: 'Quantity Supplied',
+                    label: 'Desired Quantity Supplied',
                     color: 'red',
-                    value: null
+                    value: eqsminVal.toFixed(2)
                 },
                 {
                     label: 'Surplus',
                     color: 'red',
-                    value: null
+                    value: (eqsminVal - eqdminVal).toFixed(2)
                 }
             ];
-        } else if (gFunctionChoice === 4) {
+        } else if (gFunctionChoice === 6) {
+            const eqdmaxVal = eqdmax(gA1, gA2, gA3, gA4, gA5);
+            const eqsmaxVal = eqsmax(gA1, gA2, gA3, gA4, gA5);
+
+            lineItems = [
+                {
+                    label: 'Traded Quantity',
+                    color: 'red',
+                    value: eqdmaxVal.toFixed(2)
+                },
+                {
+                    label: 'Desired Quantity Demanded',
+                    color: 'red',
+                    value: eqsmaxVal.toFixed(2)
+                },
+                {
+                    label: 'Surplus',
+                    color: 'red',
+                    value: (eqsmaxVal - eqdmaxVal).toFixed(2)
+                }
+            ];
+        } else if (gFunctionChoice === 7) {
             lineItems = [
                 {
                     label: 'Traded Quantity',

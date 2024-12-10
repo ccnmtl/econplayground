@@ -14,6 +14,7 @@ export default class LinearDemandSupplySurplusEditor extends React.Component {
             'Imports and Exports with Tariffs',
         ];
         const modesRight = [
+            'Imports and Exports with Surplus Distribution',
             'Price Controls - Minimum Price',
             'Price Controls - Maximum Price',
             'Quantity Controls',
