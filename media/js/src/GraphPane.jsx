@@ -80,7 +80,7 @@ export default function GraphPane({
             <div className="mb-2">
                 {lineItems.map((item, index) =>
                     <div key={index} className={`ep-text-${item.color}`}>
-                        {item.label} = {item.value}
+                        <span dangerouslySetInnerHTML={{__html: item.label}}></span> = {item.value}
                     </div>
                 )}
             </div>

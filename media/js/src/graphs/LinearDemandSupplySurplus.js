@@ -208,17 +208,17 @@ export class LinearDemandSupplySurplus extends Graph {
 
             lineItems = [
                 {
-                    label: 'Domestic Quantity Bought',
+                    label: 'Domestic Quantity Bought, <math><msubsup><mo>Q</mo><mn>Dom</mn><mn>S</mn></msubsup></math>',
                     color: 'red',
                     value: eqdVal.toFixed(2)
                 },
                 {
-                    label: 'Domestic Quantity Produced',
+                    label: 'Domestic Quantity Produced, <math><msubsup><mo>Q</mo><mn>Dom</mn><mn>S</mn></msubsup></math>',
                     color: 'red',
                     value: eqsVal.toFixed(2)
                 },
                 {
-                    label: 'International Trade',
+                    label: 'International Trade, <math><msubsup><mo>Q</mo><mn>Dom</mn><mn>s</mn></msubsup> <mo>-</mo> <msubsup><mo>Q</mo><mn>Dom</mn><mn>d</mn></msubsup></math>',
                     color: 'red',
                     value: (eqsVal - eqdVal).toFixed(2)
                 }
@@ -226,17 +226,17 @@ export class LinearDemandSupplySurplus extends Graph {
         } else if (gFunctionChoice === 4) {
             lineItems = [
                 {
-                    label: 'Domestic Quantity Bought, Qdom',
+                    label: 'Domestic Quantity Bought, <math><msubsup><mo>Q</mo><mn>Dom</mn><mn>D</mn></msubsup></math>',
                     color: 'red',
                     value: eqd(gA1, gA2, gA3, gA4, gA5).toFixed(2)
                 },
                 {
-                    label: 'Domestic Quantity Produced, Qdom',
+                    label: 'Domestic Quantity Produced, <math><msubsup><mo>Q</mo><mn>Dom</mn><mn>S</mn></msubsup></math>',
                     color: 'red',
                     value: eqs(gA1, gA2, gA3, gA4, gA5).toFixed(2)
                 },
                 {
-                    label: 'International Trade',
+                    label: 'International Trade, <math><msubsup><mo>Q</mo><mn>Dom</mn><mn>s</mn></msubsup> <mo>-</mo> <msubsup><mo>Q</mo><mn>Dom</mn><mn>d</mn></msubsup></math>',
                     color: 'red',
                     value: (
                         eqs(gA1, gA2, gA3, gA4, gA5) -
@@ -265,17 +265,17 @@ export class LinearDemandSupplySurplus extends Graph {
 
             lineItems = [
                 {
-                    label: 'Traded Quantity',
+                    label: 'Traded Quantity, <math><msubsup><mo>Q</mo><mn>D</mn><mn>min</mn></msubsup></math>',
                     color: 'red',
                     value: eqdminVal.toFixed(2)
                 },
                 {
-                    label: 'Desired Quantity Supplied',
+                    label: 'Desired Quantity Supplied, Q<sub>S</sub>',
                     color: 'red',
                     value: eqsminVal.toFixed(2)
                 },
                 {
-                    label: 'Surplus',
+                    label: 'Surplus, Q<sub>S</sub>-Q<sub>D</sub>',
                     color: 'red',
                     value: (eqsminVal - eqdminVal).toFixed(2)
                 }
@@ -286,17 +286,17 @@ export class LinearDemandSupplySurplus extends Graph {
 
             lineItems = [
                 {
-                    label: 'Traded Quantity',
+                    label: 'Traded Quantity, <math><msubsup><mo>Q</mo><mn>S</mn><mn>min</mn></msubsup></math>',
                     color: 'red',
                     value: eqdmaxVal.toFixed(2)
                 },
                 {
-                    label: 'Desired Quantity Demanded',
+                    label: 'Desired Quantity Demanded, Q<sub>D</sub>',
                     color: 'red',
                     value: eqsmaxVal.toFixed(2)
                 },
                 {
-                    label: 'Surplus',
+                    label: 'Shortage, Q<sub>D</sub>-Q<sub>S</sub>',
                     color: 'red',
                     value: (eqsmaxVal - eqdmaxVal).toFixed(2)
                 }
@@ -304,14 +304,129 @@ export class LinearDemandSupplySurplus extends Graph {
         } else if (gFunctionChoice === 7) {
             lineItems = [
                 {
-                    label: 'Traded Quantity',
+                    label: 'Traded Quantity, <math><msubsup><mo>Q</mo><mn>D</mn><mn>min</mn></msubsup></math>',
+                    color: 'red',
+                    value: eqd(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                },
+                {
+                    label: 'Desired Quantity Supplied, Q<sub>s</sub>',
+                    color: 'red',
+                    value: eqs(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                },
+                {
+                    label: 'Surplus, Q<sub>S</sub>-Q<sub>D</sub>',
+                    color: 'red',
+                    value: (
+                        eqs(gA1, gA2, gA3, gA4, gA5) -
+                            eqd(gA1, gA2, gA3, gA4, gA5)
+                    ).toFixed(2)
+                },
+                {
+                    label: 'Consumer Surplus CS',
+                    color: 'blue',
+                    value: cs(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'Producer Surplus PS',
+                    color: 'orange',
+                    value: ps(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'Total Surplus TS',
+                    color: 'red',
+                    value: ts(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'Deadweight Loss DWL',
+                    color: 'red',
+                    value: ts(gA1, gA2, gA3, gA4).toFixed(2)
+                }
+            ];
+        } else if (gFunctionChoice === 8) {
+            lineItems = [
+                {
+                    label: 'Traded Quantity, <math><msubsup><mo>Q</mo><mn>D</mn><mn>min</mn></msubsup></math>',
+                    color: 'red',
+                    value: eqd(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                },
+                {
+                    label: 'Desired Quantity Supplied, Q<sub>s</sub>',
+                    color: 'red',
+                    value: eqs(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                },
+                {
+                    label: 'Shortage, Q<sub>D</sub>-Q<sub>S</sub>',
+                    color: 'red',
+                    value: (
+                        eqs(gA1, gA2, gA3, gA4, gA5) -
+                            eqd(gA1, gA2, gA3, gA4, gA5)
+                    ).toFixed(2)
+                },
+                {
+                    label: 'Consumer Surplus CS',
+                    color: 'blue',
+                    value: cs(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'Producer Surplus PS',
+                    color: 'orange',
+                    value: ps(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'Total Surplus TS',
+                    color: 'red',
+                    value: ts(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'Deadweight Loss DWL',
+                    color: 'red',
+                    value: ts(gA1, gA2, gA3, gA4).toFixed(2)
+                }
+            ];
+        } else if (gFunctionChoice === 9) {
+            lineItems = [
+                {
+                    label: 'Traded Quantity, <math><msubsup><mo>Q</mo><mn>D</mn><mn>quota</mn></msubsup></math>',
                     color: 'red',
                     value: null
                 },
                 {
-                    label: 'Market Price',
+                    label: 'Market Price, P<sup>quota</sup>',
                     color: 'red',
                     value: null
+                }
+            ];
+        } else if (gFunctionChoice === 10) {
+            lineItems = [
+                {
+                    label: 'Traded Quantity, <math><msubsup><mo>Q</mo><mn>D</mn><mn>quota</mn></msubsup></math>',
+                    color: 'red',
+                    value: eqd(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                },
+                {
+                    label: 'Market Price, P<sup>quota</sup>',
+                    color: 'red',
+                    value: eqs(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                },
+                {
+                    label: 'Consumer Surplus CS',
+                    color: 'blue',
+                    value: cs(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'Producer Surplus PS',
+                    color: 'orange',
+                    value: ps(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'Total Surplus TS',
+                    color: 'red',
+                    value: ts(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'Deadweight Loss DWL',
+                    color: 'red',
+                    value: ts(gA1, gA2, gA3, gA4).toFixed(2)
                 }
             ];
         }
