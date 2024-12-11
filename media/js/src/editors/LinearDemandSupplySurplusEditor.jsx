@@ -13,9 +13,10 @@ export default class LinearDemandSupplySurplusEditor extends React.Component {
             'Imports and Exports',
             'Imports and Exports with Tariffs',
             'Imports and Exports with Surplus Distribution',
-            'Price Controls - Minimum Price',
+            'Imports and Exports with Surplus Distribution and Tariffs',
         ];
         const modesRight = [
+            'Price Controls - Minimum Price',
             'Price Controls - Maximum Price',
             'Price Controls - Minimum Price, Welfare Analysis',
             'Price Controls - Maximum Price, Welfare Analysis',
@@ -134,9 +135,39 @@ export default class LinearDemandSupplySurplusEditor extends React.Component {
                             max={this.props.gA1}
                             handler={handleFormUpdate.bind(this)} />
                     )}
-                    {(this.props.gFunctionChoice === 4) && (
+                    {(this.props.gFunctionChoice === 4 || this.props.gFunctionChoice === 5) && (
+                        <RangeEditor
+                            label="Global Price"
+                            rawLabel={true}
+                            id="gA5"
+                            value={this.props.gA5}
+                            min={0}
+                            max={this.props.gA1}
+                            handler={handleFormUpdate.bind(this)} />
+                    )}
+                    {(this.props.gFunctionChoice === 6 || this.props.gFunctionChoice === 8) && (
                         <RangeEditor
                             label="Minimum Price"
+                            rawLabel={true}
+                            id="gA5"
+                            value={this.props.gA5}
+                            min={0}
+                            max={this.props.gA1}
+                            handler={handleFormUpdate.bind(this)} />
+                    )}
+                    {(this.props.gFunctionChoice === 7 || this.props.gFunctionChoice === 9) && (
+                        <RangeEditor
+                            label="Maximum Price"
+                            rawLabel={true}
+                            id="gA5"
+                            value={this.props.gA5}
+                            min={0}
+                            max={this.props.gA1}
+                            handler={handleFormUpdate.bind(this)} />
+                    )}
+                    {(this.props.gFunctionChoice === 10 || this.props.gFunctionChoice === 11) && (
+                        <RangeEditor
+                            label="Production Quota"
                             rawLabel={true}
                             id="gA5"
                             value={this.props.gA5}
