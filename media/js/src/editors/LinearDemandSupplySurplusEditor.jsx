@@ -12,12 +12,15 @@ export default class LinearDemandSupplySurplusEditor extends React.Component {
             'with Welfare Analysis',
             'Imports and Exports',
             'Imports and Exports with Tariffs',
-        ];
-        const modesRight = [
             'Imports and Exports with Surplus Distribution',
             'Price Controls - Minimum Price',
+        ];
+        const modesRight = [
             'Price Controls - Maximum Price',
-            'Quantity Controls',
+            'Price Controls - Minimum Price, Welfare Analysis',
+            'Price Controls - Maximum Price, Welfare Analysis',
+            'Production Quota',
+            'Production Quota with Welfare Analysis',
         ];
 
         const radioButtons1 = modesLeft.map((optionTitle, idx) =>
