@@ -56,6 +56,17 @@ export const defaults = [
         gA5: 500,
         gA6: 0,
     },
+    // with Tariffs, with Surplus Distribution
+    {
+        gXAxisMax: 1000,
+        gYAxisMax: 2500,
+        gA1: 1500,
+        gA2: 2,
+        gA3: 100,
+        gA4: 2,
+        gA5: 500,
+        gA6: 0,
+    },
     // Minimum Price
     {
         gXAxisMax: 1000,
@@ -76,7 +87,37 @@ export const defaults = [
         gA4: 2,
         gA5: 800,
     },
-    // Quantity Controls
+    // Minimum Price, Welfare Analysis
+    {
+        gXAxisMax: 1000,
+        gYAxisMax: 2500,
+        gA1: 1500,
+        gA2: 2,
+        gA3: 100,
+        gA4: 2,
+        gA5: 800,
+    },
+    // Maximum Price, Welfare Analysis
+    {
+        gXAxisMax: 1000,
+        gYAxisMax: 2500,
+        gA1: 1500,
+        gA2: 2,
+        gA3: 100,
+        gA4: 2,
+        gA5: 800,
+    },
+    // Production Quota
+    {
+        gXAxisMax: 1000,
+        gYAxisMax: 2500,
+        gA1: 1500,
+        gA2: 2,
+        gA3: 100,
+        gA4: 2,
+        gA5: 350,
+    },
+    // Production Quota, Welfare Analysis
     {
         gXAxisMax: 1000,
         gYAxisMax: 2500,
@@ -260,6 +301,47 @@ export class LinearDemandSupplySurplus extends Graph {
                 }
             ];
         } else if (gFunctionChoice === 5) {
+            lineItems = [
+                {
+                    label: 'Domestic Quantity Bought, <math><msubsup><mo>Q</mo><mn>Dom</mn><mn>D</mn></msubsup></math>',
+                    color: 'red',
+                    value: eqd(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                },
+                {
+                    label: 'Domestic Quantity Produced, <math><msubsup><mo>Q</mo><mn>Dom</mn><mn>S</mn></msubsup></math>',
+                    color: 'red',
+                    value: eqs(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                },
+                {
+                    label: 'International Trade, <math><msubsup><mo>Q</mo><mn>Dom</mn><mn>s</mn></msubsup> <mo>-</mo> <msubsup><mo>Q</mo><mn>Dom</mn><mn>d</mn></msubsup></math>',
+                    color: 'red',
+                    value: (
+                        eqs(gA1, gA2, gA3, gA4, gA5) -
+                            eqd(gA1, gA2, gA3, gA4, gA5)
+                    ).toFixed(2)
+                },
+                {
+                    label: 'Consumer Surplus CS',
+                    color: 'blue',
+                    value: cs(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'Producer Surplus PS',
+                    color: 'orange',
+                    value: ps(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'Tariff Revenue',
+                    color: 'red',
+                    value: 299
+                },
+                {
+                    label: 'Total Surplus TS',
+                    color: 'red',
+                    value: ts(gA1, gA2, gA3, gA4).toFixed(2)
+                }
+            ];
+        } else if (gFunctionChoice === 6) {
             const eqdminVal = eqdmin(gA1, gA2, gA3, gA4, gA5);
             const eqsminVal = eqsmin(gA1, gA2, gA3, gA4, gA5);
 
@@ -280,7 +362,7 @@ export class LinearDemandSupplySurplus extends Graph {
                     value: (eqsminVal - eqdminVal).toFixed(2)
                 }
             ];
-        } else if (gFunctionChoice === 6) {
+        } else if (gFunctionChoice === 7) {
             const eqdmaxVal = eqdmax(gA1, gA2, gA3, gA4, gA5);
             const eqsmaxVal = eqsmax(gA1, gA2, gA3, gA4, gA5);
 
@@ -301,47 +383,6 @@ export class LinearDemandSupplySurplus extends Graph {
                     value: (eqsmaxVal - eqdmaxVal).toFixed(2)
                 }
             ];
-        } else if (gFunctionChoice === 7) {
-            lineItems = [
-                {
-                    label: 'Traded Quantity, <math><msubsup><mo>Q</mo><mn>D</mn><mn>min</mn></msubsup></math>',
-                    color: 'red',
-                    value: eqd(gA1, gA2, gA3, gA4, gA5).toFixed(2)
-                },
-                {
-                    label: 'Desired Quantity Supplied, Q<sub>s</sub>',
-                    color: 'red',
-                    value: eqs(gA1, gA2, gA3, gA4, gA5).toFixed(2)
-                },
-                {
-                    label: 'Surplus, Q<sub>S</sub>-Q<sub>D</sub>',
-                    color: 'red',
-                    value: (
-                        eqs(gA1, gA2, gA3, gA4, gA5) -
-                            eqd(gA1, gA2, gA3, gA4, gA5)
-                    ).toFixed(2)
-                },
-                {
-                    label: 'Consumer Surplus CS',
-                    color: 'blue',
-                    value: cs(gA1, gA2, gA3, gA4).toFixed(2)
-                },
-                {
-                    label: 'Producer Surplus PS',
-                    color: 'orange',
-                    value: ps(gA1, gA2, gA3, gA4).toFixed(2)
-                },
-                {
-                    label: 'Total Surplus TS',
-                    color: 'red',
-                    value: ts(gA1, gA2, gA3, gA4).toFixed(2)
-                },
-                {
-                    label: 'Deadweight Loss DWL',
-                    color: 'red',
-                    value: ts(gA1, gA2, gA3, gA4).toFixed(2)
-                }
-            ];
         } else if (gFunctionChoice === 8) {
             lineItems = [
                 {
@@ -355,7 +396,7 @@ export class LinearDemandSupplySurplus extends Graph {
                     value: eqs(gA1, gA2, gA3, gA4, gA5).toFixed(2)
                 },
                 {
-                    label: 'Shortage, Q<sub>D</sub>-Q<sub>S</sub>',
+                    label: 'Surplus, Q<sub>S</sub>-Q<sub>D</sub>',
                     color: 'red',
                     value: (
                         eqs(gA1, gA2, gA3, gA4, gA5) -
@@ -386,6 +427,47 @@ export class LinearDemandSupplySurplus extends Graph {
         } else if (gFunctionChoice === 9) {
             lineItems = [
                 {
+                    label: 'Traded Quantity, <math><msubsup><mo>Q</mo><mn>D</mn><mn>min</mn></msubsup></math>',
+                    color: 'red',
+                    value: eqd(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                },
+                {
+                    label: 'Desired Quantity Supplied, Q<sub>s</sub>',
+                    color: 'red',
+                    value: eqs(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                },
+                {
+                    label: 'Shortage, Q<sub>D</sub>-Q<sub>S</sub>',
+                    color: 'red',
+                    value: (
+                        eqs(gA1, gA2, gA3, gA4, gA5) -
+                            eqd(gA1, gA2, gA3, gA4, gA5)
+                    ).toFixed(2)
+                },
+                {
+                    label: 'Consumer Surplus CS',
+                    color: 'blue',
+                    value: cs(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'Producer Surplus PS',
+                    color: 'orange',
+                    value: ps(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'Total Surplus TS',
+                    color: 'red',
+                    value: ts(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'Deadweight Loss DWL',
+                    color: 'red',
+                    value: ts(gA1, gA2, gA3, gA4).toFixed(2)
+                }
+            ];
+        } else if (gFunctionChoice === 10) {
+            lineItems = [
+                {
                     label: 'Traded Quantity, <math><msubsup><mo>Q</mo><mn>D</mn><mn>quota</mn></msubsup></math>',
                     color: 'red',
                     value: null
@@ -396,7 +478,7 @@ export class LinearDemandSupplySurplus extends Graph {
                     value: null
                 }
             ];
-        } else if (gFunctionChoice === 10) {
+        } else if (gFunctionChoice === 11) {
             lineItems = [
                 {
                     label: 'Traded Quantity, <math><msubsup><mo>Q</mo><mn>D</mn><mn>quota</mn></msubsup></math>',
@@ -476,8 +558,18 @@ export class LinearDemandSupplySurplus extends Graph {
         );
 
         if (
+            this.options.gFunctionChoice === 0 ||
+                this.options.gFunctionChoice === 1
+        ) {
+            if (this.options.gShowIntersection) {
+                this.showIntersection(
+                    this.l1, this.l2, false, 'Equilibrium', 'P*', 'Q*');
+            }
+        } else if (
             this.options.gFunctionChoice === 2 ||
-                this.options.gFunctionChoice === 3
+                this.options.gFunctionChoice === 3 ||
+                this.options.gFunctionChoice === 4 ||
+                this.options.gFunctionChoice === 5
         ) {
             this.l3 = this.board.create(
                 'functiongraph',
@@ -495,6 +587,17 @@ export class LinearDemandSupplySurplus extends Graph {
                     highlight: false
                 }
             );
+
+            if (this.options.gShowIntersection) {
+                this.showIntersection(
+                    this.l1, this.l3, false,
+                    '<math><msubsup><mo>Q</mo><mn>Dom</mn><mn>S</mn></msubsup></math>'
+                );
+                this.showIntersection(
+                    this.l2, this.l3, false,
+                    '<math><msubsup><mo>Q</mo><mn>Dom</mn><mn>D</mn></msubsup></math>'
+                );
+            }
 
             if (this.options.gFunctionChoice === 3) {
                 this.l4 = this.board.create(
@@ -514,7 +617,10 @@ export class LinearDemandSupplySurplus extends Graph {
                     }
                 );
             }
-        } else if (this.options.gFunctionChoice === 4) {
+        } else if (
+            this.options.gFunctionChoice === 6 ||
+                this.options.gFunctionChoice === 8
+        ) {
             this.l3 = this.board.create(
                 'functiongraph',
                 [positiveRange(() => {
@@ -531,7 +637,18 @@ export class LinearDemandSupplySurplus extends Graph {
                     highlight: false
                 }
             );
-        } else if (this.options.gFunctionChoice === 5) {
+            if (this.options.gShowIntersection) {
+                this.showIntersection(
+                    this.l1, this.l3, false,
+                    'Q<sub>D</sub>');
+                this.showIntersection(
+                    this.l2, this.l3, false,
+                    'Q<sub>S</sub>');
+            }
+        } else if (
+            this.options.gFunctionChoice === 7 ||
+                this.options.gFunctionChoice === 9
+        ) {
             this.l3 = this.board.create(
                 'functiongraph',
                 [positiveRange(() => {
@@ -548,11 +665,15 @@ export class LinearDemandSupplySurplus extends Graph {
                     highlight: false
                 }
             );
-        }
 
-        if (this.options.gShowIntersection) {
-            this.showIntersection(
-                this.l1, this.l2, false, 'Equilibrium', 'P*', 'Q*');
+            if (this.options.gShowIntersection) {
+                this.showIntersection(
+                    this.l1, this.l3, false,
+                    'Q<sub>D</sub>');
+                this.showIntersection(
+                    this.l2, this.l3, false,
+                    'Q<sub>S</sub>');
+            }
         }
     }
 }
