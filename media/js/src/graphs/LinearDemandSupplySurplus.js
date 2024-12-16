@@ -182,6 +182,10 @@ const eqsmax = function(c, b, a, d, pmax) {
     return (-a + pmax) / d;
 };
 
+const epsqbar = function(c, b, a, d, qbar) {
+    return a + d * qbar;
+};
+
 export class LinearDemandSupplySurplus extends Graph {
     static getRuleOptions() {
         return [
@@ -673,6 +677,53 @@ export class LinearDemandSupplySurplus extends Graph {
                 this.showIntersection(
                     this.l2, this.l3, false,
                     'Q<sub>S</sub>');
+            }
+        } else if (
+            this.options.gFunctionChoice === 10 ||
+                this.options.gFunctionChoice === 11
+        ) {
+            this.board.create('line', [
+                [0, me.options.gA3],
+                [
+                    me.options.gA5,
+                    epsqbar(
+                        me.options.gA1, me.options.gA2, me.options.gA3,
+                        me.options.gA4, me.options.gA5)]
+            ], {
+                straightFirst: false,
+                straightLast: false,
+                strokeWidth: 2,
+                strokeColor: 'red',
+                fixed: true,
+                highlight: false
+            });
+
+            this.board.create('line', [
+                [me.options.gA5, epsqbar(
+                    me.options.gA1, me.options.gA2, me.options.gA3,
+                    me.options.gA4, me.options.gA5)],
+                [me.options.gA5, 2500]
+            ], {
+                name: 'Supply - Quota',
+                withLabel: true,
+                label: {
+                    strokeColor: 'red'
+                },
+                straightFirst: false,
+                straightLast: false,
+                strokeWidth: 2,
+                strokeColor: 'red',
+                fixed: true,
+                highlight: false
+            });
+
+
+            if (this.options.gShowIntersection) {
+                this.showIntersection(
+                    this.l1, this.l2, false, null,
+                    'P<sup>quota</sup>',
+                    '<math><msubsup><mo>Q</mo><mn>D</mn><mn>quota</mn></msubsup></math>'
+                );
             }
         }
     }
