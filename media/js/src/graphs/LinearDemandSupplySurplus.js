@@ -186,6 +186,10 @@ const epsqbar = function(c, b, a, d, qbar) {
     return a + d * qbar;
 };
 
+const tariffline = function(wp, t) {
+    return wp + t;
+};
+
 export class LinearDemandSupplySurplus extends Graph {
     static getRuleOptions() {
         return [
@@ -607,7 +611,7 @@ export class LinearDemandSupplySurplus extends Graph {
                 this.l4 = this.board.create(
                     'functiongraph',
                     [positiveRange(() => {
-                        return me.options.gA6;
+                        return tariffline(me.options.gA5, me.options.gA6);
                     }), 0, this.options.gXAxisMax], {
                         name: 'Tariff',
                         withLabel: true,
