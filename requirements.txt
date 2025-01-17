@@ -106,7 +106,7 @@ typing_extensions==4.12.2
 pyparsing==3.1.4
 
 django-s3sign==0.5.0
-django-cors-headers==4.4.0
+django-cors-headers==4.6.0
 django-treebeard==4.7.1
 
 graphviz==0.20.3
