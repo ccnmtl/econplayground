@@ -9,6 +9,7 @@ from django.views.static import serve
 from econplayground.main import views
 from econplayground.assignment import views as assignment_views
 from django_cas_ng import views as cas_views
+from lti_tool.views import jwks, OIDCLoginInitView
 
 
 site_media_root = os.path.join(os.path.dirname(__file__), "../media")
@@ -160,6 +161,11 @@ urlpatterns = [
     path('sentry-debug/', trigger_error),
 
     path('pages/', include('django.contrib.flatpages.urls')),
+
+    # django-lti
+    path('.well-known/jwks.json', jwks, name='jwks'),
+    path('init/<uuid:registration_uuid>/',
+         OIDCLoginInitView.as_view(), name='oidc_init'),
 ]
 
 if settings.DEBUG:

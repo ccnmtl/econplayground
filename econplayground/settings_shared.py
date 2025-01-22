@@ -57,6 +57,7 @@ MIDDLEWARE = [
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django_cas_ng.middleware.CASMiddleware',
+    'lti_tool.middleware.LtiLaunchMiddleware',
 ]
 
 INSTALLED_APPS = [  # noqa
@@ -90,6 +91,7 @@ INSTALLED_APPS = [  # noqa
     'markdownify.apps.MarkdownifyConfig',
     'corsheaders',
     'ctlsettings',
+    'lti_tool',
 ]
 
 CONTACT_US_EMAIL = 'econpractice@columbia.edu'
