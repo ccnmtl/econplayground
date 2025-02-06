@@ -86,6 +86,10 @@ def render_assignment_graph(assignment: object) -> str:
         })
     steps = root.get('children')
 
+    steps_len = 0
+    if steps:
+        steps_len = len(steps)
+
     step_route = reverse('step_detail', kwargs={
         'assignment_pk': assignment.pk,
         'pk': 1,
@@ -93,7 +97,7 @@ def render_assignment_graph(assignment: object) -> str:
 
     graph.node(str(1), href=step_route, **graphviz_node_style)
 
-    for x in range(1, len(steps)):
+    for x in range(1, steps_len):
         step = steps[x]
         step_route = reverse('step_detail', kwargs={
             'assignment_pk': assignment.pk,
