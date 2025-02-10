@@ -22,7 +22,7 @@ cssselect==1.2.0
 lxml==5.3.0
 fuzzywuzzy==0.18.0
 sure==2.0.1
-coverage==7.6.10
+coverage==7.6.11
 asn1crypto==1.5.1  # cryptography
 cffi==1.17.1  # cryptography
 cryptography==44.0.0
