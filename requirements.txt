@@ -35,7 +35,7 @@ logilab-common==2.0.0
 astroid==3.3.8
 pylint==3.3.4
 six==1.17.0
-faker==35.2.0  # factory_boy
+faker==36.1.0  # factory_boy
 factory_boy==3.3.3
 ldap3==2.9.1
 sqlparse==0.5.3
