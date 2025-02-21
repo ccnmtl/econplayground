@@ -102,7 +102,7 @@ docutils==0.21.2  # Django's admindocs
 rich==13.9.4  # bandit
 pbr==6.1.1  # bandit
 pyyaml==6.0.2  # bandit
-stevedore==5.4.0  # bandit
+stevedore==5.4.1  # bandit
 bandit==1.8.3
 django-ordered-model==3.6
 
