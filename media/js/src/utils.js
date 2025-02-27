@@ -415,7 +415,13 @@ const displayGraphType = function(gType) {
             name = 'Linear Demand and Supply - Surplus Policies';
             break;
         case 26:
-            name = 'Externalities';
+            name = 'Negative Production Externality - Producer';
+            break;
+        case 27:
+            name = 'Negative Production Externality - Industry';
+            break;
+        case 28:
+            name = 'Positive Externality - Industry';
             break;
         default:
             break;
