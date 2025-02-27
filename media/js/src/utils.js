@@ -414,6 +414,9 @@ const displayGraphType = function(gType) {
         case 25:
             name = 'Linear Demand and Supply - Surplus Policies';
             break;
+        case 26:
+            name = 'Externalities';
+            break;
         default:
             break;
     }
