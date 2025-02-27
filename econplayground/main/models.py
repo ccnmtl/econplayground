@@ -42,7 +42,11 @@ GRAPH_TYPES = (
     (24, 'Tax Supply and Demand vs. Tax Revenue'),
 
     (25, 'Linear Demand and Supply - Surplus Policies'),
-    (26, 'Externalities'),
+
+    # Externalities
+    (26, 'Negative Production Externality - Producer'),
+    (27, 'Negative Production Externality - Industry'),
+    (28, 'Positive Externality - Industry'),
 )
 
 ASSIGNMENT_TYPES = (
