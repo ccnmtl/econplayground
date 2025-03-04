@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static econ_utils %}
 
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/loaders.min.css' %}">
@@ -38,8 +38,9 @@
             <p class="lead mb-4">Build illustrations or assignments for EconPractice assessment (local) or CourseWorks assessment (LTI).</p>
             <div class="row row-cols-3 g-4">
                 {% for graph in graph_list %}
+                {% get_graph_name graph.graph_type as graph_name %}
                     <div class="col">
-                        <a class="card" href="{% url 'cohort_graph_create' cohort.pk graph.graph_type %}" title="{{ graph.title }}">
+                        <a class="card" href="{% url 'cohort_graph_create' cohort.pk graph.graph_type %}" title="{{ graph_name }}">
 
                             {% if graph.image is not None %}
                             <div class="card-img-top">
@@ -49,7 +50,7 @@
                             {% endif %}
 
                             <div class="card-body">
-                                <h2 class="card-title">{{ graph.title }}</h2>
+                                <h2 class="card-title">{{ graph_name }}</h2>
                             </div>
                         </a>
                     </div>
