@@ -44,6 +44,19 @@ import {
     TaxationLinearDemandSupplyGraph,
     mkTaxationLinearDemandSupply
 } from './TaxationLinearDemandSupplyGraph.js';
+import {
+    NegativeProductionExternalityProducerGraph,
+    mkNegativeProductionExternalityProducer
+} from './NegativeProductionExternalityProducerGraph.js';
+import {
+    NegativeProductionExternalityIndustryGraph,
+    mkNegativeProductionExternalityIndustry
+} from './NegativeProductionExternalityIndustryGraph.js';
+import {
+    PositiveExternalityIndustryGraph,
+    mkPositiveExternalityIndustry
+} from './PositiveExternalityIndustryGraph.js';
+
 
 export const isJointGraph = function(graphType) {
     return [12, 13, 14, 24].includes(graphType);
@@ -83,7 +96,11 @@ export const graphTypes = [
     mkTaxationLinearDemandSupply,
     mkTaxRevenue,
 
-    mkLinearDemandSupplySurplus
+    mkLinearDemandSupplySurplus,
+
+    mkNegativeProductionExternalityProducer,
+    mkNegativeProductionExternalityIndustry,
+    mkPositiveExternalityIndustry
 ];
 
 /**
@@ -118,7 +135,12 @@ export const getGraphClass = function(graphType) {
         TaxationLinearDemandSupplyGraph,
         TaxRevenueGraph,
 
-        LinearDemandSupplySurplus
+        LinearDemandSupplySurplus,
+
+        // Externalities
+        NegativeProductionExternalityProducerGraph,
+        NegativeProductionExternalityIndustryGraph,
+        PositiveExternalityIndustryGraph
     ][graphType];
 
     return graphClass;

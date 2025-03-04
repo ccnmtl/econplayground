@@ -31,7 +31,6 @@ from econplayground.main.models import (
     Cohort, Graph, Submission, Topic
 )
 from econplayground.main.utils import user_is_instructor
-from econplayground.main.utils import get_graph_name
 
 
 class EnsureCsrfCookieMixin(object):
@@ -58,113 +57,105 @@ class GraphPickView(EnsureCsrfCookieMixin, CohortInstructorMixin, CreateView):
             'graph_list': [
                 {
                     'graph_type': 0,
-                    'title': get_graph_name(0),
                     'image': 'linear_demand_supply.png',
                 },
                 {
                     'graph_type': 25,
-                    'title': get_graph_name(25),
                     'image': 'linear_demand_supply.png',
                 },
                 {
                     'graph_type': 8,
-                    'title': get_graph_name(8),
                     'image': 'ADAS.png',
                 },
                 {
                     'graph_type': 9,
-                    'title': get_graph_name(9),
                     'image': 'linear_demand_supply.png',
                 },
                 {
                     'graph_type': 13,
-                    'title': get_graph_name(13),
                     'image': 'linear_demand_supply_2.png',
                 },
                 {
                     'graph_type': 3,
-                    'title': get_graph_name(3),
                     'image': 'cobb_douglas.png',
                 },
                 {
                     'graph_type': 1,
-                    'title': get_graph_name(1),
                     'image': 'non-linear_demand_supply.png',
                 },
                 {
                     'graph_type': 10,
-                    'title': get_graph_name(10),
                     'image': 'non-linear_demand_supply_area.png',
                 },
                 {
                     'graph_type': 14,
-                    'title': get_graph_name(14),
                     'image': 'non-linear_demand_supply.png',
                 },
                 {
                     'graph_type': 12,
-                    'title': get_graph_name(12),
                     'image': 'cobb_douglas.png',
                 },
                 {
                     'graph_type': 5,
-                    'title': get_graph_name(5),
                     'image': 'consumption_leisure.png',
                 },
                 {
                     'graph_type': 15,
-                    'title': get_graph_name(15),
                     'image': 'consumption_leisure_optimal.png',
                 },
                 {
                     'graph_type': 7,
-                    'title': get_graph_name(7),
                     'image': 'consumption_saving.png',
                 },
                 {
                     'graph_type': 11,
-                    'title': get_graph_name(11),
                     'image': 'consumption_saving_optimal.png',
                 },
                 {
                     'graph_type': 16,
-                    'title': get_graph_name(16),
                     'image': 'template_graph.png',
                 },
                 {
                     'graph_type': 17,
-                    'title': get_graph_name(17),
                     'image': 'consumption_leisure_optimal.png',
                 },
                 {
                     'graph_type': 18,
-                    'title': get_graph_name(18),
                     'image': 'cost_functions_total.png',
                 },
                 {
                     'graph_type': 20,
-                    'title': get_graph_name(20),
                     'image': 'elasticity_demand_revenue.png',
                 },
                 {
                     'graph_type': 21,
-                    'title': get_graph_name(21),
                     'image': 'graph_types/optimal_choice_cost_minimizing.png',
                 },
                 {
                     'graph_type': 22,
-                    'title': get_graph_name(22),
                     'image': 'tax_revenue.png',
                 },
                 {
                     'graph_type': 23,
-                    'title': get_graph_name(23),
                     'image': 'graph_types/taxation_linear_demand_supply.png',
                 },
                 {
                     'graph_type': 24,
-                    'title': get_graph_name(24),
                     'image': 'tax_revenue.png',
+                },
+
+                # Externalities
+                {
+                    'graph_type': 26,
+                    'image': None,
+                },
+                {
+                    'graph_type': 27,
+                    'image': None,
+                },
+                {
+                    'graph_type': 28,
+                    'image': None,
                 },
             ]
         })
