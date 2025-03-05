@@ -18,6 +18,7 @@ import RevenueElasticityEditor from './editors/RevenueElasticityEditor.jsx';
 import OptimalChoiceCostMinimizingEditor from './editors/OptimalChoiceCostMinimizingEditor.jsx';
 import TaxationLinearDemandEditor from './editors/TaxationLinearDemandEditor.jsx';
 import TaxRevenueEditor from './editors/TaxRevenueEditor.jsx';
+import NegativeProductionExternalityProducerEditor from './editors/NegativeProductionExternalityProducerEditor.jsx';
 
 import JXGBoard from './JXGBoard.jsx';
 import GraphPane from './GraphPane.jsx';
@@ -326,6 +327,13 @@ export default class GraphEditor extends React.Component {
         } else if (this.props.gType === 25) {
             rightSide =
                 <LinearDemandSupplySurplusEditor
+                    updateGraph={this.props.updateGraph}
+                    {...commonEditorProps}
+                    {...this.props}
+                />;
+        } else if (this.props.gType === 26) {
+            rightSide =
+                <NegativeProductionExternalityProducerEditor
                     updateGraph={this.props.updateGraph}
                     {...commonEditorProps}
                     {...this.props}

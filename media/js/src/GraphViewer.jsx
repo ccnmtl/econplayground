@@ -16,6 +16,8 @@ import OptimalChoiceConsumptionEditor from './editors/OptimalChoiceConsumption.j
 import CostFunctionsEditor from './editors/CostFunctionsEditor.jsx';
 import OptimalChoiceCostMinimizingEditor from './editors/OptimalChoiceCostMinimizingEditor.jsx';
 import TaxationLinearDemandEditor from './editors/TaxationLinearDemandEditor.jsx';
+import NegativeProductionExternalityProducerEditor from
+    './editors/NegativeProductionExternalityProducerEditor.jsx';
 
 import ExportGraphButton from './buttons/ExportGraphButton.jsx';
 import ResetGraphButton from './buttons/ResetGraphButton.jsx';
@@ -326,6 +328,13 @@ export default class GraphViewer extends React.Component {
         } else if (this.props.gType === 25) {
             rightSide =
                 <LinearDemandSupplySurplusEditor
+                    updateGraph={this.props.updateGraph}
+                    {...commonViewerProps}
+                    {...this.props}
+                />;
+        } else if (this.props.gType === 26) {
+            rightSide =
+                <NegativeProductionExternalityProducerEditor
                     updateGraph={this.props.updateGraph}
                     {...commonViewerProps}
                     {...this.props}
