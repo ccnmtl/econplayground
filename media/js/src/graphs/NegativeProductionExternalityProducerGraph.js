@@ -38,7 +38,47 @@ const smc = function(c, d, f, g, q) {
 
 /*const psmc = function(c, d, f, g, p) {
     return (p - c - f) / (d + g);
-};*/
+    };*/
+
+const ep = function(a) {
+    return a;
+};
+
+const eq = function(a, c, d) {
+    return - (-a + c) / d;
+};
+
+const sp = function(a) {
+    return a;
+};
+
+const sq = function(a, c, d, f, g) {
+    return (-a + c + f) / (-d - g);
+};
+
+const epoint = function(a, c, d) {
+    return [eq(a, c, d), ep(a)];
+};
+
+const ehint = function(a) {
+    return [0, ep(a)];
+};
+
+const evint = function(a, c, d) {
+    return [eq(a, c, d), 0];
+};
+
+const spoint = function(a, c, d, f, g) {
+    return [sq(a, c, d, f, g), sp(a)];
+};
+
+const shint = function(a) {
+    return [0, sp(a)];
+};
+
+const svint = function(a, c, d, f, g) {
+    return [sq(a, c, d, f, g), 0];
+};
 
 export class NegativeProductionExternalityProducerGraph extends Graph {
     static getGraphPane(gFunctionChoice) {
@@ -140,6 +180,45 @@ export class NegativeProductionExternalityProducerGraph extends Graph {
                 highlight: false
             }
         );
+
+        if (this.options.gShowIntersection) {
+            const epointEvaluated = epoint(
+                this.options.gA1, this.options.gA2, this.options.gA3);
+            this.showIntersection(
+                this.board.create('line', [
+                    ehint(this.options.gA1), epointEvaluated
+                ], {
+                    visible: false
+                }),
+                this.board.create('line', [
+                    evint(this.options.gA1, this.options.gA2, this.options.gA3),
+                    epointEvaluated
+                ], {
+                    visible: false
+                }),
+                false, 'Equilibrium', null, 'q<sup>*</sup>',
+                false, false, this.l4Color);
+
+            const spointEvaluated = spoint(
+                this.options.gA1, this.options.gA2, this.options.gA3,
+                this.options.gA4, this.options.gA5);
+            this.showIntersection(
+                this.board.create('line', [
+                    shint(this.options.gA1), spointEvaluated
+                ], {
+                    visible: false
+                }),
+                this.board.create('line', [
+                    svint(
+                        this.options.gA1, this.options.gA2,
+                        this.options.gA3, this.options.gA4, this.options.gA5),
+                    spointEvaluated
+                ], {
+                    visible: false
+                }),
+                false, 'Social', null, 'q<sup>soc</sup>',
+                false, false, this.l1Color);
+        }
     }
 }
 
