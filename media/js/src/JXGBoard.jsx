@@ -570,6 +570,18 @@ export default class JXGBoard extends React.Component {
                 xTicks = this.visibleTicks;
                 yTicks = xTicks;
                 break;
+            case 26:
+                xTicks = this.visibleTicks;
+                yTicks = xTicks;
+                break;
+            case 28:
+                xTicks = this.visibleTicks;
+                yTicks = xTicks;
+                break;
+            case 27:
+                xTicks = this.visibleTicks;
+                yTicks = xTicks;
+                break;
             default:
                 xAxisLabel = options.gXAxisLabel ? options.gXAxisLabel : 'x';
                 yAxisLabel = options.gYAxisLabel ? options.gYAxisLabel : 'y';

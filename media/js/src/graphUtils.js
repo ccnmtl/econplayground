@@ -15,6 +15,9 @@ import {
 import {
     defaults as cobbDouglasDefaults
 } from './graphs/CobbDouglasGraph.js';
+import {
+    defaults as externalitiesDefaults
+} from './graphs/NegativeProductionExternalityProducerGraph.js';
 
 /**
  * Set defaults to the given state update object based on toggle and
@@ -130,6 +133,8 @@ export const getDefaultGraphState = function(graphType, state) {
         });
     } else if (graphType === 25) {
         Object.assign(state, linearDemandSupplySurplusDefaults[0]);
+    } else if (graphType >= 26 && graphType <= 28) {
+        Object.assign(state, externalitiesDefaults[0]);
     }
 
     return state;
