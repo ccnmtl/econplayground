@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import {
     eq, ep, cos, pos, tos, taxur, taxar, dwlu
 } from './graphs/TaxationLinearDemandSupplyGraph.js';
-import {
-    LinearDemandSupplySurplus
-} from './graphs/LinearDemandSupplySurplus.js';
+import { getGraphClass } from './graphs/graphTypes.js';
 
 /**
  * GraphPane
@@ -71,8 +69,9 @@ export default function GraphPane({
                 </div>
             </div>
         );
-    } else if (gType === 25) {
-        const lineItems = LinearDemandSupplySurplus.getGraphPane(
+    } else if (gType >= 25 && gType <= 28) {
+        const graphClass = getGraphClass(gType - 1);
+        const lineItems = graphClass.getGraphPane(
             gFunctionChoice, gA1, gA2, gA3, gA4, gA5
         );
 
