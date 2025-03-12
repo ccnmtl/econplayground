@@ -1,5 +1,38 @@
 import {Graph} from './Graph.js';
 
+export const defaults = [
+    {
+        gXAxisMax: 1000,
+        gYAxisMax: 350,
+        gA1: 150,
+        gA2: 0.125,
+        gA3: 0,
+        gA4: 0.5,
+        gA5: 50,
+        gA6: 0.125
+    },
+    {
+        gXAxisMax: 1000,
+        gYAxisMax: 350,
+        gA1: 150,
+        gA2: 0.125,
+        gA3: 0,
+        gA4: 0.5,
+        gA5: 50,
+        gA6: 0.125
+    },
+    {
+        gXAxisMax: 1000,
+        gYAxisMax: 350,
+        gA1: 150,
+        gA2: 0.125,
+        gA3: 0,
+        gA4: 0.5,
+        gA5: 50,
+        gA6: 0.125
+    },
+];
+
 export class PositiveExternalityIndustryGraph extends Graph {
     static getGraphPane(gFunctionChoice) {
         return [

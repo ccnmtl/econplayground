@@ -9,7 +9,43 @@ export const defaults = [
         gA3: 2,
         gA4: 50,
         gA5: 2
-    }
+    },
+    {
+        gXAxisMax: 1000,
+        gYAxisMax: 2500,
+        gA1: 1500,
+        gA2: 500,
+        gA3: 2,
+        gA4: 50,
+        gA5: 2
+    },
+    {
+        gXAxisMax: 1000,
+        gYAxisMax: 2500,
+        gA1: 1500,
+        gA2: 500,
+        gA3: 2,
+        gA4: 50,
+        gA5: 2
+    },
+    {
+        gXAxisMax: 1000,
+        gYAxisMax: 2500,
+        gA1: 1500,
+        gA2: 500,
+        gA3: 2,
+        gA4: 50,
+        gA5: 2
+    },
+    {
+        gXAxisMax: 1000,
+        gYAxisMax: 2500,
+        gA1: 1500,
+        gA2: 500,
+        gA3: 2,
+        gA4: 50,
+        gA5: 2
+    },
 ];
 
 // Marginal Benefit
@@ -81,22 +117,22 @@ const svint = function(a, c, d, f, g) {
 };
 
 export class NegativeProductionExternalityProducerGraph extends Graph {
-    static getGraphPane(gFunctionChoice) {
+    static getGraphPane(gFunctionChoice, gA1, gA2, gA3, gA4, gA5) {
         return [
             {
                 label: 'Unregulated Output q*',
                 color: 'red',
-                value: 500
+                value: eq(gA1, gA2, gA3).toFixed(2)
             },
             {
                 label: 'Socially Desirable Output q<sup>soc</sup>',
                 color: 'orange',
-                value: 247.5
+                value: sq(gA1, gA2, gA3, gA4, gA5).toFixed(2)
             },
             {
                 label: 'Market Price P*',
                 color: 'red',
-                value: 1500
+                value: ep(gA1).toFixed(2)
             },
         ];
     }
