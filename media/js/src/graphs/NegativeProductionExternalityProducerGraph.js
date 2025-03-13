@@ -1,4 +1,5 @@
-import {Graph, positiveRange} from './Graph.js';
+import { Graph, positiveRange } from './Graph.js';
+import { drawPolygon } from '../jsxgraphUtils.js';
 
 export const defaults = [
     {
@@ -118,23 +119,52 @@ const svint = function(a, c, d, f, g) {
 
 export class NegativeProductionExternalityProducerGraph extends Graph {
     static getGraphPane(gFunctionChoice, gA1, gA2, gA3, gA4, gA5) {
-        return [
-            {
-                label: 'Unregulated Output q*',
-                color: 'red',
-                value: eq(gA1, gA2, gA3).toFixed(2)
-            },
-            {
-                label: 'Socially Desirable Output q<sup>soc</sup>',
-                color: 'orange',
-                value: sq(gA1, gA2, gA3, gA4, gA5).toFixed(2)
-            },
-            {
-                label: 'Market Price P*',
-                color: 'red',
-                value: ep(gA1).toFixed(2)
-            },
-        ];
+        let lineItems = [];
+
+        if (gFunctionChoice === 0) {
+            lineItems = [
+                {
+                    label: 'Unregulated Output q*',
+                    color: 'red',
+                    value: eq(gA1, gA2, gA3).toFixed(2)
+                },
+                {
+                    label: 'Socially Desirable Output q<sup>soc</sup>',
+                    color: 'orange',
+                    value: sq(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                },
+                {
+                    label: 'Market Price P*',
+                    color: 'red',
+                    value: ep(gA1).toFixed(2)
+                },
+            ];
+        } else if (gFunctionChoice === 1) {
+            lineItems = [
+                {
+                    label: 'Unregulated Output q*',
+                    color: 'red',
+                    value: eq(gA1, gA2, gA3).toFixed(2)
+                },
+                {
+                    label: 'Producer Suprplus PS',
+                    color: 'orange',
+                    value: sq(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                },
+                {
+                    label: 'External Total Cost',
+                    color: 'red',
+                    value: ep(gA1).toFixed(2)
+                },
+                {
+                    label: 'P*',
+                    color: 'red',
+                    value: ep(gA1).toFixed(2)
+                },
+            ];
+        }
+
+        return lineItems;
     }
     make() {
         const me = this;
@@ -196,30 +226,33 @@ export class NegativeProductionExternalityProducerGraph extends Graph {
             }
         );
 
-        const smcLine = function(x) {
-            return smc(
-                me.options.gA2, me.options.gA3,
-                me.options.gA4, me.options.gA5, x);
-        };
+        if (this.options.gFunctionChoice === 0) {
+            const smcLine = function(x) {
+                return smc(
+                    me.options.gA2, me.options.gA3,
+                    me.options.gA4, me.options.gA5, x);
+            };
 
-        this.l4 = this.board.create(
-            'functiongraph',
-            [positiveRange(smcLine), 0, this.options.gXAxisMax], {
-                name: 'SMC',
-                withLabel: true,
-                label: {
-                    strokeColor: this.l4Color
-                },
-                strokeWidth: 2,
-                strokeColor: this.l4Color,
-                fixed: true,
-                highlight: false
-            }
-        );
+            this.l4 = this.board.create(
+                'functiongraph',
+                [positiveRange(smcLine), 0, this.options.gXAxisMax], {
+                    name: 'SMC',
+                    withLabel: true,
+                    label: {
+                        strokeColor: this.l4Color
+                    },
+                    strokeWidth: 2,
+                    strokeColor: this.l4Color,
+                    fixed: true,
+                    highlight: false
+                }
+            );
+        }
+
+        const epointEvaluated = epoint(
+            this.options.gA1, this.options.gA2, this.options.gA3);
 
         if (this.options.gShowIntersection) {
-            const epointEvaluated = epoint(
-                this.options.gA1, this.options.gA2, this.options.gA3);
             this.showIntersection(
                 this.board.create('line', [
                     ehint(this.options.gA1), epointEvaluated
@@ -235,25 +268,52 @@ export class NegativeProductionExternalityProducerGraph extends Graph {
                 false, 'Equilibrium', null, 'q<sup>*</sup>',
                 false, false, this.l4Color);
 
-            const spointEvaluated = spoint(
-                this.options.gA1, this.options.gA2, this.options.gA3,
-                this.options.gA4, this.options.gA5);
-            this.showIntersection(
-                this.board.create('line', [
-                    shint(this.options.gA1), spointEvaluated
-                ], {
-                    visible: false
-                }),
-                this.board.create('line', [
-                    svint(
-                        this.options.gA1, this.options.gA2,
-                        this.options.gA3, this.options.gA4, this.options.gA5),
-                    spointEvaluated
-                ], {
-                    visible: false
-                }),
-                false, 'Social', null, 'q<sup>soc</sup>',
-                false, false, this.l1Color);
+            if (this.options.gFunctionChoice === 0) {
+                const spointEvaluated = spoint(
+                    this.options.gA1, this.options.gA2, this.options.gA3,
+                    this.options.gA4, this.options.gA5);
+                this.showIntersection(
+                    this.board.create('line', [
+                        shint(this.options.gA1), spointEvaluated
+                    ], {
+                        visible: false
+                    }),
+                    this.board.create('line', [
+                        svint(
+                            this.options.gA1, this.options.gA2,
+                            this.options.gA3, this.options.gA4, this.options.gA5),
+                        spointEvaluated
+                    ], {
+                        visible: false
+                    }),
+                    false, 'Social', null, 'q<sup>soc</sup>',
+                    false, false, this.l1Color);
+            }
+        }
+
+        if (this.options.gFunctionChoice === 1) {
+            // Draw shaded areas.
+            const mcYZero = mc(this.options.gA2, this.options.gA3, 0);
+            drawPolygon(
+                this.board, [
+                    epointEvaluated,
+                    [0, epointEvaluated[1]],
+                    [0, mcYZero]
+                ], null, 'orange'
+            );
+
+            const emcYPoint = emc(
+                this.options.gA4, this.options.gA5, epointEvaluated[0]);
+            const emcYZero = emc(
+                this.options.gA4, this.options.gA5, 0);
+            drawPolygon(
+                this.board, [
+                    [epointEvaluated[0], emcYPoint],
+                    [epointEvaluated[0], 0],
+                    [0, 0],
+                    [0, emcYZero],
+                ], null, 'red'
+            );
         }
     }
 }
