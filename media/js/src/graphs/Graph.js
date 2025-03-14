@@ -6,6 +6,7 @@ export const LINE_1_COLOR = 'rgb(255, 127, 14)';
 export const LINE_2_COLOR = 'steelblue';
 export const LINE_3_COLOR = 'rgb(87, 200, 86)';
 export const LINE_4_COLOR = 'rgb(228, 87, 86)';
+export const LINE_5_COLOR = 'blue';
 
 const applyDefaults = function(obj, defaults) {
     let o = {};
@@ -133,6 +134,7 @@ export class Graph {
         this.l3 = null;
         this.l3Color = LINE_3_COLOR;
         this.l4Color = LINE_4_COLOR;
+        this.l5Color = LINE_5_COLOR;
 
         this.shadowColor = 'rgb(200, 200, 200)';
         this.shadowAreaColor = 'rgb(150, 150, 150)';
