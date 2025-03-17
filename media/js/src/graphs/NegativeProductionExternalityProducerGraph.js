@@ -121,6 +121,48 @@ const emcreg = function(a, c, d, f, g) {
     return f + g * sq(a, c, d, f, g);
 };
 
+const psurplus = function(a, c, d) {
+    return (ep(a) - c) * eq(a, c, d) / 2;
+};
+
+const psurplustax = function(a, c, d, f, g) {
+    return (c + d * sq(a, c, d, f, g) - c) *
+        sq(a, c, d, f, g) / 2;
+};
+
+const emcmarket = function(a, c, d, f, g) {
+    return f + g * eq(a, c, d);
+};
+
+const extcost = function(a, c, d, f, g) {
+    return emcmarket(a, c, d, f, g) * eq(a, c, d) / 2;
+};
+
+const extcostreg = function(a, c, d, f, g) {
+    return f * sq(a, c, d, f, g) + (emcreg(a, c, d, f, g) - f) *
+        sq(a, c, d, f, g) / 2;
+};
+
+const extcostred = function(a, c, d, f, g) {
+    return emcreg(a, c, d, f, g) * (eq(a, c, d) - sq(a, c, d, f, g)) +
+        (emcmarket(a, c, d, f, g) - emcreg(a, c, d, f, g)) *
+        (eq(a, c, d) - sq(a, c, d, f, g)) / 2;
+};
+
+const mcqsoc = function(a, c, d, f, g) {
+    return c + d * sq(a, c, d, f, g);
+};
+
+const psurplusreg = function(a, c, d, f, g) {
+    return (a - mcqsoc(a, c, d, f, g)) * sq(a, c, d, f, g) +
+        (mcqsoc(a, c, d, f, g) - c) * sq(a, c, d, f, g) / 2;
+};
+
+const psurplusloss = function(a, c, d, f, g) {
+    return (a - mcqsoc(a, c, d, f, g)) *
+        (eq(a, c, d) - sq(a, c, d, f, g)) / 2;
+};
+
 const ptax = function(a, c, d, f, g) {
     return emcreg(a, c, d, f, g);
 };
@@ -131,6 +173,10 @@ const ptax = function(a, c, d, f, g) {
 
 const mcptax = function(a, c, d, f, g, q) {
     return ptax(a, c, d, f, g) + mc(c, d, q);
+};
+
+const ptaxrev = function(a, c, d, f, g) {
+    return ptax(a, c, d, f, g) * sq(a, c, d, f, g);
 };
 
 export class NegativeProductionExternalityProducerGraph extends Graph {
@@ -165,12 +211,12 @@ export class NegativeProductionExternalityProducerGraph extends Graph {
                 {
                     label: 'Producer Surplus PS',
                     color: 'orange',
-                    value: sq(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                    value: psurplus(gA1, gA2, gA3, gA4, gA5).toFixed(2)
                 },
                 {
                     label: 'External Total Cost',
                     color: 'red',
-                    value: ep(gA1).toFixed(2)
+                    value: extcost(gA1, gA2, gA3, gA4, gA5).toFixed(2)
                 },
                 {
                     label: 'P*',
@@ -193,22 +239,22 @@ export class NegativeProductionExternalityProducerGraph extends Graph {
                 {
                     label: 'Producer Surplus PS',
                     color: 'orange',
-                    value: sq(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                    value: psurplusreg(gA1, gA2, gA3, gA4, gA5).toFixed(2)
                 },
                 {
                     label: 'Producer Surplus Loss',
                     color: 'orange',
-                    value: sq(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                    value: psurplusloss(gA1, gA2, gA3, gA4, gA5).toFixed(2)
                 },
                 {
                     label: 'External Total Cost',
                     color: 'red',
-                    value: ep(gA1).toFixed(2)
+                    value: extcostreg(gA1, gA2, gA3, gA4, gA5).toFixed(2)
                 },
                 {
                     label: 'External Cost Reduction',
                     color: 'red',
-                    value: ep(gA1).toFixed(2)
+                    value: extcostred(gA1, gA2, gA3, gA4, gA5).toFixed(2)
                 },
                 {
                     label: 'P*',
@@ -217,6 +263,7 @@ export class NegativeProductionExternalityProducerGraph extends Graph {
                 },
             ];
         } else if (gFunctionChoice === 3) {
+            const sqVal = sq(gA1, gA2, gA3, gA4, gA5);
             lineItems = [
                 {
                     label: 'Unregulated Output q*',
@@ -226,30 +273,31 @@ export class NegativeProductionExternalityProducerGraph extends Graph {
                 {
                     label: 'Market Price P*',
                     color: 'red',
-                    value: 1500
+                    value: ep(gA1).toFixed(2)
                 },
                 {
                     label: 'Socially Desirable Output q<sup>soc</sup>',
                     color: 'blue',
-                    value: 237.5
+                    value: sqVal.toFixed(2)
                 },
                 {
                     label: 'Pigouvian Per-Unit Tax P*',
                     color: 'blue',
-                    value: 525
+                    value: ptax(gA1, gA2, gA3, gA4, gA5).toFixed(2)
                 },
                 {
                     label: 'Pigouvian Cost Function MC+tax',
                     color: 'blue',
-                    value: 1025
+                    value: mcptax(gA1, gA2, gA3, gA4, gA5, sqVal).toFixed(2)
                 },
                 {
                     label: 'Pigouvian Tax Revenue',
                     color: 'blue',
-                    value: 124688
+                    value: ptaxrev(gA1, gA2, gA3, gA4, gA5, sqVal).toFixed(2)
                 }
             ];
         } else if (gFunctionChoice === 4) {
+            const sqVal = sq(gA1, gA2, gA3, gA4, gA5);
             lineItems = [
                 {
                     label: 'Unregulated Output q*',
@@ -259,32 +307,32 @@ export class NegativeProductionExternalityProducerGraph extends Graph {
                 {
                     label: 'Market Price P*',
                     color: 'red',
-                    value: 1500
+                    value: ep(gA1).toFixed(2)
                 },
                 {
                     label: 'Socially Desirable Output q<sup>soc</sup>',
                     color: 'blue',
-                    value: 237.5
+                    value: sqVal.toFixed(2)
                 },
                 {
                     label: 'Pigouvian Per-Unit Tax P*',
                     color: 'blue',
-                    value: 525
+                    value: ptax(gA1, gA2, gA3, gA4, gA5).toFixed(2)
                 },
                 {
                     label: 'Pigouvian Cost Function MC+tax',
                     color: 'blue',
-                    value: 1025
+                    value: mcptax(gA1, gA2, gA3, gA4, gA5, sqVal).toFixed(2)
                 },
                 {
                     label: 'Pigouvian Tax Revenue',
                     color: 'blue',
-                    value: 124688
+                    value: ptaxrev(gA1, gA2, gA3, gA4, gA5, sqVal).toFixed(2)
                 },
                 {
                     label: 'Producer Surplus PS',
                     color: 'orange',
-                    value: sq(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                    value: psurplustax(gA1, gA2, gA3, gA4, gA5).toFixed(2)
                 }
             ];
         }
