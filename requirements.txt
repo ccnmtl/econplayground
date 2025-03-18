@@ -94,7 +94,7 @@ jwcrypto==1.5.6  # pylti1p3
 PyLTI1p3==2.0.0  # django-lti
 django-lti==0.7.1
 
-django-braces==1.16.0
+django-braces==1.17.0
 django-smtp-ssl==1.0
 django-contact-us==1.1.0
 docutils==0.21.2  # Django's admindocs
