@@ -147,7 +147,7 @@ class GraphPickView(EnsureCsrfCookieMixin, CohortInstructorMixin, CreateView):
                 # Externalities
                 {
                     'graph_type': 26,
-                    'image': None,
+                    'image': 'graph_types/graph_26.png',
                 },
                 {
                     'graph_type': 27,
