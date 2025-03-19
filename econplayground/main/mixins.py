@@ -29,10 +29,14 @@ class CohortGraphMixin(object):
     """
     def dispatch(self, *args, **kwargs):
         if not hasattr(self, 'cohort'):
+            self.cohort = None
+
             graph_pk = kwargs.get('pk', None)
             if graph_pk:
                 graph = get_object_or_404(Graph, pk=graph_pk)
-                self.cohort = graph.topic.cohort
+
+                if graph and graph.topic and graph.topic.cohort:
+                    self.cohort = graph.topic.cohort
 
         return super(CohortGraphMixin, self).dispatch(
             self.request, *args, **kwargs)
