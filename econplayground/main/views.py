@@ -299,11 +299,18 @@ class GraphDetailView(CohortGraphMixin, CohortPasswordMixin, DetailView):
     def get_context_data(self, *args, **kwargs):
         ctx = super(GraphDetailView, self).get_context_data(*args, **kwargs)
 
+        assessment_change_url = None
+        if self.object.assessment and user_is_instructor(self.request.user):
+            assessment_change_url = reverse(
+                'admin:main_assessment_change',
+                kwargs={'object_id': self.object.assessment.pk})
+
         ctx.update({
             'cohort': self.cohort,
             'embed_url': self.embed_url('graph_embed'),
             'embed_public_code': self.embed_code(
                 self.embed_url('graph_embed_public_minimal')),
+            'assessment_change_url': assessment_change_url,
         })
         return ctx
 
