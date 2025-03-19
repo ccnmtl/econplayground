@@ -19,9 +19,10 @@
         window.EconPlayground = {};
     }
 
-    {% if i_am_instructor %}
+    {% if i_am_instructor and object and object.assessment %}
     window.EconPlayground['assessmentUrl'] = '{% url 'admin:main_assessment_change' object.assessment.pk %}';
     {% endif %}
+
     window.EconPlayground['LTIPostGrade'] = '{% url 'lti-post-grade' %}';
     </script>
     <script src="{% static 'js/build/vendor.js' %}"></script>
