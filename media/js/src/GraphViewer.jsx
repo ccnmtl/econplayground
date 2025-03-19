@@ -18,6 +18,10 @@ import OptimalChoiceCostMinimizingEditor from './editors/OptimalChoiceCostMinimi
 import TaxationLinearDemandEditor from './editors/TaxationLinearDemandEditor.jsx';
 import NegativeProductionExternalityProducerEditor from
     './editors/NegativeProductionExternalityProducerEditor.jsx';
+import NegativeProductionExternalityIndustryEditor from
+    './editors/NegativeProductionExternalityIndustryEditor.jsx';
+import PositiveExternalityIndustryEditor from
+    './editors/PositiveExternalityIndustryEditor.jsx';
 
 import ExportGraphButton from './buttons/ExportGraphButton.jsx';
 import ResetGraphButton from './buttons/ResetGraphButton.jsx';
@@ -292,7 +296,7 @@ export default class GraphViewer extends React.Component {
                     {...commonViewerProps}
                     {...this.props}
                 />;
-                
+
             return (
                 <div className="GraphViewer">
                     {titleEl}
@@ -335,6 +339,20 @@ export default class GraphViewer extends React.Component {
         } else if (this.props.gType === 26) {
             rightSide =
                 <NegativeProductionExternalityProducerEditor
+                    updateGraph={this.props.updateGraph}
+                    {...commonViewerProps}
+                    {...this.props}
+                />;
+        } else if (this.props.gType === 27) {
+            rightSide =
+                <NegativeProductionExternalityIndustryEditor
+                    updateGraph={this.props.updateGraph}
+                    {...commonViewerProps}
+                    {...this.props}
+                />;
+        } else if (this.props.gType === 28) {
+            rightSide =
+                <PositiveExternalityIndustryEditor
                     updateGraph={this.props.updateGraph}
                     {...commonViewerProps}
                     {...this.props}
@@ -563,7 +581,7 @@ GraphViewer.propTypes = {
     gXAxisMin: PropTypes.number,
     gYAxisMax: PropTypes.number,
     gYAxisMin: PropTypes.number,
-    
+
     gCobbDouglasA: PropTypes.number,
     gCobbDouglasAInitial: PropTypes.number,
     gCobbDouglasAName: PropTypes.string,
