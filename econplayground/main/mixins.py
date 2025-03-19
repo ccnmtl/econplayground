@@ -60,8 +60,13 @@ class CohortPasswordMixin(object):
     def dispatch(self, *args, **kwargs):
         attach_cohort(self, **kwargs)
 
-        is_instructor = self.request.user in self.cohort.instructors.all()
-        pass_idx = 'cohort_{}'.format(self.cohort.pk)
+        cohort_pk = 0
+        if self.cohort:
+            cohort_pk = self.cohort.pk
+
+        is_instructor = self.cohort and self.cohort.instructors and \
+            self.request.user in self.cohort.instructors.all()
+        pass_idx = 'cohort_{}'.format(cohort_pk)
 
         if not is_instructor and self.cohort and self.cohort.password and (
                 (pass_idx not in self.request.session) or

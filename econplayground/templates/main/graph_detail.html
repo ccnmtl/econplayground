@@ -19,8 +19,8 @@
         window.EconPlayground = {};
     }
 
-    {% if i_am_instructor and object and object.assessment %}
-    window.EconPlayground['assessmentUrl'] = '{% url 'admin:main_assessment_change' object.assessment.pk %}';
+    {% if i_am_instructor and assessment_change_url %}
+        window.EconPlayground['assessmentUrl'] = '{{ assessment_change_url }}';
     {% endif %}
 
     window.EconPlayground['LTIPostGrade'] = '{% url 'lti-post-grade' %}';

@@ -1,5 +1,7 @@
 from django.test import TestCase, RequestFactory
 from django.urls import reverse
+from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.messages import get_messages
 from econplayground.main.views import MyLTILandingPage, CohortCreateView
 from econplayground.main.tests.factories import (
     CohortFactory, GraphFactory, SubmissionFactory, TopicFactory
@@ -8,7 +10,6 @@ from econplayground.main.tests.mixins import (
     LoggedInTestMixin, LoggedInTestInstructorMixin, LoggedInTestStudentMixin
 )
 from econplayground.main.models import Cohort, Graph, Topic
-from django.contrib.messages import get_messages
 
 
 class BasicTest(TestCase):
@@ -36,6 +37,30 @@ class GraphDetailViewTest(LoggedInTestMixin, TestCase):
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, g.title)
         self.assertContains(r, g.topic.cohort.title)
+
+
+class InstructorGraphDetailViewTest(LoggedInTestInstructorMixin, TestCase):
+    def test_get(self):
+        g = GraphFactory()
+        r = self.client.get(reverse('graph_detail', kwargs={'pk': g.pk}))
+        self.assertEqual(r.status_code, 200)
+
+        r = self.client.get(
+            reverse('cohort_graph_detail', kwargs={
+                'cohort_pk': g.topic.cohort.pk,
+                'pk': g.pk,
+            }))
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, g.title)
+        self.assertContains(r, g.topic.cohort.title)
+
+    def test_get_no_assessment(self):
+        g = GraphFactory()
+        g.assessment.delete()
+        g.assessment = None
+        g.save()
+        with self.assertRaises(ObjectDoesNotExist):
+            self.client.get(reverse('graph_detail', kwargs={'pk': g.pk}))
 
 
 class GraphDeleteViewTest(LoggedInTestInstructorMixin, TestCase):
