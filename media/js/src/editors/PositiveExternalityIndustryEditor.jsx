@@ -74,43 +74,52 @@ export default class PositiveExternalityIndustryEditor extends React.Component {
                                 id="gA1"
                                 value={this.props.gA1}
                                 min={0}
-                                max={10000}
+                                max={350}
+                                handler={handleFormUpdate.bind(this)} />
+
+                            <RangeEditor
+                                label="MB Slope"
+                                rawLabel={true}
+                                id="gA2"
+                                value={this.props.gA2}
+                                min={0.01}
+                                max={10}
                                 handler={handleFormUpdate.bind(this)} />
 
                             <RangeEditor
                                 label="MC Constant"
                                 rawLabel={true}
-                                id="gA2"
-                                value={this.props.gA2}
+                                id="gA3"
+                                value={this.props.gA3}
                                 min={0}
-                                max={10000}
+                                max={350}
                                 handler={handleFormUpdate.bind(this)} />
 
                             <RangeEditor
                                 label="MC Slope"
                                 rawLabel={true}
-                                id="gA3"
-                                value={this.props.gA3}
-                                min={0.01}
-                                max={35}
-                                handler={handleFormUpdate.bind(this)} />
-
-                            <RangeEditor
-                                label="EMC Constant"
-                                rawLabel={true}
                                 id="gA4"
                                 value={this.props.gA4}
-                                min={0}
-                                max={10000}
+                                min={0.01}
+                                max={10}
                                 handler={handleFormUpdate.bind(this)} />
 
                             <RangeEditor
-                                label="EMC Slope"
+                                label="EMB Constant"
                                 rawLabel={true}
                                 id="gA5"
                                 value={this.props.gA5}
-                                min={0.0}
-                                max={35}
+                                min={0}
+                                max={350}
+                                handler={handleFormUpdate.bind(this)} />
+
+                            <RangeEditor
+                                label="EMB Slope"
+                                rawLabel={true}
+                                id="gA6"
+                                value={this.props.gA6}
+                                min={0.01}
+                                max={10}
                                 handler={handleFormUpdate.bind(this)} />
                         </>
                     )}
@@ -128,7 +137,7 @@ PositiveExternalityIndustryEditor.propTypes = {
     gA3: PropTypes.number.isRequired,
     gA4: PropTypes.number.isRequired,
     gA5: PropTypes.number.isRequired,
-    gA6: PropTypes.number,
+    gA6: PropTypes.number.isRequired,
 
     gFunctionChoice: PropTypes.number.isRequired,
     gToggle: PropTypes.bool.isRequired,
