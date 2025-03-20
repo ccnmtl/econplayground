@@ -63,6 +63,22 @@ class InstructorGraphDetailViewTest(LoggedInTestInstructorMixin, TestCase):
             self.client.get(reverse('graph_detail', kwargs={'pk': g.pk}))
 
 
+class GraphPickViewTest(LoggedInTestInstructorMixin, TestCase):
+    def setUp(self):
+        super().setUp()
+        self.cohort = CohortFactory()
+        self.cohort.instructors.add(self.u)
+        self.topic = TopicFactory(cohort=self.cohort)
+
+    def test_get(self):
+        r = self.client.get(
+            reverse('cohort_graph_pick', kwargs={
+                'cohort_pk': self.cohort.pk,
+            }))
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, 'Create a Graph')
+
+
 class GraphDeleteViewTest(LoggedInTestInstructorMixin, TestCase):
     def setUp(self):
         super().setUp()
