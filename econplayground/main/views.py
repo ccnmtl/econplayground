@@ -300,7 +300,8 @@ class GraphDetailView(CohortGraphMixin, CohortPasswordMixin, DetailView):
         ctx = super(GraphDetailView, self).get_context_data(*args, **kwargs)
 
         assessment_change_url = None
-        if self.object.assessment and user_is_instructor(self.request.user):
+        if hasattr(self.object, 'assessment') and self.object.assessment and \
+           user_is_instructor(self.request.user):
             assessment_change_url = reverse(
                 'admin:main_assessment_change',
                 kwargs={'object_id': self.object.assessment.pk})

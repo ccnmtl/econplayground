@@ -1,6 +1,5 @@
 from django.test import TestCase, RequestFactory
 from django.urls import reverse
-from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.messages import get_messages
 from econplayground.main.views import MyLTILandingPage, CohortCreateView
 from econplayground.main.tests.factories import (
@@ -59,8 +58,12 @@ class InstructorGraphDetailViewTest(LoggedInTestInstructorMixin, TestCase):
         g.assessment.delete()
         g.assessment = None
         g.save()
-        with self.assertRaises(ObjectDoesNotExist):
-            self.client.get(reverse('graph_detail', kwargs={'pk': g.pk}))
+
+        r = self.client.get(reverse('graph_detail', kwargs={'pk': g.pk}))
+
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, g.title)
+        self.assertContains(r, g.topic.cohort.title)
 
 
 class GraphPickViewTest(LoggedInTestInstructorMixin, TestCase):
