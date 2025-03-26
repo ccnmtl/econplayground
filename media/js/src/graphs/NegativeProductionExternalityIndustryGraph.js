@@ -1,4 +1,5 @@
 import { Graph, positiveRange } from './Graph.js';
+import { drawPolygon } from '../jsxgraphUtils.js';
 
 export const defaults = [
     {
@@ -81,17 +82,17 @@ const sq2 = function(a, b, c, d, f, g) {
     return (a - c - f) / (b + d + g);
 };
 
-/*const psurplus2 = function(a, b, c, d) {
+const psurplus2 = function(a, b, c, d) {
     return (ep2(a, b, c, d) - c) * eq2(a, b, c, d) / 2;
-};*/
+};
 
-/*const emcmarket2 = function(a, b, c, d, f, g) {
+const emcmarket2 = function(a, b, c, d, f, g) {
     return f + g * eq2(a, b, c, d);
-};*/
+};
 
-/*const extcost2 = function(a, b, c, d, f, g) {
+const extcost2 = function(a, b, c, d, f, g) {
     return emcmarket2(a, b, c, d, f, g) * eq2(a, b, c, d) / 2;
-};*/
+};
 
 const spoint2 = function(a, b, c, d, f, g) {
     return [sq2(a, b, c, d, f, g), sp2(a, b, c, d, f, g)];
@@ -120,28 +121,101 @@ const evint2 = function(a, b, c, d) {
 
 export class NegativeProductionExternalityIndustryGraph extends Graph {
     static getGraphPane(gFunctionChoice, gA1, gA2, gA3, gA4, gA5, gA6) {
-        return [
-            {
-                label: 'Unregulated Output Q*',
-                color: 'red',
-                value: eq2(gA1, gA2, gA3, gA4).toFixed(2)
-            },
-            {
-                label: 'Unregulated Price P*',
-                color: 'red',
-                value: ep2(gA1, gA2, gA3, gA4).toFixed(2)
-            },
-            {
-                label: 'Socially Desirable Output Q<sup>soc</sup>',
-                color: 'orange',
-                value: sq2(gA1, gA2, gA3, gA4, gA5, gA6).toFixed(2)
-            },
-            {
-                label: 'Socially Desirable Price P<sup>soc</sup>',
-                color: 'orange',
-                value: sp2(gA1, gA2, gA3, gA4, gA5, gA6).toFixed(2)
-            },
-        ];
+        if (gFunctionChoice === 0) {
+            return [
+                {
+                    label: 'Unregulated Output Q*',
+                    color: 'red',
+                    value: eq2(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'Unregulated Price P*',
+                    color: 'red',
+                    value: ep2(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'Socially Desirable Output Q<sup>soc</sup>',
+                    color: 'orange',
+                    value: sq2(gA1, gA2, gA3, gA4, gA5, gA6).toFixed(2)
+                },
+                {
+                    label: 'Socially Desirable Price P<sup>soc</sup>',
+                    color: 'orange',
+                    value: sp2(gA1, gA2, gA3, gA4, gA5, gA6).toFixed(2)
+                },
+            ];
+        } else if (gFunctionChoice === 1) {
+            return [
+                {
+                    label: 'Unregulated Output Q*',
+                    color: 'red',
+                    value: eq2(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'Producer Surplus PS',
+                    color: 'orange',
+                    value: psurplus2(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'External Total Cost',
+                    color: 'red',
+                    value: extcost2(gA1, gA2, gA3, gA4, gA5, gA6).toFixed(2)
+                },
+                {
+                    label: 'P*',
+                    color: 'red',
+                    value: ep2(gA1, gA2, gA3, gA4, gA5, gA6).toFixed(2)
+                },
+            ];
+        } else if (gFunctionChoice === 2) {
+            return [
+                {
+                    label: 'Unregulated Output Q*',
+                    color: 'red',
+                    value: eq2(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'Socially Desirable Output Q<sup>soc</sup>',
+                    color: 'orange',
+                    value: sq2(gA1, gA2, gA3, gA4, gA5, gA6).toFixed(2)
+                },
+                {
+                    label: 'Producer Surplus PS',
+                    color: 'orange',
+                    value: psurplus2(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'Producer Surplus Loss',
+                    color: 'orange',
+                    value: psurplus2(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'Market Loss',
+                    color: 'orange',
+                    value: psurplus2(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'External Total Cost',
+                    color: 'red',
+                    value: extcost2(gA1, gA2, gA3, gA4, gA5, gA6).toFixed(2)
+                },
+                {
+                    label: 'External Cost Reduction',
+                    color: 'red',
+                    value: extcost2(gA1, gA2, gA3, gA4, gA5, gA6).toFixed(2)
+                },
+                {
+                    label: 'P*',
+                    color: 'red',
+                    value: ep2(gA1, gA2, gA3, gA4, gA5, gA6).toFixed(2)
+                },
+                {
+                    label: 'P<sup>soc</sup>',
+                    color: 'red',
+                    value: ep2(gA1, gA2, gA3, gA4, gA5, gA6).toFixed(2)
+                },
+            ];
+        }
     }
 
     make() {
@@ -210,49 +284,77 @@ export class NegativeProductionExternalityIndustryGraph extends Graph {
                 me.options.gA5, me.options.gA6, x);
         };
 
-        this.l4 = this.board.create(
-            'functiongraph',
-            [positiveRange(smc2Line), 0, this.options.gXAxisMax], {
-                name: 'SMC',
-                withLabel: true,
-                label: {
-                    strokeColor: this.l4Color
-                },
-                strokeWidth: 2,
-                strokeColor: this.l4Color,
-                fixed: true,
-                highlight: false
-            }
-        );
+        if (this.options.gFunctionChoice === 0) {
+            this.l4 = this.board.create(
+                'functiongraph',
+                [positiveRange(smc2Line), 0, this.options.gXAxisMax], {
+                    name: 'SMC',
+                    withLabel: true,
+                    label: {
+                        strokeColor: this.l4Color
+                    },
+                    strokeWidth: 2,
+                    strokeColor: this.l4Color,
+                    fixed: true,
+                    highlight: false
+                }
+            );
+        }
+
+        const epointEvaluated = epoint2(
+            this.options.gA1, this.options.gA2, this.options.gA3,
+            this.options.gA4);
+
+        if (this.options.gFunctionChoice === 1) {
+            const mcYZero = mc2(this.options.gA3, this.options.gA4, 0);
+            drawPolygon(
+                this.board, [
+                    epointEvaluated,
+                    [0, epointEvaluated[1]],
+                    [0, mcYZero]
+                ], null, 'orange'
+            );
+
+            const emcYPoint = emc2(
+                this.options.gA5, this.options.gA6, epointEvaluated[0]);
+            const emcYZero = emc2(this.options.gA5, this.options.gA6, 0);
+
+            drawPolygon(
+                this.board, [
+                    [epointEvaluated[0], emcYPoint],
+                    [epointEvaluated[0], 0],
+                    [0, 0],
+                    [0, emcYZero],
+                ], null, 'red'
+            );
+        }
 
         if (this.options.gShowIntersection) {
             const spointEvaluated = spoint2(
                 this.options.gA1, this.options.gA2, this.options.gA3,
                 this.options.gA4, this.options.gA5, this.options.gA6);
 
-            this.showIntersection(
-                this.board.create('line', [
-                    shint2(
-                        this.options.gA1, this.options.gA2, this.options.gA3,
-                        this.options.gA4, this.options.gA5, this.options.gA6),
-                    spointEvaluated
-                ], {
-                    visible: false
-                }),
-                this.board.create('line', [
-                    svint2(
-                        this.options.gA1, this.options.gA2, this.options.gA3,
-                        this.options.gA4, this.options.gA5, this.options.gA6),
-                    spointEvaluated
-                ], {
-                    visible: false
-                }),
-                false, 'Social', null, 'Q<sup>soc</sup>',
-                false, false, this.l1Color);
-
-            const epointEvaluated = epoint2(
-                this.options.gA1, this.options.gA2, this.options.gA3,
-                this.options.gA4);
+            if (this.options.gFunctionChoice === 0) {
+                this.showIntersection(
+                    this.board.create('line', [
+                        shint2(
+                            this.options.gA1, this.options.gA2, this.options.gA3,
+                            this.options.gA4, this.options.gA5, this.options.gA6),
+                        spointEvaluated
+                    ], {
+                        visible: false
+                    }),
+                    this.board.create('line', [
+                        svint2(
+                            this.options.gA1, this.options.gA2, this.options.gA3,
+                            this.options.gA4, this.options.gA5, this.options.gA6),
+                        spointEvaluated
+                    ], {
+                        visible: false
+                    }),
+                    false, 'Social', null, 'Q<sup>soc</sup>',
+                    false, false, this.l1Color);
+            }
 
             this.showIntersection(
                 this.board.create('line', [
