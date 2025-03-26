@@ -10,11 +10,9 @@ export default class NegativeProductionExternalityIndustryEditor extends React.C
         const modesLeft = [
             'Negative Industry Externality',
             'Unregulated',
-            'Welfare',
         ];
         const modesRight = [
-            'Pigouvian Tax',
-            'Pigouvian Tax (Welfare)',
+            'Welfare',
         ];
 
         const radioButtons1 = modesLeft.map((optionTitle, idx) =>

@@ -73,16 +73,48 @@ const eq2 = function(a, b, c, d) {
     return (a - c) / (b + d);
 };
 
-const psurplus2 = function(a, b, c, d) {
+const sp2 = function(a, b, c, d, f, g) {
+    return (b * c + a * d + b * f + a * g) / (b + d + g);
+};
+
+const sq2 = function(a, b, c, d, f, g) {
+    return (a - c - f) / (b + d + g);
+};
+
+/*const psurplus2 = function(a, b, c, d) {
     return (ep2(a, b, c, d) - c) * eq2(a, b, c, d) / 2;
-};
+};*/
 
-const emcmarket2 = function(a, b, c, d, f, g) {
+/*const emcmarket2 = function(a, b, c, d, f, g) {
     return f + g * eq2(a, b, c, d);
+};*/
+
+/*const extcost2 = function(a, b, c, d, f, g) {
+    return emcmarket2(a, b, c, d, f, g) * eq2(a, b, c, d) / 2;
+};*/
+
+const spoint2 = function(a, b, c, d, f, g) {
+    return [sq2(a, b, c, d, f, g), sp2(a, b, c, d, f, g)];
 };
 
-const extcost2 = function(a, b, c, d, f, g) {
-    return emcmarket2(a, b, c, d, f, g) * eq2(a, b, c, d) / 2;
+const shint2 = function(a, b, c, d, f, g) {
+    return [0, sp2(a, b, c, d, f, g)];
+};
+
+const svint2 = function(a, b, c, d, f, g) {
+    return [sq2(a, b, c, d, f, g), 0];
+};
+
+const epoint2 = function(a, b, c, d) {
+    return [eq2(a, b, c, d), ep2(a, b, c, d)];
+};
+
+const ehint2 = function(a, b, c, d) {
+    return [0, ep2(a, b, c, d)];
+};
+
+const evint2 = function(a, b, c, d) {
+    return [eq2(a, b, c, d), 0];
 };
 
 
@@ -95,19 +127,19 @@ export class NegativeProductionExternalityIndustryGraph extends Graph {
                 value: eq2(gA1, gA2, gA3, gA4).toFixed(2)
             },
             {
-                label: 'Producer Surplus PS',
-                color: 'orange',
-                value: psurplus2(gA1, gA2, gA3, gA4).toFixed(2)
-            },
-            {
-                label: 'External Total Cost',
-                color: 'red',
-                value: extcost2(gA1, gA2, gA3, gA4, gA5, gA6).toFixed(2)
-            },
-            {
-                label: 'P*',
+                label: 'Unregulated Price P*',
                 color: 'red',
                 value: ep2(gA1, gA2, gA3, gA4).toFixed(2)
+            },
+            {
+                label: 'Socially Desirable Output Q<sup>soc</sup>',
+                color: 'orange',
+                value: sq2(gA1, gA2, gA3, gA4, gA5, gA6).toFixed(2)
+            },
+            {
+                label: 'Socially Desirable Price P<sup>soc</sup>',
+                color: 'orange',
+                value: sp2(gA1, gA2, gA3, gA4, gA5, gA6).toFixed(2)
             },
         ];
     }
@@ -192,6 +224,56 @@ export class NegativeProductionExternalityIndustryGraph extends Graph {
                 highlight: false
             }
         );
+
+        if (this.options.gShowIntersection) {
+            const spointEvaluated = spoint2(
+                this.options.gA1, this.options.gA2, this.options.gA3,
+                this.options.gA4, this.options.gA5, this.options.gA6);
+
+            this.showIntersection(
+                this.board.create('line', [
+                    shint2(
+                        this.options.gA1, this.options.gA2, this.options.gA3,
+                        this.options.gA4, this.options.gA5, this.options.gA6),
+                    spointEvaluated
+                ], {
+                    visible: false
+                }),
+                this.board.create('line', [
+                    svint2(
+                        this.options.gA1, this.options.gA2, this.options.gA3,
+                        this.options.gA4, this.options.gA5, this.options.gA6),
+                    spointEvaluated
+                ], {
+                    visible: false
+                }),
+                false, 'Social', null, 'Q<sup>soc</sup>',
+                false, false, this.l1Color);
+
+            const epointEvaluated = epoint2(
+                this.options.gA1, this.options.gA2, this.options.gA3,
+                this.options.gA4);
+
+            this.showIntersection(
+                this.board.create('line', [
+                    ehint2(
+                        this.options.gA1, this.options.gA2, this.options.gA3,
+                        this.options.gA4),
+                    epointEvaluated
+                ], {
+                    visible: false
+                }),
+                this.board.create('line', [
+                    evint2(
+                        this.options.gA1, this.options.gA2, this.options.gA3,
+                        this.options.gA4),
+                    epointEvaluated
+                ], {
+                    visible: false
+                }),
+                false, 'Market', null, 'Q',
+                false, false, this.l4Color);
+        }
     }
 }
 
