@@ -71,30 +71,70 @@ const ep3 = function(a, b, c, d) {
 
 const eq3 = function(a, b, c, d) {
     return (a - c) / (b + d);
-};*/
+    };*/
+
+const sq3 = function(a, b, c, d, f, g) {
+    return (a - c + f) / (b + d + g);
+};
+
+const sp3 = function(a, b, c, d, f, g) {
+    return smb3(a, b, f, g, sq3(a, b, c, d, f, g));
+};
+
+const spoint3 = function(a, b, c, d, f, g) {
+    return [sq3(a, b, c, d, f, g), sp3(a, b, c, d, f, g)];
+};
+
+const shint3 = function(a, b, c, d, f, g) {
+    return [0, sp3(a, b, c, d, f, g)];
+};
+
+const svint3 = function(a, b, c, d, f, g) {
+    return [sq3(a, b, c, d, f, g), 0];
+};
+
+const ep3 = function(a, b, c, d) {
+    return (b * c + a * d) / (b + d);
+};
+
+const eq3 = function(a, b, c, d) {
+    return (a - c) / (b + d);
+};
+
+const epoint3 = function(a, b, c, d) {
+    return [eq3(a, b, c, d), ep3(a, b, c, d)];
+};
+
+const ehint3 = function(a, b, c, d) {
+    return [0, ep3(a, b, c, d)];
+};
+
+const evint3 = function(a, b, c, d) {
+    return [eq3(a, b, c, d), 0];
+};
 
 export class PositiveExternalityIndustryGraph extends Graph {
-    static getGraphPane(gFunctionChoice) {
+    static getGraphPane(gFunctionChoice, gA1, gA2, gA3, gA4, gA5, gA6) {
         return [
             {
                 label: 'Unregulated Output Q*',
                 color: 'red',
-                value: 240
+                value: eq3(gA1, gA2, gA3, gA4).toFixed(2)
             },
             {
                 label: 'Unregulated Price P*',
                 color: 'red',
-                value: 120
+                value: ep3(gA1, gA2, gA3, gA4).toFixed(2)
             },
             {
                 label: 'Socially Desirable Output q<sup>soc</sup>',
                 color: 'orange',
-                value: 266.667
+                value: sq3(gA1, gA2, gA3, gA4, gA5, gA6).toFixed(2)
             },
             {
                 label: 'Socially Desirable Price P<sup>soc</sup>',
                 color: 'orange',
-                value: 133.333
+                value: sp3(gA1, gA2, gA3, gA4, gA5, gA6).toFixed(2)
             },
         ];
     }
@@ -179,6 +219,56 @@ export class PositiveExternalityIndustryGraph extends Graph {
                 highlight: false
             }
         );
+
+        if (this.options.gShowIntersection) {
+            const spointEvaluated = spoint3(
+                this.options.gA1, this.options.gA2, this.options.gA3,
+                this.options.gA4, this.options.gA5, this.options.gA6);
+
+            this.showIntersection(
+                this.board.create('line', [
+                    shint3(
+                        this.options.gA1, this.options.gA2, this.options.gA3,
+                        this.options.gA4, this.options.gA5, this.options.gA6),
+                    spointEvaluated
+                ], {
+                    visible: false
+                }),
+                this.board.create('line', [
+                    svint3(
+                        this.options.gA1, this.options.gA2, this.options.gA3,
+                        this.options.gA4, this.options.gA5, this.options.gA6),
+                    spointEvaluated
+                ], {
+                    visible: false
+                }),
+                false, 'Social', null, 'Q<sup>soc</sup>',
+                false, false, this.l1Color);
+
+            const epointEvaluated = epoint3(
+                this.options.gA1, this.options.gA2, this.options.gA3,
+                this.options.gA4);
+
+            this.showIntersection(
+                this.board.create('line', [
+                    ehint3(
+                        this.options.gA1, this.options.gA2, this.options.gA3,
+                        this.options.gA4),
+                    epointEvaluated
+                ], {
+                    visible: false
+                }),
+                this.board.create('line', [
+                    evint3(
+                        this.options.gA1, this.options.gA2, this.options.gA3,
+                        this.options.gA4),
+                    epointEvaluated
+                ], {
+                    visible: false
+                }),
+                false, 'Market', null, 'Q',
+                false, false, this.l4Color);
+        }
     }
 }
 
