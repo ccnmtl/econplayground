@@ -155,7 +155,7 @@ class GraphPickView(EnsureCsrfCookieMixin, CohortInstructorMixin, CreateView):
                 },
                 {
                     'graph_type': 28,
-                    'image': None,
+                    'image': 'graph_types/graph_28.png',
                 },
             ]
         })
