@@ -1,4 +1,5 @@
 import { Graph, positiveRange } from './Graph.js';
+import { drawPolygon } from '../jsxgraphUtils.js';
 
 export const defaults = [
     {
@@ -101,6 +102,10 @@ const eq3 = function(a, b, c, d) {
     return (a - c) / (b + d);
 };
 
+const embmarket3 = function(a, b, c, d, f, g) {
+    return f - g * eq3(a, b, c, d);
+};
+
 const epoint3 = function(a, b, c, d) {
     return [eq3(a, b, c, d), ep3(a, b, c, d)];
 };
@@ -115,28 +120,86 @@ const evint3 = function(a, b, c, d) {
 
 export class PositiveExternalityIndustryGraph extends Graph {
     static getGraphPane(gFunctionChoice, gA1, gA2, gA3, gA4, gA5, gA6) {
-        return [
-            {
-                label: 'Unregulated Output Q*',
-                color: 'red',
-                value: eq3(gA1, gA2, gA3, gA4).toFixed(2)
-            },
-            {
-                label: 'Unregulated Price P*',
-                color: 'red',
-                value: ep3(gA1, gA2, gA3, gA4).toFixed(2)
-            },
-            {
-                label: 'Socially Desirable Output q<sup>soc</sup>',
-                color: 'orange',
-                value: sq3(gA1, gA2, gA3, gA4, gA5, gA6).toFixed(2)
-            },
-            {
-                label: 'Socially Desirable Price P<sup>soc</sup>',
-                color: 'orange',
-                value: sp3(gA1, gA2, gA3, gA4, gA5, gA6).toFixed(2)
-            },
-        ];
+        if (gFunctionChoice === 0) {
+            return [
+                {
+                    label: 'Unregulated Output Q*',
+                    color: 'red',
+                    value: eq3(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'Unregulated Price P*',
+                    color: 'red',
+                    value: ep3(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'Socially Desirable Output q<sup>soc</sup>',
+                    color: 'orange',
+                    value: sq3(gA1, gA2, gA3, gA4, gA5, gA6).toFixed(2)
+                },
+                {
+                    label: 'Socially Desirable Price P<sup>soc</sup>',
+                    color: 'orange',
+                    value: sp3(gA1, gA2, gA3, gA4, gA5, gA6).toFixed(2)
+                },
+            ];
+        } else if (gFunctionChoice === 1) {
+            return [
+                {
+                    label: 'Unregulated Output Q*',
+                    color: 'red',
+                    value: eq3(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'P*',
+                    color: 'red',
+                    value: eq3(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'External Total Benefit',
+                    color: 'green',
+                    value: ep3(gA1, gA2, gA3, gA4).toFixed(2)
+                }
+            ];
+        } else if (gFunctionChoice === 2) {
+            return [
+                {
+                    label: 'Unregulated Output Q*',
+                    color: 'red',
+                    value: eq3(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'Unregulated Price P*',
+                    color: 'red',
+                    value: eq3(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'Socially Desirable Output Q<sup>soc</sup>',
+                    color: 'orange',
+                    value: eq3(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'Socially Desirable Price P<sup>soc</sup>',
+                    color: 'orange',
+                    value: eq3(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'External Total Benefit',
+                    color: 'green',
+                    value: ep3(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'External Gain',
+                    color: 'green',
+                    value: ep3(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'Market Loss',
+                    color: 'red',
+                    value: ep3(gA1, gA2, gA3, gA4).toFixed(2)
+                }
+            ];
+        }
     }
 
     make() {
@@ -225,25 +288,27 @@ export class PositiveExternalityIndustryGraph extends Graph {
                 this.options.gA1, this.options.gA2, this.options.gA3,
                 this.options.gA4, this.options.gA5, this.options.gA6);
 
-            this.showIntersection(
-                this.board.create('line', [
-                    shint3(
-                        this.options.gA1, this.options.gA2, this.options.gA3,
-                        this.options.gA4, this.options.gA5, this.options.gA6),
-                    spointEvaluated
-                ], {
-                    visible: false
-                }),
-                this.board.create('line', [
-                    svint3(
-                        this.options.gA1, this.options.gA2, this.options.gA3,
-                        this.options.gA4, this.options.gA5, this.options.gA6),
-                    spointEvaluated
-                ], {
-                    visible: false
-                }),
-                false, 'Social', null, 'Q<sup>soc</sup>',
-                false, false, this.l1Color);
+            if (this.options.gFunctionChoice !== 1) {
+                this.showIntersection(
+                    this.board.create('line', [
+                        shint3(
+                            this.options.gA1, this.options.gA2, this.options.gA3,
+                            this.options.gA4, this.options.gA5, this.options.gA6),
+                        spointEvaluated
+                    ], {
+                        visible: false
+                    }),
+                    this.board.create('line', [
+                        svint3(
+                            this.options.gA1, this.options.gA2, this.options.gA3,
+                            this.options.gA4, this.options.gA5, this.options.gA6),
+                        spointEvaluated
+                    ], {
+                        visible: false
+                    }),
+                    false, 'Social', null, 'Q<sup>soc</sup>',
+                    false, false, this.l1Color);
+            }
 
             const epointEvaluated = epoint3(
                 this.options.gA1, this.options.gA2, this.options.gA3,
@@ -268,6 +333,24 @@ export class PositiveExternalityIndustryGraph extends Graph {
                 }),
                 false, 'Market', null, 'Q',
                 false, false, this.l4Color);
+        }
+
+        if (this.options.gFunctionChoice >= 1) {
+            const eq3Evaluated = eq3(
+                this.options.gA1, this.options.gA2,
+                this.options.gA3, this.options.gA4);
+            drawPolygon(
+                this.board, [
+                    [eq3Evaluated, embmarket3(
+                        this.options.gA1, this.options.gA2,
+                        this.options.gA3, this.options.gA4,
+                        this.options.gA5, this.options.gA6
+                    )],
+                    [eq3Evaluated, 0],
+                    [0, 0],
+                    [0, this.options.gA5]
+                ], null, 'green'
+            );
         }
     }
 }

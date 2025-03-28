@@ -72,7 +72,7 @@ export default class PositiveExternalityIndustryEditor extends React.Component {
                                 id="gA1"
                                 value={this.props.gA1}
                                 min={0}
-                                max={350}
+                                max={this.props.gFunctionChoice === 1 ? 10000 : 350}
                                 handler={handleFormUpdate.bind(this)} />
 
                             <RangeEditor
@@ -81,7 +81,7 @@ export default class PositiveExternalityIndustryEditor extends React.Component {
                                 id="gA2"
                                 value={this.props.gA2}
                                 min={0.01}
-                                max={10}
+                                max={this.props.gFunctionChoice === 1 ? 35 : 10}
                                 handler={handleFormUpdate.bind(this)} />
 
                             <RangeEditor
@@ -90,7 +90,7 @@ export default class PositiveExternalityIndustryEditor extends React.Component {
                                 id="gA3"
                                 value={this.props.gA3}
                                 min={0}
-                                max={350}
+                                max={this.props.gFunctionChoice === 1 ? 10000 : 350}
                                 handler={handleFormUpdate.bind(this)} />
 
                             <RangeEditor
@@ -99,7 +99,7 @@ export default class PositiveExternalityIndustryEditor extends React.Component {
                                 id="gA4"
                                 value={this.props.gA4}
                                 min={0.01}
-                                max={10}
+                                max={this.props.gFunctionChoice === 1 ? 35 : 10}
                                 handler={handleFormUpdate.bind(this)} />
 
                             <RangeEditor
@@ -108,7 +108,7 @@ export default class PositiveExternalityIndustryEditor extends React.Component {
                                 id="gA5"
                                 value={this.props.gA5}
                                 min={0}
-                                max={350}
+                                max={this.props.gFunctionChoice === 1 ? 10000 : 350}
                                 handler={handleFormUpdate.bind(this)} />
 
                             <RangeEditor
@@ -117,7 +117,7 @@ export default class PositiveExternalityIndustryEditor extends React.Component {
                                 id="gA6"
                                 value={this.props.gA6}
                                 min={0.01}
-                                max={10}
+                                max={this.props.gFunctionChoice === 1 ? 35 : 10}
                                 handler={handleFormUpdate.bind(this)} />
                         </>
                     )}
