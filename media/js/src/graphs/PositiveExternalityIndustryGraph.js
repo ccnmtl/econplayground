@@ -118,6 +118,52 @@ const evint3 = function(a, b, c, d) {
     return [eq3(a, b, c, d), 0];
 };
 
+const embsocial3 = function(a, b, c, d, f, g) {
+    return f - g * sq3(a, b, c, d, f, g);
+};
+
+const extgain3 = function(a, b, c, d, f, g) {
+    return (sq3(a, b, c, d, f, g) - eq3(a, b, c, d)) *
+        embsocial3(a, b, c, d, f, g) +
+        (sq3(a, b, c, d, f, g) - eq3(a, b, c, d)) *
+        (embmarket3(a, b, c, d, f, g) - embsocial3(a, b, c, d, f, g)) / 2;
+};
+
+const extgainarea3 = function(a, b, c, d, f, g) {
+    return [
+        [eq3(a, b, c, d), embmarket3(a, b, c, d, f, g)],
+        [eq3(a, b, c, d), 0],
+        [sq3(a, b, c, d, f, g), 0],
+        [sq3(a, b, c, d, f, g), embsocial3(a, b, c, d, f, g)]
+    ];
+};
+
+const extben3 = function(a, b, c, d, f, g) {
+    return embmarket3(a, b, c, d, f, g) * eq3(a, b, c, d) +
+        (f - embmarket3(a, b, c, d, f, g)) * eq3(a, b, c, d) / 2;
+};
+
+const mcsocial3 = function(a, b, c, d, f, g) {
+    return c + d * sq3(a, b, c, d, f, g);
+};
+
+const mbsocial3 = function(a, b, c, d, f, g) {
+    return a - b * sq3(a, b, c, d, f, g);
+};
+
+const marketloss3 = function(a, b, c, d, f, g) {
+    return (sq3(a, b, c, d, f, g) - eq3(a, b, c, d)) *
+        (mcsocial3(a, b, c, d, f, g) - mbsocial3(a, b, c, d, f, g)) / 2;
+};
+
+const marketlossarea3 = function(a, b, c, d, f, g) {
+    return [
+        [eq3(a, b, c, d), ep3(a, b, c, d)],
+        [sq3(a, b, c, d, f, g), mcsocial3(a, b, c, d, f, g)],
+        [sq3(a, b, c, d, f, g), mbsocial3(a, b, c, d, f, g)]
+    ];
+};
+
 export class PositiveExternalityIndustryGraph extends Graph {
     static getGraphPane(gFunctionChoice, gA1, gA2, gA3, gA4, gA5, gA6) {
         if (gFunctionChoice === 0) {
@@ -171,32 +217,32 @@ export class PositiveExternalityIndustryGraph extends Graph {
                 {
                     label: 'Unregulated Price P*',
                     color: 'red',
-                    value: eq3(gA1, gA2, gA3, gA4).toFixed(2)
+                    value: ep3(gA1, gA2, gA3, gA4).toFixed(2)
                 },
                 {
                     label: 'Socially Desirable Output Q<sup>soc</sup>',
                     color: 'orange',
-                    value: eq3(gA1, gA2, gA3, gA4).toFixed(2)
+                    value: sq3(gA1, gA2, gA3, gA4, gA5, gA6).toFixed(2)
                 },
                 {
                     label: 'Socially Desirable Price P<sup>soc</sup>',
                     color: 'orange',
-                    value: eq3(gA1, gA2, gA3, gA4).toFixed(2)
+                    value: sp3(gA1, gA2, gA3, gA4, gA5, gA6).toFixed(2)
                 },
                 {
                     label: 'External Total Benefit',
                     color: 'green',
-                    value: ep3(gA1, gA2, gA3, gA4).toFixed(2)
+                    value: extben3(gA1, gA2, gA3, gA4, gA5, gA6).toFixed(2)
                 },
                 {
                     label: 'External Gain',
                     color: 'green',
-                    value: ep3(gA1, gA2, gA3, gA4).toFixed(2)
+                    value: extgain3(gA1, gA2, gA3, gA4, gA5, gA6).toFixed(2)
                 },
                 {
                     label: 'Market Loss',
                     color: 'red',
-                    value: ep3(gA1, gA2, gA3, gA4).toFixed(2)
+                    value: marketloss3(gA1, gA2, gA3, gA4, gA5, gA6).toFixed(2)
                 }
             ];
         }
@@ -268,20 +314,22 @@ export class PositiveExternalityIndustryGraph extends Graph {
                 me.options.gA5, me.options.gA6, x);
         };
 
-        this.l4 = this.board.create(
-            'functiongraph',
-            [positiveRange(smb3Line), 0, this.options.gXAxisMax], {
-                name: 'SMC',
-                withLabel: true,
-                label: {
-                    strokeColor: this.l4Color
-                },
-                strokeWidth: 2,
-                strokeColor: this.l4Color,
-                fixed: true,
-                highlight: false
-            }
-        );
+        if (this.options.gFunctionChoice !== 1) {
+            this.l4 = this.board.create(
+                'functiongraph',
+                [positiveRange(smb3Line), 0, this.options.gXAxisMax], {
+                    name: 'SMC',
+                    withLabel: true,
+                    label: {
+                        strokeColor: this.l4Color
+                    },
+                    strokeWidth: 2,
+                    strokeColor: this.l4Color,
+                    fixed: true,
+                    highlight: false
+                }
+            );
+        }
 
         if (this.options.gShowIntersection) {
             const spointEvaluated = spoint3(
@@ -349,7 +397,25 @@ export class PositiveExternalityIndustryGraph extends Graph {
                     [eq3Evaluated, 0],
                     [0, 0],
                     [0, this.options.gA5]
-                ], null, 'green'
+                ], null, 'lightgreen'
+            );
+        }
+
+        if (this.options.gFunctionChoice === 2) {
+            drawPolygon(
+                this.board, extgainarea3(
+                    this.options.gA1, this.options.gA2,
+                    this.options.gA3, this.options.gA4,
+                    this.options.gA5, this.options.gA6
+                ), null, 'green'
+            );
+
+            drawPolygon(
+                this.board, marketlossarea3(
+                    this.options.gA1, this.options.gA2,
+                    this.options.gA3, this.options.gA4,
+                    this.options.gA5, this.options.gA6
+                ), null, 'red'
             );
         }
     }
