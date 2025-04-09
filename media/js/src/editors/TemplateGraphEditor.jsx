@@ -22,7 +22,7 @@ export default class TemplateGraphEditor extends React.Component {
         try {
             math.evaluate(expression, { x: 1 });
             return true;
-        } catch (e) {
+        } catch {
             return false;
         }
     }

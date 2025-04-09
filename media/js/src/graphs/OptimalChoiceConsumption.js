@@ -112,11 +112,11 @@ const u1f1 = function(x, px, py, R, alpha, beta) {
     return (UStar / (x ** alpha)) ** (1 / beta);
 };
 
-const xstarvalue2 = function(px, py, R, alpha, beta) {
+const xstarvalue2 = function(px, py, R, alpha) {
     return (R * alpha) / px;
 };
 
-const ystarvalue2 = function(px, py, R, alpha, beta) {
+const ystarvalue2 = function(px, py, R, alpha) {
     return -((-R + R * alpha) / py);
 };
 
@@ -276,7 +276,7 @@ const u7f1 = function(x, px, py, R, a, b) {
     }
 };
 
-const xstarvalue8 = function(px, py, R, a, b) {
+const xstarvalue8 = function(px, py, R, a) {
     if (0 < (R / px)) {
         return (a * py) / px;
     }
@@ -284,7 +284,7 @@ const xstarvalue8 = function(px, py, R, a, b) {
     return 0;
 };
 
-const ystarvalue8 = function(px, py, R, a, b) {
+const ystarvalue8 = function(px, py, R, a) {
     if (R > py) {
         return (R / py) - a;
     }

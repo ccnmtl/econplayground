@@ -13,7 +13,7 @@ const epsilonP = function(c) {
 
 const r  = function(b, c, q) {
     return q * fp(b, c, q);};
-const rBCEpQ = function(b, c, q) {
+const rBCEpQ = function(b, c) {
     return c * c * b / 4;};
 const rP = function(b, c, p) {
     return p * fq(b, c, p);};

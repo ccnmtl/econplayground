@@ -128,7 +128,7 @@ const isocost0 = function(w, r, c, l, alpha, beta) {
     };*/
 
 // Function choice: 1
-const isocost1 = function(w, r, q, l, alpha, beta) {
+const isocost1 = function(w, r, q, l, alpha) {
     return (-l*w + q*r*(-alpha*w/(r*(alpha - 1)))**(1 - alpha) +
         q*w*(r*(1 - alpha)/(alpha*w))**alpha) / r;
 };
@@ -259,7 +259,7 @@ const lStarValue6 = function(q, w, r, a, b) {
     return q / b;
 };
 
-const kStarValue6 = function(q, w, r, a, b) {
+const kStarValue6 = function(q, w, r, a) {
     return q / a;
 };
 

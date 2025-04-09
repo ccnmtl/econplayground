@@ -138,7 +138,7 @@ export class CostFunctionsGraph extends Graph {
                 return cost(q, me.options.gA1, me.options.gA2, me.options.gA3);
             };
 
-            const f2 = function(q) {
+            const f2 = function() {
                 return fcost(me.options.gA1);
             };
 
@@ -192,7 +192,7 @@ export class CostFunctionsGraph extends Graph {
                 return mcost(q, me.options.gA1, me.options.gA2, me.options.gA3);
             };
 
-            const f2 = function(q) {
+            const f2 = function() {
                 return acost(me.options.gA1);
             };
 

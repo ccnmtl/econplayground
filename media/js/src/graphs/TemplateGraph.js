@@ -26,7 +26,7 @@ const getFunc = function(expression, fallback='fallback', x) {
     try {
         func = math.evaluate(expression, scope);
         window.EconPlayground[fallback] = expression;
-    } catch (e) {
+    } catch {
         func = math.evaluate(window.EconPlayground[fallback], scope);
     }
 
