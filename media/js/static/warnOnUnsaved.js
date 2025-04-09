@@ -1,3 +1,5 @@
+/* globals $, window, document */
+
 let isDirty = false;
 
 const warnUnsavedChanges = (e) => {

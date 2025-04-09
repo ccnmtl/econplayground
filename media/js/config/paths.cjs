@@ -1,4 +1,4 @@
-/* eslint-env node */
+/* global process */
 
 'use strict';
 
