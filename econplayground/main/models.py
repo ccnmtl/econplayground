@@ -67,7 +67,9 @@ class Cohort(models.Model):
     password = models.CharField(max_length=256, null=True, blank=True)
 
     instructors = models.ManyToManyField(User)
+
     is_sample = models.BooleanField(null=True, blank=True, unique=True)
+    is_archived = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

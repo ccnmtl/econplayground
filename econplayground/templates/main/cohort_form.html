@@ -35,20 +35,23 @@
 {% block content %}
 <div class="row">
     <div class="col-md-12 order-md-1">
-        <form action="." method="post" v-on:submit="onSubmit">{% csrf_token %}
+        <form action="." method="post">{% csrf_token %}
 
             {% bootstrap_form form %}
 
-            <div class="row">
-                <div class="col-md-2 mb-1 pr-0">
-                    <button type="submit" class="btn btn-block btn-primary">Save</button>
-                </div>
-                <div class="col-md-2 mb-1 pr-0">
+            <div class="btn-toolbar justify-content-between">
+                <div>
+                    <button type="submit" class="btn btn-primary">Save</button>
                     {% if object %}
-                        <a class="btn btn-block btn-secondary" href="{% url 'cohort_detail' object.pk %}">Cancel</a>
+                        <a class="btn btn-secondary" href="{% url 'cohort_detail' object.pk %}">Cancel</a>
                     {% else %}
-                        <a class="btn btn-block btn-secondary" href="{% url 'cohort_list' %}#cohorts">Cancel</a>
+                        <a class="btn btn-secondary" href="{% url 'cohort_list' %}#cohorts">Cancel</a>
                     {% endif %}
+                </div>
+                <div>
+                    <button name="archive" type="submit" class="btn btn-outline-primary">
+                        Archive <i class="bi bi-archive"></i>
+                    </button>
                 </div>
             </div>
         </form>
