@@ -501,7 +501,32 @@ class CohortUpdateView(LoginRequiredMixin, CohortInstructorMixin, UpdateView):
     model = Cohort
     fields = ['title',  'description', 'password']
 
+    def post(self, request, *args, **kwargs):
+        if ('archive' in request.POST):
+            self.success_url = reverse('cohort_list')
+
+        r = super().post(request, *args, **kwargs)
+
+        if ('archive' in request.POST):
+            self.object.is_archived = True
+            self.object.save()
+
+            manage_course_url = '/admin/main/cohort/{}/change/'.format(
+                self.object.pk)
+            course_link = '<strong><a href="{}">{}</a></strong>'.format(
+                manage_course_url, self.object.title)
+
+            messages.add_message(
+                request, messages.SUCCESS,
+                'Course {} has been archived.'.format(course_link),
+                extra_tags='safe')
+
+        return r
+
     def get_success_url(self):
+        if self.success_url:
+            return self.success_url
+
         return reverse('cohort_detail', kwargs={'pk': self.object.pk})
 
 
@@ -610,6 +635,7 @@ class CohortListView(LoginRequiredMixin, ListView):
                 cloned_sample.instructors.add(self.request.user)
 
         context['cohorts'] = Cohort.objects.filter(
+            is_archived=False,
             instructors__in=(self.request.user,))
 
         return context

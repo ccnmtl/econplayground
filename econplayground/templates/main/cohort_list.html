@@ -23,7 +23,7 @@
     </div>
     {% endif %}
 
-    {% for cohort in request.user.cohort_set.all %}
+    {% for cohort in cohorts %}
     <div class="col">
         <div class="card h-100">
             <a href="{% url 'cohort_detail' cohort.pk %}" title="{{cohort.title}}">
