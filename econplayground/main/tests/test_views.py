@@ -906,7 +906,7 @@ class MyLTILandingPageTest(LoggedInTestMixin, TestCase):
         self.submission = SubmissionFactory(graph=self.g, user=self.u)
 
     def test_get(self):
-        request = self.factory.get('/lti/landing/')
+        request = self.factory.get('/lti11/landing/')
         request.user = self.u
         view = MyLTILandingPage()
         view.lti = MockLTI()

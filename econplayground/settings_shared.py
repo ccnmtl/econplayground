@@ -122,7 +122,7 @@ CSRF_TRUSTED_ORIGINS = [
 LTI_TOOL_CONFIGURATION = {
     'title': 'EconPractice',
     'description': 'Interactive economics graphs',
-    'launch_url': 'lti/',
+    'launch_url': 'lti11/',
     'embed_url': '',
     'embed_icon_url': 'img/icons/icon-16.png',
     'embed_tool_id': 'econpractice',
