@@ -87,7 +87,7 @@ class LTI1p3LaunchView(LtiLaunchBaseView, TemplateView):
     """
     https://github.com/academic-innovation/django-lti/blob/main/README.md#handling-an-lti-launch
     """
-    template_name = 'lti_auth/landing_page.html'
+    template_name = 'lti/landing_page.html'
 
     def get_context_data(self, **kwargs):
         domain = self.request.get_host()
