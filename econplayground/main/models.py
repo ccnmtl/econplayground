@@ -59,12 +59,21 @@ ASSIGNMENT_TYPES = (
 class Cohort(models.Model):
     """A Cohort is a grouping of instructors and students.
 
-    Generally referred to as a "Course" in the UI. That may change as
-    we iron things out.
+    A cohort is another word for course. EconPractice is not currently
+    using django_courseaffils.
+
+    Note that LTI uses the term "Context" for a course.
+    https://www.imsglobal.org/spec/lti/v1p3#contexts-and-resources
     """
     title = models.CharField(max_length=256, verbose_name='Course Title')
     description = models.TextField(null=True, blank=True)
     password = models.CharField(max_length=256, null=True, blank=True)
+
+    # Optional LTI course ID, if this course is associated with an LTI
+    # course in e.g. Canvas.
+    context_id = models.CharField(max_length=1024, blank=True, default='')
+    # LTI deployment instance ID, used with context_id
+    deployment_id = models.CharField(max_length=256, blank=True, default='')
 
     instructors = models.ManyToManyField(User)
 

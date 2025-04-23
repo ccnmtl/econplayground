@@ -8,24 +8,41 @@
         <link href="{% static 'css/main.css' %}" rel="stylesheet">
         <link href="{% static 'css/splash.css' %}" rel="stylesheet">
     </head>
-    <body class="lti-landing">
+    <body>
         <header>
             <!-- Fixed navbar -->
-            <nav class="navbar navbar-expand-lg navbar-dark">
+            <nav class="navbar navbar-expand-lg navbar-dark mb-4">
                 <div class="container-fluid">
-                    <img src="{% static 'img/logo-econpractice.svg' %}" width="200" height="39.78" alt="EconPractice logo" />
+                    <a href="/" target="_blank" title="Launch EconPractice">
+                        <img src="{% static 'img/logo-econpractice.svg' %}" width="200" height="39.78" alt="EconPractice logo" />
+                    </a>
                 </div>
             </nav>
         </header>
 
         <div class="container-fluid">
-            <div class="text-center">
-                <a href="{{landing_url}}"
-                   target="_blank"
-                   class="btn btn-primary btn-lg mt-4">
-                    Launch EconPractice
-                </a>
-            </div>
+            {% if course %}
+            <p>
+                Course "<a href="{% url 'cohort_detail' course.pk %}" target="_blank">{{course.title}}</a>"
+                has been provisioned in EconPractice, containing {{course.graph_count}} graphs.
+            </p>
+            {% elif course_id and course_name %}
+            <p>
+                This {{lti_tool_name}} course has not yet been provisioned in EconPractice.
+            </p>
+            <form action="{{landing_url}}">
+                <input type="hidden" name="context_id" value="{{course_id}}" />
+
+                <div class="mb-3">
+                    <label for="courseName1">Course name</label>
+                    <input class="form-control" type="text" id="courseName1" value="{{course_name}}" />
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    Create course
+                </button>
+            </form>
+            {% endif %}
         </div>
     </body>
 </html>
