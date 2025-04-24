@@ -92,6 +92,12 @@ class LtiLaunchView(LtiLaunchBaseView, TemplateView):
     template_name = 'lti/landing_page.html'
 
     def handle_resource_launch(self, request, lti_launch):
+        if settings.DEBUG:
+            print('All lti_launch data:', lti_launch.get_launch_data())
+            print('User:', lti_launch.user.__dict__)
+            print('NRPS claim:', lti_launch.nrps_claim)
+            print('Roles claim:', lti_launch.roles_claim)
+
         self.lti_tool_name = lti_launch.platform_instance_claim.get(
             'product_family_code')
         if self.lti_tool_name:
@@ -120,6 +126,7 @@ class LtiLaunchView(LtiLaunchBaseView, TemplateView):
             lti_tool_name = self.lti_tool_name
 
         return {
+            'DEBUG': settings.DEBUG,
             'landing_url': url,
             'title': settings.LTI_TOOL_CONFIGURATION['title'],
             'lti_tool_name': lti_tool_name,
