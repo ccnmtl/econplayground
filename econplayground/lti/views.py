@@ -1,12 +1,15 @@
 from django.conf import settings
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.clickjacking import xframe_options_exempt
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.base import View, TemplateView
 from urllib.parse import urljoin
 
 from lti_tool.views import LtiLaunchBaseView, OIDCLoginInitView
+from canvas_oauth.oauth import get_oauth_token
 
 from econplayground.main.models import Cohort
 
@@ -84,7 +87,7 @@ class MyOIDCLoginInitView(OIDCLoginInitView):
     pass
 
 
-@method_decorator(xframe_options_exempt, name='dispatch')
+#@method_decorator(xframe_options_exempt, name='dispatch')
 class LtiLaunchView(LtiLaunchBaseView, TemplateView):
     """
     https://github.com/academic-innovation/django-lti/blob/main/README.md#handling-an-lti-launch
@@ -92,6 +95,15 @@ class LtiLaunchView(LtiLaunchBaseView, TemplateView):
     template_name = 'lti/landing_page.html'
 
     def handle_resource_launch(self, request, lti_launch):
+        if settings.DEBUG:
+            print(lti_launch.get_launch_data())
+            print('user:', lti_launch.user.__dict__)
+            print('nrps claim:', lti_launch.nrps_claim)
+            print('roles claim:', lti_launch.roles_claim)
+
+            access_token = get_oauth_token(request)
+            print('access_token', access_token)
+
         self.lti_tool_name = lti_launch.platform_instance_claim.get(
             'product_family_code')
         if self.lti_tool_name:
@@ -120,6 +132,7 @@ class LtiLaunchView(LtiLaunchBaseView, TemplateView):
             lti_tool_name = self.lti_tool_name
 
         return {
+            'DEBUG': settings.DEBUG,
             'landing_url': url,
             'title': settings.LTI_TOOL_CONFIGURATION['title'],
             'lti_tool_name': lti_tool_name,

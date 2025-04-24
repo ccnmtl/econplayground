@@ -56,8 +56,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+
     'django_cas_ng.middleware.CASMiddleware',
+
     'lti_tool.middleware.LtiLaunchMiddleware',
+    'canvas_oauth.middleware.OAuthMiddleware',
 ]
 
 INSTALLED_APPS = [  # noqa
@@ -90,8 +93,11 @@ INSTALLED_APPS = [  # noqa
     'treebeard',
     'markdownify.apps.MarkdownifyConfig',
     'corsheaders',
-    'ctlsettings',
+
     'lti_tool',
+    'canvas_oauth.apps.CanvasOAuthConfig',
+
+    'ctlsettings',
 ]
 
 CONTACT_US_EMAIL = 'econpractice@columbia.edu'
@@ -134,6 +140,13 @@ LTI_TOOL_CONFIGURATION = {
     'landing_url': '',
     'allow_ta_access': False
 }
+
+CANVAS_OAUTH_CLIENT_ID = None
+CANVAS_OAUTH_CLIENT_SECRET = None
+CANVAS_OAUTH_CLIENT_DOMAIN = 'courseworks2.columbia.edu'
+CANVAS_OAUTH_SCOPES = [
+    'https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly'
+]
 
 TEMPLATES = [
     {

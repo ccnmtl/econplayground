@@ -158,6 +158,8 @@ urlpatterns = [
     # LTI 1.3
     path('lti/', include('econplayground.lti.urls')),
 
+    path('oauth/', include('canvas_oauth.urls')),
+
     path('sign_s3/', views.S3SignView.as_view()),
 
     path('contact/', include('contactus.urls')),

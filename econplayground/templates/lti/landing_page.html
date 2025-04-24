@@ -16,6 +16,18 @@
                     <a href="/" target="_blank" title="Launch EconPractice">
                         <img src="{% static 'img/logo-econpractice.svg' %}" width="200" height="39.78" alt="EconPractice logo" />
                     </a>
+
+                    <div class="justify-content-end">
+                        <ul class="navbar-nav ml-auto">
+                            {% if DEBUG %}
+                            <li class="nav-item">
+                                <span class="navbar-text">
+                                    Current user: {{ request.user }}
+                                </span>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
                 </div>
             </nav>
         </header>
@@ -24,24 +36,37 @@
             {% if course %}
             <p>
                 Course "<a href="{% url 'cohort_detail' course.pk %}" target="_blank">{{course.title}}</a>"
-                has been provisioned in EconPractice, containing {{course.graph_count}} graphs.
+                has been provisioned in EconPractice, and contains {{course.graph_count}}
+                graph{{ course.graph_count|pluralize }}.
             </p>
-            {% elif course_id and course_name %}
+            {% elif course_id and deployment_id and course_name %}
             <p>
                 This {{lti_tool_name}} course has not yet been provisioned in EconPractice.
             </p>
-            <form action="{{landing_url}}">
+            <form action="{% url 'cohort_create' %}">
                 <input type="hidden" name="context_id" value="{{course_id}}" />
+                <input type="hidden" name="deployment_id" value="{{deployment_id}}" />
+                <input type="hidden" name="title" value="{{course_name}}" />
 
-                <div class="mb-3">
-                    <label for="courseName1">Course name</label>
-                    <input class="form-control" type="text" id="courseName1" value="{{course_name}}" />
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    <div class="col">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h2 class="card-title">{{ course_name }}</h2>
+                                <p class="card-text"></p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-primary mt-4">
                     Create course
                 </button>
             </form>
+            {% else %}
+            <a class="btn btn-lg btn-primary" href="/" target="_blank" title="Launch EconPractice">
+                Launch EconPractice
+            </a>
             {% endif %}
         </div>
     </body>
