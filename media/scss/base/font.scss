@@ -1,6 +1,8 @@
 :root,
 [data-bs-theme=light] {
-    --bs-font-sans-serif: 'Quattrocento Sans';
+    --bs-font-sans-serif: 'Quattrocento Sans', sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .visually-hidden {

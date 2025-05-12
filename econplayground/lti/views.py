@@ -8,6 +8,8 @@ from urllib.parse import urljoin
 
 from lti_tool.views import LtiLaunchBaseView, OIDCLoginInitView
 
+from econplayground.main.models import Cohort
+
 
 class JSONConfigView(View):
     """
@@ -40,7 +42,12 @@ class JSONConfigView(View):
             'target_link_uri': target_link_uri,
             'scopes': [
                 'https://purl.imsglobal.org/spec/lti-ags/scope/lineitem',
-                'https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly'
+
+                'https://purl.imsglobal.org/'
+                'spec/lti-ags/scope/result.readonly',
+
+                'https://purl.imsglobal.org/'
+                'spec/lti-nrps/scope/contextmembership.readonly',
             ],
             'extensions': [
                 {
@@ -83,21 +90,53 @@ class MyOIDCLoginInitView(OIDCLoginInitView):
 
 
 @method_decorator(xframe_options_exempt, name='dispatch')
-class LTI1p3LaunchView(LtiLaunchBaseView, TemplateView):
+class LtiLaunchView(LtiLaunchBaseView, TemplateView):
     """
     https://github.com/academic-innovation/django-lti/blob/main/README.md#handling-an-lti-launch
     """
     template_name = 'lti/landing_page.html'
+
+    def handle_resource_launch(self, request, lti_launch):
+        if settings.DEBUG:
+            print('All lti_launch data:', lti_launch.get_launch_data())
+            print('User:', lti_launch.user.__dict__)
+            print('NRPS claim:', lti_launch.nrps_claim)
+            print('Roles claim:', lti_launch.roles_claim)
+
+        self.lti_tool_name = lti_launch.platform_instance_claim.get(
+            'product_family_code')
+        if self.lti_tool_name:
+            self.lti_tool_name = self.lti_tool_name.capitalize()
+
+        self.deployment_id = lti_launch.deployment.deployment_id
+        self.course_id = lti_launch.context_claim.get('id')
+        self.course_name = lti_launch.context_claim.get('title')
+
+        # Search for course by context_id in EconPractice database
+        try:
+            self.course = Cohort.objects.get(
+                context_id=self.course_id, deployment_id=self.deployment_id)
+        except Cohort.DoesNotExist:
+            self.course = None
+
+        return self.get(request)
 
     def get_context_data(self, **kwargs):
         domain = self.request.get_host()
         url = settings.LTI_TOOL_CONFIGURATION['landing_url'].format(
             self.request.scheme, domain, kwargs.get('context'))
 
-        return {
-            'landing_url': url,
-            'title': settings.LTI_TOOL_CONFIGURATION['title']
-        }
+        lti_tool_name = 'LTI'
+        if self.lti_tool_name:
+            lti_tool_name = self.lti_tool_name
 
-    def handle_resource_launch(self, request, lti_launch):
-        return self.get(request)
+        return {
+            'DEBUG': settings.DEBUG,
+            'landing_url': url,
+            'title': settings.LTI_TOOL_CONFIGURATION['title'],
+            'lti_tool_name': lti_tool_name,
+            'course': self.course,
+            'deployment_id': self.deployment_id,
+            'course_id': self.course_id,
+            'course_name': self.course_name,
+        }

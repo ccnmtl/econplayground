@@ -59,12 +59,21 @@ ASSIGNMENT_TYPES = (
 class Cohort(models.Model):
     """A Cohort is a grouping of instructors and students.
 
-    Generally referred to as a "Course" in the UI. That may change as
-    we iron things out.
+    A cohort is another word for course. EconPractice is not currently
+    using django_courseaffils.
+
+    Note that LTI uses the term "Context" for a course.
+    https://www.imsglobal.org/spec/lti/v1p3#contexts-and-resources
     """
     title = models.CharField(max_length=256, verbose_name='Course Title')
     description = models.TextField(null=True, blank=True)
     password = models.CharField(max_length=256, null=True, blank=True)
+
+    # Optional LTI course ID, if this course is associated with an LTI
+    # course in e.g. Canvas.
+    context_id = models.CharField(max_length=1024, blank=True, default='')
+    # LTI deployment instance ID, used with context_id
+    deployment_id = models.CharField(max_length=256, blank=True, default='')
 
     instructors = models.ManyToManyField(User)
 
@@ -519,7 +528,23 @@ class AssessmentRule(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return 'AssessmentRule: {}, {}'.format(self.name, self.value)
+        assessment_type = self.name[5:]
+        if self.name[4] == '1':
+            if assessment_type == 'intercept':
+                user_friendly_name = 'Orange-Blue Intersection'
+            else:
+                user_friendly_name = 'Orange Line ' + assessment_type
+        elif self.name[4] == '2':
+            if assessment_type == 'intercept':
+                user_friendly_name = 'Blue-Red Intersection'
+            else:
+                user_friendly_name = 'Blue Line ' + assessment_type
+        elif self.name[4] == '3':
+            if assessment_type == 'intercept':
+                user_friendly_name = 'Orange-Red Intersection'
+            else:
+                user_friendly_name = 'Red Line ' + assessment_type
+        return 'AssessmentRule: {}, {}'.format(user_friendly_name, self.value)
 
     class Meta:
         ordering = ('name',)
