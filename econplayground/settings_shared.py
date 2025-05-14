@@ -60,6 +60,8 @@ MIDDLEWARE = [
     'django_cas_ng.middleware.CASMiddleware',
 
     'lti_tool.middleware.LtiLaunchMiddleware',
+
+    'lti_authentication.middleware.LtiLaunchAuthenticationMiddleware',
 ]
 
 INSTALLED_APPS = [  # noqa
@@ -116,7 +118,12 @@ ACCOUNT_ACTIVATION_DAYS = 7
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'django_cas_ng.backends.CASBackend',
+
+    # django-lti-provider (LTI 1.1)
     'lti_provider.auth.LTIBackend',
+
+    # django-lti-authentication (LTI 1.3)
+    'lti_authentication.backends.LtiLaunchAuthenticationBackend',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -137,6 +144,10 @@ LTI_TOOL_CONFIGURATION = {
     'frame_height': 1024,
     'landing_url': '',
     'allow_ta_access': False
+}
+
+LTI_AUTHENTICATION = {
+    'use_person_sourcedid': True,
 }
 
 TEMPLATES = [
