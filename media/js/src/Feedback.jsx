@@ -1,21 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+const renderAlert = function(fulfilled, feedback, idx) {
+    if (!feedback) {
+        feedback = fulfilled ?
+            'Assessment rule fulfilled.' : 'Assessment rule unfulfilled.';
+    }
+
+    return (
+        <div
+            key={idx}
+            className={
+                'alert ' + (fulfilled ? 'alert-success' : 'alert-danger')
+            }
+            role="alert">
+            {feedback}
+        </div>
+    );
+};
+
 export default class Feedback extends React.Component {
     render() {
         if (this.props.feedback && this.props.feedback.length > 0) {
-            let n = 0;
             return (
-                <React.Fragment>
-                    {this.props.feedback.map(e => (
-                        <div
-                            key={n++}
-                            className={'alert ' + (e.fulfilled ? 'alert-primary' : 'alert-danger')}
-                            role="alert">
-                            {e.feedback}
-                        </div>
+                <>
+                    {this.props.feedback.map((e, idx) => (
+                        renderAlert(e.fulfilled, e.feedback, idx)
                     ))}
-                </React.Fragment>
+                </>
             );
         }
 
