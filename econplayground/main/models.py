@@ -404,6 +404,46 @@ class Graph(OrderedModel):
         g.save()
         return g
 
+    def get_assessment_rules(self):
+        line_actions = [
+            'up',
+            'down',
+            'slope up',
+            'slope down',
+        ]
+
+        rules = {
+            'line1': {
+                'name': 'Orange line',
+                'possible_values': line_actions,
+            },
+
+            'line2': {
+                'name': 'Blue line',
+                'possible_values': line_actions,
+            },
+
+            'line1 label': 'Orange line label',
+            'line2 label': 'Blue line label',
+            'intersectionLabel': 'Intersection label',
+            'intersectionHorizLineLabel':
+            'Orange-Blue intersection horizontal',
+            'intersectionVertLineLabel': 'Orange-Blue intersection vertical',
+            'x-axis label': 'X-axis label',
+            'y-axis label': 'Y-axis label',
+        }
+
+        # TODO: extend possible rules for the various other graph types
+        if self.graph_type == 8:
+            rules.update({
+                'line3': {
+                    'name': 'Green line',
+                    'possible_values': line_actions,
+                }
+            })
+
+        return rules
+
 
 class JXGLine(models.Model):
     class Meta:
