@@ -1,4 +1,4 @@
-/* globals process, Promise */
+/* globals process */
 
 const BOARD_WIDTH = 540;
 const BOARD_HEIGHT = 300;

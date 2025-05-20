@@ -1,4 +1,4 @@
-/* eslint-env node */
+/* global process */
 
 'use strict';
 
@@ -48,11 +48,11 @@ module.exports = {
     dotenv: resolveApp('.env'),
     appBuild: resolveApp(JS_PATH + 'build'),
     appPublic: resolveApp(JS_PATH + 'public'),
-    appEditorJs: resolveApp(JS_PATH + 'src/editor-main.js'),
-    appViewerJs: resolveApp(JS_PATH + 'src/viewer-main.js'),
-    appStepGraphViewerJs: resolveApp(JS_PATH + 'src/stepGraphViewer-main.js'),
-    appRubricJs: resolveApp(JS_PATH + 'src/rubric-main.js'),
-    appGraphPreviewJs: resolveApp(JS_PATH + 'src/graphPreview-main.js'),
+    appEditorJs: resolveApp(JS_PATH + 'src/editor-main.jsx'),
+    appViewerJs: resolveApp(JS_PATH + 'src/viewer-main.jsx'),
+    appStepGraphViewerJs: resolveApp(JS_PATH + 'src/stepGraphViewer-main.jsx'),
+    appRubricJs: resolveApp(JS_PATH + 'src/rubric-main.jsx'),
+    appGraphPreviewJs: resolveApp(JS_PATH + 'src/graphPreview-main.jsx'),
     appPackageJson: resolveApp('package.json'),
     appSrc: resolveApp(JS_PATH + 'src'),
     yarnLockFile: resolveApp('yarn.lock'),
