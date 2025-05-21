@@ -16,6 +16,7 @@ from django.views.generic.edit import (
     CreateView, FormView, UpdateView, DeleteView
 )
 from django.views.generic.detail import SingleObjectMixin
+from django.views.generic.base import TemplateView
 from lti_provider.mixins import LTIAuthMixin
 from lti_provider.views import LTILandingPage
 from s3sign.views import SignS3View
@@ -30,7 +31,7 @@ from econplayground.main.mixins import (
 from econplayground.main.models import (
     Cohort, Graph, Submission, Topic
 )
-from econplayground.main.utils import user_is_instructor
+from econplayground.main.utils import user_is_instructor, get_graph_name
 
 
 class EnsureCsrfCookieMixin(object):
@@ -325,6 +326,22 @@ class GraphDetailView(CohortGraphMixin, CohortPasswordMixin, DetailView):
         url = '{}?return_type=iframe&width={}&height={}&url={}'.format(
             return_url, 640, 600, iframe_url)
         return HttpResponseRedirect(url)
+
+
+class GraphHelpView(TemplateView):
+    template_name = 'main/graph_help.html'
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+
+        graph_type = kwargs.get('graph_type')
+        graph_name = get_graph_name(graph_type)
+        ctx.update({
+            'rule_options': Graph.get_rule_options(graph_type),
+            'graph_name': graph_name,
+        })
+
+        return ctx
 
 
 class GraphEmbedView(CsrfExemptMixin, LTIAuthMixin, DetailView):

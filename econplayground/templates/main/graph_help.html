@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Graph help: {{ graph_name }}{% endblock %}
+
+{% block content %}
+<div>
+    <h4 class="mt-2">
+        Rule options for graph type: <strong>{{ graph_name }}</strong>
+    </h4>
+
+<pre>
+{{ rule_options | pprint }}
+</pre>
+
+</div>
+{% endblock %}
