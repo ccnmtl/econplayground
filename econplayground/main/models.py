@@ -404,7 +404,13 @@ class Graph(OrderedModel):
         g.save()
         return g
 
-    def get_assessment_rules(self):
+    @staticmethod
+    def get_rule_options(graph_type: int = 0) -> object:
+        """
+        This is a back-end version of Graph.getRuleOptions() on the
+        front-end. Most of the logic is built out there at the moment,
+        but I expect to consolidate these two pieces of logic.
+        """
         line_actions = [
             'up',
             'down',
@@ -434,7 +440,7 @@ class Graph(OrderedModel):
         }
 
         # TODO: extend possible rules for the various other graph types
-        if self.graph_type == 8:
+        if graph_type == 8:
             rules.update({
                 'line3': {
                     'name': 'Green line',
