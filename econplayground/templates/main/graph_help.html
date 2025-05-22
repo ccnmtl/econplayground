@@ -27,9 +27,11 @@
         <tr>
             <td>{{rule.1.name}} ({{rule.0}})</td>
             <td>
+                <ul>
                 {% for val in rule.1.possible_values %}
-                {{ val }}<br />
+                <li>{{ val }}</li>
                 {% endfor %}
+                </ul>
             </td>
         </tr>
         {% endif %}

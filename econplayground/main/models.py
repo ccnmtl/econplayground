@@ -417,6 +417,11 @@ class Graph(OrderedModel):
             'slope up',
             'slope down',
         ]
+        variable_actions = [
+            'up',
+            'down',
+            '<exact value>',
+        ]
 
         rules = {
             'line1': {
@@ -448,6 +453,29 @@ class Graph(OrderedModel):
                     'possible_values': line_actions,
                 }
             })
+        elif graph_type == 26:
+            rules = {
+                'a1': {
+                    'name': 'MB Constant',
+                    'possible_values': variable_actions,
+                },
+                'a2': {
+                    'name': 'MC Constant',
+                    'possible_values': variable_actions,
+                },
+                'a3': {
+                    'name': 'MC Slope',
+                    'possible_values': variable_actions,
+                },
+                'a4': {
+                    'name': 'EMC Constant',
+                    'possible_values': variable_actions,
+                },
+                'a5': {
+                    'name': 'EMC Slope',
+                    'possible_values': variable_actions,
+                },
+            }
 
         return rules
 
