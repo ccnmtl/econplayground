@@ -405,7 +405,7 @@ class Graph(OrderedModel):
         return g
 
     @staticmethod
-    def get_rule_options(graph_type: int = 0) -> object:
+    def get_rule_options(graph_type: int = 0) -> dict:
         """
         This is a back-end version of Graph.getRuleOptions() on the
         front-end. Most of the logic is built out there at the moment,
@@ -433,8 +433,9 @@ class Graph(OrderedModel):
             'line2 label': 'Blue line label',
             'intersectionLabel': 'Intersection label',
             'intersectionHorizLineLabel':
-            'Orange-Blue intersection horizontal',
-            'intersectionVertLineLabel': 'Orange-Blue intersection vertical',
+            'Orange-Blue intersection horizontal label',
+            'intersectionVertLineLabel':
+            'Orange-Blue intersection vertical label',
             'x-axis label': 'X-axis label',
             'y-axis label': 'Y-axis label',
         }

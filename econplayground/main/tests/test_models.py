@@ -80,6 +80,10 @@ class GraphTest(TestCase):
         self.assertEqual(original.a1, cloned.a1)
         self.assertEqual(original.a1_name, cloned.a1_name)
 
+    def test_get_rule_options(self):
+        rule_options = self.x.get_rule_options()
+        self.assertTrue(isinstance(rule_options, dict))
+
 
 class JXGLineTest(TestCase):
     def setUp(self):

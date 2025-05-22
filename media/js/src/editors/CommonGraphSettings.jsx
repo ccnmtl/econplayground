@@ -161,10 +161,19 @@ export default class CommonGraphSettings extends React.Component {
                     </a>
                     <a
                         target="_blank"
-                        className="text-decoration-none align-text-top"
+                        className="text-decoration-none align-text-top me-2"
                         href="/help/assessment/"
                         title="Assessment Documentation">
                         Assessment info <i className="bi bi-info-circle"></i>
+                    </a>
+                    <br />
+                    <a
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-decoration-none align-text-top"
+                        href={`/graph/${this.props.gType}/help/`}
+                        title="Graph Assessment Documentation">
+                        Graph Assessment rules <i className="bi bi-list-task"></i>
                     </a>
                 </div>
                 <hr/>
@@ -180,6 +189,7 @@ CommonGraphSettings.defaultProps = {
 CommonGraphSettings.propTypes = {
     enableIntersectionToggle: PropTypes.bool,
 
+    gType: PropTypes.number.isRequired,
     gAssignmentType: PropTypes.number.isRequired,
     gNeedsSubmit: PropTypes.bool.isRequired,
     gDisplayFeedback: PropTypes.bool.isRequired,

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load econ_utils %}
 
 {% block title %}Graph help: {{ graph_name }}{% endblock %}
 
@@ -8,9 +9,42 @@
         Rule options for graph type: <strong>{{ graph_name }}</strong>
     </h4>
 
+
+
+<table class="table">
+    <thead>
+        <th scope="col">Name</th>
+        <th scope="col">Possible values</th>
+    </thead>
+    <tbody>
+        {% for rule in rule_options.items %}
+        {% if rule.1|is_str %}
+        <tr>
+            <td>{{rule.1}} ({{rule.0}})</td>
+            <td>&lt;Free text&gt;</td>
+        </tr>
+        {% else %}
+        <tr>
+            <td>{{rule.1.name}} ({{rule.0}})</td>
+            <td>
+                {% for val in rule.1.possible_values %}
+                {{ val }}<br />
+                {% endfor %}
+            </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </tbody>
+</table>
+
+{% if debug %}
+<div>
+Rule data:
 <pre>
 {{ rule_options | pprint }}
 </pre>
+</div>
+{% endif %}
 
 </div>
 {% endblock %}
