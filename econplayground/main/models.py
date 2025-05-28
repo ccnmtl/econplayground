@@ -10,7 +10,7 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save, pre_delete
 import importlib
 
-from econplayground.main.graphs import GRAPH_TYPES
+from econplayground.main.graphs import GRAPH_TYPES, BaseGraph
 
 
 ASSIGNMENT_TYPES = (
@@ -375,78 +375,16 @@ class Graph(OrderedModel):
         front-end. Most of the logic is built out there at the moment,
         but I expect to consolidate these two pieces of logic.
         """
-        line_actions = [
-            'up',
-            'down',
-            'slope up',
-            'slope down',
-        ]
-        variable_actions = [
-            'up',
-            'down',
-            '<exact value>',
-        ]
-
         module = importlib.import_module('econplayground.main.graphs')
+
+        # Find dynamic graph class name using its graph type.
         graph_class = getattr(module, 'Graph{}'.format(graph_type))
         if graph_class:
             instance = graph_class()
             return instance.get_rule_options()
 
-        rules = {
-            'line1': {
-                'name': 'Orange line',
-                'possible_values': line_actions,
-            },
-
-            'line2': {
-                'name': 'Blue line',
-                'possible_values': line_actions,
-            },
-
-            'line1 label': 'Orange line label',
-            'line2 label': 'Blue line label',
-            'intersectionLabel': 'Intersection label',
-            'intersectionHorizLineLabel':
-            'Orange-Blue intersection horizontal label',
-            'intersectionVertLineLabel':
-            'Orange-Blue intersection vertical label',
-            'x-axis label': 'X-axis label',
-            'y-axis label': 'Y-axis label',
-        }
-
-        if graph_type == 8:
-            rules.update({
-                'line3': {
-                    'name': 'Green line',
-                    'possible_values': line_actions,
-                }
-            })
-        elif graph_type == 26:
-            rules = {
-                'a1': {
-                    'name': 'MB Constant',
-                    'possible_values': variable_actions,
-                },
-                'a2': {
-                    'name': 'MC Constant',
-                    'possible_values': variable_actions,
-                },
-                'a3': {
-                    'name': 'MC Slope',
-                    'possible_values': variable_actions,
-                },
-                'a4': {
-                    'name': 'EMC Constant',
-                    'possible_values': variable_actions,
-                },
-                'a5': {
-                    'name': 'EMC Slope',
-                    'possible_values': variable_actions,
-                },
-            }
-
-        return rules
+        # Fall back to the generic BaseGraph's implementation.
+        return BaseGraph.get_rule_options()
 
 
 class JXGLine(models.Model):
