@@ -44,7 +44,7 @@ GRAPH_TYPES = (
 )
 
 
-class Graph(ABC):
+class BaseGraph(ABC):
     name = 'Generic Graph'
     line_actions = [
         'up',
@@ -83,17 +83,17 @@ class Graph(ABC):
         }
 
 
-class Graph0(Graph):
+class Graph0(BaseGraph):
     name = GRAPH_TYPES[0][1]
     graph_type = 0
 
 
-class Graph1(Graph):
+class Graph1(BaseGraph):
     name = GRAPH_TYPES[1][1]
     graph_type = 1
 
 
-class Graph3(Graph):
+class Graph3(BaseGraph):
     name = GRAPH_TYPES[2][1]
     graph_type = 3
 
@@ -123,82 +123,214 @@ class Graph3(Graph):
         }
 
 
-class Graph5(Graph):
+class Graph5(BaseGraph):
     name = GRAPH_TYPES[3][1]
     graph_type = 5
 
 
-class Graph7(Graph):
+class Graph7(BaseGraph):
     name = GRAPH_TYPES[4][1]
     graph_type = 7
 
 
-class Graph8(Graph):
+class Graph8(BaseGraph):
     name = GRAPH_TYPES[5][1]
     graph_type = 8
 
+    @classmethod
+    def get_rule_options(cls) -> dict:
+        rules = super().get_rule_options()
+        rules.update({
+            'line3': {
+                'name': 'Green line',
+                'possible_values': cls.line_actions,
+            }
+        })
+        return rules
 
-class Graph9(Graph):
+
+class Graph9(BaseGraph):
     graph_type = 9
 
 
-class Graph10(Graph):
+class Graph10(BaseGraph):
     graph_type = 10
 
 
-class Graph11(Graph):
+class Graph11(BaseGraph):
     graph_type = 11
 
+    @classmethod
+    def get_rule_options(cls) -> dict:
+        return {
+            'a1': {
+                'name': 'y₁',
+                'possible_values': cls.variable_actions,
+            },
+            'a2': {
+                'name': 'y₂',
+                'possible_values': cls.variable_actions,
+            },
+            'a3': {
+                'name': 'W',
+                'possible_values': cls.variable_actions,
+            },
+            'a4': {
+                'name': 'r',
+                'possible_values': cls.variable_actions,
+            },
+            'a5': {
+                'name': 'β',
+                'possible_values': cls.variable_actions,
+            },
+        }
 
-class Graph15(Graph):
+
+class Graph15(BaseGraph):
     graph_type = 15
 
+    @classmethod
+    def get_rule_options(cls) -> dict:
+        return {
+            'a1': {
+                'name': 'T',
+                'possible_values': cls.variable_actions,
+            },
+            'a2': {
+                'name': 'w',
+                'possible_values': cls.variable_actions,
+            },
+            'a3': {
+                'name': 'α',
+                'possible_values': cls.variable_actions,
+            },
+            'a4': {
+                'name': 't',
+                'possible_values': cls.variable_actions,
+            },
+        }
 
-class Graph12(Graph):
+
+class Graph12(BaseGraph):
     graph_type = 12
 
 
-class Graph13(Graph):
+class Graph13(BaseGraph):
     graph_type = 13
 
 
-class Graph14(Graph):
+class Graph14(BaseGraph):
     graph_type = 14
 
 
-class Graph16(Graph):
+class Graph16(BaseGraph):
     graph_type = 16
 
 
-class Graph17(Graph):
+class Graph17(BaseGraph):
     graph_type = 17
 
+    @classmethod
+    def get_rule_options(cls) -> dict:
+        return {
+            'a1': {
+                'name': 'px',
+                'possible_values': cls.variable_actions,
+            },
+            'a2': {
+                'name': 'py',
+                'possible_values': cls.variable_actions,
+            },
+            'a3': {
+                'name': 'R',
+                'possible_values': cls.variable_actions,
+            },
+            'a4': {
+                'name': 'α/ρ/a',
+                'possible_values': cls.variable_actions,
+            },
+            'a5': {
+                'name': 'β/b',
+                'possible_values': cls.variable_actions,
+            },
+        }
 
-class Graph18(Graph):
+
+class Graph18(BaseGraph):
     graph_type = 18
 
 
-class Graph20(Graph):
+class Graph20(BaseGraph):
     graph_type = 20
 
 
-class Graph21(Graph):
+class Graph21(BaseGraph):
     graph_type = 21
 
+    @classmethod
+    def get_rule_options(cls) -> dict:
+        return {
+            'a1': {
+                'name': 'w',
+                'possible_values': cls.variable_actions,
+            },
+            'a2': {
+                'name': 'r',
+                'possible_values': cls.variable_actions,
+            },
+            'a3': {
+                'name': 'q',
+                'possible_values': cls.variable_actions,
+            },
+            'a4': {
+                'name': 'α/ρ/a',
+                'possible_values': cls.variable_actions,
+            },
+            'a5': {
+                'name': 'β/b',
+                'possible_values': cls.variable_actions,
+            },
+        }
 
-class Graph22(Graph):
+
+class Graph22(BaseGraph):
     graph_type = 22
 
 
-class Graph23(Graph):
+class Graph23(BaseGraph):
     graph_type = 23
 
+    @classmethod
+    def get_rule_options(cls) -> dict:
+        return {
+            'a1': {
+                'name': 'Choke Price',
+                'possible_values': cls.variable_actions,
+            },
+            'line_2_slope': {
+                'name': 'Demand Slope',
+                'possible_values': cls.variable_actions,
+            },
+            'a2': {
+                'name': 'Reservation Price',
+                'possible_values': cls.variable_actions,
+            },
+            'line_1_slope': {
+                'name': 'Supply Slope',
+                'possible_values': cls.variable_actions,
+            },
+            'a3': {
+                'name': 'Unit Tax/Tax Rate',
+                'possible_values': cls.variable_actions,
+            },
+        }
 
-class Graph24(Graph):
+
+class Graph24(BaseGraph):
     graph_type = 24
 
 
-class Graph25(Graph):
+class Graph25(BaseGraph):
     graph_type = 25
 
     @classmethod
@@ -231,13 +363,96 @@ class Graph25(Graph):
         }
 
 
-class Graph26(Graph):
+class Graph26(BaseGraph):
     graph_type = 26
 
+    @classmethod
+    def get_rule_options(cls) -> dict:
+        return {
+            'a1': {
+                'name': 'MB Constant',
+                'possible_values': cls.variable_actions,
+            },
+            'a2': {
+                'name': 'MC Constant',
+                'possible_values': cls.variable_actions,
+            },
+            'a3': {
+                'name': 'MC Slope',
+                'possible_values': cls.variable_actions,
+            },
+            'a4': {
+                'name': 'EMC Constant',
+                'possible_values': cls.variable_actions,
+            },
+            'a5': {
+                'name': 'EMC Slope',
+                'possible_values': cls.variable_actions,
+            },
+        }
 
-class Graph27(Graph):
+
+class Graph27(BaseGraph):
     graph_type = 27
 
+    @classmethod
+    def get_rule_options(cls) -> dict:
+        return {
+            'a1': {
+                'name': 'MB Constant',
+                'possible_values': cls.variable_actions,
+            },
+            'a2': {
+                'name': 'MB Slope',
+                'possible_values': cls.variable_actions,
+            },
+            'a3': {
+                'name': 'MC Constant',
+                'possible_values': cls.variable_actions,
+            },
+            'a4': {
+                'name': 'MC Slope',
+                'possible_values': cls.variable_actions,
+            },
+            'a5': {
+                'name': 'EMC Constant',
+                'possible_values': cls.variable_actions,
+            },
+            'a6': {
+                'name': 'EMC Slope',
+                'possible_values': cls.variable_actions,
+            },
+        }
 
-class Graph28(Graph):
+
+class Graph28(BaseGraph):
     graph_type = 28
+
+    @classmethod
+    def get_rule_options(cls) -> dict:
+        return {
+            'a1': {
+                'name': 'MB Constant',
+                'possible_values': cls.variable_actions,
+            },
+            'a2': {
+                'name': 'MB Slope',
+                'possible_values': cls.variable_actions,
+            },
+            'a3': {
+                'name': 'MC Constant',
+                'possible_values': cls.variable_actions,
+            },
+            'a4': {
+                'name': 'MC Slope',
+                'possible_values': cls.variable_actions,
+            },
+            'a5': {
+                'name': 'EMC Constant',
+                'possible_values': cls.variable_actions,
+            },
+            'a6': {
+                'name': 'EMC Slope',
+                'possible_values': cls.variable_actions,
+            },
+        }
