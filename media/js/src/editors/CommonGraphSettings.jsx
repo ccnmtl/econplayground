@@ -172,8 +172,8 @@ export default class CommonGraphSettings extends React.Component {
                         rel="noreferrer"
                         className="text-decoration-none align-text-top"
                         href={`/graph/${this.props.gType}/help/`}
-                        title="Graph Assessment Documentation">
-                        Graph Assessment rules <i className="bi bi-list-task"></i>
+                        title="Assessment Documentation">
+                        Assessment rules <i className="bi bi-list-task"></i>
                     </a>
                 </div>
                 <hr/>

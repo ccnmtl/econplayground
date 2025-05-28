@@ -445,8 +445,30 @@ class Graph(OrderedModel):
             'y-axis label': 'Y-axis label',
         }
 
-        # TODO: extend possible rules for the various other graph types
-        if graph_type == 8:
+        if graph_type == 3:
+            rules = {
+                'a5_name': 'Y label',
+                'a1_name': 'A label',
+                'a1': {
+                    'name': 'A',
+                    'possible_values': variable_actions,
+                },
+                'a3_name': 'K label',
+                'a3': {
+                    'name': 'K',
+                    'possible_values': variable_actions,
+                },
+                'a4': {
+                    'name': 'α',
+                    'possible_values': variable_actions,
+                },
+                'a2_name': 'L label',
+                'a2': {
+                    'name': 'L',
+                    'possible_values': variable_actions,
+                }
+            }
+        elif graph_type == 8:
             rules.update({
                 'line3': {
                     'name': 'Green line',

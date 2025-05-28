@@ -20,12 +20,12 @@
         {% for rule in rule_options.items %}
         {% if rule.1|is_str %}
         <tr>
-            <td>{{rule.1}} ({{rule.0}})</td>
+            <td>{{rule.1}} (<code>{{rule.0}}</code>)</td>
             <td>&lt;Free text&gt;</td>
         </tr>
         {% else %}
         <tr>
-            <td>{{rule.1.name}} ({{rule.0}})</td>
+            <td>{{rule.1.name}} (<code>{{rule.0}}</code>)</td>
             <td>
                 <ul>
                 {% for val in rule.1.possible_values %}
