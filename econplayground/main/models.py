@@ -8,46 +8,10 @@ from django.db import models
 from ordered_model.models import OrderedModel
 from django.dispatch import receiver
 from django.db.models.signals import post_save, pre_delete
+import importlib
 
+from econplayground.main.graphs import GRAPH_TYPES
 
-GRAPH_TYPES = (
-    (0, 'Linear Demand and Supply'),
-    (1, 'Input Markets'),
-    (3, 'Cobb-Douglas Production Graph'),
-    (5, 'Consumption-Leisure: Constraint'),
-    (7, 'Consumption-Saving: Constraint'),
-    (8, 'Linear Demand and Supply: 3 Functions'),
-
-    # Area Under Curve graphs
-    (9, 'Linear Demand and Supply: Areas'),
-    (10, 'Input Markets: Areas'),
-
-    (11, 'Consumption-Saving: Optimal Choice'),
-    (15, 'Consumption-Leisure: Optimal Choice'),
-
-    # Joint Graphs
-    (12, 'Input-Output Illustrations'),
-    (13, 'Linear Demand and Supply: 2 Diagrams'),
-    (14, 'Input Markets: 2 Diagrams'),
-
-    (16, 'Template Graph'),
-
-    (17, 'Optimal Choice: Consumption with 2 Goods'),
-    (18, 'Cost Functions'),
-    (20, 'Price Elasticity of Demand and Revenue'),
-    (21, 'Optimal Choice: Cost-Minimizing Production Inputs'),
-
-    (22, 'Tax Rate and Revenue'),
-    (23, 'Taxation in Linear Demand and Supply'),
-    (24, 'Tax Supply and Demand vs. Tax Revenue'),
-
-    (25, 'Linear Demand and Supply - Surplus Policies'),
-
-    # Externalities
-    (26, 'Negative Production Externality - Producer'),
-    (27, 'Negative Production Externality - Industry'),
-    (28, 'Positive Externality - Industry'),
-)
 
 ASSIGNMENT_TYPES = (
     (0, 'Template'),
@@ -423,6 +387,12 @@ class Graph(OrderedModel):
             '<exact value>',
         ]
 
+        module = importlib.import_module('econplayground.main.graphs')
+        graph_class = getattr(module, 'Graph{}'.format(graph_type))
+        if graph_class:
+            instance = graph_class()
+            return instance.get_rule_options()
+
         rules = {
             'line1': {
                 'name': 'Orange line',
@@ -445,30 +415,7 @@ class Graph(OrderedModel):
             'y-axis label': 'Y-axis label',
         }
 
-        if graph_type == 3:
-            rules = {
-                'a5_name': 'Y label',
-                'a1_name': 'A label',
-                'a1': {
-                    'name': 'A',
-                    'possible_values': variable_actions,
-                },
-                'a3_name': 'K label',
-                'a3': {
-                    'name': 'K',
-                    'possible_values': variable_actions,
-                },
-                'a4': {
-                    'name': 'α',
-                    'possible_values': variable_actions,
-                },
-                'a2_name': 'L label',
-                'a2': {
-                    'name': 'L',
-                    'possible_values': variable_actions,
-                }
-            }
-        elif graph_type == 8:
+        if graph_type == 8:
             rules.update({
                 'line3': {
                     'name': 'Green line',
