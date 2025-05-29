@@ -127,10 +127,48 @@ class Graph5(BaseGraph):
     name = GRAPH_TYPES[3][1]
     graph_type = 5
 
+    @classmethod
+    def get_rule_options(cls) -> dict:
+        return {
+            'a1': {
+                'name': 'Horizontal intercept value: T',
+                'possible_values': cls.variable_actions,
+            },
+            'a2': {
+                'name': 'Real Wage: w',
+                'possible_values': cls.variable_actions,
+            },
+            'a4': {
+                'name': 'Tax Rate: t',
+                'possible_values': cls.variable_actions,
+            },
+        }
+
 
 class Graph7(BaseGraph):
     name = GRAPH_TYPES[4][1]
     graph_type = 7
+
+    @classmethod
+    def get_rule_options(cls) -> dict:
+        return {
+            'a1': {
+                'name': 'y₁',
+                'possible_values': cls.variable_actions,
+            },
+            'a2': {
+                'name': 'y₂',
+                'possible_values': cls.variable_actions,
+            },
+            'a3': {
+                'name': 'W',
+                'possible_values': cls.variable_actions,
+            },
+            'a4': {
+                'name': 'r',
+                'possible_values': cls.variable_actions,
+            },
+        }
 
 
 class Graph8(BaseGraph):
