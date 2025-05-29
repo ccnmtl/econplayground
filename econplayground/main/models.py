@@ -377,14 +377,10 @@ class Graph(OrderedModel):
         """
         module = importlib.import_module('econplayground.main.graphs')
 
-        # Find dynamic graph class name using its graph type.
-        graph_class = getattr(module, 'Graph{}'.format(graph_type))
-        if graph_class:
-            instance = graph_class()
-            return instance.get_rule_options()
-
-        # Fall back to the generic BaseGraph's implementation.
-        return BaseGraph.get_rule_options()
+        # Find dynamic graph class name using its graph type. Fall
+        # back to the generic BaseGraph's implementation.
+        graph_class = getattr(module, 'Graph{}'.format(graph_type), BaseGraph)
+        return graph_class.get_rule_options()
 
 
 class JXGLine(models.Model):

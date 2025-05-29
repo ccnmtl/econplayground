@@ -84,6 +84,24 @@ class GraphTest(TestCase):
         rule_options = self.x.get_rule_options()
         self.assertTrue(isinstance(rule_options, dict))
 
+        # Valid graphs
+        rule_options = self.x.get_rule_options(1)
+        self.assertTrue(isinstance(rule_options, dict))
+
+        rule_options = self.x.get_rule_options(3)
+        self.assertTrue(isinstance(rule_options, dict))
+
+        # Invalid
+        rule_options = self.x.get_rule_options(-1)
+        self.assertTrue(
+            isinstance(rule_options, dict),
+            'Doesn\'t fail on invalid graph type.')
+
+        rule_options = self.x.get_rule_options(99)
+        self.assertTrue(
+            isinstance(rule_options, dict),
+            'Doesn\'t fail on invalid graph type.')
+
 
 class JXGLineTest(TestCase):
     def setUp(self):
