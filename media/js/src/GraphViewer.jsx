@@ -398,40 +398,6 @@ export default class GraphViewer extends React.Component {
             </div>
         );
     }
-    // When the submission is loaded by the Viewer, see if
-    // this.state.currentFeedback should be updated.
-    componentDidUpdate(prevProps) {
-        if (prevProps.submission !== this.props.submission) {
-            this.loadFeedback(
-                this.props.submission.feedback_unfulfilled,
-                this.props.submission.feedback_fulfilled);
-        }
-    }
-    loadFeedback(unfulfilledFeedback, fulfilledFeedback) {
-        const currentFeedback = [];
-
-        unfulfilledFeedback = unfulfilledFeedback.split(';;');
-        fulfilledFeedback = fulfilledFeedback.split(';;');
-
-        unfulfilledFeedback.forEach(e => {
-            if (e) {
-                currentFeedback.push({
-                    feedback: e,
-                    fulfilled: false
-                });
-            }
-        });
-        fulfilledFeedback.forEach(e => {
-            if (e) {
-                currentFeedback.push({
-                    feedback: e,
-                    fulfilled: true
-                });
-            }
-        });
-
-        this.setState({currentFeedback: currentFeedback});
-    }
     handleSubmit(event) {
         event.preventDefault();
         const assessment = new Assessment(this.props.assessment);
@@ -448,21 +414,8 @@ export default class GraphViewer extends React.Component {
 
             this.setState({score: score});
 
-            // Save the user's feedback on their Submission object to
-            // make it persistent.
-            const fulfilledFeedback = responses
-                .filter(x => x.fulfilled)
-                .map(x => x.feedback)
-                .join(';;');
-            const unfulfilledFeedback = responses
-                .filter(x => !x.fulfilled)
-                .map(x => x.feedback)
-                .join(';;');
-
             getOrCreateSubmission({
                 graph: this.props.gId,
-                feedback_fulfilled: fulfilledFeedback,
-                feedback_unfulfilled: unfulfilledFeedback,
                 score: score
             }).then(function() {
                 form.submit();

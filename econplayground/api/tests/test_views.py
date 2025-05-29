@@ -462,16 +462,12 @@ class SubmissionSetTest(LoggedInTestStudentMixin, APITestCase):
 
         response = self.client.post('/api/submissions/', {
             'graph': self.g2.pk,
-            'feedback_unfulfilled': 'a;;b',
-            'feedback_fulfilled': 'success!',
             'score': 0.6,
         })
         s = Submission.objects.last()
         self.assertEqual(response.status_code, 201)
         self.assertEqual(Submission.objects.count(), 2)
         self.assertEqual(s.score, Decimal('0.6'))
-        self.assertEqual(s.feedback_unfulfilled, 'a;;b')
-        self.assertEqual(s.feedback_fulfilled, 'success!')
 
     def test_create_dup_fail(self):
         response = self.client.post('/api/submissions/', {
