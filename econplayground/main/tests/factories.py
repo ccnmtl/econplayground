@@ -111,8 +111,6 @@ class SubmissionFactory(DjangoModelFactory):
 
     graph = factory.SubFactory(GraphFactory)
     user = factory.SubFactory(UserFactory)
-    feedback_fulfilled = fuzzy.FuzzyText()
-    feedback_unfulfilled = fuzzy.FuzzyText()
     score = fuzzy.FuzzyDecimal(0.0, 1.0)
 
 
