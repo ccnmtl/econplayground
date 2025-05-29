@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as commonmark from 'commonmark';
-import Assessment from './Assessment.js';
 
 import ADASEditor from './editors/ADASEditor.jsx';
 import CobbDouglasEditor from './editors/CobbDouglasEditor.jsx';
@@ -25,12 +24,9 @@ import PositiveExternalityIndustryEditor from
 
 import ExportGraphButton from './buttons/ExportGraphButton.jsx';
 import ResetGraphButton from './buttons/ResetGraphButton.jsx';
-import SubmitButton from './buttons/SubmitButton.jsx';
 import JXGBoard from './JXGBoard.jsx';
 import Feedback from './Feedback.jsx';
-import {
-    forceFloat, getOrCreateSubmission, BOARD_WIDTH, BOARD_HEIGHT
-} from './utils';
+import {BOARD_WIDTH, BOARD_HEIGHT} from './utils';
 import RevenueElasticityEditor from './editors/RevenueElasticityEditor.jsx';
 import TaxRevenueEditor from './editors/TaxRevenueEditor.jsx';
 
@@ -214,7 +210,7 @@ export default class GraphViewer extends React.Component {
                 <div className="GraphViewer">
                     {titleEl}
                     {instructionsEl}
-                    <form onSubmit={this.handleSubmit.bind(this)} action={action} method="post">
+                    <form action={action} method="post">
                         <input type="hidden" name="csrfmiddlewaretoken" value={token} />
                         <input type="hidden" name="score" value={this.state.score} />
                         <input type="hidden" name="next" value={successUrl} />
@@ -228,17 +224,13 @@ export default class GraphViewer extends React.Component {
 
                         {rightSide}
 
+                        <hr />
+
                         <ResetGraphButton
                             initialState={initialState}
                             updateGraph={this.updateGraph} />
 
                         <ExportGraphButton />
-
-                        <SubmitButton
-                            assessment={this.props.assessment}
-                            gNeedsSubmit={this.props.gNeedsSubmit}
-                            submission={this.props.submission}
-                            isInstructor={isInstructor} />
                     </form>
                 </div>
             );
@@ -301,7 +293,7 @@ export default class GraphViewer extends React.Component {
                 <div className="GraphViewer">
                     {titleEl}
                     {instructionsEl}
-                    <form onSubmit={this.handleSubmit.bind(this)} action={action} method="post">
+                    <form action={action} method="post">
                         <input type="hidden" name="csrfmiddlewaretoken" value={token} />
                         <input type="hidden" name="score" value={this.state.score} />
                         <input type="hidden" name="next" value={successUrl} />
@@ -315,17 +307,13 @@ export default class GraphViewer extends React.Component {
 
                         {rightSide}
 
+                        <hr />
+
                         <ResetGraphButton
                             initialState={initialState}
                             updateGraph={this.updateGraph} />
 
                         <ExportGraphButton />
-
-                        <SubmitButton
-                            assessment={this.props.assessment}
-                            gNeedsSubmit={this.props.gNeedsSubmit}
-                            submission={this.props.submission}
-                            isInstructor={isInstructor} />
                     </form>
                 </div>
             );
@@ -363,7 +351,7 @@ export default class GraphViewer extends React.Component {
             <div className="GraphViewer">
                 {titleEl}
                 {instructionsEl}
-                <form onSubmit={this.handleSubmit.bind(this)} action={action} method="post">
+                <form action={action} method="post">
                     <input type="hidden" name="csrfmiddlewaretoken" value={token} />
                     <input type="hidden" name="score" value={this.state.score} />
                     <input type="hidden" name="next" value={successUrl} />
@@ -381,97 +369,18 @@ export default class GraphViewer extends React.Component {
                         <div className="col-lg-6">
                             {rightSide}
 
+                            <hr />
+
                             <ResetGraphButton
                                 initialState={initialState}
                                 updateGraph={this.updateGraph} />
 
                             <ExportGraphButton />
-
-                            <SubmitButton
-                                assessment={this.props.assessment}
-                                gNeedsSubmit={this.props.gNeedsSubmit}
-                                submission={this.props.submission}
-                                isInstructor={isInstructor} />
                         </div>
                     </div>
                 </form>
             </div>
         );
-    }
-    // When the submission is loaded by the Viewer, see if
-    // this.state.currentFeedback should be updated.
-    componentDidUpdate(prevProps) {
-        if (prevProps.submission !== this.props.submission) {
-            this.loadFeedback(
-                this.props.submission.feedback_unfulfilled,
-                this.props.submission.feedback_fulfilled);
-        }
-    }
-    loadFeedback(unfulfilledFeedback, fulfilledFeedback) {
-        const currentFeedback = [];
-
-        unfulfilledFeedback = unfulfilledFeedback.split(';;');
-        fulfilledFeedback = fulfilledFeedback.split(';;');
-
-        unfulfilledFeedback.forEach(e => {
-            if (e) {
-                currentFeedback.push({
-                    feedback: e,
-                    fulfilled: false
-                });
-            }
-        });
-        fulfilledFeedback.forEach(e => {
-            if (e) {
-                currentFeedback.push({
-                    feedback: e,
-                    fulfilled: true
-                });
-            }
-        });
-
-        this.setState({currentFeedback: currentFeedback});
-    }
-    handleSubmit(event) {
-        event.preventDefault();
-        const assessment = new Assessment(this.props.assessment);
-        const responses = assessment.evalState(this.props);
-
-        if (this.props.gNeedsSubmit) {
-            // LTI Assessment graph submitted. Create a Submission
-            // object and submit to Canvas with LTI.
-            const form = event.target;
-
-            // Sum up the scores for all fulfilled rules.
-            const scores = responses.map(x => forceFloat(x.score));
-            const score = scores.reduce((a, b) => a + b, 0);
-
-            this.setState({score: score});
-
-            // Save the user's feedback on their Submission object to
-            // make it persistent.
-            const fulfilledFeedback = responses
-                .filter(x => x.fulfilled)
-                .map(x => x.feedback)
-                .join(';;');
-            const unfulfilledFeedback = responses
-                .filter(x => !x.fulfilled)
-                .map(x => x.feedback)
-                .join(';;');
-
-            getOrCreateSubmission({
-                graph: this.props.gId,
-                feedback_fulfilled: fulfilledFeedback,
-                feedback_unfulfilled: unfulfilledFeedback,
-                score: score
-            }).then(function() {
-                form.submit();
-            });
-        } else {
-            // Practice Assessment submitted. Show feedback
-            // immediately.
-            this.setState({currentFeedback: responses});
-        }
     }
     updateGraph(state) {
         this.setState({currentFeedback: state.currentFeedback});
@@ -484,7 +393,6 @@ GraphViewer.propTypes = {
     gType: PropTypes.number,
     gTitle: PropTypes.string,
     gInstructions: PropTypes.string,
-    gNeedsSubmit: PropTypes.bool,
     gAssignmentType: PropTypes.number.isRequired,
 
     gShowIntersection: PropTypes.bool.isRequired,
@@ -603,7 +511,5 @@ GraphViewer.propTypes = {
     gExpression2: PropTypes.string,
     gExpression3: PropTypes.string,
 
-    assessment: PropTypes.array,
-    submission: PropTypes.object,
     updateGraph: PropTypes.func.isRequired
 };
