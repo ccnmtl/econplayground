@@ -363,6 +363,9 @@ class GraphEmbedPublicMinimalView(
     model = Graph
     template_name = 'main/graph_embed_public_minimal.html'
 
+    def post(self, request, pk):
+        pass
+
 
 class GraphDeleteView(LoginRequiredMixin, CohortInstructorMixin, DeleteView):
     model = Graph

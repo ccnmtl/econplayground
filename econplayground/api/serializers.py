@@ -231,9 +231,7 @@ class SubmissionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Submission
         fields = (
-            'graph', 'score',
-            'feedback_fulfilled', 'feedback_unfulfilled',
-            'created_at',
+            'graph', 'score', 'created_at',
         )
 
 
