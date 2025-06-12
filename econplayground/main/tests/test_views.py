@@ -3,12 +3,15 @@ from django.urls import reverse
 from django.contrib.messages import get_messages
 from econplayground.main.views import MyLTILandingPage, CohortCreateView
 from econplayground.main.tests.factories import (
-    CohortFactory, GraphFactory, SubmissionFactory, TopicFactory
+    CohortFactory, GraphFactory, SubmissionFactory, TopicFactory,
+    AssessmentRuleFactory
 )
 from econplayground.main.tests.mixins import (
     LoggedInTestMixin, LoggedInTestInstructorMixin, LoggedInTestStudentMixin
 )
-from econplayground.main.models import Cohort, Graph, Topic, Submission
+from econplayground.main.models import (
+    Cohort, Graph, Topic, Submission, Assessment
+)
 
 
 class BasicTest(TestCase):
@@ -23,37 +26,57 @@ class BasicTest(TestCase):
 
 
 class GraphDetailViewTest(LoggedInTestMixin, TestCase):
+    def setUp(self):
+        super().setUp()
+        self.graph = GraphFactory()
+
+    def make_assessment(self, graph: Graph) -> Assessment:
+        assessment, _ = Assessment.objects.get_or_create(graph=graph)
+        AssessmentRuleFactory(
+            assessment=assessment,
+            name='line1',
+            value='up',
+            feedback_fulfilled='You moved line 1 up!',
+            feedback_unfulfilled='You didn\'t move line 1 up.')
+
+        return assessment
+
     def test_get(self):
-        g = GraphFactory()
-        r = self.client.get(reverse('graph_detail', kwargs={'pk': g.pk}))
+        r = self.client.get(
+            reverse('graph_detail', kwargs={'pk': self.graph.pk}))
         self.assertEqual(r.status_code, 200)
 
         r = self.client.get(
             reverse('cohort_graph_detail', kwargs={
-                'cohort_pk': g.topic.cohort.pk,
-                'pk': g.pk,
+                'cohort_pk': self.graph.topic.cohort.pk,
+                'pk': self.graph.pk,
             }))
         self.assertEqual(r.status_code, 200)
-        self.assertContains(r, g.title)
-        self.assertContains(r, g.topic.cohort.title)
+        self.assertContains(r, self.graph.title)
+        self.assertContains(r, self.graph.topic.cohort.title)
 
     def test_post(self):
-        g = GraphFactory()
-        r = self.client.post(reverse('graph_detail', kwargs={'pk': g.pk}))
+        self.make_assessment(self.graph)
+
+        r = self.client.post(
+            reverse('graph_detail', kwargs={'pk': self.graph.pk}))
         self.assertEqual(r.status_code, 302)
 
         r = self.client.post(
             reverse('cohort_graph_detail', kwargs={
-                'cohort_pk': g.topic.cohort.pk,
-                'pk': g.pk,
+                'cohort_pk': self.graph.topic.cohort.pk,
+                'pk': self.graph.pk,
             }), follow=True)
         self.assertEqual(r.status_code, 200)
-        self.assertContains(r, g.title)
-        self.assertContains(r, g.topic.cohort.title)
+        self.assertContains(r, self.graph.title)
+        self.assertContains(r, self.graph.topic.cohort.title)
         self.assertContains(r, 'Graph submitted.')
 
         submission = Submission.objects.first()
-        self.assertEqual(submission.graph, g)
+        self.assertEqual(submission.graph, self.graph)
+
+        # TODO
+        # self.assertContains(r, 'You moved line 1 up!')
 
 
 class InstructorGraphDetailViewTest(LoggedInTestInstructorMixin, TestCase):
