@@ -38,8 +38,7 @@ class CohortGraphMixin(object):
                 if graph and graph.topic and graph.topic.cohort:
                     self.cohort = graph.topic.cohort
 
-        return super(CohortGraphMixin, self).dispatch(
-            self.request, *args, **kwargs)
+        return super().dispatch(self.request, *args, **kwargs)
 
 
 class CohortPasswordMixin(object):
@@ -77,7 +76,7 @@ class CohortPasswordMixin(object):
             url = reverse('cohort_password', kwargs={'pk': self.cohort.pk})
             return HttpResponseRedirect(url)
 
-        return super(CohortPasswordMixin, self).dispatch(*args, **kwargs)
+        return super().dispatch(*args, **kwargs)
 
 
 class CohortInstructorMixin(object):
@@ -95,5 +94,4 @@ class CohortInstructorMixin(object):
         if self.request.user not in self.cohort.instructors.all():
             return HttpResponseForbidden()
 
-        return super(CohortInstructorMixin, self).dispatch(
-            self.request, *args, **kwargs)
+        return super().dispatch(self.request, *args, **kwargs)

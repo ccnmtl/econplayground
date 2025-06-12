@@ -22,8 +22,6 @@
     {% if i_am_instructor and assessment_change_url %}
         window.EconPlayground['assessmentUrl'] = '{{ assessment_change_url }}';
     {% endif %}
-
-    window.EconPlayground['LTIPostGrade'] = '{% url 'lti-post-grade' %}';
     </script>
     <script src="{% static 'js/build/vendor.js' %}"></script>
     <script src="{% static 'js/build/viewer.js' %}"></script>
@@ -68,14 +66,23 @@
     {% endif %}
 {% endblock %}
 
-{% block content %}
-    <div id="root">
-        <div class="loader-inner ball-pulse">
-            <div></div>
-            <div></div>
-            <div></div>
+    {% block content %}
+    <form action="." method="post">
+        {% csrf_token %}
+        <div id="root">
+            <div class="loader-inner ball-pulse">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
         </div>
-    </div>
+
+        {% if not i_am_instructor %}
+        <button type="submit" class="btn btn-primary float-end mt-2">
+            Submit
+        </button>
+        {% endif %}
+    </form>
 
     {% if i_am_instructor %}
         <hr />
