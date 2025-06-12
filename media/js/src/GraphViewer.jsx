@@ -47,21 +47,6 @@ export default class GraphViewer extends React.Component {
     }
 
     render() {
-        let action = '';
-        if (window.EconPlayground && window.EconPlayground.LTIPostGrade) {
-            action = window.EconPlayground.LTIPostGrade;
-        }
-
-        let successUrl = '/';
-        if (window.EconPlayground && window.EconPlayground.EmbedSuccess) {
-            successUrl = window.EconPlayground.EmbedSuccess;
-        }
-
-        let launchUrl = '';
-        if (window.EconPlayground && window.EconPlayground.EmbedLaunchUrl) {
-            launchUrl = window.EconPlayground.EmbedLaunchUrl;
-        }
-
         let isInstructor = false;
         if (window.EconPlayground && window.EconPlayground.isInstructor) {
             isInstructor = window.EconPlayground.isInstructor;
@@ -74,12 +59,6 @@ export default class GraphViewer extends React.Component {
         const displaySliders = isInstructor ||
             this.props.gAssignmentType === 0 ||
             this.props.gAssignmentType === 2;
-
-        let token = null;
-        const tokenEl = document.getElementById('csrf-token');
-        if (tokenEl) {
-            token = tokenEl.getAttribute('content');
-        }
 
         let initialState = this.initialState;
 
@@ -210,28 +189,21 @@ export default class GraphViewer extends React.Component {
                 <div className="GraphViewer">
                     {titleEl}
                     {instructionsEl}
-                    <form action={action} method="post">
-                        <input type="hidden" name="csrfmiddlewaretoken" value={token} />
-                        <input type="hidden" name="score" value={this.state.score} />
-                        <input type="hidden" name="next" value={successUrl} />
-                        <input type="hidden" name="launchUrl" value={launchUrl} />
+                    <div className="row">
+                        {leftSide}
+                    </div>
 
-                        <div className="row">
-                            {leftSide}
-                        </div>
+                    <Feedback feedback={this.state.currentFeedback} />
 
-                        <Feedback feedback={this.state.currentFeedback} />
+                    {rightSide}
 
-                        {rightSide}
+                    <hr />
 
-                        <hr />
+                    <ResetGraphButton
+                        initialState={initialState}
+                        updateGraph={this.updateGraph} />
 
-                        <ResetGraphButton
-                            initialState={initialState}
-                            updateGraph={this.updateGraph} />
-
-                        <ExportGraphButton />
-                    </form>
+                    <ExportGraphButton />
                 </div>
             );
         } else if (this.props.gType === 16) {
@@ -293,28 +265,21 @@ export default class GraphViewer extends React.Component {
                 <div className="GraphViewer">
                     {titleEl}
                     {instructionsEl}
-                    <form action={action} method="post">
-                        <input type="hidden" name="csrfmiddlewaretoken" value={token} />
-                        <input type="hidden" name="score" value={this.state.score} />
-                        <input type="hidden" name="next" value={successUrl} />
-                        <input type="hidden" name="launchUrl" value={launchUrl} />
+                    <div className="row">
+                        {leftSide}
+                    </div>
 
-                        <div className="row">
-                            {leftSide}
-                        </div>
+                    <Feedback feedback={this.state.currentFeedback} />
 
-                        <Feedback feedback={this.state.currentFeedback} />
+                    {rightSide}
 
-                        {rightSide}
+                    <hr />
 
-                        <hr />
+                    <ResetGraphButton
+                        initialState={initialState}
+                        updateGraph={this.updateGraph} />
 
-                        <ResetGraphButton
-                            initialState={initialState}
-                            updateGraph={this.updateGraph} />
-
-                        <ExportGraphButton />
-                    </form>
+                    <ExportGraphButton />
                 </div>
             );
         } else if (this.props.gType === 25) {
@@ -351,34 +316,27 @@ export default class GraphViewer extends React.Component {
             <div className="GraphViewer">
                 {titleEl}
                 {instructionsEl}
-                <form action={action} method="post">
-                    <input type="hidden" name="csrfmiddlewaretoken" value={token} />
-                    <input type="hidden" name="score" value={this.state.score} />
-                    <input type="hidden" name="next" value={successUrl} />
-                    <input type="hidden" name="launchUrl" value={launchUrl} />
+                <div className="row">
+                    <div className="col-lg-6">
+                        <div className="sticky-top">
+                            {leftSide}
 
-                    <div className="row">
-                        <div className="col-lg-6">
-                            <div className="sticky-top">
-                                {leftSide}
-
-                                <Feedback feedback={this.state.currentFeedback} />
-                            </div>
-                        </div>
-
-                        <div className="col-lg-6">
-                            {rightSide}
-
-                            <hr />
-
-                            <ResetGraphButton
-                                initialState={initialState}
-                                updateGraph={this.updateGraph} />
-
-                            <ExportGraphButton />
+                            <Feedback feedback={this.state.currentFeedback} />
                         </div>
                     </div>
-                </form>
+
+                    <div className="col-lg-6">
+                        {rightSide}
+
+                        <hr />
+
+                        <ResetGraphButton
+                            initialState={initialState}
+                            updateGraph={this.updateGraph} />
+
+                        <ExportGraphButton />
+                    </div>
+                </div>
             </div>
         );
     }

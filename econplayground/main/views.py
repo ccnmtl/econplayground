@@ -298,7 +298,7 @@ class GraphDetailView(CohortGraphMixin, CohortPasswordMixin, DetailView):
             embed_url)
 
     def get_context_data(self, *args, **kwargs):
-        ctx = super(GraphDetailView, self).get_context_data(*args, **kwargs)
+        ctx = super().get_context_data(*args, **kwargs)
 
         assessment_change_url = None
         if hasattr(self.object, 'assessment') and self.object.assessment and \
@@ -316,16 +316,17 @@ class GraphDetailView(CohortGraphMixin, CohortPasswordMixin, DetailView):
         })
         return ctx
 
-    def post(self, request, pk):
-        return_url = request.POST.get('return_url', '')
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        submission, created = Submission.objects.get_or_create(
+            graph=self.object, user=request.user)
 
-        path = reverse('graph_embed', kwargs={'pk': pk})
-        iframe_url = '{}://{}{}'.format(
-            self.request.scheme, self.request.get_host(), path)
+        if submission:
+            messages.success(request, 'Graph submitted.')
+        else:
+            messages.error(request, 'Graph submission failed.')
 
-        url = '{}?return_type=iframe&width={}&height={}&url={}'.format(
-            return_url, 640, 600, iframe_url)
-        return HttpResponseRedirect(url)
+        return HttpResponseRedirect(request.path)
 
 
 class GraphHelpView(TemplateView):
@@ -362,9 +363,6 @@ class GraphEmbedPublicMinimalView(
         CohortGraphMixin, CohortPasswordMixin, DetailView):
     model = Graph
     template_name = 'main/graph_embed_public_minimal.html'
-
-    def post(self, request, pk):
-        pass
 
 
 class GraphDeleteView(LoginRequiredMixin, CohortInstructorMixin, DeleteView):

@@ -8,7 +8,7 @@ from econplayground.main.tests.factories import (
 from econplayground.main.tests.mixins import (
     LoggedInTestMixin, LoggedInTestInstructorMixin, LoggedInTestStudentMixin
 )
-from econplayground.main.models import Cohort, Graph, Topic
+from econplayground.main.models import Cohort, Graph, Topic, Submission
 
 
 class BasicTest(TestCase):
@@ -36,6 +36,24 @@ class GraphDetailViewTest(LoggedInTestMixin, TestCase):
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, g.title)
         self.assertContains(r, g.topic.cohort.title)
+
+    def test_post(self):
+        g = GraphFactory()
+        r = self.client.post(reverse('graph_detail', kwargs={'pk': g.pk}))
+        self.assertEqual(r.status_code, 302)
+
+        r = self.client.post(
+            reverse('cohort_graph_detail', kwargs={
+                'cohort_pk': g.topic.cohort.pk,
+                'pk': g.pk,
+            }), follow=True)
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, g.title)
+        self.assertContains(r, g.topic.cohort.title)
+        self.assertContains(r, 'Graph submitted.')
+
+        submission = Submission.objects.first()
+        self.assertEqual(submission.graph, g)
 
 
 class InstructorGraphDetailViewTest(LoggedInTestInstructorMixin, TestCase):
