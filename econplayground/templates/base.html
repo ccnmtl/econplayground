@@ -79,109 +79,61 @@
     </aside>
 
     {% block content-container %}
-    <div class="container content-container">
-        {% block navbar %}
+    <div class="d-flex">
+        {% include "sidebar.html" %}
+
+        <div class="container content-container">
+            {% block navbar %}
             <header>
-                <!-- Fixed navbar -->
-                <nav class="navbar navbar-expand-lg navbar-dark">
-                    <div class="container-fluid">
-                        <a class="navbar-brand" href="/" title="EconPractice Home">
-                            <img src="{% static 'img/logo-econpractice.svg' %}" width="200" height="39.78" alt="EconPractice logo" />
-                        </a>
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#navbarCollapse" aria-controls="navbarCollapse"
-                                aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
-                            <ul class="navbar-nav ml-auto">
-                                {% if i_am_instructor %}
-                                    <li class="nav-item">
-                                        <a class="nav-link"
-                                           title="Assignments"
-                                           href="{% url 'assignment_list' %}">
-                                            Assignments
-                                        </a>
-                                    </li>
-                                {% endif %}
-                                <li class="nav-item">
-                                    <a class="nav-link" title="Help" href="/pages/help/">Help</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" title="About" href="/pages/about/">About</a>
-                                </li>
-                                <li class="nav-item">
-                                    {% if request.user.is_anonymous %}
-                                        <a class="nav-link" title="Log In" href="/accounts/login"><span title="Log In">Log In</span></a>
-                                        {% else %}
-                                        <form action="{% url 'logout' %}" method="post">
-                                            {% csrf_token %}
-                                            <button type="submit" class="nav-link" title="Log Out">
-                                                <span title="Log Out">
-                                            {% if user.first_name %}
-                                                {{user.first_name}}
-                                            {% else %}
-                                                {{user.username}}
-                                            {% endif %}
-                                            | Log Out</span>
-                                            </button>
-                                        </form>
-                                    {% endif %}
-                                </li>
-                            </ul>
-                        </div>
-                    </div><!-- end .container-fluid -->
-                </nav>
+                {% block breadcrumb %}{% endblock %}
+                {% block pagetitle %}{% endblock %}
+            </header>
+            {% endblock %}
 
-            {% block breadcrumb %}{% endblock %}
-            {% block pagetitle %}{% endblock %}
-        </header>
-        {% endblock %}
-
-        <!-- Begin page content -->
-        {% for message in messages %}
+            <!-- Begin page content -->
+            {% for message in messages %}
             {% bootstrap_alert message.message|safe alert_type=message|bootstrap_message_alert_type extra_classes=message.extra_tags %}
-        {% endfor %}
+            {% endfor %}
 
-        <main role="main" id="maincontent">
-        {% block content %}
-        {% endblock %}
-        </main>
+            <main role="main" id="maincontent">
+                {% block content %}
+                {% endblock %}
+            </main>
 
+            <footer class="row vstack mb-4">
+                <ul class="nav col-auto mx-auto mt-4">
+                    <li class="nav-item">
+                        <a href="/contact/" title="Contact" class="nav-link text-body-secondary">
+                            Contact</a></li>
+                    <li class="nav-item">
+                        <a href="/credits/" title="Credits" class="nav-link text-body-secondary">
+                            Credits</a></li>
+                </ul>
 
-        <footer class="row vstack mb-4">
-            <ul class="nav col-auto mx-auto mt-4">
-                <li class="nav-item">
-                    <a href="/contact/" title="Contact" class="nav-link text-body-secondary">
-                        Contact</a></li>
-                <li class="nav-item">
-                    <a href="/credits/" title="Credits" class="nav-link text-body-secondary">
-                        Credits</a></li>
-            </ul>
+                <p class="col-auto mx-auto mt-4 text-body-secondary">
+                    Built by <a href="https://www.sipa.columbia.edu/communities-connections/faculty/thomas-groll"
+                                title="Thomas Groll's site">Thomas Groll</a>
+                    and the <a href="https://ctl.columbia.edu"
+                               title="Columbia University Center for Teaching and Learning">
+                        Columbia Center for Teaching and Learning</a>.</p>
 
-            <p class="col-auto mx-auto mt-4 text-body-secondary">
-                Built by <a href="https://www.sipa.columbia.edu/communities-connections/faculty/thomas-groll"
-                    title="Thomas Groll's site">Thomas Groll</a>
-                and the <a href="https://ctl.columbia.edu"
-                    title="Columbia University Center for Teaching and Learning">
-                    Columbia Center for Teaching and Learning</a>.</p>
-
-            <div class="col-auto mx-auto mt-2">
-                <a class="icon-link" href="https://sipa.columbia.edu/"
-                   target="_blank" itemprop="url"
-                   title="School of International and Public Affairs">
-                    <img height="35" src="{% static 'img/logo-sipa.png' %}" alt="SIPA logo" itemprop="logo" />
-                    <span class="visually-hidden" itemprop="name">School of International and Public Affairs</span>
-                </a>
-                <a class="icon-link ms-4" href="https://ctl.columbia.edu"
-                   title="Columbia University Center for Teaching and Learning"
-                   target="_blank" itemprop="url">
-                    <img height="35" src="{% static 'img/logo-ctl.png' %}" alt="CTL logo" itemprop="logo" />
-                    <span class="visually-hidden" itemprop="name">Center for Teaching and Learning at Columbia University</span>
-                </a>
-            </div>
-        </footer>
-    </div><!-- end .content-container -->
+                <div class="col-auto mx-auto mt-2">
+                    <a class="icon-link" href="https://sipa.columbia.edu/"
+                       target="_blank" itemprop="url"
+                       title="School of International and Public Affairs">
+                        <img height="35" src="{% static 'img/logo-sipa.png' %}" alt="SIPA logo" itemprop="logo" />
+                        <span class="visually-hidden" itemprop="name">School of International and Public Affairs</span>
+                    </a>
+                    <a class="icon-link ms-4" href="https://ctl.columbia.edu"
+                       title="Columbia University Center for Teaching and Learning"
+                       target="_blank" itemprop="url">
+                        <img height="35" src="{% static 'img/logo-ctl.png' %}" alt="CTL logo" itemprop="logo" />
+                        <span class="visually-hidden" itemprop="name">Center for Teaching and Learning at Columbia University</span>
+                    </a>
+                </div>
+            </footer>
+        </div><!-- end .content-container -->
+    </div>
     {% endblock %}
 
     <script>

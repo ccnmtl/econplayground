@@ -1,0 +1,49 @@
+{% load static econ_auth %}
+
+{% user_is_instructor request.user as i_am_instructor %}
+<div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark econpractice-sidebar"
+     style="width: 180px;">
+    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+        <!-- <svg class="bi pe-none me-2" width="40" height="32" aria-hidden="true"><use xlink:href="#bootstrap"></use></svg> -->
+        <span class="fs-4">EconPractice</span>
+    </a>
+    <hr />
+    <ul class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item">
+            <a href="#" class="nav-link text-white">
+                <i class="bi bi-person-raised-hand"></i>
+                Hi, {% firstof request.user.first_name request.user.username %}!
+            </a>
+        </li>
+        <li>
+            <a href="/" class="nav-link text-white">
+                <i class="bi bi-bookshelf"></i>
+                Courses
+            </a>
+        </li>
+        <li>
+            <a href="/assignments/" class="nav-link text-white">
+                <i class="bi bi-book-half"></i>
+                Assignments
+            </a>
+        </li>
+    </ul>
+
+    <ul class="nav nav-pills flex-column">
+        <li class="nav-item">
+            {% if request.user.is_anonymous %}
+            <a class="nav-link text-white" title="Log In" href="/accounts/login">
+                <span title="Log In">Log In</span>
+            </a>
+            {% else %}
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="nav-link text-white" title="Log Out">
+                    <i class="bi bi-box-arrow-left"></i>
+                    <span title="Log Out">Log Out</span>
+                </button>
+            </form>
+            {% endif %}
+        </li>
+    </ul>
+</div>

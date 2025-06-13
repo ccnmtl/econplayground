@@ -36,3 +36,16 @@ figure#editing-graph {
 .ep-text-green {
     color: darkgreen;
 }
+
+.econpractice-sidebar {
+    background-color: #0e48a1 !important;
+    height: 100vh;
+    max-height: 100vh;
+    overflow-x: auto;
+    overflow-y: hidden;
+    position: fixed;
+}
+
+.content-container {
+    margin-left: 180px;
+}
