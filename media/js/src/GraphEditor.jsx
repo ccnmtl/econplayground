@@ -117,7 +117,7 @@ export default class GraphEditor extends React.Component {
             <>
                 {jxgBoard}
 
-                <div className="col-lg-6">
+                <div className="col-xl-6">
                     <h3>Scenario</h3>
                     <div className="form-group">
                         <label htmlFor="gTitle">
@@ -167,7 +167,7 @@ export default class GraphEditor extends React.Component {
                     <form>
                         <div className="row">
                             {common2Graph}
-                            <div className="col-lg-6">
+                            <div className="col-xl-6">
                                 <DemandSupplyEditor
                                     showAUC={this.props.gType === 9}
                                     {...commonEditorProps}
@@ -191,7 +191,7 @@ export default class GraphEditor extends React.Component {
                     <form>
                         <div className="row">
                             {common2Graph}
-                            <div className="col-lg-6">
+                            <div className="col-xl-6">
                                 <NonLinearDemandSupplyEditor
                                     hideFunctionChoice={true}
                                     showAUC={this.props.gType === 10}
@@ -310,7 +310,7 @@ export default class GraphEditor extends React.Component {
                     <form>
                         <div className="row">
                             {common2Graph}
-                            <div className="col-lg-6">
+                            <div className="col-xl-6">
                                 <TaxRevenueEditor
                                     showAUC={this.props.gType === 9}
                                     {...commonEditorProps}
@@ -365,7 +365,7 @@ export default class GraphEditor extends React.Component {
                 {this.title()}
                 <form>
                     <div className="row">
-                        <div className="col-lg-6">
+                        <div className="col-xl-6">
                             <div className="sticky-top">
                                 <h3>Scenario</h3>
                                 <div className="form-group">
@@ -401,7 +401,7 @@ export default class GraphEditor extends React.Component {
                                 }
                             </div>
                         </div>
-                        <div className="col-lg-6">
+                        <div className="col-xl-6">
                             <CommonGraphSettings
                                 {...this.props}
                                 enableIntersectionToggle={hasIntersection}

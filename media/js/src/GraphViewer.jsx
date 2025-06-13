@@ -317,7 +317,7 @@ export default class GraphViewer extends React.Component {
                 {titleEl}
                 {instructionsEl}
                 <div className="row">
-                    <div className="col-lg-6">
+                    <div className="col-xl-6">
                         <div className="sticky-top">
                             {leftSide}
 
@@ -325,7 +325,7 @@ export default class GraphViewer extends React.Component {
                         </div>
                     </div>
 
-                    <div className="col-lg-6">
+                    <div className="col-xl-6">
                         {rightSide}
 
                         <hr />
