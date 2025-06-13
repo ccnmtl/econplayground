@@ -67,7 +67,7 @@
 {% endblock %}
 
     {% block content %}
-    <form action="." method="post">
+    <form id="graph-form" action="." method="post">
         {% csrf_token %}
         <div id="root">
             <div class="loader-inner ball-pulse">

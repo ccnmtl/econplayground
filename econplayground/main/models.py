@@ -486,6 +486,13 @@ class Assessment(models.Model):
     def __str__(self):
         return 'Assessment for: {}'.format(self.graph.title)
 
+    def evaluate_action(self, name: str, value: str) -> tuple[bool, str]:
+        for rule in self.assessmentrule_set.all():
+            if name == rule.name and value == rule.value:
+                return True, rule.feedback_fulfilled
+            else:
+                return False, rule.feedback_unfulfilled
+
 
 @receiver(post_save, sender=Graph)
 def create_assessment(sender, instance, created, **kwargs):

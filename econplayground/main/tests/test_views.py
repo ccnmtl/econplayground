@@ -66,7 +66,9 @@ class GraphDetailViewTest(LoggedInTestMixin, TestCase):
             reverse('cohort_graph_detail', kwargs={
                 'cohort_pk': self.graph.topic.cohort.pk,
                 'pk': self.graph.pk,
-            }), follow=True)
+            }), {
+                'line1': 'up',
+            }, follow=True)
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, self.graph.title)
         self.assertContains(r, self.graph.topic.cohort.title)
@@ -75,8 +77,7 @@ class GraphDetailViewTest(LoggedInTestMixin, TestCase):
         submission = Submission.objects.first()
         self.assertEqual(submission.graph, self.graph)
 
-        # TODO
-        # self.assertContains(r, 'You moved line 1 up!')
+        self.assertContains(r, 'You moved line 1 up!')
 
 
 class InstructorGraphDetailViewTest(LoggedInTestInstructorMixin, TestCase):

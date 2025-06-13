@@ -318,11 +318,32 @@ class GraphDetailView(CohortGraphMixin, CohortPasswordMixin, DetailView):
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
+        assessment = self.object.assessment
+        if not assessment:
+            messages.info(
+                request, 'This graph has no assessment rules defined.')
+            return HttpResponseRedirect(request.path)
+
+        # Find actions that the user has made
+        is_correct = None
+        feedback = None
+        line1 = request.POST.get('line1')
+        if line1:
+            is_correct, feedback = assessment.evaluate_action('line1', line1)
+
+        line2 = request.POST.get('line2')
+        if line2:
+            is_correct, feedback = assessment.evaluate_action('line2', line2)
+
         submission, created = Submission.objects.get_or_create(
             graph=self.object, user=request.user)
 
         if submission:
             messages.success(request, 'Graph submitted.')
+            if is_correct:
+                messages.success(request, feedback)
+            else:
+                messages.error(request, feedback)
         else:
             messages.error(request, 'Graph submission failed.')
 
