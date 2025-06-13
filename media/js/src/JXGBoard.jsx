@@ -715,7 +715,7 @@ export default class JXGBoard extends React.Component {
     // The primary HTML structure for JSXGraph
     makeFigure(id, hide, math) {
         return (
-            <div className="col-lg-6" hidden={hide}>
+            <div className="col-xl-6" hidden={hide}>
                 <figure
                     aria-label="The EconPractice graph."
                     id={id}
