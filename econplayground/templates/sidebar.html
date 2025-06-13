@@ -9,12 +9,15 @@
     </a>
     <hr />
     <ul class="nav nav-pills flex-column mb-auto">
+        {% if request.user and not request.user.is_anonymous %}
         <li class="nav-item">
             <a href="#" class="nav-link text-white">
                 <i class="bi bi-person-raised-hand"></i>
                 Hi, {% firstof request.user.first_name request.user.username %}!
             </a>
         </li>
+        {% endif %}
+
         <li>
             <a href="/" class="nav-link text-white">
                 <i class="bi bi-bookshelf"></i>
