@@ -29,7 +29,7 @@ from econplayground.main.mixins import (
     CohortInstructorMixin
 )
 from econplayground.main.models import (
-    Cohort, Graph, Submission, Topic
+    Assessment, Cohort, Graph, Submission, Topic
 )
 from econplayground.main.utils import user_is_instructor, get_graph_name
 
@@ -316,6 +316,28 @@ class GraphDetailView(CohortGraphMixin, CohortPasswordMixin, DetailView):
         })
         return ctx
 
+    @staticmethod
+    def evaluate_action(
+            request, assessment: Assessment,
+            name: str, value: str) -> bool:
+        """
+        Evaluate the given action on the Assessment and generate
+        feedback alerts as a side effect.
+
+        Returns an is_correct boolean.
+        """
+        if name is None:
+            return None
+
+        is_correct, feedback = assessment.evaluate_action(name, value)
+        # Generate feedback alert for this action.
+        if is_correct is True:
+            messages.success(request, feedback)
+        elif is_correct is False:
+            messages.error(request, feedback)
+
+        return is_correct
+
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         assessment = self.object.assessment
@@ -325,25 +347,22 @@ class GraphDetailView(CohortGraphMixin, CohortPasswordMixin, DetailView):
             return HttpResponseRedirect(request.path)
 
         # Find actions that the user has made
-        is_correct = None
-        feedback = None
-        line1 = request.POST.get('line1')
-        if line1:
-            is_correct, feedback = assessment.evaluate_action('line1', line1)
-
-        line2 = request.POST.get('line2')
-        if line2:
-            is_correct, feedback = assessment.evaluate_action('line2', line2)
+        line1_action_value = request.POST.get('line1')
+        line2_action_value = request.POST.get('line2')
+        action_results = [
+            GraphDetailView.evaluate_action(
+                request, assessment, 'line1', line1_action_value),
+            GraphDetailView.evaluate_action(
+                request, assessment, 'line2', line2_action_value),
+        ]
 
         submission, created = Submission.objects.get_or_create(
             graph=self.object, user=request.user)
+        submission.score = action_results.count(True)
+        submission.save()
 
         if submission:
             messages.success(request, 'Graph submitted.')
-            if is_correct:
-                messages.success(request, feedback)
-            else:
-                messages.error(request, feedback)
         else:
             messages.error(request, 'Graph submission failed.')
 

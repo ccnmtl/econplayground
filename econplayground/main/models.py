@@ -488,10 +488,14 @@ class Assessment(models.Model):
 
     def evaluate_action(self, name: str, value: str) -> tuple[bool, str]:
         for rule in self.assessmentrule_set.all():
-            if name == rule.name and value == rule.value:
-                return True, rule.feedback_fulfilled
-            else:
-                return False, rule.feedback_unfulfilled
+            if name == rule.name:
+                if value == rule.value:
+                    return True, rule.feedback_fulfilled
+                else:
+                    return False, rule.feedback_unfulfilled
+
+        # No matching rules found.
+        return None, None
 
 
 @receiver(post_save, sender=Graph)
