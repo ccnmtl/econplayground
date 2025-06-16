@@ -33,7 +33,7 @@
     color: darkgreen;
 }
 
-.econpractice-sidebar {
+div.econpractice-sidebar {
     background-color: #0e48a1 !important;
     height: 100vh;
     max-height: 100vh;
@@ -42,6 +42,6 @@
     position: fixed;
 }
 
-.content-container {
+div.content-container {
     margin-left: 180px;
 }
