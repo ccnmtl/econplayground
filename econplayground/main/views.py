@@ -347,13 +347,16 @@ class GraphDetailView(CohortGraphMixin, CohortPasswordMixin, DetailView):
             return HttpResponseRedirect(request.path)
 
         # Find actions that the user has made
-        line1_action_value = request.POST.get('line1')
-        line2_action_value = request.POST.get('line2')
         action_results = [
             GraphDetailView.evaluate_action(
-                request, assessment, 'line1', line1_action_value),
+                request, assessment, 'line1', request.POST.get('line1')),
             GraphDetailView.evaluate_action(
-                request, assessment, 'line2', line2_action_value),
+                request, assessment, 'line2', request.POST.get('line2')),
+
+            # TODO: build out dynamic rule finder based on graph type
+            # for these rules.
+            GraphDetailView.evaluate_action(
+                request, assessment, 'a1 label', request.POST.get('a1 label')),
         ]
 
         submission, created = Submission.objects.get_or_create(
