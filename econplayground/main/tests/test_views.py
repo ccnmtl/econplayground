@@ -59,10 +59,6 @@ class GraphDetailViewTest(LoggedInTestMixin, TestCase):
         self.make_assessment(self.graph)
 
         r = self.client.post(
-            reverse('graph_detail', kwargs={'pk': self.graph.pk}))
-        self.assertEqual(r.status_code, 302)
-
-        r = self.client.post(
             reverse('cohort_graph_detail', kwargs={
                 'cohort_pk': self.graph.topic.cohort.pk,
                 'pk': self.graph.pk,
@@ -74,10 +70,46 @@ class GraphDetailViewTest(LoggedInTestMixin, TestCase):
         self.assertContains(r, self.graph.topic.cohort.title)
         self.assertContains(r, 'Graph submitted.')
 
-        submission = Submission.objects.first()
+        submission = Submission.objects.last()
         self.assertEqual(submission.graph, self.graph)
 
         self.assertContains(r, 'You moved line 1 up!')
+        self.assertNotContains(r, 'You didn\'t move line 1 up.')
+
+        r = self.client.post(
+            reverse('cohort_graph_detail', kwargs={
+                'cohort_pk': self.graph.topic.cohort.pk,
+                'pk': self.graph.pk,
+            }), {
+                'line1': 'down',
+            }, follow=True)
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, self.graph.title)
+        self.assertContains(r, self.graph.topic.cohort.title)
+        self.assertContains(r, 'Graph submitted.')
+
+        submission = Submission.objects.last()
+        self.assertEqual(submission.graph, self.graph)
+
+        self.assertNotContains(r, 'You moved line 1 up!')
+        self.assertContains(r, 'You didn\'t move line 1 up.')
+
+        # No user action
+        r = self.client.post(
+            reverse('cohort_graph_detail', kwargs={
+                'cohort_pk': self.graph.topic.cohort.pk,
+                'pk': self.graph.pk,
+            }), follow=True)
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, self.graph.title)
+        self.assertContains(r, self.graph.topic.cohort.title)
+        self.assertContains(r, 'Graph submitted.')
+
+        submission = Submission.objects.last()
+        self.assertEqual(submission.graph, self.graph)
+
+        self.assertNotContains(r, 'You moved line 1 up!')
+        self.assertContains(r, 'You didn\'t move line 1 up.')
 
 
 class InstructorGraphDetailViewTest(LoggedInTestInstructorMixin, TestCase):
