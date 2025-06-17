@@ -90,9 +90,13 @@ class TopicAdmin(OrderedModelAdmin):
         )
 
 
+class SubmissionAdmin(admin.ModelAdmin):
+    list_display = ('graph', 'user', 'score', 'created_at', 'updated_at')
+
+
 admin.site.register(Cohort)
 admin.site.register(Graph, GraphAdmin)
 admin.site.register(FeaturedGraph, FeaturedGraphAdmin)
 admin.site.register(Assessment, AssessmentAdmin)
 admin.site.register(Topic, TopicAdmin)
-admin.site.register(Submission)
+admin.site.register(Submission, SubmissionAdmin)
