@@ -30,14 +30,20 @@ class GraphDetailViewTest(LoggedInTestMixin, TestCase):
         super().setUp()
         self.graph = GraphFactory()
 
-    def make_assessment(self, graph: Graph) -> Assessment:
+    def make_assessment(
+            self, graph: Graph,
+            name: str = 'line1',
+            value: str = 'up',
+            feedback_fulfilled: str = 'You moved line 1 up!',
+            feedback_unfulfilled: str = 'You didn\'t move line 1 up.',
+    ) -> Assessment:
         assessment, _ = Assessment.objects.get_or_create(graph=graph)
         AssessmentRuleFactory(
             assessment=assessment,
-            name='line1',
-            value='up',
-            feedback_fulfilled='You moved line 1 up!',
-            feedback_unfulfilled='You didn\'t move line 1 up.')
+            name=name,
+            value=value,
+            feedback_fulfilled=feedback_fulfilled,
+            feedback_unfulfilled=feedback_unfulfilled)
 
         return assessment
 
@@ -110,6 +116,32 @@ class GraphDetailViewTest(LoggedInTestMixin, TestCase):
 
         self.assertNotContains(r, 'You moved line 1 up!')
         self.assertContains(r, 'You didn\'t move line 1 up.')
+
+    def test_post_exact_value_assessment(self):
+        self.make_assessment(
+            self.graph,
+            'a1 label', 'Demand',
+            'You labeled Demand correctly.',
+            'You didn\'t label Demand.'
+        )
+
+        r = self.client.post(
+            reverse('cohort_graph_detail', kwargs={
+                'cohort_pk': self.graph.topic.cohort.pk,
+                'pk': self.graph.pk,
+            }), {
+                'a1 label': 'Demand',
+            }, follow=True)
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, self.graph.title)
+        self.assertContains(r, self.graph.topic.cohort.title)
+        self.assertContains(r, 'Graph submitted.')
+
+        submission = Submission.objects.last()
+        self.assertEqual(submission.graph, self.graph)
+
+        self.assertContains(r, 'You labeled Demand correctly')
+        self.assertNotContains(r, 'You didn\'t label Demand.')
 
 
 class InstructorGraphDetailViewTest(LoggedInTestInstructorMixin, TestCase):
