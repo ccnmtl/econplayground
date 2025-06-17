@@ -359,10 +359,12 @@ class GraphDetailView(CohortGraphMixin, CohortPasswordMixin, DetailView):
                 request, assessment, 'a1 label', request.POST.get('a1 label')),
         ]
 
-        submission, created = Submission.objects.get_or_create(
-            graph=self.object, user=request.user)
-        submission.score = action_results.count(True)
-        submission.save()
+        submission = None
+        if request.user and not request.user.is_anonymous:
+            submission, created = Submission.objects.get_or_create(
+                graph=self.object, user=request.user)
+            submission.score = action_results.count(True)
+            submission.save()
 
         if submission:
             messages.success(request, 'Graph submitted.')
