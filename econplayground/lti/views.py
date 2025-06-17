@@ -53,7 +53,7 @@ class JSONConfigView(View):
                 {
                     'domain': domain,
                     'tool_id': 'econpractice',
-                    'platform': 'canvas.ctl.columbia.edu',
+                    'platform': 'columbiasce.test.instructure.com',
                     'privacy_level': 'public',
                     'settings': {
                         'text': 'Launch ' + title,
