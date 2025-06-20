@@ -190,9 +190,55 @@ class Graph8(BaseGraph):
 class Graph9(BaseGraph):
     graph_type = 9
 
+    @classmethod
+    def get_rule_options(cls) -> dict:
+        rules = super().get_rule_options()
+        rules.update({
+            'area_a_name': 'A',
+            'area_b_name': 'B',
+            'area_c_name': 'C',
+        })
+
 
 class Graph10(BaseGraph):
     graph_type = 10
+
+    @classmethod
+    def get_rule_options(cls) -> dict:
+        return {
+            'line1': {
+                'name': 'Orange line',
+                'possible_values': cls.line_actions,
+            },
+
+            'line2': {
+                'name': 'Blue line',
+                'possible_values': cls.line_actions,
+            },
+
+            'line1 label': 'Orange line label',
+            'line2 label': 'Blue line label',
+            'intersectionLabel': 'Intersection label',
+            'intersectionHorizLineLabel':
+                'Orange-Blue intersection horizontal label',
+            'intersectionVertLineLabel':
+                'Orange-Blue intersection vertical label',
+            'area_a_name': 'A',
+            'area_b_name': 'B',
+            'area_c_name': 'C',
+            'a1': {
+                'name': 'A',
+                'possible_values': cls.variable_actions,
+            },
+            'a2': {
+                'name': 'K',
+                'possible_values': cls.variable_actions,
+            },
+            'a3': {
+                'name': 'N',
+                'possible_values': cls.variable_actions,
+            },
+        }
 
 
 class Graph11(BaseGraph):
@@ -252,13 +298,105 @@ class Graph15(BaseGraph):
 class Graph12(BaseGraph):
     graph_type = 12
 
+    @classmethod
+    def get_rule_options(cls) -> dict:
+        return {
+            'line1': {
+                'name': 'Orange line',
+                'possible_values': cls.line_actions,
+            },
+
+            'line2': {
+                'name': 'Blue line',
+                'possible_values': cls.line_actions,
+            },
+
+            'line1 label': 'Orange line label',
+            'line2 label': 'Blue line label',
+            'intersectionLabel': 'Intersection label',
+            'intersectionHorizLineLabel':
+                'Orange-Blue intersection horizontal label',
+            'intersectionVertLineLabel':
+                'Orange-Blue intersection vertical label',
+            'a1': {
+                'name': 'A',
+                'possible_values': cls.variable_actions,
+            },
+            'a2': {
+                'name': 'K',
+                'possible_values': cls.variable_actions,
+            },
+            'a3': {
+                'name': 'N',
+                'possible_values': cls.variable_actions,
+            },
+        }
+
 
 class Graph13(BaseGraph):
     graph_type = 13
 
+    @classmethod
+    def get_rule_options(cls) -> dict:
+        rules = super().get_rule_options()
+        rules.update({
+            'line3': {
+                'name': 'Right Graph: Orange line',
+                'possible_values': cls.line_actions,
+            },
+
+            'line4': {
+                'name': 'Right Graph: Blue line',
+                'possible_values': cls.line_actions,
+            },
+            'line3 label': 'Orange line label',
+            'line4 label': 'Blue line label',
+            'intersection2Label': 'Intersection label',
+            'intersection2HorizLineLabel':
+                'Orange-Blue intersection horizontal label',
+            'intersection2VertLineLabel':
+                'Orange-Blue intersection vertical label',
+            'x-axis-2 label': 'X-axis label',
+            'y-axis-2 label': 'Y-axis label',
+        })
+
 
 class Graph14(BaseGraph):
     graph_type = 14
+
+    @classmethod
+    def get_rule_options(cls) -> dict:
+        return {
+            'line1': {
+                'name': 'Orange line',
+                'possible_values': cls.line_actions,
+            },
+
+            'line2': {
+                'name': 'Blue line',
+                'possible_values': cls.line_actions,
+            },
+
+            'line1 label': 'Orange line label',
+            'line2 label': 'Blue line label',
+            'intersectionLabel': 'Intersection label',
+            'intersectionHorizLineLabel':
+                'Orange-Blue intersection horizontal label',
+            'intersectionVertLineLabel':
+                'Orange-Blue intersection vertical label',
+            'a1': {
+                'name': 'A',
+                'possible_values': cls.variable_actions,
+            },
+            'a2': {
+                'name': 'K',
+                'possible_values': cls.variable_actions,
+            },
+            'a3': {
+                'name': 'N',
+                'possible_values': cls.variable_actions,
+            },
+        }
 
 
 class Graph16(BaseGraph):
@@ -334,6 +472,27 @@ class Graph21(BaseGraph):
 class Graph22(BaseGraph):
     graph_type = 22
 
+    @classmethod
+    def get_rule_options(cls) -> dict:
+        return {
+            'a1': {
+                'name': 'Choke Price',
+                'possible_values': cls.variable_actions,
+            },
+            'a2': {
+                'name': 'Demand Slope',
+                'possible_values': cls.variable_actions,
+            },
+            'a3': {
+                'name': 'Reservation Price',
+                'possible_values': cls.variable_actions,
+            },
+            'a4': {
+                'name': 'Supply Slope',
+                'possible_values': cls.variable_actions,
+            },
+        }
+
 
 class Graph23(BaseGraph):
     graph_type = 23
@@ -366,6 +525,31 @@ class Graph23(BaseGraph):
 
 class Graph24(BaseGraph):
     graph_type = 24
+
+    @classmethod
+    def get_rule_options(cls) -> dict:
+        return {
+            'a1': {
+                'name': 'Choke Price',
+                'possible_values': cls.variable_actions,
+            },
+            'a2': {
+                'name': 'Demand Slope',
+                'possible_values': cls.variable_actions,
+            },
+            'a3': {
+                'name': 'Reservation Price',
+                'possible_values': cls.variable_actions,
+            },
+            'a4': {
+                'name': 'Supply Slope',
+                'possible_values': cls.variable_actions,
+            },
+            'a5': {
+                'name': 'Unit Tax',
+                'possible_values': cls.variable_actions,
+            },
+        }
 
 
 class Graph25(BaseGraph):
