@@ -83,40 +83,40 @@ class Viewer extends Component {
         });
     }
 
+    // Clear current graph actions
+    clearActions() {
+        window.jQuery('.econpractice-action').remove();
+    }
+
     componentDidMount() {
         // Load graph and submission data
         const me = this;
 
         // Add graph feedback event handlers
-        document.addEventListener('l1up', function() {
-            // Append this action to form
-            window.jQuery('<input>', {
-                'name': 'line1',
-                'value': 'up',
-                'type': 'hidden'
-            }).appendTo('form#graph-form');
+        [1, 2, 3, 4, 5].forEach((lineNumber) => {
+            document.addEventListener(`l${lineNumber}up`, function() {
+                me.clearActions();
+
+                // Append this action to form
+                window.jQuery('<input>', {
+                    'name': 'line' + lineNumber,
+                    'class': 'econpractice-action',
+                    'value': 'up',
+                    'type': 'hidden'
+                }).appendTo('form#graph-form');
+            });
+            document.addEventListener(`l${lineNumber}down`, function() {
+                me.clearActions();
+
+                window.jQuery('<input>', {
+                    'name': 'line' + lineNumber,
+                    'class': 'econpractice-action',
+                    'value': 'down',
+                    'type': 'hidden'
+                }).appendTo('form#graph-form');
+            });
         });
-        document.addEventListener('l1down', function() {
-            window.jQuery('<input>', {
-                'name': 'line1',
-                'value': 'down',
-                'type': 'hidden'
-            }).appendTo('form#graph-form');
-        });
-        document.addEventListener('l2up', function() {
-            window.jQuery('<input>', {
-                'name': 'line2',
-                'value': 'up',
-                'type': 'hidden'
-            }).appendTo('form#graph-form');
-        });
-        document.addEventListener('l2down', function() {
-            window.jQuery('<input>', {
-                'name': 'line2',
-                'value': 'down',
-                'type': 'hidden'
-            }).appendTo('form#graph-form');
-        });
+
         document.addEventListener('l1initial', function() {
         });
         document.addEventListener('l2initial', function() {
