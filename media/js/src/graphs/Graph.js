@@ -172,95 +172,61 @@ export class Graph {
             2.5 + this.options.gLine2OffsetY +
                 this.options.gLine2Slope]);
     }
+
+    /**
+     * Set up line events for the given line.
+     */
+    setupLineEvents(lineNumber) {
+        const line = this['l' + lineNumber];
+
+        if (
+            line &&
+                !this.options.locked &&
+                typeof line.getRise === 'function' &&
+                !this.options.isSubmitted
+        ) {
+            this[`initialL${lineNumber}Y`] = line.getRise();
+            const me = this;
+
+            line.on('up', function() {
+                // Only do this line reset functionality if this
+                // is a submittable graph. Otherwise, students
+                // should be able to play freely.
+                // if (!window.EconPlayground.isInstructor && me.options.gNeedsSubmit) {
+                //     me.resetLine2();
+                // }
+
+                if (this.getRise() > me[`initialL${lineNumber}Y`]) {
+                    document.dispatchEvent(new Event(`l${lineNumber}up`));
+                } else if (this.getRise() < me[`initialL${lineNumber}Y`]) {
+                    document.dispatchEvent(new Event(`l${lineNumber}down`));
+                } else {
+                    document.dispatchEvent(new Event(`l${lineNumber}initial`));
+                }
+
+                const offset = getOffset(
+                    line.getSlope(), line.getRise(), 2.5);
+
+                const offsetEvt = new CustomEvent(`l${lineNumber}offset`, {
+                    detail: {
+                        x: 0,
+                        y: offset,
+                        line: lineNumber
+                    }
+                });
+                document.dispatchEvent(offsetEvt);
+            });
+        }
+    }
+
     /**
      * Handle common initialization that happens after the custom
      * make() step.
      */
     postMake() {
-        const me = this;
-
-        if (
-            this.l1 &&
-                !this.options.locked &&
-                typeof this.l1.getRise === 'function' &&
-                !this.options.isSubmitted
-        ) {
-            this.initialL1Y = this.l1.getRise();
-
-            this.l1.on('up', function() {
-                // Only do this line reset functionality if this
-                // is a submittable graph. Otherwise, students
-                // should be able to play freely.
-                if (!window.EconPlayground.isInstructor && me.options.gNeedsSubmit) {
-                    me.resetLine2();
-                }
-
-                if (this.getRise() > me.initialL1Y) {
-                    document.dispatchEvent(new Event('l1up'));
-                } else if (this.getRise() < me.initialL1Y) {
-                    document.dispatchEvent(new Event('l1down'));
-                } else {
-                    document.dispatchEvent(new Event('l1initial'));
-                }
-
-                const offset = getOffset(
-                    me.l1.getSlope(), me.l1.getRise(), 2.5);
-
-                let line = 1;
-                if (me.options.isBoard2) {
-                    line += 2;
-                }
-                const offsetEvt = new CustomEvent('l1offset', {
-                    detail: {
-                        x: 0,
-                        y: offset,
-                        line: line
-                    }
-                });
-                document.dispatchEvent(offsetEvt);
-            });
-        }
-
-        if (
-            this.l2 &&
-                !this.options.locked &&
-                typeof this.l2.getRise === 'function' &&
-                !this.options.isSubmitted
-        ) {
-            this.initialL2Y = this.l2.getRise();
-
-            this.l2.on('up', function() {
-                // Only do this line reset functionality if this
-                // is a submittable graph. Otherwise, students
-                // should be able to play freely.
-                if (!window.EconPlayground.isInstructor && me.options.gNeedsSubmit) {
-                    me.resetLine1();
-                }
-
-                if (this.getRise() > me.initialL2Y) {
-                    document.dispatchEvent(new Event('l2up'));
-                } else if (this.getRise() < me.initialL2Y) {
-                    document.dispatchEvent(new Event('l2down'));
-                } else {
-                    document.dispatchEvent(new Event('l2initial'));
-                }
-
-                const offset = getOffset(
-                    me.l2.getSlope(), me.l2.getRise(), 2.5);
-                let line = 2;
-                if (me.options.isBoard2) {
-                    line += 2;
-                }
-                const offsetEvt = new CustomEvent('l2offset', {
-                    detail: {
-                        x: 0,
-                        y: offset,
-                        line: line
-                    }
-                });
-                document.dispatchEvent(offsetEvt);
-            });
-        }
+        [1, 2, 3, 4, 5].forEach((lineNumber) => {
+            this.setupLineEvents(lineNumber);
+        });
     }
     /**
      * Updates the intersection point at i.
