@@ -1,14 +1,14 @@
 from decimal import Decimal
 from rest_framework.test import APITestCase
 from econplayground.main.models import (
-    Graph, JXGLine, JXGLineTransformation, Submission
+    Graph, JXGLine, JXGLineTransformation
 )
 from econplayground.main.tests.mixins import (
     LoggedInTestMixin, LoggedInTestInstructorMixin, LoggedInTestStudentMixin
 )
 from econplayground.main.tests.factories import (
     GraphFactory, JXGLineFactory, JXGLineTransformationFactory,
-    SubmissionFactory, UserFactory, TopicFactory
+    UserFactory, TopicFactory
 )
 from econplayground.assignment.tests.factories import (
     QuestionFactory, AssessmentRuleFactory
@@ -439,82 +439,6 @@ class GraphViewSetTest(LoggedInTestMixin, APITestCase):
 
         self.assertEqual(response.status_code, 204)
         self.assertEqual(Graph.objects.count(), 0)
-
-
-class SubmissionSetTest(LoggedInTestStudentMixin, APITestCase):
-    """Test the submission API as a student.
-
-    Instructors have access to all students' submissions.
-    """
-    def setUp(self):
-        super(SubmissionSetTest, self).setUp()
-        self.g = GraphFactory()
-        self.g2 = GraphFactory()
-
-    def test_create(self):
-        response = self.client.post('/api/submissions/', {
-            'graph': self.g.pk,
-            'score': 0.8,
-        })
-        self.assertEqual(response.status_code, 201)
-        self.assertEqual(Submission.objects.count(), 1)
-        self.assertEqual(Submission.objects.first().score, Decimal('0.8'))
-
-        response = self.client.post('/api/submissions/', {
-            'graph': self.g2.pk,
-            'score': 0.6,
-        })
-        s = Submission.objects.last()
-        self.assertEqual(response.status_code, 201)
-        self.assertEqual(Submission.objects.count(), 2)
-        self.assertEqual(s.score, Decimal('0.6'))
-
-    def test_create_dup_fail(self):
-        response = self.client.post('/api/submissions/', {
-            'graph': self.g.pk,
-            'score': 1,
-        })
-        self.assertEqual(response.status_code, 201)
-        self.assertEqual(Submission.objects.count(), 1)
-        self.assertEqual(Submission.objects.first().score, 1)
-
-        self.client.post('/api/submissions/', {
-            'graph': self.g.pk,
-            'score': 0,
-        })
-
-        # Somehow, the ValidationError is getting swallowed and not
-        # setting the status_code to 400.
-        # self.assertEqual(response.status_code, 400)
-        self.assertEqual(Submission.objects.count(), 1)
-        self.assertEqual(Submission.objects.last().score, 1)
-
-    def test_list(self):
-        SubmissionFactory()
-        SubmissionFactory()
-        SubmissionFactory()
-        SubmissionFactory(user=self.u)
-        SubmissionFactory(user=self.u)
-        response = self.client.get('/api/submissions/')
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(
-            len(response.data), 2,
-            'Students can\'t see other students\' submissions')
-
-    def test_retrieve(self):
-        SubmissionFactory()
-        SubmissionFactory()
-        s = SubmissionFactory(user=self.u, score=Decimal('0.5'))
-        s2 = SubmissionFactory()
-        SubmissionFactory(user=self.u)
-        response = self.client.get('/api/submissions/{}/'.format(s.graph.pk))
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data.get('score'), '0.5000')
-
-        response = self.client.get('/api/submissions/{}/'.format(s2.graph.pk))
-        self.assertEqual(
-            response.status_code, 404,
-            'Students can\'t see other students\' submissions')
 
 
 class InstructorQuestionViewSetTest(LoggedInTestInstructorMixin, APITestCase):

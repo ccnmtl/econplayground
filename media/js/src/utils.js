@@ -195,44 +195,6 @@ const getTopics = function(cohortId) {
         });
 };
 
-/**
- * Returns a Promise containing the submission for the current user
- * and given graph id, if it exists.
- */
-const getSubmission = function(graphId) {
-    return authedFetch(`/api/submissions/${graphId}/`)
-        .then(function(response) {
-            if (response.status === 200) {
-                return response.json();
-            } else {
-                throw 'Not found';
-            }
-        });
-};
-
-const createSubmission = function(data) {
-    return authedFetch('/api/submissions/', 'post', JSON.stringify(data))
-        .then(function(response) {
-            if (response.status === 201) {
-                // TODO: propagate message up to UI
-                return response.json();
-            } else {
-                throw 'Submission not created';
-            }
-        });
-};
-
-const getOrCreateSubmission = function(data) {
-    return authedFetch(`/api/submissions/${data.graph}/`)
-        .then(function(response) {
-            if (response.status === 200) {
-                return response.json();
-            } else {
-                return createSubmission(data);
-            }
-        });
-};
-
 const getL1SubmissionOffset = function() {
     return 0;
 };
@@ -459,8 +421,7 @@ export {
     BOARD_HEIGHT, BOARD_WIDTH, GRID_MAJOR, GRID_MINOR,
 
     authedFetch, getAssessment, getQuestion, getMultipleChoice, getEvaluations,
-    getGraph, getGraphId, getCohortId, getTopics, getSubmission,
-    getUserAssignment, createSubmission, getOrCreateSubmission,
+    getGraph, getGraphId, getCohortId, getTopics, getUserAssignment,
     getL1SubmissionOffset, getL2SubmissionOffset, handleFormUpdate, getOffset,
     getXIntercept, getYIntercept, forceFloat, forceNumber, displayGraphType,
     getError, btnStep
