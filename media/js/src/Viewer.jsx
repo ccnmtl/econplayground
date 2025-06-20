@@ -4,7 +4,7 @@ import GraphEditor from './GraphEditor.jsx';
 import GraphViewer from './GraphViewer.jsx';
 import { exportGraph, importGraph, defaultGraph } from './GraphMapping.js';
 import {
-    authedFetch, getGraphId, getCohortId, getAssessment, getSubmission,
+    authedFetch, getGraphId, getCohortId, getAssessment,
     getError
 } from './utils.js';
 import { setDynamicGraphDefaults } from './graphUtils.js';
@@ -25,11 +25,6 @@ class Viewer extends Component {
         };
 
         Object.assign(this.state, defaultGraph);
-
-        // TODO: clean up this regex
-        if (window.location.href.match(/submitted=1/)) {
-            this.state.alertText = 'Submitted.';
-        }
 
         this.gv = React.createRef();
         this.ge = React.createRef();
@@ -88,32 +83,9 @@ class Viewer extends Component {
         });
     }
 
-    /**
-     * Get a submission from Django and set it in this.state.
-     */
-    loadSubmission(gId) {
-        const me = this;
-
-        return getSubmission(gId).then(function(s) {
-            me.setState({
-                alertText: 'Submitted.',
-                submission: s
-            });
-        }, function() {
-            // No submission found
-        });
-    }
-
     componentDidMount() {
         // Load graph and submission data
         const me = this;
-
-        this.getGraph().then(function() {
-            me.loadAssessment(me.graphId);
-            if (me.state.gNeedsSubmit) {
-                me.loadSubmission(me.graphId);
-            }
-        });
 
         // Add graph feedback event handlers
         document.addEventListener('l1up', function() {
