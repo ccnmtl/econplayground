@@ -435,6 +435,34 @@ class Graph17(BaseGraph):
 class Graph18(BaseGraph):
     graph_type = 18
 
+    @classmethod
+    def get_rule_options(cls) -> dict:
+        return {
+            'a1': {
+                'name': 'a',
+                'possible_values': cls.variable_actions,
+            },
+            'a1 label': 'a label',
+
+            'a2': {
+                'name': 'b',
+                'possible_values': cls.variable_actions,
+            },
+            'a2 label': 'b label',
+
+            'a3': {
+                'name': 'c',
+                'possible_values': cls.variable_actions,
+            },
+            'a3 label': 'c label',
+
+            'line1 label': 'Orange line label',
+            'line2 label': 'Blue line label',
+            'line3 label': 'Red line label',
+            'x-axis label': 'X-axis label',
+            'y-axis label': 'Y-axis label',
+        }
+
 
 class Graph20(BaseGraph):
     graph_type = 20

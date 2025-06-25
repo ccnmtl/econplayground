@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import (
     LoginRequiredMixin, UserPassesTestMixin
 )
 from django.db.models import Count, Q
-from django.http import HttpResponseForbidden, HttpResponseRedirect
+from django.http import HttpResponseForbidden, HttpResponseRedirect, QueryDict
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -338,6 +338,19 @@ class GraphDetailView(CohortGraphMixin, CohortPasswordMixin, DetailView):
 
         return is_correct
 
+    @staticmethod
+    def prepare_post_data(post_data: QueryDict) -> QueryDict:
+        post_data = post_data.copy()
+
+        for line_number in range(1, 4):
+            if post_data.get(f'gLine{line_number}Label'):
+                post_data.update({
+                    f'line{line_number} label': post_data.get(
+                        f'gLine{line_number}Label')
+                })
+
+        return post_data
+
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         assessment = self.object.assessment
@@ -347,17 +360,15 @@ class GraphDetailView(CohortGraphMixin, CohortPasswordMixin, DetailView):
             return HttpResponseRedirect(request.path)
 
         # Find actions that the user has made
-        action_results = [
-            GraphDetailView.evaluate_action(
-                request, assessment, 'line1', request.POST.get('line1')),
-            GraphDetailView.evaluate_action(
-                request, assessment, 'line2', request.POST.get('line2')),
-
-            # TODO: build out dynamic rule finder based on graph type
-            # for these rules.
-            GraphDetailView.evaluate_action(
-                request, assessment, 'a1 label', request.POST.get('a1 label')),
-        ]
+        rule_options = Graph.get_rule_options(self.object.graph_type)
+        action_results = []
+        post_data = GraphDetailView.prepare_post_data(request.POST)
+        for rule_option in rule_options.keys():
+            action_results.append(
+                GraphDetailView.evaluate_action(
+                    request, assessment, rule_option,
+                    post_data.get(rule_option))
+            )
 
         submission = None
         if request.user and not request.user.is_anonymous:
