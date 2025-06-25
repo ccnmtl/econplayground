@@ -92,6 +92,8 @@ class Viewer extends Component {
         // Load graph and submission data
         const me = this;
 
+        this.getGraph();
+
         // Add graph feedback event handlers
         [1, 2, 3, 4, 5].forEach((lineNumber) => {
             document.addEventListener(`l${lineNumber}up`, function() {
