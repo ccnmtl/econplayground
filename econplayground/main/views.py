@@ -307,12 +307,21 @@ class GraphDetailView(CohortGraphMixin, CohortPasswordMixin, DetailView):
                 'admin:main_assessment_change',
                 kwargs={'object_id': self.object.assessment.pk})
 
+        submission = None
+        if self.request.user and not self.request.user.is_anonymous:
+            try:
+                submission = Submission.objects.get(
+                    graph=self.object, user=self.request.user)
+            except Submission.DoesNotExist:
+                pass
+
         ctx.update({
             'cohort': self.cohort,
             'embed_url': self.embed_url('graph_embed'),
             'embed_public_code': self.embed_code(
                 self.embed_url('graph_embed_public_minimal')),
             'assessment_change_url': assessment_change_url,
+            'submission': submission,
         })
         return ctx
 
