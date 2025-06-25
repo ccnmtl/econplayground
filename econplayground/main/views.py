@@ -307,12 +307,21 @@ class GraphDetailView(CohortGraphMixin, CohortPasswordMixin, DetailView):
                 'admin:main_assessment_change',
                 kwargs={'object_id': self.object.assessment.pk})
 
+        submission = None
+        if self.request.user and not self.request.user.is_anonymous:
+            try:
+                submission = Submission.objects.get(
+                    graph=self.object, user=self.request.user)
+            except Submission.DoesNotExist:
+                pass
+
         ctx.update({
             'cohort': self.cohort,
             'embed_url': self.embed_url('graph_embed'),
             'embed_public_code': self.embed_code(
                 self.embed_url('graph_embed_public_minimal')),
             'assessment_change_url': assessment_change_url,
+            'submission': submission,
         })
         return ctx
 
@@ -352,6 +361,23 @@ class GraphDetailView(CohortGraphMixin, CohortPasswordMixin, DetailView):
         return post_data
 
     def post(self, request, *args, **kwargs):
+        if request.POST.get('unsubmit'):
+            if not request.user.is_authenticated:
+                return HttpResponseRedirect(reverse('login'))
+
+            # Find submission and delete it.
+            try:
+                submission = Submission.objects.get(
+                    graph=self.get_object(), user=self.request.user)
+            except Submission.DoesNotExist:
+                pass
+
+            if submission:
+                submission.delete()
+                messages.success(request, 'Graph un-submitted.')
+
+            return HttpResponseRedirect(request.path)
+
         self.object = self.get_object()
         assessment = self.object.assessment
         if not assessment:
