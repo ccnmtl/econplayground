@@ -62,6 +62,10 @@ class GraphDetailViewTest(LoggedInTestMixin, TestCase):
         self.assertContains(r, self.graph.topic.cohort.title)
 
     def test_post(self):
+        # Linear Demand Supply
+        self.graph.graph_type = 0
+        self.graph.save()
+
         self.make_assessment(self.graph)
 
         r = self.client.post(
@@ -118,6 +122,10 @@ class GraphDetailViewTest(LoggedInTestMixin, TestCase):
         self.assertContains(r, 'You didn\'t move line 1 up.')
 
     def test_post_exact_value_assessment(self):
+        # Cost Functions type
+        self.graph.graph_type = 18
+        self.graph.save()
+
         self.make_assessment(
             self.graph,
             'a1 label', 'Demand',
@@ -142,6 +150,35 @@ class GraphDetailViewTest(LoggedInTestMixin, TestCase):
 
         self.assertContains(r, 'You labeled Demand correctly')
         self.assertNotContains(r, 'You didn\'t label Demand.')
+
+    def test_post_line_label_fuzzy_match_assessment(self):
+        self.graph.graph_type = 12
+        self.graph.save()
+
+        self.make_assessment(
+            self.graph,
+            'line1 label', 'orange line',
+            'Orange line correct',
+            'Orange line incorrect'
+        )
+
+        r = self.client.post(
+            reverse('cohort_graph_detail', kwargs={
+                'cohort_pk': self.graph.topic.cohort.pk,
+                'pk': self.graph.pk,
+            }), {
+                'gLine1Label': 'orange line',
+            }, follow=True)
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, self.graph.title)
+        self.assertContains(r, self.graph.topic.cohort.title)
+        self.assertContains(r, 'Graph submitted.')
+
+        submission = Submission.objects.last()
+        self.assertEqual(submission.graph, self.graph)
+
+        self.assertContains(r, 'Orange line correct')
+        self.assertNotContains(r, 'Orange line incorrect')
 
 
 class InstructorGraphDetailViewTest(LoggedInTestInstructorMixin, TestCase):
