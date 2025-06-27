@@ -48,11 +48,13 @@
                         <a class="btn btn-secondary" href="{% url 'cohort_list' %}#cohorts">Cancel</a>
                     {% endif %}
                 </div>
+                {% if object %}
                 <div>
                     <button name="archive" type="submit" class="btn btn-outline-primary">
                         Archive <i class="bi bi-archive"></i>
                     </button>
                 </div>
+                {% endif %}
             </div>
         </form>
     </div>
