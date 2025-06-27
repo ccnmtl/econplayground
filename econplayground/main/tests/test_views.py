@@ -161,7 +161,6 @@ class GraphDetailViewTest(LoggedInTestMixin, TestCase):
             'Orange line correct',
             'Orange line incorrect'
         )
-
         r = self.client.post(
             reverse('cohort_graph_detail', kwargs={
                 'cohort_pk': self.graph.topic.cohort.pk,
@@ -179,6 +178,38 @@ class GraphDetailViewTest(LoggedInTestMixin, TestCase):
 
         self.assertContains(r, 'Orange line correct')
         self.assertNotContains(r, 'Orange line incorrect')
+
+    def test_unsubmit(self):
+        self.make_assessment(self.graph)
+
+        r = self.client.post(
+            reverse('cohort_graph_detail', kwargs={
+                'cohort_pk': self.graph.topic.cohort.pk,
+                'pk': self.graph.pk,
+            }), {
+                'line1': 'up',
+            }, follow=True)
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, self.graph.title)
+        self.assertContains(r, self.graph.topic.cohort.title)
+        self.assertContains(r, 'Graph submitted.')
+
+        submission = Submission.objects.last()
+        self.assertEqual(submission.graph, self.graph)
+        r = self.client.post(
+            reverse('cohort_graph_detail', kwargs={
+                'cohort_pk': self.graph.topic.cohort.pk,
+                'pk': self.graph.pk,
+            }), {
+                'unsubmit': True,
+            }, follow=True)
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, self.graph.title)
+        self.assertContains(r, self.graph.topic.cohort.title)
+        self.assertContains(r, 'Graph un-submitted.')
+
+        with self.assertRaises(Submission.DoesNotExist):
+            Submission.objects.get(graph=self.graph, user=self.u)
 
 
 class InstructorGraphDetailViewTest(LoggedInTestInstructorMixin, TestCase):
