@@ -635,14 +635,14 @@ class CohortListInstructorViewTest(LoggedInTestInstructorMixin, TestCase):
         cohort = CohortFactory()
         sample_cohort = CohortFactory(title='Sample Course', is_sample=True)
 
-        self.assertEqual(self.u.cohort_set.count(), 0)
+        self.assertEqual(self.u.courses_taught.count(), 0)
 
         r = self.client.get(reverse('cohort_list'))
 
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, 'My Courses')
 
-        self.assertEqual(self.u.cohort_set.count(), 1)
+        self.assertEqual(self.u.courses_taught.count(), 1)
 
         # Hide cohorts this instructor isn't a part of.
         self.assertNotContains(r, cohort.title)
@@ -683,8 +683,8 @@ class CohortCreateViewTest(LoggedInTestInstructorMixin, TestCase):
 
         response = self.client.post(url, {'title': 'Lorem Ipsum'})
 
-        self.assertEqual(instructor.cohort_set.count(), 1)
-        cohort = instructor.cohort_set.first()
+        self.assertEqual(instructor.courses_taught.count(), 1)
+        cohort = instructor.courses_taught.first()
         self.assertEqual(cohort.title, 'Lorem Ipsum')
         self.assertEqual(
             cohort.instructors.filter(username=self.u.username).count(),
@@ -698,8 +698,8 @@ class CohortCreateViewTest(LoggedInTestInstructorMixin, TestCase):
 
         response = self.client.post(url, {'title': 'Course 2'})
 
-        self.assertEqual(instructor.cohort_set.count(), 2)
-        cohort = instructor.cohort_set.filter(title='Course 2').first()
+        self.assertEqual(instructor.courses_taught.count(), 2)
+        cohort = instructor.courses_taught.filter(title='Course 2').first()
         self.assertEqual(cohort.title, 'Course 2')
         self.assertEqual(
             cohort.instructors.filter(username=self.u.username).count(),
@@ -723,7 +723,7 @@ class CohortCreateStudentViewTest(LoggedInTestStudentMixin, TestCase):
 
         response = self.client.post(url, {'title': 'Lorem Ipsum'})
 
-        self.assertEqual(self.u.cohort_set.count(), 0)
+        self.assertEqual(self.u.courses_taught.count(), 0)
         messages = [m.message for m in get_messages(response.wsgi_request)]
         self.assertFalse('messages' in messages)
 
@@ -744,8 +744,8 @@ class CohortUpdateViewTest(LoggedInTestInstructorMixin, TestCase):
 
         response = self.client.post(url, {'title': 'Lorem Ipsum'})
 
-        self.assertEqual(instructor.cohort_set.count(), 1)
-        cohort = instructor.cohort_set.first()
+        self.assertEqual(instructor.courses_taught.count(), 1)
+        cohort = instructor.courses_taught.first()
         self.assertEqual(cohort.title, 'Lorem Ipsum')
         self.assertEqual(Topic.objects.filter(cohort=cohort).count(), 1)
         self.assertEqual(
@@ -766,7 +766,7 @@ class CohortUpdateViewTest(LoggedInTestInstructorMixin, TestCase):
 
         response = self.client.post(url, {'title': 'Lorem Ipsum'})
 
-        self.assertEqual(instructor.cohort_set.count(), 1)
+        self.assertEqual(instructor.courses_taught.count(), 1)
         self.assertEqual(cohort.title, title)
         self.assertEqual(Topic.objects.filter(cohort=cohort).count(), 1)
         self.assertEqual(
@@ -792,7 +792,7 @@ class CohortUpdateStudentViewTest(LoggedInTestStudentMixin, TestCase):
 
         response = self.client.post(url, {'title': 'Lorem Ipsum'})
 
-        self.assertEqual(self.u.cohort_set.count(), 0)
+        self.assertEqual(self.u.courses_taught.count(), 0)
         messages = [m.message for m in get_messages(response.wsgi_request)]
         self.assertFalse('messages' in messages)
 
