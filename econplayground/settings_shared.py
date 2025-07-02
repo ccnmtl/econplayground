@@ -100,7 +100,7 @@ INSTALLED_APPS = [  # noqa
     'ctlsettings',
 ]
 
-CONTACT_US_EMAIL = 'econpractice@columbia.edu'
+CONTACT_US_EMAIL = 'ctl-dev@columbia.edu'
 
 CONTACTUS_SUBJECT_CHOICES = (
     ('-----', '-----'),
