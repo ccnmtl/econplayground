@@ -3,6 +3,7 @@ import {Graph, getIntersectionPointOptions, positiveRange} from './Graph.js';
 export const defaults = {
     gA1Name: 'A',
     gA2Name: 'L',
+    gA4: 0.6,
     gA3Name: 'K',
     gA5Name: 'Y'
 };

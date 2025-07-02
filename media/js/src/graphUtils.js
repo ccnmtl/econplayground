@@ -102,7 +102,7 @@ export const setDynamicGraphDefaults = function(state, updateObj) {
 export const getDefaultGraphState = function(graphType, state) {
     // Specific defaults based on graph type.
 
-    if (graphType == 3) {
+    if (graphType === 3) {
         Object.assign(state, cobbDouglasDefaults);
     } else if (graphType === 15) {
         state.gA4 = 0.5;
