@@ -358,6 +358,12 @@ class GraphDetailView(CohortGraphMixin, CohortPasswordMixin, DetailView):
                         f'gLine{line_number}Label')
                 })
 
+        for var_number in range(1, 8):
+            if post_data.get(f'gA{var_number}'):
+                post_data.update({
+                    f'a{var_number}': post_data.get(f'gA{var_number}')
+                })
+
         return post_data
 
     def post(self, request, *args, **kwargs):
