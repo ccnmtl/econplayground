@@ -67,7 +67,8 @@ class AssignmentCreateView(
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
         form.fields['title'].widget = forms.TextInput()
-        form.fields['cohorts'].queryset = self.request.user.cohort_set.all()
+        form.fields['cohorts'].queryset = \
+            self.request.user.courses_taught.all()
         return form
 
     def get_success_url(self):
@@ -282,7 +283,8 @@ class AssignmentUpdateView(
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
         form.fields['title'].widget = forms.TextInput()
-        form.fields['cohorts'].queryset = self.request.user.cohort_set.all()
+        form.fields['cohorts'].queryset = \
+            self.request.user.courses_taught.all()
         return form
 
     def get_success_url(self):

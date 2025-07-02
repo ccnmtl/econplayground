@@ -39,7 +39,8 @@ class Cohort(models.Model):
     # LTI deployment instance ID, used with context_id
     deployment_id = models.CharField(max_length=256, blank=True, default='')
 
-    instructors = models.ManyToManyField(User)
+    instructors = models.ManyToManyField(User, related_name='courses_taught')
+    students = models.ManyToManyField(User, related_name='courses_enrolled')
 
     is_sample = models.BooleanField(null=True, blank=True, unique=True)
     is_archived = models.BooleanField(default=False)
