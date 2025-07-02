@@ -654,18 +654,24 @@ class CohortListInstructorViewTest(LoggedInTestInstructorMixin, TestCase):
 
 
 class CohortListStudentViewTest(LoggedInTestStudentMixin, TestCase):
-    def test_get(self):
+    def test_get_no_courses(self):
         CohortFactory()
         r = self.client.get(reverse('cohort_list'), follow=True)
         self.assertEqual(r.status_code, 200)
 
-        self.assertEqual(
-            r.request.get('PATH_INFO'),
-            '/assignments/',
-            'Accessing course list page as a student redirects ' +
-            'to assignments page.')
+        self.assertContains(r, 'My Courses')
+        self.assertContains(r, 'You are not a member of any courses.')
 
-        self.assertContains(r, 'Assignments')
+    def test_get_enrolled_in_course(self):
+        course = CohortFactory()
+        course.students.add(self.u)
+
+        r = self.client.get(reverse('cohort_list'), follow=True)
+        self.assertEqual(r.status_code, 200)
+
+        self.assertContains(r, 'My Courses')
+        self.assertNotContains(r, 'You are not a member of any courses.')
+        self.assertContains(r, course.title)
 
 
 class CohortCreateViewTest(LoggedInTestInstructorMixin, TestCase):

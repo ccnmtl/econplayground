@@ -705,38 +705,31 @@ class CohortCloneView(LoginRequiredMixin, CohortInstructorMixin,
 class CohortListView(LoginRequiredMixin, ListView):
     model = Cohort
 
-    def dispatch(self, request, *args, **kwargs):
-        if not user_is_instructor(request.user):
-            url = reverse('assignment_list_student')
-            return HttpResponseRedirect(url)
-
-        return super(CohortListView, self).dispatch(request, *args, **kwargs)
-
     def get_context_data(self, **kwargs):
         context = super(CohortListView, self).get_context_data(**kwargs)
 
-        # This area should never be reached if this user isn't an instructor,
-        # but just in case.
-        if not user_is_instructor(self.request.user):
-            return context
+        if user_is_instructor(self.request.user):
+            # Create a clone of the sample course if this user has no
+            # courses.
+            if not Cohort.objects.filter(
+                    instructors__in=(self.request.user,)).exists():
+                try:
+                    sample_course = Cohort.objects.get(is_sample=True)
+                except Cohort.DoesNotExist:
+                    sample_course = None
 
-        # Create a clone of the sample course if this user has no
-        # courses.
-        if not Cohort.objects.filter(
-                instructors__in=(self.request.user,)).exists():
-            try:
-                sample_course = Cohort.objects.get(is_sample=True)
-            except Cohort.DoesNotExist:
-                sample_course = None
+                if sample_course:
+                    cloned_sample = sample_course.clone()
+                    cloned_sample.instructors.clear()
+                    cloned_sample.instructors.add(self.request.user)
 
-            if sample_course:
-                cloned_sample = sample_course.clone()
-                cloned_sample.instructors.clear()
-                cloned_sample.instructors.add(self.request.user)
-
-        context['cohorts'] = Cohort.objects.filter(
-            is_archived=False,
-            instructors__in=(self.request.user,))
+            context['cohorts'] = Cohort.objects.filter(
+                is_archived=False,
+                instructors__in=(self.request.user,))
+        else:
+            context['cohorts'] = Cohort.objects.filter(
+                is_archived=False,
+                students__in=(self.request.user,))
 
         return context
 
