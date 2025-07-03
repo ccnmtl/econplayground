@@ -68,7 +68,8 @@
 
 {% block content %}
     {% if submission %}
-    Graph submitted: {{ submission }}
+
+    <p>Graph submitted. Submission score: {{ submission.score|floatformat }}</p>
 
     <form action="." method="post">
         {% csrf_token %}
