@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static econ_auth %}
+{% load static %}
 
 {% block title %}Graph: {{object.title}}{% endblock %}
 
@@ -28,7 +28,6 @@
     <script src="{% static 'js/build/viewer.js' %}"></script>
 {% endblock %}
 
-{% user_is_instructor request.user as i_am_instructor %}
 {% block content %}
     <p class="accessibility-note">
         This is an interactive line graph. Please ask your instructor
