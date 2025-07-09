@@ -213,6 +213,38 @@ class GraphDetailViewTest(LoggedInTestMixin, TestCase):
         self.assertContains(r, 'Alpha is 0.52')
         self.assertNotContains(r, 'Alpha is not 0.52')
 
+    def test_post_exact_value_float_assessment_a4(self):
+        # Cobb-Douglas type
+        self.graph.graph_type = 3
+        self.graph.save()
+
+        self.make_assessment(
+            self.graph,
+            'a4', '0.52',
+            'Alpha is 0.52',
+            'Alpha is not 0.52'
+        )
+
+        r = self.client.post(
+            reverse('cohort_graph_detail', kwargs={
+                'cohort_pk': self.graph.topic.cohort.pk,
+                'pk': self.graph.pk,
+            }), {
+                # Test that using 'a4' naming convention works as well
+                # (see test above)
+                'a4': '0.52',
+            }, follow=True)
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, self.graph.title)
+        self.assertContains(r, self.graph.topic.cohort.title)
+        self.assertContains(r, 'Graph submitted.')
+
+        submission = Submission.objects.last()
+        self.assertEqual(submission.graph, self.graph)
+
+        self.assertContains(r, 'Alpha is 0.52')
+        self.assertNotContains(r, 'Alpha is not 0.52')
+
     def test_post_line_label_fuzzy_match_assessment(self):
         self.graph.graph_type = 12
         self.graph.save()
