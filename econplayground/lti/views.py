@@ -98,6 +98,7 @@ class LtiLaunchView(LtiLaunchBaseView, TemplateView):
     https://github.com/academic-innovation/django-lti/blob/main/README.md#handling-an-lti-launch
     """
     template_name = 'lti/landing_page.html'
+    lti_tool_name = None
 
     def handle_resource_launch(self, request, lti_launch):
         if settings.DEBUG:
