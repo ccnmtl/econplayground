@@ -99,6 +99,7 @@ class LtiLaunchView(LtiLaunchBaseView, TemplateView):
     """
     template_name = 'lti/landing_page.html'
     lti_tool_name = None
+    course = None
 
     def handle_resource_launch(self, request, lti_launch):
         if settings.DEBUG:
@@ -121,7 +122,7 @@ class LtiLaunchView(LtiLaunchBaseView, TemplateView):
             self.course = Cohort.objects.get(
                 context_id=self.course_id, deployment_id=self.deployment_id)
         except Cohort.DoesNotExist:
-            self.course = None
+            pass
 
         return self.get(request)
 
