@@ -29,7 +29,7 @@ cryptography==45.0.5
 urllib3==2.5.0  # requests, sentry-sdk
 chardet==5.2.0  # requests
 idna==3.10  # requests
-certifi==2025.7.9  # requests, sentry-sdk
+certifi==2025.7.14  # requests, sentry-sdk
 requests==2.32.4
 logilab-common==2.1.0
 astroid==3.3.10
