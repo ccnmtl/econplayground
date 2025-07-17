@@ -6,7 +6,9 @@ from django.contrib.auth.mixins import (
     LoginRequiredMixin, UserPassesTestMixin
 )
 from django.db.models import Count, Q
-from django.http import HttpResponseForbidden, HttpResponseRedirect, QueryDict
+from django.http import (
+    HttpRequest, HttpResponseForbidden, HttpResponseRedirect, QueryDict
+)
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -366,23 +368,26 @@ class GraphDetailView(CohortGraphMixin, CohortPasswordMixin, DetailView):
 
         return post_data
 
+    def handle_unsubmit(self, request: HttpRequest) -> HttpResponseRedirect:
+        if not request.user.is_authenticated:
+            return HttpResponseRedirect(reverse('login'))
+
+        # Find submission and delete it.
+        try:
+            submission = Submission.objects.get(
+                graph=self.get_object(), user=self.request.user)
+        except Submission.DoesNotExist:
+            pass
+
+        if submission:
+            submission.delete()
+            messages.success(request, 'Graph un-submitted.')
+
+        return HttpResponseRedirect(request.path)
+
     def post(self, request, *args, **kwargs):
         if request.POST.get('unsubmit'):
-            if not request.user.is_authenticated:
-                return HttpResponseRedirect(reverse('login'))
-
-            # Find submission and delete it.
-            try:
-                submission = Submission.objects.get(
-                    graph=self.get_object(), user=self.request.user)
-            except Submission.DoesNotExist:
-                pass
-
-            if submission:
-                submission.delete()
-                messages.success(request, 'Graph un-submitted.')
-
-            return HttpResponseRedirect(request.path)
+            return self.handle_unsubmit(request)
 
         self.object = self.get_object()
         assessment = self.object.assessment
@@ -395,12 +400,13 @@ class GraphDetailView(CohortGraphMixin, CohortPasswordMixin, DetailView):
         rule_options = Graph.get_rule_options(self.object.graph_type)
         action_results = []
         post_data = GraphDetailView.prepare_post_data(request.POST)
-        for rule_option in rule_options.keys():
-            action_results.append(
-                GraphDetailView.evaluate_action(
-                    request, assessment, rule_option,
-                    post_data.get(rule_option))
-            )
+        if rule_options:
+            for rule_option in rule_options.keys():
+                action_results.append(
+                    GraphDetailView.evaluate_action(
+                        request, assessment, rule_option,
+                        post_data.get(rule_option))
+                )
 
         submission = None
         if request.user and not request.user.is_anonymous:
