@@ -59,17 +59,6 @@ class JSONConfigView(View):
                     'tool_id': 'econpractice',
                     'platform': lti_platform,
                     'privacy_level': 'public',
-                    'placements': [
-                        {
-                            'text': 'EconPractice',
-                            'icon_url': icon_url,
-                            'placement': 'course_navigation',
-                            'message_type': 'LtiResourceLinkRequest',
-                            'target_link_uri': target_link_uri,
-                            'selection_height': 500,
-                            'selection_width': 500
-                        }
-                    ],
                     'settings': {
                         'text': 'Launch ' + title,
                         'labels': {
@@ -78,6 +67,17 @@ class JSONConfigView(View):
                         'icon_url': icon_url,
                         'selection_height': 800,
                         'selection_width': 800,
+                        'placements': [
+                            {
+                                'text': 'EconPractice',
+                                'icon_url': icon_url,
+                                'placement': 'course_navigation',
+                                'message_type': 'LtiResourceLinkRequest',
+                                'target_link_uri': target_link_uri,
+                                'selection_height': 500,
+                                'selection_width': 500
+                            }
+                        ],
                     }
                 }
             ],
