@@ -96,6 +96,7 @@ INSTALLED_APPS = [  # noqa
     'corsheaders',
 
     'lti_tool',
+    'lti_dynamic_registration',
 
     'ctlsettings',
 ]

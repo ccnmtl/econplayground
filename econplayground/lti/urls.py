@@ -1,7 +1,8 @@
 from django.urls import path
 
 from econplayground.lti.views import (
-    JSONConfigView, LtiLaunchView, MyOIDCLoginInitView
+    JSONConfigView, LtiLaunchView, MyOIDCLoginInitView,
+    DynamicRegistrationView
 )
 from lti_tool.views import jwks
 
@@ -14,4 +15,5 @@ urlpatterns = [
     path('<uuid:registration_uuid>/config.json',
          JSONConfigView.as_view()),
     path('launch/', LtiLaunchView.as_view(), name='lti-launch'),
+    path('tool_configuration', DynamicRegistrationView.as_view()),
 ]
