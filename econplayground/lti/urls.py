@@ -15,5 +15,6 @@ urlpatterns = [
     path('<uuid:registration_uuid>/config.json',
          JSONConfigView.as_view()),
     path('launch/', LtiLaunchView.as_view(), name='lti-launch'),
-    path('tool_configuration', DynamicRegistrationView.as_view()),
+    path('tool_configuration', DynamicRegistrationView.as_view(),
+         name='dynamic_registration'),
 ]
