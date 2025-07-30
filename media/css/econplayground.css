@@ -3,7 +3,7 @@
  get into scss.
  */
 
-.GraphPicker .graph-card {
+.GraphSelect .graph-card {
     width: 50%;
     display: inline-block;
     margin-bottom: 1em;

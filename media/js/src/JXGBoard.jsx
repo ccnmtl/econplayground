@@ -67,7 +67,7 @@ export default class JXGBoard extends React.Component {
 
         this.id = this.props.id;
         this.style = {
-            // The defaults provided here are used by the GraphPicker
+            // The defaults provided here are used by GraphSelect
             width: this.props.width || 450,
             height: this.props.height || 240
         };

@@ -48,10 +48,11 @@ class EnsureCsrfCookieMixin(object):
         return super(EnsureCsrfCookieMixin, self).dispatch(*args, **kwargs)
 
 
-class GraphPickView(EnsureCsrfCookieMixin, CohortInstructorMixin, CreateView):
+class GraphSelectView(
+        EnsureCsrfCookieMixin, CohortInstructorMixin, CreateView):
     model = Graph
     fields = []
-    template_name = 'main/graph_picker.html'
+    template_name = 'main/graph_select.html'
 
     def get_context_data(self, *args, **kwargs):
         ctx = super().get_context_data(*args, **kwargs)

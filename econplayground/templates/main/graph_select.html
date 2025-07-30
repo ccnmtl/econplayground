@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static econ_utils %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/loaders.min.css' %}">
+{% endblock %}
+
+{% block extrahead %}
+<meta id="csrf-token" name="csrf-token" content="{{csrf_token}}">
+{% endblock %}
+
+{% block title %}Create Graph{% endblock %}
+
+{% block breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{% url 'cohort_list' %}" title="Course List">
+                    {% include 'main/your_cohorts_snippet.html' %}
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{% url 'cohort_detail' cohort.pk %}" title="{{cohort.title}}">
+                    {{ cohort.title|truncatewords:5 }}
+                </a>
+            </li>
+            <li class="breadcrumb-item">Choose graph type</li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block content %}
+    <div class="alert alert-danger" hidden="" role="alert"></div>
+    <div class="GraphSelect container">
+        <h1>Create a Graph</h1>
+        <p class="lead mb-4">Build illustrations or assignments for EconPractice assessment (local) or CourseWorks assessment (LTI).</p>
+        <div class="row row-cols-3 g-4">
+            {% for graph in graph_list %}
+            {% get_graph_name graph.graph_type as graph_name %}
+            <div class="col">
+                <a class="card" href="{% url 'cohort_graph_create' cohort.pk graph.graph_type %}" title="{{ graph_name }}">
+
+                    {% if graph.image is not None %}
+                    <div class="card-img-top">
+                        <img class="img-fluid" alt="Thumbnail for {{ graph.title }}"
+                             src="{% static 'img/'|add:graph.image %}" />
+                    </div>
+                    {% endif %}
+
+                    <div class="card-body">
+                        <h2 class="card-title">{{ graph_name }}</h2>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
