@@ -360,6 +360,7 @@ class Graph13(BaseGraph):
             'x-axis-2 label': 'X-axis label',
             'y-axis-2 label': 'Y-axis label',
         })
+        return rules
 
 
 class Graph14(BaseGraph):
