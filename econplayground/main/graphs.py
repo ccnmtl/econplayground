@@ -198,6 +198,7 @@ class Graph9(BaseGraph):
             'area_b_name': 'B',
             'area_c_name': 'C',
         })
+        return rules
 
 
 class Graph10(BaseGraph):
