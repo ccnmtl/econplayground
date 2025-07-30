@@ -59,6 +59,7 @@ class GraphSelectView(
         ctx.update({
             'cohort': self.cohort,
             'graph_list': [
+                # Linear Demand-Supply
                 {
                     'graph_type': 0,
                     'image': 'linear_demand_supply.png',
@@ -79,6 +80,11 @@ class GraphSelectView(
                     'graph_type': 13,
                     'image': 'linear_demand_supply_2.png',
                 },
+                {
+                    'graph_type': 29,
+                    'image': 'linear_demand_supply.png',
+                },
+
                 {
                     'graph_type': 3,
                     'image': 'cobb_douglas.png',

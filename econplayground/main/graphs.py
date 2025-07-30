@@ -41,6 +41,8 @@ GRAPH_TYPES = (
     (26, 'Negative Production Externality - Producer'),
     (27, 'Negative Production Externality - Industry'),
     (28, 'Positive Externality - Industry'),
+
+    (29, 'Linear Demand and Supply - Monopoly'),
 )
 
 
