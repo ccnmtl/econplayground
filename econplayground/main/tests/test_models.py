@@ -4,8 +4,8 @@ from econplayground.main.models import (
     Assessment, Cohort, Graph, Topic
 )
 from econplayground.main.tests.factories import (
-    InstructorFactory, GraphFactory, JXGLineFactory,
-    JXGLineTransformationFactory, SubmissionFactory, TopicFactory,
+    InstructorFactory, GraphFactory,
+    SubmissionFactory, TopicFactory,
     AssessmentFactory, AssessmentRuleFactory, CohortFactory
 )
 
@@ -101,22 +101,6 @@ class GraphTest(TestCase):
         self.assertTrue(
             isinstance(rule_options, dict),
             'Doesn\'t fail on invalid graph type.')
-
-
-class JXGLineTest(TestCase):
-    def setUp(self):
-        self.x = JXGLineFactory()
-
-    def test_is_valid_from_factory(self):
-        self.x.full_clean()
-
-
-class JXGLineTransformationTest(TestCase):
-    def setUp(self):
-        self.x = JXGLineTransformationFactory()
-
-    def test_is_valid_from_factory(self):
-        self.x.full_clean()
 
 
 class SubmissionTest(TestCase):
