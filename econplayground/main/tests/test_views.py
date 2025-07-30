@@ -334,7 +334,7 @@ class InstructorGraphDetailViewTest(LoggedInTestInstructorMixin, TestCase):
         self.assertContains(r, g.topic.cohort.title)
 
 
-class GraphPickViewTest(LoggedInTestInstructorMixin, TestCase):
+class GraphSelectViewTest(LoggedInTestInstructorMixin, TestCase):
     def setUp(self):
         super().setUp()
         self.cohort = CohortFactory()
@@ -343,7 +343,7 @@ class GraphPickViewTest(LoggedInTestInstructorMixin, TestCase):
 
     def test_get(self):
         r = self.client.get(
-            reverse('cohort_graph_pick', kwargs={
+            reverse('cohort_graph_select', kwargs={
                 'cohort_pk': self.cohort.pk,
             }))
         self.assertEqual(r.status_code, 200)
