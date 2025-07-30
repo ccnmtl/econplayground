@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from econplayground.main.models import (
-    Graph, Cohort, JXGLine, JXGLineTransformation,
-    Assessment, AssessmentRule, Topic
+    Graph, Cohort, Assessment, AssessmentRule, Topic
 )
 from econplayground.assignment.models import (
     AssessmentRule as AssignmentAssessmentRule,
@@ -9,61 +8,10 @@ from econplayground.assignment.models import (
 )
 
 
-class JXGLineTransformationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = JXGLineTransformation
-        fields = ('z1', 'x1', 'y1',
-                  'z2', 'x2', 'y2',
-                  'z3', 'x3', 'y3')
-
-
-class JXGLineSerializer(serializers.ModelSerializer):
-    transformations = JXGLineTransformationSerializer(
-        many=True, required=False)
-
-    class Meta:
-        model = JXGLine
-        fields = (
-            'number', 'transformations',
-        )
-
-    def create(self, validated_data):
-        transformations_data = []
-        if 'transformations' in validated_data:
-            transformations_data = validated_data.pop('transformations')
-
-        line = JXGLine.objects.create(**validated_data)
-
-        for transformation_data in transformations_data:
-            JXGLineTransformation.objects.create(
-                line=line, **transformation_data)
-
-        return line
-
-    def update(self, instance, validated_data):
-        transformations = JXGLineTransformation.objects.filter(line=instance)
-
-        for transformation in transformations:
-            transformation.delete()
-
-        transformations_data = []
-        if 'transformations' in validated_data:
-            transformations_data = validated_data.pop('transformations')
-
-        for transformation_data in transformations_data:
-            JXGLineTransformation.objects.create(
-                line=instance, **transformation_data)
-
-        return instance
-
-
 class GraphSerializer(serializers.ModelSerializer):
-    lines = JXGLineSerializer(many=True, required=False)
-
     class Meta:
         model = Graph
         fields = (
-            'lines',
             'id', 'title', 'summary',
             'instructions', 'instructor_notes',
             'graph_type',
@@ -169,39 +117,16 @@ class GraphSerializer(serializers.ModelSerializer):
         )
 
     def create(self, validated_data):
-        lines_data = []
-        if 'lines' in validated_data:
-            lines_data = validated_data.pop('lines')
-
         graph = Graph.objects.create(**validated_data)
-
-        for line_data in lines_data:
-            line_data.update({'graph': graph})
-            s = JXGLineSerializer(data=line_data)
-            if s.is_valid():
-                s.create(line_data)
 
         return graph
 
     def update(self, instance, validated_data):
-        lines_data = []
-        if 'lines' in validated_data:
-            lines = JXGLine.objects.filter(graph=instance)
-            for line in lines:
-                line.delete()
-
-            lines_data = validated_data.pop('lines')
-
         for field in validated_data:
             newval = validated_data.get(field, getattr(instance, field))
             setattr(instance, field, newval)
-        instance.save()
 
-        for line_data in lines_data:
-            line_data.update({'graph': instance})
-            s = JXGLineSerializer(data=line_data)
-            if s.is_valid():
-                s.create(line_data)
+        instance.save()
 
         return instance
 
