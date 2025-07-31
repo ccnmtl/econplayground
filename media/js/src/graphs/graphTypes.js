@@ -28,6 +28,13 @@ import { CostFunctionsGraph, mkCostFunctions } from './CostFunctionsGraph.js';
 import { ADASGraph, mkADAS } from './ADASGraph.js';
 import { TemplateGraph, mkTemplate } from './TemplateGraph.js';
 import {
+    MonopolyUniformPricingGraph, mkMonopolyUniformPricing
+} from './MonopolyUniformPricingGraph.js';
+import {
+    MonopolyFirstDegreePriceDiscriminationGraph,
+    mkMonopolyFirstDegreePriceDiscrimination
+} from './MonopolyFirstDegreePriceDiscriminationGraph.js';
+import {
     OptimalChoiceConsumptionGraph,
     mkOptimalChoiceConsumption
 } from './OptimalChoiceConsumption.js';
@@ -100,7 +107,9 @@ export const graphTypes = [
 
     mkNegativeProductionExternalityProducer,
     mkNegativeProductionExternalityIndustry,
-    mkPositiveExternalityIndustry
+    mkPositiveExternalityIndustry,
+    mkMonopolyUniformPricing,
+    mkMonopolyFirstDegreePriceDiscrimination
 ];
 
 /**
@@ -140,7 +149,9 @@ export const getGraphClass = function(graphType) {
         // Externalities
         NegativeProductionExternalityProducerGraph,
         NegativeProductionExternalityIndustryGraph,
-        PositiveExternalityIndustryGraph
+        PositiveExternalityIndustryGraph,
+        MonopolyUniformPricingGraph,
+        MonopolyFirstDegreePriceDiscriminationGraph
     ][graphType];
 
     return graphClass;

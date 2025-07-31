@@ -42,7 +42,8 @@ GRAPH_TYPES = (
     (27, 'Negative Production Externality - Industry'),
     (28, 'Positive Externality - Industry'),
 
-    (29, 'Linear Demand and Supply - Monopoly'),
+    (29, 'Monopoly - Uniform Pricing'),
+    (30, 'Monopoly - First-Degree Price Discrimination'),
 )
 
 
