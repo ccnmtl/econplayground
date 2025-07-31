@@ -80,10 +80,6 @@ class GraphSelectView(
                     'graph_type': 13,
                     'image': 'linear_demand_supply_2.png',
                 },
-                {
-                    'graph_type': 29,
-                    'image': 'linear_demand_supply.png',
-                },
 
                 {
                     'graph_type': 3,
@@ -165,6 +161,16 @@ class GraphSelectView(
                 },
                 {
                     'graph_type': 28,
+                    'image': 'graph_types/graph_28.png',
+                },
+
+                # Monopoly
+                {
+                    'graph_type': 29,
+                    'image': 'graph_types/graph_28.png',
+                },
+                {
+                    'graph_type': 30,
                     'image': 'graph_types/graph_28.png',
                 },
             ]

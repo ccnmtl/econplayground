@@ -385,6 +385,12 @@ const displayGraphType = function(gType) {
         case 28:
             name = 'Positive Externality - Industry';
             break;
+        case 29:
+            name = 'Monopoly - Uniform Pricing';
+            break;
+        case 30:
+            name = 'Monopoly - First-Degree Price Discrimination';
+            break;
         default:
             break;
     }

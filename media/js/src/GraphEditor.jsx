@@ -14,6 +14,8 @@ import CommonGraphEditor from './editors/CommonGraphEditor.jsx';
 import CommonGraphSettings from './editors/CommonGraphSettings.jsx';
 import OptimalChoiceConsumptionEditor from './editors/OptimalChoiceConsumption.jsx';
 import CostFunctionsEditor from './editors/CostFunctionsEditor.jsx';
+import MonopolyUniformPricingEditor from
+    './editors/MonopolyUniformPricingEditor.jsx';
 import RevenueElasticityEditor from './editors/RevenueElasticityEditor.jsx';
 import OptimalChoiceCostMinimizingEditor from './editors/OptimalChoiceCostMinimizingEditor.jsx';
 import TaxationLinearDemandEditor from './editors/TaxationLinearDemandEditor.jsx';
@@ -351,6 +353,12 @@ export default class GraphEditor extends React.Component {
             rightSide =
                 <PositiveExternalityIndustryEditor
                     updateGraph={this.props.updateGraph}
+                    {...commonEditorProps}
+                    {...this.props}
+                />;
+        } else if (this.props.gType === 29 || this.props.gType === 30) {
+            rightSide =
+                <MonopolyUniformPricingEditor
                     {...commonEditorProps}
                     {...this.props}
                 />;
