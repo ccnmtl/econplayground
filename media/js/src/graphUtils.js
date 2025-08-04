@@ -10,6 +10,12 @@ import {
     defaults as costFunctionsDefaults
 } from './graphs/CostFunctionsGraph.js';
 import {
+    defaults as monopolyUniformPricingDefaults
+} from './graphs/MonopolyUniformPricingGraph.js';
+import {
+    defaults as monopolyFirstDegreePriceDiscriminationDefaults
+} from './graphs/MonopolyFirstDegreePriceDiscriminationGraph.js';
+import {
     defaults as costMinimizingDefaults
 } from './graphs/OptimalChoiceCostMinimizing.js';
 import {
@@ -145,6 +151,11 @@ export const getDefaultGraphState = function(graphType, state) {
         Object.assign(state, externalitiesIndustryDefaults[0]);
     } else if (graphType === 28) {
         Object.assign(state, externalitiesPositiveIndustryDefaults[0]);
+    } else if (graphType === 29) {
+        Object.assign(state, monopolyUniformPricingDefaults[0]);
+    } else if (graphType === 30) {
+        Object.assign(
+            state, monopolyFirstDegreePriceDiscriminationDefaults[0]);
     }
 
     return state;
