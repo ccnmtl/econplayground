@@ -4,8 +4,6 @@ import RangeEditor from '../form-components/RangeEditor.jsx';
 import { handleFormUpdate } from '../utils.js';
 
 function MonopolyUniformPricingEditor(props) {
-    const me = this;
-
     const modesLeft = [
         'Outcome',
         'Comparison with Perfectly Competitive Market',
@@ -23,7 +21,7 @@ function MonopolyUniformPricingEditor(props) {
                 value={idx}
                 name="gFunctionChoice"
                 checked={props.gFunctionChoice === idx}
-                onChange={handleFormUpdate.bind(me)} />
+                onChange={(e) => handleFormUpdate(e, props)} />
             <label
                 className="form-check-label"
                 htmlFor={`functionChoice-${idx}`}>
@@ -42,7 +40,7 @@ function MonopolyUniformPricingEditor(props) {
                     value={newIdx}
                     name="gFunctionChoice"
                     checked={props.gFunctionChoice === newIdx}
-                    onChange={handleFormUpdate.bind(me)} />
+                    onChange={(e) => handleFormUpdate(e, props)} />
                 <label
                     className="form-check-label"
                     htmlFor={`functionChoice-${newIdx}`}>
@@ -73,7 +71,7 @@ function MonopolyUniformPricingEditor(props) {
                             value={props.gA1}
                             min={0}
                             max={10000}
-                            handler={handleFormUpdate.bind(this)} />
+                            handler={(e) => handleFormUpdate(e, props)} />
 
                         <RangeEditor
                             label="Demand Slope"
@@ -82,7 +80,7 @@ function MonopolyUniformPricingEditor(props) {
                             value={props.gA2}
                             min={0.01}
                             max={35}
-                            handler={handleFormUpdate.bind(this)} />
+                            handler={(e) => handleFormUpdate(e, props)} />
 
                         <RangeEditor
                             label="Reservation Price"
@@ -91,7 +89,7 @@ function MonopolyUniformPricingEditor(props) {
                             value={props.gA3}
                             min={0}
                             max={10000}
-                            handler={handleFormUpdate.bind(this)} />
+                            handler={(e) => handleFormUpdate(e, props)} />
 
                         <RangeEditor
                             label="Supply Slope"
@@ -100,8 +98,7 @@ function MonopolyUniformPricingEditor(props) {
                             value={props.gA4}
                             min={0.01}
                             max={35}
-                            handler={handleFormUpdate.bind(this)} />
-
+                            handler={(e) => handleFormUpdate(e, props)} />
                     </>
                 )}
             </div>

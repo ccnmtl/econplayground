@@ -206,7 +206,7 @@ const getL2SubmissionOffset = function() {
 /**
  * Propagate a form update to a callback.
  */
-const handleFormUpdate = function(e) {
+const handleFormUpdate = function(e, props=null) {
     let obj = {};
 
     // Use the element's id as the attribute name, and fall
@@ -252,7 +252,11 @@ const handleFormUpdate = function(e) {
         obj['gNeedsSubmit'] = !!parseInt(obj['gNeedsSubmit'], 10);
     }
 
-    this.props.updateGraph(obj);
+    if (props) {
+        props.updateGraph(obj);
+    } else if (this.props) {
+        this.props.updateGraph(obj);
+    }
 };
 
 /**
