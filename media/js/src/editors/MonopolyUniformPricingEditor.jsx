@@ -6,7 +6,7 @@ import { handleFormUpdate } from '../utils.js';
 function MonopolyUniformPricingEditor(props) {
     const modesLeft = [
         'Outcome',
-        'Comparison with Perfectly Competitive Market',
+        'vs. Perfectly Competitive Market',
     ];
     const modesRight = [
         'Welfare Analysis',
