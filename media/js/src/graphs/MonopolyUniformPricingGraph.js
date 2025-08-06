@@ -209,6 +209,15 @@ export class MonopolyUniformPricingGraph extends Graph {
                 epm(this.options.gA1, this.options.gA2, this.options.gA3, this.options.gA4)
             ];
 
+            let pointLabel = 'E';
+            let vertPointLabel = 'P<sup>*</sup><sub>M</sub>';
+            let horizPointLabel = 'Q<sup>*</sup><sub>f</sub>';
+
+            if (this.options.gFunctionChoice !== 0) {
+                pointLabel = 'E<sub>M</sub>';
+                horizPointLabel = 'Q<sup>*</sup><sub>M</sub>';
+            }
+
             this.showIntersection(
                 this.board.create('line', [
                     [0, epoint[1]],
@@ -222,8 +231,15 @@ export class MonopolyUniformPricingGraph extends Graph {
                 ], {
                     visible: false
                 }),
-                false, 'E', 'P*<sub>M</sub>', 'Q*<sub>f</sub>',
+                false, pointLabel, horizPointLabel, vertPointLabel,
                 false, false);
+
+            if (this.options.gFunctionChoice === 1) {
+                this.showIntersection(
+                    this.l2, this.l3,
+                    false, 'E', 'P<sup>*</sup>', 'Q<sup>*</sup>',
+                    false, false, 'grey');
+            }
         }
     }
 }
