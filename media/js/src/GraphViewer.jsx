@@ -15,6 +15,8 @@ import OptimalChoiceConsumptionEditor from './editors/OptimalChoiceConsumption.j
 import CostFunctionsEditor from './editors/CostFunctionsEditor.jsx';
 import MonopolyUniformPricingEditor from
     './editors/MonopolyUniformPricingEditor.jsx';
+import MonopolyFirstDegreePriceDiscriminationEditor from
+    './editors/MonopolyFirstDegreePriceDiscriminationEditor.jsx';
 import OptimalChoiceCostMinimizingEditor from './editors/OptimalChoiceCostMinimizingEditor.jsx';
 import TaxationLinearDemandEditor from './editors/TaxationLinearDemandEditor.jsx';
 import NegativeProductionExternalityProducerEditor from
@@ -312,9 +314,15 @@ export default class GraphViewer extends React.Component {
                     {...commonViewerProps}
                     {...this.props}
                 />;
-        } else if (this.props.gType === 29 || this.props.gType === 30) {
+        } else if (this.props.gType === 29) {
             rightSide =
                 <MonopolyUniformPricingEditor
+                    {...commonViewerProps}
+                    {...this.props}
+                />;
+        } else if (this.props.gType === 30) {
+            rightSide =
+                <MonopolyFirstDegreePriceDiscriminationEditor
                     {...commonViewerProps}
                     {...this.props}
                 />;
