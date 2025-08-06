@@ -8,10 +8,12 @@ function MonopolyUniformPricingEditor(props) {
         'Outcome',
         'vs. Perfectly Competitive Market',
     ];
-    const modesRight = [
+    let modesRight = [
         'Welfare Analysis',
-        'Linear Demand - Marginal Revenue and Revenue',
     ];
+    if (props.gType === 29) {
+        modesRight.push('Linear Demand - Marginal Revenue and Revenue');
+    }
 
     const radioButtons1 = modesLeft.map((optionTitle, idx) =>
         <div key={idx} className="form-check">
