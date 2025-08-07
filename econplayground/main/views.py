@@ -167,11 +167,11 @@ class GraphSelectView(
                 # Monopoly
                 {
                     'graph_type': 29,
-                    'image': 'graph_types/graph_28.png',
+                    'image': 'graph_types/graph_29.png',
                 },
                 {
                     'graph_type': 30,
-                    'image': 'graph_types/graph_28.png',
+                    'image': 'graph_types/graph_30.png',
                 },
             ]
         })
