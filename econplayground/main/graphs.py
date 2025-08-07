@@ -90,10 +90,62 @@ class Graph0(BaseGraph):
     name = GRAPH_TYPES[0][1]
     graph_type = 0
 
+    @classmethod
+    def get_rule_options(cls) -> dict:
+        return {
+            'line1': {
+                'name': 'Orange line',
+                'possible_values': cls.line_actions,
+            },
+
+            'line2': {
+                'name': 'Blue line',
+                'possible_values': cls.line_actions,
+            },
+
+            'line1 label': 'Orange line label',
+            'line2 label': 'Blue line label',
+            'intersectionLabel': 'Intersection label',
+            'intersectionHorizLineLabel':
+                'Orange-Blue intersection horizontal label',
+            'intersectionVertLineLabel':
+                'Orange-Blue intersection vertical label',
+            'x-axis label': 'X-axis label',
+            'y-axis label': 'Y-axis label',
+        }
+
 
 class Graph1(BaseGraph):
     name = GRAPH_TYPES[1][1]
     graph_type = 1
+
+    @classmethod
+    def get_rule_options(cls) -> dict:
+        return {
+            'line1': {
+                'name': 'Orange line',
+                'possible_values': cls.line_actions,
+            },
+            'a1': {
+                'name': 'A',
+                'possible_values': cls.line_actions,
+            },
+            'a1_name': 'A label',
+            'a2': {
+                'name': 'K',
+                'possible_values': cls.line_actions,
+            },
+            'a2_name': 'K label',
+            'a3_name': 'N label',
+
+            'line1 label': 'Orange line label',
+            'line2 label': 'Blue line label',
+            'intersectionLabel': 'Intersection label',
+            'intersectionHorizLineLabel':
+                'Orange-Blue intersection horizontal label',
+            'intersectionVertLineLabel':
+                'Orange-Blue intersection vertical label',
+        }
 
 
 class Graph3(BaseGraph):
