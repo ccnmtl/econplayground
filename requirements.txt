@@ -33,7 +33,7 @@ certifi==2025.8.3  # requests, sentry-sdk
 requests==2.32.4
 logilab-common==2.1.0
 astroid==3.3.11
-pylint==3.3.7
+pylint==3.3.8
 six==1.17.0
 faker==37.5.3  # factory_boy
 factory_boy==3.3.3
