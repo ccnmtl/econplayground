@@ -444,10 +444,15 @@ class Assessment(models.Model):
     def __str__(self):
         return 'Assessment for: {}'.format(self.graph.title)
 
-    def evaluate_action(self, name: str, value: str) -> tuple[bool, str]:
+    def evaluate_action(self, name: str, check: str
+                        ) -> tuple[bool, str]:
         for rule in self.assessmentrule_set.all():
             if name == rule.name:
-                if value == rule.value:
+                try:
+                    assess = float(rule.value) == check['value']
+                except ValueError:
+                    assess = check['label'] in rule.value
+                if assess:
                     return True, rule.feedback_fulfilled
                 else:
                     return False, rule.feedback_unfulfilled

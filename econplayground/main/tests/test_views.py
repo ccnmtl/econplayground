@@ -73,7 +73,7 @@ class GraphDetailViewTest(LoggedInTestMixin, TestCase):
                 'cohort_pk': self.graph.topic.cohort.pk,
                 'pk': self.graph.pk,
             }), {
-                'line1': 'up',
+                'gLine1OffsetY': '1.0',
             }, follow=True)
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, self.graph.title)
@@ -91,7 +91,7 @@ class GraphDetailViewTest(LoggedInTestMixin, TestCase):
                 'cohort_pk': self.graph.topic.cohort.pk,
                 'pk': self.graph.pk,
             }), {
-                'line1': 'down',
+                'gLine1OffsetY': '-0.4',
             }, follow=True)
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, self.graph.title)
@@ -109,7 +109,7 @@ class GraphDetailViewTest(LoggedInTestMixin, TestCase):
             reverse('cohort_graph_detail', kwargs={
                 'cohort_pk': self.graph.topic.cohort.pk,
                 'pk': self.graph.pk,
-            }), follow=True)
+            }), {'gLine1OffsetY': self.graph.line_1_offset_y}, follow=True)
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, self.graph.title)
         self.assertContains(r, self.graph.topic.cohort.title)
@@ -128,7 +128,7 @@ class GraphDetailViewTest(LoggedInTestMixin, TestCase):
 
         self.make_assessment(
             self.graph,
-            'a1 label', 'Demand',
+            'a1_name', 'Demand',
             'You labeled Demand correctly.',
             'You didn\'t label Demand.'
         )
@@ -138,7 +138,7 @@ class GraphDetailViewTest(LoggedInTestMixin, TestCase):
                 'cohort_pk': self.graph.topic.cohort.pk,
                 'pk': self.graph.pk,
             }), {
-                'a1 label': 'Demand',
+                'gA1Name': 'Demand',
             }, follow=True)
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, self.graph.title)
@@ -168,7 +168,7 @@ class GraphDetailViewTest(LoggedInTestMixin, TestCase):
                 'cohort_pk': self.graph.topic.cohort.pk,
                 'pk': self.graph.pk,
             }), {
-                'a1': '2',
+                'gA1': '2',
             }, follow=True)
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, self.graph.title)
@@ -232,7 +232,7 @@ class GraphDetailViewTest(LoggedInTestMixin, TestCase):
             }), {
                 # Test that using 'a4' naming convention works as well
                 # (see test above)
-                'a4': '0.52',
+                'gA4': '0.52',
             }, follow=True)
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, self.graph.title)
@@ -281,7 +281,7 @@ class GraphDetailViewTest(LoggedInTestMixin, TestCase):
                 'cohort_pk': self.graph.topic.cohort.pk,
                 'pk': self.graph.pk,
             }), {
-                'line1': 'up',
+                'gLine1Slope': '1.0',
             }, follow=True)
         self.assertEqual(r.status_code, 200)
         self.assertContains(r, self.graph.title)
