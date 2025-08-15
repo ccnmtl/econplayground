@@ -363,20 +363,63 @@ class GraphDetailView(CohortGraphMixin, CohortPasswordMixin, DetailView):
         return is_correct
 
     @staticmethod
-    def prepare_post_data(post_data: QueryDict) -> QueryDict:
+    def format_data(graph_attr, asmt_attr, g_data, post_data):
+        if post_data > g_data:
+            dir = 'up'
+        elif post_data < g_data:
+            dir = 'down'
+        else:
+            dir = 'no change'
+        return {
+            graph_attr: (
+                asmt_attr, {
+                    'label': dir,
+                    'value': post_data
+                })
+        }
+
+    def prepare_post_data(self, post_data: QueryDict) -> QueryDict:
         post_data = post_data.copy()
 
-        for line_number in range(1, 4):
-            if post_data.get(f'gLine{line_number}Label'):
+        for i in range(1, 4):
+            if post_data.get(f'gLine{i}Label'):
                 post_data.update({
-                    f'line{line_number} label': post_data.get(
-                        f'gLine{line_number}Label')
+                    f'gLine{i}Label': (
+                        f'line{i} label', {
+                            'label': post_data.get(
+                                f'gLine{i}Label')
+                        })
                 })
+            if post_data.get(f'gLine{i}Slope'):
+                post_data.update(self.format_data(
+                    f'gLine{i}Slope',
+                    f'line{i}',
+                    getattr(self.object, f'line_{i}_slope'),
+                    float(post_data.get(f'gLine{i}Slope'))
+                ))
+            if post_data.get(f'gLine{i}OffsetY'):
+                post_data.update(self.format_data(
+                    f'gLine{i}OffsetY',
+                    f'line{i}',
+                    getattr(self.object, f'line_{i}_offset_y'),
+                    float(post_data.get(f'gLine{i}OffsetY'))
+                ))
 
-        for var_number in range(1, 8):
-            if post_data.get(f'gA{var_number}'):
+        for j in range(1, 8):
+            if post_data.get(f'gA{j}'):
+                post_data.update(self.format_data(
+                    f'gA{j}',
+                    f'a{j}',
+                    getattr(self.object, f'a{j}'),
+                    float(post_data.get(f'gA{j}'))
+                ))
+            if post_data.get(f'gA{j}Name'):
                 post_data.update({
-                    f'a{var_number}': post_data.get(f'gA{var_number}')
+                    f'gA{j}Name': (
+                        f'a{j}_name', {
+                            'label': post_data.get(
+                                f'gA{j}Name')
+                        })
                 })
 
         return post_data
@@ -410,16 +453,16 @@ class GraphDetailView(CohortGraphMixin, CohortPasswordMixin, DetailView):
             return HttpResponseRedirect(request.path)
 
         # Find actions that the user has made
-        rule_options = Graph.get_rule_options(self.object.graph_type)
         action_results = []
-        post_data = GraphDetailView.prepare_post_data(request.POST)
-        if rule_options:
-            for rule_option in rule_options.keys():
+        post_data = self.prepare_post_data(request.POST)
+        if post_data:
+            for value in post_data.values():
                 action_results.append(
                     GraphDetailView.evaluate_action(
-                        request, assessment, rule_option,
-                        post_data.get(rule_option))
-                )
+                        request, assessment, value[0],
+                        value[1]))
+                if len(action_results) == 0:
+                    action_results.append(False)
 
         submission = None
         if request.user and not request.user.is_anonymous:

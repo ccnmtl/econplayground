@@ -4,7 +4,6 @@
   "description": "econplayground",
   "author": "Nik Nyby",
   "license": "GPL-3.0+",
-  "type": "module",
   "bugs": {
     "url": "https://github.com/ccnmtl/econplayground/issues"
   },
