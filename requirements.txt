@@ -30,7 +30,7 @@ urllib3==2.5.0  # requests, sentry-sdk
 chardet==5.2.0  # requests
 idna==3.10  # requests
 certifi==2025.8.3  # requests, sentry-sdk
-requests==2.32.4
+requests==2.32.5
 logilab-common==2.1.0
 astroid==3.3.11
 pylint==3.3.8
