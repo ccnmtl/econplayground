@@ -1,5 +1,6 @@
 import hashlib
 from braces.views import CsrfExemptMixin
+from decimal import Decimal
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import (
@@ -363,7 +364,17 @@ class GraphDetailView(CohortGraphMixin, CohortPasswordMixin, DetailView):
         return is_correct
 
     @staticmethod
-    def prepare_post_data(post_data: QueryDict) -> QueryDict:
+    def get_directional_value(
+            original_value: Decimal, posted_value: str) -> str:
+        posted_value = Decimal(posted_value)
+        if posted_value > original_value:
+            return 'up'
+        elif posted_value < original_value:
+            return 'down'
+
+        return None
+
+    def prepare_post_data(self, post_data: QueryDict) -> QueryDict:
         post_data = post_data.copy()
 
         for line_number in range(1, 4):
@@ -375,8 +386,16 @@ class GraphDetailView(CohortGraphMixin, CohortPasswordMixin, DetailView):
 
         for var_number in range(1, 8):
             if post_data.get(f'gA{var_number}'):
+                posted_value = post_data.get(f'gA{var_number}')
+                directional_value = GraphDetailView.get_directional_value(
+                    getattr(self.object, f'a{var_number}'), posted_value)
+
+                rule_value = posted_value
+                if directional_value is not None:
+                    rule_value = [posted_value, directional_value]
+
                 post_data.update({
-                    f'a{var_number}': post_data.get(f'gA{var_number}')
+                    f'a{var_number}': rule_value
                 })
 
         return post_data
@@ -412,7 +431,7 @@ class GraphDetailView(CohortGraphMixin, CohortPasswordMixin, DetailView):
         # Find actions that the user has made
         rule_options = Graph.get_rule_options(self.object.graph_type)
         action_results = []
-        post_data = GraphDetailView.prepare_post_data(request.POST)
+        post_data = self.prepare_post_data(request.POST)
         if rule_options:
             for rule_option in rule_options.keys():
                 action_results.append(

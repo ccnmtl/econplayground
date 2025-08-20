@@ -444,13 +444,23 @@ class Assessment(models.Model):
     def __str__(self):
         return 'Assessment for: {}'.format(self.graph.title)
 
-    def evaluate_action(self, name: str, value: str) -> tuple[bool, str]:
+    def evaluate_action(
+            self, name: str, value: str | list[str]) -> tuple[bool, str]:
         for rule in self.assessmentrule_set.all():
             if name == rule.name:
+                result = None, None
                 if value == rule.value:
-                    return True, rule.feedback_fulfilled
+                    result = True, rule.feedback_fulfilled
+                elif (
+                        isinstance(value, list) and
+                        rule.value is not None and
+                        rule.value in value
+                ):
+                    result = True, rule.feedback_fulfilled
                 else:
-                    return False, rule.feedback_unfulfilled
+                    result = False, rule.feedback_unfulfilled
+
+                return result
 
         # No matching rules found.
         return None, None
