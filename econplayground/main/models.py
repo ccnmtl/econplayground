@@ -444,8 +444,7 @@ class Assessment(models.Model):
     def __str__(self):
         return 'Assessment for: {}'.format(self.graph.title)
 
-    def evaluate_action(self, name: str, check: str
-                        ) -> tuple[bool, str]:
+    def evaluate_action(self, name: str, check: str) -> tuple[bool, str]:
         for rule in self.assessmentrule_set.all():
             if name == rule.name:
                 try:
