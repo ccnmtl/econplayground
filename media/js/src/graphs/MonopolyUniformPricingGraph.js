@@ -67,6 +67,26 @@ const eq = function(c, b, a, d) {
     return (-a + c) / (b + d);
 };
 
+const csm = function(c, b, a, d) {
+    return (c - epm(c, b, a, d)) * eqm(c, b, a, d) / 2;
+};
+
+const psm = function(c, b, a, d) {
+    return (mc(a, d, eqm(c, b, a, d)) - a) * eqm(c, b, a, d) / 2 +
+        (epm(c, b, a, d) - mc(a, d, eqm(c, b, a, d))) *
+        eqm(c, b, a, d);
+};
+
+const tsm = function(c, b, a, d) {
+    return csm(c, b, a, d) + psm(c, b, a, d);
+};
+
+const dwlm = function(c, b, a, d) {
+    return (epm(c, b, a, d) - mc(a, d, eqm(c, b, a, d))) * (
+        eq(c, b, a, d) - eqm(c, b, a, d)
+    ) / 2;
+};
+
 export class MonopolyUniformPricingGraph extends Graph {
     static getGraphPane(gFunctionChoice, gA1, gA2, gA3, gA4) {
         if (gFunctionChoice === 0) {
@@ -120,22 +140,22 @@ export class MonopolyUniformPricingGraph extends Graph {
                 {
                     label: 'Consumer Surplus CS',
                     color: 'blue',
-                    value: epm(gA1, gA2, gA3, gA4).toFixed(2)
+                    value: csm(gA1, gA2, gA3, gA4).toFixed(2)
                 },
                 {
                     label: 'Producer Surplus PS',
                     color: 'orange',
-                    value: epm(gA1, gA2, gA3, gA4).toFixed(2)
+                    value: psm(gA1, gA2, gA3, gA4).toFixed(2)
                 },
                 {
                     label: 'Total Surplus PS',
                     color: 'black',
-                    value: epm(gA1, gA2, gA3, gA4).toFixed(2)
+                    value: tsm(gA1, gA2, gA3, gA4).toFixed(2)
                 },
                 {
                     label: 'Deadweight Loss DWL',
                     color: 'red',
-                    value: epm(gA1, gA2, gA3, gA4).toFixed(2)
+                    value: dwlm(gA1, gA2, gA3, gA4).toFixed(2)
                 }
             ];
         }
