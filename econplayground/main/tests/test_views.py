@@ -305,6 +305,38 @@ class GraphDetailViewTest(LoggedInTestMixin, TestCase):
         with self.assertRaises(Submission.DoesNotExist):
             Submission.objects.get(graph=self.graph, user=self.u)
 
+    def test_post_directional_value_float_assessment(self):
+        # Taxation in Linear Demand and Supply type
+        self.graph.graph_type = 23
+        self.graph.save()
+
+        self.make_assessment(
+            self.graph,
+            'a1', 'up',
+            'Choke price moved up',
+            'Choke price didn\'t move up'
+        )
+
+        r = self.client.post(
+            reverse('cohort_graph_detail', kwargs={
+                'cohort_pk': self.graph.topic.cohort.pk,
+                'pk': self.graph.pk,
+            }), {
+                # Default is 1500, so this value would move the
+                # variable up.
+                'gA1': '1600',
+            }, follow=True)
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, self.graph.title)
+        self.assertContains(r, self.graph.topic.cohort.title)
+        self.assertContains(r, 'Graph submitted.')
+
+        submission = Submission.objects.last()
+        self.assertEqual(submission.graph, self.graph)
+
+        self.assertContains(r, 'Choke price moved up')
+        self.assertNotContains(r, 'Choke price didn\'t move up')
+
 
 class InstructorGraphDetailViewTest(LoggedInTestInstructorMixin, TestCase):
     def test_get(self):
