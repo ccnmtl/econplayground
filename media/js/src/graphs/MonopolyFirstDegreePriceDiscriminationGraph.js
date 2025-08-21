@@ -52,7 +52,7 @@ const sq = function(a, d, p) {
 };*/
 
 const eqm = function(c, b, a, d) {
-    return (-a + c) / (2 * b + d);
+    return (-a + c) / (b + d);
 };
 
 const epm = function(c, b, a, d) {
