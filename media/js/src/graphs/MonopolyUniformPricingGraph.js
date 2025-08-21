@@ -97,7 +97,7 @@ export class MonopolyUniformPricingGraph extends Graph {
                     value: eqm(gA1, gA2, gA3, gA4).toFixed(2)
                 },
                 {
-                    label: 'Monopoly Price Q*<sub>M</sub>',
+                    label: 'Monopoly Price P*<sub>M</sub>',
                     color: 'red',
                     value: epm(gA1, gA2, gA3, gA4).toFixed(2)
                 }
@@ -230,12 +230,12 @@ export class MonopolyUniformPricingGraph extends Graph {
             ];
 
             let pointLabel = 'E';
-            let vertPointLabel = 'P<sup>*</sup><sub>M</sub>';
-            let horizPointLabel = 'Q<sup>*</sup><sub>f</sub>';
+            let horizPointLabel = 'P<sup>*</sup><sub>M</sub>';
+            let vertPointLabel = 'Q<sup>*</sup><sub>f</sub>';
 
             if (this.options.gFunctionChoice !== 0) {
                 pointLabel = 'E<sub>M</sub>';
-                horizPointLabel = 'Q<sup>*</sup><sub>M</sub>';
+                vertPointLabel = 'Q<sup>*</sup><sub>M</sub>';
             }
 
             this.showIntersection(
