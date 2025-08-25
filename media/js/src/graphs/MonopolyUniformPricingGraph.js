@@ -1,4 +1,5 @@
 import { Graph, positiveRange } from './Graph.js';
+import { drawPolygon } from '../jsxgraphUtils.js';
 
 export const defaults = [
     {
@@ -223,12 +224,39 @@ export class MonopolyUniformPricingGraph extends Graph {
             }
         );
 
-        if (this.options.gShowIntersection) {
-            const epoint = [
-                eqm(this.options.gA1, this.options.gA2, this.options.gA3, this.options.gA4),
-                epm(this.options.gA1, this.options.gA2, this.options.gA3, this.options.gA4)
-            ];
+        const epoint = [
+            eqm(this.options.gA1, this.options.gA2,
+                this.options.gA3, this.options.gA4),
+            epm(this.options.gA1, this.options.gA2,
+                this.options.gA3, this.options.gA4)
+        ];
 
+        if (this.options.gFunctionChoice === 2) {
+            // Show lightly shaded areas
+            const mr0 = mr(me.options.gA1, me.options.gA2, 0);
+            drawPolygon(this.board, [
+                [0, epoint[1]], epoint, [0, mr0]
+            ], null, 'lightblue');
+
+            const mc0 = mc(me.options.gA3, me.options.gA4, 0);
+            const inter13 = this.board.create(
+                'intersection', [this.l1, this.l3, 0], {
+                    visible: false
+                });
+            drawPolygon(this.board, [
+                [0, epoint[1]], epoint, inter13, [0, mc0]
+            ], null, 'orange');
+
+            const inter23 = this.board.create(
+                'intersection', [this.l2, this.l3, 0], {
+                    visible: false
+                });
+            drawPolygon(this.board, [
+                epoint, inter13, inter23
+            ], null, 'red');
+        }
+
+        if (this.options.gShowIntersection) {
             let pointLabel = 'E';
             let horizPointLabel = 'P<sup>*</sup><sub>M</sub>';
             let vertPointLabel = 'Q<sup>*</sup><sub>f</sub>';
