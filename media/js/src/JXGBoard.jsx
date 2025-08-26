@@ -598,6 +598,13 @@ export default class JXGBoard extends React.Component {
                 break;
         }
 
+        if (!xAxisLabel) {
+            xAxisLabel = options.gXAxisLabel ? options.gXAxisLabel : 'x';
+        }
+        if (!yAxisLabel) {
+            yAxisLabel = options.gYAxisLabel ? options.gYAxisLabel : 'y';
+        }
+
         let boundingBox = calculateBoundingBox(
             options.gXAxisMin, options.gYAxisMin,
             options.gXAxisMax, options.gYAxisMax);
