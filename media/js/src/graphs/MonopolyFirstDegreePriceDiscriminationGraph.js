@@ -7,7 +7,9 @@ export const defaults = [
         gA1: 1500,
         gA2: 2,
         gA3: 100,
-        gA4: 2
+        gA4: 2,
+        gXAxisLabel: 'Quantity',
+        gYAxisLabel: 'Price'
     },
     {
         gXAxisMax: 1000,
@@ -15,7 +17,9 @@ export const defaults = [
         gA1: 1500,
         gA2: 2,
         gA3: 100,
-        gA4: 2
+        gA4: 2,
+        gXAxisLabel: 'Quantity',
+        gYAxisLabel: 'Price'
     },
     {
         gXAxisMax: 1000,
@@ -23,7 +27,9 @@ export const defaults = [
         gA1: 1500,
         gA2: 2,
         gA3: 100,
-        gA4: 2
+        gA4: 2,
+        gXAxisLabel: 'Quantity',
+        gYAxisLabel: 'Price'
     },
 ];
 
@@ -178,30 +184,33 @@ export class MonopolyFirstDegreePriceDiscriminationGraph extends Graph {
         }
 
         let p1 = this.board.create('point', [0, this.options.gA1], {
-            size: 0,
             name: horizLabel || '',
             withLabel: !isShadow,
+            strokeColor: color,
+            fillColor: color,
             label: {
                 strokeColor: color
             },
             fixed: true,
             highlight: false,
-            showInfobox: false
+            showInfobox: false,
+            visible: this.options.gFunctionChoice === 0
         });
         this.board.create('line', [p1, i3], {
-            dash: 1,
+            dash: 2,
             highlight: false,
             strokeColor: color,
-            strokeWidth: isShadow ? 0.5 : 1,
+            strokeWidth: isShadow ? 1 : 2,
             straightFirst: false,
             straightLast: false,
-            layer: 4
+            layer: 5
         });
 
         let p2 = this.board.create('point', [i.X(), 0], {
-            size: 0,
             name: vertLabel || '',
             withLabel: !isShadow,
+            strokeColor: color,
+            fillColor: color,
             label: {
                 strokeColor: color
             },
@@ -216,10 +225,10 @@ export class MonopolyFirstDegreePriceDiscriminationGraph extends Graph {
         }
 
         this.board.create('line', [p2, i2], {
-            dash: 1,
+            dash: 2,
             highlight: false,
             strokeColor: color,
-            strokeWidth: isShadow ? 0.5 : 1,
+            strokeWidth: isShadow ? 1 : 2,
             straightFirst: false,
             straightLast: false,
             layer: 4
@@ -305,9 +314,30 @@ export class MonopolyFirstDegreePriceDiscriminationGraph extends Graph {
                 ], {
                     visible: false
                 }),
-                false, 'E<sub>F</sub>', 'E<sub>F</sub>Prices', 'Q<sup>*</sup><sub>F</sub>',
+                false,
+                this.options.gFunctionChoice === 1 ?
+                    'E<sub>M</sub>' : 'E<sub>F</sub>',
+                this.options.gFunctionChoice === 1 ?
+                    'E<sub>M</sub>' : 'E<sub>F</sub>',
+                this.options.gFunctionChoice === 1 ?
+                    'Q<sup>*</sup><sub>M</sub>' : 'Q<sup>*</sup><sub>F</sub>' ,
                 false, false);
         }
+
+        this.board.create('point', [0, this.options.gA1], {
+            name: 'Prices',
+            withLabel: true,
+            strokeColor: 'red',
+            fillColor: 'red',
+            label: {
+                offset: [10, 25],
+                strokeColor: 'red'
+            },
+            fixed: true,
+            highlight: false,
+            showInfobox: false,
+            size: 0
+        });
     }
 }
 

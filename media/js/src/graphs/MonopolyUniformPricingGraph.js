@@ -8,7 +8,9 @@ export const defaults = [
         gA1: 1500,
         gA2: 2,
         gA3: 100,
-        gA4: 2
+        gA4: 2,
+        gXAxisLabel: 'Quantity',
+        gYAxisLabel: 'Price'
     },
     {
         gXAxisMax: 1000,
@@ -16,7 +18,9 @@ export const defaults = [
         gA1: 1500,
         gA2: 2,
         gA3: 100,
-        gA4: 2
+        gA4: 2,
+        gXAxisLabel: 'Quantity',
+        gYAxisLabel: 'Price'
     },
     {
         gXAxisMax: 1000,
@@ -24,7 +28,9 @@ export const defaults = [
         gA1: 1500,
         gA2: 2,
         gA3: 100,
-        gA4: 2
+        gA4: 2,
+        gXAxisLabel: 'Quantity',
+        gYAxisLabel: 'Price'
     },
 ];
 
