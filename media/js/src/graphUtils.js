@@ -95,6 +95,12 @@ export const setDynamicGraphDefaults = function(state, updateObj) {
             linearDemandSupplySurplusDefaults,
             linearDemandSupplySurplusDefaults,
             state.gFunctionChoice);
+    } else if (state.gType === 29) {
+        updateObj = setDefaults(
+            updateObj,
+            monopolyUniformPricingDefaults,
+            monopolyUniformPricingDefaults,
+            state.gFunctionChoice);
     }
 
     return updateObj;

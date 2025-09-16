@@ -12,7 +12,8 @@ function MonopolyUniformPricingEditor(props) {
         'Welfare Analysis',
     ];
     if (props.gType === 29) {
-        modesRight.push('Linear Demand - Marginal Revenue and Revenue');
+        modesRight.push('Linear Demand - Marginal Revenue');
+        modesRight.push('Linear Demand - Revenue');
     }
 
     const radioButtons1 = modesLeft.map((optionTitle, idx) =>
