@@ -32,6 +32,26 @@ export const defaults = [
         gXAxisLabel: 'Quantity',
         gYAxisLabel: 'Price'
     },
+    {
+        gXAxisMax: 1000,
+        gYAxisMax: 2500,
+        gA1: 1500,
+        gA2: 2,
+        gA3: 100,
+        gA4: 2,
+        gXAxisLabel: 'Quantity',
+        gYAxisLabel: 'Price'
+    },
+    {
+        gXAxisMax: 1000,
+        gYAxisMax: 550000,
+        gA1: 1500,
+        gA2: 2,
+        gA3: 100,
+        gA4: 2,
+        gXAxisLabel: 'Quantity',
+        gYAxisLabel: 'Tax Revenue'
+    },
 ];
 
 /*const dq = function(c, b, p) {
@@ -92,6 +112,23 @@ const dwlm = function(c, b, a, d) {
     return (epm(c, b, a, d) - mc(a, d, eqm(c, b, a, d))) * (
         eq(c, b, a, d) - eqm(c, b, a, d)
     ) / 2;
+};
+
+// Revenue function
+const R = function(c, b, q) {
+    return (c - b * q) * q;
+};
+
+const qrstar = function(c, b) {
+    return c / (2 * b);
+};
+
+const maxr = function(c, b, a, d) {
+    return (c - b * qrstar(c, b, a, d)) * qrstar(c, b, a, d);
+};
+
+const rpoint = function(c, b, a, d) {
+    return [qrstar(c, b, a, d), maxr(c, b, a, d)];
 };
 
 export class MonopolyUniformPricingGraph extends Graph {
@@ -165,6 +202,19 @@ export class MonopolyUniformPricingGraph extends Graph {
                     value: dwlm(gA1, gA2, gA3, gA4).toFixed(2)
                 }
             ];
+        } else if (gFunctionChoice === 3) {
+            return [
+                {
+                    label: 'Equilibrium Quantity Q*<sub>f</sub>',
+                    color: 'red',
+                    value: eqm(gA1, gA2, gA3, gA4).toFixed(2)
+                },
+                {
+                    label: 'Equilibrium Price P*<sub>f</sub>',
+                    color: 'red',
+                    value: epm(gA1, gA2, gA3, gA4).toFixed(2)
+                }
+            ];
         }
 
         return [];
@@ -173,62 +223,88 @@ export class MonopolyUniformPricingGraph extends Graph {
     make() {
         const me = this;
 
-        const mrLine = function(x) {
-            return mr(me.options.gA1, me.options.gA2, x)
-        };
+        if (this.options.gFunctionChoice === 4) {
+            const revenueLine = function(x) {
+                return R(me.options.gA1, me.options.gA2, x);
+            };
 
-        this.l1 = this.board.create(
-            'functiongraph',
-            [positiveRange(mrLine), 0, this.options.gXAxisMax], {
-                name: 'Marginal Revenue',
-                withLabel: true,
-                label: {
-                    strokeColor: this.l1Color
-                },
-                strokeWidth: 2,
-                strokeColor: this.l1Color,
-                fixed: true,
-                highlight: false
-            }
-        );
+            this.l2 = this.board.create(
+                'functiongraph',
+                [positiveRange(revenueLine), 0, this.options.gXAxisMax], {
+                    name: 'Revenue',
+                    withLabel: true,
+                    label: {
+                        strokeColor: this.l2Color
+                    },
+                    strokeWidth: 2,
+                    strokeColor: this.l2Color,
+                    fixed: true,
+                    highlight: false
+                }
+            );
+        } else {
+            const mrLine = function(x) {
+                return mr(me.options.gA1, me.options.gA2, x);
+            };
 
-        const dpLine = function(x) {
-            return dp(me.options.gA1, me.options.gA2, x)
-        };
+            this.l1 = this.board.create(
+                'functiongraph',
+                [positiveRange(mrLine), 0, this.options.gXAxisMax], {
+                    name: 'Marginal Revenue',
+                    withLabel: true,
+                    label: {
+                        strokeColor: this.l1Color
+                    },
+                    strokeWidth: 2,
+                    strokeColor: this.l1Color,
+                    fixed: true,
+                    highlight: false
+                }
+            );
 
-        this.l2 = this.board.create(
-            'functiongraph',
-            [positiveRange(dpLine), 0, this.options.gXAxisMax], {
-                name: 'Demand',
-                withLabel: true,
-                label: {
-                    strokeColor: this.l2Color
-                },
-                strokeWidth: 2,
-                strokeColor: this.l2Color,
-                fixed: true,
-                highlight: false
-            }
-        );
+            const dpLine = function(x) {
+                return dp(me.options.gA1, me.options.gA2, x)
+            };
 
-        const mcLine = function(x) {
-            return mc(me.options.gA3, me.options.gA4, x)
-        };
+            this.l2 = this.board.create(
+                'functiongraph',
+                [positiveRange(dpLine), 0, this.options.gXAxisMax], {
+                    name: 'Demand',
+                    withLabel: true,
+                    label: {
+                        strokeColor: this.l2Color
+                    },
+                    strokeWidth: 2,
+                    strokeColor: this.l2Color,
+                    fixed: true,
+                    highlight: false
+                }
+            );
+        }
 
-        this.l3 = this.board.create(
-            'functiongraph',
-            [positiveRange(mcLine), 0, this.options.gXAxisMax], {
-                name: 'Marginal Cost',
-                withLabel: true,
-                label: {
-                    strokeColor: this.l3Color
-                },
-                strokeWidth: 2,
-                strokeColor: this.l3Color,
-                fixed: true,
-                highlight: false
-            }
-        );
+        if (
+            this.options.gFunctionChoice !== 3 &&
+                this.options.gFunctionChoice !== 4
+        ) {
+            const mcLine = function(x) {
+                return mc(me.options.gA3, me.options.gA4, x)
+            };
+
+            this.l3 = this.board.create(
+                'functiongraph',
+                [positiveRange(mcLine), 0, this.options.gXAxisMax], {
+                    name: 'Marginal Cost',
+                    withLabel: true,
+                    label: {
+                        strokeColor: this.l3Color
+                    },
+                    strokeWidth: 2,
+                    strokeColor: this.l3Color,
+                    fixed: true,
+                    highlight: false
+                }
+            );
+        }
 
         const epoint = [
             eqm(this.options.gA1, this.options.gA2,
@@ -262,7 +338,11 @@ export class MonopolyUniformPricingGraph extends Graph {
             ], null, 'red');
         }
 
-        if (this.options.gShowIntersection) {
+        if (
+            this.options.gShowIntersection &&
+                this.options.gFunctionChoice !== 3 &&
+                this.options.gFunctionChoice !== 4
+        ) {
             let pointLabel = 'E';
             let horizPointLabel = 'P<sup>*</sup><sub>M</sub>';
             let vertPointLabel = 'Q<sup>*</sup><sub>f</sub>';
@@ -294,6 +374,30 @@ export class MonopolyUniformPricingGraph extends Graph {
                     false, 'E', 'P<sup>*</sup>', 'Q<sup>*</sup>',
                     false, false, 'grey');
             }
+        } else if (
+            this.options.gShowIntersection &&
+                this.options.gFunctionChoice === 4
+        ) {
+            let pointLabel = 'R<sup>*</sup>';
+            const rpointEval = rpoint(
+                this.options.gA1, this.options.gA2,
+                this.options.gA3, this.options.gA4);
+
+            this.showIntersection(
+                this.board.create('line', [
+                    [0, rpointEval[1]],
+                    rpointEval
+                ], {
+                    visible: false
+                }),
+                this.board.create('line', [
+                    [rpointEval[0], 0],
+                    rpointEval
+                ], {
+                    visible: false
+                }),
+                false, pointLabel, null, null,
+                false, false);
         }
     }
 }
