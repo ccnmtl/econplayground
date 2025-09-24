@@ -484,35 +484,6 @@ class AssessmentRule(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        user_friendly_name = self.name
-
-        assessment_type = ''
-        if len(self.name) > 5:
-            assessment_type = ' ' + self.name[5:]
-
-        line_number = None
-        if len(self.name) > 3 and self.name[:4] == 'line':
-            line_number = int(self.name[4])
-
-        if line_number == 1:
-            if assessment_type.strip() == 'intercept':
-                user_friendly_name = 'Orange-Blue intersection'
-            else:
-                user_friendly_name = 'Orange line' + assessment_type
-        elif line_number == 2:
-            if assessment_type.strip() == 'intercept':
-                user_friendly_name = 'Blue-Red intersection'
-            else:
-                user_friendly_name = 'Blue line' + assessment_type
-        elif line_number == 3:
-            if assessment_type.strip() == 'intercept':
-                user_friendly_name = 'Orange-Red intersection'
-            else:
-                user_friendly_name = 'Red line' + assessment_type
-
-        return 'AssessmentRule: {} - {}'.format(user_friendly_name, self.value)
-
     class Meta:
         ordering = ('name',)
         unique_together = ('assessment', 'name', 'value',)
