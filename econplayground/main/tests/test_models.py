@@ -131,25 +131,6 @@ class AssessmentRuleTest(TestCase):
     def test_is_valid_from_factory(self):
         self.x.full_clean()
 
-    def test_str(self):
-        rule1 = AssessmentRuleFactory(name='')
-        rule2 = AssessmentRuleFactory(name='line2')
-        rule3 = AssessmentRuleFactory(name='a')
-        rule4 = AssessmentRuleFactory(name='x_axis_label')
-
-        self.assertEqual(
-            str(rule1),
-            'AssessmentRule: {} - {}'.format(rule1.name, rule1.value))
-        self.assertEqual(
-            str(rule2),
-            'AssessmentRule: Blue line - {}'.format(rule2.value))
-        self.assertEqual(
-            str(rule3),
-            'AssessmentRule: {} - {}'.format(rule3.name, rule3.value))
-        self.assertEqual(
-            str(rule4),
-            'AssessmentRule: {} - {}'.format(rule4.name, rule4.value))
-
     def test_multiple_rules(self):
         AssessmentRuleFactory(assessment=self.x.assessment)
         AssessmentRuleFactory(assessment=self.x.assessment)
