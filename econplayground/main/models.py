@@ -386,56 +386,6 @@ class Graph(OrderedModel):
 
 
 class Assessment(models.Model):
-    """
-    The Assessment model handles graph feedback and scoring in
-    EconPractice.
-
-    To make feedback and scores in a graph, click Add Assessment in
-    the top right.
-
-    In the Graph dropdown, select the name of the graph you're
-    making. You can add as many Assessment Rules as you want. The Name
-    field expects values like:
-
-    - line1label
-    - line1slope
-    - line1intercept
-
-    Line 1 refers to the orange line, line 2 is the blue line, and
-    line 3 is the red line.
-
-    For intersection labels, use "intersectionLabel" as the
-    Assessment's name to assess the main intersection label. If the
-    graph has more than two lines, these names correspond to these
-    intersection labels:
-
-    - intersectionLabel: Orange-Blue intersection
-    - intersection2Label: Blue-Red intersection
-    - intersection3Label: Orange-Red intersection
-
-    Here's how the dotted line labels correspond:
-
-    - intersectionHorizLineLabel: Orange-Blue intersection horizontal
-    - intersectionVertLineLabel: Orange-Blue intersection vertical
-    - intersection2HorizLineLabel: Blue-Red intersection horizontal
-    - intersection2VertLineLabel: Blue-Red intersection vertical
-    - intersection3HorizLineLabel: Orange-Red intersection horizontal
-    - intersection3VertLineLabel: Orange-Red intersection vertical
-
-    The Value column is how you expect the user to modify this
-    field. If it's a label field, just type in the correct label,
-    e.g. "Demand". Spaces uppercase will be ignored during assessment.
-
-    To assess a line movement, do something like 'line1intercept' with
-    a value of 'up', 'down', or 'any'. To assess rotations, do
-    'line1slope' with a value of 'increase', 'decrease', or 'any'.
-
-    Use the feedback_fulfilled and feedback_unfulfilled columns to
-    give textual feedback to the users.
-
-    The score column specifies how many points the user will receive
-    for fulfilling this case.
-    """
     graph = models.OneToOneField(Graph, on_delete=models.CASCADE)
 
     created_at = models.DateTimeField(auto_now_add=True)
