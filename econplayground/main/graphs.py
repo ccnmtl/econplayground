@@ -52,8 +52,10 @@ class BaseGraph(ABC):
     line_actions = [
         'up',
         'down',
-        'slope up',
-        'slope down',
+    ]
+    line_slope_actions = [
+        'up',
+        'down',
     ]
     variable_actions = [
         'up',
@@ -69,9 +71,19 @@ class BaseGraph(ABC):
                 'possible_values': cls.line_actions,
             },
 
+            'line1 slope': {
+                'name': 'Orange line slope',
+                'possible_values': cls.line_slope_actions,
+            },
+
             'line2': {
                 'name': 'Blue line',
                 'possible_values': cls.line_actions,
+            },
+
+            'line2 slope': {
+                'name': 'Blue line slope',
+                'possible_values': cls.line_slope_actions,
             },
 
             'line1 label': 'Orange line label',
@@ -98,9 +110,19 @@ class Graph0(BaseGraph):
                 'possible_values': cls.line_actions,
             },
 
+            'line1 slope': {
+                'name': 'Orange line slope',
+                'possible_values': cls.line_slope_actions,
+            },
+
             'line2': {
                 'name': 'Blue line',
                 'possible_values': cls.line_actions,
+            },
+
+            'line2 slope': {
+                'name': 'Blue line slope',
+                'possible_values': cls.line_slope_actions,
             },
 
             'line1 label': 'Orange line label',
@@ -125,6 +147,10 @@ class Graph1(BaseGraph):
             'line1': {
                 'name': 'Orange line',
                 'possible_values': cls.line_actions,
+            },
+            'line1 slope': {
+                'name': 'Orange line slope',
+                'possible_values': cls.line_slope_actions,
             },
             'a1': {
                 'name': 'A',

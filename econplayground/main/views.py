@@ -384,6 +384,14 @@ class GraphDetailView(CohortGraphMixin, CohortPasswordMixin, DetailView):
                         f'gLine{line_number}Label')
                 })
 
+            if post_data.get(f'gLine{line_number}Slope'):
+                post_data.update({
+                    f'line{line_number} slope':
+                    GraphDetailView.get_directional_value(
+                        getattr(self.object, f'line_{line_number}_slope'),
+                        post_data.get(f'gLine{line_number}Slope'))
+                })
+
         for var_number in range(1, 8):
             if post_data.get(f'gA{var_number}'):
                 posted_value = post_data.get(f'gA{var_number}')

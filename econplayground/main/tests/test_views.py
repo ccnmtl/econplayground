@@ -121,6 +121,71 @@ class GraphDetailViewTest(LoggedInTestMixin, TestCase):
         self.assertNotContains(r, 'You moved line 1 up!')
         self.assertContains(r, 'You didn\'t move line 1 up.')
 
+    def test_post_slope_change_assessment(self):
+        # Linear Demand Supply
+        self.graph.graph_type = 0
+        self.graph.line_1_slope = 1.0
+        self.graph.save()
+
+        self.make_assessment(
+            self.graph, 'line1 slope', 'up',
+            'You moved line 1\'s slope up!',
+            'You didn\'t move line 1\'s slope up.',
+        )
+
+        r = self.client.post(
+            reverse('cohort_graph_detail', kwargs={
+                'cohort_pk': self.graph.topic.cohort.pk,
+                'pk': self.graph.pk,
+            }), {
+                'gLine1Slope': '1.62',
+            }, follow=True)
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, self.graph.title)
+        self.assertContains(r, self.graph.topic.cohort.title)
+        self.assertContains(r, 'Graph submitted.')
+
+        submission = Submission.objects.last()
+        self.assertEqual(submission.graph, self.graph)
+
+        self.assertContains(r, 'You moved line 1\'s slope up!')
+        self.assertNotContains(r, 'You didn\'t move line 1\'s slope up.')
+
+        r = self.client.post(
+            reverse('cohort_graph_detail', kwargs={
+                'cohort_pk': self.graph.topic.cohort.pk,
+                'pk': self.graph.pk,
+            }), {
+                'gLine1Slope': '0.2',
+            }, follow=True)
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, self.graph.title)
+        self.assertContains(r, self.graph.topic.cohort.title)
+        self.assertContains(r, 'Graph submitted.')
+
+        submission = Submission.objects.last()
+        self.assertEqual(submission.graph, self.graph)
+
+        self.assertNotContains(r, 'You moved line 1\'s slope up!')
+        self.assertContains(r, 'You didn\'t move line 1\'s slope up.')
+
+        # No user action
+        r = self.client.post(
+            reverse('cohort_graph_detail', kwargs={
+                'cohort_pk': self.graph.topic.cohort.pk,
+                'pk': self.graph.pk,
+            }), follow=True)
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, self.graph.title)
+        self.assertContains(r, self.graph.topic.cohort.title)
+        self.assertContains(r, 'Graph submitted.')
+
+        submission = Submission.objects.last()
+        self.assertEqual(submission.graph, self.graph)
+
+        self.assertNotContains(r, 'You moved line 1\'s slope up!')
+        self.assertContains(r, 'You didn\'t move line 1\'s slope up.')
+
     def test_post_exact_value_assessment(self):
         # Cost Functions type
         self.graph.graph_type = 18
