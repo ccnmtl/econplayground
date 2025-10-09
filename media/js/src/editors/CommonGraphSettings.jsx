@@ -161,22 +161,13 @@ export default class CommonGraphSettings extends React.Component {
                     </a>
                     <a
                         target="_blank"
-                        className="text-decoration-none align-text-top me-2"
-                        href="/help/assessment/"
-                        title="Assessment Documentation">
-                        Assessment info <i className="bi bi-info-circle"></i>
-                    </a>
-                    <br />
-                    <a
-                        target="_blank"
                         rel="noreferrer"
                         className="text-decoration-none align-text-top"
                         href={`/graph/${this.props.gType}/help/`}
-                        title="Assessment Documentation">
+                        title="Assessment documentation">
                         <i className="bi bi-list-task"></i>
                         <span className="mx-1">Assessment rules</span>
                         <i className="bi bi-box-arrow-up-right"></i>
-                        
                     </a>
                 </div>
                 <hr/>
