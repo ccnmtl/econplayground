@@ -33,3 +33,13 @@ def get_graph_name(graph_type: int) -> str:
         raise ValueError('graph type not found')
 
     return result[0]
+
+
+def compare_strings(a: str, b: str) -> bool:
+    """
+    Compare two strings in a safe and case-insensitive way.
+    """
+    if hasattr(a, 'lower') and hasattr(b, 'lower'):
+        return a.lower() == b.lower()
+
+    return a == b
