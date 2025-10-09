@@ -6,6 +6,7 @@ export default class ResetGraphButton extends React.Component {
         return (
             <button
                 className="btn btn-secondary btn-sm"
+                type="reset"
                 onClick={this.onClick.bind(this)}>
                 Reset Graph
             </button>
