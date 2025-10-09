@@ -7,6 +7,9 @@ import {
     untoggledDefaults as untoggledOptimalChoiceConsumptionDefaults
 } from './graphs/OptimalChoiceConsumption.js';
 import {
+    defaults as consumptionLeisureDefaults
+} from './graphs/ConsumptionLeisureGraph.js';
+import {
     defaults as costFunctionsDefaults
 } from './graphs/CostFunctionsGraph.js';
 import {
@@ -116,6 +119,8 @@ export const getDefaultGraphState = function(graphType, state) {
 
     if (graphType === 3) {
         Object.assign(state, cobbDouglasDefaults);
+    } else if (graphType === 5) {
+        Object.assign(state, consumptionLeisureDefaults);
     } else if (graphType === 15) {
         state.gA4 = 0.5;
     } else if (graphType === 17) {
