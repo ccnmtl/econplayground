@@ -11,6 +11,7 @@ from django.db.models.signals import post_save, pre_delete
 import importlib
 
 from econplayground.main.graphs import GRAPH_TYPES, BaseGraph
+from econplayground.main.utils import compare_strings
 
 
 ASSIGNMENT_TYPES = (
@@ -399,7 +400,7 @@ class Assessment(models.Model):
         for rule in self.assessmentrule_set.all():
             if name == rule.name:
                 result = None, None
-                if value == rule.value:
+                if compare_strings(value, rule.value):
                     result = True, rule.feedback_fulfilled
                 elif (
                         isinstance(value, list) and
