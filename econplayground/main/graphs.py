@@ -223,6 +223,9 @@ class Graph5(BaseGraph):
                 'name': 'Tax Rate: t',
                 'possible_values': cls.variable_actions,
             },
+            'line1 label': 'Budget line label',
+            'x-axis label': 'X-axis label',
+            'y-axis label': 'Y-axis label',
         }
 
 
@@ -249,6 +252,8 @@ class Graph7(BaseGraph):
                 'name': 'r',
                 'possible_values': cls.variable_actions,
             },
+            'line1 label': 'Orange line label',
+            'intersectionLabel': 'Endowment point label',
         }
 
 
