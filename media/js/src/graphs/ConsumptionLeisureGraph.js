@@ -1,5 +1,11 @@
 import {Graph, positiveRange} from './Graph.js';
 
+export const defaults = {
+    gA1: 2.5,
+    gA2: 2,
+    gA4: 0.5
+};
+
 /**
  * This graph displays the function:
  *
