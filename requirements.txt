@@ -32,7 +32,7 @@ idna==3.10  # requests
 certifi==2025.10.5  # requests, sentry-sdk
 requests==2.32.5
 logilab-common==2.1.0
-astroid==4.0.0
+astroid==4.0.1
 pylint==3.3.9
 six==1.17.0
 faker==37.11.0  # factory_boy
