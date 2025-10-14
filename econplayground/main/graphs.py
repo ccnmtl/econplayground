@@ -647,7 +647,7 @@ class Graph23(BaseGraph):
                 'name': 'Choke Price',
                 'possible_values': cls.variable_actions,
             },
-            'line_2_slope': {
+            'line2 slope': {
                 'name': 'Demand Slope',
                 'possible_values': cls.variable_actions,
             },
@@ -655,7 +655,7 @@ class Graph23(BaseGraph):
                 'name': 'Reservation Price',
                 'possible_values': cls.variable_actions,
             },
-            'line_1_slope': {
+            'line1 slope': {
                 'name': 'Supply Slope',
                 'possible_values': cls.variable_actions,
             },
