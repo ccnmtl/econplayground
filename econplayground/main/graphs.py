@@ -298,6 +298,11 @@ class Graph10(BaseGraph):
                 'possible_values': cls.line_actions,
             },
 
+            'line1 slope': {
+                'name': 'Orange line slope',
+                'possible_values': cls.line_slope_actions,
+            },
+
             'line2': {
                 'name': 'Blue line',
                 'possible_values': cls.line_actions,
@@ -319,10 +324,6 @@ class Graph10(BaseGraph):
             },
             'a2': {
                 'name': 'K',
-                'possible_values': cls.variable_actions,
-            },
-            'a3': {
-                'name': 'N',
                 'possible_values': cls.variable_actions,
             },
         }
