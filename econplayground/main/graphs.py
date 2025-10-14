@@ -813,11 +813,11 @@ class Graph28(BaseGraph):
                 'possible_values': cls.variable_actions,
             },
             'a5': {
-                'name': 'EMC Constant',
+                'name': 'EMB Constant',
                 'possible_values': cls.variable_actions,
             },
             'a6': {
-                'name': 'EMC Slope',
+                'name': 'EMB Slope',
                 'possible_values': cls.variable_actions,
             },
         }
