@@ -821,3 +821,53 @@ class Graph28(BaseGraph):
                 'possible_values': cls.variable_actions,
             },
         }
+
+
+class Graph29(BaseGraph):
+    graph_type = 29
+
+    @classmethod
+    def get_rule_options(cls) -> dict:
+        return {
+            'a1': {
+                'name': 'Choke Price',
+                'possible_values': cls.variable_actions,
+            },
+            'a2': {
+                'name': 'Demand Slope',
+                'possible_values': cls.variable_actions,
+            },
+            'a3': {
+                'name': 'Reservation Price',
+                'possible_values': cls.variable_actions,
+            },
+            'a4': {
+                'name': 'Supply Slope',
+                'possible_values': cls.variable_actions,
+            },
+        }
+
+
+class Graph30(BaseGraph):
+    graph_type = 30
+
+    @classmethod
+    def get_rule_options(cls) -> dict:
+        return {
+            'a1': {
+                'name': 'Choke Price',
+                'possible_values': cls.variable_actions,
+            },
+            'a2': {
+                'name': 'Demand Slope',
+                'possible_values': cls.variable_actions,
+            },
+            'a3': {
+                'name': 'Reservation Price',
+                'possible_values': cls.variable_actions,
+            },
+            'a4': {
+                'name': 'Supply Slope',
+                'possible_values': cls.variable_actions,
+            },
+        }
