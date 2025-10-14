@@ -268,7 +268,11 @@ class Graph8(BaseGraph):
             'line3': {
                 'name': 'Green line',
                 'possible_values': cls.line_actions,
-            }
+            },
+            'line3 slope': {
+                'name': 'Green line slope',
+                'possible_values': cls.line_slope_actions,
+            },
         })
         return rules
 
