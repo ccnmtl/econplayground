@@ -26,7 +26,7 @@ export default class ADASEditor extends React.Component {
     render() {
         const func1 = `\\text{Orange: } y = mx + b = ${this.props.gLine1Slope} (x - 2.5) + 2.5)`;
         const func2 = `\\text{Blue: } y = mx + b = ${this.props.gLine2Slope} (x - 2.5) + 2.5`;
-        const func3 = `\\text{Red: } y = mx + b = ${this.props.gLine3Slope} (x - 2.5) + 2.5)`;
+        const func3 = `\\text{Green: } y = mx + b = ${this.props.gLine3Slope} (x - 2.5) + 2.5)`;
 
         return (
             <div>
@@ -73,7 +73,7 @@ export default class ADASEditor extends React.Component {
                             override2Value={0}
                             handler={handleFormUpdate.bind(this)} />
                         <RangeEditor
-                            label="\text{Red line slope}"
+                            label="\text{Green line slope}"
                             id="gLine3Slope"
                             value={this.props.gLine3Slope}
                             min={-5}
@@ -100,13 +100,13 @@ export default class ADASEditor extends React.Component {
                     id="gDisplayIntersection2"
                     checked={this.props.gDisplayIntersection2}
                     onChange={handleFormUpdate.bind(this)}
-                    text="Show Blue-Red intersection"
+                    text="Show Blue-Green intersection"
                 />
                 <Checkbox
                     id="gDisplayIntersection3"
                     checked={this.props.gDisplayIntersection3}
                     onChange={handleFormUpdate.bind(this)}
-                    text="Show Orange-Red intersection"
+                    text="Show Orange-Green intersection"
                 />
 
                 {this.props.isInstructor && (
@@ -127,7 +127,7 @@ export default class ADASEditor extends React.Component {
                             id="gLine3Dashed"
                             checked={this.props.gLine3Dashed}
                             onChange={handleFormUpdate.bind(this)}
-                            text="Red line dashed?"
+                            text="Green line dashed?"
                         />
                         <hr />
                     </React.Fragment>
@@ -150,7 +150,7 @@ export default class ADASEditor extends React.Component {
                                 )}
                                 {this.formatControlStd(
                                     'gLine3Label',
-                                    'Red line',
+                                    'Green line',
                                     this.props.gLine3Label
                                 )}
                             </div>
@@ -174,12 +174,12 @@ export default class ADASEditor extends React.Component {
                                 )}
                                 {this.formatControlStd(
                                     'gIntersection2Label',
-                                    'Blue-Red intersection',
+                                    'Blue-Green intersection',
                                     this.props.gIntersection2Label
                                 )}
                                 {this.formatControlStd(
                                     'gIntersection3Label',
-                                    'Orange-Red intersection',
+                                    'Orange-Green intersection',
                                     this.props.gIntersection3Label
                                 )}
                             </div>
@@ -198,24 +198,24 @@ export default class ADASEditor extends React.Component {
                             <div className="row align-items-end">
                                 {this.formatControlStd(
                                     'gIntersection2HorizLineLabel',
-                                    'Blue-Red intersection horizontal',
+                                    'Blue-Green intersection horizontal',
                                     this.props.gIntersection2HorizLineLabel
                                 )}
                                 {this.formatControlStd(
                                     'gIntersection2VertLineLabel',
-                                    'Blue-Red intersection vertical',
+                                    'Blue-Green intersection vertical',
                                     this.props.gIntersection2VertLineLabel
                                 )}
                             </div>
                             <div className="row align-items-end">
                                 {this.formatControlStd(
                                     'gIntersection3HorizLineLabel',
-                                    'Orange-Red intersection horizontal',
+                                    'Orange-Green intersection horizontal',
                                     this.props.gIntersection3HorizLineLabel
                                 )}
                                 {this.formatControlStd(
                                     'gIntersection3VertLineLabel',
-                                    'Orange-Red intersection vertical',
+                                    'Orange-Green intersection vertical',
                                     this.props.gIntersection3VertLineLabel
                                 )}
                             </div>

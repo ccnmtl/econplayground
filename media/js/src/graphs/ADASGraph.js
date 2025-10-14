@@ -16,7 +16,7 @@ export class ADASGraph extends Graph {
                 value: 'line2',
             },
             {
-                name: 'Red line',
+                name: 'Green line',
                 value: 'line3',
             },
             {
@@ -48,27 +48,27 @@ export class ADASGraph extends Graph {
                 value: 'intersection_1_vert_line_label'
             },
             {
-                name: 'Blue-Red Intersection point label',
+                name: 'Blue-Green Intersection point label',
                 value: 'intersection_2_label'
             },
             {
-                name: 'Blue-Red Intersection\'s horizontal line label',
+                name: 'Blue-Green Intersection\'s horizontal line label',
                 value: 'intersection_2_horiz_line_label'
             },
             {
-                name: 'Blue-Red Intersection\'s vertical line label',
+                name: 'Blue-Green Intersection\'s vertical line label',
                 value: 'intersection_2_vert_line_label'
             },
             {
-                name: 'Orange-Red Intersection point label',
+                name: 'Orange-Green Intersection point label',
                 value: 'intersection_3_label'
             },
             {
-                name: 'Orange-Red Intersection\'s horizontal line label',
+                name: 'Orange-Green Intersection\'s horizontal line label',
                 value: 'intersection_3_horiz_line_label'
             },
             {
-                name: 'Orange-Red Intersection\'s vertical line label',
+                name: 'Orange-Green Intersection\'s vertical line label',
                 value: 'intersection_3_vert_line_label'
             },
             {
@@ -80,7 +80,7 @@ export class ADASGraph extends Graph {
                 value: 'line_2_slope'
             },
             {
-                name: 'Red line slope',
+                name: 'Green line slope',
                 value: 'line_3_slope'
             },
         ];
