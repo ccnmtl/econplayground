@@ -101,7 +101,7 @@ django-contact-us==1.1.0
 docutils==0.22.2  # Django's admindocs
 
 rich==14.2.0  # bandit
-pbr==7.0.1  # bandit
+pbr==7.0.2  # bandit
 pyyaml==6.0.3  # bandit
 stevedore==5.5.0  # bandit
 bandit==1.8.6
