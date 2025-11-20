@@ -44,6 +44,8 @@ GRAPH_TYPES = (
 
     (29, 'Monopoly - Uniform Pricing'),
     (30, 'Monopoly - First-Degree Price Discrimination'),
+
+    (31, 'International Trade and Tariffs'),
 )
 
 
@@ -871,3 +873,7 @@ class Graph30(BaseGraph):
                 'possible_values': cls.variable_actions,
             },
         }
+
+
+class Graph31(BaseGraph):
+    graph_type = 31
