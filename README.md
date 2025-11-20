@@ -9,7 +9,7 @@ EconPractice integrates with learning management systems such as Canvas, allowin
 EconPractice is developed and maintained as an open source tool called EconPlayground. Our source code is released with the [GNU GPLv3](https://www.gnu.org/licenses/gpl-3.0.txt) license.
 
 ## Development server
-To run EconPractice in development mode, run `make runserver` after cloning this repo. This requires a working [PostgreSQL](https://www.postgresql.org/) connection.
+To run EconPractice in development mode, run `make runserver` after cloning this repo. This requires Python and a working [PostgreSQL](https://www.postgresql.org/) connection. You will also need [NodeJS](https://nodejs.org/en) to build the javascript, via `npm run build`.
 
 You can also run EconPractice in [Docker](https://www.docker.com/) with [Docker Compose](https://docs.docker.com/compose/) to avoid installing dependencies such as Python and PostgreSQL:
 ```
