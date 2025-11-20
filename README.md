@@ -10,3 +10,8 @@ EconPractice is developed and maintained as an open source tool called EconPlayg
 
 ## Development server
 To run EconPractice in development mode, run `make runserver` after cloning this repo. This requires a working [PostgreSQL](https://www.postgresql.org/) connection.
+
+You can also run EconPractice in [Docker](https://www.docker.com/) with [Docker Compose](https://docs.docker.com/compose/) to avoid installing dependencies such as Python and PostgreSQL:
+```
+docker compose up
+```
