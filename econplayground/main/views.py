@@ -174,6 +174,12 @@ class GraphSelectView(
                     'graph_type': 30,
                     'image': 'graph_types/graph_30.png',
                 },
+
+                # International Trade and Tariffs
+                {
+                    'graph_type': 31,
+                    'image': 'graph_types/graph_30.png',
+                },
             ]
         })
         return ctx
