@@ -63,6 +63,10 @@ import {
     PositiveExternalityIndustryGraph,
     mkPositiveExternalityIndustry
 } from './PositiveExternalityIndustryGraph.js';
+import {
+    InternationalTradeAndTariffsGraph,
+    mkInternationalTradeAndTariffs
+} from './InternationalTradeAndTariffsGraph.js';
 
 
 export const isJointGraph = function(graphType) {
@@ -109,7 +113,9 @@ export const graphTypes = [
     mkNegativeProductionExternalityIndustry,
     mkPositiveExternalityIndustry,
     mkMonopolyUniformPricing,
-    mkMonopolyFirstDegreePriceDiscrimination
+    mkMonopolyFirstDegreePriceDiscrimination,
+
+    mkInternationalTradeAndTariffs
 ];
 
 /**
@@ -151,7 +157,8 @@ export const getGraphClass = function(graphType) {
         NegativeProductionExternalityIndustryGraph,
         PositiveExternalityIndustryGraph,
         MonopolyUniformPricingGraph,
-        MonopolyFirstDegreePriceDiscriminationGraph
+        MonopolyFirstDegreePriceDiscriminationGraph,
+        InternationalTradeAndTariffsGraph
     ][graphType];
 
     return graphClass;
