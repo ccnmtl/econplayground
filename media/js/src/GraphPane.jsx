@@ -71,7 +71,7 @@ export default function GraphPane({
         );
     } else if (
         (gType >= 25 && gType <= 28) ||
-            (gType >= 29 && gType <= 30)
+            (gType >= 29 && gType <= 31)
     ) {
         const graphClass = getGraphClass(gType - 1);
         const lineItems = graphClass.getGraphPane(

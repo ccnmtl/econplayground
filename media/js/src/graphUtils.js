@@ -33,6 +33,9 @@ import {
 import {
     defaults as externalitiesPositiveIndustryDefaults
 } from './graphs/PositiveExternalityIndustryGraph.js';
+import {
+    defaults as internationalTradeAndTariffsGraphDefaults
+} from './graphs/InternationalTradeAndTariffsGraph.js';
 
 /**
  * Set defaults to the given state update object based on toggle and
@@ -104,6 +107,12 @@ export const setDynamicGraphDefaults = function(state, updateObj) {
             monopolyUniformPricingDefaults,
             monopolyUniformPricingDefaults,
             state.gFunctionChoice);
+    } else if (state.gType === 31) {
+        updateObj = setDefaults(
+            updateObj,
+            internationalTradeAndTariffsGraphDefaults,
+            internationalTradeAndTariffsGraphDefaults,
+            state.gFunctionChoice);
     }
 
     return updateObj;
@@ -167,6 +176,9 @@ export const getDefaultGraphState = function(graphType, state) {
     } else if (graphType === 30) {
         Object.assign(
             state, monopolyFirstDegreePriceDiscriminationDefaults[0]);
+    } else if (graphType === 31) {
+        Object.assign(
+            state, internationalTradeAndTariffsGraphDefaults[0]);
     }
 
     return state;

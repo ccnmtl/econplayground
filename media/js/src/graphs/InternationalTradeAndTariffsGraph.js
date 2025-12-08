@@ -10,7 +10,37 @@ export const defaults = [
         gA4: 2,
         gA5: 500,
         gA6: 0
-    }
+    },
+    {
+        gXAxisMax: 1000,
+        gYAxisMax: 2500,
+        gA1: 1500,
+        gA2: 2,
+        gA3: 100,
+        gA4: 2,
+        gA5: 500,
+        gA6: 0
+    },
+    {
+        gXAxisMax: 1000,
+        gYAxisMax: 2500,
+        gA1: 1500,
+        gA2: 2,
+        gA3: 100,
+        gA4: 2,
+        gA5: 500,
+        gA6: 0
+    },
+    {
+        gXAxisMax: 1000,
+        gYAxisMax: 2500,
+        gA1: 1500,
+        gA2: 2,
+        gA3: 100,
+        gA4: 2,
+        gA5: 500,
+        gA6: 0
+    },
 ];
 
 /*const dq = function(c, b, p) {
@@ -21,28 +51,70 @@ const dp = function(c, b, q) {
     return c - b * q;
 };
 
-const sq = function(a, d, p) {
+/*const sq = function(a, d, p) {
     return -(a / d) + p / d;
-};
+};*/
 
 const sp = function(a, d, q) {
     return a + d * q;
 };
 
-/*const eqd = function(c, b, a, d, wp) {
+const eqd = function(c, b, a, d, wp) {
     return (c - wp) / b;
 };
 
 const eqs = function(c, b, a, d, wp) {
     return (-a + wp) / d;
-};*/
+};
 
-/*const paut = function(c, b, a, d) {
+export const paut = function(c, b, a, d) {
     return (a * b + c * d) / (b + d);
-};*/
+};
+
+const csw = function(c, b, a, d, wp) {
+    return (c - wp) * eqd(c, b, a, d, wp) / 2;
+};
+
+const psw = function(c, b, a, d, wp) {
+    return (wp - a) * eqs(c, b, a, d, wp) / 2;
+};
+
+const tsw = function(c, b, a, d, wp) {
+    return csw(c, b, a, d, wp) + psw(c, b, a, d, wp);
+};
+
+const eqdt = function(c, b, a, d, wp, t) {
+    return (c - t - wp) / b;
+};
+
+const eqst = function(c, b, a, d, wp, t) {
+    return (-a + t + wp) / d;
+};
+
+const cswt = function(c, b, a, d, wp, t) {
+    return (c - wp - t) * eqdt(c, b, a, d, wp, t) / 2;
+};
+
+const pswt = function(c, b, a, d, wp, t) {
+    return (wp + t - a) * eqst(c, b, a, d, wp, t) / 2;
+};
+
+const tariffrev = function(c, b, a, d, wp, t) {
+    return (eqdt(c, b, a, d, wp, t) - eqst(c, b, a, d, wp, t)) * t;
+};
+
+const tswt = function(c, b, a, d, wp, t) {
+    return cswt(c, b, a, d, wp, t) +
+        pswt(c, b, a, d, wp, t) +
+        tariffrev(c, b, a, d, wp, t);
+};
+
+const dwl = function(c, b, a, d, wp, t) {
+    return tsw(c, b, a, d, wp) - tswt(c, b, a, d, wp, t);
+};
 
 export class InternationalTradeAndTariffsGraph extends Graph {
-    static getGraphPane(gFunctionChoice, gA1, gA2, gA3) {
+    static getGraphPane(gFunctionChoice, gA1, gA2, gA3, gA4, gA5, gA6) {
         let lineItems = [];
 
         if (gFunctionChoice === 0) {
@@ -50,18 +122,145 @@ export class InternationalTradeAndTariffsGraph extends Graph {
                 {
                     label: 'Domestic Quantity Bought, Q<sup>H</sup><sub>D</sub>',
                     color: 'red',
-                    value: dp(gA1, gA2, gA3).toFixed(2)
+                    value: eqd(gA1, gA2, gA3, gA4, gA5).toFixed(2)
                 },
                 {
                     label: 'Domestic Quantity Produced, Q<sup>H</sup><sub>S</sub>',
                     color: 'red',
-                    value: sq(gA1, gA2, gA3).toFixed(2)
+                    value: eqs(gA1, gA2, gA3, gA4, gA5).toFixed(2)
                 },
                 {
                     label: 'Domestic Trade Balance, Q<sup>H</sup><sub>S</sub>-Q<sup>H</sup><sub>D</sub>',
                     color: 'red',
-                    value: sp(gA1, gA2, gA3).toFixed(2)
+                    value: (
+                        eqd(gA1, gA2, gA3, gA4, gA5) -
+                            eqs(gA1, gA2, gA3, gA4, gA5)
+                    ).toFixed(2)
                 },
+            ];
+        } else if (gFunctionChoice === 1) {
+            lineItems = [
+                {
+                    label: 'Domestic Quantity Bought, Q<sup>H</sup><sub>D</sub>',
+                    color: 'red',
+                    value: eqd(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                },
+                {
+                    label: 'Domestic Quantity Produced, Q<sup>H</sup><sub>S</sub>',
+                    color: 'red',
+                    value: eqs(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                },
+                {
+                    label: 'Domestic Trade Balance, Q<sup>H</sup><sub>S</sub>-Q<sup>H</sup><sub>D</sub>',
+                    color: 'red',
+                    value: (
+                        eqd(gA1, gA2, gA3, gA4, gA5) -
+                            eqs(gA1, gA2, gA3, gA4, gA5)
+                    ).toFixed(2)
+                },
+                {
+                    label: 'Consumer Surplus CS',
+                    color: 'blue',
+                    value: csw(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                },
+                {
+                    label: 'Producer Surplus PS',
+                    color: 'orange',
+                    value: psw(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                },
+                {
+                    label: 'Total Surplus TS',
+                    color: 'red',
+                    value: tsw(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                }
+            ];
+        } else if (gFunctionChoice === 2) {
+            lineItems = [
+                {
+                    label: 'Domestic Quantity Bought, Q<sup>H</sup><sub>D</sub>',
+                    color: 'red',
+                    value: eqd(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                },
+                {
+                    label: 'Domestic Quantity Produced, Q<sup>H</sup><sub>S</sub>',
+                    color: 'red',
+                    value: eqs(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                },
+                {
+                    label: 'Domestic Trade Balance, Q<sup>H</sup><sub>S</sub>-Q<sup>H</sup><sub>D</sub>',
+                    color: 'red',
+                    value: (
+                        eqd(gA1, gA2, gA3, gA4, gA5) -
+                            eqs(gA1, gA2, gA3, gA4, gA5)
+                    ).toFixed(2)
+                },
+                {
+                    label: 'Domestic Price, P<sup>t</sup><sub>H</sub>',
+                    color: 'red',
+                    value: (gA5 + gA6).toFixed(2)
+                },
+                {
+                    label: 'Domestic Tariff Revenue',
+                    color: 'red',
+                    value: (
+                        -gA6 * (eqst(gA1, gA2, gA3, gA4, gA5, gA6) -
+                                eqdt(gA1, gA2, gA3, gA4, gA5, gA6))
+                    ).toFixed(2)
+                }
+            ];
+        } else if (gFunctionChoice === 3) {
+            lineItems = [
+                {
+                    label: 'Domestic Quantity Bought, Q<sup>H</sup><sub>D</sub>',
+                    color: 'red',
+                    value: eqd(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                },
+                {
+                    label: 'Domestic Quantity Produced, Q<sup>H</sup><sub>S</sub>',
+                    color: 'red',
+                    value: eqs(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                },
+                {
+                    label: 'Domestic Trade Balance, Q<sup>H</sup><sub>S</sub>-Q<sup>H</sup><sub>D</sub>',
+                    color: 'red',
+                    value: (
+                        eqd(gA1, gA2, gA3, gA4, gA5) -
+                            eqs(gA1, gA2, gA3, gA4, gA5)
+                    ).toFixed(2)
+                },
+                {
+                    label: 'Domestic Price, P<sup>t</sup><sub>H</sub>',
+                    color: 'red',
+                    value: (gA5 + gA6).toFixed(2)
+                },
+                {
+                    label: 'Consumer Surplus CS',
+                    color: 'blue',
+                    value: csw(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                },
+                {
+                    label: 'Producer Surplus PS',
+                    color: 'orange',
+                    value: psw(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                },
+                {
+                    label: 'Domestic Tariff Revenue',
+                    color: 'red',
+                    value: (
+                        -gA6 * (eqst(gA1, gA2, gA3, gA4, gA5, gA6) -
+                                eqdt(gA1, gA2, gA3, gA4, gA5, gA6))
+                    ).toFixed(2)
+                },
+                {
+                    label: 'Total Surplus TS',
+                    color: 'red',
+                    value: tsw(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                },
+                {
+                    label: 'Deadweight Loss DWL',
+                    color: 'red',
+                    value: dwl(gA1, gA2, gA3, gA4, gA5, gA6).toFixed(2)
+                }
             ];
         }
 
@@ -70,14 +269,14 @@ export class InternationalTradeAndTariffsGraph extends Graph {
     make() {
         const me = this;
 
-        const wpLine = function() {
-            return me.options.gA5;
+        const dpLine = function(x) {
+            return dp(me.options.gA1, me.options.gA2, x);
         };
 
         this.l2 = this.board.create(
             'functiongraph',
-            [positiveRange(wpLine), 0, this.options.gXAxisMax], {
-                name: 'Global Price',
+            [positiveRange(dpLine), 0, this.options.gXAxisMax], {
+                name: 'Demand',
                 withLabel: true,
                 label: {
                     strokeColor: this.l2Color
@@ -88,6 +287,49 @@ export class InternationalTradeAndTariffsGraph extends Graph {
                 highlight: false
             }
         );
+
+        const spLine = function(x) {
+            return sp(me.options.gA3, me.options.gA4, x);
+        };
+
+        this.l1 = this.board.create(
+            'functiongraph',
+            [positiveRange(spLine), 0, this.options.gXAxisMax], {
+                name: 'Demand',
+                withLabel: true,
+                label: {
+                    strokeColor: this.l1Color
+                },
+                strokeWidth: 2,
+                strokeColor: this.l1Color,
+                fixed: true,
+                highlight: false
+            }
+        );
+
+        const wpLine = function() {
+            return me.options.gA5;
+        };
+
+        this.l3 = this.board.create(
+            'functiongraph',
+            [positiveRange(wpLine), 0, this.options.gXAxisMax], {
+                name: 'Global Price',
+                withLabel: true,
+                label: {
+                    strokeColor: this.l3Color
+                },
+                strokeWidth: 2,
+                strokeColor: this.l3Color,
+                fixed: true,
+                highlight: false
+            }
+        );
+
+        this.showIntersection(
+            this.l1, this.l3, false, 'Q<sup>H</sup><sub>S</sub>');
+        this.showIntersection(
+            this.l2, this.l3, false, 'Q<sup>H</sup><sub>D</sub>');
     }
 }
 
