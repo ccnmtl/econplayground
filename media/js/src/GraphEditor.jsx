@@ -23,6 +23,7 @@ import TaxRevenueEditor from './editors/TaxRevenueEditor.jsx';
 import NegativeProductionExternalityProducerEditor from './editors/NegativeProductionExternalityProducerEditor.jsx';
 import NegativeProductionExternalityIndustryEditor from './editors/NegativeProductionExternalityIndustryEditor.jsx';
 import PositiveExternalityIndustryEditor from './editors/PositiveExternalityIndustryEditor.jsx';
+import InternationalTradeAndTariffsEditor from './editors/InternationalTradeAndTariffsEditor.jsx';
 
 import JXGBoard from './JXGBoard.jsx';
 import GraphPane from './GraphPane.jsx';
@@ -359,6 +360,12 @@ export default class GraphEditor extends React.Component {
         } else if (this.props.gType === 29 || this.props.gType === 30) {
             rightSide =
                 <MonopolyUniformPricingEditor
+                    {...commonEditorProps}
+                    {...this.props}
+                />;
+        } else if (this.props.gType === 31) {
+            rightSide =
+                <InternationalTradeAndTariffsEditor
                     {...commonEditorProps}
                     {...this.props}
                 />;

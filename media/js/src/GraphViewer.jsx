@@ -23,14 +23,15 @@ import NegativeProductionExternalityIndustryEditor from
     './editors/NegativeProductionExternalityIndustryEditor.jsx';
 import PositiveExternalityIndustryEditor from
     './editors/PositiveExternalityIndustryEditor.jsx';
+import RevenueElasticityEditor from './editors/RevenueElasticityEditor.jsx';
+import TaxRevenueEditor from './editors/TaxRevenueEditor.jsx';
+import InternationalTradeAndTariffsEditor from './editors/InternationalTradeAndTariffsEditor.jsx';
 
 import ExportGraphButton from './buttons/ExportGraphButton.jsx';
 import ResetGraphButton from './buttons/ResetGraphButton.jsx';
 import JXGBoard from './JXGBoard.jsx';
 import Feedback from './Feedback.jsx';
 import {BOARD_WIDTH, BOARD_HEIGHT} from './utils';
-import RevenueElasticityEditor from './editors/RevenueElasticityEditor.jsx';
-import TaxRevenueEditor from './editors/TaxRevenueEditor.jsx';
 
 
 /**
@@ -315,6 +316,12 @@ export default class GraphViewer extends React.Component {
         } else if (this.props.gType === 29 || this.props.gType === 30) {
             rightSide =
                 <MonopolyUniformPricingEditor
+                    {...commonViewerProps}
+                    {...this.props}
+                />;
+        } else if (this.props.gType === 31) {
+            rightSide =
+                <InternationalTradeAndTariffsEditor
                     {...commonViewerProps}
                     {...this.props}
                 />;
