@@ -2,16 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import RangeEditor from '../form-components/RangeEditor.jsx';
 import { handleFormUpdate } from '../utils.js';
+import { paut } from '../graphs/InternationalTradeAndTariffsGraph.js';
 
 export default class InternationalTradeAndTariffsEditor extends React.Component {
     render() {
         const me = this;
 
         const modesLeft = [
-            'Demand and Supply - Imports and Exports',
-            'Demand and Supply - Consumer and Producer Surplus',
+            'Imports and Exports - No Tariffs',
+            'Consumer and Producer Surplus - No Tariffs',
         ];
         const modesRight = [
+            'Imports and Exports - With Tariffs',
+            'Consumer and Producer Surplus - With Tariffs',
         ];
 
         const radioButtons1 = modesLeft.map((optionTitle, idx) =>
@@ -109,6 +112,21 @@ export default class InternationalTradeAndTariffsEditor extends React.Component 
                                 min={0}
                                 max={this.props.gA1}
                                 handler={handleFormUpdate.bind(this)} />
+
+                            {this.props.gFunctionChoice >= 2 && (
+                                <RangeEditor
+                                    label="Tariff"
+                                    rawLabel={true}
+                                    id="gA6"
+                                    value={this.props.gA6}
+                                    min={0}
+                                    max={
+                                        paut(
+                                            this.props.gA1, this.props.gA2, this.props.gA3,
+                                            this.props.gA4) - this.props.gA5
+                                    }
+                                    handler={handleFormUpdate.bind(this)} />
+                            )}
                         </>
                     )}
                 </div>
