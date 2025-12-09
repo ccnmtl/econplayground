@@ -26,6 +26,7 @@ import PositiveExternalityIndustryEditor from
 import RevenueElasticityEditor from './editors/RevenueElasticityEditor.jsx';
 import TaxRevenueEditor from './editors/TaxRevenueEditor.jsx';
 import InternationalTradeAndTariffsEditor from './editors/InternationalTradeAndTariffsEditor.jsx';
+import InternationalTradeLargeEconomyEditor from './editors/InternationalTradeLargeEconomyEditor.jsx';
 
 import ExportGraphButton from './buttons/ExportGraphButton.jsx';
 import ResetGraphButton from './buttons/ResetGraphButton.jsx';
@@ -322,6 +323,12 @@ export default class GraphViewer extends React.Component {
         } else if (this.props.gType === 31) {
             rightSide =
                 <InternationalTradeAndTariffsEditor
+                    {...commonViewerProps}
+                    {...this.props}
+                />;
+        } else if (this.props.gType === 32) {
+            rightSide =
+                <InternationalTradeLargeEconomyEditor
                     {...commonViewerProps}
                     {...this.props}
                 />;
