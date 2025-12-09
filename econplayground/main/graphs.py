@@ -45,7 +45,8 @@ GRAPH_TYPES = (
     (29, 'Monopoly - Uniform Pricing'),
     (30, 'Monopoly - First-Degree Price Discrimination'),
 
-    (31, 'International Trade and Tariffs'),
+    (31, 'International Trade - Small Economy'),
+    (32, 'International Trade - Large Economy'),
 )
 
 
