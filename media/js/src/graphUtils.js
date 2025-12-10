@@ -36,6 +36,9 @@ import {
 import {
     defaults as internationalTradeAndTariffsGraphDefaults
 } from './graphs/InternationalTradeAndTariffsGraph.js';
+import {
+    defaults as internationalTradeLargeEconomyGraphDefaults
+} from './graphs/InternationalTradeLargeEconomyGraph.js';
 
 /**
  * Set defaults to the given state update object based on toggle and
@@ -179,6 +182,9 @@ export const getDefaultGraphState = function(graphType, state) {
     } else if (graphType === 31) {
         Object.assign(
             state, internationalTradeAndTariffsGraphDefaults[0]);
+    } else if (graphType === 32) {
+        Object.assign(
+            state, internationalTradeLargeEconomyGraphDefaults[0]);
     }
 
     return state;

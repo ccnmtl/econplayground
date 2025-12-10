@@ -180,6 +180,10 @@ class GraphSelectView(
                     'graph_type': 31,
                     'image': 'graph_types/graph_30.png',
                 },
+                {
+                    'graph_type': 32,
+                    'image': 'graph_types/graph_30.png',
+                },
             ]
         })
         return ctx
