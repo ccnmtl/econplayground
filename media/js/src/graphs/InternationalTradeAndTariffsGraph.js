@@ -114,23 +114,30 @@ const dwl = function(c, b, a, d, wp, t) {
 };
 
 export class InternationalTradeAndTariffsGraph extends Graph {
+    static qdhLabel = '<math><msubsup><mo>Q</mo><mn>D</mn><mn>H</mn></msubsup></math>';
+    static qshLabel = '<math><msubsup><mo>Q</mo><mn>S</mn><mn>H</mn></msubsup></math>';
+
     static getGraphPane(gFunctionChoice, gA1, gA2, gA3, gA4, gA5, gA6) {
         let lineItems = [];
 
         if (gFunctionChoice === 0) {
             lineItems = [
                 {
-                    label: 'Domestic Quantity Bought, Q<sup>H</sup><sub>D</sub>',
+                    label: 'Domestic Quantity Bought, ' +
+                        InternationalTradeAndTariffsGraph.qdhLabel,
                     color: 'red',
                     value: eqd(gA1, gA2, gA3, gA4, gA5).toFixed(2)
                 },
                 {
-                    label: 'Domestic Quantity Produced, Q<sup>H</sup><sub>S</sub>',
+                    label: 'Domestic Quantity Produced, ' +
+                        InternationalTradeAndTariffsGraph.qshLabel,
                     color: 'red',
                     value: eqs(gA1, gA2, gA3, gA4, gA5).toFixed(2)
                 },
                 {
-                    label: 'Domestic Trade Balance, Q<sup>H</sup><sub>S</sub>-Q<sup>H</sup><sub>D</sub>',
+                    label: 'Domestic Trade Balance, ' +
+                        InternationalTradeAndTariffsGraph.qshLabel + '-' +
+                        InternationalTradeAndTariffsGraph.qdhLabel,
                     color: 'red',
                     value: (
                         eqd(gA1, gA2, gA3, gA4, gA5) -
@@ -141,17 +148,21 @@ export class InternationalTradeAndTariffsGraph extends Graph {
         } else if (gFunctionChoice === 1) {
             lineItems = [
                 {
-                    label: 'Domestic Quantity Bought, Q<sup>H</sup><sub>D</sub>',
+                    label: 'Domestic Quantity Bought, ' +
+                        InternationalTradeAndTariffsGraph.qdhLabel,
                     color: 'red',
                     value: eqd(gA1, gA2, gA3, gA4, gA5).toFixed(2)
                 },
                 {
-                    label: 'Domestic Quantity Produced, Q<sup>H</sup><sub>S</sub>',
+                    label: 'Domestic Quantity Produced, ' +
+                        InternationalTradeAndTariffsGraph.qshLabel,
                     color: 'red',
                     value: eqs(gA1, gA2, gA3, gA4, gA5).toFixed(2)
                 },
                 {
-                    label: 'Domestic Trade Balance, Q<sup>H</sup><sub>S</sub>-Q<sup>H</sup><sub>D</sub>',
+                    label: 'Domestic Trade Balance, ' +
+                        InternationalTradeAndTariffsGraph.qshLabel + '-' +
+                        InternationalTradeAndTariffsGraph.qdhLabel,
                     color: 'red',
                     value: (
                         eqd(gA1, gA2, gA3, gA4, gA5) -
@@ -177,17 +188,21 @@ export class InternationalTradeAndTariffsGraph extends Graph {
         } else if (gFunctionChoice === 2) {
             lineItems = [
                 {
-                    label: 'Domestic Quantity Bought, Q<sup>H</sup><sub>D</sub>',
+                    label: 'Domestic Quantity Bought, ' +
+                        InternationalTradeAndTariffsGraph.qdhLabel,
                     color: 'red',
                     value: eqd(gA1, gA2, gA3, gA4, gA5).toFixed(2)
                 },
                 {
-                    label: 'Domestic Quantity Produced, Q<sup>H</sup><sub>S</sub>',
+                    label: 'Domestic Quantity Produced, ' +
+                        InternationalTradeAndTariffsGraph.qshLabel,
                     color: 'red',
                     value: eqs(gA1, gA2, gA3, gA4, gA5).toFixed(2)
                 },
                 {
-                    label: 'Domestic Trade Balance, Q<sup>H</sup><sub>S</sub>-Q<sup>H</sup><sub>D</sub>',
+                    label: 'Domestic Trade Balance, ' +
+                        InternationalTradeAndTariffsGraph.qshLabel + '-' +
+                        InternationalTradeAndTariffsGraph.qdhLabel,
                     color: 'red',
                     value: (
                         eqd(gA1, gA2, gA3, gA4, gA5) -
@@ -195,7 +210,7 @@ export class InternationalTradeAndTariffsGraph extends Graph {
                     ).toFixed(2)
                 },
                 {
-                    label: 'Domestic Price, P<sup>t</sup><sub>H</sub>',
+                    label: 'Domestic Price, <math><msubsup><mo>P</mo><mn>H</mn><mn>t</mn></msubsup></math>',
                     color: 'red',
                     value: (gA5 + gA6).toFixed(2)
                 },
@@ -211,17 +226,21 @@ export class InternationalTradeAndTariffsGraph extends Graph {
         } else if (gFunctionChoice === 3) {
             lineItems = [
                 {
-                    label: 'Domestic Quantity Bought, Q<sup>H</sup><sub>D</sub>',
+                    label: 'Domestic Quantity Bought, ' +
+                        InternationalTradeAndTariffsGraph.qdhLabel,
                     color: 'red',
                     value: eqd(gA1, gA2, gA3, gA4, gA5).toFixed(2)
                 },
                 {
-                    label: 'Domestic Quantity Produced, Q<sup>H</sup><sub>S</sub>',
+                    label: 'Domestic Quantity Produced, ' +
+                        InternationalTradeAndTariffsGraph.qshLabel,
                     color: 'red',
                     value: eqs(gA1, gA2, gA3, gA4, gA5).toFixed(2)
                 },
                 {
-                    label: 'Domestic Trade Balance, Q<sup>H</sup><sub>S</sub>-Q<sup>H</sup><sub>D</sub>',
+                    label: 'Domestic Trade Balance, ' +
+                        InternationalTradeAndTariffsGraph.qshLabel + '-' +
+                        InternationalTradeAndTariffsGraph.qdhLabel,
                     color: 'red',
                     value: (
                         eqd(gA1, gA2, gA3, gA4, gA5) -
@@ -229,7 +248,7 @@ export class InternationalTradeAndTariffsGraph extends Graph {
                     ).toFixed(2)
                 },
                 {
-                    label: 'Domestic Price, P<sup>t</sup><sub>H</sub>',
+                    label: 'Domestic Price, <math><msubsup><mo>P</mo><mn>H</mn><mn>t</mn></msubsup></math>',
                     color: 'red',
                     value: (gA5 + gA6).toFixed(2)
                 },
@@ -327,9 +346,11 @@ export class InternationalTradeAndTariffsGraph extends Graph {
         );
 
         this.showIntersection(
-            this.l1, this.l3, false, 'Q<sup>H</sup><sub>S</sub>');
+            this.l1, this.l3, false,
+            InternationalTradeAndTariffsGraph.qshLabel);
         this.showIntersection(
-            this.l2, this.l3, false, 'Q<sup>H</sup><sub>D</sub>');
+            this.l2, this.l3, false,
+            InternationalTradeAndTariffsGraph.qdhLabel);
     }
 }
 
