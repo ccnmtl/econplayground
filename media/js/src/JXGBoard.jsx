@@ -677,38 +677,40 @@ export default class JXGBoard extends React.Component {
             boundingBox = calculateBoundingBox(0, 0, 1000, 2500);
         }
 
-        this.board2 = JXG.JSXGraph.initBoard(
-            this.id + '-2', {
-                axis: true,
-                defaultAxes: {
-                    x: {
-                        name: xLabel,
-                        label: {
-                            offset: [400, 0]
+        if (isJointGraph(this.props.gType)) {
+            this.board2 = JXG.JSXGraph.initBoard(
+                this.id + '-2', {
+                    axis: true,
+                    defaultAxes: {
+                        x: {
+                            name: xLabel,
+                            label: {
+                                offset: [400, 0]
+                            },
+                            withLabel: xLabel ? true : false,
+                            ticks: xTicks,
+                            layer: 9
                         },
-                        withLabel: xLabel ? true : false,
-                        ticks: xTicks,
-                        layer: 9
+                        y: {
+                            name: yLabel,
+                            label: {
+                                offset: [0, 260]
+                            },
+                            withLabel: yLabel ? true : false,
+                            ticks: yTicks,
+                            layer: 9
+                        }
                     },
-                    y: {
-                        name: yLabel,
-                        label: {
-                            offset: [0, 260]
-                        },
-                        withLabel: yLabel ? true : false,
-                        ticks: yTicks,
-                        layer: 9
-                    }
-                },
-                keepAspectRatio: false,
-                showCopyright: false,
-                showZoom: false,
-                showReload: false,
-                showNavigation: false,
-                boundingBox: boundingBox
-            });
+                    keepAspectRatio: false,
+                    showCopyright: false,
+                    showZoom: false,
+                    showReload: false,
+                    showNavigation: false,
+                    boundingBox: boundingBox
+                });
 
-        this.board2InitObjects = this.board2.numObjects;
+            this.board2InitObjects = this.board2.numObjects;
+        }
 
         this.renderJXBoard({
             l1SubmissionOffset: getL1SubmissionOffset(this.props.submission),
@@ -739,7 +741,6 @@ export default class JXGBoard extends React.Component {
         let math1 = null;
         let math2 = null;
         let area = null;
-        let isJointGraph = false;
 
         if (this.props.gType === 9 || this.props.gType === 10) {
             area = <AreaDisplay
@@ -755,7 +756,6 @@ export default class JXGBoard extends React.Component {
                 math1 = getKatexEl(func1);
                 math2 = getKatexEl(func2);
             }
-            isJointGraph = true;
         }
 
         let legend = null;
@@ -778,7 +778,7 @@ export default class JXGBoard extends React.Component {
             <>
                 <div className="col-xl-6">
                     {this.makeFigure(this.id, math1)}
-                    {isJointGraph && this.makeFigure(this.id + '-2', math2)}
+                    {isJointGraph(this.props.gType) && this.makeFigure(this.id + '-2', math2)}
                 </div>
                 {legend}
                 {area}
