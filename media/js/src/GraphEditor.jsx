@@ -117,44 +117,6 @@ export default class GraphEditor extends React.Component {
             );
         }
 
-        const common2Graph = (
-            <>
-                {jxgBoard}
-
-                <div className="col-xl-6">
-                    <h3>Scenario</h3>
-                    <div className="form-group">
-                        <label htmlFor="gTitle">
-                            Title
-                        </label>
-                        <input
-                            id="gTitle"
-                            onChange={handleFormUpdate.bind(this)}
-                            value={this.props.gTitle}
-                            className="form-control form-control-sm"
-                            type="text"
-                            maxLength="140"
-                        />
-                    </div>
-
-                    <CommonGraphEditor
-                        {...this.props}
-                    />
-
-                    {this.props.gId &&
-                    <div className="form-group mt-1">
-                        <a href={`/course/${courseId}/graph/` + this.props.gId + '/public/'}
-                            title="Student View"
-                            className="btn btn-secondary"
-                        >
-                            Student View
-                        </a>
-                    </div>
-                    }
-                </div>
-            </>
-        );
-
         if (this.props.gType === 0 || this.props.gType === 9) {
             // Demand-Supply, possibly AUC (area under curve)
             rightSide =
@@ -165,53 +127,21 @@ export default class GraphEditor extends React.Component {
                 />;
         } else if (this.props.gType === 13) {
             // Horizontal Joint Graph: two Linear Demand-Supply graphs
-            return (
-                <div className="GraphEditor">
-                    {this.title()}
-                    <form>
-                        <div className="row">
-                            {common2Graph}
-                            <div className="col-xl-6">
-                                <DemandSupplyEditor
-                                    showAUC={this.props.gType === 9}
-                                    {...commonEditorProps}
-                                    {...this.props}
-                                />
-                                <CommonGraphSettings
-                                    {...this.props}
-                                />
-                            </div>
-                        </div>
-                        <hr/>
-                        {editRow}
-                    </form>
-                </div>
-            );
+            rightSide =
+                <DemandSupplyEditor
+                    showAUC={this.props.gType === 9}
+                    {...commonEditorProps}
+                    {...this.props}
+                />;
         } else if (this.props.gType === 14) {
             // Horizontal Joint Graph: two Non-Linear Demand-Supply graphs
-            return (
-                <div className="GraphEditor">
-                    {this.title()}
-                    <form>
-                        <div className="row">
-                            {common2Graph}
-                            <div className="col-xl-6">
-                                <NonLinearDemandSupplyEditor
-                                    hideFunctionChoice={true}
-                                    showAUC={this.props.gType === 10}
-                                    {...commonEditorProps}
-                                    {...this.props}
-                                />
-                                <CommonGraphSettings
-                                    {...this.props}
-                                />
-                            </div>
-                        </div>
-                        <hr/>
-                        {editRow}
-                    </form>
-                </div>
-            );
+            rightSide =
+                <NonLinearDemandSupplyEditor
+                    hideFunctionChoice={true}
+                    showAUC={this.props.gType === 10}
+                    {...commonEditorProps}
+                    {...this.props}
+                />;
         } else if (this.props.gType === 1 || this.props.gType === 10) {
             // Non-Linear Demand Supply, possibly AUC (area under curve)
             rightSide =
@@ -308,28 +238,12 @@ export default class GraphEditor extends React.Component {
                     {...this.props}
                 />;
         } else if (this.props.gType === 24) {
-            return (
-                <div className="GraphEditor">
-                    {this.title()}
-                    <form>
-                        <div className="row">
-                            {common2Graph}
-                            <div className="col-xl-6">
-                                <TaxRevenueEditor
-                                    showAUC={this.props.gType === 9}
-                                    {...commonEditorProps}
-                                    {...this.props}
-                                />
-                                <CommonGraphSettings
-                                    {...this.props}
-                                />
-                            </div>
-                        </div>
-                        <hr/>
-                        {editRow}
-                    </form>
-                </div>
-            );
+            rightSide =
+                <TaxRevenueEditor
+                    showAUC={this.props.gType === 9}
+                    {...commonEditorProps}
+                    {...this.props}
+                />;
         } else if (this.props.gType === 25) {
             rightSide =
                 <LinearDemandSupplySurplusEditor

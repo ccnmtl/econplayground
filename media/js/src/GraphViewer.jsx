@@ -134,21 +134,19 @@ export default class GraphViewer extends React.Component {
                     {...commonViewerProps}
                     {...this.props}
                 />;
-        } else if (this.props.gType === 3 || this.props.gType === 12) {
-            if (this.props.gType === 3) {
-                rightSide =
-                    <CobbDouglasEditor
-                        {...commonViewerProps}
-                        {...this.props}
-                    />;
-            } else if (this.props.gType === 12) {
-                rightSide =
-                    <CobbDouglasNLDSEditor
-                        showAUC={false}
-                        {...commonViewerProps}
-                        {...this.props}
-                    />;
-            }
+        } else if (this.props.gType === 3) {
+            rightSide =
+                <CobbDouglasEditor
+                    {...commonViewerProps}
+                    {...this.props}
+                />;
+        } else if (this.props.gType === 12) {
+            rightSide =
+                <CobbDouglasNLDSEditor
+                    showAUC={false}
+                    {...commonViewerProps}
+                    {...this.props}
+                />;
         } else if (this.props.gType === 5 || this.props.gType === 15) {
             // Consumption Leisure: Contraint and Optimal Choice
             rightSide =
@@ -170,46 +168,21 @@ export default class GraphViewer extends React.Component {
                     {...commonViewerProps}
                     {...this.props}
                 />;
-        } else if (this.props.gType === 13 || this.props.gType === 14) {
-            if (this.props.gType === 13) {
-                rightSide =
-                    <DemandSupplyEditor
-                        showAUC={this.props.gType === 9}
-                        {...commonViewerProps}
-                        {...this.props}
-                    />;
-            } else if (this.props.gType === 14) {
+        } else if (this.props.gType === 13) {
+            rightSide =
+                <DemandSupplyEditor
+                    showAUC={this.props.gType === 9}
+                    {...commonViewerProps}
+                    {...this.props}
+                />;
+        } else if (this.props.gType === 14) {
             // Non-Linear Demand Supply horiz. joint graph
-                rightSide =
-                    <NonLinearDemandSupplyEditor
-                        showAUC={this.props.gType === 10}
-                        {...commonViewerProps}
-                        {...this.props}
-                    />;
-            }
-
-            // Show side-by-side view here.
-            return (
-                <div className="GraphViewer">
-                    {titleEl}
-                    {instructionsEl}
-                    <div className="row">
-                        {leftSide}
-                    </div>
-
-                    <Feedback feedback={this.state.currentFeedback} />
-
-                    {rightSide}
-
-                    <hr />
-
-                    <ResetGraphButton
-                        initialState={initialState}
-                        updateGraph={this.updateGraph} />
-
-                    <ExportGraphButton />
-                </div>
-            );
+            rightSide =
+                <NonLinearDemandSupplyEditor
+                    showAUC={this.props.gType === 10}
+                    {...commonViewerProps}
+                    {...this.props}
+                />;
         } else if (this.props.gType === 16) {
             // Template Graph: free-form equations
             rightSide =
@@ -264,28 +237,6 @@ export default class GraphViewer extends React.Component {
                     {...commonViewerProps}
                     {...this.props}
                 />;
-
-            return (
-                <div className="GraphViewer">
-                    {titleEl}
-                    {instructionsEl}
-                    <div className="row">
-                        {leftSide}
-                    </div>
-
-                    <Feedback feedback={this.state.currentFeedback} />
-
-                    {rightSide}
-
-                    <hr />
-
-                    <ResetGraphButton
-                        initialState={initialState}
-                        updateGraph={this.updateGraph} />
-
-                    <ExportGraphButton />
-                </div>
-            );
         } else if (this.props.gType === 25) {
             rightSide =
                 <LinearDemandSupplySurplusEditor
