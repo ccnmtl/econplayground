@@ -351,7 +351,10 @@ export default class JXGBoard extends React.Component {
                 this.props.gXAxisMax, this.props.gYAxisMax);
             this.board.setBoundingBox(boundingBox);
 
-            this.board2.update();
+            if (this.board2) {
+                this.board2.update();
+            }
+
             this.renderJXBoard({
                 l1SubmissionOffset: getL1SubmissionOffset(this.props.submission),
                 l2SubmissionOffset: getL2SubmissionOffset(this.props.submission),
