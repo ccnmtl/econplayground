@@ -74,7 +74,7 @@ import {
 
 
 export const isJointGraph = function(graphType) {
-    return [12, 13, 14, 24].includes(graphType);
+    return [12, 13, 14, 24, 32].includes(graphType);
 };
 
 export const graphTypes = [
