@@ -719,9 +719,9 @@ export default class JXGBoard extends React.Component {
     }
 
     // The primary HTML structure for JSXGraph
-    makeFigure(id, hide, math) {
+    makeFigure(id, math) {
         return (
-            <div className="col-xl-6" hidden={hide}>
+            <>
                 <figure
                     aria-label="The EconPractice graph."
                     id={id}
@@ -729,7 +729,7 @@ export default class JXGBoard extends React.Component {
                     style={this.style}>
                 </figure>
                 {math}
-            </div>
+            </>
         );
     }
 
@@ -739,7 +739,7 @@ export default class JXGBoard extends React.Component {
         let math1 = null;
         let math2 = null;
         let area = null;
-        let figure2 = true;
+        let isJointGraph = false;
 
         if (this.props.gType === 9 || this.props.gType === 10) {
             area = <AreaDisplay
@@ -747,7 +747,7 @@ export default class JXGBoard extends React.Component {
                 areaA={this.state.areaA}
                 areaB={this.state.areaB}
                 areaC={this.state.areaC} />;
-        } else if ([12, 13, 14, 24].includes(this.props.gType)) {
+        } else if ([12, 13, 14, 24, 32].includes(this.props.gType)) {
             if (this.props.gType === 14) {
                 const func1 = String.raw`MP_${this.props.gNName} = (1 - \alpha)${this.props.gCobbDouglasAName}${this.props.gCobbDouglasKName}^\alpha ${this.props.gNName}^{-\alpha}`;
                 const func2 = String.raw`MP_${this.props.gCobbDouglasKName} = \alpha ${this.props.gCobbDouglasAName}${this.props.gCobbDouglasKName}^{\alpha - 1} ${this.props.gNName}^{1 - \alpha}`;
@@ -755,7 +755,7 @@ export default class JXGBoard extends React.Component {
                 math1 = getKatexEl(func1);
                 math2 = getKatexEl(func2);
             }
-            figure2 = false;
+            isJointGraph = true;
         }
 
         let legend = null;
@@ -776,8 +776,10 @@ export default class JXGBoard extends React.Component {
 
         return (
             <>
-                {this.makeFigure(this.id, false, math1)}
-                {this.makeFigure(this.id + '-2', figure2, math2)}
+                <div className="col-xl-6">
+                    {this.makeFigure(this.id, math1)}
+                    {isJointGraph && this.makeFigure(this.id + '-2', math2)}
+                </div>
                 {legend}
                 {area}
             </>
