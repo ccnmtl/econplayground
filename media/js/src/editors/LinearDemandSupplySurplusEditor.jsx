@@ -10,15 +10,11 @@ export default class LinearDemandSupplySurplusEditor extends React.Component {
         const modesLeft = [
             'Linear Demand and Supply',
             'with Welfare Analysis',
-            'Imports and Exports',
-            'Imports and Exports with Tariffs',
-            'Imports and Exports with Surplus Distribution',
-            'Imports and Exports with Surplus Distribution and Tariffs',
-        ];
-        const modesRight = [
             'Price Controls - Minimum Price',
             'Price Controls - Maximum Price',
             'Price Controls - Minimum Price, Welfare Analysis',
+        ];
+        const modesRight = [
             'Price Controls - Maximum Price, Welfare Analysis',
             'Production Quota',
             'Production Quota with Welfare Analysis',
@@ -112,40 +108,7 @@ export default class LinearDemandSupplySurplusEditor extends React.Component {
                                 handler={handleFormUpdate.bind(this)} />
                         </>
                     )}
-                    {(
-                        this.props.gFunctionChoice === 2 ||
-                            this.props.gFunctionChoice === 3
-                    ) && (
-                        <RangeEditor
-                            label="Global Price"
-                            rawLabel={true}
-                            id="gA5"
-                            value={this.props.gA5}
-                            min={0}
-                            max={this.props.gA1}
-                            handler={handleFormUpdate.bind(this)} />
-                    )}
-                    {(this.props.gFunctionChoice === 3) && (
-                        <RangeEditor
-                            label="Tariff"
-                            rawLabel={true}
-                            id="gA6"
-                            value={this.props.gA6}
-                            min={0}
-                            max={this.props.gA1}
-                            handler={handleFormUpdate.bind(this)} />
-                    )}
-                    {(this.props.gFunctionChoice === 4 || this.props.gFunctionChoice === 5) && (
-                        <RangeEditor
-                            label="Global Price"
-                            rawLabel={true}
-                            id="gA5"
-                            value={this.props.gA5}
-                            min={0}
-                            max={this.props.gA1}
-                            handler={handleFormUpdate.bind(this)} />
-                    )}
-                    {(this.props.gFunctionChoice === 6 || this.props.gFunctionChoice === 8) && (
+                    {(this.props.gFunctionChoice === 2 || this.props.gFunctionChoice === 4) && (
                         <RangeEditor
                             label="Minimum Price"
                             rawLabel={true}
@@ -155,7 +118,7 @@ export default class LinearDemandSupplySurplusEditor extends React.Component {
                             max={this.props.gA1}
                             handler={handleFormUpdate.bind(this)} />
                     )}
-                    {(this.props.gFunctionChoice === 7 || this.props.gFunctionChoice === 9) && (
+                    {(this.props.gFunctionChoice === 3 || this.props.gFunctionChoice === 5) && (
                         <RangeEditor
                             label="Maximum Price"
                             rawLabel={true}
@@ -165,7 +128,7 @@ export default class LinearDemandSupplySurplusEditor extends React.Component {
                             max={this.props.gA1}
                             handler={handleFormUpdate.bind(this)} />
                     )}
-                    {(this.props.gFunctionChoice === 10 || this.props.gFunctionChoice === 11) && (
+                    {(this.props.gFunctionChoice === 6 || this.props.gFunctionChoice === 7) && (
                         <RangeEditor
                             label="Production Quota"
                             rawLabel={true}
