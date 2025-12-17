@@ -113,7 +113,7 @@ const dwl = function(c, b, a, d, wp, t) {
     return tsw(c, b, a, d, wp) - tswt(c, b, a, d, wp, t);
 };
 
-export class InternationalTradeAndTariffsGraph extends Graph {
+export class InternationalTradeSmallEconomyGraph extends Graph {
     static qdhLabel = '<math><msubsup><mo>Q</mo><mn>D</mn><mn>H</mn></msubsup></math>';
     static qshLabel = '<math><msubsup><mo>Q</mo><mn>S</mn><mn>H</mn></msubsup></math>';
 
@@ -124,20 +124,20 @@ export class InternationalTradeAndTariffsGraph extends Graph {
             lineItems = [
                 {
                     label: 'Domestic Quantity Bought, ' +
-                        InternationalTradeAndTariffsGraph.qdhLabel,
+                        InternationalTradeSmallEconomyGraph.qdhLabel,
                     color: 'red',
                     value: eqd(gA1, gA2, gA3, gA4, gA5).toFixed(2)
                 },
                 {
                     label: 'Domestic Quantity Produced, ' +
-                        InternationalTradeAndTariffsGraph.qshLabel,
+                        InternationalTradeSmallEconomyGraph.qshLabel,
                     color: 'red',
                     value: eqs(gA1, gA2, gA3, gA4, gA5).toFixed(2)
                 },
                 {
                     label: 'Domestic Trade Balance, ' +
-                        InternationalTradeAndTariffsGraph.qshLabel + '-' +
-                        InternationalTradeAndTariffsGraph.qdhLabel,
+                        InternationalTradeSmallEconomyGraph.qshLabel + '-' +
+                        InternationalTradeSmallEconomyGraph.qdhLabel,
                     color: 'red',
                     value: (
                         eqd(gA1, gA2, gA3, gA4, gA5) -
@@ -149,20 +149,20 @@ export class InternationalTradeAndTariffsGraph extends Graph {
             lineItems = [
                 {
                     label: 'Domestic Quantity Bought, ' +
-                        InternationalTradeAndTariffsGraph.qdhLabel,
+                        InternationalTradeSmallEconomyGraph.qdhLabel,
                     color: 'red',
                     value: eqd(gA1, gA2, gA3, gA4, gA5).toFixed(2)
                 },
                 {
                     label: 'Domestic Quantity Produced, ' +
-                        InternationalTradeAndTariffsGraph.qshLabel,
+                        InternationalTradeSmallEconomyGraph.qshLabel,
                     color: 'red',
                     value: eqs(gA1, gA2, gA3, gA4, gA5).toFixed(2)
                 },
                 {
                     label: 'Domestic Trade Balance, ' +
-                        InternationalTradeAndTariffsGraph.qshLabel + '-' +
-                        InternationalTradeAndTariffsGraph.qdhLabel,
+                        InternationalTradeSmallEconomyGraph.qshLabel + '-' +
+                        InternationalTradeSmallEconomyGraph.qdhLabel,
                     color: 'red',
                     value: (
                         eqd(gA1, gA2, gA3, gA4, gA5) -
@@ -189,20 +189,20 @@ export class InternationalTradeAndTariffsGraph extends Graph {
             lineItems = [
                 {
                     label: 'Domestic Quantity Bought, ' +
-                        InternationalTradeAndTariffsGraph.qdhLabel,
+                        InternationalTradeSmallEconomyGraph.qdhLabel,
                     color: 'red',
                     value: eqd(gA1, gA2, gA3, gA4, gA5).toFixed(2)
                 },
                 {
                     label: 'Domestic Quantity Produced, ' +
-                        InternationalTradeAndTariffsGraph.qshLabel,
+                        InternationalTradeSmallEconomyGraph.qshLabel,
                     color: 'red',
                     value: eqs(gA1, gA2, gA3, gA4, gA5).toFixed(2)
                 },
                 {
                     label: 'Domestic Trade Balance, ' +
-                        InternationalTradeAndTariffsGraph.qshLabel + '-' +
-                        InternationalTradeAndTariffsGraph.qdhLabel,
+                        InternationalTradeSmallEconomyGraph.qshLabel + '-' +
+                        InternationalTradeSmallEconomyGraph.qdhLabel,
                     color: 'red',
                     value: (
                         eqd(gA1, gA2, gA3, gA4, gA5) -
@@ -227,20 +227,20 @@ export class InternationalTradeAndTariffsGraph extends Graph {
             lineItems = [
                 {
                     label: 'Domestic Quantity Bought, ' +
-                        InternationalTradeAndTariffsGraph.qdhLabel,
+                        InternationalTradeSmallEconomyGraph.qdhLabel,
                     color: 'red',
                     value: eqd(gA1, gA2, gA3, gA4, gA5).toFixed(2)
                 },
                 {
                     label: 'Domestic Quantity Produced, ' +
-                        InternationalTradeAndTariffsGraph.qshLabel,
+                        InternationalTradeSmallEconomyGraph.qshLabel,
                     color: 'red',
                     value: eqs(gA1, gA2, gA3, gA4, gA5).toFixed(2)
                 },
                 {
                     label: 'Domestic Trade Balance, ' +
-                        InternationalTradeAndTariffsGraph.qshLabel + '-' +
-                        InternationalTradeAndTariffsGraph.qdhLabel,
+                        InternationalTradeSmallEconomyGraph.qshLabel + '-' +
+                        InternationalTradeSmallEconomyGraph.qdhLabel,
                     color: 'red',
                     value: (
                         eqd(gA1, gA2, gA3, gA4, gA5) -
@@ -347,15 +347,15 @@ export class InternationalTradeAndTariffsGraph extends Graph {
 
         this.showIntersection(
             this.l1, this.l3, false,
-            InternationalTradeAndTariffsGraph.qshLabel);
+            InternationalTradeSmallEconomyGraph.qshLabel);
         this.showIntersection(
             this.l2, this.l3, false,
-            InternationalTradeAndTariffsGraph.qdhLabel);
+            InternationalTradeSmallEconomyGraph.qdhLabel);
     }
 }
 
-export const mkInternationalTradeAndTariffs = function(board, options) {
-    let g = new InternationalTradeAndTariffsGraph(board, options);
+export const mkInternationalTradeSmallEconomy = function(board, options) {
+    let g = new InternationalTradeSmallEconomyGraph(board, options);
     g.make();
     g.postMake();
     return g;
