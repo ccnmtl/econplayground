@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import RangeEditor from '../form-components/RangeEditor.jsx';
 import { handleFormUpdate } from '../utils.js';
-import { paut } from '../graphs/InternationalTradeAndTariffsGraph.js';
+import { paut } from '../graphs/InternationalTradeSmallEconomyGraph.js';
 
-export default class InternationalTradeAndTariffsEditor extends React.Component {
+export default class InternationalTradeSmallEconomyEditor extends React.Component {
     render() {
         const me = this;
 
@@ -135,7 +135,7 @@ export default class InternationalTradeAndTariffsEditor extends React.Component 
     }
 }
 
-InternationalTradeAndTariffsEditor.propTypes = {
+InternationalTradeSmallEconomyEditor.propTypes = {
     gType: PropTypes.number.isRequired,
 
     gA1: PropTypes.number.isRequired,

@@ -34,8 +34,8 @@ import {
     defaults as externalitiesPositiveIndustryDefaults
 } from './graphs/PositiveExternalityIndustryGraph.js';
 import {
-    defaults as internationalTradeAndTariffsGraphDefaults
-} from './graphs/InternationalTradeAndTariffsGraph.js';
+    defaults as internationalTradeSmallEconomyGraphDefaults
+} from './graphs/InternationalTradeSmallEconomyGraph.js';
 import {
     defaults as internationalTradeLargeEconomyGraphDefaults
 } from './graphs/InternationalTradeLargeEconomyGraph.js';
@@ -113,8 +113,8 @@ export const setDynamicGraphDefaults = function(state, updateObj) {
     } else if (state.gType === 31) {
         updateObj = setDefaults(
             updateObj,
-            internationalTradeAndTariffsGraphDefaults,
-            internationalTradeAndTariffsGraphDefaults,
+            internationalTradeSmallEconomyGraphDefaults,
+            internationalTradeSmallEconomyGraphDefaults,
             state.gFunctionChoice);
     }
 
@@ -181,7 +181,7 @@ export const getDefaultGraphState = function(graphType, state) {
             state, monopolyFirstDegreePriceDiscriminationDefaults[0]);
     } else if (graphType === 31) {
         Object.assign(
-            state, internationalTradeAndTariffsGraphDefaults[0]);
+            state, internationalTradeSmallEconomyGraphDefaults[0]);
     } else if (graphType === 32) {
         Object.assign(
             state, internationalTradeLargeEconomyGraphDefaults[0]);
