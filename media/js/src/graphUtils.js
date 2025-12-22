@@ -116,6 +116,12 @@ export const setDynamicGraphDefaults = function(state, updateObj) {
             internationalTradeSmallEconomyGraphDefaults,
             internationalTradeSmallEconomyGraphDefaults,
             state.gFunctionChoice);
+    } else if (state.gType === 32) {
+        updateObj = setDefaults(
+            updateObj,
+            internationalTradeLargeEconomyGraphDefaults,
+            internationalTradeLargeEconomyGraphDefaults,
+            state.gFunctionChoice);
     }
 
     return updateObj;

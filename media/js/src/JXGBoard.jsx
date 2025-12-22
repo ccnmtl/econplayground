@@ -13,6 +13,9 @@ import { graphTypes, isJointGraph } from './graphs/graphTypes.js';
 import { mkNonLinearDemandSupply } from './graphs/NonLinearDemandSupplyGraph.js';
 import { mkDemandSupply } from './graphs/DemandSupplyGraph.js';
 import { mkTaxationLinearDemandSupply } from './graphs/TaxationLinearDemandSupplyGraph.js';
+import {
+    mkInternationalTradeLargeEconomyGlobal
+} from './graphs/InternationalTradeLargeEconomyGraph.js';
 import AreaDisplay from './AreaDisplay.jsx';
 import Legend from './Legend.jsx';
 import {
@@ -278,6 +281,18 @@ export default class JXGBoard extends React.Component {
                     gYAxisMax: 2500,
                     gLine1Slope: options.gA2,
                     gLine2Slope: options.gA4,
+                    isBoard2: true,
+                    l1SubmissionOffset: getL1SubmissionOffset(options.submission),
+                    l2SubmissionOffset: getL2SubmissionOffset(options.submission),
+                    locked: this.props.locked,
+                    shadow: this.props.shadow,
+                });
+            } else if (options.gType === 32) {
+                // International Trade - Large Economy second graph:
+                mkInternationalTradeLargeEconomyGlobal(this.board2, {
+                    ...options,
+                    gXAxisMax: 1000,
+                    gYAxisMax: 2500,
                     isBoard2: true,
                     l1SubmissionOffset: getL1SubmissionOffset(options.submission),
                     l2SubmissionOffset: getL2SubmissionOffset(options.submission),

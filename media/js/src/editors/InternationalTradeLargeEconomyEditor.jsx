@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import RangeEditor from '../form-components/RangeEditor.jsx';
 import { handleFormUpdate } from '../utils.js';
-import { paut } from '../graphs/InternationalTradeLargeEconomyGraph.js';
 
 export default class InternationalTradeLargeEconomyEditor extends React.Component {
     render() {
@@ -105,28 +104,22 @@ export default class InternationalTradeLargeEconomyEditor extends React.Componen
                                 handler={handleFormUpdate.bind(this)} />
 
                             <RangeEditor
-                                label="Global Price"
+                                label="Foreign Autarky Intercept"
                                 rawLabel={true}
                                 id="gA5"
                                 value={this.props.gA5}
                                 min={0}
-                                max={this.props.gA1}
+                                max={2 * this.props.gA1}
                                 handler={handleFormUpdate.bind(this)} />
 
-                            {this.props.gFunctionChoice >= 2 && (
-                                <RangeEditor
-                                    label="Tariff"
-                                    rawLabel={true}
-                                    id="gA6"
-                                    value={this.props.gA6}
-                                    min={0}
-                                    max={
-                                        paut(
-                                            this.props.gA1, this.props.gA2, this.props.gA3,
-                                            this.props.gA4) - this.props.gA5
-                                    }
-                                    handler={handleFormUpdate.bind(this)} />
-                            )}
+                            <RangeEditor
+                                label="Foreign Export Slope"
+                                rawLabel={true}
+                                id="gA6"
+                                value={this.props.gA6}
+                                min={0.01}
+                                max={5}
+                                handler={handleFormUpdate.bind(this)} />
                         </>
                     )}
                 </div>
