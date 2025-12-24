@@ -243,7 +243,11 @@ export class Graph {
      */
     showIntersection(
         l1, l2, isShadow=false, label, horizLabel, vertLabel,
-        extendVertLine=false, extendHorizLine=false, color='red'
+        extendVertLine=false, extendHorizLine=false, color='red',
+        {
+            showHorizLine = true,
+            showVertLine = true
+        } = {}
     ) {
         if (label === null || typeof label === 'undefined') {
             label = this.options.gIntersectionLabel;
@@ -276,15 +280,17 @@ export class Graph {
             highlight: false,
             showInfobox: false
         });
-        this.board.create('line', [p1, i3], {
-            dash: 1,
-            highlight: false,
-            strokeColor: color,
-            strokeWidth: isShadow ? 0.5 : 1,
-            straightFirst: false,
-            straightLast: false,
-            layer: 4
-        });
+        if (showHorizLine) {
+            this.board.create('line', [p1, i3], {
+                dash: 2,
+                highlight: false,
+                strokeColor: color,
+                strokeWidth: isShadow ? 1 : 2,
+                straightFirst: false,
+                straightLast: false,
+                layer: 4
+            });
+        }
 
         let p2 = this.board.create('point', [i.X(), 0], {
             size: 0,
@@ -303,15 +309,17 @@ export class Graph {
             i2 = [i.X(), 10];
         }
 
-        this.board.create('line', [p2, i2], {
-            dash: 1,
-            highlight: false,
-            strokeColor: color,
-            strokeWidth: isShadow ? 0.5 : 1,
-            straightFirst: false,
-            straightLast: false,
-            layer: 4
-        });
+        if (showVertLine) {
+            this.board.create('line', [p2, i2], {
+                dash: 2,
+                highlight: false,
+                strokeColor: color,
+                strokeWidth: isShadow ? 1 : 2,
+                straightFirst: false,
+                straightLast: false,
+                layer: 4
+            });
+        }
 
         if (!isShadow) {
             // Keep the dashed intersection lines perpendicular to the axes.
