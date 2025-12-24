@@ -11,8 +11,6 @@ const config = {
         // Temporary workaround for better-react-mathjax issue:
         // https://github.com/fast-reflexes/better-react-mathjax/issues/62
         "media/js/src/form-components/RangeEditor.test.js",
-        "media/js/src/JXGBoard.test.js",
-        "media/js/src/GraphEditor.test.js",
         "media/js/src/Editor.test.js",
     ],
 };
