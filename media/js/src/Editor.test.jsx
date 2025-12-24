@@ -1,17 +1,17 @@
 /* eslint-env jest */
 
 import React from 'react';
-import TestRenderer from 'react-test-renderer';
+import {render} from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import Editor from './Editor.jsx';
 import { exportGraph } from './GraphMapping.js';
 
-it('renders without crashing', () => {
-    TestRenderer.create(<Editor />);
+test('renders without crashing', () => {
+    render(<Editor />);
 });
 
-it('renders with children in the expected visibility state', () => {
-    TestRenderer.create(
+test('renders with children in the expected visibility state', () => {
+    render(
         <Editor />,
         function() {
             expect(this.gp.current.props.showing).toBe(true);
@@ -27,8 +27,8 @@ it('renders with children in the expected visibility state', () => {
         });
 });
 
-it('exports its graph state', () => {
-    TestRenderer.create(
+test('exports its graph state', () => {
+    render(
         <Editor />,
         function() {
             let o = exportGraph(this.state);

@@ -1,11 +1,11 @@
 /* eslint-env jest */
 
 import React from 'react';
-import TestRenderer from 'react-test-renderer';
+import {render} from '@testing-library/react';
 import RangeEditor from './RangeEditor.jsx';
 
-it('renders without crashing', () => {
-    const el = TestRenderer.create(
+test('renders without crashing', () => {
+    const el = render(
         <RangeEditor
             dataId="gCobbDouglasA"
             value={0}
@@ -15,8 +15,8 @@ it('renders without crashing', () => {
     if (!el){ console.error('el does not exist'); }
 });
 
-it('Displays override radio button when configured', () => {
-    const el = TestRenderer.create(
+test('Displays override radio button when configured', () => {
+    const el = render(
         <RangeEditor
             dataId="gCobbDouglasA"
             value={0}
