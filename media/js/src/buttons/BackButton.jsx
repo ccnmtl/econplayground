@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 export default class BackButton extends React.Component {
     render() {
@@ -19,8 +18,3 @@ export default class BackButton extends React.Component {
         this.props.onClick();
     }
 }
-
-BackButton.propTypes = {
-    onClick: PropTypes.func.isRequired,
-    showing: PropTypes.bool.isRequired
-};

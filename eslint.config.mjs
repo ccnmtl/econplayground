@@ -69,6 +69,8 @@ export default defineConfig([
                 args: 'none',
             }],
 
+            'react/prop-types': 'off',
+
             quotes: ['error', 'single'],
             semi: ['error', 'always'],
             'security/detect-buffer-noassert': 1,

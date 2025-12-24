@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Checkbox from '../form-components/Checkbox.jsx';
 import RangeEditor from '../form-components/RangeEditor.jsx';
 import { handleFormUpdate } from '../utils.js';
@@ -108,16 +107,3 @@ export default class TaxationLinearDemandEditor extends React.Component {
         );
     }
 }
-
-TaxationLinearDemandEditor.propTypes = {
-    gType: PropTypes.number.isRequired,
-
-    gA1: PropTypes.number.isRequired,
-    gA2: PropTypes.number.isRequired,
-    gA3: PropTypes.number.isRequired,
-    gToggle: PropTypes.bool.isRequired,
-    gLine1Slope: PropTypes.number.isRequired,
-    gLine2Slope: PropTypes.number.isRequired,
-
-    gFunctionChoice: PropTypes.number.isRequired
-};

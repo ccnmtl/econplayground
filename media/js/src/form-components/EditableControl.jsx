@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {handleFormUpdate} from '../utils.js';
 
 /**
@@ -50,26 +49,3 @@ export default class EditableControl extends React.Component {
         );
     }
 }
-
-EditableControl.propTypes = {
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-
-    // updateGraph is required by handleFormUpdate, bound to this with
-    // onChange.
-    updateGraph: PropTypes.func.isRequired,
-
-    isInstructor: PropTypes.bool.isRequired,
-    value: PropTypes.string,
-    valueEditable: PropTypes.bool.isRequired,
-
-    // Custom classes for the parent element of this component.
-    className: PropTypes.string,
-
-    // Custom classes for the input element of this component.
-    inputClass: PropTypes.string,
-
-    onBlur: PropTypes.bool,
-    disabled: PropTypes.bool,
-    maxLength: PropTypes.number
-};

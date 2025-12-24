@@ -1,6 +1,5 @@
 import React from 'react';
 import { useState } from 'react';
-import PropTypes from 'prop-types';
 import { useRulesDispatch } from './RulesContext.jsx';
 import { getRuleOptions } from './ruleOptions.js';
 
@@ -317,11 +316,3 @@ export default function Rule({
         </fieldset>
     );
 }
-
-Rule.propTypes = {
-    rule: PropTypes.object.isRequired,
-    graphType: PropTypes.number.isRequired,
-    assessmentType: PropTypes.number.isRequired,
-    correctChoice: PropTypes.number,
-    setCorrectChoice: PropTypes.func.isRequired
-};

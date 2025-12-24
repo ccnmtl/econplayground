@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { getKatexEl } from '../katexUtils.jsx';
 import RangeEditor from '../form-components/RangeEditor.jsx';
 import EditableControl from '../form-components/EditableControl.jsx';
@@ -201,36 +200,3 @@ export default class NonLinearDemandSupplyEditor extends React.Component {
         );
     }
 }
-
-NonLinearDemandSupplyEditor.propTypes = {
-    updateGraph: PropTypes.func.isRequired,
-    gIntersectionLabel: PropTypes.string.isRequired,
-    gIntersectionHorizLineLabel: PropTypes.string.isRequired,
-    gIntersectionVertLineLabel: PropTypes.string.isRequired,
-
-    gCobbDouglasA: PropTypes.number.isRequired,
-    gCobbDouglasAName: PropTypes.string.isRequired,
-    gCobbDouglasK: PropTypes.number.isRequired,
-    gCobbDouglasKName: PropTypes.string.isRequired,
-
-    gNName: PropTypes.string.isRequired,
-
-    gLine1Label: PropTypes.string.isRequired,
-    gLine2Label: PropTypes.string.isRequired,
-    gLine1Slope: PropTypes.number.isRequired,
-
-    gFunctionChoice: PropTypes.number.isRequired,
-    hideFunctionChoice: PropTypes.bool,
-
-    gAreaConfiguration: PropTypes.number,
-    gIsAreaDisplayed: PropTypes.bool,
-
-    gAreaAName: PropTypes.string,
-    gAreaBName: PropTypes.string,
-    gAreaCName: PropTypes.string,
-
-    displayLabels: PropTypes.bool.isRequired,
-    displaySliders: PropTypes.bool.isRequired,
-    isInstructor: PropTypes.bool.isRequired,
-    showAUC: PropTypes.bool.isRequired
-};

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 /**
  * GridOption is a re-usable component that creates <input> elements with
@@ -45,11 +44,3 @@ export default class GridOption extends React.Component {
         );
     }
 }
-
-GridOption.propTypes = {
-    id: PropTypes.string,
-    dataId: PropTypes.string.isRequired,
-    handler: PropTypes.func.isRequired,
-    label: PropTypes.string.isRequired,  // a LaTeX string
-    value: PropTypes.number.isRequired,
-};

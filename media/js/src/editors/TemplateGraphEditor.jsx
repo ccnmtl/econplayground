@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { getKatexEl } from '../katexUtils.jsx';
 import { create, all } from 'mathjs';
 
@@ -76,14 +75,3 @@ export default class TemplateGraphEditor extends React.Component {
         );
     }
 }
-
-TemplateGraphEditor.propTypes = {
-    gType: PropTypes.number,
-    updateGraph: PropTypes.func.isRequired,
-    disabled: PropTypes.bool,
-
-    gExpression: PropTypes.string,
-    gExpression2: PropTypes.string,
-    gExpression3: PropTypes.string,
-    gFunctionChoice: PropTypes.number
-};

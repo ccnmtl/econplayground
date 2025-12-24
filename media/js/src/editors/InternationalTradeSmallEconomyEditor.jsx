@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import RangeEditor from '../form-components/RangeEditor.jsx';
 import { handleFormUpdate } from '../utils.js';
 import { paut } from '../graphs/InternationalTradeSmallEconomyGraph.js';
@@ -134,19 +133,3 @@ export default class InternationalTradeSmallEconomyEditor extends React.Componen
         );
     }
 }
-
-InternationalTradeSmallEconomyEditor.propTypes = {
-    gType: PropTypes.number.isRequired,
-
-    gA1: PropTypes.number.isRequired,
-    gA2: PropTypes.number.isRequired,
-    gA3: PropTypes.number.isRequired,
-    gA4: PropTypes.number.isRequired,
-    gA5: PropTypes.number.isRequired,
-    gA6: PropTypes.number,
-
-    gFunctionChoice: PropTypes.number.isRequired,
-    gToggle: PropTypes.bool.isRequired,
-
-    displaySliders: PropTypes.bool.isRequired
-};

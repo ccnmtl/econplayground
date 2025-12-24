@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import EditableControl from '../form-components/EditableControl.jsx';
 import RangeEditor from '../form-components/RangeEditor.jsx';
 import AreaConfiguration from './AreaConfiguration.jsx';
@@ -279,44 +278,3 @@ export default class DemandSupplyEditor extends React.Component {
         </React.Fragment>;
     }
 }
-
-DemandSupplyEditor.propTypes = {
-    gType: PropTypes.number,
-    updateGraph: PropTypes.func.isRequired,
-    gIntersectionLabel: PropTypes.string.isRequired,
-    gIntersectionHorizLineLabel: PropTypes.string.isRequired,
-    gIntersectionVertLineLabel: PropTypes.string.isRequired,
-
-    gIntersection2Label: PropTypes.string,
-    gIntersection2HorizLineLabel: PropTypes.string,
-    gIntersection2VertLineLabel: PropTypes.string,
-
-    gXAxisLabel: PropTypes.string.isRequired,
-    gYAxisLabel: PropTypes.string.isRequired,
-
-    gXAxis2Label: PropTypes.string,
-    gYAxis2Label: PropTypes.string,
-
-    gLine1Slope: PropTypes.number.isRequired,
-    gLine1Label: PropTypes.string.isRequired,
-    gLine2Slope: PropTypes.number.isRequired,
-    gLine2Label: PropTypes.string.isRequired,
-    gLine3Slope: PropTypes.number,
-    gLine3Label: PropTypes.string,
-    gLine4Slope: PropTypes.number,
-    gLine4Label: PropTypes.string,
-
-    gAreaConfiguration: PropTypes.number,
-    gIsAreaDisplayed: PropTypes.bool,
-
-    gAreaAName: PropTypes.string,
-    gAreaBName: PropTypes.string,
-    gAreaCName: PropTypes.string,
-
-    displayLabels: PropTypes.bool.isRequired,
-    displaySliders: PropTypes.bool.isRequired,
-    isInstructor: PropTypes.bool.isRequired,
-    showAUC: PropTypes.bool.isRequired,
-
-    disabled: PropTypes.bool
-};

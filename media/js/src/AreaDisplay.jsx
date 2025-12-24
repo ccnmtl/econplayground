@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {forceFloat} from './utils.js';
 
 export default class AreaDisplay extends React.Component {
@@ -55,10 +54,3 @@ export default class AreaDisplay extends React.Component {
         );
     }
 }
-
-AreaDisplay.propTypes = {
-    areaConf: PropTypes.number.isRequired,
-    areaA: PropTypes.number.isRequired,
-    areaB: PropTypes.number.isRequired,
-    areaC: PropTypes.number.isRequired
-};

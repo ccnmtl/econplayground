@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { createContext, useContext, useReducer } from 'react';
 
 const RulesContext = createContext(null);
@@ -21,10 +20,6 @@ export function RulesProvider({ children }) {
         </RulesContext.Provider>
     );
 }
-
-RulesProvider.propTypes = {
-    children: PropTypes.array.isRequired
-};
 
 export function useRules() {
     return useContext(RulesContext);

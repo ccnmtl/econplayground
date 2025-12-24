@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import RangeEditor from '../form-components/RangeEditor.jsx';
 import { handleFormUpdate } from '../utils.js';
 
@@ -108,17 +107,5 @@ function MonopolyUniformPricingEditor(props) {
         </>
     );
 }
-
-MonopolyUniformPricingEditor.propTypes = {
-    gType: PropTypes.number.isRequired,
-
-    gA1: PropTypes.number.isRequired,
-    gA2: PropTypes.number.isRequired,
-    gA3: PropTypes.number.isRequired,
-    gA4: PropTypes.number.isRequired,
-
-    gFunctionChoice: PropTypes.number.isRequired,
-    displaySliders: PropTypes.bool.isRequired
-};
 
 export default MonopolyUniformPricingEditor;

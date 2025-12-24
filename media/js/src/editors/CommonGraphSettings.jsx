@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {getCohortId, getTopics, handleFormUpdate} from '../utils.js';
 
 /**
@@ -178,20 +177,4 @@ export default class CommonGraphSettings extends React.Component {
 
 CommonGraphSettings.defaultProps = {
     enableIntersectionToggle: true
-};
-
-CommonGraphSettings.propTypes = {
-    enableIntersectionToggle: PropTypes.bool,
-
-    gType: PropTypes.number.isRequired,
-    gAssignmentType: PropTypes.number.isRequired,
-    gNeedsSubmit: PropTypes.bool.isRequired,
-    gDisplayFeedback: PropTypes.bool.isRequired,
-    gShowIntersection: PropTypes.bool.isRequired,
-    gDisplayShadow: PropTypes.bool.isRequired,
-    gIsPublished: PropTypes.bool.isRequired,
-    gIsFeatured: PropTypes.bool.isRequired,
-    gTopic: PropTypes.number,
-
-    updateGraph: PropTypes.func.isRequired
 };

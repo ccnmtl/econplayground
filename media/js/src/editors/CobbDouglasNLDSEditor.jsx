@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { getKatexEl } from '../katexUtils.jsx';
 import RangeEditor from '../form-components/RangeEditor.jsx';
 import EditableControl from '../form-components/EditableControl.jsx';
@@ -246,33 +245,3 @@ export default class CobbDouglasNLDSEditor extends React.Component {
         );
     }
 }
-
-CobbDouglasNLDSEditor.propTypes = {
-    updateGraph: PropTypes.func.isRequired,
-
-    gCobbDouglasA: PropTypes.number.isRequired,
-    gCobbDouglasAName: PropTypes.string.isRequired,
-    gCobbDouglasL: PropTypes.number.isRequired,
-    gCobbDouglasLName: PropTypes.string.isRequired,
-    gCobbDouglasK: PropTypes.number.isRequired,
-    gCobbDouglasKName: PropTypes.string.isRequired,
-    gCobbDouglasAlpha: PropTypes.number.isRequired,
-    gCobbDouglasYName: PropTypes.string.isRequired,
-
-    gNName: PropTypes.string.isRequired,
-
-    gIntersectionLabel: PropTypes.string.isRequired,
-    gIntersectionHorizLineLabel: PropTypes.string.isRequired,
-    gIntersectionVertLineLabel: PropTypes.string.isRequired,
-
-    gLine1Label: PropTypes.string.isRequired,
-    gLine2Label: PropTypes.string.isRequired,
-    gLine1Slope: PropTypes.number.isRequired,
-
-    gFunctionChoice: PropTypes.number.isRequired,
-    hideFunctionChoice: PropTypes.bool,
-
-    displayLabels: PropTypes.bool.isRequired,
-    displaySliders: PropTypes.bool.isRequired,
-    isInstructor: PropTypes.bool.isRequired
-};

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { getKatexEl } from '../katexUtils.jsx';
 import RangeEditor from '../form-components/RangeEditor.jsx';
 import EditableControl from '../form-components/EditableControl.jsx';
@@ -172,29 +171,3 @@ export default class ConsumptionLeisureEditor extends React.Component {
         );
     }
 }
-
-ConsumptionLeisureEditor.propTypes = {
-    gType: PropTypes.number.isRequired,
-    gIntersectionLabel: PropTypes.string.isRequired,
-    gIntersectionHorizLineLabel: PropTypes.string.isRequired,
-    gIntersectionVertLineLabel: PropTypes.string.isRequired,
-
-    gIntersection2HorizLineLabel: PropTypes.string,
-    gIntersection2VertLineLabel: PropTypes.string,
-
-    gXAxisLabel: PropTypes.string.isRequired,
-    gYAxisLabel: PropTypes.string.isRequired,
-
-    gA1: PropTypes.number.isRequired,
-    gA2: PropTypes.number.isRequired,
-    gA3: PropTypes.number,
-    gA4: PropTypes.number,
-
-    gLine1Label: PropTypes.string.isRequired,
-
-    displayLabels: PropTypes.bool.isRequired,
-    displaySliders: PropTypes.bool.isRequired,
-    isInstructor: PropTypes.bool.isRequired,
-
-    updateGraph: PropTypes.func.isRequired
-};

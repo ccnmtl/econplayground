@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import RuleList from './RuleList.jsx';
 import AddRule from './AddRule.jsx';
 import { RulesProvider } from './RulesContext.jsx';
@@ -21,9 +20,3 @@ export default function Rubric({ questionId }) {
         </div>
     );
 }
-
-Rubric.propTypes = {
-    // This is required for updating an existing question, but not
-    // present when making a new question.
-    questionId: PropTypes.number
-};
