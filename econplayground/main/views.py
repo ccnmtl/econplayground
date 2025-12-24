@@ -178,11 +178,11 @@ class GraphSelectView(
                 # International Trade and Tariffs
                 {
                     'graph_type': 31,
-                    'image': 'graph_types/graph_30.png',
+                    'image': 'graph_types/graph_31.png',
                 },
                 {
                     'graph_type': 32,
-                    'image': 'graph_types/graph_30.png',
+                    'image': 'graph_types/graph_32.png',
                 },
             ]
         })
