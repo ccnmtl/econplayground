@@ -48,6 +48,16 @@ const drawPolygon = function(board, points, name, color, visible=true) {
     return p;
 };
 
+/**
+ * Make a fixed, invisible point with no label.
+ */
+const makeInvisiblePoint = function(board, coords) {
+    return board.create('point', coords, {
+        fixed: true,
+        withLabel: false,
+        visible: false
+    });
+};
 
 /**
  * Given a point and the line's slope, return its x-intercept.
@@ -59,5 +69,5 @@ const getXInterceptWithPoint = function(p, slope) {
 };
 
 export {
-    drawLabel, drawPolygon, getXInterceptWithPoint
+    drawLabel, drawPolygon, makeInvisiblePoint, getXInterceptWithPoint
 };

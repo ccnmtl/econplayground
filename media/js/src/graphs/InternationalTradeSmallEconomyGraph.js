@@ -1,4 +1,5 @@
 import { Graph, positiveRange } from './Graph.js';
+import { drawPolygon, makeInvisiblePoint } from '../jsxgraphUtils.js';
 
 export const defaults = [
     {
@@ -39,7 +40,7 @@ export const defaults = [
         gA3: 100,
         gA4: 2,
         gA5: 500,
-        gA6: 0
+        gA6: 1
     },
 ];
 
@@ -314,7 +315,7 @@ export class InternationalTradeSmallEconomyGraph extends Graph {
         this.l1 = this.board.create(
             'functiongraph',
             [positiveRange(spLine), 0, this.options.gXAxisMax], {
-                name: 'Demand',
+                name: 'Supply',
                 withLabel: true,
                 label: {
                     strokeColor: this.l1Color
@@ -345,12 +346,51 @@ export class InternationalTradeSmallEconomyGraph extends Graph {
             }
         );
 
-        this.showIntersection(
+        const options = {
+            showHorizLine: false
+        };
+
+        const i1 = this.showIntersection(
             this.l1, this.l3, false,
-            InternationalTradeSmallEconomyGraph.qshLabel);
-        this.showIntersection(
+            InternationalTradeSmallEconomyGraph.qshLabel,
+            null, null, false, false, 'red',
+            options);
+        const i2 = this.showIntersection(
             this.l2, this.l3, false,
-            InternationalTradeSmallEconomyGraph.qdhLabel);
+            InternationalTradeSmallEconomyGraph.qdhLabel,
+            null, null, false, false, 'red',
+            options);
+
+        this.board.create('line', [i1, i2], {
+            dash: 2,
+            highlight: false,
+            strokeColor: 'red',
+            strokeWidth: 2,
+            straightFirst: false,
+            straightLast: false
+        });
+
+        if (
+            this.options.gFunctionChoice === 1 ||
+            this.options.gFunctionChoice === 3
+           ) {
+            // shapes
+            const gpPoint = makeInvisiblePoint(this.board, [0, this.options.gA5]);
+            drawPolygon(this.board, [
+                i2,
+                makeInvisiblePoint(
+                    this.board,
+                    [0, dp(this.options.gA1, this.options.gA2, 0)]),
+                gpPoint
+            ], 'CS', 'lightblue');
+            drawPolygon(this.board, [
+                i1,
+                gpPoint,
+                makeInvisiblePoint(
+                    this.board,
+                    [0, sp(this.options.gA3, this.options.gA4, 0)]),
+            ], 'PS', 'peachpuff');
+        }
     }
 }
 
