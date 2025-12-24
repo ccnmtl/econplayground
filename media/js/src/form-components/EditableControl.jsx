@@ -37,14 +37,16 @@ export default class EditableControl extends React.Component {
         }
 
         return (
-            <React.Fragment>
+            <>
                 {(this.props.isInstructor || this.props.valueEditable) && (
-                    <label className={this.props.className}>
+                    <label
+                        className={this.props.className}
+                        data-testid="editablecontrol">
                         {this.props.name}
                         {input}
                     </label>
                 )}
-            </React.Fragment>
+            </>
         );
     }
 }

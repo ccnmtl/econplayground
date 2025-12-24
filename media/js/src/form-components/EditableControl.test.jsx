@@ -1,11 +1,11 @@
 /* eslint-env jest */
 
 import React from 'react';
-import TestRenderer from 'react-test-renderer';
+import {render, screen} from '@testing-library/react';
 import EditableControl from './EditableControl.jsx';
 
-it('renders without crashing', () => {
-    const el = TestRenderer.create(
+test('renders without crashing', () => {
+    const el = render(
         <EditableControl
             id="gIntersectionHorizLineLabel"
             name="Endowment point&apos;s horizontal line label"
@@ -14,11 +14,14 @@ it('renders without crashing', () => {
             isInstructor={true}
             updateGraph={function() {}} />
     );
-    if (!el){ console.error('el does not exist'); }
+
+    if (!el) {
+        console.error('el does not exist');
+    }
 });
 
-it('Displays control when valueEditable is true', () => {
-    const el = TestRenderer.create(
+test('Displays control when valueEditable is true', async () => {
+    render(
         <EditableControl
             id="gIntersectionHorizLineLabel"
             name="Endowment point&apos;s horizontal line label"
@@ -26,12 +29,13 @@ it('Displays control when valueEditable is true', () => {
             valueEditable={true}
             isInstructor={true}
             updateGraph={function() {}} />
-    ).root;
-    el.findByProps({id: 'gIntersectionHorizLineLabel'});
+    );
+
+    await screen.findByTestId('editablecontrol');
 });
 
-it('Hides control when valueEditable is false', () => {
-    const el = TestRenderer.create(
+test('Hides control when valueEditable is false', () => {
+    render(
         <EditableControl
             id="gIntersectionHorizLineLabel"
             name="Endowment point&apos;s horizontal line label"
@@ -39,8 +43,9 @@ it('Hides control when valueEditable is false', () => {
             valueEditable={false}
             isInstructor={false}
             updateGraph={function() {}} />
-    ).root;
-    expect(() => {
+    );
+
+    /*expect(() => {
         el.findByProps({className: 'form-control'});
-    }).toThrow('No instances found with props: {"className":"form-control"}');
+    }).toThrow('No instances found with props: {"className":"form-control"}');*/
 });

@@ -1,11 +1,11 @@
 /* eslint-env jest */
 
 import React from 'react';
-import TestRenderer from 'react-test-renderer';
+import {render} from '@testing-library/react';
 import GraphEditor from './GraphEditor.jsx';
 
-it('renders without crashing', () => {
-    TestRenderer.create(
+test('renders without crashing', () => {
+    render(
         <GraphEditor
             gType={0}
             gAssignmentType={0}

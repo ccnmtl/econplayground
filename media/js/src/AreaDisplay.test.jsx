@@ -1,15 +1,15 @@
 /* eslint-env jest */
 
 import React from 'react';
-import TestRenderer from 'react-test-renderer';
+import {render} from '@testing-library/react';
 import AreaDisplay from './AreaDisplay.jsx';
 
-it('renders with null values', () => {
-    TestRenderer.create(
+test('renders with null values', () => {
+    render(
         <AreaDisplay areaA={null} areaB={null} areaC={null} />);
 });
 
-it('renders with real values', () => {
-    TestRenderer.create(
+test('renders with real values', () => {
+    render(
         <AreaDisplay areaA={1.23} areaB={1.23} areaC={1.23} />);
 });

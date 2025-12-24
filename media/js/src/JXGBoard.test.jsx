@@ -1,11 +1,11 @@
 /* eslint-env jest */
 
 import React from 'react';
-import TestRenderer from 'react-test-renderer';
+import {render} from '@testing-library/react';
 import JXGBoard from './JXGBoard.jsx';
 
-it('renders without crashing', () => {
-    TestRenderer.create(
+test('renders without crashing', () => {
+    render(
         <JXGBoard
             id={'id-test'}
             gType={0}
