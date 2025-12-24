@@ -1,9 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import JXGBoard from './JXGBoard.jsx';
 import { BOARD_WIDTH, BOARD_HEIGHT, getGraph } from './utils';
 import { importGraph } from './GraphMapping.js';
-
 
 /**
  * This component is used to view an econgraph object.
@@ -78,7 +76,3 @@ export default class GraphPreview extends React.Component {
         );
     }
 }
-
-GraphPreview.propTypes = {
-    graphId: PropTypes.number.isRequired
-};

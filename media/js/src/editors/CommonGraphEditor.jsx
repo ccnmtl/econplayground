@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {handleFormUpdate} from '../utils.js';
 
 /**
@@ -43,12 +42,3 @@ export default class CommonGraphEditor extends React.Component {
         );
     }
 }
-
-CommonGraphEditor.propTypes = {
-    gTitle: PropTypes.string.isRequired,
-    gSummary: PropTypes.string.isRequired,
-    gInstructorNotes: PropTypes.string.isRequired,
-    gInstructions: PropTypes.string.isRequired,
-
-    updateGraph: PropTypes.func.isRequired
-};

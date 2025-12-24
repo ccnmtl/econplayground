@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import RangeEditor from '../form-components/RangeEditor.jsx';
 import DefineRange from '../form-components/DefineRange.jsx';
 import { handleFormUpdate } from '../utils.js';
@@ -93,28 +92,3 @@ export default class RevenueElasticityEditor extends React.Component {
         );
     }
 }
-
-RevenueElasticityEditor.propTypes = {
-    gType: PropTypes.number.isRequired,
-    
-    gA1: PropTypes.number.isRequired,
-    gA1Max: PropTypes.number.isRequired,
-    gA1Min: PropTypes.number.isRequired,
-    gA2: PropTypes.number.isRequired,
-    gA2Max: PropTypes.number.isRequired,
-    gA2Min: PropTypes.number.isRequired,
-    gA3: PropTypes.number.isRequired,
-    gA3Max: PropTypes.number.isRequired,
-    gA3Min: PropTypes.number.isRequired,
-    gDisplayShadow: PropTypes.bool.isRequired,
-    gXAxisMax: PropTypes.number.isRequired,
-    gXAxisMin: PropTypes.number.isRequired,
-    gYAxisMax: PropTypes.number.isRequired,
-    gYAxisMin: PropTypes.number.isRequired,
-    gFunctionChoice: PropTypes.number.isRequired,
-
-    displaySliders: PropTypes.bool.isRequired,
-    isInstructor: PropTypes.bool.isRequired,
-
-    updateGraph: PropTypes.func.isRequired,
-};

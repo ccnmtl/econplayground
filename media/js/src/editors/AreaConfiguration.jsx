@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import EditableControl from '../form-components/EditableControl.jsx';
 import { handleFormUpdate } from '../utils.js';
 
@@ -84,16 +83,3 @@ export default class AreaConfiguration extends React.Component {
         );
     }
 }
-
-AreaConfiguration.propTypes = {
-    displayLabels: PropTypes.bool.isRequired,
-
-    gAreaConfiguration: PropTypes.number.isRequired,
-    gIsAreaDisplayed: PropTypes.bool.isRequired,
-
-    gAreaAName: PropTypes.string.isRequired,
-    gAreaBName: PropTypes.string.isRequired,
-    gAreaCName: PropTypes.string.isRequired,
-
-    updateGraph: PropTypes.func.isRequired
-};

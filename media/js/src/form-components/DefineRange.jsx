@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { getKatexEl } from '../katexUtils.jsx';
 
 /**
@@ -56,13 +55,4 @@ DefineRange.defaultProps = {
     min: 0,
     max: 10,
     disabled: false
-};
-
-DefineRange.propTypes = {
-    id: PropTypes.string.isRequired,
-    handler: PropTypes.func.isRequired,
-    min: PropTypes.number,
-    max: PropTypes.number,
-    label: PropTypes.string.isRequired,  // a LaTeX string
-    rawLabel: PropTypes.bool
 };

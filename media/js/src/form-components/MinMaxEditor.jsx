@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 export default class MinMaxEditor extends React.Component {
     render() {
@@ -43,11 +42,3 @@ export default class MinMaxEditor extends React.Component {
         );
     }
 }
-
-MinMaxEditor.propTypes = {
-    id: PropTypes.string.isRequired,
-    label: PropTypes.string,
-    handler: PropTypes.func.isRequired,
-    min: PropTypes.number.isRequired,
-    max: PropTypes.number.isRequired,
-};

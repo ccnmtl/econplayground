@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
     eq, ep, cos, pos, tos, taxur, taxar, dwlu
 } from './graphs/TaxationLinearDemandSupplyGraph.js';
@@ -89,18 +88,3 @@ export default function GraphPane({
         );
     }
 }
-
-
-GraphPane.propTypes = {
-    gType: PropTypes.number,
-    gA1: PropTypes.number.isRequired,
-    gA2: PropTypes.number.isRequired,
-    gA3: PropTypes.number.isRequired,
-    gA4: PropTypes.number,
-    gA5: PropTypes.number,
-    gA6: PropTypes.number,
-    gLine1Slope: PropTypes.number.isRequired,
-    gLine2Slope: PropTypes.number.isRequired,
-    gToggle: PropTypes.bool.isRequired,
-    gFunctionChoice: PropTypes.number.isRequired,
-};

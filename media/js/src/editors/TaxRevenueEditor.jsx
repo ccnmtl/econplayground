@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import RangeEditor from '../form-components/RangeEditor.jsx';
 import DefineRange from '../form-components/DefineRange.jsx';
 import { handleFormUpdate } from '../utils.js';
@@ -97,37 +96,3 @@ export default class TaxRevenueEditor extends React.Component {
         );
     }
 }
-
-TaxRevenueEditor.propTypes = {
-    gId: PropTypes.number,
-    gType: PropTypes.number.isRequired,
-
-    gA1: PropTypes.number,
-    gA1Min: PropTypes.number,
-    gA1Max: PropTypes.number,
-    gA2: PropTypes.number,
-    gA2Min: PropTypes.number,
-    gA2Max: PropTypes.number,
-    gA3: PropTypes.number,
-    gA3Min: PropTypes.number,
-    gA3Max: PropTypes.number,
-    gA4: PropTypes.number,
-    gA4Min: PropTypes.number,
-    gA4Max: PropTypes.number,
-    gA5: PropTypes.number,
-    gA5Min: PropTypes.number,
-    gA5Max: PropTypes.number,
-
-    gDisplayShadow: PropTypes.bool.isRequired,
-    gXAxisMax: PropTypes.number,
-    gXAxisMin: PropTypes.number,
-    gYAxisMax: PropTypes.number,
-    gYAxisMin: PropTypes.number,
-
-    gFunctionChoice: PropTypes.number.isRequired,
-
-    displaySliders: PropTypes.bool.isRequired,
-    isInstructor: PropTypes.bool.isRequired,
-
-    updateGraph: PropTypes.func.isRequired,
-};

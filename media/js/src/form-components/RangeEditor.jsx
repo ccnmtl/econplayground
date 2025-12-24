@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { getKatexEl } from '../katexUtils.jsx';
 import { btnStep } from '../utils.js';
 import MinMaxEditor from './MinMaxEditor.jsx';
@@ -191,31 +190,4 @@ RangeEditor.defaultProps = {
     showMinMaxEditor: false,
     showValue: true,
     disabled: false
-};
-
-RangeEditor.propTypes = {
-    id: PropTypes.string.isRequired,
-    handler: PropTypes.func.isRequired,
-    name: PropTypes.string,
-    value: PropTypes.number.isRequired,
-    step: PropTypes.number,
-    min: PropTypes.number,
-    max: PropTypes.number,
-    showOverrideButton: PropTypes.bool,
-
-    label: PropTypes.string,  // a LaTeX string
-    // If true, don't format label with LaTeX.
-    rawLabel: PropTypes.bool,
-
-    overrideLabel: PropTypes.string,
-    overrideValue: PropTypes.number,
-    showOverride2Button: PropTypes.bool,
-    override2Label: PropTypes.string,
-    override2Value: PropTypes.number,
-    showMinMax: PropTypes.bool,
-    showMinMaxEditor: PropTypes.bool,
-    note: PropTypes.string,
-    showNote: PropTypes.bool,
-    showValue: PropTypes.bool,
-    disabled: PropTypes.bool
 };

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 export default class ResetGraphButton extends React.Component {
     render() {
@@ -17,8 +16,3 @@ export default class ResetGraphButton extends React.Component {
         this.props.updateGraph(this.props.initialState);
     }
 }
-
-ResetGraphButton.propTypes = {
-    initialState: PropTypes.object.isRequired,
-    updateGraph: PropTypes.func.isRequired
-};

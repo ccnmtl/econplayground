@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 
 const displayColor = function(label, color, idx) {
     return (
@@ -10,20 +9,6 @@ const displayColor = function(label, color, idx) {
 };
 
 export default class Legend extends Component {
-    static propTypes = {
-        gLine1Label: PropTypes.string,
-        line1Color: PropTypes.string,
-
-        gLine2Label: PropTypes.string,
-        line2Color: PropTypes.string,
-
-        gLine3Label: PropTypes.string,
-        line3Color: PropTypes.string,
-
-        gLine4Label: PropTypes.string,
-        line4Color: PropTypes.string
-    };
-
     render() {
         const elements = [];
 

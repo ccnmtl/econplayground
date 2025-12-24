@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 const renderAlert = function(fulfilled, feedback, idx) {
     if (!feedback) {
@@ -34,7 +33,3 @@ export default class Feedback extends React.Component {
         return null;
     }
 }
-
-Feedback.propTypes = {
-    feedback: PropTypes.array.isRequired
-};

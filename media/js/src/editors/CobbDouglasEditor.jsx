@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { getKatexEl } from '../katexUtils.jsx';
 import RangeEditor from '../form-components/RangeEditor.jsx';
 import EditableControl from '../form-components/EditableControl.jsx';
@@ -139,21 +138,3 @@ export default class CobbDouglasEditor extends React.Component {
         );
     }
 }
-
-CobbDouglasEditor.propTypes = {
-    updateGraph: PropTypes.func.isRequired,
-
-    gA1: PropTypes.number.isRequired,
-    gA1Name: PropTypes.string.isRequired,
-    gA2: PropTypes.number.isRequired,
-    gA2Name: PropTypes.string.isRequired,
-    gA3: PropTypes.number.isRequired,
-    gA3Name: PropTypes.string.isRequired,
-    gA4: PropTypes.number.isRequired,
-    gA5Name: PropTypes.string.isRequired,
-    gIntersectionLabel: PropTypes.string.isRequired,
-
-    displayLabels: PropTypes.bool.isRequired,
-    displaySliders: PropTypes.bool.isRequired,
-    isInstructor: PropTypes.bool.isRequired
-};

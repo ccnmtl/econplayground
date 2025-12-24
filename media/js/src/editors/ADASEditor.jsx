@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import RangeEditor from '../form-components/RangeEditor.jsx';
 import EditableControl from '../form-components/EditableControl.jsx';
 import { handleFormUpdate } from '../utils.js';
@@ -226,42 +225,3 @@ export default class ADASEditor extends React.Component {
         );
     }
 }
-
-ADASEditor.propTypes = {
-    gIntersectionLabel: PropTypes.string.isRequired,
-    gIntersectionHorizLineLabel: PropTypes.string.isRequired,
-    gIntersectionVertLineLabel: PropTypes.string.isRequired,
-    gIntersection2Label: PropTypes.string,
-    gIntersection2HorizLineLabel: PropTypes.string.isRequired,
-    gIntersection2VertLineLabel: PropTypes.string.isRequired,
-    gIntersection3Label: PropTypes.string,
-    gIntersection3HorizLineLabel: PropTypes.string.isRequired,
-    gIntersection3VertLineLabel: PropTypes.string.isRequired,
-
-    gLine1Dashed: PropTypes.bool.isRequired,
-    gLine2Dashed: PropTypes.bool.isRequired,
-    gLine3Dashed: PropTypes.bool.isRequired,
-
-    gDisplayIntersection1: PropTypes.bool.isRequired,
-    gDisplayIntersection2: PropTypes.bool.isRequired,
-    gDisplayIntersection3: PropTypes.bool.isRequired,
-
-    gXAxisLabel: PropTypes.string.isRequired,
-    gYAxisLabel: PropTypes.string.isRequired,
-
-    gA1: PropTypes.number.isRequired,
-    gA2: PropTypes.number.isRequired,
-
-    gLine1Slope: PropTypes.number.isRequired,
-    gLine1Label: PropTypes.string.isRequired,
-    gLine2Slope: PropTypes.number.isRequired,
-    gLine2Label: PropTypes.string.isRequired,
-    gLine3Slope: PropTypes.number.isRequired,
-    gLine3Label: PropTypes.string.isRequired,
-
-    displayLabels: PropTypes.bool.isRequired,
-    displaySliders: PropTypes.bool.isRequired,
-    isInstructor: PropTypes.bool.isRequired,
-
-    updateGraph: PropTypes.func.isRequired
-};

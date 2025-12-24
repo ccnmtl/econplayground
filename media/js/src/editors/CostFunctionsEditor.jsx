@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import EditableControl from '../form-components/EditableControl.jsx';
 import RangeEditor from '../form-components/RangeEditor.jsx';
 import { handleFormUpdate } from '../utils.js';
@@ -197,36 +196,3 @@ export default class CostFunctionsEditor extends React.Component {
         );
     }
 }
-
-CostFunctionsEditor.propTypes = {
-    gType: PropTypes.number.isRequired,
-
-    gA1: PropTypes.number.isRequired,
-    gA1Name: PropTypes.string.isRequired,
-    gA1Min: PropTypes.number.isRequired,
-    gA1Max: PropTypes.number.isRequired,
-    gA2: PropTypes.number.isRequired,
-    gA2Name: PropTypes.string.isRequired,
-    gA2Min: PropTypes.number.isRequired,
-    gA2Max: PropTypes.number.isRequired,
-    gA3: PropTypes.number.isRequired,
-    gA3Name: PropTypes.string.isRequired,
-    gA3Min: PropTypes.number.isRequired,
-    gA3Max: PropTypes.number.isRequired,
-
-    displayLabels: PropTypes.bool.isRequired,
-    gLine1Label: PropTypes.string.isRequired,
-    gLine2Label: PropTypes.string.isRequired,
-    gLine3Label: PropTypes.string.isRequired,
-    gLine4Label: PropTypes.string.isRequired,
-
-    gXAxisLabel: PropTypes.string.isRequired,
-    gYAxisLabel: PropTypes.string.isRequired,
-
-    gFunctionChoice: PropTypes.number.isRequired,
-
-    displaySliders: PropTypes.bool.isRequired,
-    isInstructor: PropTypes.bool.isRequired,
-
-    updateGraph: PropTypes.func.isRequired
-};

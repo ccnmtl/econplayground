@@ -1,6 +1,5 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { useRules, useRulesDispatch } from './RulesContext.jsx';
 import Rule from './Rule.jsx';
 import { getQuestion } from '../utils.js';
@@ -114,7 +113,3 @@ export default function RuleList({ questionId }) {
         </>
     );
 }
-
-RuleList.propTypes = {
-    questionId: PropTypes.number
-};
