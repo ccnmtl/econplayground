@@ -75,6 +75,7 @@ INSTALLED_APPS = [  # noqa
     'registration',
     'django.contrib.admin',
     'django.contrib.admindocs',
+    'django.contrib.postgres',
     'django_statsd',
     'smoketest',
     'gunicorn',
