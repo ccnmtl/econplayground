@@ -110,7 +110,7 @@ entrypoints==0.4
 typing_extensions==4.15.0
 pyparsing==3.3.1
 
-django-s3sign==0.5.1
+django-s3sign==0.6.0
 django-cors-headers==4.9.0
 django-treebeard==4.8.0
 
