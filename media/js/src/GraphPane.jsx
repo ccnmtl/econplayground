@@ -11,7 +11,7 @@ import { getGraphClass } from './graphs/graphTypes.js';
  * Mathematica's Pane object.
  */
 export default function GraphPane({
-    gType, gA1, gA2, gA3, gA4, gA5, gA6, gLine1Slope, gLine2Slope,
+    gType, gA1, gA2, gA3, gA4, gA5, gA6, gA7, gLine1Slope, gLine2Slope,
     gToggle, gFunctionChoice
 }) {
     if (typeof gType === 'undefined' || gType === null) {
@@ -74,7 +74,7 @@ export default function GraphPane({
     ) {
         const graphClass = getGraphClass(gType - 1);
         const lineItems = graphClass.getGraphPane(
-            gFunctionChoice, gA1, gA2, gA3, gA4, gA5, gA6
+            gFunctionChoice, gA1, gA2, gA3, gA4, gA5, gA6, gA7
         );
 
         return (

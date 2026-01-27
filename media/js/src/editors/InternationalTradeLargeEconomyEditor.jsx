@@ -119,6 +119,15 @@ export default class InternationalTradeLargeEconomyEditor extends React.Componen
                                 min={0.01}
                                 max={5}
                                 handler={handleFormUpdate.bind(this)} />
+                            {me.props.gFunctionChoice > 1 && <RangeEditor
+                                label="Domestic Import Tariff"
+                                rawLabel={true}
+                                id="gA7"
+                                value={this.props.gA7}
+                                min={0.01}
+                                max={5}
+                                handler={handleFormUpdate.bind(this)} />
+                            }
                         </>
                     )}
                 </div>

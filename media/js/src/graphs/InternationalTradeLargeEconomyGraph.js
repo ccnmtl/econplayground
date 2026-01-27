@@ -12,131 +12,252 @@ export const defaults = [
         gA3: 100,
         gA4: 2,
         gA5: 500,
-        gA6: 2
+        gA6: 2,
+        gA7: 0
     },
 ];
 
-/*const dq = function(c, b, p) {
-    return c / b  - p / b;
-};*/
+const qd = (c, b, p) => (c - p) / b ;
+// const pd = (c, b, q) => c - b * q;
 
-/*const dp = function(c, b, q) {
-    return c - b * q;
-};*/
+const qs = (a, d, p) => (-a + p) / d;
+// const ps = (a, d, q) => a + d * q;
 
-/*const sq = function(a, d, p) {
-    return -(a / d) + p / d;
-};*/
+// Domestic excess demand at price p+
+const edHome = (c, b, a, d, p) => qd(c, b, p) - qs(a, d, p);
 
-/*const sp = function(a, d, q) {
-    return a + d * q;
-};*/
+// Foreign import demand (quantity form)
+const mdRoW = (m0, m1, p) => m0 - m1 * p;
 
-/*const eqd = function(c, b, a, d, wp) {
-    return (c - wp) / b;
-};
+// Inverse curves for world panel (price as a function of trade qty q)
+const edHomeInv = (c, b, a, d, q) =>
+    (c * d + a * b - q * (b + d)) / (b + d);
+const esHomeInv = (c, b, a, d, q) =>
+    (c * d + a * b + q * (b + d)) / (b + d);
+const mdRoWInv = (m0, m1, q) => (m0 - q) / m1;
+const xsRoWInv = (m0, m1, q) => (m0 + q) / m1;
 
-const eqs = function(c, b, a, d, wp) {
-    return (-a + wp) / d;
-};
+// World market equilibrium
+const pWorld = (c, b, a, d, m0, m1) =>
+    (c / b + a / d + m0) / (1 / b + 1 / d + m1);
+const tradeQty = (c, b, a, d, m0, m1) =>
+    edHome(c, b, a, d, pWorld(c, b, a, d, m0, m1));
 
-export const paut = function(c, b, a, d) {
-    return (a * b + c * d) / (b + d);
-};
+// Domestic quantities at price
+// const eqd = (c, b, p) => qd(c, b, p);
+// const eqs = (a, d, p) => qs(a, d, p);
 
-const csw = function(c, b, a, d, wp) {
-    return (c - wp) * eqd(c, b, a, d, wp) / 2;
-};
+// Autarky Prices
+const pAutHome = (c, b, a, d) => (a * b + c * d) / (b + d);
+const pAutForeign = (m0, m1) => m0 / m1;
 
-const psw = function(c, b, a, d, wp) {
-    return (wp - a) * eqs(c, b, a, d, wp) / 2;
-};*/
-
-/*const tsw = function(c, b, a, d, wp) {
-    return csw(c, b, a, d, wp) + psw(c, b, a, d, wp);
-};*/
-
-/*const eqdt = function(c, b, a, d, wp, t) {
-    return (c - t - wp) / b;
-};
-
-const eqst = function(c, b, a, d, wp, t) {
-    return (-a + t + wp) / d;
-};
-
-const cswt = function(c, b, a, d, wp, t) {
-    return (c - wp - t) * eqdt(c, b, a, d, wp, t) / 2;
-};
-
-const pswt = function(c, b, a, d, wp, t) {
-    return (wp + t - a) * eqst(c, b, a, d, wp, t) / 2;
-};
-
-const tariffrev = function(c, b, a, d, wp, t) {
-    return (eqdt(c, b, a, d, wp, t) - eqst(c, b, a, d, wp, t)) * t;
-};*/
-
-/*const tswt = function(c, b, a, d, wp, t) {
-    return cswt(c, b, a, d, wp, t) +
-        pswt(c, b, a, d, wp, t) +
-        tariffrev(c, b, a, d, wp, t);
-};*/
-
-/*const dwl = function(c, b, a, d, wp, t) {
-    return tsw(c, b, a, d, wp) - tswt(c, b, a, d, wp, t);
-};*/
-
-const qd = function(c, b, p) {
-    return c / b - p / b;
-};
-
-/*const pd = function(c, b, q) {
-    return c - b * q;
-};*/
-
-const qs = function(a, d, p) {
-    return -a / d + p / d;
-};
-
-const edHome = function(c, b, a, d, p) {
-    return qd(c, b, p) - qs(a, d, p);
-};
-
-const pWorld = function(c, b, a, d, m0, m1) {
-    return (c / b + a / d + m0) / (1 / b + 1 / d + m1);
-};
-
-const tradeQty = function(c, b, a, d, m0, m1) {
-    return edHome(c, b, a, d, pWorld(c, b, a, d, m0, m1));
-};
 
 export class InternationalTradeLargeEconomyGraph extends InternationalTradeSmallEconomyGraph {
+    static pwLabel = '<math><msubsup><mo>P</mo><mn>W</mn></msubsup></math>';
+    static getGraphPane(gFunctionChoice, gA1, gA2, gA3, gA4, gA5, gA6) {
+        const opt = this.options;
+        let lineItems = [];
+
+        const pw = pWorld(opt.gA1, opt.gA2, opt.gA3, opt.gA4, opt.gA5, opt.gA6);
+        const qdAtPW = qd(opt.gA1, opt.gA2, pw);
+        const qsAtPW = qs(opt.gA3, opt.gA4, pw);
+        const qTrade = tradeQty(opt.gA1, opt.gA2, opt.gA3, opt.gA4, opt.gA5, opt.gA6);
+        const pH = pAutHome(opt.gA1, opt.gA2, opt.gA3, opt.gA4);
+        const pF = pAutForeign(opt.gA5, opt.gA6);
+
+        const epointd2 = [qd(opt.gA1, opt.gA2, pw), pw];
+        const epoints2 = [qs(opt.gA3, opt.gA4, pw), pw];
+        const epointdline2 = [[qd(opt.gA1, opt.gA2, pw), 0], [qd(opt.gA1, opt.gA2, pw), pw]];
+        const epointsline2 = [[qs(opt.gA3, opt.gA4, pw), 0], [qs(opt.gA3, opt.gA4, pw), pw]];
+        const tradeline = [[qd(opt.gA1, opt.gA2, pw), pw], [qs(opt.gA3, opt.gA4, pw), pw]];
+        
+
+
+        if (gFunctionChoice === 0) {
+            lineItems = [
+                {
+                    label: 'Domestic Quantity Bought, ' +
+                        InternationalTradeSmallEconomyGraph.qdhLabel,
+                    color: 'red',
+                    value: qdAtPW.toFixed(2)
+                },
+                {
+                    label: 'Domestic Quantity Produced, ' +
+                        InternationalTradeSmallEconomyGraph.qshLabel,
+                    color: 'red',
+                    value: qsAtPW.toFixed(2)
+                },
+                {
+                    label: 'Domestic Trade Balance, ' +
+                        InternationalTradeSmallEconomyGraph.qshLabel + '-' +
+                        InternationalTradeSmallEconomyGraph.qdhLabel,
+                    color: 'red',
+                    value: (qsAtPW - qdAtPW).toFixed(2)
+                },
+                {
+                    label: 'Global Price, ' +
+                        InternationalTradeLargeEconomyGraph.pwLabel,
+                    color: 'red',
+                    value: pw.toFixed(2)
+                },
+            ];
+        // } else if (gFunctionChoice === 1) {
+        //     lineItems = [
+        //         {
+        //             label: 'Domestic Quantity Bought, ' +
+        //                 InternationalTradeSmallEconomyGraph.qdhLabel,
+        //             color: 'red',
+        //             value: eqd(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+        //         },
+        //         {
+        //             label: 'Domestic Quantity Produced, ' +
+        //                 InternationalTradeSmallEconomyGraph.qshLabel,
+        //             color: 'red',
+        //             value: eqs(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+        //         },
+        //         {
+        //             label: 'Domestic Trade Balance, ' +
+        //                 InternationalTradeSmallEconomyGraph.qshLabel + '-' +
+        //                 InternationalTradeSmallEconomyGraph.qdhLabel,
+        //             color: 'red',
+        //             value: (
+        //                 eqd(gA1, gA2, gA3, gA4, gA5) -
+        //                     eqs(gA1, gA2, gA3, gA4, gA5)
+        //             ).toFixed(2)
+        //         },
+        //         {
+        //             label: 'Consumer Surplus CS',
+        //             color: 'blue',
+        //             value: csw(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+        //         },
+        //         {
+        //             label: 'Producer Surplus PS',
+        //             color: 'orange',
+        //             value: psw(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+        //         },
+        //         {
+        //             label: 'Total Surplus TS',
+        //             color: 'red',
+        //             value: tsw(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+        //         }
+        //     ];
+        // } else if (gFunctionChoice === 2) {
+        //     lineItems = [
+        //         {
+        //             label: 'Domestic Quantity Bought, ' +
+        //                 InternationalTradeSmallEconomyGraph.qdhLabel,
+        //             color: 'red',
+        //             value: eqd(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+        //         },
+        //         {
+        //             label: 'Domestic Quantity Produced, ' +
+        //                 InternationalTradeSmallEconomyGraph.qshLabel,
+        //             color: 'red',
+        //             value: eqs(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+        //         },
+        //         {
+        //             label: 'Domestic Trade Balance, ' +
+        //                 InternationalTradeSmallEconomyGraph.qshLabel + '-' +
+        //                 InternationalTradeSmallEconomyGraph.qdhLabel,
+        //             color: 'red',
+        //             value: (
+        //                 eqd(gA1, gA2, gA3, gA4, gA5) -
+        //                     eqs(gA1, gA2, gA3, gA4, gA5)
+        //             ).toFixed(2)
+        //         },
+        //         {
+        //             label: 'Domestic Price, <math><msubsup><mo>P</mo><mn>H</mn><mn>t</mn></msubsup></math>',
+        //             color: 'red',
+        //             value: (gA5 + gA6).toFixed(2)
+        //         },
+        //         {
+        //             label: 'Domestic Tariff Revenue',
+        //             color: 'red',
+        //             value: (
+        //                 -gA6 * (eqst(gA1, gA2, gA3, gA4, gA5, gA6) -
+        //                         eqdt(gA1, gA2, gA3, gA4, gA5, gA6))
+        //             ).toFixed(2)
+        //         }
+        //     ];
+        // } else if (gFunctionChoice === 3) {
+        //     lineItems = [
+        //         {
+        //             label: 'Domestic Quantity Bought, ' +
+        //                 InternationalTradeSmallEconomyGraph.qdhLabel,
+        //             color: 'red',
+        //             value: eqd(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+        //         },
+        //         {
+        //             label: 'Domestic Quantity Produced, ' +
+        //                 InternationalTradeSmallEconomyGraph.qshLabel,
+        //             color: 'red',
+        //             value: eqs(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+        //         },
+        //         {
+        //             label: 'Domestic Trade Balance, ' +
+        //                 InternationalTradeSmallEconomyGraph.qshLabel + '-' +
+        //                 InternationalTradeSmallEconomyGraph.qdhLabel,
+        //             color: 'red',
+        //             value: (
+        //                 eqd(gA1, gA2, gA3, gA4, gA5) -
+        //                     eqs(gA1, gA2, gA3, gA4, gA5)
+        //             ).toFixed(2)
+        //         },
+        //         {
+        //             label: 'Domestic Price, <math><msubsup><mo>P</mo><mn>H</mn><mn>t</mn></msubsup></math>',
+        //             color: 'red',
+        //             value: (gA5 + gA6).toFixed(2)
+        //         },
+        //         {
+        //             label: 'Consumer Surplus CS',
+        //             color: 'blue',
+        //             value: csw(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+        //         },
+        //         {
+        //             label: 'Producer Surplus PS',
+        //             color: 'orange',
+        //             value: psw(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+        //         },
+        //         {
+        //             label: 'Domestic Tariff Revenue',
+        //             color: 'red',
+        //             value: (
+        //                 -gA6 * (eqst(gA1, gA2, gA3, gA4, gA5, gA6) -
+        //                         eqdt(gA1, gA2, gA3, gA4, gA5, gA6))
+        //             ).toFixed(2)
+        //         },
+        //         {
+        //             label: 'Total Surplus TS',
+        //             color: 'red',
+        //             value: tsw(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+        //         },
+        //         {
+        //             label: 'Deadweight Loss DWL',
+        //             color: 'red',
+        //             value: dwl(gA1, gA2, gA3, gA4, gA5, gA6).toFixed(2)
+        //         }
+        //     ];
+        }
+
+        return lineItems;
+    }
 }
 
-const edHomeInv = function(c, b, a, d, q) {
-    return (c * d + a * b - q * (b + d)) / (b + d);
-};
+const A = (c, b, a, d) => (c * d + a * b) / (b + d);
 
-/*const esHomeInv = function(c, b, a, d, q) {
-    return (c * d + a * b + q * (b + d)) / (b + d);
-};*/
+const tradeQtyT = (c, b, a, d, m0, m1, t) => (m1 / (m1 + 1)) * (A(c, b, a, d) - m0 / m1 - t);
 
-/*const mdRoWInv = function(m0, m1, q) {
-    return (m0 - q) / m1;
-};*/
+const pHt = (c, b, a, d, m0, m1, t) => (A(c, b, a, d) + m0 + m1 * t) / (m1 + 1);
 
-const xsRoWInv = function(m0, m1, q) {
-    return (m0 + q) / m1;
-};
+const pFt = (c, b, a, d, m0, m1, t) => (A(c, b, a, d) + m0 - t) / (m1 + 1);
+
 
 export class InternationalTradeLargeEconomyGlobalGraph extends Graph {
     make() {
-        const me = this;
+        const me = this;        
 
-        const pw = pWorld(
-            this.options.gA1, this.options.gA2,
-            this.options.gA3, this.options.gA4,
-            this.options.gA5, this.options.gA6);
+        const pwt = pHt(me.options.gA1, me.options.gA2, me.options.gA3,
+            me.options.gA4, me.options.gA5, me.options.gA6, me.options.gA7);
 
         const qTrade = tradeQty(
             this.options.gA1, this.options.gA2,
@@ -157,6 +278,10 @@ export class InternationalTradeLargeEconomyGlobalGraph extends Graph {
         };
 
         const ePoint = [qTrade, pw];
+
+        const epointd2t = [qd(me.options.gA1, me.options.gA2, pwt), pwt];
+        const epoints2t = [qs(me.options.gA3, me.options.gA4, pwt), pwt];
+
         this.board.create(
             'functiongraph',
             [positiveRange(edHomeInvLine), 0, this.options.gXAxisMax], {

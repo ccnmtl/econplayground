@@ -292,6 +292,7 @@ export default class JXGBoard extends React.Component {
                     ...options,
                     gXAxisMax: 1000,
                     gYAxisMax: 2500,
+                    gFunctionChoice: options.gFunctionChoice,
                     isBoard2: true,
                     l1SubmissionOffset: getL1SubmissionOffset(options.submission),
                     l2SubmissionOffset: getL2SubmissionOffset(options.submission),
