@@ -60,11 +60,11 @@ const sp = function(a, d, q) {
     return a + d * q;
 };
 
-const eqd = function(c, b, a, d, wp) {
+export const eqd = function(c, b, a, d, wp) {
     return (c - wp) / b;
 };
 
-const eqs = function(c, b, a, d, wp) {
+export const eqs = function(c, b, a, d, wp) {
     return (-a + wp) / d;
 };
 
@@ -72,23 +72,23 @@ export const paut = function(c, b, a, d) {
     return (a * b + c * d) / (b + d);
 };
 
-const csw = function(c, b, a, d, wp) {
+export const csw = function(c, b, a, d, wp) {
     return (c - wp) * eqd(c, b, a, d, wp) / 2;
 };
 
-const psw = function(c, b, a, d, wp) {
+export const psw = function(c, b, a, d, wp) {
     return (wp - a) * eqs(c, b, a, d, wp) / 2;
 };
 
-const tsw = function(c, b, a, d, wp) {
+export const tsw = function(c, b, a, d, wp) {
     return csw(c, b, a, d, wp) + psw(c, b, a, d, wp);
 };
 
-const eqdt = function(c, b, a, d, wp, t) {
+export const eqdt = function(c, b, a, d, wp, t) {
     return (c - t - wp) / b;
 };
 
-const eqst = function(c, b, a, d, wp, t) {
+export const eqst = function(c, b, a, d, wp, t) {
     return (-a + t + wp) / d;
 };
 
