@@ -1,18 +1,20 @@
 import React from 'react';
 import RangeEditor from '../form-components/RangeEditor.jsx';
 import { handleFormUpdate } from '../utils.js';
+import { paut } from '../graphs/InternationalTradeSmallEconomyGraph.js';
+import { pAutForeign } from '../graphs/InternationalTradeLargeEconomyGraph.js';
 
 export default class InternationalTradeLargeEconomyEditor extends React.Component {
     render() {
         const me = this;
 
         const modesLeft = [
-            'Imports and Exports - No Tariffs',
-            'Consumer and Producer Surplus - No Tariffs',
+            'No Tariffs',
+            'No Tariff - Welfare Analysis',
         ];
         const modesRight = [
-            'Imports and Exports - With Tariffs',
-            'Consumer and Producer Surplus - With Tariffs',
+            'With Tariffs',
+            'Tariff - Welfare Analysis',
         ];
 
         const radioButtons1 = modesLeft.map((optionTitle, idx) =>
@@ -91,6 +93,7 @@ export default class InternationalTradeLargeEconomyEditor extends React.Componen
                                 value={this.props.gA3}
                                 min={0}
                                 max={10000}
+                                step={1}
                                 handler={handleFormUpdate.bind(this)} />
 
                             <RangeEditor
@@ -109,6 +112,7 @@ export default class InternationalTradeLargeEconomyEditor extends React.Componen
                                 value={this.props.gA5}
                                 min={0}
                                 max={2 * this.props.gA1}
+                                step={1}
                                 handler={handleFormUpdate.bind(this)} />
 
                             <RangeEditor
@@ -119,6 +123,24 @@ export default class InternationalTradeLargeEconomyEditor extends React.Componen
                                 min={0.01}
                                 max={5}
                                 handler={handleFormUpdate.bind(this)} />
+
+                            {this.props.gFunctionChoice > 1 && (
+                                <RangeEditor
+                                    label="Domestic Import Tariff"
+                                    rawLabel={true}
+                                    id="gA7"
+                                    value={this.props.gA7}
+                                    min={0}
+                                    step={1}
+                                    max={
+                                        paut(
+                                            this.props.gA1, this.props.gA2,
+                                            this.props.gA3, this.props.gA4
+                                        ) - pAutForeign(
+                                            this.props.gA5, this.props.gA6)
+                                    }
+                                    handler={handleFormUpdate.bind(this)} />
+                            )}
                         </>
                     )}
                 </div>
