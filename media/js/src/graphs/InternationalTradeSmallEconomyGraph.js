@@ -60,11 +60,11 @@ const sp = function(a, d, q) {
     return a + d * q;
 };
 
-export const eqd = function(c, b, a, d, wp) {
+const eqd = function(c, b, a, d, wp) {
     return (c - wp) / b;
 };
 
-export const eqs = function(c, b, a, d, wp) {
+const eqs = function(c, b, a, d, wp) {
     return (-a + wp) / d;
 };
 
