@@ -30,6 +30,7 @@ import InternationalTradeLargeEconomyEditor from './editors/InternationalTradeLa
 import ExportGraphButton from './buttons/ExportGraphButton.jsx';
 import ResetGraphButton from './buttons/ResetGraphButton.jsx';
 import JXGBoard from './JXGBoard.jsx';
+import GraphPane from './GraphPane.jsx';
 import Feedback from './Feedback.jsx';
 import {BOARD_WIDTH, BOARD_HEIGHT} from './utils';
 
@@ -102,15 +103,15 @@ export default class GraphViewer extends React.Component {
             typeof this.props.gType !== 'undefined' &&
                 this.props.gType !== null
         ) {
-            leftSide = (
+            leftSide = <>
                 <JXGBoard
                     id={'editing-graph'}
                     width={BOARD_WIDTH}
                     height={BOARD_HEIGHT}
                     shadow={!isInstructor}
-                    {...this.props}
-                />
-            );
+                    {...this.props} />
+                <GraphPane {...this.props} />
+            </>;
         }
 
         let rightSide = (
