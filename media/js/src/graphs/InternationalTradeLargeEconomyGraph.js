@@ -1,7 +1,7 @@
 import { Graph, positiveRange } from './Graph.js';
 import {
     InternationalTradeSmallEconomyGraph,
-    eqd, eqs, csw, psw, tsw, eqdt, eqst
+    csw, psw, tsw, eqdt, eqst
 } from './InternationalTradeSmallEconomyGraph.js';
 
 export const defaults = [
@@ -17,6 +17,22 @@ export const defaults = [
         gA7: 0
     },
 ];
+
+const qd = function(c, b, p) {
+    return c / b - p / b;
+};
+
+const qs = function(a, d, p) {
+    return -a / d + p / d;
+};
+
+const eqd = function(c, b, a, d, p) {
+    return qd(c, b, p);
+};
+
+const eqs = function(c, b, a, d, p) {
+    return qs(a, d, p);
+};
 
 const pAutHome = function(c, b, a, d) {
     return (a * b + c * d) / (b + d);
@@ -96,17 +112,9 @@ const tariffrev = function(c, b, a, d, wp, t) {
     return tsw(c, b, a, d, wp) - tswt(c, b, a, d, wp, t);
 };*/
 
-const qd = function(c, b, p) {
-    return c / b - p / b;
-};
-
 /*const pd = function(c, b, q) {
     return c - b * q;
 };*/
-
-const qs = function(a, d, p) {
-    return -a / d + p / d;
-};
 
 const edHome = function(c, b, a, d, p) {
     return qd(c, b, p) - qs(a, d, p);
@@ -174,19 +182,23 @@ export class InternationalTradeLargeEconomyGraph extends InternationalTradeSmall
     static getGraphPane(gFunctionChoice, gA1, gA2, gA3, gA4, gA5, gA6, gA7) {
         let lineItems = [];
 
+        const pw = pWorld(gA1, gA2, gA3, gA4, gA5, gA6);
+        const qdAtPw = eqd(gA1, gA2, gA3, gA4, pw);
+        const qsAtPw = eqs(gA1, gA2, gA3, gA4, pw);
+
         if (gFunctionChoice === 0) {
             lineItems = [
                 {
                     label: 'Domestic Quantity Bought, ' +
                         InternationalTradeSmallEconomyGraph.qdhLabel,
                     color: 'red',
-                    value: eqd(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                    value: qdAtPw.toFixed(2)
                 },
                 {
                     label: 'Domestic Quantity Produced, ' +
                         InternationalTradeSmallEconomyGraph.qshLabel,
                     color: 'red',
-                    value: eqs(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                    value: qsAtPw.toFixed(2)
                 },
                 {
                     label: 'Domestic Trade Balance, ' +
@@ -194,16 +206,13 @@ export class InternationalTradeLargeEconomyGraph extends InternationalTradeSmall
                         InternationalTradeSmallEconomyGraph.qdhLabel,
                     color: 'red',
                     value: (
-                        eqd(gA1, gA2, gA3, gA4, gA5) -
-                            eqs(gA1, gA2, gA3, gA4, gA5)
+                        qsAtPw - qdAtPw
                     ).toFixed(2)
                 },
                 {
                     label: 'Global Price, P<sub>w</sub>',
                     color: 'red',
-                    value: (
-                        pWorld(gA1, gA2, gA3, gA4, gA5, gA6, gA7)
-                    ).toFixed(2)
+                    value: pw.toFixed(2)
                 },
             ];
         } else if (gFunctionChoice === 1) {
@@ -212,13 +221,13 @@ export class InternationalTradeLargeEconomyGraph extends InternationalTradeSmall
                     label: 'Domestic Quantity Bought, ' +
                         InternationalTradeSmallEconomyGraph.qdhLabel,
                     color: 'red',
-                    value: eqd(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                    value: qdAtPw.toFixed(2)
                 },
                 {
                     label: 'Domestic Quantity Produced, ' +
                         InternationalTradeSmallEconomyGraph.qshLabel,
                     color: 'red',
-                    value: eqs(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                    value: qsAtPw.toFixed(2)
                 },
                 {
                     label: 'Domestic Trade Balance, ' +
@@ -226,8 +235,7 @@ export class InternationalTradeLargeEconomyGraph extends InternationalTradeSmall
                         InternationalTradeSmallEconomyGraph.qdhLabel,
                     color: 'red',
                     value: (
-                        eqd(gA1, gA2, gA3, gA4, gA5) -
-                            eqs(gA1, gA2, gA3, gA4, gA5)
+                        qsAtPw - qdAtPw
                     ).toFixed(2)
                 },
                 {
@@ -252,13 +260,13 @@ export class InternationalTradeLargeEconomyGraph extends InternationalTradeSmall
                     label: 'Domestic Quantity Bought, ' +
                         InternationalTradeSmallEconomyGraph.qdhLabel,
                     color: 'red',
-                    value: eqd(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                    value: qdAtPw.toFixed(2)
                 },
                 {
                     label: 'Domestic Quantity Produced, ' +
                         InternationalTradeSmallEconomyGraph.qshLabel,
                     color: 'red',
-                    value: eqs(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                    value: qsAtPw.toFixed(2)
                 },
                 {
                     label: 'Domestic Trade Balance, ' +
@@ -266,8 +274,7 @@ export class InternationalTradeLargeEconomyGraph extends InternationalTradeSmall
                         InternationalTradeSmallEconomyGraph.qdhLabel,
                     color: 'red',
                     value: (
-                        eqd(gA1, gA2, gA3, gA4, gA5) -
-                            eqs(gA1, gA2, gA3, gA4, gA5)
+                        qsAtPw - qdAtPw
                     ).toFixed(2)
                 },
                 {
@@ -295,13 +302,13 @@ export class InternationalTradeLargeEconomyGraph extends InternationalTradeSmall
                     label: 'Domestic Quantity Bought, ' +
                         InternationalTradeSmallEconomyGraph.qdhLabel,
                     color: 'red',
-                    value: eqd(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                    value: qdAtPw.toFixed(2)
                 },
                 {
                     label: 'Domestic Quantity Produced, ' +
                         InternationalTradeSmallEconomyGraph.qshLabel,
                     color: 'red',
-                    value: eqs(gA1, gA2, gA3, gA4, gA5).toFixed(2)
+                    value: qsAtPw.toFixed(2)
                 },
                 {
                     label: 'Domestic Trade Balance, ' +
@@ -309,8 +316,7 @@ export class InternationalTradeLargeEconomyGraph extends InternationalTradeSmall
                         InternationalTradeSmallEconomyGraph.qdhLabel,
                     color: 'red',
                     value: (
-                        eqd(gA1, gA2, gA3, gA4, gA5) -
-                            eqs(gA1, gA2, gA3, gA4, gA5)
+                        qsAtPw - qdAtPw
                     ).toFixed(2)
                 },
                 {
@@ -367,33 +373,63 @@ export class InternationalTradeLargeEconomyGlobalGraph extends Graph {
     static getGraphPane(gFunctionChoice, gA1, gA2, gA3, gA4, gA5, gA6, gA7) {
         let lineItems = [];
 
-        lineItems = [
-            {
-                label: 'World Price P<sub>w</sub>',
-                color: 'black',
-                value: pWorld(gA1, gA2, gA3, gA4, gA5, gA6, gA7).toFixed(2)
-            },
-            {
-                label: 'Trade Quantity',
-                color: 'black',
-                value: tradeQty(gA1, gA2, gA3, gA4, gA5, gA6).toFixed(2)
-            },
-            {
-                label: 'Status',
-                color: 'black',
-                value: 'Home Imports'
-            },
-            {
-                label: 'P<sub>H</sub><sup>A</sup>',
-                color: 'black',
-                value: Math.round(pAutHome(gA1, gA2, gA3, gA4))
-            },
-            {
-                label: 'P<sub>F</sub><sup>A</sup>',
-                color: 'black',
-                value: Math.round(pAutForeign(gA5, gA6))
-            },
-        ];
+        if (gFunctionChoice < 2) {
+            lineItems = [
+                {
+                    label: 'World Price P<sub>w</sub>',
+                    color: 'black',
+                    value: pWorld(gA1, gA2, gA3, gA4, gA5, gA6, gA7).toFixed(2)
+                },
+                {
+                    label: 'Trade Quantity',
+                    color: 'black',
+                    value: tradeQty(gA1, gA2, gA3, gA4, gA5, gA6).toFixed(2)
+                },
+                {
+                    label: 'Status',
+                    color: 'black',
+                    value: 'Home Imports'
+                },
+                {
+                    label: 'P<sub>H</sub><sup>A</sup>',
+                    color: 'black',
+                    value: Math.round(pAutHome(gA1, gA2, gA3, gA4))
+                },
+                {
+                    label: 'P<sub>F</sub><sup>A</sup>',
+                    color: 'black',
+                    value: Math.round(pAutForeign(gA5, gA6))
+                },
+            ];
+        } else if (gFunctionChoice >= 2) {
+            lineItems = [
+                {
+                    label: 'Home Price',
+                    color: 'black',
+                    value: pHt(gA1, gA2, gA3, gA4, gA5, gA6, gA7).toFixed(2)
+                },
+                {
+                    label: 'Trade Quantity',
+                    color: 'black',
+                    value: tradeQty(gA1, gA2, gA3, gA4, gA5, gA6).toFixed(2)
+                },
+                {
+                    label: 'Status',
+                    color: 'black',
+                    value: 'Home Imports'
+                },
+                {
+                    label: 'P<sub>H</sub><sup>t</sup>',
+                    color: 'black',
+                    value: pHt(gA1, gA2, gA3, gA4, gA5, gA6, gA7).toFixed(2)
+                },
+                {
+                    label: 'P<sub>F</sub><sup>t</sup>',
+                    color: 'black',
+                    value: pFt(gA1, gA2, gA3, gA4, gA5, gA6, gA7).toFixed(2)
+                },
+            ];
+        }
 
         return lineItems;
     }
