@@ -69,7 +69,8 @@ import {
 } from './InternationalTradeSmallEconomyGraph.js';
 import {
     InternationalTradeLargeEconomyGraph,
-    mkInternationalTradeLargeEconomy
+    mkInternationalTradeLargeEconomy,
+    InternationalTradeLargeEconomyGlobalGraph
 } from './InternationalTradeLargeEconomyGraph.js';
 
 
@@ -126,7 +127,11 @@ export const graphTypes = [
 /**
  * Given a graph type, return its class constructor.
  */
-export const getGraphClass = function(graphType) {
+export const getGraphClass = function(graphType, joint=false) {
+    if (graphType === 31 && joint) {
+        return InternationalTradeLargeEconomyGlobalGraph;
+    }
+
     const graphClass = [
         DemandSupplyGraph, NonLinearDemandSupplyGraph,
         null, CobbDouglasGraph,
@@ -164,6 +169,8 @@ export const getGraphClass = function(graphType) {
         MonopolyUniformPricingGraph,
         MonopolyFirstDegreePriceDiscriminationGraph,
         InternationalTradeSmallEconomyGraph,
+
+        // 32 (joint graph with InternationalTradeLargeEconomyGlobalGraph)
         InternationalTradeLargeEconomyGraph
     ][graphType];
 

@@ -16,6 +16,7 @@ import {
     mkInternationalTradeLargeEconomyGlobal
 } from './graphs/InternationalTradeLargeEconomyGraph.js';
 import AreaDisplay from './AreaDisplay.jsx';
+import GraphPane from './GraphPane.jsx';
 import Legend from './Legend.jsx';
 import {
     getL1SubmissionOffset, getL2SubmissionOffset, GRID_MAJOR, GRID_MINOR
@@ -795,7 +796,12 @@ export default class JXGBoard extends React.Component {
             <>
                 <div className="col-xl-6">
                     {this.makeFigure(this.id, math1)}
-                    {isJointGraph(this.props.gType) && this.makeFigure(this.id + '-2', math2)}
+                    {isJointGraph(this.props.gType) && (
+                        <GraphPane {...this.props} />
+                    )}
+                    {isJointGraph(this.props.gType) && (
+                        this.makeFigure(this.id + '-2', math2)
+                    )}
                 </div>
                 {legend}
                 {area}

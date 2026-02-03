@@ -14,7 +14,8 @@ export default function GraphPane({
     gType,
     gA1, gA2, gA3, gA4, gA5, gA6, gA7,
     gLine1Slope, gLine2Slope,
-    gToggle, gFunctionChoice
+    gToggle, gFunctionChoice,
+    joint
 }) {
     if (typeof gType === 'undefined' || gType === null) {
         return null;
@@ -74,7 +75,7 @@ export default function GraphPane({
         (gType >= 25 && gType <= 28) ||
             (gType >= 29 && gType <= 32)
     ) {
-        const graphClass = getGraphClass(gType - 1);
+        const graphClass = getGraphClass(gType - 1, joint);
         const lineItems = graphClass.getGraphPane(
             gFunctionChoice, gA1, gA2, gA3, gA4, gA5, gA6, gA7
         );
