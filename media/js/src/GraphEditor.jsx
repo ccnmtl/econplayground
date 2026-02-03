@@ -30,6 +30,7 @@ import GraphPane from './GraphPane.jsx';
 import {
     displayGraphType, handleFormUpdate, getCohortId, BOARD_HEIGHT, BOARD_WIDTH,
 } from './utils';
+import {isJointGraph} from './graphs/graphTypes.js';
 
 
 export default class GraphEditor extends React.Component {
@@ -320,7 +321,9 @@ export default class GraphEditor extends React.Component {
                                 {/* leftSide */}
                                 {jxgBoard}
 
-                                <GraphPane {...this.props} />
+                                <GraphPane
+                                    {...this.props}
+                                    joint={isJointGraph(this.props.gType)} />
 
                                 <CommonGraphEditor {...this.props} />
 

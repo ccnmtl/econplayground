@@ -18,6 +18,10 @@ export const defaults = [
     },
 ];
 
+const pAutHome = function(c, b, a, d) {
+    return (a * b + c * d) / (b + d);
+};
+
 export const pAutForeign = function(m0, m1) {
     return m0 / m1;
 };
@@ -360,6 +364,40 @@ const xsRoWInv = function(m0, m1, q) {
 };
 
 export class InternationalTradeLargeEconomyGlobalGraph extends Graph {
+    static getGraphPane(gFunctionChoice, gA1, gA2, gA3, gA4, gA5, gA6, gA7) {
+        let lineItems = [];
+
+        lineItems = [
+            {
+                label: 'World Price P<sub>w</sub>',
+                color: 'black',
+                value: pWorld(gA1, gA2, gA3, gA4, gA5, gA6, gA7).toFixed(2)
+            },
+            {
+                label: 'Trade Quantity',
+                color: 'black',
+                value: tradeQty(gA1, gA2, gA3, gA4, gA5, gA6).toFixed(2)
+            },
+            {
+                label: 'Status',
+                color: 'black',
+                value: 'Home Imports'
+            },
+            {
+                label: 'P<sub>H</sub><sup>A</sup>',
+                color: 'black',
+                value: Math.round(pAutHome(gA1, gA2, gA3, gA4))
+            },
+            {
+                label: 'P<sub>F</sub><sup>A</sup>',
+                color: 'black',
+                value: Math.round(pAutForeign(gA5, gA6))
+            },
+        ];
+
+        return lineItems;
+    }
+
     make() {
         const me = this;
 
