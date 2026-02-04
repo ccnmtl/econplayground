@@ -794,15 +794,13 @@ export default class JXGBoard extends React.Component {
 
         return (
             <>
-                <div className="col-xl-6">
-                    {this.makeFigure(this.id, math1)}
-                    {isJointGraph(this.props.gType) && (
-                        <GraphPane {...this.props} />
-                    )}
-                    {isJointGraph(this.props.gType) && (
-                        this.makeFigure(this.id + '-2', math2)
-                    )}
-                </div>
+                {this.makeFigure(this.id, math1)}
+                {isJointGraph(this.props.gType) && (
+                    <GraphPane {...this.props} />
+                )}
+                {isJointGraph(this.props.gType) && (
+                    this.makeFigure(this.id + '-2', math2)
+                )}
                 {legend}
                 {area}
             </>
