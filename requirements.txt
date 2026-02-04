@@ -1,5 +1,5 @@
 Django>=5.2,<6.1
-asgiref==3.11.0
+asgiref==3.11.1
 pytz==2025.2
 httplib2==0.31.2
 feedparser==6.0.12
