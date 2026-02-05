@@ -1,4 +1,3 @@
-/* eslint-env node */
 /* global process */
 
 import React from 'react';

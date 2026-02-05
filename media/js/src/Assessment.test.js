@@ -1,5 +1,3 @@
-/* eslint-env jest */
-
 import Assessment from './Assessment.js';
 
 it('Defaults to an empty array', () => {
