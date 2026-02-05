@@ -68,8 +68,8 @@ import {
     mkInternationalTradeSmallEconomy
 } from './InternationalTradeSmallEconomyGraph.js';
 import {
-    InternationalTradeLargeEconomyGraph,
-    mkInternationalTradeLargeEconomy,
+    InternationalTradeLargeEconomyDomesticGraph,
+    mkInternationalTradeLargeEconomyDomestic,
     InternationalTradeLargeEconomyGlobalGraph
 } from './InternationalTradeLargeEconomyGraph.js';
 
@@ -121,7 +121,7 @@ export const graphTypes = [
     mkMonopolyFirstDegreePriceDiscrimination,
 
     mkInternationalTradeSmallEconomy,
-    mkInternationalTradeLargeEconomy
+    mkInternationalTradeLargeEconomyDomestic
 ];
 
 /**
@@ -171,7 +171,7 @@ export const getGraphClass = function(graphType, joint=false) {
         InternationalTradeSmallEconomyGraph,
 
         // 32 (joint graph with InternationalTradeLargeEconomyGlobalGraph)
-        InternationalTradeLargeEconomyGraph
+        InternationalTradeLargeEconomyDomesticGraph
     ][graphType];
 
     return graphClass;

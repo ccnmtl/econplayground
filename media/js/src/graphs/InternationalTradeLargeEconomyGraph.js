@@ -3,6 +3,7 @@ import {
     InternationalTradeSmallEconomyGraph,
     csw, psw, tsw, eqdt, eqst
 } from './InternationalTradeSmallEconomyGraph.js';
+import { drawPolygon, makeInvisiblePoint } from '../jsxgraphUtils.js';
 
 export const defaults = [
     {
@@ -112,9 +113,13 @@ const tariffrev = function(c, b, a, d, wp, t) {
     return tsw(c, b, a, d, wp) - tswt(c, b, a, d, wp, t);
 };*/
 
-/*const pd = function(c, b, q) {
+const pd = function(c, b, q) {
     return c - b * q;
-};*/
+};
+
+const ps = function(a, d, q) {
+    return a + d * q;
+};
 
 const edHome = function(c, b, a, d, p) {
     return qd(c, b, p) - qs(a, d, p);
@@ -178,7 +183,7 @@ const dwllt = function(c, b, a, d, m0, m1, t) {
     return tswl(c, b, a, d, m0, m1) - tswlt(c, b, a, d, m0, m1, t);
 };
 
-export class InternationalTradeLargeEconomyGraph extends InternationalTradeSmallEconomyGraph {
+export class InternationalTradeLargeEconomyDomesticGraph extends Graph {
     static getGraphPane(gFunctionChoice, gA1, gA2, gA3, gA4, gA5, gA6, gA7) {
         let lineItems = [];
 
@@ -350,6 +355,116 @@ export class InternationalTradeLargeEconomyGraph extends InternationalTradeSmall
         }
 
         return lineItems;
+    }
+    make() {
+        const me = this;
+
+        const pw = pWorld(
+            this.options.gA1, this.options.gA2, this.options.gA3,
+            this.options.gA4, this.options.gA5, this.options.gA6);
+
+        const demandLine = function(x) {
+            return pd(me.options.gA1, me.options.gA2, x);
+        };
+
+        this.l2 = this.board.create(
+            'functiongraph',
+            [positiveRange(demandLine), 0, this.options.gXAxisMax], {
+                name: 'Domestic Demand',
+                withLabel: true,
+                label: {
+                    strokeColor: this.l2Color
+                },
+                strokeWidth: 2,
+                strokeColor: this.l2Color,
+                fixed: true,
+                highlight: false
+            }
+        );
+
+        const supplyLine = function(x) {
+            return ps(me.options.gA3, me.options.gA4, x);
+        };
+
+        this.l1 = this.board.create(
+            'functiongraph',
+            [positiveRange(supplyLine), 0, this.options.gXAxisMax], {
+                name: 'Domestic Supply',
+                withLabel: true,
+                label: {
+                    strokeColor: this.l1Color
+                },
+                strokeWidth: 2,
+                strokeColor: this.l1Color,
+                fixed: true,
+                highlight: false
+            }
+        );
+
+        const wpLine = function() {
+            return pw;
+        };
+
+        this.l3 = this.board.create(
+            'functiongraph',
+            [positiveRange(wpLine), 0, this.options.gXAxisMax], {
+                name: 'Global Price',
+                withLabel: true,
+                label: {
+                    strokeColor: this.l3Color
+                },
+                strokeWidth: 2,
+                strokeColor: this.l3Color,
+                fixed: true,
+                highlight: false
+            }
+        );
+
+        const options = {
+            showHorizLine: false
+        };
+
+        const i1 = this.showIntersection(
+            this.l1, this.l3, false,
+            InternationalTradeSmallEconomyGraph.qshLabel,
+            null, null, false, false, 'red',
+            options);
+        const i2 = this.showIntersection(
+            this.l2, this.l3, false,
+            InternationalTradeSmallEconomyGraph.qdhLabel,
+            null, null, false, false, 'red',
+            options);
+
+        this.board.create('line', [i1, i2], {
+            dash: 2,
+            highlight: false,
+            strokeColor: 'red',
+            strokeWidth: 2,
+            straightFirst: false,
+            straightLast: false
+        });
+
+        if (
+            this.options.gFunctionChoice === 1 ||
+            this.options.gFunctionChoice === 3
+           ) {
+            // shapes
+            const gpPoint = makeInvisiblePoint(this.board, [0, pw]);
+            drawPolygon(this.board, [
+                i2,
+                makeInvisiblePoint(
+                    this.board,
+                    [0, pd(this.options.gA1, this.options.gA2, 0)]),
+                gpPoint
+            ], 'CS', 'lightblue');
+            drawPolygon(this.board, [
+                i1,
+                gpPoint,
+                makeInvisiblePoint(
+                    this.board,
+                    [0, ps(this.options.gA3, this.options.gA4, 0)]),
+            ], 'PS', 'peachpuff');
+        }
     }
 }
 
@@ -523,8 +638,8 @@ export class InternationalTradeLargeEconomyGlobalGraph extends Graph {
     }
 }
 
-export const mkInternationalTradeLargeEconomy = function(board, options) {
-    let g = new InternationalTradeLargeEconomyGraph(board, options);
+export const mkInternationalTradeLargeEconomyDomestic = function(board, options) {
+    let g = new InternationalTradeLargeEconomyDomesticGraph(board, options);
     g.make();
     g.postMake();
     return g;
