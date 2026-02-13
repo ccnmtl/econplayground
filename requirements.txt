@@ -112,6 +112,6 @@ pyparsing==3.3.2
 
 django-s3sign==0.6.2
 django-cors-headers==4.9.0
-django-treebeard==5.0.1
+django-treebeard==5.0.2
 
 graphviz==0.21
