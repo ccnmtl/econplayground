@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static econ_auth %}
 
 {% block title %}Graph: {{object.title}}{% endblock %}
 
@@ -14,7 +14,6 @@
 <meta id="csrf-token" name="csrf-token" content="{{csrf_token}}">
 {% endblock %}
 
-
 {% block js %}
     <script>
     if (!window.EconPlayground) {
@@ -26,6 +25,45 @@
     </script>
     <script src="{% static 'js/build/vendor.js' %}"></script>
     <script src="{% static 'js/build/viewer.js' %}"></script>
+{% endblock %}
+
+{% block breadcrumb %}
+    {% if i_am_instructor and cohort %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{% url 'cohort_list' %}">
+                    {% include 'main/your_cohorts_snippet.html' %}
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{% url 'cohort_detail' cohort.pk %}">
+                    {{ cohort.title|truncatewords:5 }}
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{% url 'cohort_graph_detail' cohort.pk object.pk %}">
+                    {{ object.title|truncatewords:5 }}
+                </a>
+            </li>
+        </ol>
+    </nav>
+    {% elif cohort %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{% url 'cohort_detail' cohort.pk %}">
+                    {{ cohort.title|truncatewords:5 }}
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{% url 'cohort_graph_detail' cohort.pk object.pk %}">
+                    {{ object.title|truncatewords:5 }}
+                </a>
+            </li>
+        </ol>
+    </nav>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

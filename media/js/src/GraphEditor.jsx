@@ -332,10 +332,8 @@ export default class GraphEditor extends React.Component {
                                         <a
                                             href={`/course/${courseId}/graph/` + this.props.gId + '/public/'}
                                             title="Student View"
-                                            target="_blank"
-                                            rel="noreferrer"
                                             className="btn btn-secondary">
-                                            Student View <i className="bi bi-box-arrow-up-right"></i>
+                                            Student View
                                         </a>
                                     </div>
                                 }
