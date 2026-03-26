@@ -40,6 +40,13 @@ class CohortGraphMixin(object):
 
         return super().dispatch(self.request, *args, **kwargs)
 
+    def get_context_data(self, *args, **kwargs):
+        ctx = super().get_context_data(*args, **kwargs)
+        ctx.update({
+            'cohort': self.cohort,
+        })
+        return ctx
+
 
 class CohortPasswordMixin(object):
     """Require the cohort's password.
