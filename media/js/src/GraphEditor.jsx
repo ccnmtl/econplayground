@@ -329,11 +329,13 @@ export default class GraphEditor extends React.Component {
 
                                 {this.props.gId &&
                                     <div className="form-group mt-1">
-                                        <a href={`/course/${courseId}/graph/` + this.props.gId + '/public/'}
+                                        <a
+                                            href={`/course/${courseId}/graph/` + this.props.gId + '/public/'}
                                             title="Student View"
-                                            className="btn btn-secondary"
-                                        >
-                                            Student View
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="btn btn-secondary">
+                                            Student View <i className="bi bi-box-arrow-up-right"></i>
                                         </a>
                                     </div>
                                 }
