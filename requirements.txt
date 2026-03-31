@@ -28,7 +28,7 @@ urllib3==2.6.3  # requests, sentry-sdk
 chardet==7.4.0.post2  # requests
 idna==3.11  # requests
 certifi==2026.2.25  # requests, sentry-sdk
-requests==2.33.0
+requests==2.33.1
 logilab-common==2.1.0
 astroid==4.1.2
 pylint==4.0.5
