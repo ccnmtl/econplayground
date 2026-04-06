@@ -16,8 +16,10 @@
         }
         window.EconPlayground['graphType'] = {{graph_type}};
     </script>
-    <script src="{% static 'js/build/vendor.js' %}"></script>
-    <script src="{% static 'js/build/editor.js' %}"></script>
+    <script src="{% static 'js/build/vendor.js' %}"
+            crossorigin="anonymous"></script>
+    <script src="{% static 'js/build/editor.js' %}"
+            crossorigin="anonymous"></script>
 {% endblock %}
 
 {% block title %}Create Graph{% endblock %}

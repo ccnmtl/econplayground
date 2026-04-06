@@ -22,8 +22,10 @@
     {% endif %}
     </script>
     {% if object.graph %}
-        <script src="{% static 'js/build/vendor.js' %}"></script>
-        <script src="{% static 'js/build/stepGraphViewer.js' %}"></script>
+    <script src="{% static 'js/build/vendor.js' %}"
+            crossorigin="anonymous"></script>
+    <script src="{% static 'js/build/stepGraphViewer.js' %}"
+            crossorigin="anonymous"></script>
     {% endif %}
 {% endblock %}
 
