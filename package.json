@@ -11,7 +11,7 @@
   "homepage": "https://github.com/ccnmtl/econplayground#readme",
   "dependencies": {
     "commonmark": "0.31.2",
-    "jsxgraph": "~1.12.0",
+    "jsxgraph": "~1.13.0",
     "katex": "^0.18.1",
     "mathjs": "^15.0.0",
     "object-assign": "~4.1.1",
