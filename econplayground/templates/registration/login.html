@@ -9,9 +9,19 @@
     <link href="{{STATIC_URL}}css/splash.css" rel="stylesheet">
 {% endblock %}
 
+{% block extrahead %}
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async
+        defer></script>
+{% endblock %}
+
 {% block js %}
     <link rel="stylesheet" href="https://search.sites.columbia.edu/cu-privacy-notice/cu-privacy-notice.css" />
     <script src="https://search.sites.columbia.edu/cu-privacy-notice/cu-privacy-notice.js"></script>
+    <script>
+        function enableSubmit() {
+            document.getElementById("guest-submit").disabled = false;
+        }
+    </script>
 {% endblock %}
 
 {% block bodyclass %}splash{% endblock %}
@@ -106,13 +116,19 @@
                                value="Guest Log In"
                                {% if form.errors %}style="display: none" {% endif %}
                                onclick="jQuery('.login-local-form').show(); jQuery(this).hide(); return false;" />
-                        <input class="btn login-local-form loginbtn"
-                               type="submit" value="Log In"
+                        <input class="btn login-local-form loginbtn" id="guest-submit"
+                               type="submit" value="Log In" disabled
                                {% if not form.errors %}style="display: none;" {% endif %} />
                         <input type="hidden" name="next" value="/" />
                         <div class="small pt-2">
                             <a href="/accounts/password_reset/" title="Reset Password">Forgot Password?</a>
                         </div>
+                        <div
+                            class="cf-turnstile mt-2"
+                            data-sitekey="{{ TURNSTILE_SITE_KEY }}"
+                            data-callback="enableSubmit"
+                        ></div>
+                        
                     </form>
                 </div>
             </main>
