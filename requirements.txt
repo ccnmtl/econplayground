@@ -1,6 +1,6 @@
 Django>=6.0.7,<6.1
 asgiref==3.12.1
-pytz==2026.2
+pytz==2026.3.post1
 httplib2==0.32.0
 feedparser==6.0.12
 Markdown==3.10.2
