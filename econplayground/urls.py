@@ -9,6 +9,7 @@ from django.views.static import serve
 from econplayground.main import views
 from econplayground.assignment import views as assignment_views
 from django_cas_ng import views as cas_views
+from ctlsettings import views as ctl_views
 
 
 site_media_root = os.path.join(os.path.dirname(__file__), "../media")
@@ -27,6 +28,7 @@ urlpatterns = [
     path('admin/doc/', include('django.contrib.admindocs.urls')),
     path('admin/', admin.site.urls),
 
+    path('accounts/login', ctl_views.LoginAPIView.as_view()),
     path('accounts/', include('django.contrib.auth.urls')),
     path('cas/login', cas_views.LoginView.as_view(),
          name='cas_ng_login'),
