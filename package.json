@@ -30,7 +30,7 @@
     "eslint": "eslint media/js/src/*.js media/js/src/**/*.js media/js/src/*.jsx media/js/src/**/*.jsx media/js/config/*.cjs media/js/static/*.js"
   },
   "devDependencies": {
-    "@babel/core": "^7.5.5",
+    "@babel/core": "^8.0.1",
     "@babel/eslint-parser": "^7.24.1",
     "@babel/preset-env": "^7.9.6",
     "@babel/preset-react": "^7.28.5",
