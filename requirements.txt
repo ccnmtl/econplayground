@@ -60,7 +60,7 @@ django-bootstrap5==26.2
 django-debug-toolbar==7.1.1
 django-smoketest==1.2.1
 
-webencodings==0.5.1  # django-markdownify
+webencodings==0.6.1  # django-markdownify
 tinycss2==1.5.1  # django-markdownify
 bleach==6.4.0  # django-markdownify
 django-markdownify==0.9.7
