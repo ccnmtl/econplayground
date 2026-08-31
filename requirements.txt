@@ -23,7 +23,7 @@ lxml==6.1.2
 fuzzywuzzy==0.18.0
 asn1crypto==1.5.1  # cryptography
 cffi==2.1.1  # cryptography
-cryptography==50.0.0
+cryptography==50.0.1
 urllib3==2.7.0  # requests, sentry-sdk
 chardet==7.6.0  # requests
 idna==3.19  # requests
