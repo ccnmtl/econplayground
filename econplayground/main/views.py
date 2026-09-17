@@ -328,7 +328,7 @@ class GraphDetailView(CohortGraphMixin, CohortPasswordMixin, DetailView):
 
         assessment_change_url = None
         if hasattr(self.object, 'assessment') and self.object.assessment and \
-           user_is_instructor(self.request.user):
+           user_is_instructor(self.request.user, self.cohort):
             assessment_change_url = reverse(
                 'admin:main_assessment_change',
                 kwargs={'object_id': self.object.assessment.pk})
@@ -549,7 +549,7 @@ class CohortDetailView(CohortPasswordMixin, DetailView):
         graphs = Graph.objects.filter(
             topic__in=self.object.topic_set.all())
 
-        if not user_is_instructor(self.request.user):
+        if not user_is_instructor(self.request.user, self.get_object()):
             graphs = graphs.filter(needs_submit=False, is_published=True)
 
         # Then apply filtering based on query string params
@@ -575,7 +575,7 @@ class CohortDetailView(CohortPasswordMixin, DetailView):
 
         graph_list = self.get_graph_queryset()
 
-        if user_is_instructor(self.request.user):
+        if user_is_instructor(self.request.user, self.get_object()):
             topics = self.object.topic_set.all()
             graphs = Graph.objects.filter(topic__in=topics)
         else:
@@ -637,7 +637,7 @@ class CohortCreateView(EnsureCsrfCookieMixin, UserPassesTestMixin, CreateView):
     fields = ['title', 'description', 'password']
 
     def test_func(self):
-        return user_is_instructor(self.request.user)
+        return user_is_instructor(self.request.user, self.get_object())
 
     def get_success_url(self):
         return '/'
