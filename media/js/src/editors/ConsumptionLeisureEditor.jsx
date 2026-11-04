@@ -6,7 +6,7 @@ import { forceFloat, handleFormUpdate } from '../utils.js';
 
 export default class ConsumptionLeisureEditor extends React.Component {
     render() {
-        let tex = '';
+        let tex;
         if (this.props.gType === 15) {
             tex = String.raw`c = (${this.props.gA1} - f)w(1 - ${this.props.gA4})`;
         } else {

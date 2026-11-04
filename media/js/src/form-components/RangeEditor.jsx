@@ -129,8 +129,7 @@ export default class RangeEditor extends React.Component {
                                 step={Number(this.props.step) || 0.01}
                                 disabled={this.props.disabled}
                                 min={this.props.min}
-                                max={this.props.max}>
-                            </input>
+                                max={this.props.max} />
                         </div>
                     </div>
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useRulesDispatch } from './RulesContext.jsx';
 
 export default function AddRule() {

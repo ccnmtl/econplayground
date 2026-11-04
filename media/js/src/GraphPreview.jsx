@@ -42,7 +42,7 @@ export default class GraphPreview extends React.Component {
             isInstructor = window.EconPlayground.isInstructor;
         }
 
-        let graph = <p>No Graph Found.</p>;
+        let graph;
         let title = null;
 
         if (this.props.graphId && typeof this.state.gType !== 'undefined') {

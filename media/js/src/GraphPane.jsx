@@ -1,4 +1,3 @@
-import React from 'react';
 import {
     eq, ep, cos, pos, tos, taxur, taxar, dwlu
 } from './graphs/TaxationLinearDemandSupplyGraph.js';
