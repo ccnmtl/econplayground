@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { getKatexEl } from '../katexUtils.jsx';
 import RangeEditor from '../form-components/RangeEditor.jsx';
 import Checkbox from '../form-components/Checkbox.jsx';
@@ -65,7 +65,7 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
         let extraFields = null;
         if (this.props.gToggle) {
             const fields = [
-                <>
+                <Fragment key="toggle-1">
                     <RangeEditor
                         label="\alpha"
                         id="gA4"
@@ -81,8 +81,8 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
                         min={0.01}
                         max={5}
                         handler={handleFormUpdate.bind(this)} />
-                </>,
-                <>
+                </Fragment>,
+                <Fragment key="toggle-2">
                     <RangeEditor
                         label="\alpha"
                         id="gA4"
@@ -90,8 +90,8 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
                         min={0.01}
                         max={0.99}
                         handler={handleFormUpdate.bind(this)} />
-                </>,
-                <>
+                </Fragment>,
+                <Fragment key="toggle-3">
                     <RangeEditor
                         label="\rho"
                         id="gA4"
@@ -99,8 +99,8 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
                         min={-10}
                         max={0.99}
                         handler={handleFormUpdate.bind(this)} />
-                </>,
-                <>
+                </Fragment>,
+                <Fragment key="toggle-4">
                     <RangeEditor
                         label="\delta"
                         id="gA4"
@@ -108,9 +108,9 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
                         min={-10}
                         max={0.99}
                         handler={handleFormUpdate.bind(this)} />
-                </>,
+                </Fragment>,
                 null,
-                <>
+                <Fragment key="toggle-5">
                     <RangeEditor
                         label="a"
                         id="gA4"
@@ -126,8 +126,8 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
                         min={0}
                         max={25}
                         handler={handleFormUpdate.bind(this)} />
-                </>,
-                <>
+                </Fragment>,
+                <Fragment key="toggle-6">
                     <RangeEditor
                         label="a"
                         id="gA4"
@@ -143,8 +143,8 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
                         min={0.01}
                         max={25}
                         handler={handleFormUpdate.bind(this)} />
-                </>,
-                <>
+                </Fragment>,
+                <Fragment key="toggle-7">
                     <RangeEditor
                         label="a"
                         id="gA4"
@@ -160,7 +160,7 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
                         min={0.01}
                         max={25}
                         handler={handleFormUpdate.bind(this)} />
-                </>
+                </Fragment>
             ];
 
             extraFields = fields[this.props.gFunctionChoice];
@@ -169,9 +169,9 @@ export default class OptimalChoiceConsumptionEditor extends React.Component {
         return (
             <div>
                 {this.props.isInstructor &&
-                    <>
+                    <Fragment>
                         {getKatexEl(formula)}
-                    </>
+                    </Fragment>
                 }
 
                 <Checkbox

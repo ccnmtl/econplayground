@@ -1,4 +1,3 @@
-import React from 'react';
 import RangeEditor from '../form-components/RangeEditor.jsx';
 import { handleFormUpdate } from '../utils.js';
 

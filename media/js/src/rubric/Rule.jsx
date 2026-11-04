@@ -1,4 +1,3 @@
-import React from 'react';
 import { useState } from 'react';
 import { useRulesDispatch } from './RulesContext.jsx';
 import { getRuleOptions } from './ruleOptions.js';

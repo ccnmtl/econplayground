@@ -1,4 +1,3 @@
-import React from 'react';
 import { useEffect, useState } from 'react';
 import { useRules, useRulesDispatch } from './RulesContext.jsx';
 import Rule from './Rule.jsx';

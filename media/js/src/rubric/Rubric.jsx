@@ -1,4 +1,3 @@
-import React from 'react';
 import RuleList from './RuleList.jsx';
 import AddRule from './AddRule.jsx';
 import { RulesProvider } from './RulesContext.jsx';

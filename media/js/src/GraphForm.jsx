@@ -1,4 +1,3 @@
-import React from 'react';
 import ADASEditor from './editors/ADASEditor.jsx';
 import CobbDouglasEditor from './editors/CobbDouglasEditor.jsx';
 import CobbDouglasNLDSEditor from './editors/CobbDouglasNLDSEditor.jsx';

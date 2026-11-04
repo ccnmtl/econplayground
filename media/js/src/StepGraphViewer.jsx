@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import GraphForm from './GraphForm.jsx';
 import { defaultGraph, importGraph } from './GraphMapping.js';
 import ResetGraphButton from './buttons/ResetGraphButton.jsx';
