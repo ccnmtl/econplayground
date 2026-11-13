@@ -12,7 +12,7 @@ pyflakes==4.1.0
 mccabe==0.7.0
 configparser==7.3.0
 pycodestyle==2.15.0
-importlib_metadata<10.2
+importlib_metadata<10.3
 zipp==4.1.2  # for flake8
 flake8==7.5.0
 tornado==6.6
